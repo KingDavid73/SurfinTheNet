@@ -4,18 +4,20 @@ A small Electron vertical slice for an old-computer / old-internet exploration g
 
 ## Run it
 
+During normal development, use the live-reloading dev process:
+
 ```powershell
 npm.cmd install
 npm.cmd run dev
 ```
 
-For the production build:
+For a quick production-mode check without creating an installer:
 
 ```powershell
 npm.cmd run start
 ```
 
-Build a Windows installer with:
+Installer and executable packaging is intentionally reserved for milestone builds; do not run it after routine tweaks. When a milestone is ready, the command is:
 
 ```powershell
 npm.cmd run make
