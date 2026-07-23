@@ -86,6 +86,8 @@ Player-authored Messenger, AIM, email, helper, page-comment, and guestbook text 
 
 The design direction and cited research on Hypnospace, GeoCities, Flash-era sites, hidden-page discovery, character interaction, and period visual styles is collected in `docs/design-research.md`.
 
+The current working story premise, escalation structure, conspiracy rules, and boundaries between authored canon and local-model improvisation are codified in `docs/narrative-skeleton.md`.
+
 The three fictional console campaigns and their period references are documented
 in `docs/console-marketing-research.md`. Their campaign graphics use separate
 company-specific contact sheets so each brand can have its own medium and visual
