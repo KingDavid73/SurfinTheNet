@@ -598,7 +598,7 @@ function mailWindow() {
           <label>To:<input value="${escapeHtml(contact.email ?? contact.screenName)}" readonly></label>
           <label>Subject:<input name="subject" maxlength="120" value="Hello from David" ${pending ? "disabled" : ""}></label>
           <textarea name="message" maxlength="1000" placeholder="Write an email to ${escapeHtml(contact.displayName)}..." ${pending ? "disabled" : ""}></textarea>
-          <footer><span>${pending ? "Reply pending approval..." : "Replies arrive in your Inbox."}</span><button ${pending ? "disabled" : ""}>${pending ? "Waiting..." : "Send"}</button></footer>
+          <footer><span>${pending ? "Sending..." : "Replies arrive in your Inbox."}</span><button ${pending ? "disabled" : ""}>${pending ? "Sending..." : "Send"}</button></footer>
         </form>
       </main></div>`);
   }
@@ -671,7 +671,7 @@ function chatWindow() {
       : aiStatus.phase === "generating"
         ? `${persona.screenName} is typing…`
         : aiStatus.phase === "reviewing"
-          ? "comment pending approval…"
+          ? "sending…"
         : aiStatus.phase === "idle"
           ? `model loaded · ${aiStatus.backend ?? "CPU"}`
           : aiStatus.phase === "error"
@@ -689,7 +689,7 @@ function chatWindow() {
   }).join("");
 
   const pendingHtml = pending
-    ? `<div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : "Reply pending approval"}</span></div>`
+    ? `<div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : "Sending..."}</span></div>`
     : "";
   const empty = !messageHtml && !pending
     ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>This character chose to share an AIM screen name.</span><span>${aiStatus.warmed ? "Local character service ready." : aiStatus.phase === "idle" ? "Local character service loaded." : "Local character service is still getting ready."}</span></div>`
@@ -733,7 +733,7 @@ function helperWindow() {
       <aside class="helper-portrait" aria-hidden="true"><div class="orbit-pal-body"><i></i><b>?</b><span></span></div></aside>
       <main>
         <header><div><b>What can I help you with?</b><span>${aiStatus.warmed ? "Local help ready" : "Help service starting…"}</span></div><button type="button" data-helper-close>Close Pal</button></header>
-        <div class="helper-transcript" id="helper-transcript">${empty}${messageHtml}${pending ? `<p class="helper-typing">Reply pending approval…</p>` : ""}</div>
+        <div class="helper-transcript" id="helper-transcript">${empty}${messageHtml}${pending ? `<p class="helper-typing">Sending...</p>` : ""}</div>
         ${chatError ? `<p class="helper-error">${escapeHtml(chatError)}</p>` : ""}
         <form class="helper-form">
           <textarea name="message" maxlength="500" rows="2" placeholder="How do I search? Where are downloads?" ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
@@ -921,25 +921,86 @@ function prepareFreshDesktopSession() {
   void saveState();
 }
 
-function playBiosBeep() {
+function playBootHardwareSounds() {
   const AudioContextClass = window.AudioContext ?? (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
   if (!AudioContextClass) return;
   const context = new AudioContextClass();
-  const oscillator = context.createOscillator();
-  const gain = context.createGain();
-  oscillator.type = "square";
-  oscillator.frequency.setValueAtTime(880, context.currentTime);
-  gain.gain.setValueAtTime(0.0001, context.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.035, context.currentTime + 0.008);
-  gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.14);
-  oscillator.connect(gain).connect(context.destination);
-  oscillator.start();
-  oscillator.stop(context.currentTime + 0.15);
-  window.setTimeout(() => void context.close(), 300);
+  void context.resume();
+  const start = context.currentTime + 0.01;
+  const master = context.createGain();
+  master.gain.setValueAtTime(0.82, start);
+  master.connect(context.destination);
+
+  const noiseBuffer = context.createBuffer(1, Math.ceil(context.sampleRate * 0.12), context.sampleRate);
+  const noise = noiseBuffer.getChannelData(0);
+  for (let index = 0; index < noise.length; index += 1) noise[index] = Math.random() * 2 - 1;
+
+  const noiseBurst = (offset: number, duration: number, volume: number, frequency: number, type: BiquadFilterType = "bandpass") => {
+    const source = context.createBufferSource();
+    const filter = context.createBiquadFilter();
+    const gain = context.createGain();
+    const when = start + offset;
+    source.buffer = noiseBuffer;
+    filter.type = type;
+    filter.frequency.setValueAtTime(frequency, when);
+    filter.Q.setValueAtTime(type === "bandpass" ? 1.8 : 0.7, when);
+    gain.gain.setValueAtTime(0.0001, when);
+    gain.gain.linearRampToValueAtTime(volume, when + Math.min(0.006, duration / 3));
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + duration);
+    source.connect(filter).connect(gain).connect(master);
+    source.start(when);
+    source.stop(when + duration);
+  };
+
+  const tone = (
+    offset: number,
+    duration: number,
+    startFrequency: number,
+    endFrequency: number,
+    volume: number,
+    type: OscillatorType
+  ) => {
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    const when = start + offset;
+    oscillator.type = type;
+    oscillator.frequency.setValueAtTime(startFrequency, when);
+    oscillator.frequency.exponentialRampToValueAtTime(endFrequency, when + duration);
+    gain.gain.setValueAtTime(0.0001, when);
+    gain.gain.exponentialRampToValueAtTime(volume, when + Math.min(0.025, duration / 4));
+    gain.gain.exponentialRampToValueAtTime(0.0001, when + duration);
+    oscillator.connect(gain).connect(master);
+    oscillator.start(when);
+    oscillator.stop(when + duration + 0.01);
+  };
+
+  // Tower switch: plastic travel followed by the relay catching.
+  noiseBurst(0, 0.025, 0.2, 1900);
+  tone(0.006, 0.045, 115, 72, 0.07, "square");
+  noiseBurst(0.065, 0.018, 0.13, 2800);
+
+  // CRT flyback and static bloom while the camera pushes into the monitor.
+  noiseBurst(0.10, 0.24, 0.055, 5200, "highpass");
+  tone(0.08, 1.05, 58, 15_650, 0.018, "sine");
+  tone(0.12, 0.72, 92, 7800, 0.009, "sawtooth");
+
+  // Hard-drive platters spin up, then the heads chatter through POST and boot.
+  tone(0.22, 2.15, 43, 118, 0.035, "sawtooth");
+  tone(0.28, 2.35, 86, 236, 0.022, "sine");
+  noiseBurst(0.20, 0.12, 0.025, 420, "lowpass");
+  const seekTimes = [1.12, 1.26, 1.31, 1.70, 1.77, 2.06, 2.80, 2.87, 3.18, 3.50, 3.57, 3.91, 4.44, 4.51, 4.56, 5.06, 5.39, 5.46];
+  seekTimes.forEach((offset, index) => {
+    noiseBurst(offset, index % 4 === 0 ? 0.025 : 0.014, index % 4 === 0 ? 0.085 : 0.055, index % 3 === 0 ? 680 : 1150);
+  });
+
+  // One clean POST beep signals a healthy boot as the BIOS screen appears.
+  tone(2.34, 0.17, 1046, 1046, 0.075, "square");
+  window.setTimeout(() => void context.close(), 6500);
 }
 
 async function startComputer() {
   if (startupStage !== "title") return;
+  playBootHardwareSounds();
   startupStage = "powering";
   beginAiPreload();
   render();
@@ -947,7 +1008,6 @@ async function startComputer() {
   await waitForStartup(2300);
   startupStage = "bios";
   render();
-  playBiosBeep();
 
   await waitForStartup(3600);
   startupStage = "splash";
@@ -1126,7 +1186,7 @@ async function refreshAiProgress() {
         : aiStatus.phase === "generating"
           ? "Mira_917 is typing…"
           : aiStatus.phase === "reviewing"
-            ? "comment pending approval…"
+            ? "sending…"
           : aiStatus.phase === "error"
             ? `error · ${aiStatus.error ?? "generation failed"}`
             : `model loaded · ${aiStatus.backend ?? "CPU"}`;

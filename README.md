@@ -25,7 +25,7 @@ npm.cmd run make
 
 ## What is in the slice
 
-- A cinematic power-on sequence: desk/title art, CRT transition, BIOS, OrbitOS splash, and profile login
+- A cinematic power-on sequence: tower-switch click, CRT surge, hard-drive spin/seek chatter, POST beep, BIOS, OrbitOS splash, and profile login
 - An original OrbitOS startup jingle, stored as editable MIDI and a deterministic in-game WAV
 - A draggable fake desktop with a Start menu and taskbar
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
@@ -80,7 +80,7 @@ Character definitions live in `personas/`. All personal-site owners, business ow
 
 Ambient rolls happen whenever the clock crosses a fictional hour. Normal play rolls each hour independently; a multi-hour Sleep action makes one roll per persona at `hours × 1%`, capped at 10%. Successful jobs choose a random comment-enabled homepage and persist before generation. Qwen then writes a short in-character comment using the persona, page contents, and existing discussion. It is added silently and appears the next time that page is loaded.
 
-Every generated Messenger, AIM, email, helper, page-owner, and ambient reply passes through the same content safeguard before it enters a save. Clean and mildly PG-13 text is preserved exactly. Strong standalone words take a fast replacement path using a random childish phrase; potentially explicit adult subject matter receives a semantic review and a G-rated rewrite. A deterministic final check rejects rewrites that retain the explicit setup. While that review runs, interactive surfaces show a short pending-approval message and remain safe to navigate away from.
+Every generated Messenger, AIM, email, helper, page-owner, and ambient reply passes through the same content safeguard before it enters a save. Clean and mildly PG-13 text is preserved exactly. Strong standalone words take a fast replacement path using a random childish phrase; potentially explicit adult subject matter receives a semantic review and a G-rated rewrite. A deterministic final check rejects rewrites that retain the explicit setup. Public comment surfaces show a short pending-approval message while that review runs; private mail, AIM, and helper conversations simply show “Sending...” and remain safe to navigate away from.
 
 The design direction and cited research on Hypnospace, GeoCities, Flash-era sites, hidden-page discovery, character interaction, and period visual styles is collected in `docs/design-research.md`.
 
