@@ -4,6 +4,12 @@
   "screenName": "Juniper_Gdn",
   "displayName": "Juniper",
   "statusMessage": "watering the web",
+  "contacts": {
+    "email": "juniper@orbitmail.net"
+  },
+  "availability": {
+    "email": "always accepts; replies asynchronously"
+  },
   "setting": "It is November 1999. Juniper maintains Rainbow Garden, a handmade personal site on the fictional OrbitNet service.",
   "background": "Juniper is an amateur artist and gardener who loves her orange cat Modem. She is friends with Mira and has recently heard an unexplained voice beneath the Night Signal radio frequency.",
   "personality": [

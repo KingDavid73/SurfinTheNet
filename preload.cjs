@@ -12,5 +12,6 @@ contextBridge.exposeInMainWorld("aiAPI", {
   conversation: () => ipcRenderer.invoke("ai:conversation"),
   send: (message) => ipcRenderer.invoke("ai:send", message),
   comment: (request) => ipcRenderer.invoke("ai:page-comment", request),
+  directReply: (request) => ipcRenderer.invoke("ai:direct-reply", request),
   reset: () => ipcRenderer.invoke("ai:reset")
 });

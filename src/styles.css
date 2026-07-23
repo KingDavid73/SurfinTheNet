@@ -688,6 +688,11 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .directory-card strong { font-size: 18px; text-decoration: underline; }
 .directory-card span { font-size: 12px; }
 .counter { font-family: "Courier New", monospace; font-size: 12px; margin-top: 25px; }
+.search-results { display: grid; gap: 8px; max-width: 720px; margin: 18px auto; text-align: left; }
+.search-results > button { display: grid; gap: 4px; padding: 10px; color: #1f294d; background: white; border: 1px solid #8d99bd; text-align: left; }
+.search-results > button:hover { background: #e8eeff; }
+.search-results span { font-size: 11px; }
+.search-results code { color: #55618a; font-size: 10px; }
 
 .rainbow-page {
   max-width: 760px;
@@ -711,6 +716,16 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .profile-layout { display: grid; grid-template-columns: minmax(180px, 1fr) 1fr; gap: 18px; text-align: left; align-items: center; }
 .profile-layout .fake-image { width: 100%; }
 .guestbook-page { text-align: left; }
+.guestbook-signatures { display: grid; gap: 7px; margin-bottom: 16px; }
+.guestbook-signatures p { margin: 0; padding: 9px; background: rgb(255 255 255 / 58%); border: 1px dashed #d26ba4; }
+.guestbook-signatures .player-signature { background: #fff6bd; border-style: solid; }
+.guestbook-form { display: grid; grid-template-columns: 1fr 120px; align-items: end; gap: 8px; margin: 14px 0; padding: 12px; background: #ffd8eb; border: 2px ridge #ef9fc5; }
+.guestbook-form label { display: grid; gap: 6px; }
+.guestbook-form textarea { resize: vertical; padding: 6px; border: 2px inset white; font: 12px/1.35 Arial, sans-serif; }
+.guestbook-form button { min-height: 54px; color: #68154d; background: #ffc8e7; border: 2px outset white; font-weight: bold; }
+.guestbook-thanks { padding: 10px; color: #6a1850; background: #fff6bd; border: 1px solid #df71ad; font-weight: bold; }
+.tiny-old-link { margin-top: 25px; color: #986b87; font-size: 9px; }
+.old-page { filter: saturate(.72); }
 .guestbook-page > p { padding: 9px; background: rgb(255 255 255 / 80%); border-bottom: 1px dashed #d68bae; }
 .guestbook-page fieldset { display: grid; gap: 6px; }
 .guestbook-page textarea { height: 60px; }
@@ -724,6 +739,14 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .signal-nav { display: grid; gap: 8px; margin: 22px 0; }
 .signal-nav button, .signal-page .text-link { border: 1px solid #9cf5a4; color: #9cf5a4; background: #101b12; padding: 8px; font-family: inherit; }
 .signal-nav button:hover { background: #9cf5a4; color: #05070a; }
+.contact-strip { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 14px auto; padding: 8px; font-size: 11px; }
+.contact-strip button { padding: 6px 9px; font-weight: bold; }
+.rainbow-contact { color: #6a1850; background: #ffd8eb; border: 1px dashed #d26ba4; }
+.rainbow-contact button { color: #68154d; background: #fff6bd; border: 2px outset white; }
+.signal-contact { color: #9cf5a4; background: #101b12; border: 1px solid #447d49; }
+.signal-contact button { color: #05070a; background: #9cf5a4; border: 1px solid #caffcf; font-family: "Courier New", monospace; }
+.raven-contact { color: #dc78ff; background: #1d0928; border: 1px solid #793193; }
+.raven-contact button { color: #e8aaff; background: #08040d; border: 1px solid #a849cc; font-family: "Courier New", monospace; }
 .warning { color: #ff6464; }
 .archive-page table { width: 100%; border-collapse: collapse; color: #9cf5a4; font-size: 13px; }
 .archive-page th, .archive-page td { padding: 9px; text-align: left; border: 1px solid #447d49; }
@@ -733,6 +756,11 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .archive-hint { color: #ddd; font-size: 12px; }
 .not-found { text-align: center; background: white; font-family: Arial, sans-serif; }
 .not-found h1 { font-size: 70px; color: #aaa; margin: 20px 0 0; }
+.system-hidden-page { min-height: 100%; padding: 32px; color: #1d2b36; background: #dce6e8; font: 13px/1.5 "Courier New", monospace; }
+.system-hidden-page > header { padding: 8px; color: white; background: #263c55; letter-spacing: .2em; }
+.system-hidden-page h1 { color: #263c55; }
+.system-hidden-page pre { padding: 16px; color: #c8ffd0; background: #07120b; border: 3px inset white; }
+.system-warning { padding: 9px; color: #761f1f; background: #fff0c7; border-left: 5px solid #b84242; }
 
 .mail-toolbar, .files-toolbar { min-height: 38px; display: flex; gap: 5px; align-items: center; padding: 5px; border-bottom: 1px solid #777; }
 .mail-toolbar button, .files-toolbar button { min-height: 26px; }
@@ -749,6 +777,13 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .mail-row time { font-size: 10px; }
 .mail-preview { flex: 1; overflow: auto; padding: 12px; border-top: 3px ridge #ddd; user-select: text; font-family: Arial, sans-serif; }
 .mail-preview h3 { color: #000080; }
+.mail-compose { min-width: 0; background: #ececec; }
+.email-compose-form { height: 100%; display: grid; grid-template-rows: auto auto 1fr auto; gap: 6px; padding: 10px; }
+.email-compose-form label { display: grid; grid-template-columns: 62px 1fr; align-items: center; gap: 6px; font-size: 11px; font-weight: bold; }
+.email-compose-form input { min-width: 0; padding: 4px 6px; background: white; border: 2px inset white; }
+.email-compose-form textarea { min-height: 180px; resize: none; padding: 8px; background: white; border: 2px inset white; font: 13px/1.4 Arial, sans-serif; }
+.email-compose-form footer { display: flex; justify-content: space-between; align-items: center; color: #4c5365; font-size: 10px; }
+.email-compose-form footer button { min-width: 86px; padding: 6px; border: 2px outset white; font-weight: bold; }
 
 .files-toolbar span { flex: 1; padding: 4px; background: white; border: 2px inset white; font-size: 12px; }
 .files-layout { flex: 1; min-height: 0; display: grid; grid-template-columns: 150px 1fr; border: 2px inset white; }
@@ -769,6 +804,10 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .aim-menu { height: 27px; flex: 0 0 27px; padding: 2px 5px; display: flex; align-items: center; gap: 3px; border-bottom: 1px solid #777; }
 .aim-menu button { border: 0; background: transparent; padding: 3px 8px; font-size: 11px; }
 .aim-menu button:not(:disabled):hover { color: white; background: #000080; }
+.aim-buddy-tabs { display: flex; gap: 3px; padding: 4px 6px; background: #ececec; border-bottom: 1px solid #888; }
+.aim-buddy-tabs button { padding: 4px 8px; color: #233872; background: #d8deef; border: 1px solid #9aa4c1; font-size: 10px; }
+.aim-buddy-tabs button i { display: inline-block; width: 7px; height: 7px; margin-right: 4px; border-radius: 50%; background: #32b33e; }
+.aim-buddy-tabs button.selected { color: white; background: #000080; border-color: #000052; }
 .aim-contact { min-height: 72px; flex: 0 0 72px; padding: 8px 10px; display: grid; grid-template-columns: 50px 1fr auto; align-items: center; gap: 10px; color: #13255c; background: linear-gradient(90deg, #f4f6ff, #dbe5ff); border-bottom: 2px groove white; }
 .aim-avatar { display: grid; place-items: center; width: 48px; height: 48px; color: white; background: linear-gradient(135deg, #5c67c5, #172878); border: 3px ridge #eee; font: bold 28px Georgia, serif; }
 .aim-contact > div:nth-child(2) { display: grid; gap: 2px; }
@@ -898,7 +937,29 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .page-comment-form button { border: 2px outset white; background: #c0c0c0; font-weight: bold; font-size: 11px; }
 .comment-note { margin: 7px 0 0; color: #6a6f80; font-size: 9px; }
 .comment-error { padding: 6px; color: #810000; background: #ffd9d2; border: 1px solid #b44; font-size: 10px; }
-.site-signal .page-comments, .site-raven .page-comments { box-shadow: 0 0 14px rgb(115 255 145 / 12%); }
+.site-rainbow .page-comments { color: #5c2551; background: #fff1fa; border-color: #df71ad; box-shadow: 4px 4px 0 #f3b2d4; }
+.site-rainbow .comments-heading { border-color: #d74592; }
+.site-rainbow .comments-heading h2, .site-rainbow .page-comment header, .site-rainbow .page-comment-form label { color: #a52169; }
+.site-rainbow .page-comment.owner { background: #fff7c9; border-left-color: #e158a0; }
+.site-rainbow .page-comment-form button { color: #68154d; background: #ffc8e7; }
+
+.site-signal .page-comments { color: #b8f5bc; background: #0c130e; border-color: #4d9653; box-shadow: 0 0 14px rgb(115 255 145 / 12%); font-family: "Courier New", monospace; }
+.site-signal .comments-heading { border-color: #71cf78; }
+.site-signal .comments-heading h2, .site-signal .page-comment header, .site-signal .page-comment-form label { color: #9cf5a4; font-family: "Courier New", monospace; }
+.site-signal .comments-heading small, .site-signal .comments-heading > span, .site-signal .comment-note { color: #6cab71; }
+.site-signal .page-comment { color: #d7f4da; background: #111d13; border-color: #365f3a; border-left-color: #4b8f50; }
+.site-signal .page-comment.owner { background: #18231a; border-left-color: #ff6262; }
+.site-signal .page-comment-form textarea { color: #baffbf; background: #050906; border-color: #214425; }
+.site-signal .page-comment-form button { color: #9cf5a4; background: #101b12; border-color: #74bb7a #204d25 #204d25 #74bb7a; }
+
+.site-raven .page-comments { color: #e8c7f6; background: #120719; border-color: #82369d; box-shadow: 0 0 14px rgb(197 84 255 / 18%); font-family: "Courier New", monospace; }
+.site-raven .comments-heading { border-color: #9f47bf; }
+.site-raven .comments-heading h2, .site-raven .page-comment header, .site-raven .page-comment-form label { color: #dc78ff; font-family: "Courier New", monospace; }
+.site-raven .comments-heading small, .site-raven .comments-heading > span, .site-raven .comment-note { color: #9c68b1; }
+.site-raven .page-comment { color: #ead8f1; background: #1d0b27; border-color: #4d265d; border-left-color: #793193; }
+.site-raven .page-comment.owner { background: #291032; border-left-color: #ff596d; }
+.site-raven .page-comment-form textarea { color: #f0cfff; background: #08040d; border-color: #5a286d; }
+.site-raven .page-comment-form button { color: #e8aaff; background: #1d0928; border-color: #a849cc #40104f #40104f #a849cc; }
 
 .fake-image.raven { color: #e8aaff; background: radial-gradient(circle, #51236f 0 2px, transparent 3px), linear-gradient(#050109, #250535); background-size: 17px 17px, auto; }
 .raven-page { max-width: 860px; margin: auto; color: #d9b7ea; background: #08040d; font-family: "Courier New", monospace; text-align: center; }

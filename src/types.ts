@@ -69,6 +69,7 @@ export interface PageCommentRequest {
   pageSummary: string;
   playerComment: string;
   recentComments: Array<{ author: string; text: string }>;
+  relationshipScore: number;
 }
 
 export interface PageCommentResult {
@@ -81,6 +82,42 @@ export interface DesktopSettings {
   theme: "classic" | "plum";
   wallpaper: "teal" | "clouds";
   cursor: "arrow" | "star";
+}
+
+export interface GuestbookEntry {
+  id: string;
+  author: string;
+  text: string;
+  createdAt: string;
+}
+
+export type DirectChannel = "aim" | "email";
+
+export interface DirectMessage {
+  id: string;
+  ownerId: string;
+  channel: DirectChannel;
+  role: "player" | "owner";
+  author: string;
+  text: string;
+  subject?: string;
+  createdAt: string;
+  metrics?: AiMetrics;
+}
+
+export interface DirectReplyRequest {
+  ownerId: string;
+  channel: DirectChannel;
+  playerMessage: string;
+  subject?: string;
+  relationshipScore: number;
+  recentMessages: Array<{ author: string; text: string }>;
+}
+
+export interface DirectReplyResult {
+  text: string;
+  owner: AiPersonaSummary;
+  metrics: AiMetrics;
 }
 
 export interface DownloadedFile {
@@ -101,6 +138,9 @@ export interface GameState {
   gameTime: string;
   pageComments: PageComment[];
   pageVisitCounts: Record<string, number>;
+  guestbookEntries: Record<string, GuestbookEntry[]>;
+  directMessages: DirectMessage[];
+  relationships: Record<string, number>;
 }
 
 export interface PageDefinition {
@@ -109,6 +149,10 @@ export interface PageDefinition {
   site: "directory" | "rainbow" | "signal" | "raven";
   ownerId: string;
   summary: string;
+  commentsEnabled?: boolean;
+  listed?: boolean;
+  hubId?: string;
+  searchTerms?: string[];
   render: (state: GameState) => string;
 }
 
@@ -125,6 +169,7 @@ declare global {
       conversation: () => Promise<AiConversation>;
       send: (message: string) => Promise<AiSendResult>;
       comment: (request: PageCommentRequest) => Promise<PageCommentResult>;
+      directReply: (request: DirectReplyRequest) => Promise<DirectReplyResult>;
       reset: () => Promise<AiConversation>;
     };
   }

@@ -13,7 +13,7 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 2,
+  version: 3,
   visited: ["web://home"],
   bookmarks: ["web://rainbow.gdn/home"],
   downloads: [],
@@ -22,7 +22,10 @@ const DEFAULT_SAVE = {
   settings: { theme: "classic", wallpaper: "teal", cursor: "arrow" },
   gameTime: "1999-11-03T19:30:00",
   pageComments: [],
-  pageVisitCounts: { "web://home": 1 }
+  pageVisitCounts: { "web://home": 1 },
+  guestbookEntries: {},
+  directMessages: [],
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10 }
 };
 
 function savePath() {
@@ -55,6 +58,7 @@ ipcMain.handle("ai:preload", () => aiService.preloadAndWarm());
 ipcMain.handle("ai:conversation", () => aiService.getConversation());
 ipcMain.handle("ai:send", (_event, message) => aiService.sendMessage(message));
 ipcMain.handle("ai:page-comment", (_event, request) => aiService.generatePageReply(request));
+ipcMain.handle("ai:direct-reply", (_event, request) => aiService.generateDirectReply(request));
 ipcMain.handle("ai:reset", () => aiService.resetConversation());
 
 function createWindow() {
@@ -115,6 +119,22 @@ function createWindow() {
             await new Promise((resolve) => setTimeout(resolve, 120));
           };
 
+          await click('[data-nav="web://rainbow.gdn/home"]');
+          await click('[data-nav="web://rainbow.gdn/about"]');
+          const subpageHasComments = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments'))`);
+          if (subpageHasComments) throw new Error("Character subpage incorrectly had its own comment thread");
+          await click('[data-nav="web://rainbow.gdn/home"]');
+          await click('[data-nav="web://rainbow.gdn/guestbook"]');
+          const signed = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.guestbook-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = 'Your garden page is wonderful!'; form.requestSubmit(); return Boolean(document.querySelector('.player-signature')) && !document.querySelector('.guestbook-form'); })()`);
+          if (!signed) throw new Error("One-time Rainbow guestbook signature did not persist in the page");
+          await click('[data-browser="home"]');
+          const searched = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'below'; form.requestSubmit(); return true; })()`);
+          if (!searched) throw new Error("OrbitNet search form was not available");
+          await new Promise((resolve) => setTimeout(resolve, 120));
+          await click('[data-nav="web://orbitnet.local/below"]');
+          const hiddenText = await win.webContents.executeJavaScript(`document.querySelector('.system-hidden-page')?.textContent || ''`);
+          if (!hiddenText.includes("PUBLIC INDEX: FALSE")) throw new Error("Unlisted maintenance page was not discoverable through phrase search");
+          await click('[data-nav="web://home"]');
           await click('[data-nav="web://nightsignal.net/home"]');
           await click('[data-nav="web://nightsignal.net/archive"]');
           await click('[data-download="signal-note"]');
@@ -171,10 +191,30 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "local-ai-chat.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
+
+          const emailOpened = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-nav="web://rainbow.gdn/home"]')?.click(); const contact = document.querySelector('[data-email-owner="juniper_gdn"]'); if (!contact) return false; contact.click(); return true; })()`);
+          if (!emailOpened) throw new Error("Juniper email contact was not available");
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          const emailSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.email-compose-form'); const subject = form?.querySelector('[name="subject"]'); const body = form?.querySelector('[name="message"]'); if (!form || !subject || !body) return false; subject.value = 'Your garden page'; body.value = 'Hi Juniper, thanks for sharing your page. Modem seems great!'; form.requestSubmit(); return true; })()`);
+          if (!emailSubmitted) throw new Error("Juniper email compose form was not available");
+          const emailDeadline = Date.now() + 90_000;
+          let emailPreview = "";
+          while (Date.now() < emailDeadline) {
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            emailPreview = await win.webContents.executeJavaScript(`document.querySelector('#mail-preview')?.textContent || ''`);
+            if (emailPreview.includes("From:")) break;
+          }
+          if (!emailPreview.includes("Juniper_Gdn")) throw new Error(`Juniper email reply did not arrive: ${emailPreview}`);
+          const savedAfterContacts = await readSave();
+          if ((savedAfterContacts.relationships?.juniper_gdn ?? 0) <= 12) throw new Error("Hidden Juniper relationship score did not increase");
+          const emailImage = await win.webContents.capturePage();
+          await fs.writeFile(path.resolve(__dirname, "artifacts", "email-reply.png"), emailImage.toPNG());
+
           console.log(`AI_COLD_REPLY: ${coldResult.reply}`);
           console.log(`AI_COLD_METRICS: ${coldResult.metrics}`);
           console.log(`AI_WARM_REPLY: ${warmResult.reply}`);
           console.log(`AI_WARM_METRICS: ${warmResult.metrics}`);
+          console.log(`AI_EMAIL_REPLY: ${emailPreview.replace(/\s+/g, " ").trim()}`);
         } catch (error) {
           console.error("AI_SMOKE_FAILED:", error);
           process.exitCode = 1;
@@ -242,7 +282,7 @@ function createWindow() {
     win.webContents.once("did-finish-load", () => {
       setTimeout(async () => {
         try {
-          const submitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.page-comment-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = 'Hi OrbitGuide, which member page should I visit first?'; form.requestSubmit(); return true; })()`);
+          const submitted = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-nav="web://rainbow.gdn/home"]')?.click(); const form = document.querySelector('.page-comment-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = 'Hi Juniper, thanks for sharing the page. Why does Modem stare at the phone jack?'; form.requestSubmit(); return true; })()`);
           if (!submitted) throw new Error("Page comment form was not available");
 
           const deadline = Date.now() + 180_000;
@@ -256,10 +296,10 @@ function createWindow() {
           if (!result || result.pending === "Posting...") throw new Error("Timed out waiting for page-owner response generation");
           if (result.ownerCount !== 0) throw new Error("Generated owner response appeared before the next page load");
 
-          await win.webContents.executeJavaScript(`document.querySelector('[data-browser="home"]')?.click()`);
+          await win.webContents.executeJavaScript(`document.querySelector('.address-form')?.requestSubmit()`);
           await new Promise((resolve) => setTimeout(resolve, 300));
           const revealed = await win.webContents.executeJavaScript(`(() => ({ count: document.querySelectorAll('.page-comment.owner').length, author: document.querySelector('.page-comment.owner header b')?.textContent || '', reply: document.querySelector('.page-comment.owner p')?.textContent || '' }))()`);
-          if (revealed.count !== 1 || revealed.author !== "OrbitGuide" || !revealed.reply) throw new Error("Owner response did not appear after reloading the page");
+          if (revealed.count !== 1 || revealed.author !== "Juniper_Gdn" || !revealed.reply) throw new Error("Owner response did not appear after reloading the page");
           await win.webContents.executeJavaScript(`document.querySelector('.page-comments')?.scrollIntoView({ block: 'start' })`);
           await new Promise((resolve) => setTimeout(resolve, 200));
 
@@ -267,7 +307,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "page-comment-reply.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log(`COMMENT_OK: response stayed hidden until reload, then OrbitGuide replied: ${revealed.reply}`);
+          console.log(`COMMENT_OK: response stayed hidden until reload, then Juniper_Gdn replied: ${revealed.reply}`);
         } catch (error) {
           console.error("COMMENT_FAILED:", error);
           process.exitCode = 1;

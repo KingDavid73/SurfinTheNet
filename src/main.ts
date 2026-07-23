@@ -1,6 +1,6 @@
 import "./styles.css";
 import { notFoundPage, pages } from "./pages";
-import type { AiConversation, AiStatus, AppId, GameState, PageComment, PageDefinition } from "./types";
+import type { AiConversation, AiStatus, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition } from "./types";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
 const startupJingleUrl = new URL("../assets/audio/orbitos-startup.wav", import.meta.url).href;
@@ -11,7 +11,7 @@ startupJingle.volume = 0.58;
 type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
 
 const DEFAULT_STATE: GameState = {
-  version: 2,
+  version: 3,
   visited: ["web://home"],
   bookmarks: ["web://rainbow.gdn/home"],
   downloads: [],
@@ -20,7 +20,10 @@ const DEFAULT_STATE: GameState = {
   settings: { theme: "classic", wallpaper: "teal", cursor: "arrow" },
   gameTime: "1999-11-03T19:30:00",
   pageComments: [],
-  pageVisitCounts: { "web://home": 1 }
+  pageVisitCounts: { "web://home": 1 },
+  guestbookEntries: {},
+  directMessages: [],
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -28,6 +31,26 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   juniper_gdn: { screenName: "Juniper_Gdn", displayName: "Juniper" },
   mira_917: { screenName: "Mira_917", displayName: "Mira" },
   darkraven_xx: { screenName: "xX_DarkRaven_Xx", displayName: "DarkRaven" }
+};
+
+const CHARACTER_CONTACTS: Record<string, {
+  screenName: string;
+  displayName: string;
+  statusMessage: string;
+  aim?: string;
+  email?: string;
+}> = {
+  mira_917: { screenName: "Mira_917", displayName: "Mira", statusMessage: "still awake. unfortunately.", aim: "Mira_917" },
+  juniper_gdn: { screenName: "Juniper_Gdn", displayName: "Juniper", statusMessage: "watering the web", email: "juniper@orbitmail.net" },
+  darkraven_xx: { screenName: "xX_DarkRaven_Xx", displayName: "DarkRaven", statusMessage: "the truth is cached", aim: "xX_DarkRaven_Xx" },
+  orbit_guide: { screenName: "OrbitGuide", displayName: "OrbitGuide", statusMessage: "Here to help!" }
+};
+
+const CHARACTER_HOME_URLS: Record<string, string> = {
+  mira_917: "web://nightsignal.net/home",
+  juniper_gdn: "web://rainbow.gdn/home",
+  darkraven_xx: "web://raven.web/home",
+  orbit_guide: "web://home"
 };
 
 const GAME_TIME_SCALE = 2;
@@ -97,6 +120,10 @@ let lastGameClockTick = performance.now();
 let lastClockSave = performance.now();
 const pendingPageComments = new Set<string>();
 const pageCommentErrors = new Map<string, string>();
+const pendingDirectReplies = new Set<string>();
+let activeAimOwnerId = "mira_917";
+let mailComposeOwnerId: string | null = null;
+let selectedMailMessageId: string | null = null;
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
 
@@ -122,7 +149,10 @@ function normalizeState(loaded: Partial<GameState>): GameState {
     version: DEFAULT_STATE.version,
     settings: { ...DEFAULT_STATE.settings, ...(loaded.settings ?? {}) },
     pageComments: Array.isArray(loaded.pageComments) ? loaded.pageComments : [],
-    pageVisitCounts: { ...DEFAULT_STATE.pageVisitCounts, ...(loaded.pageVisitCounts ?? {}) }
+    pageVisitCounts: { ...DEFAULT_STATE.pageVisitCounts, ...(loaded.pageVisitCounts ?? {}) },
+    guestbookEntries: { ...(loaded.guestbookEntries ?? {}) },
+    directMessages: Array.isArray(loaded.directMessages) ? loaded.directMessages : [],
+    relationships: { ...DEFAULT_STATE.relationships, ...(loaded.relationships ?? {}) }
   };
 }
 
@@ -132,7 +162,34 @@ async function saveState() {
 }
 
 function currentPage() {
+  if (state.currentUrl.startsWith("web://search?")) return orbitSearchPage(state.currentUrl);
   return pages[state.currentUrl] ?? notFoundPage(state.currentUrl);
+}
+
+function orbitSearchPage(url: string): PageDefinition {
+  const query = new URLSearchParams(url.split("?")[1] ?? "").get("q")?.trim().toLowerCase() ?? "";
+  const results = query.length < 2
+    ? []
+    : Object.values(pages).filter((page) => {
+        const haystack = [page.title, page.summary, ...(page.searchTerms ?? [])].join(" ").toLowerCase();
+        return haystack.includes(query);
+      });
+  return {
+    url,
+    title: `Search: ${query || "OrbitNet"}`,
+    site: "directory",
+    ownerId: "orbit_guide",
+    summary: `OrbitNet search results for ${query}.`,
+    render: () => `<main class="page directory-page search-results-page">
+      <header class="directory-logo"><span>ORBIT</span><b>SEARCH</b></header>
+      <form class="search-box orbit-search-form"><input name="query" value="${escapeHtml(query)}" aria-label="Search OrbitNet"><button>Search</button></form>
+      <p>Found <b>${results.length}</b> page${results.length === 1 ? "" : "s"} matching “${escapeHtml(query)}”.</p>
+      <section class="search-results">
+        ${results.length ? results.map((page) => `<button data-nav="${page.url}"><b>${escapeHtml(page.title)}</b><span>${escapeHtml(page.summary)}</span><code>${page.url}</code></button>`).join("") : `<p>No pages found. Try a screen name, unusual phrase, or address fragment.</p>`}
+      </section>
+      <button data-nav="web://home">← Directory home</button>
+    </main>`
+  };
 }
 
 function navigate(url: string, push = true) {
@@ -219,22 +276,49 @@ function browserWindow() {
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
     </div>
     <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
-    <div class="browser-viewport site-${page.site}">${page.render(state)}${pageCommentSection(page)}</div>
+    <div class="browser-viewport site-${page.site}">${page.render(state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div>
     <footer class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></footer>`);
 }
 
 function mailWindow() {
+  const receivedEmails = state.directMessages.filter((message) => message.channel === "email" && message.role === "owner");
+  const selectedEmail = selectedMailMessageId ? state.directMessages.find((message) => message.id === selectedMailMessageId) : null;
   const receipt = state.flags.signal_note_downloaded
     ? `<button class="mail-row unread" data-mail="receipt"><b>● OrbitNet Downloads</b><span>Your file is ready</span><time>Now</time></button>`
     : "";
+  const dynamicRows = receivedEmails.slice().reverse().map((message) => {
+    const contact = CHARACTER_CONTACTS[message.ownerId];
+    return `<button class="mail-row unread" data-direct-mail="${message.id}"><b>● ${escapeHtml(contact?.displayName ?? message.author)}</b><span>${escapeHtml(message.subject ?? "Re: Hello")}</span><time>${new Intl.DateTimeFormat([], { month: "numeric", day: "numeric" }).format(new Date(message.createdAt))}</time></button>`;
+  }).join("");
+
+  if (mailComposeOwnerId) {
+    const contact = CHARACTER_CONTACTS[mailComposeOwnerId];
+    const pending = pendingDirectReplies.has(`email:${mailComposeOwnerId}`);
+    return windowShell("mail", `New Message - Orbit Mail`, "@", `
+      <div class="mail-toolbar"><button data-email-cancel>Back to Inbox</button><button disabled>Address Book</button></div>
+      <div class="mail-layout"><aside><b>Folders</b><button>📥 Inbox (${2 + receivedEmails.length})</button><button class="selected">✉ New Message</button><button>📤 Sent</button></aside>
+      <main class="mail-compose">
+        <form class="email-compose-form" data-email-compose="${mailComposeOwnerId}">
+          <label>To:<input value="${escapeHtml(contact.email ?? contact.screenName)}" readonly></label>
+          <label>Subject:<input name="subject" maxlength="120" value="Hello from David" ${pending ? "disabled" : ""}></label>
+          <textarea name="message" maxlength="1000" placeholder="Write an email to ${escapeHtml(contact.displayName)}..." ${pending ? "disabled" : ""}></textarea>
+          <footer><span>${pending ? "Sending and waiting for a reply..." : "Replies arrive in your Inbox."}</span><button ${pending ? "disabled" : ""}>${pending ? "Sending..." : "Send"}</button></footer>
+        </form>
+      </main></div>`);
+  }
+
+  const preview = selectedEmail
+    ? `<h3>${escapeHtml(selectedEmail.subject ?? "Message")}</h3><p><b>From:</b> ${escapeHtml(selectedEmail.author)}</p><p>${escapeHtml(selectedEmail.text).replaceAll("\n", "<br>")}</p>`
+    : `<p>Select a message to read it.</p>`;
   return windowShell("mail", "Orbit Mail", "@", `
-    <div class="mail-toolbar"><button disabled>New Message</button><button disabled>Reply</button><button disabled>Delete</button></div>
-    <div class="mail-layout"><aside><b>Folders</b><button class="selected">📥 Inbox (2${state.flags.signal_note_downloaded ? "+1" : ""})</button><button>📤 Sent</button><button>🗑 Trash</button></aside>
+    <div class="mail-toolbar">${state.visited.includes(CHARACTER_HOME_URLS.juniper_gdn) ? `<button data-email-owner="juniper_gdn">New Message to Juniper</button>` : `<button disabled>New Message</button>`}<button disabled>Reply</button><button disabled>Delete</button></div>
+    <div class="mail-layout"><aside><b>Folders</b><button class="selected">📥 Inbox (${2 + receivedEmails.length}${state.flags.signal_note_downloaded ? "+1" : ""})</button><button>📤 Sent</button><button>🗑 Trash</button></aside>
     <main class="inbox"><div class="mail-columns"><b>From</b><b>Subject</b><b>Received</b></div>
       ${receipt}
+      ${dynamicRows}
       <button class="mail-row" data-mail="mira"><b>Mira</b><span>Found something weird</span><time>11/03</time></button>
       <button class="mail-row" data-mail="welcome"><b>OrbitNet Team</b><span>Welcome to OrbitNet!</span><time>11/01</time></button>
-      <article class="mail-preview" id="mail-preview"><p>Select a message to read it.</p></article>
+      <article class="mail-preview" id="mail-preview">${preview}</article>
     </main></div>`);
 }
 
@@ -277,7 +361,10 @@ function settingsWindow() {
 }
 
 function chatWindow() {
-  const persona = aiConversation.persona;
+  const persona = CHARACTER_CONTACTS[activeAimOwnerId] ?? CHARACTER_CONTACTS.mira_917;
+  const conversation = state.directMessages.filter((message) => message.channel === "aim" && message.ownerId === activeAimOwnerId);
+  const pendingKey = `aim:${activeAimOwnerId}`;
+  const pending = pendingDirectReplies.has(pendingKey);
   const modelStarting = aiStatus.phase === "loading" || aiStatus.phase === "warming";
   const statusLabel = aiStatus.phase === "ready"
     ? "model on disk · loads with first message"
@@ -286,43 +373,48 @@ function chatWindow() {
       : aiStatus.phase === "warming"
         ? "warming up local model…"
       : aiStatus.phase === "generating"
-        ? "Mira is typing…"
+        ? `${persona.screenName} is typing…`
         : aiStatus.phase === "idle"
           ? `model loaded · ${aiStatus.backend ?? "CPU"}`
           : aiStatus.phase === "error"
             ? `error · ${aiStatus.error ?? "generation failed"}`
             : "local model unavailable";
 
-  const messageHtml = aiConversation.messages.map((message) => {
+  const messageHtml = conversation.map((message) => {
     const metrics = message.metrics
       ? `<small class="chat-metrics">generation ${formatDuration(message.metrics.generationMs)} · ${message.metrics.outputTokens} tokens · ${message.metrics.tokensPerSecond ?? "—"} tok/s · ${message.metrics.backend ?? "CPU"}${message.metrics.modelLoadMs ? ` · initial load ${formatDuration(message.metrics.modelLoadMs)}` : ""}</small>`
       : "";
-    return `<article class="chat-message ${message.role}">
+    return `<article class="chat-message ${message.role === "owner" ? "character" : "player"}">
       <header><b>${message.role === "player" ? "You" : escapeHtml(persona.screenName)}</b><time>${new Date(message.createdAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</time></header>
       <p>${escapeHtml(message.text)}</p>${metrics}
     </article>`;
   }).join("");
 
-  const pending = chatPendingMessage
-    ? `<article class="chat-message player pending"><header><b>You</b><time>now</time></header><p>${escapeHtml(chatPendingMessage)}</p></article><div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : `${escapeHtml(persona.screenName)} is typing`}</span></div>`
+  const pendingHtml = pending
+    ? `<div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : `${escapeHtml(persona.screenName)} is typing`}</span></div>`
     : "";
   const empty = !messageHtml && !pending
-    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>Send something to begin the local conversation test.</span><span>${aiStatus.warmed ? "Qwen3-4B was preloaded during startup." : aiStatus.phase === "idle" ? "Qwen3-4B is loaded and ready." : "Qwen3-4B is still getting ready in the background."}</span></div>`
+    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>This character chose to share an AIM screen name.</span><span>${aiStatus.warmed ? "Local character service ready." : aiStatus.phase === "idle" ? "Local character service loaded." : "Local character service is still getting ready."}</span></div>`
     : "";
+  const contactButtons = Object.entries(CHARACTER_CONTACTS)
+    .filter(([ownerId, contact]) => contact.aim && (ownerId === "mira_917" || state.visited.includes(CHARACTER_HOME_URLS[ownerId])))
+    .map(([ownerId, contact]) => `<button data-aim-contact="${ownerId}" class="${ownerId === activeAimOwnerId ? "selected" : ""}"><i></i>${escapeHtml(contact.screenName)}</button>`)
+    .join("");
 
   return windowShell("chat", `${persona.screenName} - Orbit Messenger`, "◎", `
     <div class="aim-menu"><button disabled>File</button><button disabled>Edit</button><button disabled>People</button><button data-ai-reset>Clear Chat</button></div>
+    <nav class="aim-buddy-tabs">${contactButtons}</nav>
     <div class="aim-contact">
-      <div class="aim-avatar">M</div><div><b>${escapeHtml(persona.screenName)}</b><span><i></i> Online</span><small>“${escapeHtml(persona.statusMessage)}”</small></div>
-      <aside><b>LOCAL AI TEST</b><span>${escapeHtml(aiStatus.modelName)}</span></aside>
+      <div class="aim-avatar">${escapeHtml(persona.displayName.slice(0, 1))}</div><div><b>${escapeHtml(persona.screenName)}</b><span><i></i> Online</span><small>“${escapeHtml(persona.statusMessage)}”</small></div>
+      <aside><b>PRIVATE CHAT</b><span>${escapeHtml(aiStatus.modelName)}</span></aside>
     </div>
-    <div class="chat-transcript" id="chat-transcript">${empty}${messageHtml}${pending}</div>
+    <div class="chat-transcript" id="chat-transcript">${empty}${messageHtml}${pendingHtml}</div>
     ${chatError ? `<div class="chat-error">${escapeHtml(chatError)}</div>` : ""}
     <form class="chat-form">
-      <textarea name="message" maxlength="500" rows="2" placeholder="${modelStarting ? "Local model is starting up…" : "Type an instant message…"}" ${chatBusy || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
-      <button ${chatBusy || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}>${chatBusy || modelStarting ? "Waiting…" : "Send"}</button>
+      <textarea name="message" maxlength="500" rows="2" placeholder="${modelStarting ? "Local model is starting up…" : "Type an instant message…"}" ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
+      <button ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}>${pending || modelStarting ? "Waiting…" : "Send"}</button>
     </form>
-    <footer class="ai-statusbar"><span data-ai-phase>${escapeHtml(statusLabel)}</span><span data-ai-elapsed>${chatBusy ? "0.0s elapsed" : aiStatus.loadMs ? `load ${formatDuration(aiStatus.loadMs)}` : "not loaded"}</span></footer>`);
+    <footer class="ai-statusbar"><span data-ai-phase>${escapeHtml(statusLabel)}</span><span data-ai-elapsed>${pending ? "reply pending" : aiStatus.loadMs ? `load ${formatDuration(aiStatus.loadMs)}` : "not loaded"}</span></footer>`);
 }
 
 function bootAiStatus() {
@@ -641,36 +733,86 @@ async function refreshAiProgress() {
   }
 }
 
-async function sendChatMessage(message: string) {
-  if (!window.aiAPI || chatBusy) return;
-  chatBusy = true;
-  chatPendingMessage = message;
+async function sendDirectMessage(ownerId: string, channel: DirectChannel, message: string, subject?: string) {
+  if (!window.aiAPI) return;
+  const key = `${channel}:${ownerId}`;
+  if (pendingDirectReplies.has(key)) return;
+  const contact = CHARACTER_CONTACTS[ownerId];
+  if (!contact) return;
+
+  const recentMessages = state.directMessages
+    .filter((entry) => entry.ownerId === ownerId && entry.channel === channel)
+    .slice(-10)
+    .map((entry) => ({ author: entry.author, text: entry.text }));
+  const playerEntry: DirectMessage = {
+    id: crypto.randomUUID(),
+    ownerId,
+    channel,
+    role: "player",
+    author: "David",
+    text: message,
+    subject,
+    createdAt: state.gameTime
+  };
+  adjustRelationship(ownerId, message, channel);
+  state.directMessages.push(playerEntry);
+  pendingDirectReplies.add(key);
   chatError = "";
-  chatStartedAt = performance.now();
+  await saveState();
   render();
-  scrollChatToBottom();
-  const progressTimer = window.setInterval(() => void refreshAiProgress(), 400);
+  if (channel === "aim") scrollChatToBottom();
 
   try {
-    const result = await window.aiAPI.send(message);
-    aiConversation = result.conversation;
-    aiStatus = result.status;
-  } catch (error) {
-    chatError = error instanceof Error ? error.message.replace(/^Error invoking remote method '[^']+':\s*/i, "") : String(error);
-    try {
-      aiConversation = await window.aiAPI.conversation();
-      aiStatus = await window.aiAPI.status();
-    } catch {
-      // Preserve the original inference error.
+    const result = await window.aiAPI.directReply({
+      ownerId,
+      channel,
+      playerMessage: message,
+      subject,
+      relationshipScore: state.relationships[ownerId] ?? 0,
+      recentMessages
+    });
+    state.directMessages.push({
+      id: crypto.randomUUID(),
+      ownerId,
+      channel,
+      role: "owner",
+      author: result.owner.screenName,
+      text: result.text,
+      subject: channel === "email" ? `Re: ${subject || "Hello"}` : undefined,
+      createdAt: state.gameTime,
+      metrics: result.metrics
+    });
+    aiStatus = await window.aiAPI.status();
+    pendingDirectReplies.delete(key);
+    await saveState();
+    if (channel === "email") {
+      mailComposeOwnerId = null;
+      selectedMailMessageId = state.directMessages.at(-1)?.id ?? null;
+      showNotification(`New mail from ${contact.displayName}.`);
+    } else {
+      render();
+      scrollChatToBottom();
+      document.querySelector<HTMLTextAreaElement>(".chat-form textarea")?.focus();
     }
-  } finally {
-    window.clearInterval(progressTimer);
-    chatBusy = false;
-    chatPendingMessage = "";
-    render();
-    scrollChatToBottom();
-    document.querySelector<HTMLTextAreaElement>(".chat-form textarea")?.focus();
+  } catch (error) {
+    pendingDirectReplies.delete(key);
+    const messageText = error instanceof Error ? error.message.replace(/^Error invoking remote method '[^']+':\s*/i, "") : String(error);
+    if (channel === "aim") {
+      chatError = messageText;
+      render();
+    } else {
+      showNotification(`Mail could not be delivered: ${messageText}`);
+    }
   }
+}
+
+function adjustRelationship(ownerId: string, message: string, channel: "public" | DirectChannel) {
+  const normalized = message.toLowerCase();
+  let delta = channel === "aim" ? 1 : channel === "email" ? 1 : 0;
+  if (/\b(thanks|thank you|love|great|cool|sorry|please)\b/.test(normalized)) delta += 1;
+  if (/\b(stupid|idiot|hate|shut up|loser|liar)\b/.test(normalized)) delta -= 4;
+  const current = state.relationships[ownerId] ?? 0;
+  state.relationships[ownerId] = Math.max(-100, Math.min(100, current + delta));
 }
 
 async function submitPageComment(pageUrl: string, message: string) {
@@ -686,6 +828,7 @@ async function submitPageComment(pageUrl: string, message: string) {
     createdAt: state.gameTime,
     revealAfterVisit: state.pageVisitCounts[pageUrl] ?? 1
   };
+  adjustRelationship(page.ownerId, message, "public");
   state.pageComments.push(playerComment);
   pendingPageComments.add(pageUrl);
   pageCommentErrors.delete(pageUrl);
@@ -709,7 +852,8 @@ async function submitPageComment(pageUrl: string, message: string) {
       pageTitle: page.title,
       pageSummary: page.summary,
       playerComment: message,
-      recentComments
+      recentComments,
+      relationshipScore: state.relationships[page.ownerId] ?? 0
     });
     state.pageComments.push({
       id: crypto.randomUUID(),
@@ -779,6 +923,21 @@ function bindEvents() {
     const pageUrl = form.dataset.commentPage ?? state.currentUrl;
     if (message) void submitPageComment(pageUrl, message);
   });
+  document.querySelector<HTMLFormElement>(".guestbook-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const guestbookId = form.dataset.guestbook ?? "";
+    const message = new FormData(form).get("signature")?.toString().trim() ?? "";
+    if (!guestbookId || !message || state.flags[`${guestbookId}_guestbook_signed`]) return;
+    state.guestbookEntries[guestbookId] = [
+      ...(state.guestbookEntries[guestbookId] ?? []),
+      { id: crypto.randomUUID(), author: "David", text: message, createdAt: state.gameTime }
+    ];
+    if (guestbookId === "rainbow") adjustRelationship("juniper_gdn", message, "public");
+    state.flags[`${guestbookId}_guestbook_signed`] = true;
+    void saveState();
+    render();
+  });
   document.querySelectorAll<HTMLElement>("[data-session]").forEach((button) => button.addEventListener("click", () => {
     const action = button.dataset.session;
     startOpen = false;
@@ -813,20 +972,57 @@ function bindEvents() {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     const message = new FormData(form).get("message")?.toString().trim() ?? "";
-    if (message) void sendChatMessage(message);
+    if (message) void sendDirectMessage(activeAimOwnerId, "aim", message);
   });
   document.querySelector<HTMLElement>("[data-ai-reset]")?.addEventListener("click", async () => {
-    if (!window.aiAPI || chatBusy || !window.confirm("Clear this test conversation and its model context?")) return;
-    aiConversation = await window.aiAPI.reset();
-    aiStatus = await window.aiAPI.status();
+    if (pendingDirectReplies.has(`aim:${activeAimOwnerId}`) || !window.confirm(`Clear your AIM conversation with ${CHARACTER_CONTACTS[activeAimOwnerId].screenName}?`)) return;
+    state.directMessages = state.directMessages.filter((message) => !(message.channel === "aim" && message.ownerId === activeAimOwnerId));
+    await saveState();
     chatError = "";
     render();
   });
+  document.querySelectorAll<HTMLElement>("[data-aim-contact]").forEach((button) => button.addEventListener("click", () => {
+    activeAimOwnerId = button.dataset.aimContact ?? "mira_917";
+    chatError = "";
+    render();
+  }));
+  document.querySelectorAll<HTMLElement>("[data-aim-owner]").forEach((button) => button.addEventListener("click", () => {
+    activeAimOwnerId = button.dataset.aimOwner ?? "mira_917";
+    openApp("chat");
+  }));
+  document.querySelectorAll<HTMLElement>("[data-email-owner]").forEach((button) => button.addEventListener("click", () => {
+    mailComposeOwnerId = button.dataset.emailOwner ?? null;
+    selectedMailMessageId = null;
+    openApp("mail");
+  }));
+  document.querySelector<HTMLElement>("[data-email-cancel]")?.addEventListener("click", () => {
+    mailComposeOwnerId = null;
+    render();
+  });
+  document.querySelector<HTMLFormElement>(".email-compose-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const ownerId = form.dataset.emailCompose ?? "";
+    const data = new FormData(form);
+    const subject = data.get("subject")?.toString().trim() || "Hello";
+    const message = data.get("message")?.toString().trim() ?? "";
+    if (ownerId && message) void sendDirectMessage(ownerId, "email", message, subject);
+  });
+  document.querySelectorAll<HTMLElement>("[data-direct-mail]").forEach((button) => button.addEventListener("click", () => {
+    selectedMailMessageId = button.dataset.directMail ?? null;
+    render();
+  }));
 
   document.querySelector<HTMLFormElement>(".address-form")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     navigate(new FormData(form).get("address")?.toString() ?? form.querySelector("input")!.value);
+  });
+  document.querySelector<HTMLFormElement>(".orbit-search-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const query = new FormData(form).get("query")?.toString().trim() ?? "";
+    if (query) navigate(`web://search?q=${encodeURIComponent(query)}`);
   });
   const address = document.querySelector<HTMLInputElement>(".address-form input");
   if (address) address.name = "address";
