@@ -518,9 +518,9 @@ function pageCommentSection(page: PageDefinition) {
     ${pageCommentErrors.has(page.url) ? `<p class="comment-error">${escapeHtml(pageCommentErrors.get(page.url)!)}</p>` : ""}
     <form class="page-comment-form" data-comment-page="${escapeHtml(page.url)}">
       <label><b>David:</b><textarea name="comment" maxlength="500" rows="3" placeholder="Leave a comment for ${escapeHtml(owner.screenName)}..." ${pending || unavailable ? "disabled" : ""}></textarea></label>
-      <button ${pending || unavailable ? "disabled" : ""}>${pending ? "Posting..." : unavailable ? "Offline" : "Post"}</button>
+      <button ${pending || unavailable ? "disabled" : ""}>${pending ? "Pending approval..." : unavailable ? "Offline" : "Post"}</button>
     </form>
-    <p class="comment-note">${pending ? `${escapeHtml(owner.screenName)} will answer in the background.` : "Replies are delivered asynchronously and appear the next time this page loads."}</p>
+    <p class="comment-note">${pending ? `${escapeHtml(owner.screenName)}'s comment is pending approval in the background. You can browse away.` : "Replies are delivered asynchronously and appear the next time this page loads."}</p>
   </section>`;
 }
 
@@ -598,7 +598,7 @@ function mailWindow() {
           <label>To:<input value="${escapeHtml(contact.email ?? contact.screenName)}" readonly></label>
           <label>Subject:<input name="subject" maxlength="120" value="Hello from David" ${pending ? "disabled" : ""}></label>
           <textarea name="message" maxlength="1000" placeholder="Write an email to ${escapeHtml(contact.displayName)}..." ${pending ? "disabled" : ""}></textarea>
-          <footer><span>${pending ? "Sending and waiting for a reply..." : "Replies arrive in your Inbox."}</span><button ${pending ? "disabled" : ""}>${pending ? "Sending..." : "Send"}</button></footer>
+          <footer><span>${pending ? "Reply pending approval..." : "Replies arrive in your Inbox."}</span><button ${pending ? "disabled" : ""}>${pending ? "Waiting..." : "Send"}</button></footer>
         </form>
       </main></div>`);
   }
@@ -670,6 +670,8 @@ function chatWindow() {
         ? "warming up local model…"
       : aiStatus.phase === "generating"
         ? `${persona.screenName} is typing…`
+        : aiStatus.phase === "reviewing"
+          ? "comment pending approval…"
         : aiStatus.phase === "idle"
           ? `model loaded · ${aiStatus.backend ?? "CPU"}`
           : aiStatus.phase === "error"
@@ -687,7 +689,7 @@ function chatWindow() {
   }).join("");
 
   const pendingHtml = pending
-    ? `<div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : `${escapeHtml(persona.screenName)} is typing`}</span></div>`
+    ? `<div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : "Reply pending approval"}</span></div>`
     : "";
   const empty = !messageHtml && !pending
     ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>This character chose to share an AIM screen name.</span><span>${aiStatus.warmed ? "Local character service ready." : aiStatus.phase === "idle" ? "Local character service loaded." : "Local character service is still getting ready."}</span></div>`
@@ -731,7 +733,7 @@ function helperWindow() {
       <aside class="helper-portrait" aria-hidden="true"><div class="orbit-pal-body"><i></i><b>?</b><span></span></div></aside>
       <main>
         <header><div><b>What can I help you with?</b><span>${aiStatus.warmed ? "Local help ready" : "Help service starting…"}</span></div><button type="button" data-helper-close>Close Pal</button></header>
-        <div class="helper-transcript" id="helper-transcript">${empty}${messageHtml}${pending ? `<p class="helper-typing">Orbit Pal is thinking…</p>` : ""}</div>
+        <div class="helper-transcript" id="helper-transcript">${empty}${messageHtml}${pending ? `<p class="helper-typing">Reply pending approval…</p>` : ""}</div>
         ${chatError ? `<p class="helper-error">${escapeHtml(chatError)}</p>` : ""}
         <form class="helper-form">
           <textarea name="message" maxlength="500" rows="2" placeholder="How do I search? Where are downloads?" ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
@@ -1123,6 +1125,8 @@ async function refreshAiProgress() {
           ? "warming up local model…"
         : aiStatus.phase === "generating"
           ? "Mira_917 is typing…"
+          : aiStatus.phase === "reviewing"
+            ? "comment pending approval…"
           : aiStatus.phase === "error"
             ? `error · ${aiStatus.error ?? "generation failed"}`
             : `model loaded · ${aiStatus.backend ?? "CPU"}`;

@@ -1,6 +1,6 @@
 export type AppId = "browser" | "mail" | "files" | "chat" | "settings" | "helper";
 
-export type AiPhase = "offline" | "ready" | "loading" | "warming" | "idle" | "generating" | "error";
+export type AiPhase = "offline" | "ready" | "loading" | "warming" | "idle" | "generating" | "reviewing" | "error";
 
 export interface AiPersonaSummary {
   id: string;
