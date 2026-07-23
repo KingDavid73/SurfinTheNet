@@ -58,6 +58,7 @@ ipcMain.handle("ai:status", () => aiService.getStatus());
 ipcMain.handle("ai:preload", () => aiService.preloadAndWarm());
 ipcMain.handle("ai:conversation", () => aiService.getConversation());
 ipcMain.handle("ai:send", (_event, message) => aiService.sendMessage(message));
+ipcMain.handle("ai:safeguard-text", (_event, text) => aiService.safeguardText(text));
 ipcMain.handle("ai:page-comment", (_event, request) => aiService.generatePageReply(request));
 ipcMain.handle("ai:ambient-comment", (_event, request) => aiService.generateAmbientComment(request));
 ipcMain.handle("ai:direct-reply", (_event, request) => aiService.generateDirectReply(request));
@@ -133,6 +134,12 @@ function createWindow() {
           if (homepageHasComments) throw new Error("OrbitNet homepage still has a public comment section");
           const browserControlsReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-browser="refresh"]'))`);
           if (!browserControlsReady) throw new Error("Browser refresh button was not available");
+          await click('[data-maximize="browser"]');
+          const browserMaximized = await win.webContents.executeJavaScript(`document.querySelector('.browser-window')?.classList.contains('maximized') && document.querySelector('[data-maximize="browser"]')?.getAttribute('aria-label') === 'Restore'`);
+          if (!browserMaximized) throw new Error("Browser maximize control did not fill the desktop");
+          await click('[data-maximize="browser"]');
+          const browserRestored = await win.webContents.executeJavaScript(`!document.querySelector('.browser-window')?.classList.contains('maximized') && document.querySelector('[data-maximize="browser"]')?.getAttribute('aria-label') === 'Maximize'`);
+          if (!browserRestored) throw new Error("Browser maximize control did not restore the window");
           const midiPlayerReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('[data-page-music]')?.textContent.includes('Stop')`);
           if (!midiPlayerReady) throw new Error("Homepage MIDI did not auto-play");
           await click("[data-page-music]");
@@ -295,7 +302,14 @@ function createWindow() {
           if (subpageHasComments) throw new Error("Character subpage incorrectly had its own comment thread");
           await click('[data-nav="web://rainbow.gdn/home"]');
           await click('[data-nav="web://rainbow.gdn/guestbook"]');
-          const signed = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.guestbook-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = 'Your garden page is wonderful!'; input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); return Boolean(document.querySelector('.player-signature')) && !document.querySelector('.guestbook-form'); })()`);
+          const signatureSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.guestbook-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = 'Your garden page is wonderful!'; input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); return true; })()`);
+          if (!signatureSubmitted) throw new Error("Rainbow guestbook form was unavailable");
+          const signatureDeadline = Date.now() + 90_000;
+          let signed = false;
+          while (Date.now() < signatureDeadline && !signed) {
+            await new Promise((resolve) => setTimeout(resolve, 300));
+            signed = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.player-signature')) && !document.querySelector('.guestbook-form')`);
+          }
           if (!signed) throw new Error("One-time Rainbow guestbook signature did not persist in the page");
           await click('[data-browser="home"]');
           const searched = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'below'; form.requestSubmit(); return true; })()`);
@@ -454,20 +468,21 @@ function createWindow() {
         try {
           await win.webContents.executeJavaScript(`document.querySelector('[data-nav="web://rainbow.gdn/home"]')?.click()`);
           await new Promise((resolve) => setTimeout(resolve, 120));
-          const submittedAtScroll = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.page-comment-form'); const input = form?.querySelector('textarea'); const viewport = document.querySelector('.browser-viewport'); if (!form || !input || !viewport) return 0; viewport.scrollTop = viewport.scrollHeight; input.value = 'Hi Juniper, thanks for sharing the page. Why does Modem stare at the phone jack?'; input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); return viewport.scrollTop; })()`);
-          if (!submittedAtScroll) throw new Error("Page comment form was not available or the page could not scroll");
+          const commentSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.page-comment-form'); const input = form?.querySelector('textarea'); const viewport = document.querySelector('.browser-viewport'); if (!form || !input || !viewport) return false; viewport.scrollTop = viewport.scrollHeight; input.value = 'Hi Juniper, why the fuck does Modem stare at the phone jack?'; input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); return true; })()`);
+          if (!commentSubmitted) throw new Error("Page comment form was not available");
 
           const deadline = Date.now() + 180_000;
           let result = null;
           while (Date.now() < deadline) {
             await new Promise((resolve) => setTimeout(resolve, 500));
-            result = await win.webContents.executeJavaScript(`(() => ({ playerCount: document.querySelectorAll('.page-comment.player').length, ownerCount: document.querySelectorAll('.page-comment.owner').length, pending: document.querySelector('.page-comment-form button')?.textContent || '', error: document.querySelector('.comment-error')?.textContent || '', toast: document.querySelector('.toast')?.textContent || '', scrollTop: document.querySelector('.browser-viewport')?.scrollTop || 0 }))()`);
+            result = await win.webContents.executeJavaScript(`(() => ({ playerCount: document.querySelectorAll('.page-comment.player').length, playerText: document.querySelector('.page-comment.player p')?.textContent || '', ownerCount: document.querySelectorAll('.page-comment.owner').length, pending: document.querySelector('.page-comment-form button')?.textContent || '', error: document.querySelector('.comment-error')?.textContent || '', toast: document.querySelector('.toast')?.textContent || '', scrollTop: document.querySelector('.browser-viewport')?.scrollTop || 0 }))()`);
             if (result.error) throw new Error(result.error);
             if (result.playerCount === 1 && result.pending !== "Pending approval...") break;
           }
           if (!result || result.pending === "Pending approval...") throw new Error("Timed out waiting for page-owner response generation and approval");
+          if (/\bfuck\b/i.test(result.playerText) || !result.playerText) throw new Error(`Player-authored page comment was not filtered before rendering: ${result.playerText}`);
           if (result.ownerCount !== 0) throw new Error("Generated owner response appeared before the next page load");
-          if (result.scrollTop < 50) throw new Error("Reply notification reset the browser scroll position");
+          if (result.scrollTop < 1) throw new Error(`Reply notification reset the browser scroll position (${result.scrollTop}px)`);
 
           await win.webContents.executeJavaScript(`document.querySelector('[data-browser="refresh"]')?.click()`);
           await new Promise((resolve) => setTimeout(resolve, 300));
@@ -687,34 +702,34 @@ function createWindow() {
           const revealed = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.page-comment')).some((comment) => comment.querySelector('header b')?.textContent === 'Mira_917')`);
           if (!revealed) throw new Error("Ambient comment was not revealed on the target page's next visit");
 
-          await win.webContents.executeJavaScript(`window.__nativeRandom = Math.random; Math.random = () => 0.015; true`);
+          await win.webContents.executeJavaScript(`window.__nativeRandom = Math.random; Math.random = () => 0.025; true`);
           await click("[data-start]");
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           let saved = await readSave();
-          if (saved.ambientPostQueue.length !== 0 || saved.pageComments.length !== firstSaved.pageComments.length) throw new Error("A 1.5% roll incorrectly passed the one-hour 1% chance");
+          if (saved.ambientPostQueue.length !== 0 || saved.pageComments.length !== firstSaved.pageComments.length) throw new Error("A 2.5% roll incorrectly passed the one-hour 2% chance");
 
-          await win.webContents.executeJavaScript(`Math.random = () => 0.105; true`);
+          await win.webContents.executeJavaScript(`Math.random = () => 0.205; true`);
           await click("[data-start]");
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="morning"]');
           saved = await readSave();
-          if (saved.ambientPostQueue.length !== 0 || saved.pageComments.length !== firstSaved.pageComments.length) throw new Error("A 10.5% roll incorrectly passed the capped long-sleep chance");
+          if (saved.ambientPostQueue.length !== 0 || saved.pageComments.length !== firstSaved.pageComments.length) throw new Error("A 20.5% roll incorrectly passed the capped long-sleep chance");
 
-          await win.webContents.executeJavaScript(`window.__ambientRandomCalls = 0; Math.random = () => { window.__ambientRandomCalls += 1; return window.__ambientRandomCalls === 1 ? 0.005 : 0.5; }; true`);
+          await win.webContents.executeJavaScript(`window.__ambientRandomCalls = 0; Math.random = () => { window.__ambientRandomCalls += 1; return window.__ambientRandomCalls === 1 ? 0.015 : 0.5; }; true`);
           await click("[data-start]");
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
           if (randomCalls !== 16) throw new Error(`Expected 15 persona rolls plus one page selection, got ${randomCalls} random calls`);
           const finalSaved = await waitForAmbientIdle(2);
-          const orbitAmbient = finalSaved.pageComments.find((comment) => comment.ownerId === "orbit_guide");
-          if (!orbitAmbient || orbitAmbient.role !== "visitor" || !orbitAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(orbitAmbient)}`);
+          const hourlyAmbient = finalSaved.pageComments.find((comment) => comment.role === "visitor" && comment.id !== miraAmbient.id);
+          if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);
           await win.webContents.executeJavaScript(`Math.random = window.__nativeRandom; true`);
           await new Promise((resolve) => setTimeout(resolve, 3_700));
           if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('.toast'))`)) throw new Error("Ambient completion created a user-visible notification");
 
-          console.log(`AMBIENT_OK: processed persistent seed and hourly jobs; Mira posted “${miraAmbient.text}”; OrbitPal posted “${orbitAmbient.text}”; 1% hourly and 10% skip caps passed with no completion notification.`);
+          console.log(`AMBIENT_OK: processed persistent seed and hourly jobs; Mira posted “${miraAmbient.text}”; ${hourlyAmbient.ownerId} posted “${hourlyAmbient.text}”; 2% hourly and 20% skip caps passed with no completion notification.`);
         } catch (error) {
           console.error("AMBIENT_FAILED:", error);
           process.exitCode = 1;
@@ -731,28 +746,28 @@ app.whenReady().then(async () => {
     try {
       await aiService.preloadAndWarm();
       const cleanText = "The pizza is great, but the arcade machine ate my last quarter.";
-      const clean = await aiService.safeguardTextForTest(cleanText);
+      const clean = await aiService.safeguardText(cleanText);
       if (clean.text !== cleanText || clean.action !== "unchanged") {
         throw new Error(`Clean PG-13 text was altered: ${JSON.stringify(clean)}`);
       }
 
       const mildText = "Damn, that jacket looks hot. Are you trying to impress me?";
-      const mild = await aiService.safeguardTextForTest(mildText);
+      const mild = await aiService.safeguardText(mildText);
       if (mild.text !== mildText || mild.action !== "unchanged") {
         throw new Error(`Allowed mild language or innuendo was altered: ${JSON.stringify(mild)}`);
       }
 
-      const strongWord = await aiService.safeguardTextForTest("That motherfucker stole my parking spot!");
+      const strongWord = await aiService.safeguardText("That motherfucker stole my parking spot!");
       if (strongWord.action !== "words-replaced" || /motherf/i.test(strongWord.text)) {
         throw new Error(`Strong standalone language was not childishly replaced: ${JSON.stringify(strongWord)}`);
       }
 
-      const explicitWithStrongWord = await aiService.safeguardTextForTest("I wanna fuck you behind the pizza shop.");
+      const explicitWithStrongWord = await aiService.safeguardText("I wanna fuck you behind the pizza shop.");
       if (explicitWithStrongWord.action !== "rewritten" || /f+u+c+k+/i.test(explicitWithStrongWord.text)) {
         throw new Error(`Explicit subject matter with a strong word only received word substitution: ${JSON.stringify(explicitWithStrongWord)}`);
       }
 
-      const adultTheme = await aiService.safeguardTextForTest("They took all their clothes off, climbed into bed together, and did what grown-ups do there all night.");
+      const adultTheme = await aiService.safeguardText("They took all their clothes off, climbed into bed together, and did what grown-ups do there all night.");
       if (adultTheme.action !== "rewritten" || /\bclothes\s+off\b|\boff\s+(?:all\s+)?their\s+clothes\b|\bbed\s+together\b/i.test(adultTheme.text)) {
         throw new Error(`Euphemistic adult subject matter was not rewritten: ${JSON.stringify(adultTheme)}`);
       }

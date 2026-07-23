@@ -51,6 +51,12 @@ export interface AiSendResult {
   status: AiStatus;
 }
 
+export interface ContentSafeguardResult {
+  text: string;
+  action: "unchanged" | "words-replaced" | "rewritten";
+  reviewMs: number;
+}
+
 export interface PageComment {
   id: string;
   pageUrl: string;
@@ -204,6 +210,7 @@ declare global {
       preload: () => Promise<AiStatus>;
       conversation: () => Promise<AiConversation>;
       send: (message: string) => Promise<AiSendResult>;
+      safeguard: (text: string) => Promise<ContentSafeguardResult>;
       comment: (request: PageCommentRequest) => Promise<PageCommentResult>;
       ambientComment: (request: AmbientCommentRequest) => Promise<AmbientCommentResult>;
       directReply: (request: DirectReplyRequest) => Promise<DirectReplyResult>;

@@ -7,7 +7,35 @@ const outputDirectory = resolve(projectRoot, "assets", "audio", "pages");
 const ticksPerBeat = 480;
 
 const tracks = [
-  { id: "orbit-avenue", title: "Orbit Avenue", bpm: 112, program: 11, wave: "bell", melody: [72, 76, 79, 76, 74, 77, 81, 77, 72, 76, 79, 84, 81, 79, 76, 74], bass: [48, 53, 55, 48, 48, 53, 55, 48] },
+  {
+    id: "orbit-avenue",
+    title: "Orbit Avenue Afterglow",
+    bpm: 68,
+    program: 4,
+    wave: "soft",
+    melodyGain: 0.32,
+    melodyVelocity: 54,
+    melodyLength: 1.7,
+    melody: [72, -1, -1, 74, -1, -1, 71, -1, 69, -1, -1, 67, -1, 71, -1, -1],
+    bass: [45, 41, 48, 43, 45, 41, 43, 40],
+    bassVelocity: 38,
+    padProgram: 89,
+    padWave: "warm-pad",
+    padChords: [
+      [57, 64, 69],
+      [53, 60, 64],
+      [55, 62, 67],
+      [52, 59, 64]
+    ],
+    accentProgram: 98,
+    accentWave: "crystal",
+    accents: [
+      { beat: 2, note: 81 },
+      { beat: 7, note: 79 },
+      { beat: 11, note: 84 },
+      { beat: 14, note: 76 }
+    ]
+  },
   { id: "garden-sprites", title: "Garden Sprites", bpm: 126, program: 10, wave: "bell", melody: [76, 79, 83, 79, 74, 77, 81, 77, 76, 81, 84, 81, 79, 77, 74, 72], bass: [48, 55, 53, 55, 48, 53, 55, 48] },
   { id: "after-midnight", title: "After Midnight", bpm: 82, program: 89, wave: "soft", melody: [69, -1, 72, 71, 69, -1, 64, 67, 69, -1, 72, 74, 72, 71, 67, -1], bass: [45, 41, 43, 40, 45, 41, 43, 40] },
   { id: "cached-shadows", title: "Cached Shadows", bpm: 96, program: 19, wave: "organ", melody: [64, 67, 68, 67, 63, 67, 70, 67, 64, 68, 71, 68, 63, 62, 59, 62], bass: [40, 39, 44, 35, 40, 39, 44, 35] },
@@ -44,22 +72,38 @@ function vlq(value) {
 
 function buildMidi(track) {
   const microseconds = Math.round(60_000_000 / track.bpm);
+  const endTick = 16 * ticksPerBeat;
   const name = Buffer.from(track.title);
   const events = [
     { tick: 0, priority: 0, data: [0xff, 0x03, name.length, ...name] },
     { tick: 0, priority: 0, data: [0xff, 0x51, 0x03, (microseconds >> 16) & 255, (microseconds >> 8) & 255, microseconds & 255] },
     { tick: 0, priority: 1, data: [0xc0, track.program] },
-    { tick: 0, priority: 1, data: [0xc1, 33] }
+    { tick: 0, priority: 1, data: [0xc1, 33] },
+    ...(track.padProgram === undefined ? [] : [{ tick: 0, priority: 1, data: [0xc2, track.padProgram] }]),
+    ...(track.accentProgram === undefined ? [] : [{ tick: 0, priority: 1, data: [0xc3, track.accentProgram] }])
   ];
+  const melodyLength = Math.round((track.melodyLength ?? 0.8) * ticksPerBeat);
   track.melody.forEach((note, beat) => {
     if (note < 0) return;
-    events.push({ tick: beat * ticksPerBeat, priority: 3, data: [0x90, note, 82] });
-    events.push({ tick: beat * ticksPerBeat + 384, priority: 2, data: [0x80, note, 0] });
+    events.push({ tick: beat * ticksPerBeat, priority: 3, data: [0x90, note, track.melodyVelocity ?? 82] });
+    events.push({ tick: Math.min(endTick, beat * ticksPerBeat + melodyLength), priority: 2, data: [0x80, note, 0] });
   });
   track.bass.forEach((note, step) => {
     const tick = step * ticksPerBeat * 2;
-    events.push({ tick, priority: 3, data: [0x91, note, 58] });
+    events.push({ tick, priority: 3, data: [0x91, note, track.bassVelocity ?? 58] });
     events.push({ tick: tick + 768, priority: 2, data: [0x81, note, 0] });
+  });
+  track.padChords?.forEach((chord, step) => {
+    const tick = step * ticksPerBeat * 4;
+    for (const note of chord) {
+      events.push({ tick, priority: 3, data: [0x92, note, 30] });
+      events.push({ tick: tick + ticksPerBeat * 4 - 32, priority: 2, data: [0x82, note, 0] });
+    }
+  });
+  track.accents?.forEach(({ beat, note }) => {
+    const tick = beat * ticksPerBeat;
+    events.push({ tick, priority: 3, data: [0x93, note, 38] });
+    events.push({ tick: Math.min(endTick, tick + ticksPerBeat * 2), priority: 2, data: [0x83, note, 0] });
   });
   events.sort((a, b) => a.tick - b.tick || a.priority - b.priority);
   let previousTick = 0;
@@ -68,7 +112,7 @@ function buildMidi(track) {
     parts.push(vlq(event.tick - previousTick), Buffer.from(event.data));
     previousTick = event.tick;
   }
-  parts.push(vlq(16 * ticksPerBeat - previousTick), Buffer.from([0xff, 0x2f, 0]));
+  parts.push(vlq(endTick - previousTick), Buffer.from([0xff, 0x2f, 0]));
   const data = Buffer.concat(parts);
   return Buffer.concat([
     Buffer.from("MThd"), u32(6), u16(0), u16(1), u16(ticksPerBeat),
@@ -85,6 +129,8 @@ function oscillator(phase, wave) {
   if (wave === "organ") return Math.sin(phase) * 0.72 + Math.sin(phase * 2) * 0.2 + Math.sin(phase * 3) * 0.08;
   if (wave === "bright") return Math.sin(phase) * 0.68 + Math.sin(phase * 2) * 0.24 + Math.sin(phase * 3) * 0.08;
   if (wave === "bell") return Math.sin(phase) * 0.7 + Math.sin(phase * 2.01) * 0.18 + Math.sin(phase * 3.98) * 0.12;
+  if (wave === "warm-pad") return Math.sin(phase) * 0.64 + Math.sin(phase * 0.501) * 0.2 + Math.sin(phase * 1.997) * 0.16;
+  if (wave === "crystal") return Math.sin(phase) * 0.62 + Math.sin(phase * 2.005) * 0.2 + Math.sin(phase * 4.01) * 0.18;
   return Math.sin(phase) * 0.82 + Math.sin(phase * 0.5) * 0.18;
 }
 
@@ -105,16 +151,40 @@ function buildWav(track) {
     const time = frame / sampleRate;
     const beatPosition = time / secondsPerBeat;
     const beat = Math.floor(beatPosition);
-    const local = (beatPosition - beat) * secondsPerBeat;
-    const melody = track.melody[beat] ?? -1;
+    let melodyBeat = beat;
+    if ((track.melodyLength ?? 0.8) > 1) {
+      const earliestBeat = Math.max(0, Math.ceil(beatPosition - track.melodyLength));
+      while (melodyBeat >= earliestBeat && (track.melody[melodyBeat] ?? -1) < 0) melodyBeat -= 1;
+    }
+    const local = (beatPosition - melodyBeat) * secondsPerBeat;
+    const melody = track.melody[melodyBeat] ?? -1;
     const bass = track.bass[Math.floor(beat / 2)] ?? -1;
     let sample = 0;
-    if (melody >= 0 && local < secondsPerBeat * 0.8) {
-      sample += oscillator(2 * Math.PI * frequency(melody) * local, track.wave) * noteEnvelope(local, secondsPerBeat * 0.8, track.wave === "bell") * 0.42;
+    const melodyDuration = secondsPerBeat * (track.melodyLength ?? 0.8);
+    if (melody >= 0 && local < melodyDuration) {
+      sample += oscillator(2 * Math.PI * frequency(melody) * local, track.wave) *
+        noteEnvelope(local, melodyDuration, track.wave === "bell") * (track.melodyGain ?? 0.42);
     }
     const bassLocal = (beatPosition % 2) * secondsPerBeat;
     if (bass >= 0 && bassLocal < secondsPerBeat * 1.6) {
       sample += Math.sin(2 * Math.PI * frequency(bass) * bassLocal) * noteEnvelope(bassLocal, secondsPerBeat * 1.6, false) * 0.22;
+    }
+    if (track.padChords) {
+      const chord = track.padChords[Math.floor(beatPosition / 4) % track.padChords.length];
+      const chordLocal = (beatPosition % 4) * secondsPerBeat;
+      const chordLength = secondsPerBeat * 4;
+      for (const note of chord) {
+        sample += oscillator(2 * Math.PI * frequency(note) * chordLocal, track.padWave) *
+          noteEnvelope(chordLocal, chordLength, false) * 0.055;
+      }
+    }
+    for (const accent of track.accents ?? []) {
+      const accentLocal = time - accent.beat * secondsPerBeat;
+      const accentLength = secondsPerBeat * 2;
+      if (accentLocal >= 0 && accentLocal < accentLength) {
+        sample += oscillator(2 * Math.PI * frequency(accent.note) * accentLocal, track.accentWave) *
+          noteEnvelope(accentLocal, accentLength, true) * 0.075;
+      }
     }
     pcm.writeInt16LE(Math.round(Math.max(-1, Math.min(1, sample)) * 26_000), frame * 2);
   }

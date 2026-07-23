@@ -6,10 +6,10 @@ const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.me
 const startupJingleUrl = new URL("../assets/audio/orbitos-startup.wav", import.meta.url).href;
 const startupJingle = new Audio(startupJingleUrl);
 startupJingle.preload = "auto";
-startupJingle.volume = 0.58;
+startupJingle.volume = 0.7;
 
 const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; midiUrl: string; url: string }> = {
-  directory: { label: "Orbit Avenue", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
+  directory: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
   rainbow: { label: "Garden Sprites", file: "garden-sprites.mid", midiUrl: new URL("../assets/audio/pages/garden-sprites.mid", import.meta.url).href, url: new URL("../assets/audio/pages/garden-sprites.wav", import.meta.url).href },
   signal: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
   raven: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
@@ -28,7 +28,7 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
 const pageMusic = new Audio();
 pageMusic.loop = true;
 pageMusic.preload = "auto";
-pageMusic.volume = 0.28;
+pageMusic.volume = 0.18;
 
 type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
 
@@ -110,13 +110,14 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
 };
 
 const GAME_TIME_SCALE = 2;
-const AMBIENT_POST_CHANCE_PER_HOUR = 0.01;
-const AMBIENT_POST_MAX_CHANCE = 0.10;
+const AMBIENT_POST_CHANCE_PER_HOUR = 0.02;
+const AMBIENT_POST_MAX_CHANCE = 0.20;
 const AMBIENT_POST_MAX_ATTEMPTS = 3;
 
 interface WindowModel {
   open: boolean;
   minimized: boolean;
+  maximized: boolean;
   z: number;
   x: number;
   y: number;
@@ -125,12 +126,12 @@ interface WindowModel {
 }
 
 const windows: Record<AppId, WindowModel> = {
-  browser: { open: true, minimized: false, z: 3, x: 116, y: 44, width: 820, height: 600 },
-  mail: { open: false, minimized: false, z: 2, x: 205, y: 94, width: 660, height: 470 },
-  files: { open: false, minimized: false, z: 1, x: 255, y: 126, width: 590, height: 410 },
-  chat: { open: false, minimized: false, z: 4, x: 190, y: 72, width: 620, height: 520 },
-  settings: { open: false, minimized: false, z: 1, x: 260, y: 70, width: 590, height: 540 },
-  helper: { open: false, minimized: false, z: 5, x: 635, y: 250, width: 410, height: 390 }
+  browser: { open: true, minimized: false, maximized: false, z: 3, x: 116, y: 44, width: 820, height: 600 },
+  mail: { open: false, minimized: false, maximized: false, z: 2, x: 205, y: 94, width: 660, height: 470 },
+  files: { open: false, minimized: false, maximized: false, z: 1, x: 255, y: 126, width: 590, height: 410 },
+  chat: { open: false, minimized: false, maximized: false, z: 4, x: 190, y: 72, width: 620, height: 520 },
+  settings: { open: false, minimized: false, maximized: false, z: 1, x: 260, y: 70, width: 590, height: 540 },
+  helper: { open: false, minimized: false, maximized: false, z: 5, x: 635, y: 250, width: 410, height: 390 }
 };
 
 const APP_META: Record<AppId, { icon: string; title: string }> = {
@@ -240,6 +241,11 @@ function ambientCommentHomepages() {
   return Object.values(pages).filter((page) => page.commentsEnabled && page.url.endsWith("/home"));
 }
 
+function ambientPostingPersonaIds() {
+  return [...new Set(Object.values(pages).map((page) => page.ownerId))]
+    .filter((personaId) => Boolean(PAGE_OWNERS[personaId]));
+}
+
 function extractAmbientPageContext(page: PageDefinition) {
   const container = document.createElement("div");
   container.innerHTML = page.render(state);
@@ -252,7 +258,7 @@ function queueAmbientPostRolls(hoursElapsed: number, createdAt: string) {
   if (!homepages.length) return;
   const chance = Math.min(hoursElapsed * AMBIENT_POST_CHANCE_PER_HOUR, AMBIENT_POST_MAX_CHANCE);
   const jobs: AmbientPostJob[] = [];
-  for (const personaId of Object.keys(PAGE_OWNERS)) {
+  for (const personaId of ambientPostingPersonaIds()) {
     if (Math.random() >= chance) continue;
     const page = homepages[Math.floor(Math.random() * homepages.length)] ?? homepages[0];
     jobs.push({
@@ -481,8 +487,11 @@ function focusApp(app: AppId) {
 function windowShell(app: AppId, title: string, icon: string, content: string) {
   const win = windows[app];
   if (!win.open || win.minimized) return "";
-  return `<section class="app-window ${app}-window" data-window="${app}" style="left:${win.x}px;top:${win.y}px;width:${win.width}px;height:${win.height}px;z-index:${win.z}">
-    <header class="titlebar" data-drag-handle="${app}"><span><b class="mini-icon">${icon}</b>${title}</span><div class="window-buttons"><button data-minimize="${app}" aria-label="Minimize">_</button><button data-close="${app}" aria-label="Close">×</button></div></header>
+  const maximizeButton = app === "browser"
+    ? `<button data-maximize="${app}" aria-label="${win.maximized ? "Restore" : "Maximize"}">${win.maximized ? "❐" : "□"}</button>`
+    : "";
+  return `<section class="app-window ${app}-window ${win.maximized ? "maximized" : ""}" data-window="${app}" style="left:${win.x}px;top:${win.y}px;width:${win.width}px;height:${win.height}px;z-index:${win.z}">
+    <header class="titlebar" data-drag-handle="${app}"><span><b class="mini-icon">${icon}</b>${title}</span><div class="window-buttons"><button data-minimize="${app}" aria-label="Minimize">_</button>${maximizeButton}<button data-close="${app}" aria-label="Close">×</button></div></header>
     ${content}
   </section>`;
 }
@@ -526,10 +535,14 @@ function pageCommentSection(page: PageDefinition) {
 
 function pageMusicPlayer(page: PageDefinition) {
   const track = PAGE_MUSIC[page.site];
-  return `<aside class="page-midi-player" data-midi-source="${track.midiUrl}">
-    <span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>
-    <div><small>PAGE MIDI</small><b>${escapeHtml(track.label)}</b><code>${escapeHtml(track.file)}</code></div>
-    <button data-page-music aria-label="${pageMusicPlaying ? "Stop" : "Play"} page music">${pageMusicPlaying ? "■ Stop" : "▶ Play"}</button>
+  const bars = Array.from({ length: 10 }, (_, index) => `<i style="--midi-bar:${index}"></i>`).join("");
+  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""}" data-midi-source="${track.midiUrl}">
+    <div class="midi-player-ridge"><strong>ORBITAMP</strong><em>WEB</em><span><span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>MIDI LOOP</span></div>
+    <div class="midi-display">
+      <div class="midi-visualizer" aria-hidden="true">${bars}</div>
+      <div class="midi-track"><small>NOW PLAYING</small><b>${escapeHtml(track.label)}</b><code>${escapeHtml(track.file)}</code></div>
+    </div>
+    <div class="midi-controls"><button data-page-music aria-label="${pageMusicPlaying ? "Stop" : "Play"} page music">${pageMusicPlaying ? "■ Stop" : "▶ Play"}</button><span>LOOP ∞</span></div>
   </aside>`;
 }
 
@@ -892,7 +905,7 @@ function beginAiPreload() {
 }
 
 function prepareFreshDesktopSession() {
-  const defaults: Record<AppId, Omit<WindowModel, "open" | "minimized">> = {
+  const defaults: Record<AppId, Omit<WindowModel, "open" | "minimized" | "maximized">> = {
     browser: { z: 3, x: 116, y: 44, width: 820, height: 600 },
     mail: { z: 2, x: 205, y: 94, width: 660, height: 470 },
     files: { z: 1, x: 255, y: 126, width: 590, height: 410 },
@@ -901,7 +914,7 @@ function prepareFreshDesktopSession() {
     helper: { z: 5, x: 635, y: 250, width: 410, height: 390 }
   };
   for (const app of Object.keys(windows) as AppId[]) {
-    Object.assign(windows[app], defaults[app], { open: false, minimized: false });
+    Object.assign(windows[app], defaults[app], { open: false, minimized: false, maximized: false });
   }
   topZ = 3;
   startOpen = false;
@@ -928,7 +941,7 @@ function playBootHardwareSounds() {
   void context.resume();
   const start = context.currentTime + 0.01;
   const master = context.createGain();
-  master.gain.setValueAtTime(0.82, start);
+  master.gain.setValueAtTime(1, start);
   master.connect(context.destination);
 
   const noiseBuffer = context.createBuffer(1, Math.ceil(context.sampleRate * 0.12), context.sampleRate);
@@ -1117,6 +1130,8 @@ function render() {
   updateClock();
   renderedBrowserUrl = state.currentUrl;
   const savedScrollTop = browserScrollPositions.get(state.currentUrl) ?? 0;
+  const restoredViewport = document.querySelector<HTMLElement>(".browser-viewport");
+  if (restoredViewport) restoredViewport.scrollTop = savedScrollTop;
   requestAnimationFrame(() => {
     const viewport = document.querySelector<HTMLElement>(".browser-viewport");
     if (viewport) viewport.scrollTop = savedScrollTop;
@@ -1207,29 +1222,32 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
   const recentMessages = state.directMessages
     .filter((entry) => entry.ownerId === ownerId && entry.channel === channel)
     .map((entry) => ({ role: entry.role, author: entry.author, text: entry.text }));
-  const playerEntry: DirectMessage = {
-    id: crypto.randomUUID(),
-    ownerId,
-    channel,
-    role: "player",
-    author: "David",
-    text: message,
-    subject,
-    createdAt: state.gameTime
-  };
-  adjustRelationship(ownerId, message, channel);
-  state.directMessages.push(playerEntry);
   pendingDirectReplies.add(key);
   chatError = "";
-  await saveState();
   render();
-  if (channel === "aim" || channel === "helper") scrollChatToBottom();
 
   try {
+    const safeMessage = (await window.aiAPI.safeguard(message)).text;
+    const playerEntry: DirectMessage = {
+      id: crypto.randomUUID(),
+      ownerId,
+      channel,
+      role: "player",
+      author: "David",
+      text: safeMessage,
+      subject,
+      createdAt: state.gameTime
+    };
+    adjustRelationship(ownerId, safeMessage, channel);
+    state.directMessages.push(playerEntry);
+    await saveState();
+    render();
+    if (channel === "aim" || channel === "helper") scrollChatToBottom();
+
     const result = await window.aiAPI.directReply({
       ownerId,
       channel,
-      playerMessage: message,
+      playerMessage: safeMessage,
       subject,
       relationshipScore: state.relationships[ownerId] ?? 0,
       recentMessages
@@ -1285,21 +1303,8 @@ function adjustRelationship(ownerId: string, message: string, channel: "public" 
 async function submitPageComment(pageUrl: string, message: string) {
   const page = pages[pageUrl] ?? notFoundPage(pageUrl);
   const owner = PAGE_OWNERS[page.ownerId] ?? PAGE_OWNERS.orbit_guide;
-  const playerComment: PageComment = {
-    id: crypto.randomUUID(),
-    pageUrl,
-    ownerId: page.ownerId,
-    role: "player",
-    author: "David",
-    text: message,
-    createdAt: state.gameTime,
-    revealAfterVisit: state.pageVisitCounts[pageUrl] ?? 1
-  };
-  adjustRelationship(page.ownerId, message, "public");
-  state.pageComments.push(playerComment);
   pendingPageComments.add(pageUrl);
   pageCommentErrors.delete(pageUrl);
-  await saveState();
   render();
 
   if (!window.aiAPI) {
@@ -1309,6 +1314,21 @@ async function submitPageComment(pageUrl: string, message: string) {
     return;
   }
   try {
+    const safeMessage = (await window.aiAPI.safeguard(message)).text;
+    const playerComment: PageComment = {
+      id: crypto.randomUUID(),
+      pageUrl,
+      ownerId: page.ownerId,
+      role: "player",
+      author: "David",
+      text: safeMessage,
+      createdAt: state.gameTime,
+      revealAfterVisit: state.pageVisitCounts[pageUrl] ?? 1
+    };
+    adjustRelationship(page.ownerId, safeMessage, "public");
+    state.pageComments.push(playerComment);
+    await saveState();
+    render();
     const recentComments = [...(page.seedComments ?? []), ...state.pageComments]
       .filter((comment) => comment.pageUrl === pageUrl && comment.id !== playerComment.id)
       .map((comment) => ({ role: comment.role, author: comment.author, text: comment.text }));
@@ -1317,7 +1337,7 @@ async function submitPageComment(pageUrl: string, message: string) {
       pageUrl,
       pageTitle: page.title,
       pageSummary: page.summary,
-      playerComment: message,
+      playerComment: safeMessage,
       recentComments,
       relationshipScore: state.relationships[page.ownerId] ?? 0
     });
@@ -1395,6 +1415,12 @@ function bindEvents() {
     render();
   }));
   document.querySelectorAll<HTMLElement>("[data-minimize]").forEach((el) => el.addEventListener("click", () => { windows[el.dataset.minimize as AppId].minimized = true; render(); }));
+  document.querySelectorAll<HTMLElement>("[data-maximize]").forEach((el) => el.addEventListener("click", () => {
+    const app = el.dataset.maximize as AppId;
+    windows[app].maximized = !windows[app].maximized;
+    focusApp(app);
+    render();
+  }));
   document.querySelectorAll<HTMLElement>("[data-task]").forEach((el) => el.addEventListener("click", () => {
     const app = el.dataset.task as AppId;
     if (app === "helper" && !helperPanelOpen) {
@@ -1422,20 +1448,33 @@ function bindEvents() {
     const pageUrl = form.dataset.commentPage ?? state.currentUrl;
     if (message) void submitPageComment(pageUrl, message);
   });
-  document.querySelector<HTMLFormElement>(".guestbook-form")?.addEventListener("submit", (event) => {
+  document.querySelector<HTMLFormElement>(".guestbook-form")?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     const guestbookId = form.dataset.guestbook ?? "";
     const message = new FormData(form).get("signature")?.toString().trim() ?? "";
-    if (!guestbookId || !message || state.flags[`${guestbookId}_guestbook_signed`]) return;
-    state.guestbookEntries[guestbookId] = [
-      ...(state.guestbookEntries[guestbookId] ?? []),
-      { id: crypto.randomUUID(), author: "David", text: message, createdAt: state.gameTime }
-    ];
-    if (guestbookId === "rainbow") adjustRelationship("juniper_gdn", message, "public");
-    state.flags[`${guestbookId}_guestbook_signed`] = true;
-    void saveState();
-    render();
+    if (!guestbookId || !message || state.flags[`${guestbookId}_guestbook_signed`] || !window.aiAPI) return;
+    const button = form.querySelector<HTMLButtonElement>("button");
+    if (button) {
+      button.disabled = true;
+      button.textContent = "Posting...";
+    }
+    try {
+      const safeMessage = (await window.aiAPI.safeguard(message)).text;
+      state.guestbookEntries[guestbookId] = [
+        ...(state.guestbookEntries[guestbookId] ?? []),
+        { id: crypto.randomUUID(), author: "David", text: safeMessage, createdAt: state.gameTime }
+      ];
+      if (guestbookId === "rainbow") adjustRelationship("juniper_gdn", safeMessage, "public");
+      state.flags[`${guestbookId}_guestbook_signed`] = true;
+      void saveState();
+      render();
+    } catch {
+      if (button) {
+        button.disabled = false;
+        button.textContent = "Sign Guestbook";
+      }
+    }
   });
   document.querySelectorAll<HTMLElement>("[data-session]").forEach((button) => button.addEventListener("click", () => {
     const action = button.dataset.session;
@@ -1585,6 +1624,7 @@ function bindDragging() {
     handle.addEventListener("pointerdown", (event) => {
       if ((event.target as HTMLElement).closest("button")) return;
       const app = handle.dataset.dragHandle as AppId;
+      if (windows[app].maximized) return;
       const winEl = handle.closest<HTMLElement>(".app-window")!;
       focusApp(app); winEl.style.zIndex = String(topZ);
       const startX = event.clientX; const startY = event.clientY;
