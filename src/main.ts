@@ -2,6 +2,14 @@ import "./styles.css";
 import { notFoundPage, pages } from "./pages";
 import type { AiConversation, AiStatus, AppId, GameState } from "./types";
 
+const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
+const startupJingleUrl = new URL("../assets/audio/orbitos-startup.wav", import.meta.url).href;
+const startupJingle = new Audio(startupJingleUrl);
+startupJingle.preload = "auto";
+startupJingle.volume = 0.58;
+
+type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
+
 const DEFAULT_STATE: GameState = {
   version: 1,
   visited: ["web://home"],
@@ -48,6 +56,8 @@ const EMPTY_AI_STATUS: AiStatus = {
   persona: EMPTY_AI_CONVERSATION.persona,
   backend: null,
   loadMs: null,
+  warmupMs: null,
+  warmed: false,
   error: null
 };
 
@@ -63,6 +73,9 @@ let chatBusy = false;
 let chatPendingMessage = "";
 let chatError = "";
 let chatStartedAt = 0;
+let startupStage: StartupStage = new URLSearchParams(window.location.search).has("skipBoot") ? "desktop" : "title";
+let startupTimer: number | null = null;
+let startupStatusTimer: number | null = null;
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
 
@@ -166,10 +179,13 @@ function filesWindow() {
 
 function chatWindow() {
   const persona = aiConversation.persona;
+  const modelStarting = aiStatus.phase === "loading" || aiStatus.phase === "warming";
   const statusLabel = aiStatus.phase === "ready"
     ? "model on disk · loads with first message"
     : aiStatus.phase === "loading"
       ? "loading 2.5 GB model into memory…"
+      : aiStatus.phase === "warming"
+        ? "warming up local model…"
       : aiStatus.phase === "generating"
         ? "Mira is typing…"
         : aiStatus.phase === "idle"
@@ -192,7 +208,7 @@ function chatWindow() {
     ? `<article class="chat-message player pending"><header><b>You</b><time>now</time></header><p>${escapeHtml(chatPendingMessage)}</p></article><div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : `${escapeHtml(persona.screenName)} is typing`}</span></div>`
     : "";
   const empty = !messageHtml && !pending
-    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>Send something to load Qwen3-4B and begin the local conversation test.</span><span>The first response includes model-loading time; later replies should be faster.</span></div>`
+    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>Send something to begin the local conversation test.</span><span>${aiStatus.warmed ? "Qwen3-4B was preloaded during startup." : "Qwen3-4B is still getting ready in the background."}</span></div>`
     : "";
 
   return windowShell("chat", `${persona.screenName} - Orbit Messenger`, "◎", `
@@ -204,13 +220,230 @@ function chatWindow() {
     <div class="chat-transcript" id="chat-transcript">${empty}${messageHtml}${pending}</div>
     ${chatError ? `<div class="chat-error">${escapeHtml(chatError)}</div>` : ""}
     <form class="chat-form">
-      <textarea name="message" maxlength="500" rows="2" placeholder="Type an instant message…" ${chatBusy || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
-      <button ${chatBusy || !aiStatus.modelAvailable ? "disabled" : ""}>${chatBusy ? "Waiting…" : "Send"}</button>
+      <textarea name="message" maxlength="500" rows="2" placeholder="${modelStarting ? "Local model is starting up…" : "Type an instant message…"}" ${chatBusy || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
+      <button ${chatBusy || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}>${chatBusy || modelStarting ? "Waiting…" : "Send"}</button>
     </form>
     <footer class="ai-statusbar"><span data-ai-phase>${escapeHtml(statusLabel)}</span><span data-ai-elapsed>${chatBusy ? "0.0s elapsed" : aiStatus.loadMs ? `load ${formatDuration(aiStatus.loadMs)}` : "not loaded"}</span></footer>`);
 }
 
+function bootAiStatus() {
+  if (!aiStatus.modelAvailable) return aiStatus.error ? "Communications module unavailable" : "Checking communications hardware...";
+  if (aiStatus.phase === "loading") return "Loading local communications module...";
+  if (aiStatus.phase === "warming") return "Tuning local communications module...";
+  if (aiStatus.phase === "idle" && aiStatus.warmed) return "Communications module ready";
+  if (aiStatus.phase === "error") return "Communications module offline";
+  return "Communications module queued";
+}
+
+function startupScreen() {
+  const scanlines = `<div class="crt-scanlines" aria-hidden="true"></div>`;
+
+  if (startupStage === "title" || startupStage === "powering") {
+    return `<main class="startup-screen desk-stage ${startupStage}">
+      <img class="startup-desk-art" src="${titleArtworkUrl}" alt="A powered-off beige computer on a desk at night">
+      <div class="desk-vignette"></div>
+      <div class="game-title"><small>AN ORBIT NETWORK EXPERIENCE</small><h1>SURFIN' THE NET</h1><p>Some pages were never meant to be found.</p></div>
+      <button class="computer-power" data-power aria-label="Turn on the computer"><i></i><span>POWER ON</span></button>
+      <div class="screen-flicker" aria-hidden="true"></div>
+      ${scanlines}
+    </main>`;
+  }
+
+  if (startupStage === "bios") {
+    return `<main class="startup-screen bios-stage">
+      <section class="bios-copy">
+        <header>ORBIT SYSTEMS POST BIOS v2.04 &nbsp; Copyright (C) 1999</header>
+        <p style="--line:0">Orbit Pentium II Compatible CPU at 350 MHz</p>
+        <p style="--line:1">Memory Test: 65536K OK</p>
+        <p style="--line:2">Primary Master: QUANTUM FIREBALL 4.3GB</p>
+        <p style="--line:3">Primary Slave: ORBIT CD-ROM 24X</p>
+        <p style="--line:4">Keyboard... Detected &nbsp;&nbsp; Mouse... Detected</p>
+        <p style="--line:5">Initializing Plug and Play Cards...</p>
+        <p style="--line:6">OrbitLink 56K Voice/Data/Fax Modem........ OK</p>
+        <p style="--line:7">Booting from C:\\</p>
+        <footer>Press DEL to enter SETUP</footer>
+      </section>
+      ${scanlines}
+    </main>`;
+  }
+
+  if (startupStage === "splash") {
+    return `<main class="startup-screen splash-stage">
+      <section class="orbitos-splash">
+        <div class="orbit-mark"><span>O</span></div>
+        <div><small>Orbit Systems presents</small><h1><b>ORBIT</b>OS <em>98</em></h1><p>Where do you want to go tonight?</p></div>
+      </section>
+      <div class="os-load-track"><i></i><i></i><i></i><i></i><i></i></div>
+      ${scanlines}
+    </main>`;
+  }
+
+  if (startupStage === "login") {
+    return `<main class="startup-screen login-stage">
+      <div class="login-clouds"></div>
+      <header class="login-logo"><b>ORBIT</b><span>OS</span><em>98</em></header>
+      <section class="login-panel">
+        <h1>Welcome to OrbitOS</h1>
+        <p>Select a user to begin.</p>
+        <button class="user-profile" data-login-user>
+          <span class="user-avatar">D</span>
+          <span><b>David</b><small>Local User &middot; November 3, 1999</small></span>
+          <i>&rsaquo;</i>
+        </button>
+        <button class="user-profile empty-profile" disabled>
+          <span class="user-avatar">+</span>
+          <span><b>New User</b><small>Create another profile</small></span>
+        </button>
+        <footer><i class="activity-light"></i><span data-boot-ai>${escapeHtml(bootAiStatus())}</span></footer>
+      </section>
+      ${scanlines}
+    </main>`;
+  }
+
+  return `<main class="startup-screen dialup-stage">
+    <div class="dialup-wallpaper">
+      <div class="wallpaper-logo"><span>ORBIT</span><b>OS</b><small>98</small></div>
+    </div>
+    <section class="dialup-dialog">
+      <header>Connect to OrbitNet <button disabled>&times;</button></header>
+      <div class="dialup-body">
+        <div class="modem-art"><span>PC</span><i></i><b>O</b></div>
+        <div><h2>Connecting to OrbitNet...</h2><p>Dialing 555-0179</p><div class="dialup-progress"><i></i></div></div>
+      </div>
+      <div class="dialup-log"><span>Dialing...</span><span>Negotiating connection...</span><span>Verifying user name and password...</span></div>
+      <footer><span data-boot-ai>${escapeHtml(bootAiStatus())}</span><button disabled>Cancel</button></footer>
+    </section>
+    ${scanlines}
+  </main>`;
+}
+
+function clearStartupTimer() {
+  if (startupTimer !== null) {
+    window.clearTimeout(startupTimer);
+    startupTimer = null;
+  }
+}
+
+function waitForStartup(milliseconds: number) {
+  return new Promise<void>((resolve) => {
+    clearStartupTimer();
+    startupTimer = window.setTimeout(() => {
+      startupTimer = null;
+      resolve();
+    }, milliseconds);
+  });
+}
+
+function updateBootAiLabel() {
+  const label = document.querySelector<HTMLElement>("[data-boot-ai]");
+  if (label) label.textContent = bootAiStatus();
+}
+
+async function pollBootAiStatus() {
+  if (!window.aiAPI) return;
+  try {
+    aiStatus = await window.aiAPI.status();
+    updateBootAiLabel();
+  } catch {
+    // The desktop remains usable without the optional local model.
+  }
+}
+
+function beginAiPreload() {
+  if (!window.aiAPI) return;
+  void window.aiAPI.preload().then((status) => {
+    aiStatus = status;
+    updateBootAiLabel();
+    if (startupStage === "desktop") render();
+  }).catch((error) => {
+    aiStatus = {
+      ...aiStatus,
+      phase: "error",
+      error: error instanceof Error ? error.message : String(error)
+    };
+    updateBootAiLabel();
+    if (startupStage === "desktop") render();
+  });
+  if (startupStatusTimer === null) {
+    startupStatusTimer = window.setInterval(() => void pollBootAiStatus(), 500);
+  }
+}
+
+async function startComputer() {
+  if (startupStage !== "title") return;
+  startupStage = "powering";
+  beginAiPreload();
+  render();
+
+  await waitForStartup(2300);
+  startupStage = "bios";
+  render();
+
+  await waitForStartup(3600);
+  startupStage = "splash";
+  render();
+  startupJingle.currentTime = 0;
+  void startupJingle.play().catch(() => undefined);
+
+  await waitForStartup(3900);
+  startupStage = "login";
+  render();
+}
+
+async function loginUser() {
+  if (startupStage !== "login") return;
+  startupStage = "dialup";
+  render();
+  playDialupSounds();
+  await waitForStartup(7800);
+  startupStage = "desktop";
+  if (startupStatusTimer !== null) {
+    window.clearInterval(startupStatusTimer);
+    startupStatusTimer = null;
+  }
+  await pollBootAiStatus();
+  render();
+}
+
+function playDialupSounds() {
+  const AudioContextClass = window.AudioContext ?? (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!AudioContextClass) return;
+  const context = new AudioContextClass();
+  const master = context.createGain();
+  master.gain.setValueAtTime(0.025, context.currentTime);
+  master.connect(context.destination);
+  const tones = [
+    [0.00, 440, 0.32], [0.34, 620, 0.28], [0.70, 520, 0.20],
+    [1.05, 1200, 0.12], [1.22, 980, 0.14], [1.45, 1500, 0.10],
+    [2.10, 700, 0.18], [2.34, 1050, 0.16], [2.58, 1350, 0.12]
+  ];
+  for (const [offset, frequency, duration] of tones) {
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+    oscillator.type = offset < 1 ? "sine" : "square";
+    oscillator.frequency.setValueAtTime(frequency, context.currentTime + offset);
+    gain.gain.setValueAtTime(0.0001, context.currentTime + offset);
+    gain.gain.exponentialRampToValueAtTime(0.35, context.currentTime + offset + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + offset + duration);
+    oscillator.connect(gain).connect(master);
+    oscillator.start(context.currentTime + offset);
+    oscillator.stop(context.currentTime + offset + duration + 0.02);
+  }
+  window.setTimeout(() => void context.close(), 3400);
+}
+
+function bindStartupEvents() {
+  document.querySelector<HTMLElement>("[data-power]")?.addEventListener("click", () => void startComputer());
+  document.querySelector<HTMLElement>("[data-login-user]")?.addEventListener("click", () => void loginUser());
+}
+
 function render() {
+  if (startupStage !== "desktop") {
+    root.innerHTML = startupScreen();
+    bindStartupEvents();
+    return;
+  }
+
   root.innerHTML = `<main class="desktop">
     <div class="wallpaper-logo"><span>ORBIT</span><b>OS</b><small>98</small></div>
     <div class="desktop-icons">
@@ -267,6 +500,8 @@ async function refreshAiProgress() {
     if (phase) {
       phase.textContent = aiStatus.phase === "loading"
         ? "loading 2.5 GB model into memory…"
+        : aiStatus.phase === "warming"
+          ? "warming up local model…"
         : aiStatus.phase === "generating"
           ? "Mira_917 is typing…"
           : aiStatus.phase === "error"

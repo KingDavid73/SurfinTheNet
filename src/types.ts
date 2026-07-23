@@ -1,6 +1,6 @@
 export type AppId = "browser" | "mail" | "files" | "chat";
 
-export type AiPhase = "offline" | "ready" | "loading" | "idle" | "generating" | "error";
+export type AiPhase = "offline" | "ready" | "loading" | "warming" | "idle" | "generating" | "error";
 
 export interface AiPersonaSummary {
   id: string;
@@ -40,6 +40,8 @@ export interface AiStatus {
   persona: AiPersonaSummary;
   backend: string | null;
   loadMs: number | null;
+  warmupMs: number | null;
+  warmed: boolean;
   error: string | null;
 }
 
@@ -81,6 +83,7 @@ declare global {
     };
     aiAPI?: {
       status: () => Promise<AiStatus>;
+      preload: () => Promise<AiStatus>;
       conversation: () => Promise<AiConversation>;
       send: (message: string) => Promise<AiSendResult>;
       reset: () => Promise<AiConversation>;

@@ -25,6 +25,8 @@ npm.cmd run make
 
 ## What is in the slice
 
+- A cinematic power-on sequence: desk/title art, CRT transition, BIOS, OrbitOS splash, login, and dial-up
+- An original OrbitOS startup jingle, stored as editable MIDI and a deterministic in-game WAV
 - A draggable fake desktop with a Start menu and taskbar
 - Orbit Explorer with history, bookmarks, an address bar, and six local pages
 - Two visually distinct fake sites with five content pages between them
@@ -34,6 +36,7 @@ npm.cmd run make
 - An end-to-end smoke test (`npm.cmd run test:smoke`)
 - Orbit Messenger backed by a local Qwen3-4B Q4_K_M model
 - A JSON-defined test persona, persistent conversation, and per-reply latency/token diagnostics
+- Background Qwen preloading and warm-up beginning the instant the computer's power button is pressed
 
 ## Local AI conversation test
 
@@ -44,15 +47,18 @@ npm.cmd run models:pull
 npm.cmd run dev
 ```
 
-Open **Orbit Messenger** and chat with `Mira_917`. The first message loads the model into memory; subsequent messages reuse it. Each reply reports generation time, output tokens, tokens per second, backend, and initial load time.
+Press the computer's power button to start Qwen loading while the game runs through its normal startup sequence. The BIOS, OrbitOS splash, profile login, and dial-up screens never wait for the model; if it is still loading, it finishes in the background. Open **Orbit Messenger** and chat with `Mira_917`. Each reply reports generation time, output tokens, tokens per second, backend, and initial load time.
 
-Run the automated cold/warm inference check with:
+Run the automated boot/preload and cold/warm inference checks with:
 
 ```powershell
+npm.cmd run test:boot
 npm.cmd run test:ai
 ```
 
 The current persona is in `personas/mira_917.json`. The Electron main-process service is in `ai-service.cjs`. Conversation data is stored separately in Electron's user-data directory.
+
+The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium plays the matching `assets/audio/orbitos-startup.wav` for predictable sound on every machine. Regenerate both from source with `node scripts/generate-startup-jingle.mjs`.
 
 Packaging is still deferred. `node-llama-cpp` native binaries require special unpacking rules when milestone builds resume.
 

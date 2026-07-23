@@ -9,6 +9,502 @@ html, body, #app { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 button, input, textarea { font: inherit; }
 button { color: #111; }
 
+.startup-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: white;
+  background: #020304;
+  user-select: none;
+}
+
+.crt-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: .11;
+  background: repeating-linear-gradient(to bottom, transparent 0 2px, rgb(0 0 0 / 45%) 3px 4px);
+  mix-blend-mode: multiply;
+}
+
+.desk-stage {
+  background: #05080c;
+}
+
+.startup-desk-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(.88) brightness(.82);
+  transform: scale(1.002);
+}
+
+.desk-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 47%, transparent 20%, rgb(0 4 10 / 16%) 58%, rgb(0 2 8 / 72%) 108%),
+    linear-gradient(90deg, rgb(2 6 15 / 46%), transparent 38% 74%, rgb(2 4 10 / 22%));
+}
+
+.game-title {
+  position: absolute;
+  z-index: 3;
+  left: clamp(28px, 6vw, 90px);
+  top: clamp(28px, 7vh, 70px);
+  color: #e8f3f1;
+  text-shadow: 0 3px 18px #020811, 0 1px #000;
+}
+
+.game-title small {
+  display: block;
+  margin-left: 5px;
+  color: #a9c8c5;
+  font: 700 clamp(9px, 1vw, 13px)/1.4 "Courier New", monospace;
+  letter-spacing: .28em;
+}
+
+.game-title h1 {
+  margin: 3px 0 0;
+  font: italic 900 clamp(40px, 6vw, 82px)/.95 Arial, sans-serif;
+  letter-spacing: -.075em;
+  transform: skew(-5deg);
+}
+
+.game-title p {
+  margin: 10px 4px;
+  color: #d8ddd8;
+  font: italic clamp(12px, 1.4vw, 17px)/1.3 Georgia, serif;
+  letter-spacing: .05em;
+}
+
+.computer-power {
+  position: absolute;
+  z-index: 60;
+  left: 61.5%;
+  top: 65%;
+  width: 72px;
+  height: 72px;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  color: #eafcff;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 1px 2px #000);
+}
+
+.computer-power i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 23px;
+  height: 23px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgb(194 247 244 / 45%);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgb(112 231 224 / 35%);
+  animation: power-beacon 1.8s ease-out infinite;
+}
+
+.computer-power span {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 1px);
+  transform: translateX(-50%);
+  padding: 4px 7px;
+  color: #dffaf7;
+  background: rgb(2 10 15 / 72%);
+  border: 1px solid rgb(170 222 217 / 35%);
+  border-radius: 2px;
+  font: 700 9px/1 "Courier New", monospace;
+  letter-spacing: .13em;
+  white-space: nowrap;
+  opacity: .84;
+  transition: opacity .15s, transform .15s;
+}
+
+.computer-power:hover span, .computer-power:focus-visible span {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.computer-power:focus-visible {
+  outline: 1px dashed #c8fffa;
+  outline-offset: 4px;
+}
+
+@keyframes power-beacon {
+  0% { box-shadow: 0 0 0 0 rgb(112 231 224 / 42%); }
+  70%, 100% { box-shadow: 0 0 0 20px rgb(112 231 224 / 0%); }
+}
+
+.desk-stage.powering .computer-power, .desk-stage.powering .game-title {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+
+.desk-stage.powering .startup-desk-art,
+.desk-stage.powering .desk-vignette {
+  transform-origin: 49% 42%;
+  animation: camera-into-monitor 2.3s cubic-bezier(.4, 0, .15, 1) forwards;
+}
+
+.screen-flicker {
+  position: absolute;
+  z-index: 10;
+  left: 29.2%;
+  top: 26%;
+  width: 38.5%;
+  height: 35%;
+  opacity: 0;
+  background: #c8eff0;
+  border-radius: 9% / 12%;
+  filter: blur(4px);
+  pointer-events: none;
+}
+
+.desk-stage.powering .screen-flicker {
+  animation: monitor-flicker 2.3s steps(1, end) forwards;
+}
+
+@keyframes camera-into-monitor {
+  0%, 18% { transform: scale(1.002); filter: saturate(.88) brightness(.82); }
+  25% { filter: saturate(.75) brightness(1.08); }
+  100% { transform: scale(3.4); filter: saturate(.25) brightness(.22); }
+}
+
+@keyframes monitor-flicker {
+  0%, 16% { opacity: 0; background: white; }
+  17% { opacity: .8; }
+  19% { opacity: 0; }
+  24% { opacity: .45; background: #b7e5e4; }
+  29% { opacity: .08; }
+  40% { opacity: .36; }
+  70% { opacity: .14; }
+  100% { opacity: 0; transform: scale(3.4); }
+}
+
+.bios-stage {
+  color: #d8ddd9;
+  background: #030504;
+  font-family: "Courier New", monospace;
+}
+
+.bios-copy {
+  position: absolute;
+  inset: 5.5vh 5vw;
+  font-size: clamp(12px, 1.55vw, 19px);
+  line-height: 1.25;
+  text-shadow: 0 0 6px rgb(225 255 232 / 16%);
+}
+
+.bios-copy header {
+  margin-bottom: 5vh;
+  color: white;
+  font-weight: bold;
+}
+
+.bios-copy p {
+  margin: .55em 0;
+  opacity: 0;
+  animation: bios-line .05s step-end forwards;
+  animation-delay: calc(var(--line) * .36s + .18s);
+}
+
+.bios-copy p:nth-of-type(2),
+.bios-copy p:nth-of-type(5),
+.bios-copy p:nth-of-type(8) { margin-top: 1.5em; }
+
+.bios-copy footer {
+  position: absolute;
+  top: 74vh;
+  opacity: 0;
+  animation: bios-line .05s 3.15s step-end forwards;
+}
+
+@keyframes bios-line { to { opacity: 1; } }
+
+.splash-stage {
+  display: grid;
+  place-items: center;
+  color: #142a61;
+  background:
+    radial-gradient(circle at 70% 25%, rgb(255 255 255 / 70%), transparent 31%),
+    linear-gradient(155deg, #f5f0d8 0 52%, #a6cfd7 52.2% 63%, #7695c7 63.2% 100%);
+}
+
+.orbitos-splash {
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 3vw, 42px);
+  transform: translateY(-5vh);
+  filter: drop-shadow(2px 4px 0 rgb(255 255 255 / 54%));
+}
+
+.orbit-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(100px, 16vw, 190px);
+  aspect-ratio: 1;
+  border: clamp(8px, 1.2vw, 15px) solid #1f4e9e;
+  border-radius: 50%;
+  transform: skew(-10deg);
+}
+
+.orbit-mark::after {
+  content: "";
+  position: absolute;
+  width: clamp(125px, 20vw, 240px);
+  height: 25%;
+  border: 5px solid #ef832b;
+  border-width: 5px 0;
+  border-radius: 50%;
+  transform: rotate(-18deg);
+}
+
+.orbit-mark span {
+  color: #ee7c29;
+  font: italic 900 clamp(58px, 10vw, 125px)/1 Arial, sans-serif;
+}
+
+.orbitos-splash small {
+  color: #53647a;
+  font-size: clamp(9px, 1.1vw, 13px);
+  letter-spacing: .13em;
+}
+
+.orbitos-splash h1 {
+  margin: 0;
+  color: #27447f;
+  font: italic 400 clamp(44px, 7vw, 92px)/1 Arial, sans-serif;
+  letter-spacing: -.09em;
+}
+
+.orbitos-splash h1 b { color: #132a60; }
+.orbitos-splash h1 em { margin-left: 12px; color: #ef7625; font-size: .42em; letter-spacing: -.03em; }
+.orbitos-splash p { margin: 8px 2px; color: #3b536f; font: italic clamp(13px, 1.7vw, 20px) Georgia, serif; }
+
+.os-load-track {
+  position: absolute;
+  left: 50%;
+  bottom: 12vh;
+  display: flex;
+  gap: 5px;
+  width: min(260px, 42vw);
+  height: 18px;
+  padding: 3px;
+  transform: translateX(-50%);
+  border: 2px inset white;
+  background: #c0c0c0;
+  overflow: hidden;
+}
+
+.os-load-track i {
+  flex: 0 0 26px;
+  background: #1f4e9e;
+  animation: os-load 1.25s linear infinite;
+}
+
+@keyframes os-load {
+  from { transform: translateX(-150px); }
+  to { transform: translateX(275px); }
+}
+
+.login-stage {
+  display: grid;
+  place-items: center;
+  color: #151515;
+  background: linear-gradient(145deg, #397b9f, #172d6c);
+}
+
+.login-clouds {
+  position: absolute;
+  inset: 0;
+  opacity: .37;
+  background:
+    radial-gradient(ellipse at 15% 25%, white 0 6%, transparent 6.5%),
+    radial-gradient(ellipse at 27% 23%, white 0 9%, transparent 9.5%),
+    radial-gradient(ellipse at 75% 70%, #bcecf0 0 9%, transparent 9.5%),
+    radial-gradient(ellipse at 88% 68%, #bcecf0 0 7%, transparent 7.5%);
+  filter: blur(5px);
+}
+
+.login-logo {
+  position: absolute;
+  left: 4vw;
+  top: 4vh;
+  color: white;
+  font: italic 42px/1 Arial, sans-serif;
+  letter-spacing: -.08em;
+  text-shadow: 2px 2px #14215d;
+}
+
+.login-logo span { font-weight: 300; }
+.login-logo em { margin-left: 6px; color: #ffd070; font-size: .5em; }
+
+.login-panel {
+  position: relative;
+  z-index: 2;
+  width: min(560px, 78vw);
+  padding: 5px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: white #242424 #242424 white;
+  box-shadow: 8px 12px 28px rgb(0 0 0 / 38%);
+}
+
+.login-panel > h1 {
+  margin: 0;
+  padding: 12px 15px 5px;
+  color: #000080;
+  font-size: clamp(21px, 3vw, 30px);
+}
+
+.login-panel > p { margin: 0; padding: 0 15px 12px; color: #4a4a4a; }
+
+.user-profile {
+  display: grid;
+  grid-template-columns: 58px 1fr 30px;
+  align-items: center;
+  width: calc(100% - 18px);
+  min-height: 76px;
+  margin: 0 9px 8px;
+  padding: 8px;
+  text-align: left;
+  border: 2px solid;
+  border-color: white #444 #444 white;
+  background: #dedede;
+}
+
+.user-profile:not(:disabled):hover, .user-profile:focus-visible {
+  color: white;
+  background: #000080;
+}
+
+.user-profile > span:nth-child(2) { display: grid; gap: 5px; }
+.user-profile b { font-size: 18px; }
+.user-profile small { font-size: 11px; }
+.user-profile > i { font: 34px/1 Georgia, serif; text-align: center; }
+.user-avatar {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  color: #fff;
+  background: linear-gradient(135deg, #ef8d2f, #9c321d);
+  border: 3px ridge white;
+  font: bold 28px Georgia, serif;
+}
+
+.empty-profile { opacity: .52; min-height: 62px; }
+.empty-profile .user-avatar { height: 42px; width: 42px; color: #555; background: #aaa; font-family: Arial, sans-serif; }
+
+.login-panel footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  margin: 3px 0 0;
+  padding: 6px 10px;
+  color: #394254;
+  background: #d7dbea;
+  border-top: 1px solid #888;
+  font: 10px "Courier New", monospace;
+}
+
+.activity-light {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #36af49;
+  box-shadow: 0 0 5px #55e566;
+  animation: activity-blink .8s steps(1) infinite;
+}
+
+@keyframes activity-blink { 50% { opacity: .25; } }
+
+.dialup-stage { display: grid; place-items: center; }
+.dialup-wallpaper {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, #087f80, #006464);
+}
+
+.dialup-dialog {
+  position: relative;
+  z-index: 3;
+  width: min(520px, 78vw);
+  padding: 3px;
+  color: #111;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #202020 #202020 #fff;
+  box-shadow: 7px 10px 24px rgb(0 0 0 / 40%);
+}
+
+.dialup-dialog > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 4px 4px 7px;
+  color: white;
+  background: linear-gradient(90deg, #000080, #1687b5);
+  font-weight: bold;
+}
+
+.dialup-dialog > header button { width: 21px; height: 20px; padding: 0; }
+.dialup-body { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: 12px; padding: 21px 18px 14px; }
+.dialup-body h2 { margin: 0 0 8px; font-size: 17px; }
+.dialup-body p { margin: 0 0 15px; font-size: 12px; }
+.modem-art { position: relative; display: flex; align-items: center; gap: 8px; font: bold 12px Arial, sans-serif; }
+.modem-art span, .modem-art b { display: grid; place-items: center; width: 40px; height: 40px; color: white; border: 2px outset white; }
+.modem-art span { background: #315ba1; }
+.modem-art b { border-radius: 50%; background: #1687b5; font: bold 25px Georgia, serif; }
+.modem-art i { width: 28px; border-top: 2px dotted #444; animation: modem-packets .35s steps(2) infinite; }
+@keyframes modem-packets { 50% { border-color: #19a73d; } }
+.dialup-progress { height: 19px; padding: 3px; border: 2px inset white; background: white; overflow: hidden; }
+.dialup-progress i { display: block; height: 100%; background: repeating-linear-gradient(90deg, #000080 0 14px, transparent 14px 17px); animation: dial-progress 7.8s linear forwards; }
+@keyframes dial-progress { from { width: 2%; } to { width: 100%; } }
+
+.dialup-log {
+  display: grid;
+  gap: 4px;
+  min-height: 80px;
+  margin: 0 15px 13px;
+  padding: 8px;
+  color: #333;
+  background: white;
+  border: 2px inset white;
+  font: 11px "Courier New", monospace;
+}
+
+.dialup-log span { opacity: 0; animation: dial-line .05s forwards; }
+.dialup-log span:nth-child(1) { animation-delay: .3s; }
+.dialup-log span:nth-child(2) { animation-delay: 2.1s; }
+.dialup-log span:nth-child(3) { animation-delay: 5.0s; }
+@keyframes dial-line { to { opacity: 1; } }
+
+.dialup-dialog > footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 35px;
+  padding: 5px 8px;
+  border-top: 1px solid #888;
+  font: 10px "Courier New", monospace;
+}
+
+.dialup-dialog > footer button { width: 76px; padding: 4px; }
+
 .desktop {
   position: relative;
   width: 100%;
@@ -323,6 +819,11 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .taskbar time { min-width: 84px; display: grid; place-items: center; border: 2px inset white; font-size: 12px; }
 
 @media (max-width: 900px), (max-height: 650px) {
+  .game-title { top: 4vh; }
+  .game-title p { display: none; }
+  .computer-power { left: 62%; top: 65%; }
+  .login-panel { transform: scale(.9); }
+  .dialup-dialog { transform: scale(.9); }
   .sticky-note { display: none; }
   .browser-window { left: 92px !important; top: 22px !important; width: calc(100vw - 112px) !important; height: calc(100vh - 65px) !important; }
   .directory-logo { font-size: 40px; }

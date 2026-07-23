@@ -3,7 +3,7 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const { AiService } = require("./ai-service.cjs");
 
-if (process.env.SMOKE_TEST || process.env.AI_SMOKE_TEST) {
+if (process.env.SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.BOOT_SMOKE_TEST) {
   app.setPath("userData", path.join(app.getPath("temp"), `surfin-the-net-smoke-${process.pid}`));
 }
 
@@ -47,6 +47,7 @@ ipcMain.handle("save:reset", async () => {
   return structuredClone(DEFAULT_SAVE);
 });
 ipcMain.handle("ai:status", () => aiService.getStatus());
+ipcMain.handle("ai:preload", () => aiService.preloadAndWarm());
 ipcMain.handle("ai:conversation", () => aiService.getConversation());
 ipcMain.handle("ai:send", (_event, message) => aiService.sendMessage(message));
 ipcMain.handle("ai:reset", () => aiService.resetConversation());
@@ -74,10 +75,13 @@ function createWindow() {
     if (!url.startsWith(allowed)) event.preventDefault();
   });
 
+  const skipBoot = Boolean(process.env.SMOKE_TEST || process.env.AI_SMOKE_TEST);
   if (process.env.VITE_DEV_SERVER_URL) {
-    win.loadURL(process.env.VITE_DEV_SERVER_URL);
+    const devUrl = new URL(process.env.VITE_DEV_SERVER_URL);
+    if (skipBoot) devUrl.searchParams.set("skipBoot", "1");
+    win.loadURL(devUrl.toString());
   } else {
-    win.loadFile(path.join(__dirname, "dist", "index.html"));
+    win.loadFile(path.join(__dirname, "dist", "index.html"), skipBoot ? { query: { skipBoot: "1" } } : undefined);
   }
 
   win.once("ready-to-show", () => {
@@ -166,6 +170,53 @@ function createWindow() {
           console.log(`AI_WARM_METRICS: ${warmResult.metrics}`);
         } catch (error) {
           console.error("AI_SMOKE_FAILED:", error);
+          process.exitCode = 1;
+        } finally {
+          app.quit();
+        }
+      }, 700);
+    });
+  }
+
+  if (process.env.BOOT_SMOKE_TEST) {
+    win.webContents.once("did-finish-load", () => {
+      setTimeout(async () => {
+        try {
+          const waitForSelector = async (selector, timeoutMs) => {
+            const deadline = Date.now() + timeoutMs;
+            while (Date.now() < deadline) {
+              const found = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(selector)}))`);
+              if (found) return;
+              await new Promise((resolve) => setTimeout(resolve, 200));
+            }
+            throw new Error(`Timed out waiting for ${selector}`);
+          };
+
+          const powerClicked = await win.webContents.executeJavaScript(`(() => { const power = document.querySelector('[data-power]'); if (!power) return false; power.click(); return true; })()`);
+          if (!powerClicked) throw new Error("Title screen power button was not available");
+
+          await waitForSelector(".login-stage", 15_000);
+          const loginClicked = await win.webContents.executeJavaScript(`(() => { const user = document.querySelector('[data-login-user]'); if (!user) return false; user.click(); return true; })()`);
+          if (!loginClicked) throw new Error("Login profile was not available");
+
+          await waitForSelector(".desktop", 12_000);
+          const deadline = Date.now() + 90_000;
+          let status = null;
+          while (Date.now() < deadline) {
+            status = await win.webContents.executeJavaScript(`window.aiAPI.status()`);
+            if (status.phase === "idle" && status.warmed) break;
+            if (status.phase === "error") throw new Error(status.error || "AI preload failed");
+            await new Promise((resolve) => setTimeout(resolve, 500));
+          }
+          if (!status?.warmed) throw new Error(`Model did not finish warming; last phase: ${status?.phase ?? "unknown"}`);
+
+          const image = await win.webContents.capturePage();
+          const target = path.resolve(__dirname, "artifacts", "boot-flow-desktop.png");
+          await fs.mkdir(path.dirname(target), { recursive: true });
+          await fs.writeFile(target, image.toPNG());
+          console.log(`BOOT_OK: title, power-on, BIOS, OrbitOS splash, login, dial-up, and desktop completed; model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
+        } catch (error) {
+          console.error("BOOT_FAILED:", error);
           process.exitCode = 1;
         } finally {
           app.quit();

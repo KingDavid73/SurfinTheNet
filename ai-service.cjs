@@ -45,9 +45,12 @@ class AiService {
     this.phase = "offline";
     this.error = null;
     this.loadMs = null;
+    this.warmupMs = null;
+    this.warmed = false;
     this.backend = null;
     this.busy = false;
     this.initializationPromise = null;
+    this.warmupPromise = null;
     this.persona = null;
     this.llama = null;
     this.model = null;
@@ -167,8 +170,47 @@ class AiService {
       },
       backend: this.backend,
       loadMs: this.loadMs,
+      warmupMs: this.warmupMs,
+      warmed: this.warmed,
       error: this.error
     };
+  }
+
+  async preloadAndWarm() {
+    if (this.warmed) return this.getStatus();
+    if (this.warmupPromise) return this.warmupPromise;
+    if (this.busy) throw new Error("The local model is already busy.");
+
+    this.busy = true;
+    this.warmupPromise = (async () => {
+      let savedHistory = null;
+      try {
+        await this.initialize();
+        const startedAt = performance.now();
+        this.phase = "warming";
+        savedHistory = this.session.getChatHistory();
+        await this.session.promptWithMeta("Reply with only the word ready. /no_think", {
+          maxTokens: 6,
+          temperature: 0
+        });
+        this.session.setChatHistory(savedHistory);
+        this.warmed = true;
+        this.warmupMs = Math.round(performance.now() - startedAt);
+        this.phase = "idle";
+        this.error = null;
+        return this.getStatus();
+      } catch (error) {
+        if (this.session && savedHistory) this.session.setChatHistory(savedHistory);
+        this.phase = "error";
+        this.error = error instanceof Error ? error.message : String(error);
+        this.warmupPromise = null;
+        throw error;
+      } finally {
+        this.busy = false;
+      }
+    })();
+
+    return this.warmupPromise;
   }
 
   async getConversation() {

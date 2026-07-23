@@ -8,6 +8,7 @@ contextBridge.exposeInMainWorld("gameAPI", {
 
 contextBridge.exposeInMainWorld("aiAPI", {
   status: () => ipcRenderer.invoke("ai:status"),
+  preload: () => ipcRenderer.invoke("ai:preload"),
   conversation: () => ipcRenderer.invoke("ai:conversation"),
   send: (message) => ipcRenderer.invoke("ai:send", message),
   reset: () => ipcRenderer.invoke("ai:reset")
