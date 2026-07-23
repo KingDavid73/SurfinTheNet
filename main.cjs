@@ -26,7 +26,7 @@ const DEFAULT_SAVE = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10 }
 };
 
 function savePath() {
@@ -161,7 +161,25 @@ function createWindow() {
             await click(`[data-nav="${zoneUrl}"]`);
             const zoneReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.orbit-zone-page')) && document.querySelectorAll('.zone-categories article').length === 6 && !document.querySelector('.page-comments')`);
             if (!zoneReady) throw new Error(`Community zone was incomplete or had an unwanted comment thread: ${zoneUrl}`);
-            if (zoneUrl.endsWith("/gamegrid")) await capture("orbitnet-zone-gamegrid.png");
+            if (zoneUrl.endsWith("/gamegrid")) {
+              const expectedMemberUrls = [
+                "web://gamegrid.zone/users/lagmaster99/home",
+                "web://gamegrid.zone/users/velvetmage/home",
+                "web://gamegrid.zone/users/player4ever/home"
+              ];
+              const memberUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.gamegrid-member-card')).map((card) => card.getAttribute('data-nav'))`);
+              if (JSON.stringify(memberUrls) !== JSON.stringify(expectedMemberUrls)) throw new Error(`Game Grid member directory was incomplete: ${JSON.stringify(memberUrls)}`);
+              await win.webContents.executeJavaScript(`document.querySelector('.gamegrid-member-directory')?.scrollIntoView({ block: 'start' }); true`);
+              await capture("orbitnet-zone-gamegrid-members.png");
+              const memberPageClasses = [".lagmaster-page", ".velvetmage-page", ".playerfour-page"];
+              for (let memberIndex = 0; memberIndex < expectedMemberUrls.length; memberIndex += 1) {
+                await click(`[data-nav="${expectedMemberUrls[memberIndex]}"]`);
+                const memberPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(memberPageClasses[memberIndex])})) && document.querySelectorAll('.page-comment').length >= 4 && Boolean(document.querySelector('.page-comments'))`);
+                if (!memberPageReady) throw new Error(`Game Grid member page was incomplete: ${expectedMemberUrls[memberIndex]}`);
+                await capture(`gamegrid-member-${memberIndex + 1}.png`);
+                await click('[data-nav="web://orbitnet.local/zones/gamegrid"]');
+              }
+            }
             await click('[data-nav="web://home"]');
           }
           await click("[data-download-helper]");
@@ -742,7 +760,7 @@ function createWindow() {
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
-          if (randomCalls !== 16) throw new Error(`Expected 15 persona rolls plus one page selection, got ${randomCalls} random calls`);
+          if (randomCalls !== 19) throw new Error(`Expected 18 persona rolls plus one page selection, got ${randomCalls} random calls`);
           const finalSaved = await waitForAmbientIdle(2);
           const hourlyAmbient = finalSaved.pageComments.find((comment) => comment.role === "visitor" && comment.id !== miraAmbient.id);
           if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);

@@ -1,6 +1,7 @@
 import type { GameState, PageDefinition } from "./types";
 import { kidsBusinessPages } from "./kids-business-pages";
 import { dealerPages } from "./dealer-pages";
+import { gameGridMembers, gameGridPages } from "./gamegrid-pages";
 
 const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
@@ -120,6 +121,16 @@ function zoneNavigation(activeId?: string) {
     : `<button data-nav="${zone.url}">${zone.title}</button>`).join("");
 }
 
+function zoneDirectoryBody(zoneId: string) {
+  if (zoneId !== "gamegrid") return `
+    <section class="zone-directory-placeholder"><div class="zone-construction">WORK IN PROGRESS</div><div><h2>Member Page Directory</h2><p>No individual member pages are indexed in this zone yet. Please check back after the next directory update.</p></div></section>`;
+  return `
+    <section class="gamegrid-member-directory">
+      <header><div><small>NEW &amp; UPDATED</small><h2>Game Grid Member Pages</h2></div><span>${gameGridMembers.length} pages online</span></header>
+      <div>${gameGridMembers.map((member) => `<button class="gamegrid-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>PLAYS: ${member.console}</b></span><em>VISIT ›</em></button>`).join("")}</div>
+    </section>`;
+}
+
 const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
   url: zone.url,
   title: `${zone.title} - OrbitNet Community Zone`,
@@ -141,7 +152,7 @@ const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
         <section class="zone-categories"><header><b>EXPLORE THIS ZONE</b><span>6 departments</span></header><div>${zone.categories.map((category, index) => `<article><i>${String(index + 1).padStart(2, "0")}</i><strong>${category}</strong><small>Member directory opening soon</small></article>`).join("")}</div></section>
         <aside class="zone-bulletin"><h2>Zone Bulletin</h2><p>${zone.bulletin}</p><hr><b>BUILD YOUR OWN PAGE!</b><p>Member-page tools and neighborhood listings will arrive in a future OrbitNet update.</p></aside>
       </div>
-      <section class="zone-directory-placeholder"><div class="zone-construction">WORK IN PROGRESS</div><div><h2>Member Page Directory</h2><p>No individual member pages are indexed in this zone yet. Please check back after the next directory update.</p></div></section>
+      ${zoneDirectoryBody(zone.id)}
       <footer>OrbitNet Community Services · Zone ID: ${zone.id.toUpperCase()} · Last indexed 11/03/1999</footer>
     </main>`
 } satisfies PageDefinition]));
@@ -150,6 +161,7 @@ export const pages: Record<string, PageDefinition> = {
   ...kidsBusinessPages,
   ...dealerPages,
   ...orbitZonePages,
+  ...gameGridPages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",

@@ -46,7 +46,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -64,7 +64,10 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   major_munch: { screenName: "Major_Munch", displayName: "Major Munch" },
   kip_toonburst: { screenName: "Kip_ToonBurst", displayName: "Kip" },
   king_cal: { screenName: "KingCalCars", displayName: "King Cal" },
-  honest_earl: { screenName: "Honest_Earl", displayName: "Earl" }
+  honest_earl: { screenName: "Honest_Earl", displayName: "Earl" },
+  lagmaster_99: { screenName: "LagMaster_99", displayName: "LagMaster" },
+  velvet_mage: { screenName: "VelvetMage", displayName: "Velvet" },
+  player_four: { screenName: "PlayerFourEver", displayName: "Player Four" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -88,7 +91,10 @@ const CHARACTER_CONTACTS: Record<string, {
   major_munch: { screenName: "Major_Munch", displayName: "Major Munch", statusMessage: "breakfast has landed!" },
   kip_toonburst: { screenName: "Kip_ToonBurst", displayName: "Kip", statusMessage: "rewinding Saturday" },
   king_cal: { screenName: "KingCalCars", displayName: "King Cal", statusMessage: "another chariot leaves the kingdom!" },
-  honest_earl: { screenName: "Honest_Earl", displayName: "Earl", statusMessage: "honestly here for YOU, neighbor" }
+  honest_earl: { screenName: "Honest_Earl", displayName: "Earl", statusMessage: "honestly here for YOU, neighbor" },
+  lagmaster_99: { screenName: "LagMaster_99", displayName: "LagMaster", statusMessage: "ping is a state of mind" },
+  velvet_mage: { screenName: "VelvetMage", displayName: "Velvet", statusMessage: "mapping Ashglass by candlelight" },
+  player_four: { screenName: "PlayerFourEver", displayName: "Player Four", statusMessage: "controller four is always open" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -106,7 +112,10 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   major_munch: "web://moonmunch.com/home",
   kip_toonburst: "web://toonburst.tv/home",
   king_cal: "web://kingcalscars.biz/home",
-  honest_earl: "web://honestearl.com/home"
+  honest_earl: "web://honestearl.com/home",
+  lagmaster_99: "web://gamegrid.zone/users/lagmaster99/home",
+  velvet_mage: "web://gamegrid.zone/users/velvetmage/home",
+  player_four: "web://gamegrid.zone/users/player4ever/home"
 };
 
 const GAME_TIME_SCALE = 2;
