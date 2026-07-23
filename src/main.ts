@@ -585,8 +585,8 @@ function browserWindow() {
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
     </div>
     <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
-    <div class="browser-viewport site-${page.site}">${pageMusicPlayer(page)}${page.render(state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div>
-    <footer class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></footer>`);
+    <div class="browser-viewport site-${page.site}">${page.render(state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div>
+    <footer class="browser-footer">${pageMusicPlayer(page)}<div class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></div></footer>`);
 }
 
 function mailWindow() {

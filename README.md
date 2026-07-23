@@ -31,7 +31,7 @@ npm.cmd run make
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
 - Three member-run sites, eleven search-only local businesses, and the OrbitNet directory
 - Site-colored public comment threads on character and business homepages; subpages keep one canonical conversation per owner
-- Fifteen original page MIDI loops that auto-play on navigation, with a chrome-and-LCD OrbitAmp play/stop control and deterministic WAV playback renders
+- Fifteen original page MIDI loops that auto-play on navigation, with a chrome-and-LCD OrbitAmp control built into the browser-shell footer and deterministic WAV playback renders
 - A downloadable Orbit Pal app: launch its installed icon to summon the desktop buddy, click the buddy to chat, and use Close Pal to exit it completely
 - Instant lexical/concept search plus asynchronous local-model semantic matching when Qwen is warm
 - A one-use Rainbow Garden guestbook signature stored in the player profile

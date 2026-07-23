@@ -140,8 +140,8 @@ function createWindow() {
           await click('[data-maximize="browser"]');
           const browserRestored = await win.webContents.executeJavaScript(`!document.querySelector('.browser-window')?.classList.contains('maximized') && document.querySelector('[data-maximize="browser"]')?.getAttribute('aria-label') === 'Maximize'`);
           if (!browserRestored) throw new Error("Browser maximize control did not restore the window");
-          const midiPlayerReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('[data-page-music]')?.textContent.includes('Stop')`);
-          if (!midiPlayerReady) throw new Error("Homepage MIDI did not auto-play");
+          const midiPlayerReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.browser-footer > .page-midi-player .midi-led.playing')) && document.querySelector('[data-page-music]')?.textContent.includes('Stop') && !document.querySelector('.browser-viewport > .page-midi-player')`);
+          if (!midiPlayerReady) throw new Error("Homepage MIDI did not auto-play from the browser-shell footer");
           await click("[data-page-music]");
           const midiStopped = await win.webContents.executeJavaScript(`!document.querySelector('.midi-led.playing') && document.querySelector('[data-page-music]')?.textContent.includes('Play')`);
           if (!midiStopped) throw new Error("Page MIDI player did not stop");
