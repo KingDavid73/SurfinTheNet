@@ -46,7 +46,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -67,7 +67,10 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   honest_earl: { screenName: "Honest_Earl", displayName: "Earl" },
   lagmaster_99: { screenName: "LagMaster_99", displayName: "LagMaster" },
   velvet_mage: { screenName: "VelvetMage", displayName: "Velvet" },
-  player_four: { screenName: "PlayerFourEver", displayName: "Player Four" }
+  player_four: { screenName: "PlayerFourEver", displayName: "Player Four" },
+  modkit_maddy: { screenName: "ModKit_Maddy", displayName: "Maddy" },
+  quarter_queen: { screenName: "QuarterQueen", displayName: "Queenie" },
+  code_dex: { screenName: "CodeDex", displayName: "Dex" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -94,7 +97,10 @@ const CHARACTER_CONTACTS: Record<string, {
   honest_earl: { screenName: "Honest_Earl", displayName: "Earl", statusMessage: "honestly here for YOU, neighbor" },
   lagmaster_99: { screenName: "LagMaster_99", displayName: "LagMaster", statusMessage: "ping is a state of mind" },
   velvet_mage: { screenName: "VelvetMage", displayName: "Velvet", statusMessage: "mapping Ashglass by candlelight" },
-  player_four: { screenName: "PlayerFourEver", displayName: "Player Four", statusMessage: "controller four is always open" }
+  player_four: { screenName: "PlayerFourEver", displayName: "Player Four", statusMessage: "controller four is always open" },
+  modkit_maddy: { screenName: "ModKit_Maddy", displayName: "Maddy", statusMessage: "compiling. remain geometrically calm." },
+  quarter_queen: { screenName: "QuarterQueen", displayName: "Queenie", statusMessage: "one credit. no continues." },
+  code_dex: { screenName: "CodeDex", displayName: "Dex", statusMessage: "testing one more extremely specific rumor" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -115,7 +121,10 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   honest_earl: "web://honestearl.com/home",
   lagmaster_99: "web://gamegrid.zone/users/lagmaster99/home",
   velvet_mage: "web://gamegrid.zone/users/velvetmage/home",
-  player_four: "web://gamegrid.zone/users/player4ever/home"
+  player_four: "web://gamegrid.zone/users/player4ever/home",
+  modkit_maddy: "web://gamegrid.zone/users/modkitmaddy/home",
+  quarter_queen: "web://gamegrid.zone/users/quarterqueen/home",
+  code_dex: "web://gamegrid.zone/users/codedex/home"
 };
 
 const GAME_TIME_SCALE = 2;
