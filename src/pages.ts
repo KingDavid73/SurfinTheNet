@@ -1,4 +1,5 @@
 import type { GameState, PageDefinition } from "./types";
+import { kidsBusinessPages } from "./kids-business-pages";
 
 const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
@@ -44,6 +45,7 @@ const businessAsset = (name: keyof typeof BUSINESS_ASSETS, alt: string, classNam
   `<img class="business-web-art ${className}" src="${BUSINESS_ASSETS[name]}" alt="${alt}">`;
 
 export const pages: Record<string, PageDefinition> = {
+  ...kidsBusinessPages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",

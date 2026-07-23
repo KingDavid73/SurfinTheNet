@@ -29,9 +29,9 @@ npm.cmd run make
 - An original OrbitOS startup jingle, stored as editable MIDI and a deterministic in-game WAV
 - A draggable fake desktop with a Start menu and taskbar
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
-- Three member-run sites, six search-only local businesses, and the OrbitNet directory
+- Three member-run sites, nine search-only local businesses, and the OrbitNet directory
 - Site-colored public comment threads on character and business homepages; subpages keep one canonical conversation per owner
-- Ten original page MIDI loops that auto-play on navigation, with a shared play/stop control and deterministic WAV playback renders
+- Thirteen original page MIDI loops that auto-play on navigation, with a shared play/stop control and deterministic WAV playback renders
 - A downloadable Orbit Pal app: launch its installed icon to summon the desktop buddy, click the buddy to chat, and use Close Pal to exit it completely
 - Instant lexical/concept search plus asynchronous local-model semantic matching when Qwen is warm
 - A one-use Rainbow Garden guestbook signature stored in the player profile
@@ -86,6 +86,11 @@ in `docs/business-marketing-research.md`. They use the same one-sheet-per-compan
 pipeline with deliberately different media: computer-circular photography,
 local pizza-flyer collage, and a pet-store snapshot scrapbook.
 
+The Rocketbox Toys, Moon Munch Cereal, and ToonBurst campaigns are documented in
+`docs/kids-products-research.md`. They were produced in parallel research, art,
+music, and integration lanes, with separate campaign sheets preserving each
+brand's toy-catalog photography, cereal-box illustration, and cel-animation look.
+
 The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium plays the matching `assets/audio/orbitos-startup.wav` for predictable sound on every machine. Regenerate both from source with `node scripts/generate-startup-jingle.mjs`.
 
 Page loops live in `assets/audio/pages/` as editable MIDI plus matching WAV renders. Regenerate them with `npm.cmd run music:generate`.
@@ -94,6 +99,15 @@ Packaging is still deferred. `node-llama-cpp` native binaries require special un
 
 ## Adding content
 
-Fake pages live in `src/pages.ts`. Each page has a fake URL, title, site theme, owner ID, AI context summary, and render function. The desktop and game-state plumbing lives in `src/main.ts`; visual styling lives in `src/styles.css`.
+Fake pages live in `src/pages.ts` and focused batch modules such as
+`src/kids-business-pages.ts`. Each page has a fake URL, title, site theme, owner
+ID, AI context summary, and render function. The desktop and game-state plumbing
+lives in `src/main.ts`; visual styling lives in `src/styles.css`.
+
+For new content batches, finish and review the era/industry design research before
+starting image generation. Once that research is distilled into a locked brand
+brief, page design and copy, one company-specific image sheet, original MIDI,
+and shared-system integration can proceed in parallel. Image generation is
+downstream of research, not a concurrent discovery lane.
 
 The renderer never receives unrestricted Node.js access. Save operations go through the narrow API exposed by `preload.cjs`.

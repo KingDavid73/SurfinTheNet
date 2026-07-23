@@ -25,7 +25,7 @@ const DEFAULT_SAVE = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9 }
 };
 
 function savePath() {
@@ -189,6 +189,40 @@ function createWindow() {
           if (!adoptionReady) throw new Error("Paws & Claws adoption page was incomplete or had a separate comment thread");
           await capture("paws-adoption.png");
           await click('[data-browser="home"]');
+
+          await searchFor("robot toys", "web://rocketbox.toys/home");
+          await click('[data-nav="web://rocketbox.toys/home"]');
+          const rocketboxReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rocketbox-page .rocketbox-product .kids-business-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.page-midi-player')?.textContent.includes('Toybox Turbo')`);
+          if (!rocketboxReady) throw new Error("Rocketbox Toys campaign page was incomplete");
+          await capture("kids-rocketbox.png");
+          await click('[data-nav="web://rocketbox.toys/catalog"]');
+          const rocketboxCatalogReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rocketbox-catalog-page .rocketbox-catalog-grid')) && !document.querySelector('.page-comments')`);
+          if (!rocketboxCatalogReady) throw new Error("Rocketbox catalog was incomplete or had a separate comment thread");
+          await capture("kids-rocketbox-catalog.png");
+          await click('[data-browser="home"]');
+
+          await searchFor("breakfast", "web://moonmunch.com/home");
+          await click('[data-nav="web://moonmunch.com/home"]');
+          const moonmunchReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.moonmunch-page .moonmunch-mascot .kids-business-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.page-midi-player')?.textContent.includes('Moon Munch March')`);
+          if (!moonmunchReady) throw new Error("Moon Munch campaign page was incomplete");
+          await capture("kids-moon-munch.png");
+          await click('[data-nav="web://moonmunch.com/prizes"]');
+          const moonmunchPrizesReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.moonmunch-prizes-page .prize-zone-hero')) && !document.querySelector('.page-comments')`);
+          if (!moonmunchPrizesReady) throw new Error("Moon Munch prize page was incomplete or had a separate comment thread");
+          await capture("kids-moon-munch-prizes.png");
+          await click('[data-browser="home"]');
+
+          await searchFor("saturday cartoons", "web://toonburst.tv/home");
+          await click('[data-nav="web://toonburst.tv/home"]');
+          const toonburstReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.toonburst-page .toonburst-hero .kids-business-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.page-midi-player')?.textContent.includes('ToonBurst Theme')`);
+          if (!toonburstReady) throw new Error("ToonBurst campaign page was incomplete");
+          await capture("kids-toonburst.png");
+          await click('[data-nav="web://toonburst.tv/schedule"]');
+          const toonburstScheduleReady = await win.webContents.executeJavaScript(`document.querySelectorAll('.toonburst-schedule-page .toonburst-grid article').length === 6 && !document.querySelector('.page-comments')`);
+          if (!toonburstScheduleReady) throw new Error("ToonBurst schedule was incomplete or had a separate comment thread");
+          await capture("kids-toonburst-schedule.png");
+          await click('[data-browser="home"]');
+
           const consoleSearchSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'video game console'; form.requestSubmit(); return true; })()`);
           if (!consoleSearchSubmitted) throw new Error("Console search form was unavailable");
           await new Promise((resolve) => setTimeout(resolve, 120));
@@ -254,7 +288,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "clue-flow.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log("SMOKE_OK: installed Orbit Pal, found all six businesses through related searches, verified all six business campaigns plus their page MIDI/comment boundaries, browsed to the archive, and persisted downloads.");
+          console.log("SMOKE_OK: installed Orbit Pal, found all nine businesses through related searches, verified all nine business campaigns plus their page MIDI/comment boundaries, browsed to the archive, and persisted downloads.");
         } catch (error) {
           console.error("SMOKE_FAILED:", error);
           process.exitCode = 1;

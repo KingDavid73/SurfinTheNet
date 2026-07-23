@@ -18,7 +18,10 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
   pets: { label: "Paws on the Keys", file: "paws-on-the-keys.mid", midiUrl: new URL("../assets/audio/pages/paws-on-the-keys.mid", import.meta.url).href, url: new URL("../assets/audio/pages/paws-on-the-keys.wav", import.meta.url).href },
   pulse: { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
   vanta: { label: "Second World", file: "second-world.mid", midiUrl: new URL("../assets/audio/pages/second-world.mid", import.meta.url).href, url: new URL("../assets/audio/pages/second-world.wav", import.meta.url).href },
-  cubit: { label: "Four on the Floor", file: "four-on-the-floor.mid", midiUrl: new URL("../assets/audio/pages/four-on-the-floor.mid", import.meta.url).href, url: new URL("../assets/audio/pages/four-on-the-floor.wav", import.meta.url).href }
+  cubit: { label: "Four on the Floor", file: "four-on-the-floor.mid", midiUrl: new URL("../assets/audio/pages/four-on-the-floor.mid", import.meta.url).href, url: new URL("../assets/audio/pages/four-on-the-floor.wav", import.meta.url).href },
+  rocketbox: { label: "Toybox Turbo", file: "toybox-turbo.mid", midiUrl: new URL("../assets/audio/pages/toybox-turbo.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toybox-turbo.wav", import.meta.url).href },
+  moonmunch: { label: "Moon Munch March", file: "moon-munch-march.mid", midiUrl: new URL("../assets/audio/pages/moon-munch-march.mid", import.meta.url).href, url: new URL("../assets/audio/pages/moon-munch-march.wav", import.meta.url).href },
+  toonburst: { label: "ToonBurst Theme", file: "toonburst-theme.mid", midiUrl: new URL("../assets/audio/pages/toonburst-theme.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toonburst-theme.wav", import.meta.url).href }
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -40,7 +43,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -53,7 +56,10 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   bev_paws: { screenName: "Bev_PawsNClaws", displayName: "Bev" },
   pulsenet_jax: { screenName: "PULSEnet_Jax", displayName: "Jax" },
   axiom_liaison_02: { screenName: "AXIOM_Liaison_02", displayName: "Axiom Liaison" },
-  cubby_clover: { screenName: "CubbyClover", displayName: "Cubby" }
+  cubby_clover: { screenName: "CubbyClover", displayName: "Cubby" },
+  rocketbox_rick: { screenName: "Rocketbox_Rick", displayName: "Rick" },
+  major_munch: { screenName: "Major_Munch", displayName: "Major Munch" },
+  kip_toonburst: { screenName: "Kip_ToonBurst", displayName: "Kip" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -72,7 +78,10 @@ const CHARACTER_CONTACTS: Record<string, {
   bev_paws: { screenName: "Bev_PawsNClaws", displayName: "Bev", statusMessage: "Pickles is on the keyboard" },
   pulsenet_jax: { screenName: "PULSEnet_Jax", displayName: "Jax", statusMessage: "lobby's open // everybody in" },
   axiom_liaison_02: { screenName: "AXIOM_Liaison_02", displayName: "Axiom Liaison", statusMessage: "a second world is waiting" },
-  cubby_clover: { screenName: "CubbyClover", displayName: "Cubby", statusMessage: "controller four is still free!" }
+  cubby_clover: { screenName: "CubbyClover", displayName: "Cubby", statusMessage: "controller four is still free!" },
+  rocketbox_rick: { screenName: "Rocketbox_Rick", displayName: "Rick", statusMessage: "prototype survived the drop test!" },
+  major_munch: { screenName: "Major_Munch", displayName: "Major Munch", statusMessage: "breakfast has landed!" },
+  kip_toonburst: { screenName: "Kip_ToonBurst", displayName: "Kip", statusMessage: "rewinding Saturday" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -85,7 +94,10 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   bev_paws: "web://pawsnclaws.net/home",
   pulsenet_jax: "web://pulsenet.red/home",
   axiom_liaison_02: "web://vanta2.com/home",
-  cubby_clover: "web://cubit.fun/home"
+  cubby_clover: "web://cubit.fun/home",
+  rocketbox_rick: "web://rocketbox.toys/home",
+  major_munch: "web://moonmunch.com/home",
+  kip_toonburst: "web://toonburst.tv/home"
 };
 
 const GAME_TIME_SCALE = 2;
@@ -225,7 +237,17 @@ const SEARCH_CONCEPTS: Record<string, string[]> = {
   console: ["game", "games", "gaming", "videogame"],
   arcade: ["game", "games", "console", "multiplayer"],
   multiplayer: ["game", "games", "console", "arcade"],
-  shopping: ["store", "shop", "business"]
+  shopping: ["store", "shop", "business"],
+  toy: ["toys", "kids", "action figure", "playset"],
+  toys: ["toy", "kids", "action figure", "playset"],
+  kid: ["kids", "toy", "toys", "cartoon", "cereal"],
+  kids: ["kid", "toy", "toys", "cartoon", "cereal"],
+  breakfast: ["cereal", "food", "marshmallow"],
+  cereal: ["breakfast", "food", "marshmallow"],
+  cartoon: ["cartoons", "animation", "television", "tv", "kids"],
+  cartoons: ["cartoon", "animation", "television", "tv", "kids"],
+  television: ["tv", "cartoon", "cartoons", "shows"],
+  tv: ["television", "cartoon", "cartoons", "shows"]
 };
 
 function lexicalSearchResults(query: string) {

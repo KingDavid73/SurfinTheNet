@@ -16,7 +16,10 @@ const tracks = [
   { id: "paws-on-the-keys", title: "Paws on the Keys", bpm: 132, program: 13, wave: "bell", melody: [72, 74, 76, 79, 76, 74, 72, 67, 69, 71, 72, 76, 74, 71, 67, 72], bass: [48, 50, 52, 55, 45, 47, 43, 48] },
   { id: "everybodys-in", title: "Everybody's In", bpm: 152, program: 81, wave: "square", melody: [64, 67, 71, 76, 74, 71, 67, 69, 64, 67, 72, 76, 79, 76, 72, 71], bass: [40, 40, 43, 45, 40, 47, 43, 45] },
   { id: "second-world", title: "Second World", bpm: 76, program: 98, wave: "bell", melody: [57, -1, 64, 68, 69, -1, 73, 68, 61, -1, 64, 69, 68, 64, 61, -1], bass: [33, 40, 38, 35, 33, 40, 42, 35] },
-  { id: "four-on-the-floor", title: "Four on the Floor", bpm: 138, program: 10, wave: "bright", melody: [72, 76, 79, 84, 83, 79, 76, 74, 71, 74, 79, 83, 81, 79, 76, 72], bass: [48, 55, 52, 57, 48, 55, 50, 43] }
+  { id: "four-on-the-floor", title: "Four on the Floor", bpm: 138, program: 10, wave: "bright", melody: [72, 76, 79, 84, 83, 79, 76, 74, 71, 74, 79, 83, 81, 79, 76, 72], bass: [48, 55, 52, 57, 48, 55, 50, 43] },
+  { id: "toybox-turbo", title: "Toybox Turbo", bpm: 156, program: 12, wave: "bright", melody: [72, 79, 76, 84, 74, 81, 77, 86, 76, 83, 79, 88, 84, 81, 79, 76], bass: [48, 55, 50, 57, 52, 59, 55, 48] },
+  { id: "moon-munch-march", title: "Moon Munch March", bpm: 132, program: 13, wave: "bell", melody: [67, 71, 74, 79, 76, 74, 71, -1, 69, 72, 76, 81, 79, 76, 74, 67], bass: [43, 47, 48, 50, 45, 48, 50, 43] },
+  { id: "toonburst-theme", title: "ToonBurst Theme", bpm: 174, program: 81, wave: "square", melody: [64, 67, 71, 72, 76, 72, 71, 67, 65, 69, 72, 77, 76, 72, 69, 66], bass: [40, 43, 38, 45, 41, 45, 38, 47] }
 ];
 
 function u16(value) {

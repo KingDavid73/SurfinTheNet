@@ -156,7 +156,7 @@ export interface GameState {
 export interface PageDefinition {
   url: string;
   title: string;
-  site: "directory" | "rainbow" | "signal" | "raven" | "computer" | "pizza" | "pets" | "pulse" | "vanta" | "cubit";
+  site: "directory" | "rainbow" | "signal" | "raven" | "computer" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst";
   ownerId: string;
   summary: string;
   commentsEnabled?: boolean;
