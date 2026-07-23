@@ -55,7 +55,7 @@ export interface PageComment {
   id: string;
   pageUrl: string;
   ownerId: string;
-  role: "player" | "owner";
+  role: "player" | "owner" | "visitor";
   author: string;
   text: string;
   createdAt: string;
@@ -68,13 +68,37 @@ export interface PageCommentRequest {
   pageTitle: string;
   pageSummary: string;
   playerComment: string;
-  recentComments: Array<{ role: "player" | "owner"; author: string; text: string }>;
+  recentComments: Array<{ role: "player" | "owner" | "visitor"; author: string; text: string }>;
   relationshipScore: number;
 }
 
 export interface PageCommentResult {
   text: string;
   owner: AiPersonaSummary;
+  metrics: AiMetrics;
+}
+
+export interface AmbientPostJob {
+  id: string;
+  personaId: string;
+  pageUrl: string;
+  createdAt: string;
+  attempts: number;
+}
+
+export interface AmbientCommentRequest {
+  personaId: string;
+  pageOwnerId: string;
+  pageUrl: string;
+  pageTitle: string;
+  pageSummary: string;
+  pageContext: string;
+  existingComments: Array<{ role: "player" | "owner" | "visitor"; author: string; text: string }>;
+}
+
+export interface AmbientCommentResult {
+  text: string;
+  author: AiPersonaSummary;
   metrics: AiMetrics;
 }
 
@@ -147,6 +171,7 @@ export interface GameState {
   settings: DesktopSettings;
   gameTime: string;
   pageComments: PageComment[];
+  ambientPostQueue: AmbientPostJob[];
   pageVisitCounts: Record<string, number>;
   guestbookEntries: Record<string, GuestbookEntry[]>;
   directMessages: DirectMessage[];
@@ -180,6 +205,7 @@ declare global {
       conversation: () => Promise<AiConversation>;
       send: (message: string) => Promise<AiSendResult>;
       comment: (request: PageCommentRequest) => Promise<PageCommentResult>;
+      ambientComment: (request: AmbientCommentRequest) => Promise<AmbientCommentResult>;
       directReply: (request: DirectReplyRequest) => Promise<DirectReplyResult>;
       search: (request: SemanticSearchRequest) => Promise<SemanticSearchResult>;
       reset: () => Promise<AiConversation>;

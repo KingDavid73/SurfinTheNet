@@ -22,6 +22,7 @@
     "test:ai": "npm run build && cross-env AI_SMOKE_TEST=1 electron .",
     "test:boot": "npm run build && cross-env BOOT_SMOKE_TEST=1 electron .",
     "test:comments": "npm run build && cross-env COMMENT_SMOKE_TEST=1 electron .",
+    "test:ambient": "npm run build && cross-env AMBIENT_SMOKE_TEST=1 electron .",
     "test:ui": "npm run build && cross-env UI_SMOKE_TEST=1 electron .",
     "models:pull": "node-llama-cpp pull --dir ./models hf:Qwen/Qwen3-4B-GGUF:Q4_K_M",
     "music:generate": "node scripts/generate-page-music.mjs",

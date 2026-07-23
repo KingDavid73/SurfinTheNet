@@ -1,6 +1,6 @@
 import "./styles.css";
 import { notFoundPage, pages } from "./pages";
-import type { AiConversation, AiStatus, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition } from "./types";
+import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition } from "./types";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
 const startupJingleUrl = new URL("../assets/audio/orbitos-startup.wav", import.meta.url).href;
@@ -33,7 +33,7 @@ pageMusic.volume = 0.28;
 type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
 
 const DEFAULT_STATE: GameState = {
-  version: 3,
+  version: 4,
   visited: ["web://home"],
   bookmarks: ["web://rainbow.gdn/home"],
   downloads: [],
@@ -42,6 +42,7 @@ const DEFAULT_STATE: GameState = {
   settings: { theme: "classic", wallpaper: "teal", cursor: "arrow" },
   gameTime: "1999-11-03T19:30:00",
   pageComments: [],
+  ambientPostQueue: [],
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
@@ -109,6 +110,9 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
 };
 
 const GAME_TIME_SCALE = 2;
+const AMBIENT_POST_CHANCE_PER_HOUR = 0.01;
+const AMBIENT_POST_MAX_CHANCE = 0.10;
+const AMBIENT_POST_MAX_ATTEMPTS = 3;
 
 interface WindowModel {
   open: boolean;
@@ -175,6 +179,7 @@ let computerHasBooted = startupStage === "desktop";
 let sleepDialogOpen = false;
 let lastGameClockTick = performance.now();
 let lastClockSave = performance.now();
+let ambientQueueProcessing = false;
 const pendingPageComments = new Set<string>();
 const pageCommentErrors = new Map<string, string>();
 const pendingDirectReplies = new Set<string>();
@@ -213,6 +218,7 @@ function normalizeState(loaded: Partial<GameState>): GameState {
     version: DEFAULT_STATE.version,
     settings: { ...DEFAULT_STATE.settings, ...(loaded.settings ?? {}) },
     pageComments: Array.isArray(loaded.pageComments) ? loaded.pageComments : [],
+    ambientPostQueue: Array.isArray(loaded.ambientPostQueue) ? loaded.ambientPostQueue : [],
     pageVisitCounts: { ...DEFAULT_STATE.pageVisitCounts, ...(loaded.pageVisitCounts ?? {}) },
     guestbookEntries: { ...(loaded.guestbookEntries ?? {}) },
     directMessages: Array.isArray(loaded.directMessages) ? loaded.directMessages : [],
@@ -223,6 +229,95 @@ function normalizeState(loaded: Partial<GameState>): GameState {
 async function saveState() {
   if (window.gameAPI) await window.gameAPI.save(state);
   else localStorage.setItem("surfin-save", JSON.stringify(state));
+}
+
+function crossedGameHourBoundaries(before: Date, after: Date) {
+  const hour = 60 * 60 * 1000;
+  return Math.max(0, Math.floor(after.getTime() / hour) - Math.floor(before.getTime() / hour));
+}
+
+function ambientCommentHomepages() {
+  return Object.values(pages).filter((page) => page.commentsEnabled && page.url.endsWith("/home"));
+}
+
+function extractAmbientPageContext(page: PageDefinition) {
+  const container = document.createElement("div");
+  container.innerHTML = page.render(state);
+  return (container.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 3000);
+}
+
+function queueAmbientPostRolls(hoursElapsed: number, createdAt: string) {
+  if (hoursElapsed < 1) return;
+  const homepages = ambientCommentHomepages();
+  if (!homepages.length) return;
+  const chance = Math.min(hoursElapsed * AMBIENT_POST_CHANCE_PER_HOUR, AMBIENT_POST_MAX_CHANCE);
+  const jobs: AmbientPostJob[] = [];
+  for (const personaId of Object.keys(PAGE_OWNERS)) {
+    if (Math.random() >= chance) continue;
+    const page = homepages[Math.floor(Math.random() * homepages.length)] ?? homepages[0];
+    jobs.push({
+      id: crypto.randomUUID(),
+      personaId,
+      pageUrl: page.url,
+      createdAt,
+      attempts: 0
+    });
+  }
+  if (!jobs.length) return;
+  state.ambientPostQueue.push(...jobs);
+  void saveState().then(() => processAmbientPostQueue()).catch(() => {
+    // Keep the queued jobs in memory; a later clock save or model status poll can retry them.
+  });
+}
+
+async function processAmbientPostQueue() {
+  if (ambientQueueProcessing || !window.aiAPI || !aiStatus.warmed || !state.ambientPostQueue.length) return;
+  ambientQueueProcessing = true;
+  try {
+    while (state.ambientPostQueue.length && window.aiAPI && aiStatus.warmed) {
+      const job = state.ambientPostQueue[0];
+      const page = pages[job.pageUrl];
+      if (!page?.commentsEnabled) {
+        state.ambientPostQueue.shift();
+        await saveState();
+        continue;
+      }
+      try {
+        const existingComments = [...(page.seedComments ?? []), ...state.pageComments]
+          .filter((comment) => comment.pageUrl === page.url)
+          .map((comment) => ({ role: comment.role, author: comment.author, text: comment.text }));
+        const result = await window.aiAPI.ambientComment({
+          personaId: job.personaId,
+          pageOwnerId: page.ownerId,
+          pageUrl: page.url,
+          pageTitle: page.title,
+          pageSummary: page.summary,
+          pageContext: extractAmbientPageContext(page),
+          existingComments
+        });
+        state.pageComments.push({
+          id: crypto.randomUUID(),
+          pageUrl: page.url,
+          ownerId: job.personaId,
+          role: job.personaId === page.ownerId ? "owner" : "visitor",
+          author: result.author.screenName,
+          text: result.text,
+          createdAt: job.createdAt,
+          revealAfterVisit: (state.pageVisitCounts[page.url] ?? 0) + 1
+        });
+        state.ambientPostQueue.shift();
+        aiStatus = await window.aiAPI.status();
+        await saveState();
+      } catch {
+        job.attempts += 1;
+        if (job.attempts >= AMBIENT_POST_MAX_ATTEMPTS) state.ambientPostQueue.shift();
+        await saveState();
+        break;
+      }
+    }
+  } finally {
+    ambientQueueProcessing = false;
+  }
 }
 
 function currentPage() {
@@ -767,6 +862,7 @@ async function pollBootAiStatus() {
   try {
     aiStatus = await window.aiAPI.status();
     updateBootAiLabel();
+    if (aiStatus.warmed) void processAmbientPostQueue();
   } catch {
     // The desktop remains usable without the optional local model.
   }
@@ -777,6 +873,7 @@ function beginAiPreload() {
   void window.aiAPI.preload().then((status) => {
     aiStatus = status;
     updateBootAiLabel();
+    if (aiStatus.warmed) void processAmbientPostQueue();
     if (startupStage === "desktop") render();
   }).catch((error) => {
     aiStatus = {
@@ -1187,7 +1284,8 @@ function localGameTimeString(date: Date) {
 }
 
 function advanceGameTime(option: string) {
-  const date = new Date(state.gameTime);
+  const before = new Date(state.gameTime);
+  const date = new Date(before);
   if (option === "morning") {
     if (date.getHours() >= 7) date.setDate(date.getDate() + 1);
     date.setHours(7, 0, 0, 0);
@@ -1195,6 +1293,7 @@ function advanceGameTime(option: string) {
     date.setHours(date.getHours() + Number(option));
   }
   state.gameTime = localGameTimeString(date);
+  queueAmbientPostRolls(crossedGameHourBoundaries(before, date), state.gameTime);
   lastGameClockTick = performance.now();
   sleepDialogOpen = false;
   void saveState();
@@ -1443,9 +1542,11 @@ function updateClock() {
   if (startupStage === "desktop") {
     const elapsed = now - lastGameClockTick;
     if (elapsed > 0) {
-      const gameDate = new Date(state.gameTime);
+      const before = new Date(state.gameTime);
+      const gameDate = new Date(before);
       gameDate.setMilliseconds(gameDate.getMilliseconds() + elapsed * GAME_TIME_SCALE);
       state.gameTime = localGameTimeString(gameDate);
+      queueAmbientPostRolls(crossedGameHourBoundaries(before, gameDate), state.gameTime);
     }
     if (now - lastClockSave >= 30_000) {
       lastClockSave = now;
@@ -1474,4 +1575,5 @@ void Promise.all([
   lastGameClockTick = performance.now();
   render();
   window.setInterval(updateClock, 1000);
+  if (aiStatus.warmed) void processAmbientPostQueue();
 });

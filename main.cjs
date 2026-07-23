@@ -3,7 +3,7 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const { AiService } = require("./ai-service.cjs");
 
-if (process.env.SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.BOOT_SMOKE_TEST || process.env.COMMENT_SMOKE_TEST || process.env.UI_SMOKE_TEST) {
+if (process.env.SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.BOOT_SMOKE_TEST || process.env.COMMENT_SMOKE_TEST || process.env.UI_SMOKE_TEST || process.env.AMBIENT_SMOKE_TEST) {
   app.setPath("userData", path.join(app.getPath("temp"), `surfin-the-net-smoke-${process.pid}`));
 }
 
@@ -13,7 +13,7 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 3,
+  version: 4,
   visited: ["web://home"],
   bookmarks: ["web://rainbow.gdn/home"],
   downloads: [],
@@ -22,6 +22,7 @@ const DEFAULT_SAVE = {
   settings: { theme: "classic", wallpaper: "teal", cursor: "arrow" },
   gameTime: "1999-11-03T19:30:00",
   pageComments: [],
+  ambientPostQueue: [],
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
@@ -58,6 +59,7 @@ ipcMain.handle("ai:preload", () => aiService.preloadAndWarm());
 ipcMain.handle("ai:conversation", () => aiService.getConversation());
 ipcMain.handle("ai:send", (_event, message) => aiService.sendMessage(message));
 ipcMain.handle("ai:page-comment", (_event, request) => aiService.generatePageReply(request));
+ipcMain.handle("ai:ambient-comment", (_event, request) => aiService.generateAmbientComment(request));
 ipcMain.handle("ai:direct-reply", (_event, request) => aiService.generateDirectReply(request));
 ipcMain.handle("ai:semantic-search", (_event, request) => aiService.semanticSearch(request));
 ipcMain.handle("ai:reset", () => aiService.resetConversation());
@@ -640,9 +642,105 @@ function createWindow() {
       }, 700);
     });
   }
+
+  if (process.env.AMBIENT_SMOKE_TEST) {
+    win.webContents.once("did-finish-load", () => {
+      setTimeout(async () => {
+        try {
+          const waitForSelector = async (selector, timeoutMs) => {
+            const deadline = Date.now() + timeoutMs;
+            while (Date.now() < deadline) {
+              if (await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(selector)}))`)) return;
+              await new Promise((resolve) => setTimeout(resolve, 200));
+            }
+            throw new Error(`Timed out waiting for ${selector}`);
+          };
+          const click = async (selector) => {
+            const found = await win.webContents.executeJavaScript(`(() => { const element = document.querySelector(${JSON.stringify(selector)}); if (!element) return false; element.click(); return true; })()`);
+            if (!found) throw new Error(`Missing element: ${selector}`);
+            await new Promise((resolve) => setTimeout(resolve, 150));
+          };
+          const waitForAmbientIdle = async (expectedCommentCount, timeoutMs = 45_000) => {
+            const deadline = Date.now() + timeoutMs;
+            while (Date.now() < deadline) {
+              const saved = await readSave();
+              const ambientComments = saved.pageComments.filter((comment) => comment.role === "visitor" || (comment.role === "owner" && comment.ownerId !== "orbit_guide"));
+              if (saved.ambientPostQueue.length === 0 && ambientComments.length >= expectedCommentCount) return saved;
+              await new Promise((resolve) => setTimeout(resolve, 250));
+            }
+            throw new Error(`Ambient queue did not finish ${expectedCommentCount} comment(s)`);
+          };
+
+          await click("[data-power]");
+          await waitForSelector(".login-stage", 15_000);
+          await click("[data-login-user]");
+          await waitForSelector(".desktop", 12_000);
+
+          const firstSaved = await waitForAmbientIdle(1, 90_000);
+          const miraAmbient = firstSaved.pageComments.find((comment) => comment.ownerId === "mira_917" && comment.pageUrl === "web://cosmiccrust.biz/home");
+          if (!miraAmbient || miraAmbient.role !== "visitor" || !miraAmbient.text) throw new Error(`Seeded ambient job did not persist a Mira visitor comment: ${JSON.stringify(miraAmbient)}`);
+
+          await click('[data-open="browser"]');
+          const navigated = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.address-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'web://cosmiccrust.biz/home'; form.requestSubmit(); return true; })()`);
+          if (!navigated) throw new Error("Could not navigate to the ambient comment target");
+          await new Promise((resolve) => setTimeout(resolve, 150));
+          const revealed = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.page-comment')).some((comment) => comment.querySelector('header b')?.textContent === 'Mira_917')`);
+          if (!revealed) throw new Error("Ambient comment was not revealed on the target page's next visit");
+
+          await win.webContents.executeJavaScript(`window.__nativeRandom = Math.random; Math.random = () => 0.015; true`);
+          await click("[data-start]");
+          await click('[data-session="sleep"]');
+          await click('[data-sleep-hours="1"]');
+          let saved = await readSave();
+          if (saved.ambientPostQueue.length !== 0 || saved.pageComments.length !== firstSaved.pageComments.length) throw new Error("A 1.5% roll incorrectly passed the one-hour 1% chance");
+
+          await win.webContents.executeJavaScript(`Math.random = () => 0.105; true`);
+          await click("[data-start]");
+          await click('[data-session="sleep"]');
+          await click('[data-sleep-hours="morning"]');
+          saved = await readSave();
+          if (saved.ambientPostQueue.length !== 0 || saved.pageComments.length !== firstSaved.pageComments.length) throw new Error("A 10.5% roll incorrectly passed the capped long-sleep chance");
+
+          await win.webContents.executeJavaScript(`window.__ambientRandomCalls = 0; Math.random = () => { window.__ambientRandomCalls += 1; return window.__ambientRandomCalls === 1 ? 0.005 : 0.5; }; true`);
+          await click("[data-start]");
+          await click('[data-session="sleep"]');
+          await click('[data-sleep-hours="1"]');
+          const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
+          if (randomCalls !== 16) throw new Error(`Expected 15 persona rolls plus one page selection, got ${randomCalls} random calls`);
+          const finalSaved = await waitForAmbientIdle(2);
+          const orbitAmbient = finalSaved.pageComments.find((comment) => comment.ownerId === "orbit_guide");
+          if (!orbitAmbient || orbitAmbient.role !== "visitor" || !orbitAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(orbitAmbient)}`);
+          await win.webContents.executeJavaScript(`Math.random = window.__nativeRandom; true`);
+          await new Promise((resolve) => setTimeout(resolve, 3_700));
+          if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('.toast'))`)) throw new Error("Ambient completion created a user-visible notification");
+
+          console.log(`AMBIENT_OK: processed persistent seed and hourly jobs; Mira posted “${miraAmbient.text}”; OrbitPal posted “${orbitAmbient.text}”; 1% hourly and 10% skip caps passed with no completion notification.`);
+        } catch (error) {
+          console.error("AMBIENT_FAILED:", error);
+          process.exitCode = 1;
+        } finally {
+          app.exit(process.exitCode ?? 0);
+        }
+      }, 700);
+    });
+  }
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(async () => {
+  if (process.env.AMBIENT_SMOKE_TEST) {
+    await writeSave({
+      ...structuredClone(DEFAULT_SAVE),
+      ambientPostQueue: [{
+        id: "ambient-smoke-seed",
+        personaId: "mira_917",
+        pageUrl: "web://cosmiccrust.biz/home",
+        createdAt: "1999-11-03T19:45:00",
+        attempts: 0
+      }]
+    });
+  }
+  createWindow();
+});
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
 });
