@@ -45,41 +45,133 @@ const BUSINESS_ASSETS = {
 const businessAsset = (name: keyof typeof BUSINESS_ASSETS, alt: string, className = "") =>
   `<img class="business-web-art ${className}" src="${BUSINESS_ASSETS[name]}" alt="${alt}">`;
 
+const ORBIT_ZONES = [
+  {
+    id: "gamegrid",
+    url: "web://orbitnet.local/zones/gamegrid",
+    title: "Game Grid",
+    badge: "GG",
+    tagline: "Cheats, clans, console wars & high scores",
+    welcome: "Power up with players swapping strategies, homemade levels, reviews, arcade scores, and arguments about which console totally rules.",
+    categories: ["PC & Mac Games", "Console Corner", "Arcade High Scores", "RPG Headquarters", "Mods & Maps", "Cheats & Walkthroughs"],
+    bulletin: "Zone challenge: post your fastest lap, strangest character build, or most impossible boss victory.",
+    searchTerms: ["gamers", "games", "gaming", "video games", "pc games", "console", "arcade", "rpg", "cheats", "mods", "clans"]
+  },
+  {
+    id: "xtreme",
+    url: "web://orbitnet.local/zones/xtreme",
+    title: "X-Treme Edge",
+    badge: "X!",
+    tagline: "Skate, ride, climb, race—then upload it",
+    welcome: "The loudest zone on OrbitNet is home to skate crews, BMX riders, snowboarders, surfers, motocross fans, and anybody with scraped knees.",
+    categories: ["Skateboarding", "BMX & Mountain Bikes", "Snowboarding", "Surf & Wake", "Motocross", "Gear & Safety"],
+    bulletin: "This week's challenge: tell us about your best trick, your worst wipeout, and the helmet that saved your head.",
+    searchTerms: ["extreme", "xtreme", "sports", "skate", "skateboarding", "bmx", "snowboard", "surfing", "motocross", "stunts"]
+  },
+  {
+    id: "petplanet",
+    url: "web://orbitnet.local/zones/petplanet",
+    title: "Pet Planet",
+    badge: "PP",
+    tagline: "Homepages for every kind of best friend",
+    welcome: "Trade pet photos, care tips, adoption stories, aquarium advice, and lengthy explanations of why your animal is the smartest one online.",
+    categories: ["Cats on the Web", "Dogs & Puppies", "Fish & Aquariums", "Birds & Small Pets", "Reptile Room", "Rescue & Adoption"],
+    bulletin: "Pet of the week submissions should include one photo, one favorite snack, and one embarrassing habit.",
+    searchTerms: ["pets", "pet", "animals", "cats", "dogs", "fish", "aquarium", "birds", "reptiles", "adoption", "pet photos"]
+  },
+  {
+    id: "fanverse",
+    url: "web://orbitnet.local/zones/fanverse",
+    title: "The FanVerse",
+    badge: "FV",
+    tagline: "Every universe has room for one more homepage",
+    welcome: "A meeting place for science-fiction watchers, anime tape traders, comic collectors, fantasy readers, fan artists, and dedicated continuity experts.",
+    categories: ["Science Fiction", "Anime & Manga", "Comics", "Fantasy Worlds", "TV & Movie Clubs", "Fan Fiction & Art"],
+    bulletin: "Spoiler warnings are required. Passionate debates are encouraged. Forty-screen character essays are apparently unavoidable.",
+    searchTerms: ["fandom", "fans", "fan club", "science fiction", "sci-fi", "anime", "manga", "comics", "fantasy", "fan fiction", "fan art"]
+  },
+  {
+    id: "yesterday",
+    url: "web://orbitnet.local/zones/yesterday",
+    title: "Yesterday Online",
+    badge: "YO",
+    tagline: "The past has a brand-new homepage",
+    welcome: "Explore family histories, antiques, old-time radio, classic machinery, local legends, historical reenactment, and carefully scanned photographs.",
+    categories: ["Genealogy", "Antiques & Collecting", "Old-Time Radio", "Railroads & Machinery", "Living History", "Local History"],
+    bulletin: "Volunteer scanners are preserving newsletters, photographs, timetables, and stories before another basement floods.",
+    searchTerms: ["history", "old time", "old fashioned", "vintage", "antiques", "genealogy", "old radio", "railroads", "reenactment", "historic"]
+  },
+  {
+    id: "soundwave",
+    url: "web://orbitnet.local/zones/soundwave",
+    title: "SoundWave",
+    badge: "SW",
+    tagline: "Bands, beats, tabs & totally legal MP3 talk",
+    welcome: "Discover garage bands, electronic producers, guitar-tab archivists, concert diarists, bedroom DJs, and people with extremely serious mixtape opinions.",
+    categories: ["Local Bands", "MP3 & Digital Audio", "Guitar Tabs", "Electronic & Rave", "Concert Journals", "Mixtapes & Reviews"],
+    bulletin: "Bandwidth reminder: please compress audio previews before uploading them to your member page.",
+    searchTerms: ["music", "bands", "mp3", "guitar", "tabs", "rave", "electronic", "concert", "mixtape", "dj", "audio"]
+  }
+] as const;
+
+function zoneNavigation(activeId?: string) {
+  return ORBIT_ZONES.map((zone) => activeId === zone.id
+    ? `<b class="active">${zone.title}</b>`
+    : `<button data-nav="${zone.url}">${zone.title}</button>`).join("");
+}
+
+const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
+  url: zone.url,
+  title: `${zone.title} - OrbitNet Community Zone`,
+  site: "directory",
+  ownerId: "orbit_guide",
+  summary: `${zone.title} is an OrbitNet community zone for ${zone.tagline.toLowerCase()}.`,
+  listed: true,
+  hubId: `zone-${zone.id}`,
+  searchTerms: [...zone.searchTerms, "orbitnet zone", "community"],
+  render: () => `
+    <main class="page orbit-zone-page zone-${zone.id}">
+      <header class="zone-masthead">
+        <div class="zone-badge" aria-hidden="true">${zone.badge}</div>
+        <div><small>ORBITNET COMMUNITY ZONE</small><h1>${zone.title}</h1><p>${zone.tagline}</p></div>
+      </header>
+      <nav class="zone-network-nav"><button data-nav="web://home">⌂ OrbitNet Home</button>${zoneNavigation(zone.id)}</nav>
+      <section class="zone-welcome"><h2>Welcome to ${zone.title}!</h2><p>${zone.welcome}</p></section>
+      <div class="zone-columns">
+        <section class="zone-categories"><header><b>EXPLORE THIS ZONE</b><span>6 departments</span></header><div>${zone.categories.map((category, index) => `<article><i>${String(index + 1).padStart(2, "0")}</i><strong>${category}</strong><small>Member directory opening soon</small></article>`).join("")}</div></section>
+        <aside class="zone-bulletin"><h2>Zone Bulletin</h2><p>${zone.bulletin}</p><hr><b>BUILD YOUR OWN PAGE!</b><p>Member-page tools and neighborhood listings will arrive in a future OrbitNet update.</p></aside>
+      </div>
+      <section class="zone-directory-placeholder"><div class="zone-construction">WORK IN PROGRESS</div><div><h2>Member Page Directory</h2><p>No individual member pages are indexed in this zone yet. Please check back after the next directory update.</p></div></section>
+      <footer>OrbitNet Community Services · Zone ID: ${zone.id.toUpperCase()} · Last indexed 11/03/1999</footer>
+    </main>`
+} satisfies PageDefinition]));
+
 export const pages: Record<string, PageDefinition> = {
   ...kidsBusinessPages,
   ...dealerPages,
+  ...orbitZonePages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",
     site: "directory",
     ownerId: "orbit_guide",
-    summary: "The official OrbitNet directory links members to featured personal pages and provides basic help for new users.",
+    summary: "The official OrbitNet directory connects members to six topic-based community zones and provides basic help for new users.",
     listed: true,
     hubId: "directory",
-    searchTerms: ["directory", "featured sites", "help", "orbitnet"],
+    searchTerms: ["directory", "community zones", "communities", "help", "orbitnet"],
     render: (state) => `
       <main class="page directory-page">
         <header class="directory-logo"><span>ORBIT</span><b>NET</b></header>
-        <p class="directory-tagline">Your friendly guide to the Information Superhighway!</p>
+        <p class="directory-tagline">Six communities. Thousands of interests. One friendly corner of the Information Superhighway!</p>
         <form class="search-box orbit-search-form"><input name="query" placeholder="Search pages, people, and phrases..." aria-label="Search OrbitNet"><button>Search</button></form>
+        <section class="zone-directory-intro"><div><small>START EXPLORING</small><h1>Choose Your Community</h1></div><p>Every OrbitNet member page belongs to a neighborhood. Pick a zone or search the entire network.</p></section>
+        <section class="zone-directory-grid">
+          ${ORBIT_ZONES.map((zone) => `<button class="zone-directory-card zone-${zone.id}" data-nav="${zone.url}"><span class="zone-card-badge">${zone.badge}</span><span class="zone-card-copy"><strong>${zone.title}</strong><small>${zone.tagline}</small></span><b>ENTER ZONE ›</b></button>`).join("")}
+        </section>
         <section class="orbit-pal-promo">
           <div class="orbit-pal-mini"><i></i><b>?</b></div>
           <div><h2>New to the Net?</h2><p>Download <b>Orbit Pal</b>, your friendly desktop guide! Ask how to browse, search, download files, send messages, and get unstuck.</p></div>
           <button data-download-helper ${state.flags.orbit_pal_installed ? "disabled" : ""}>${state.flags.orbit_pal_installed ? "Orbit Pal Installed!" : "Download Orbit Pal FREE"}</button>
-        </section>
-        <section class="directory-grid">
-          <button class="directory-card" data-nav="web://rainbow.gdn/home">
-            ${fakeImage("RAINBOW GARDEN", "rainbow")}
-            <strong>Rainbow Garden</strong><span>Art, pets, poetry & more!</span>
-          </button>
-          <button class="directory-card" data-nav="web://nightsignal.net/home">
-            ${fakeImage("NIGHT SIGNAL", "night")}
-            <strong>Night Signal Club</strong><span>Late-night radio mysteries.</span>
-          </button>
-          <button class="directory-card" data-nav="web://raven.web/home">
-            ${fakeImage("DARKRAVEN'S VOID", "raven")}
-            <strong>DarkRaven's Void</strong><span>Games, rumors, files and secrets.</span>
-          </button>
         </section>
         <p class="counter">You are visitor <strong>000042</strong> · Pages discovered: ${state.visited.length}</p>
       </main>`

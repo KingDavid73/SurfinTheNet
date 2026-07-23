@@ -29,7 +29,9 @@ npm.cmd run make
 - An original OrbitOS startup jingle, stored as editable MIDI and a deterministic in-game WAV
 - A draggable fake desktop with a Start menu and taskbar
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
-- Three member-run sites, eleven search-only local businesses, and the OrbitNet directory
+- A cleaned-up OrbitNet directory linking to six topic communities—Game Grid, X-Treme Edge, Pet Planet, The FanVerse, Yesterday Online, and SoundWave
+- Six complete community-zone landing pages ready to receive future member sites
+- Three existing member-run sites and eleven search-only local businesses
 - Site-colored public comment threads on character and business homepages; subpages keep one canonical conversation per owner
 - Fifteen original page MIDI loops that auto-play on navigation, with a chrome-and-LCD OrbitAmp control built into the browser-shell footer and deterministic WAV playback renders
 - A downloadable Orbit Pal app: launch its installed icon to summon the desktop buddy, click the buddy to chat, and use Close Pal to exit it completely

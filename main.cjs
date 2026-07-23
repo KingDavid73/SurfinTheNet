@@ -130,6 +130,7 @@ function createWindow() {
             await fs.writeFile(target, image.toPNG());
           };
 
+          await click('[data-browser="home"]');
           const homepageHasComments = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments'))`);
           if (homepageHasComments) throw new Error("OrbitNet homepage still has a public comment section");
           const browserControlsReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-browser="refresh"]'))`);
@@ -145,6 +146,24 @@ function createWindow() {
           await click("[data-page-music]");
           const midiStopped = await win.webContents.executeJavaScript(`!document.querySelector('.midi-led.playing') && document.querySelector('[data-page-music]')?.textContent.includes('Play')`);
           if (!midiStopped) throw new Error("Page MIDI player did not stop");
+          const expectedZoneUrls = [
+            "web://orbitnet.local/zones/gamegrid",
+            "web://orbitnet.local/zones/xtreme",
+            "web://orbitnet.local/zones/petplanet",
+            "web://orbitnet.local/zones/fanverse",
+            "web://orbitnet.local/zones/yesterday",
+            "web://orbitnet.local/zones/soundwave"
+          ];
+          const homepageZoneUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.zone-directory-card')).map((card) => card.getAttribute('data-nav'))`);
+          if (JSON.stringify(homepageZoneUrls) !== JSON.stringify(expectedZoneUrls)) throw new Error(`OrbitNet homepage zone directory was incomplete: ${JSON.stringify(homepageZoneUrls)}`);
+          await capture("orbitnet-zones.png");
+          for (const zoneUrl of expectedZoneUrls) {
+            await click(`[data-nav="${zoneUrl}"]`);
+            const zoneReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.orbit-zone-page')) && document.querySelectorAll('.zone-categories article').length === 6 && !document.querySelector('.page-comments')`);
+            if (!zoneReady) throw new Error(`Community zone was incomplete or had an unwanted comment thread: ${zoneUrl}`);
+            if (zoneUrl.endsWith("/gamegrid")) await capture("orbitnet-zone-gamegrid.png");
+            await click('[data-nav="web://home"]');
+          }
           await click("[data-download-helper]");
           const helperInstalled = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.desktop-icons [data-open="helper"]')) && !document.querySelector('.helper-window')`);
           if (!helperInstalled) throw new Error("Orbit Pal did not install closed on the desktop");
@@ -319,7 +338,9 @@ function createWindow() {
           const hiddenText = await win.webContents.executeJavaScript(`document.querySelector('.system-hidden-page')?.textContent || ''`);
           if (!hiddenText.includes("PUBLIC INDEX: FALSE")) throw new Error("Unlisted maintenance page was not discoverable through phrase search");
           await click('[data-nav="web://home"]');
-          await click('[data-nav="web://nightsignal.net/home"]');
+          const nightSignalAddressed = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.address-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'web://nightsignal.net/home'; form.requestSubmit(); return true; })()`);
+          if (!nightSignalAddressed) throw new Error("Could not enter the Night Signal address directly");
+          await new Promise((resolve) => setTimeout(resolve, 120));
           await click('[data-nav="web://nightsignal.net/archive"]');
           await click('[data-download="signal-note"]');
           await click('[data-open="files"]');
@@ -334,7 +355,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "clue-flow.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log("SMOKE_OK: installed Orbit Pal, found all eleven businesses through related searches, verified all eleven business campaigns plus their page MIDI/comment boundaries and seeded dealer feud, browsed to the archive, and persisted downloads.");
+          console.log("SMOKE_OK: browsed all six OrbitNet zones, installed Orbit Pal, found all eleven businesses through related searches, verified all eleven business campaigns plus their page MIDI/comment boundaries and seeded dealer feud, browsed to the archive, and persisted downloads.");
         } catch (error) {
           console.error("SMOKE_FAILED:", error);
           process.exitCode = 1;
