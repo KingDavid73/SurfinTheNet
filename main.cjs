@@ -164,10 +164,30 @@ function createWindow() {
           const pizzaReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.pizza-page')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing'))`);
           if (!pizzaReady) throw new Error("Cosmic Crust page skeleton was incomplete");
           await capture("cosmic-crust.png");
+          await click('[data-nav="web://cosmiccrust.biz/menu"]');
+          const menuReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.cosmic-menu-page .cosmic-menu-grid')) && !document.querySelector('.page-comments')`);
+          if (!menuReady) throw new Error("Cosmic Crust menu was incomplete or had a separate comment thread");
+          await capture("cosmic-crust-menu.png");
           await click('[data-browser="home"]');
           await searchFor("tech", "web://bytebarn.com/home");
+          await click('[data-nav="web://bytebarn.com/home"]');
+          const byteBarnReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.bytebarn-product .business-web-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing'))`);
+          if (!byteBarnReady) throw new Error("Byte Barn campaign page was incomplete");
+          await capture("byte-barn.png");
+          await click('[data-nav="web://bytebarn.com/systems"]');
+          const systemsReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.bytebarn-systems-page .system-comparison')) && !document.querySelector('.page-comments')`);
+          if (!systemsReady) throw new Error("Byte Barn systems page was incomplete or had a separate comment thread");
+          await capture("byte-barn-systems.png");
           await click('[data-browser="home"]');
           await searchFor("animals", "web://pawsnclaws.net/home");
+          await click('[data-nav="web://pawsnclaws.net/home"]');
+          const pawsReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.pickles-card .business-web-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing'))`);
+          if (!pawsReady) throw new Error("Paws & Claws campaign page was incomplete");
+          await capture("paws-and-claws.png");
+          await click('[data-nav="web://pawsnclaws.net/adoption"]');
+          const adoptionReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.paws-adoption-page .adoption-steps')) && !document.querySelector('.page-comments')`);
+          if (!adoptionReady) throw new Error("Paws & Claws adoption page was incomplete or had a separate comment thread");
+          await capture("paws-adoption.png");
           await click('[data-browser="home"]');
           const consoleSearchSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'video game console'; form.requestSubmit(); return true; })()`);
           if (!consoleSearchSubmitted) throw new Error("Console search form was unavailable");
@@ -234,7 +254,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "clue-flow.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log("SMOKE_OK: installed Orbit Pal, found all six businesses through related searches, verified all three console campaigns and their page MIDI/comment boundaries, browsed to the archive, and persisted downloads.");
+          console.log("SMOKE_OK: installed Orbit Pal, found all six businesses through related searches, verified all six business campaigns plus their page MIDI/comment boundaries, browsed to the archive, and persisted downloads.");
         } catch (error) {
           console.error("SMOKE_FAILED:", error);
           process.exitCode = 1;
@@ -498,12 +518,35 @@ function createWindow() {
             recentComments: []
           })`);
           if (!jaxReply.text || jaxReply.text.length > 280) throw new Error("PULSEnet_Jax did not provide a concise product response");
+          const chipReply = await win.webContents.executeJavaScript(`window.aiAPI.comment({
+            ownerId: "chip_bytebarn",
+            pageUrl: "web://bytebarn.com/home",
+            pageTitle: "BYTE BARN Computer Superstore",
+            pageSummary: "A local computer shop comparing home PCs, upgrades, and repair services.",
+            playerComment: "I mostly need homework and some games. Do I need the Creator 450, or is the Orbit 350 enough?",
+            relationshipScore: 8,
+            recentComments: []
+          })`);
+          if (!chipReply.text || chipReply.text.length > 320) throw new Error("Chip did not provide a concise system recommendation");
+          const bevReply = await win.webContents.executeJavaScript(`window.aiAPI.comment({
+            ownerId: "bev_paws",
+            pageUrl: "web://pawsnclaws.net/home",
+            pageTitle: "Paws & Claws Pet Emporium",
+            pageSummary: "An independent pet store hosting a careful Saturday shelter adoption event.",
+            playerComment: "Can I bring home one of the cats as a surprise gift for my roommate?",
+            relationshipScore: 12,
+            recentComments: []
+          })`);
+          if (!bevReply.text || bevReply.text.length > 320) throw new Error("Bev did not provide a concise adoption response");
+          if (!/(don't|do not|shouldn't|isn't|not.{0,20}surprise|everyone.{0,24}agree|must.{0,24}agree)/i.test(bevReply.text)) {
+            throw new Error(`Bev failed to reject a surprise-pet plan: ${bevReply.text}`);
+          }
 
           const image = await win.webContents.capturePage();
           const target = path.resolve(__dirname, "artifacts", "boot-flow-desktop.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log(`BOOT_OK: startup completed; semantic search found Cosmic Crust, Toni answered the newest turn with “${toniReply.text}”, Orbit Pal answered “${helperReply.text}”, PULSEnet_Jax answered “${jaxReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
+          console.log(`BOOT_OK: startup completed; Toni answered the newest turn, Orbit Pal helped, Jax sold the network, Chip recommended “${chipReply.text}”, Bev advised “${bevReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
         } catch (error) {
           console.error("BOOT_FAILED:", error);
           process.exitCode = 1;

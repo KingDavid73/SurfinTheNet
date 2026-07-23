@@ -81,6 +81,11 @@ in `docs/console-marketing-research.md`. Their campaign graphics use separate
 company-specific contact sheets so each brand can have its own medium and visual
 voice.
 
+The refreshed Byte Barn, Cosmic Crust, and Paws & Claws campaigns are documented
+in `docs/business-marketing-research.md`. They use the same one-sheet-per-company
+pipeline with deliberately different media: computer-circular photography,
+local pizza-flyer collage, and a pet-store snapshot scrapbook.
+
 The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium plays the matching `assets/audio/orbitos-startup.wav` for predictable sound on every machine. Regenerate both from source with `node scripts/generate-startup-jingle.mjs`.
 
 Page loops live in `assets/audio/pages/` as editable MIDI plus matching WAV renders. Regenerate them with `npm.cmd run music:generate`.

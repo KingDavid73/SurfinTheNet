@@ -22,6 +22,26 @@ const CONSOLE_ASSETS = {
 } as const;
 const consoleAsset = (name: keyof typeof CONSOLE_ASSETS, alt: string, className = "") =>
   `<img class="console-web-art ${className}" src="${CONSOLE_ASSETS[name]}" alt="${alt}">`;
+const BUSINESS_ASSETS = {
+  "bytebarn-system": new URL("../assets/images/business-web/bytebarn-system.png", import.meta.url).href,
+  "bytebarn-open-tower": new URL("../assets/images/business-web/bytebarn-open-tower.png", import.meta.url).href,
+  "bytebarn-modem": new URL("../assets/images/business-web/bytebarn-modem.png", import.meta.url).href,
+  "bytebarn-upgrades": new URL("../assets/images/business-web/bytebarn-upgrades.png", import.meta.url).href,
+  "bytebarn-technician": new URL("../assets/images/business-web/bytebarn-technician.png", import.meta.url).href,
+  "cosmiccrust-pizza": new URL("../assets/images/business-web/cosmiccrust-pizza.png", import.meta.url).href,
+  "cosmiccrust-slice": new URL("../assets/images/business-web/cosmiccrust-slice.png", import.meta.url).href,
+  "cosmiccrust-meal": new URL("../assets/images/business-web/cosmiccrust-meal.png", import.meta.url).href,
+  "cosmiccrust-delivery": new URL("../assets/images/business-web/cosmiccrust-delivery.png", import.meta.url).href,
+  "cosmiccrust-arcade": new URL("../assets/images/business-web/cosmiccrust-arcade.png", import.meta.url).href,
+  "pawsnclaws-pickles": new URL("../assets/images/business-web/pawsnclaws-pickles.png", import.meta.url).href,
+  "pawsnclaws-adoption": new URL("../assets/images/business-web/pawsnclaws-adoption.png", import.meta.url).href,
+  "pawsnclaws-aquarium": new URL("../assets/images/business-web/pawsnclaws-aquarium.png", import.meta.url).href,
+  "pawsnclaws-birds": new URL("../assets/images/business-web/pawsnclaws-birds.png", import.meta.url).href,
+  "pawsnclaws-supplies": new URL("../assets/images/business-web/pawsnclaws-supplies.png", import.meta.url).href,
+  "pawsnclaws-bev": new URL("../assets/images/business-web/pawsnclaws-bev.png", import.meta.url).href
+} as const;
+const businessAsset = (name: keyof typeof BUSINESS_ASSETS, alt: string, className = "") =>
+  `<img class="business-web-art ${className}" src="${BUSINESS_ASSETS[name]}" alt="${alt}">`;
 
 export const pages: Record<string, PageDefinition> = {
   "web://home": {
@@ -270,18 +290,51 @@ export const pages: Record<string, PageDefinition> = {
     commentsEnabled: true,
     listed: true,
     hubId: "business",
-    searchTerms: ["computers", "computer store", "pc", "hardware", "software", "repair", "modem", "internet"],
+    searchTerms: ["computers", "computer store", "pc", "hardware", "software", "repair", "modem", "internet", "desktop", "upgrades", "computer parts"],
     render: () => `
       <main class="page computer-page">
-        <header><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></header>
-        <div class="computer-hero">${fakeImage("THIS WEEK'S DREAM MACHINE", "computer")}<div><h1>Pentium Power for the Whole Family!</h1><p>Locally owned PCs, upgrades, repairs, and patient answers since 1987.</p><button disabled>BUILD YOUR PC</button></div></div>
-        <section class="computer-deals">
-          <article><b>ORBIT 350</b><span>64MB RAM · 4.3GB drive</span><strong>$1,299</strong></article>
-          <article><b>56K MODEM KIT</b><span>Includes 20 feet of phone cord!</span><strong>$79</strong></article>
-          <article><b>HOUSE CALL</b><span>Chip fixes what the manual cannot.</span><strong>$45/hr</strong></article>
+        <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>LOCALLY COMPUTED SINCE 1987</em></header>
+        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button disabled>SOFTWARE</button><button disabled>STORE HOURS</button></nav>
+        <div class="bytebarn-alert">WEEKEND WAREHOUSE SALE! &nbsp; FREE 20' PHONE CORD WITH ANY MODEM &nbsp; WHILE SUPPLIES LAST</div>
+        <section class="computer-hero">
+          <div class="bytebarn-product">${businessAsset("bytebarn-system", "A complete beige Byte Barn family computer system")}<span class="sale-burst">SAVE<br>$200!</span></div>
+          <div><p class="catalog-code">SYSTEM 11-99 / HOME OFFICE</p><h1>Put Pentium Power in the Family Room!</h1><p>The complete <b>ORBIT 350</b> gets homework, games, and the Information Superhighway off one desk and onto another desk.</p><ul><li>350MHz processor</li><li>64MB memory</li><li>4.3GB hard drive</li><li>15&quot; color monitor</li><li>56K modem &amp; speakers</li></ul><strong class="hero-price"><small>COMPLETE SYSTEM</small>$1,299</strong><button data-nav="web://bytebarn.com/systems">COMPARE SYSTEMS &gt;</button></div>
         </section>
-        <p class="business-owner">Questions? Leave Chip a note below. He checks the site between repair jobs.</p>
-        <footer>BYTE BARN · 1840 Market Plaza · Open Mon–Sat</footer>
+        <section class="computer-deals">
+          <article>${businessAsset("bytebarn-modem", "An external 56K modem")}<div><b>56K MODEM KIT</b><span>External modem, cable &amp; patient setup guide.</span><strong>$79</strong></div></article>
+          <article>${businessAsset("bytebarn-upgrades", "Computer upgrade cards, memory, and joystick")}<div><b>UPGRADE COUNTER</b><span>Memory, video, sound, joysticks and honest advice.</span><strong>FROM $29</strong></div></article>
+          <article>${businessAsset("bytebarn-technician", "Chip repairing an open desktop computer")}<div><b>HOUSE CALL</b><span>Chip fixes what the manual cannot.</span><strong>$45/hr</strong></div></article>
+        </section>
+        <aside class="bytebarn-fine-print"><b>WHY BYTE BARN?</b><span>No mystery parts. No 40-minute hold music. If we sell it, somebody in this building knows how it works.</span></aside>
+        <p class="business-owner">Questions? Leave Chip a note below. He checks the site between repair jobs and answers in plain English.</p>
+        <footer>BYTE BARN &middot; 1840 Market Plaza &middot; Mon-Fri 9-8 &middot; Sat 9-6 &middot; Closed Sunday</footer>
+      </main>`
+  },
+  "web://bytebarn.com/systems": {
+    url: "web://bytebarn.com/systems",
+    title: "BYTE BARN Systems & Upgrades",
+    site: "computer",
+    ownerId: "chip_bytebarn",
+    summary: "Byte Barn compares three 1999 home computer systems and lists memory, video, sound, modem, and repair upgrades.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["computer systems", "desktop PC prices", "Pentium", "Celeron", "RAM", "hard drive", "video card", "sound card", "computer upgrade"],
+    render: () => `
+      <main class="page computer-page bytebarn-systems-page">
+        <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>SYSTEMS & UPGRADES / NOVEMBER 1999</em></header>
+        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button>SYSTEMS & UPGRADES</button><button disabled>SOFTWARE</button></nav>
+        <section class="bytebarn-systems-intro">${businessAsset("bytebarn-open-tower", "An open beige computer tower showing its components")}<div><p class="catalog-code">NO MYSTERY PARTS INSIDE</p><h1>Choose the computer you need.</h1><p>Not the one a salesman needs to move before inventory.</p></div></section>
+        <section class="system-comparison">
+          <article><span>GOOD</span><h2>STUDY 300</h2><strong>$899</strong><ul><li>300MHz Celeron</li><li>32MB RAM</li><li>3.2GB drive</li><li>40X CD-ROM</li><li>15&quot; monitor</li></ul><button disabled>ASK IN STORE</button></article>
+          <article class="featured"><span>BETTER</span><h2>ORBIT 350</h2><strong>$1,299</strong><ul><li>350MHz Pentium II</li><li>64MB RAM</li><li>4.3GB drive</li><li>3D video</li><li>56K modem</li></ul><button disabled>ASK IN STORE</button></article>
+          <article><span>BEST</span><h2>CREATOR 450</h2><strong>$1,799</strong><ul><li>450MHz Pentium III</li><li>128MB RAM</li><li>10GB drive</li><li>CD recorder</li><li>17&quot; monitor</li></ul><button disabled>ASK IN STORE</button></article>
+        </section>
+        <section class="upgrade-table">
+          <div>${businessAsset("bytebarn-upgrades", "Computer memory, video, and sound upgrade parts")}</div>
+          <table><caption>UPGRADE COUNTER</caption><tbody><tr><th>32MB MEMORY</th><td>Installed while you wait</td><td>$49</td></tr><tr><th>3D VIDEO CARD</th><td>Games stop looking like homework</td><td>$129</td></tr><tr><th>8GB HARD DRIVE</th><td>Includes drive copy</td><td>$179</td></tr><tr><th>SOUND + SPEAKERS</th><td>16-bit stereo kit</td><td>$89</td></tr><tr><th>PC CLEAN & TUNE</th><td>Inside and out</td><td>$39</td></tr></tbody></table>
+        </section>
+        <button class="console-return" data-nav="web://bytebarn.com/home">&lt; BACK TO THE FRONT PAGE</button>
+        <footer>Prices good through 11/30/99. Monitor shown may be heavier than it appears.</footer>
       </main>`
   },
   "web://cosmiccrust.biz/home": {
@@ -293,15 +346,48 @@ export const pages: Record<string, PageDefinition> = {
     commentsEnabled: true,
     listed: true,
     hubId: "business",
-    searchTerms: ["pizza", "food", "restaurant", "dinner", "lunch", "delivery", "takeout", "coupon", "pepperoni"],
+    searchTerms: ["pizza", "food", "restaurant", "dinner", "lunch", "delivery", "takeout", "coupon", "pepperoni", "arcade", "wings", "breadsticks"],
     render: () => `
       <main class="page pizza-page">
-        <header><span>COSMIC</span><b>CRUST</b><i>★</i></header>
-        <div class="pizza-marquee">HOT · FRESH · DELIVERED TO EARTH AND SURROUNDING SUBURBS · CALL 555-PIES</div>
-        <section class="pizza-splash">${fakeImage("SPINNING PIZZA.GIF", "pizza")}<div><h1>The Future of Dinner Is Round!</h1><p>Family recipes, arcade games, and cheese with appropriate gravitational pull.</p><button disabled>ORDER ONLINE (COMING SOON)</button></div></section>
-        <section class="coupon"><b>PRINT THIS PAGE!</b><strong>$3 OFF</strong><span>any large two-topping pizza · Expires 12/31/99</span></section>
+        <header class="cosmic-header"><div><span>COSMIC</span><b>CRUST</b><i>★</i></div><small>PIZZA &amp; GALACTIC ARCADE</small></header>
+        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button data-nav="web://cosmiccrust.biz/menu">MENU & COUPONS</button><button disabled>ARCADE SCORES</button><button disabled>ALIEN CLUB</button></nav>
+        <div class="pizza-marquee">HOT &middot; FRESH &middot; DELIVERED TO EARTH AND SURROUNDING SUBURBS &middot; CALL 555-PIES</div>
+        <section class="pizza-splash">
+          <div class="cosmic-pizza-hero">${businessAsset("cosmiccrust-pizza", "A bubbling Cosmic Crust pepperoni pizza surrounded by planets")}<span class="cosmic-burst">OUT OF<br>THIS WORLD!</span></div>
+          <div><p class="cosmic-kicker">NOW ORBITING YOUR NEIGHBORHOOD</p><h1>The Future of Dinner Is Round!</h1><p>Family sauce. Properly crispy crust. Cheese with enough gravitational pull to bring everybody to the table.</p><button data-nav="web://cosmiccrust.biz/menu">VIEW THE GALACTIC MENU &gt;&gt;</button><small>Online ordering coming as soon as Toni trusts the computer.</small></div>
+        </section>
+        <section class="cosmic-specials">
+          <article>${businessAsset("cosmiccrust-meal", "A Cosmic Crust pizza meal with takeout box and sodas")}<div><span>MISSION FOR FOUR</span><b>1 LARGE + BREADSTICKS + 2 SODAS</b><strong>$14.99</strong></div></article>
+          <article>${businessAsset("cosmiccrust-arcade", "Two colorful arcade cabinets")}<div><span>FREE TOKENS TUESDAY</span><b>2 TOKENS WITH EVERY SLICE</b><strong>HIGH SCORE: TAZ 88420</strong></div></article>
+        </section>
+        <section class="coupon"><b>PRINT THIS PAGE!</b><strong>$3 OFF</strong><span>any large two-topping pizza &middot; coupon code MARS99 &middot; expires 12/31/99</span></section>
         <p class="business-owner">Tell Toni what topping deserves a permanent place on the menu.</p>
-        <footer>Free delivery over $12 · Please allow 30–45 Earth minutes</footer>
+        <footer>Free delivery over $12 &middot; Please allow 30-45 Earth minutes &middot; 81 Comet Road &middot; Open until midnight Fri-Sat</footer>
+      </main>`
+  },
+  "web://cosmiccrust.biz/menu": {
+    url: "web://cosmiccrust.biz/menu",
+    title: "Cosmic Crust Galactic Menu & Coupons",
+    site: "pizza",
+    ownerId: "toni_pizza",
+    summary: "Cosmic Crust's menu lists pizza sizes, toppings, specialty pies, wings, breadsticks, drinks, delivery prices, and printable coupons.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["pizza menu", "pizza prices", "pepperoni", "cheese pizza", "wings", "breadsticks", "soda", "delivery coupon"],
+    render: () => `
+      <main class="page pizza-page cosmic-menu-page">
+        <header class="cosmic-header"><div><span>COSMIC</span><b>CRUST</b><i>★</i></div><small>GALACTIC MENU / FALL 1999</small></header>
+        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button>MENU & COUPONS</button><button disabled>ARCADE SCORES</button></nav>
+        <section class="menu-hero">${businessAsset("cosmiccrust-slice", "A giant stretchy-cheese pepperoni pizza slice")}<div><h1>BUILD YOUR OWN<br>PIZZA PLANET</h1><p>Every orbit begins with sauce and cheese.</p></div></section>
+        <section class="cosmic-menu-grid">
+          <article><h2>CHOOSE A SIZE</h2><dl><div><dt>PERSONAL / 8&quot;</dt><dd>$4.49</dd></div><div><dt>MEDIUM / 12&quot;</dt><dd>$8.99</dd></div><div><dt>LARGE / 14&quot;</dt><dd>$11.99</dd></div><div><dt>GALACTIC / 18&quot;</dt><dd>$15.99</dd></div></dl><small>First topping included. Extra toppings 75&cent; / $1 / $1.25 / $1.50.</small></article>
+          <article><h2>TOPPING STATION</h2><p>Pepperoni &middot; Sausage &middot; Ham &middot; Bacon &middot; Mushroom &middot; Onion &middot; Green Pepper &middot; Black Olive &middot; Pineapple &middot; Jalape&ntilde;o</p><aside>ANCHOVIES AVAILABLE BY REQUEST.<br><small>Toni would like everyone to be normal about this.</small></aside></article>
+          <article><h2>SIGNATURE ORBITS</h2><dl><div><dt>RED GIANT</dt><dd>Pepperoni, sausage, ham</dd></div><div><dt>GREEN MOON</dt><dd>Mushroom, pepper, onion, olive</dd></div><div><dt>SPACE CADET</dt><dd>Cheese with smiley pepperoni</dd></div><div><dt>TONI'S COMET</dt><dd>Hot pepper, sausage, extra cheese</dd></div></dl></article>
+          <article><h2>SIDE MISSIONS</h2><dl><div><dt>Garlic Breadsticks</dt><dd>$3.49</dd></div><div><dt>10 Meteor Wings</dt><dd>$6.99</dd></div><div><dt>Garden Salad</dt><dd>$3.99</dd></div><div><dt>2-Liter Soda</dt><dd>$2.29</dd></div></dl></article>
+        </section>
+        <div class="menu-delivery">${businessAsset("cosmiccrust-delivery", "The red Cosmic Crust delivery car with a ringed planet topper")}<p><b>DELIVERY RANGE:</b> Five miles from 81 Comet Road. Free over $12; otherwise $1.50. Call <b>555-PIES</b>. We accept cash, check, and major credit cards over the telephone if Toni can find the imprinter.</p></div>
+        <button class="console-return" data-nav="web://cosmiccrust.biz/home">&lt;&lt; RETURN TO HOME PLANET</button>
+        <footer>Prices do not include tax. Coupons cannot be combined, stacked, folded into spacecraft, or argued about.</footer>
       </main>`
   },
   "web://pawsnclaws.net/home": {
@@ -313,16 +399,52 @@ export const pages: Record<string, PageDefinition> = {
     commentsEnabled: true,
     listed: true,
     hubId: "business",
-    searchTerms: ["pet store", "pets", "animals", "cat", "dog", "fish", "bird", "pet food", "toys", "adoption"],
+    searchTerms: ["pet store", "pets", "animals", "cat", "dog", "fish", "bird", "pet food", "toys", "adoption", "aquarium", "pet supplies", "shelter"],
     render: () => `
       <main class="page pets-page">
-        <header><span>PAWS</span><i>&</i><b>CLAWS</b><small>PET EMPORIUM</small></header>
-        <div class="paw-trail">●　●　●　●　●</div>
-        <section class="pet-welcome"><div>${fakeImage("SHOP CAT: PICKLES", "pets")}<small>Pickles, Assistant Manager</small></div><div><h1>Everything for Your Best Friend!</h1><p>Food, toys, tanks, tiny sweaters, and advice from people who genuinely want to see your pet photos.</p></div></section>
-        <div class="pet-departments"><span>🐕 DOG AISLE</span><span>🐈 CAT CORNER</span><span>🐟 AQUARIUM</span><span>🐦 BIRD ROOM</span></div>
-        <aside><b>Saturday Adoption Day</b><p>Meet local shelter animals from 10 AM–2 PM. Bring the whole family!</p></aside>
+        <header class="paws-header"><div><span>PAWS</span><i>&</i><b>CLAWS</b></div><small>PET EMPORIUM &middot; 22 WILLOW LANE</small></header>
+        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button data-nav="web://pawsnclaws.net/adoption">ADOPTION DAY</button><button disabled>DEPARTMENTS</button><button disabled>PET PHOTO WALL</button></nav>
+        <div class="paw-trail">●　●　●　●　●　●　●</div>
+        <section class="pet-welcome">
+          <div class="pickles-card">${businessAsset("pawsnclaws-pickles", "Pickles the orange shop cat asleep beside the cash register")}<small>Pickles, Assistant Manager<br>(currently on break)</small></div>
+          <div><p class="paws-note">A NOTE FROM BEV:</p><h1>Everything for Your Best Friend!</h1><p>Food, toys, tanks, tiny sweaters, and advice from people who genuinely want to see your pet photos.</p><p>We are a small store. That means we remember your dog's name and we will absolutely notice if you buy the wrong fish food.</p><button data-nav="web://pawsnclaws.net/adoption">MEET SATURDAY'S PETS &gt;</button></div>
+        </section>
+        <section class="pet-departments">
+          <article>${businessAsset("pawsnclaws-supplies", "Leashes, toys, bowls, grooming tools, and a pet sweater")}<b>DOG &amp; CAT</b><span>Food &middot; beds &middot; leashes &middot; toys &middot; tiny seasonal clothing</span></article>
+          <article>${businessAsset("pawsnclaws-aquarium", "A healthy planted freshwater aquarium")}<b>AQUARIUM ROOM</b><span>Healthy fish &middot; tested water &middot; tanks bigger than a flower vase</span></article>
+          <article>${businessAsset("pawsnclaws-birds", "Two budgerigar birds perched together")}<b>BIRDS &amp; SMALL PETS</b><span>Seed &middot; cages &middot; bedding &middot; things to chew that are not your furniture</span></article>
+        </section>
+        <aside class="adoption-callout">${businessAsset("pawsnclaws-adoption", "A shelter dog and cat waiting at adoption day")}<div><b>SATURDAY ADOPTION DAY</b><p>Meet animals from Willow County Shelter, 10 AM-2 PM. Bring the family. Leave impulsive promises at home.</p><button data-nav="web://pawsnclaws.net/adoption">HOW ADOPTION DAY WORKS</button></div></aside>
         <p class="business-owner">Bev reads every message. Pickles walks across the keyboard for about half of them.</p>
-        <footer>22 Willow Lane · “If your pet can wear it, we probably sell it.”</footer>
+        <footer>22 Willow Lane &middot; Mon-Fri 10-7 &middot; Sat 9-5 &middot; Sun 11-4 &middot; &ldquo;If your pet can wear it, we probably sell it.&rdquo;</footer>
+      </main>`
+  },
+  "web://pawsnclaws.net/adoption": {
+    url: "web://pawsnclaws.net/adoption",
+    title: "Paws & Claws Saturday Adoption Day",
+    site: "pets",
+    ownerId: "bev_paws",
+    summary: "Paws & Claws explains its Saturday shelter adoption event, application process, fees, supplies, and responsible pet preparation.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["pet adoption", "adopt dog", "adopt cat", "animal shelter", "Saturday adoption", "adoption fees", "responsible pet owner"],
+    render: () => `
+      <main class="page pets-page paws-adoption-page">
+        <header class="paws-header"><div><span>PAWS</span><i>&</i><b>CLAWS</b></div><small>SATURDAY ADOPTION DAY</small></header>
+        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button>ADOPTION DAY</button><button disabled>DEPARTMENTS</button></nav>
+        <section class="adoption-hero">${businessAsset("pawsnclaws-adoption", "A friendly shelter dog and cat at adoption day")}<div><p class="paws-note">WILLOW COUNTY SHELTER VISITS EVERY SATURDAY</p><h1>Maybe your best friend is waiting.</h1><p>10 AM-2 PM at 22 Willow Lane. Meeting is easy. Taking somebody home should take a little thought.</p></div></section>
+        <section class="adoption-steps">
+          <article><span>1</span><h2>MEET</h2><p>Talk with a shelter volunteer and spend time with an animal. Everybody in the household should agree.</p></article>
+          <article><span>2</span><h2>ASK</h2><p>Learn about temperament, medical care, food, exercise, other pets, and the mysteries of the vacuum cleaner.</p></article>
+          <article><span>3</span><h2>APPLY</h2><p>Bring identification and landlord approval if you rent. The shelter reviews applications; nobody goes home as a surprise gift.</p></article>
+          <article><span>4</span><h2>PREPARE</h2><p>Food, bowls, collar, carrier, bed, and a quiet first day. Bev gives adopters 10% off their starter supplies.</p></article>
+        </section>
+        <section class="adoption-details">
+          <div>${businessAsset("pawsnclaws-bev", "Bev holding Pickles in the pet store")}<small>Bev and Pickles, who was not consulted about this photograph.</small></div>
+          <div><h2>THIS WEEK'S NOTES</h2><ul><li>Dogs: $65 adoption fee</li><li>Cats: $45 adoption fee</li><li>Spay/neuter and first vaccines included</li><li>Please bring a secure carrier for cats</li><li>Resident dogs may attend a supervised introduction</li></ul><aside><b>NOT READY TO ADOPT?</b><p>The shelter also needs unopened food, clean towels, volunteers, and people willing to tell their friends.</p></aside></div>
+        </section>
+        <button class="console-return" data-nav="web://pawsnclaws.net/home">&lt; BACK TO THE EMPORIUM</button>
+        <footer>Adoptions are arranged by Willow County Shelter. Paws & Claws provides the space, supplies, and emergency lint rollers.</footer>
       </main>`
   },
   "web://pulsenet.red/home": {
