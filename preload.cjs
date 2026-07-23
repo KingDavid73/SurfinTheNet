@@ -13,5 +13,6 @@ contextBridge.exposeInMainWorld("aiAPI", {
   send: (message) => ipcRenderer.invoke("ai:send", message),
   comment: (request) => ipcRenderer.invoke("ai:page-comment", request),
   directReply: (request) => ipcRenderer.invoke("ai:direct-reply", request),
+  search: (request) => ipcRenderer.invoke("ai:semantic-search", request),
   reset: () => ipcRenderer.invoke("ai:reset")
 });

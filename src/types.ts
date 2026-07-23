@@ -1,4 +1,4 @@
-export type AppId = "browser" | "mail" | "files" | "chat" | "settings";
+export type AppId = "browser" | "mail" | "files" | "chat" | "settings" | "helper";
 
 export type AiPhase = "offline" | "ready" | "loading" | "warming" | "idle" | "generating" | "error";
 
@@ -91,7 +91,7 @@ export interface GuestbookEntry {
   createdAt: string;
 }
 
-export type DirectChannel = "aim" | "email";
+export type DirectChannel = "aim" | "email" | "helper";
 
 export interface DirectMessage {
   id: string;
@@ -117,6 +117,16 @@ export interface DirectReplyRequest {
 export interface DirectReplyResult {
   text: string;
   owner: AiPersonaSummary;
+  metrics: AiMetrics;
+}
+
+export interface SemanticSearchRequest {
+  query: string;
+  pages: Array<{ url: string; title: string; summary: string }>;
+}
+
+export interface SemanticSearchResult {
+  urls: string[];
   metrics: AiMetrics;
 }
 
@@ -146,7 +156,7 @@ export interface GameState {
 export interface PageDefinition {
   url: string;
   title: string;
-  site: "directory" | "rainbow" | "signal" | "raven";
+  site: "directory" | "rainbow" | "signal" | "raven" | "computer" | "pizza" | "pets";
   ownerId: string;
   summary: string;
   commentsEnabled?: boolean;
@@ -170,6 +180,7 @@ declare global {
       send: (message: string) => Promise<AiSendResult>;
       comment: (request: PageCommentRequest) => Promise<PageCommentResult>;
       directReply: (request: DirectReplyRequest) => Promise<DirectReplyResult>;
+      search: (request: SemanticSearchRequest) => Promise<SemanticSearchResult>;
       reset: () => Promise<AiConversation>;
     };
   }

@@ -8,6 +8,20 @@ const startupJingle = new Audio(startupJingleUrl);
 startupJingle.preload = "auto";
 startupJingle.volume = 0.58;
 
+const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; midiUrl: string; url: string }> = {
+  directory: { label: "Orbit Avenue", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
+  rainbow: { label: "Garden Sprites", file: "garden-sprites.mid", midiUrl: new URL("../assets/audio/pages/garden-sprites.mid", import.meta.url).href, url: new URL("../assets/audio/pages/garden-sprites.wav", import.meta.url).href },
+  signal: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
+  raven: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  computer: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
+  pizza: { label: "Pepperoni Comet", file: "pepperoni-comet.mid", midiUrl: new URL("../assets/audio/pages/pepperoni-comet.mid", import.meta.url).href, url: new URL("../assets/audio/pages/pepperoni-comet.wav", import.meta.url).href },
+  pets: { label: "Paws on the Keys", file: "paws-on-the-keys.mid", midiUrl: new URL("../assets/audio/pages/paws-on-the-keys.mid", import.meta.url).href, url: new URL("../assets/audio/pages/paws-on-the-keys.wav", import.meta.url).href }
+};
+const pageMusic = new Audio();
+pageMusic.loop = true;
+pageMusic.preload = "auto";
+pageMusic.volume = 0.28;
+
 type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
 
 const DEFAULT_STATE: GameState = {
@@ -23,14 +37,17 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
-  orbit_guide: { screenName: "OrbitGuide", displayName: "OrbitGuide" },
+  orbit_guide: { screenName: "OrbitPal", displayName: "Orbit Pal" },
   juniper_gdn: { screenName: "Juniper_Gdn", displayName: "Juniper" },
   mira_917: { screenName: "Mira_917", displayName: "Mira" },
-  darkraven_xx: { screenName: "xX_DarkRaven_Xx", displayName: "DarkRaven" }
+  darkraven_xx: { screenName: "xX_DarkRaven_Xx", displayName: "DarkRaven" },
+  chip_bytebarn: { screenName: "Chip_At_ByteBarn", displayName: "Chip" },
+  toni_pizza: { screenName: "Toni_PizzaPlanet", displayName: "Toni" },
+  bev_paws: { screenName: "Bev_PawsNClaws", displayName: "Bev" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -43,14 +60,20 @@ const CHARACTER_CONTACTS: Record<string, {
   mira_917: { screenName: "Mira_917", displayName: "Mira", statusMessage: "still awake. unfortunately.", aim: "Mira_917" },
   juniper_gdn: { screenName: "Juniper_Gdn", displayName: "Juniper", statusMessage: "watering the web", email: "juniper@orbitmail.net" },
   darkraven_xx: { screenName: "xX_DarkRaven_Xx", displayName: "DarkRaven", statusMessage: "the truth is cached", aim: "xX_DarkRaven_Xx" },
-  orbit_guide: { screenName: "OrbitGuide", displayName: "OrbitGuide", statusMessage: "Here to help!" }
+  orbit_guide: { screenName: "OrbitPal", displayName: "Orbit Pal", statusMessage: "Click me if you need a hand!" },
+  chip_bytebarn: { screenName: "Chip_At_ByteBarn", displayName: "Chip", statusMessage: "probably under a desk" },
+  toni_pizza: { screenName: "Toni_PizzaPlanet", displayName: "Toni", statusMessage: "one hand on the oven" },
+  bev_paws: { screenName: "Bev_PawsNClaws", displayName: "Bev", statusMessage: "Pickles is on the keyboard" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
   mira_917: "web://nightsignal.net/home",
   juniper_gdn: "web://rainbow.gdn/home",
   darkraven_xx: "web://raven.web/home",
-  orbit_guide: "web://home"
+  orbit_guide: "web://home",
+  chip_bytebarn: "web://bytebarn.com/home",
+  toni_pizza: "web://pizzaplanet.biz/home",
+  bev_paws: "web://pawsnclaws.net/home"
 };
 
 const GAME_TIME_SCALE = 2;
@@ -70,7 +93,8 @@ const windows: Record<AppId, WindowModel> = {
   mail: { open: false, minimized: false, z: 2, x: 205, y: 94, width: 660, height: 470 },
   files: { open: false, minimized: false, z: 1, x: 255, y: 126, width: 590, height: 410 },
   chat: { open: false, minimized: false, z: 4, x: 190, y: 72, width: 620, height: 520 },
-  settings: { open: false, minimized: false, z: 1, x: 260, y: 70, width: 590, height: 540 }
+  settings: { open: false, minimized: false, z: 1, x: 260, y: 70, width: 590, height: 540 },
+  helper: { open: false, minimized: false, z: 5, x: 635, y: 250, width: 410, height: 390 }
 };
 
 const APP_META: Record<AppId, { icon: string; title: string }> = {
@@ -78,7 +102,8 @@ const APP_META: Record<AppId, { icon: string; title: string }> = {
   mail: { icon: "@", title: "Orbit Mail" },
   files: { icon: "▣", title: "My Files" },
   chat: { icon: "◎", title: "Orbit Messenger" },
-  settings: { icon: "⚙", title: "Desktop Settings" }
+  settings: { icon: "⚙", title: "Desktop Settings" },
+  helper: { icon: "?", title: "Orbit Pal" }
 };
 
 const EMPTY_AI_CONVERSATION: AiConversation = {
@@ -124,6 +149,10 @@ const pendingDirectReplies = new Set<string>();
 let activeAimOwnerId = "mira_917";
 let mailComposeOwnerId: string | null = null;
 let selectedMailMessageId: string | null = null;
+let pageMusicPlaying = false;
+let loadedPageMusicSite: PageDefinition["site"] | null = null;
+const semanticSearchCache = new Map<string, string[]>();
+const pendingSearches = new Set<string>();
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
 
@@ -166,14 +195,45 @@ function currentPage() {
   return pages[state.currentUrl] ?? notFoundPage(state.currentUrl);
 }
 
+const SEARCH_CONCEPTS: Record<string, string[]> = {
+  food: ["pizza", "restaurant", "dinner", "lunch", "takeout"],
+  eat: ["pizza", "restaurant", "dinner", "food"],
+  animal: ["pet", "pets", "cat", "dog", "fish", "bird"],
+  animals: ["pet", "pets", "cat", "dog", "fish", "bird"],
+  technology: ["computer", "hardware", "software", "modem"],
+  tech: ["computer", "hardware", "software", "modem"],
+  pc: ["computer", "hardware"],
+  shopping: ["store", "shop", "business"]
+};
+
+function lexicalSearchResults(query: string) {
+  if (query.length < 2) return [];
+  const queryWords: string[] = query.match(/[a-z0-9]+/g) ?? [];
+  const expandedWords = new Set(queryWords.flatMap((word) => [word, ...(SEARCH_CONCEPTS[word] ?? [])]));
+  return Object.values(pages)
+    .map((page) => {
+      const haystack = [page.url, page.title, page.summary, ...(page.searchTerms ?? [])].join(" ").toLowerCase();
+      const exactMatch = haystack.includes(query);
+      if (page.listed === false && !exactMatch) return { page, score: 0 };
+      let score = exactMatch ? 20 : 0;
+      for (const word of expandedWords) {
+        if (haystack.includes(word)) score += queryWords.includes(word) ? 5 : 2;
+      }
+      return { page, score };
+    })
+    .filter(({ score }) => score > 0)
+    .sort((left, right) => right.score - left.score || left.page.title.localeCompare(right.page.title))
+    .map(({ page }) => page);
+}
+
 function orbitSearchPage(url: string): PageDefinition {
   const query = new URLSearchParams(url.split("?")[1] ?? "").get("q")?.trim().toLowerCase() ?? "";
-  const results = query.length < 2
-    ? []
-    : Object.values(pages).filter((page) => {
-        const haystack = [page.title, page.summary, ...(page.searchTerms ?? [])].join(" ").toLowerCase();
-        return haystack.includes(query);
-      });
+  const lexicalResults = lexicalSearchResults(query);
+  const semanticUrls = semanticSearchCache.get(query) ?? [];
+  const results = [...lexicalResults, ...semanticUrls.map((resultUrl) => pages[resultUrl]).filter(Boolean)]
+    .filter((page, index, all) => all.findIndex((candidate) => candidate.url === page.url) === index);
+  const smartSearching = pendingSearches.has(query);
+  const smartMatched = semanticSearchCache.has(query);
   return {
     url,
     title: `Search: ${query || "OrbitNet"}`,
@@ -184,12 +244,43 @@ function orbitSearchPage(url: string): PageDefinition {
       <header class="directory-logo"><span>ORBIT</span><b>SEARCH</b></header>
       <form class="search-box orbit-search-form"><input name="query" value="${escapeHtml(query)}" aria-label="Search OrbitNet"><button>Search</button></form>
       <p>Found <b>${results.length}</b> page${results.length === 1 ? "" : "s"} matching “${escapeHtml(query)}”.</p>
+      <p class="smart-search-status ${smartSearching ? "working" : ""}">${smartSearching ? "OrbitNet Smart Match is checking related ideas…" : smartMatched ? "Smart matching complete." : aiStatus.warmed ? "Smart matching available." : "Showing instant index matches."}</p>
       <section class="search-results">
         ${results.length ? results.map((page) => `<button data-nav="${page.url}"><b>${escapeHtml(page.title)}</b><span>${escapeHtml(page.summary)}</span><code>${page.url}</code></button>`).join("") : `<p>No pages found. Try a screen name, unusual phrase, or address fragment.</p>`}
       </section>
       <button data-nav="web://home">← Directory home</button>
     </main>`
   };
+}
+
+async function requestSemanticSearch(query: string) {
+  if (!window.aiAPI || !aiStatus.warmed || semanticSearchCache.has(query) || pendingSearches.has(query)) return;
+  pendingSearches.add(query);
+  render();
+  try {
+    const result = await window.aiAPI.search({
+      query,
+      pages: Object.values(pages)
+        .filter((page) => page.listed !== false)
+        .map((page) => ({ url: page.url, title: page.title, summary: page.summary }))
+    });
+    semanticSearchCache.set(query, result.urls.filter((resultUrl) => Boolean(pages[resultUrl])));
+  } catch {
+    semanticSearchCache.set(query, []);
+  } finally {
+    pendingSearches.delete(query);
+    const activeQuery = state.currentUrl.startsWith("web://search?")
+      ? new URLSearchParams(state.currentUrl.split("?")[1] ?? "").get("q")?.trim().toLowerCase()
+      : null;
+    if (activeQuery === query) render();
+  }
+}
+
+function submitOrbitSearch(query: string) {
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) return;
+  navigate(`web://search?q=${encodeURIComponent(normalized)}`);
+  void requestSemanticSearch(normalized);
 }
 
 function navigate(url: string, push = true) {
@@ -271,6 +362,34 @@ function pageCommentSection(page: PageDefinition) {
   </section>`;
 }
 
+function pageMusicPlayer(page: PageDefinition) {
+  const track = PAGE_MUSIC[page.site];
+  return `<aside class="page-midi-player" data-midi-source="${track.midiUrl}">
+    <span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>
+    <div><small>PAGE MIDI</small><b>${escapeHtml(track.label)}</b><code>${escapeHtml(track.file)}</code></div>
+    <button data-page-music aria-label="${pageMusicPlaying ? "Stop" : "Play"} page music">${pageMusicPlaying ? "■ Stop" : "▶ Play"}</button>
+  </aside>`;
+}
+
+function syncPageMusic(page = currentPage()) {
+  const track = PAGE_MUSIC[page.site];
+  if (loadedPageMusicSite !== page.site) {
+    pageMusic.src = track.url;
+    loadedPageMusicSite = page.site;
+  }
+  if (pageMusicPlaying && windows.browser.open) void pageMusic.play().catch(() => undefined);
+  else pageMusic.pause();
+}
+
+function togglePageMusic() {
+  pageMusicPlaying = !pageMusicPlaying;
+  if (!pageMusicPlaying) {
+    pageMusic.pause();
+    pageMusic.currentTime = 0;
+  }
+  render();
+}
+
 function browserWindow() {
   const page = currentPage();
   const bookmarked = state.bookmarks.includes(state.currentUrl);
@@ -283,7 +402,7 @@ function browserWindow() {
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
     </div>
     <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
-    <div class="browser-viewport site-${page.site}">${page.render(state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div>
+    <div class="browser-viewport site-${page.site}">${pageMusicPlayer(page)}${page.render(state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div>
     <footer class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></footer>`);
 }
 
@@ -422,6 +541,34 @@ function chatWindow() {
       <button ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}>${pending || modelStarting ? "Waiting…" : "Send"}</button>
     </form>
     <footer class="ai-statusbar"><span data-ai-phase>${escapeHtml(statusLabel)}</span><span data-ai-elapsed>${pending ? "reply pending" : aiStatus.loadMs ? `load ${formatDuration(aiStatus.loadMs)}` : "not loaded"}</span></footer>`);
+}
+
+function helperWindow() {
+  if (!state.flags.orbit_pal_installed) return "";
+  const messages = state.directMessages.filter((message) => message.channel === "helper" && message.ownerId === "orbit_guide");
+  const pending = pendingDirectReplies.has("helper:orbit_guide");
+  const modelStarting = aiStatus.phase === "loading" || aiStatus.phase === "warming";
+  const messageHtml = messages.map((message) => `<article class="helper-message ${message.role}">
+    <b>${message.role === "player" ? "You" : "Orbit Pal"}</b>
+    <p>${escapeHtml(message.text)}</p>
+  </article>`).join("");
+  const empty = messages.length
+    ? ""
+    : `<div class="helper-welcome"><b>Hi! I’m Orbit Pal!</b><p>Ask me how to use OrbitOS or explore OrbitNet. I can offer general hints, but I won’t spoil puzzles.</p></div>`;
+
+  return windowShell("helper", "Orbit Pal Help Assistant", "?", `
+    <div class="helper-layout">
+      <aside class="helper-portrait" aria-hidden="true"><div class="orbit-pal-body"><i></i><b>?</b><span></span></div></aside>
+      <main>
+        <header><b>What can I help you with?</b><span>${aiStatus.warmed ? "Local help ready" : "Help service starting…"}</span></header>
+        <div class="helper-transcript" id="helper-transcript">${empty}${messageHtml}${pending ? `<p class="helper-typing">Orbit Pal is thinking…</p>` : ""}</div>
+        ${chatError ? `<p class="helper-error">${escapeHtml(chatError)}</p>` : ""}
+        <form class="helper-form">
+          <textarea name="message" maxlength="500" rows="2" placeholder="How do I search? Where are downloads?" ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
+          <button ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}>Ask</button>
+        </form>
+      </main>
+    </div>`);
 }
 
 function bootAiStatus() {
@@ -575,7 +722,8 @@ function prepareFreshDesktopSession() {
     mail: { z: 2, x: 205, y: 94, width: 660, height: 470 },
     files: { z: 1, x: 255, y: 126, width: 590, height: 410 },
     chat: { z: 4, x: 190, y: 72, width: 620, height: 520 },
-    settings: { z: 1, x: 260, y: 70, width: 590, height: 540 }
+    settings: { z: 1, x: 260, y: 70, width: 590, height: 540 },
+    helper: { z: 5, x: 635, y: 250, width: 410, height: 390 }
   };
   for (const app of Object.keys(windows) as AppId[]) {
     Object.assign(windows[app], defaults[app], { open: false, minimized: false });
@@ -591,6 +739,9 @@ function prepareFreshDesktopSession() {
   state.currentUrl = "web://home";
   history = ["web://home"];
   historyIndex = 0;
+  pageMusicPlaying = false;
+  pageMusic.pause();
+  pageMusic.currentTime = 0;
   void saveState();
 }
 
@@ -699,6 +850,7 @@ function sleepDialog() {
 
 function render() {
   if (startupStage !== "desktop") {
+    pageMusic.pause();
     root.innerHTML = startupScreen();
     bindStartupEvents();
     return;
@@ -713,14 +865,16 @@ function render() {
       <button data-open="chat"><span class="desktop-icon chat">◎</span><b>Orbit Messenger</b></button>
       <button data-open="settings"><span class="desktop-icon settings">⚙</span><b>Settings</b></button>
     </div>
-    <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Leave a page comment</span><span>• Reload it for a reply</span><span>• Try Settings + Sleep</span></aside>
-    ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}
+    <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Search for food or pets</span><span>• Try a page’s MIDI player</span><span>• Download Orbit Pal</span></aside>
+    ${state.flags.orbit_pal_installed ? `<button class="desktop-helper" data-open="helper" aria-label="Open Orbit Pal"><span class="orbit-pal-body"><i></i><b>?</b><em></em></span><strong>Need help?</strong></button>` : ""}
+    ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}${helperWindow()}
     ${notification ? `<div class="toast">${notification}</div>` : ""}
-    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button><hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off David</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ Reset Demo</button></div>` : ""}
+    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off David</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ Reset Demo</button></div>` : ""}
     <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
     ${sleepDialog()}
   </main>`;
   bindEvents();
+  syncPageMusic();
   updateClock();
 }
 
@@ -746,10 +900,29 @@ function downloadSignalNote() {
   showNotification("Download complete: SIGNAL_NOTE.TXT");
 }
 
+function downloadOrbitPal() {
+  if (state.flags.orbit_pal_installed) {
+    openApp("helper");
+    return;
+  }
+  state.downloads.push({
+    id: "orbit-pal",
+    name: "ORBITPAL.EXE",
+    contents: "ORBIT PAL 1.0\n\nYour friendly OrbitNet help assistant.\nInstalled to C:\\Program Files\\Orbit Pal\\\n\nDouble-click the desktop helper whenever you need general guidance.",
+    downloadedAt: new Date().toISOString()
+  });
+  state.flags.orbit_pal_installed = true;
+  void saveState();
+  openApp("helper");
+  showNotification("Orbit Pal installed! Your helper is now on the desktop.");
+}
+
 function scrollChatToBottom() {
   requestAnimationFrame(() => {
     const transcript = document.querySelector<HTMLElement>("#chat-transcript");
     if (transcript) transcript.scrollTop = transcript.scrollHeight;
+    const helperTranscript = document.querySelector<HTMLElement>("#helper-transcript");
+    if (helperTranscript) helperTranscript.scrollTop = helperTranscript.scrollHeight;
   });
 }
 
@@ -803,7 +976,7 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
   chatError = "";
   await saveState();
   render();
-  if (channel === "aim") scrollChatToBottom();
+  if (channel === "aim" || channel === "helper") scrollChatToBottom();
 
   try {
     const result = await window.aiAPI.directReply({
@@ -832,15 +1005,19 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
       mailComposeOwnerId = null;
       selectedMailMessageId = state.directMessages.at(-1)?.id ?? null;
       showNotification(`New mail from ${contact.displayName}.`);
-    } else {
+    } else if (channel === "aim") {
       render();
       scrollChatToBottom();
       document.querySelector<HTMLTextAreaElement>(".chat-form textarea")?.focus();
+    } else {
+      render();
+      scrollChatToBottom();
+      document.querySelector<HTMLTextAreaElement>(".helper-form textarea")?.focus();
     }
   } catch (error) {
     pendingDirectReplies.delete(key);
     const messageText = error instanceof Error ? error.message.replace(/^Error invoking remote method '[^']+':\s*/i, "") : String(error);
-    if (channel === "aim") {
+    if (channel === "aim" || channel === "helper") {
       chatError = messageText;
       render();
     } else {
@@ -943,8 +1120,19 @@ function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-open]").forEach((el) => el.addEventListener("click", () => openApp(el.dataset.open as AppId)));
   document.querySelectorAll<HTMLElement>("[data-nav]").forEach((el) => el.addEventListener("click", () => navigate(el.dataset.nav!)));
   document.querySelectorAll<HTMLElement>("[data-download]").forEach((el) => el.addEventListener("click", downloadSignalNote));
+  document.querySelector<HTMLElement>("[data-download-helper]")?.addEventListener("click", downloadOrbitPal);
+  document.querySelector<HTMLElement>("[data-page-music]")?.addEventListener("click", togglePageMusic);
   document.querySelectorAll<HTMLElement>("[data-window]").forEach((el) => el.addEventListener("pointerdown", () => { focusApp(el.dataset.window as AppId); el.style.zIndex = String(topZ); }));
-  document.querySelectorAll<HTMLElement>("[data-close]").forEach((el) => el.addEventListener("click", () => { windows[el.dataset.close as AppId].open = false; render(); }));
+  document.querySelectorAll<HTMLElement>("[data-close]").forEach((el) => el.addEventListener("click", () => {
+    const app = el.dataset.close as AppId;
+    windows[app].open = false;
+    if (app === "browser") {
+      pageMusicPlaying = false;
+      pageMusic.pause();
+      pageMusic.currentTime = 0;
+    }
+    render();
+  }));
   document.querySelectorAll<HTMLElement>("[data-minimize]").forEach((el) => el.addEventListener("click", () => { windows[el.dataset.minimize as AppId].minimized = true; render(); }));
   document.querySelectorAll<HTMLElement>("[data-task]").forEach((el) => el.addEventListener("click", () => {
     const app = el.dataset.task as AppId;
@@ -989,10 +1177,14 @@ function bindEvents() {
       render();
     } else if (action === "logoff") {
       void saveState();
+      pageMusicPlaying = false;
+      pageMusic.pause();
       startupStage = "login";
       render();
     } else if (action === "shutdown") {
       void saveState();
+      pageMusicPlaying = false;
+      pageMusic.pause();
       computerHasBooted = false;
       startupStage = "title";
       render();
@@ -1009,6 +1201,9 @@ function bindEvents() {
     state = normalizeState(window.gameAPI ? await window.gameAPI.reset() : structuredClone(DEFAULT_STATE));
     if (!window.gameAPI) localStorage.removeItem("surfin-save");
     history = [state.currentUrl]; historyIndex = 0; startOpen = false;
+    windows.helper.open = false;
+    pageMusicPlaying = false;
+    pageMusic.pause();
     render();
   });
   document.querySelector<HTMLFormElement>(".chat-form")?.addEventListener("submit", (event) => {
@@ -1016,6 +1211,12 @@ function bindEvents() {
     const form = event.currentTarget as HTMLFormElement;
     const message = new FormData(form).get("message")?.toString().trim() ?? "";
     if (message) void sendDirectMessage(activeAimOwnerId, "aim", message);
+  });
+  document.querySelector<HTMLFormElement>(".helper-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const message = new FormData(form).get("message")?.toString().trim() ?? "";
+    if (message) void sendDirectMessage("orbit_guide", "helper", message);
   });
   document.querySelector<HTMLElement>("[data-ai-reset]")?.addEventListener("click", async () => {
     if (pendingDirectReplies.has(`aim:${activeAimOwnerId}`) || !window.confirm(`Clear your AIM conversation with ${CHARACTER_CONTACTS[activeAimOwnerId].screenName}?`)) return;
@@ -1065,7 +1266,7 @@ function bindEvents() {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     const query = new FormData(form).get("query")?.toString().trim() ?? "";
-    if (query) navigate(`web://search?q=${encodeURIComponent(query)}`);
+    if (query) submitOrbitSearch(query);
   });
   const address = document.querySelector<HTMLInputElement>(".address-form input");
   if (address) address.name = "address";

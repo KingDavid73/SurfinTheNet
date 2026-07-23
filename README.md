@@ -25,12 +25,15 @@ npm.cmd run make
 
 ## What is in the slice
 
-- A cinematic power-on sequence: desk/title art, CRT transition, BIOS, OrbitOS splash, login, and dial-up
+- A cinematic power-on sequence: desk/title art, CRT transition, BIOS, OrbitOS splash, and profile login
 - An original OrbitOS startup jingle, stored as editable MIDI and a deterministic in-game WAV
 - A draggable fake desktop with a Start menu and taskbar
-- Orbit Explorer with history, bookmarks, an address bar, and ten local pages
-- Three member-run sites plus the OrbitNet directory, with a distinct owner assigned to every page
-- Homepage-only, site-colored public comment threads; subpages keep a single canonical conversation per owner
+- Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
+- Three member-run sites, three unlisted local businesses, and the OrbitNet directory
+- Site-colored public comment threads on character and business homepages; subpages keep one canonical conversation per owner
+- Seven original page MIDI loops with a shared play/stop control and deterministic WAV playback renders
+- A downloadable Orbit Pal desktop mascot that provides general help and non-spoiler exploration hints
+- Instant lexical/concept search plus asynchronous local-model semantic matching when Qwen is warm
 - A one-use Rainbow Garden guestbook signature stored in the player profile
 - Selective period-style contact links: Juniper publishes email, while Mira and DarkRaven publish AIM names
 - Hidden per-character relationship scores that influence generated warmth and candor
@@ -56,7 +59,7 @@ npm.cmd run models:pull
 npm.cmd run dev
 ```
 
-Press the computer's power button to start Qwen loading while the game runs through its normal startup sequence. The BIOS, OrbitOS splash, profile login, and dial-up screens never wait for the model; if it is still loading, it finishes in the background. Open **Orbit Messenger** and chat with `Mira_917`. Each reply reports generation time, output tokens, tokens per second, backend, and initial load time.
+Press the computer's power button to start Qwen loading while the game runs through its normal startup sequence. The BIOS, OrbitOS splash, and profile login never wait for the model; if it is still loading, it finishes in the background. Open **Orbit Messenger** and chat with `Mira_917`. Each reply reports generation time, output tokens, tokens per second, backend, and initial load time.
 
 Run the automated boot/preload and cold/warm inference checks with:
 
@@ -67,11 +70,13 @@ npm.cmd run test:comments
 npm.cmd run test:ui
 ```
 
-Character definitions live in `personas/`. Mira, Juniper, DarkRaven, and OrbitGuide currently share one resident model and one queued context sequence, so adding page owners does not multiply VRAM use. The Electron main-process service is in `ai-service.cjs`. Direct AIM/email history, hidden relationship scores, page comments and their reveal visit, guestbook signatures, settings, and fictional time are part of the versioned game save.
+Character definitions live in `personas/`. All personal-site owners, business owners, and Orbit Pal share one resident model and one queued context sequence, so adding page owners does not multiply VRAM use. The Electron main-process service is in `ai-service.cjs`. Direct AIM/email/helper history, hidden relationship scores, page comments and their reveal visit, guestbook signatures, settings, and fictional time are part of the versioned game save.
 
 The design direction and cited research on Hypnospace, GeoCities, Flash-era sites, hidden-page discovery, character interaction, and period visual styles is collected in `docs/design-research.md`.
 
 The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium plays the matching `assets/audio/orbitos-startup.wav` for predictable sound on every machine. Regenerate both from source with `node scripts/generate-startup-jingle.mjs`.
+
+Page loops live in `assets/audio/pages/` as editable MIDI plus matching WAV renders. Regenerate them with `npm.cmd run music:generate`.
 
 Packaging is still deferred. `node-llama-cpp` native binaries require special unpacking rules when milestone builds resume.
 

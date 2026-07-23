@@ -25,7 +25,7 @@ const DEFAULT_SAVE = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12 }
 };
 
 function savePath() {
@@ -59,6 +59,7 @@ ipcMain.handle("ai:conversation", () => aiService.getConversation());
 ipcMain.handle("ai:send", (_event, message) => aiService.sendMessage(message));
 ipcMain.handle("ai:page-comment", (_event, request) => aiService.generatePageReply(request));
 ipcMain.handle("ai:direct-reply", (_event, request) => aiService.generateDirectReply(request));
+ipcMain.handle("ai:semantic-search", (_event, request) => aiService.semanticSearch(request));
 ipcMain.handle("ai:reset", () => aiService.resetConversation());
 
 function createWindow() {
@@ -118,6 +119,45 @@ function createWindow() {
             if (!found) throw new Error(`Missing element: ${selector}`);
             await new Promise((resolve) => setTimeout(resolve, 120));
           };
+          const capture = async (name) => {
+            await new Promise((resolve) => setTimeout(resolve, 250));
+            const image = await win.webContents.capturePage();
+            const target = path.resolve(__dirname, "artifacts", name);
+            await fs.mkdir(path.dirname(target), { recursive: true });
+            await fs.writeFile(target, image.toPNG());
+          };
+
+          const homepageHasComments = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments'))`);
+          if (homepageHasComments) throw new Error("OrbitNet homepage still has a public comment section");
+          const midiPlayerReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-page-music]'))`);
+          if (!midiPlayerReady) throw new Error("Homepage MIDI player was not available");
+          await click("[data-page-music]");
+          const midiPlaying = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('[data-page-music]')?.textContent.includes('Stop')`);
+          if (!midiPlaying) throw new Error("Page MIDI player did not enter its playing state");
+          await click("[data-page-music]");
+          await click("[data-download-helper]");
+          const helperInstalled = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.desktop-helper')) && Boolean(document.querySelector('.helper-window'))`);
+          if (!helperInstalled) throw new Error("Orbit Pal did not install as a desktop helper");
+          await capture("orbit-pal-installed.png");
+          await click('[data-close="helper"]');
+
+          const searchFor = async (query, expectedUrl) => {
+            const submitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = ${JSON.stringify(query)}; form.requestSubmit(); return true; })()`);
+            if (!submitted) throw new Error(`Search form unavailable for ${query}`);
+            await new Promise((resolve) => setTimeout(resolve, 120));
+            const found = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-nav="${expectedUrl}"]'))`);
+            if (!found) throw new Error(`Search for ${query} did not return ${expectedUrl}`);
+          };
+          await searchFor("food", "web://pizzaplanet.biz/home");
+          await click('[data-nav="web://pizzaplanet.biz/home"]');
+          const pizzaReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.pizza-page')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('[data-page-music]'))`);
+          if (!pizzaReady) throw new Error("Pizza Planet page skeleton was incomplete");
+          await capture("pizza-planet.png");
+          await click('[data-browser="home"]');
+          await searchFor("tech", "web://bytebarn.com/home");
+          await click('[data-browser="home"]');
+          await searchFor("animals", "web://pawsnclaws.net/home");
+          await click('[data-browser="home"]');
 
           await click('[data-nav="web://rainbow.gdn/home"]');
           await click('[data-nav="web://rainbow.gdn/about"]');
@@ -145,12 +185,12 @@ function createWindow() {
           const clueText = await win.webContents.executeJavaScript(`document.querySelector('.file-viewer pre')?.textContent || ''`);
           if (!clueText.includes("LOOK BEHIND ORBIT")) throw new Error("Downloaded clue contents were incorrect");
           const saved = await readSave();
-          if (!saved.flags.signal_note_downloaded || saved.downloads.length !== 1) throw new Error("Discovery state was not persisted");
+          if (!saved.flags.signal_note_downloaded || !saved.flags.orbit_pal_installed || saved.downloads.length !== 2) throw new Error("Discovery and helper state were not persisted");
           const image = await win.webContents.capturePage();
           const target = path.resolve(__dirname, "artifacts", "clue-flow.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log("SMOKE_OK: browsed to the archive, downloaded the clue, opened it, and verified the persisted save.");
+          console.log("SMOKE_OK: installed Orbit Pal, found all business pages through related searches, verified page MIDI/comments, browsed to the archive, and persisted downloads.");
         } catch (error) {
           console.error("SMOKE_FAILED:", error);
           process.exitCode = 1;
@@ -362,12 +402,29 @@ function createWindow() {
             await new Promise((resolve) => setTimeout(resolve, 500));
           }
           if (!status?.warmed) throw new Error(`Model did not finish warming; last phase: ${status?.phase ?? "unknown"}`);
+          const semanticResult = await win.webContents.executeJavaScript(`window.aiAPI.search({
+            query: "somewhere to get dinner",
+            pages: [
+              { url: "web://bytebarn.com/home", title: "BYTE BARN Computer Superstore", summary: "A neighborhood computer and repair shop." },
+              { url: "web://pizzaplanet.biz/home", title: "Pizza Planet Online", summary: "A family pizza restaurant serving food, lunch, dinner, delivery, and takeout." },
+              { url: "web://pawsnclaws.net/home", title: "Paws & Claws Pet Emporium", summary: "A pet store with animal supplies." }
+            ]
+          })`);
+          if (!semanticResult.urls.includes("web://pizzaplanet.biz/home")) throw new Error(`Semantic search missed Pizza Planet: ${JSON.stringify(semanticResult.urls)}`);
+          const helperReply = await win.webContents.executeJavaScript(`window.aiAPI.directReply({
+            ownerId: "orbit_guide",
+            channel: "helper",
+            playerMessage: "Where do downloaded files go?",
+            relationshipScore: 10,
+            recentMessages: []
+          })`);
+          if (!helperReply.text || helperReply.text.length > 240) throw new Error("Orbit Pal did not provide a concise help response");
 
           const image = await win.webContents.capturePage();
           const target = path.resolve(__dirname, "artifacts", "boot-flow-desktop.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log(`BOOT_OK: title, aligned CRT power-on, BIOS, OrbitOS splash, login, and clean desktop completed; Browser opened at web://home and model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
+          console.log(`BOOT_OK: startup and clean desktop completed; Browser opened at web://home, semantic search found Pizza Planet, Orbit Pal answered “${helperReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
         } catch (error) {
           console.error("BOOT_FAILED:", error);
           process.exitCode = 1;

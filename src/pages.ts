@@ -12,7 +12,6 @@ export const pages: Record<string, PageDefinition> = {
     site: "directory",
     ownerId: "orbit_guide",
     summary: "The official OrbitNet directory links members to featured personal pages and provides basic help for new users.",
-    commentsEnabled: true,
     listed: true,
     hubId: "directory",
     searchTerms: ["directory", "featured sites", "help", "orbitnet"],
@@ -21,6 +20,11 @@ export const pages: Record<string, PageDefinition> = {
         <header class="directory-logo"><span>ORBIT</span><b>NET</b></header>
         <p class="directory-tagline">Your friendly guide to the Information Superhighway!</p>
         <form class="search-box orbit-search-form"><input name="query" placeholder="Search pages, people, and phrases..." aria-label="Search OrbitNet"><button>Search</button></form>
+        <section class="orbit-pal-promo">
+          <div class="orbit-pal-mini"><i></i><b>?</b></div>
+          <div><h2>New to the Net?</h2><p>Download <b>Orbit Pal</b>, your friendly desktop guide! Ask how to browse, search, download files, send messages, and get unstuck.</p></div>
+          <button data-download-helper ${state.flags.orbit_pal_installed ? "disabled" : ""}>${state.flags.orbit_pal_installed ? "Orbit Pal Installed!" : "Download Orbit Pal FREE"}</button>
+        </section>
         <section class="directory-grid">
           <button class="directory-card" data-nav="web://rainbow.gdn/home">
             ${fakeImage("RAINBOW GARDEN", "rainbow")}
@@ -237,6 +241,70 @@ export const pages: Record<string, PageDefinition> = {
         <p>Everyone says it was a cache error. Cache errors do not know your screen name.</p>
         <div class="raven-evidence">EVIDENCE_01.BMP<br><small>[ image removed by host ]</small></div>
         <button class="text-link" data-nav="web://raven.web/home">← Return to the Void</button>
+      </main>`
+  },
+  "web://bytebarn.com/home": {
+    url: "web://bytebarn.com/home",
+    title: "BYTE BARN Computer Superstore",
+    site: "computer",
+    ownerId: "chip_bytebarn",
+    summary: "Byte Barn is a neighborhood computer shop selling desktop PCs, upgrades, modems, software, repairs, and beginner-friendly technical advice.",
+    commentsEnabled: true,
+    listed: true,
+    hubId: "business",
+    searchTerms: ["computers", "computer store", "pc", "hardware", "software", "repair", "modem", "internet"],
+    render: () => `
+      <main class="page computer-page">
+        <header><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></header>
+        <div class="computer-hero">${fakeImage("THIS WEEK'S DREAM MACHINE", "computer")}<div><h1>Pentium Power for the Whole Family!</h1><p>Locally owned PCs, upgrades, repairs, and patient answers since 1987.</p><button disabled>BUILD YOUR PC</button></div></div>
+        <section class="computer-deals">
+          <article><b>ORBIT 350</b><span>64MB RAM · 4.3GB drive</span><strong>$1,299</strong></article>
+          <article><b>56K MODEM KIT</b><span>Includes 20 feet of phone cord!</span><strong>$79</strong></article>
+          <article><b>HOUSE CALL</b><span>Chip fixes what the manual cannot.</span><strong>$45/hr</strong></article>
+        </section>
+        <p class="business-owner">Questions? Leave Chip a note below. He checks the site between repair jobs.</p>
+        <footer>BYTE BARN · 1840 Market Plaza · Open Mon–Sat</footer>
+      </main>`
+  },
+  "web://pizzaplanet.biz/home": {
+    url: "web://pizzaplanet.biz/home",
+    title: "Pizza Planet Online",
+    site: "pizza",
+    ownerId: "toni_pizza",
+    summary: "Pizza Planet is a family pizza restaurant offering hot food, slices, dinner, lunch, delivery, coupons, and late-night takeout.",
+    commentsEnabled: true,
+    listed: true,
+    hubId: "business",
+    searchTerms: ["pizza", "food", "restaurant", "dinner", "lunch", "delivery", "takeout", "coupon", "pepperoni"],
+    render: () => `
+      <main class="page pizza-page">
+        <header><span>PIZZA</span><b>PLANET</b><i>★</i></header>
+        <div class="pizza-marquee">HOT · FRESH · DELIVERED TO EARTH AND SURROUNDING SUBURBS · CALL 555-PIES</div>
+        <section class="pizza-splash">${fakeImage("SPINNING PIZZA.GIF", "pizza")}<div><h1>The Future of Dinner Is Round!</h1><p>Family recipes, arcade games, and cheese with appropriate gravitational pull.</p><button disabled>ORDER ONLINE (COMING SOON)</button></div></section>
+        <section class="coupon"><b>PRINT THIS PAGE!</b><strong>$3 OFF</strong><span>any large two-topping pizza · Expires 12/31/99</span></section>
+        <p class="business-owner">Tell Toni what topping deserves a permanent place on the menu.</p>
+        <footer>Free delivery over $12 · Please allow 30–45 Earth minutes</footer>
+      </main>`
+  },
+  "web://pawsnclaws.net/home": {
+    url: "web://pawsnclaws.net/home",
+    title: "Paws & Claws Pet Emporium",
+    site: "pets",
+    ownerId: "bev_paws",
+    summary: "Paws and Claws is a friendly pet store with cats, dogs, fish, birds, pet food, toys, grooming supplies, and adoption-day information.",
+    commentsEnabled: true,
+    listed: true,
+    hubId: "business",
+    searchTerms: ["pet store", "pets", "animals", "cat", "dog", "fish", "bird", "pet food", "toys", "adoption"],
+    render: () => `
+      <main class="page pets-page">
+        <header><span>PAWS</span><i>&</i><b>CLAWS</b><small>PET EMPORIUM</small></header>
+        <div class="paw-trail">●　●　●　●　●</div>
+        <section class="pet-welcome"><div>${fakeImage("SHOP CAT: PICKLES", "pets")}<small>Pickles, Assistant Manager</small></div><div><h1>Everything for Your Best Friend!</h1><p>Food, toys, tanks, tiny sweaters, and advice from people who genuinely want to see your pet photos.</p></div></section>
+        <div class="pet-departments"><span>🐕 DOG AISLE</span><span>🐈 CAT CORNER</span><span>🐟 AQUARIUM</span><span>🐦 BIRD ROOM</span></div>
+        <aside><b>Saturday Adoption Day</b><p>Meet local shelter animals from 10 AM–2 PM. Bring the whole family!</p></aside>
+        <p class="business-owner">Bev reads every message. Pickles walks across the keyboard for about half of them.</p>
+        <footer>22 Willow Lane · “If your pet can wear it, we probably sell it.”</footer>
       </main>`
   },
   "web://orbitnet.local/below": {
