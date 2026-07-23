@@ -156,10 +156,11 @@ export interface GameState {
 export interface PageDefinition {
   url: string;
   title: string;
-  site: "directory" | "rainbow" | "signal" | "raven" | "computer" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst";
+  site: "directory" | "rainbow" | "signal" | "raven" | "computer" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl";
   ownerId: string;
   summary: string;
   commentsEnabled?: boolean;
+  seedComments?: PageComment[];
   listed?: boolean;
   hubId?: string;
   searchTerms?: string[];

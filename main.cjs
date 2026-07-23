@@ -25,7 +25,7 @@ const DEFAULT_SAVE = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3 }
 };
 
 function savePath() {
@@ -223,6 +223,36 @@ function createWindow() {
           await capture("kids-toonburst-schedule.png");
           await click('[data-browser="home"]');
 
+          const dealerSearchSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'used car dealership'; form.requestSubmit(); return true; })()`);
+          if (!dealerSearchSubmitted) throw new Error("Used-car search form was unavailable");
+          await new Promise((resolve) => setTimeout(resolve, 120));
+          const dealerResults = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.search-results [data-nav]')).map((result) => result.getAttribute('data-nav'))`);
+          for (const expectedUrl of ["web://kingcalscars.biz/home", "web://honestearl.com/home"]) {
+            if (!dealerResults.includes(expectedUrl)) throw new Error(`Used-car search missed ${expectedUrl}: ${JSON.stringify(dealerResults)}`);
+          }
+
+          await click('[data-nav="web://kingcalscars.biz/home"]');
+          const kingCalReady = await win.webContents.executeJavaScript(`(() => ({ page: Boolean(document.querySelector('.kingcal-page .cal-portrait .dealer-photo')), music: document.querySelector('.page-midi-player')?.textContent.includes('Crown and Clunker'), comments: document.querySelectorAll('.page-comment').length, earl: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'Honest_Earl'), customer: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'DeniseM') }))()`);
+          if (!kingCalReady.page || !kingCalReady.music || kingCalReady.comments < 6 || !kingCalReady.earl || !kingCalReady.customer) throw new Error(`King Cal page, music, or seeded feud comments were incomplete: ${JSON.stringify(kingCalReady)}`);
+          await capture("dealer-king-cal.png");
+          await win.webContents.executeJavaScript(`document.querySelector('.page-comments')?.scrollIntoView({ block: 'start' })`);
+          await capture("dealer-king-cal-comments.png");
+          await click('[data-nav="web://kingcalscars.biz/inventory"]');
+          if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments')) || document.querySelectorAll('.cal-inventory-grid article').length !== 3`)) throw new Error("King Cal inventory was incomplete or had a separate comment thread");
+          await capture("dealer-king-cal-inventory.png");
+
+          await click('[data-nav="web://kingcalscars.biz/home"]');
+          await click('[data-nav="web://honestearl.com/home"]');
+          const honestEarlReady = await win.webContents.executeJavaScript(`(() => ({ page: Boolean(document.querySelector('.earl-page .earl-hero .dealer-photo')), music: document.querySelector('.page-midi-player')?.textContent.includes('Honest Handshake'), comments: document.querySelectorAll('.page-comment').length, cal: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'KingCalCars'), customer: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'Tina_R') }))()`);
+          if (!honestEarlReady.page || !honestEarlReady.music || honestEarlReady.comments < 6 || !honestEarlReady.cal || !honestEarlReady.customer) throw new Error(`Honest Earl page, music, or seeded feud comments were incomplete: ${JSON.stringify(honestEarlReady)}`);
+          await capture("dealer-honest-earl.png");
+          await win.webContents.executeJavaScript(`document.querySelector('.page-comments')?.scrollIntoView({ block: 'start' })`);
+          await capture("dealer-honest-earl-comments.png");
+          await click('[data-nav="web://honestearl.com/inventory"]');
+          if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments')) || document.querySelectorAll('.earl-inventory-grid article').length !== 3`)) throw new Error("Honest Earl inventory was incomplete or had a separate comment thread");
+          await capture("dealer-honest-earl-inventory.png");
+          await click('[data-browser="home"]');
+
           const consoleSearchSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'video game console'; form.requestSubmit(); return true; })()`);
           if (!consoleSearchSubmitted) throw new Error("Console search form was unavailable");
           await new Promise((resolve) => setTimeout(resolve, 120));
@@ -288,7 +318,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "clue-flow.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log("SMOKE_OK: installed Orbit Pal, found all nine businesses through related searches, verified all nine business campaigns plus their page MIDI/comment boundaries, browsed to the archive, and persisted downloads.");
+          console.log("SMOKE_OK: installed Orbit Pal, found all eleven businesses through related searches, verified all eleven business campaigns plus their page MIDI/comment boundaries and seeded dealer feud, browsed to the archive, and persisted downloads.");
         } catch (error) {
           console.error("SMOKE_FAILED:", error);
           process.exitCode = 1;
@@ -575,12 +605,32 @@ function createWindow() {
           if (!/(don't|do not|shouldn't|isn't|not.{0,20}surprise|everyone.{0,24}agree|must.{0,24}agree)/i.test(bevReply.text)) {
             throw new Error(`Bev failed to reject a surprise-pet plan: ${bevReply.text}`);
           }
+          const calReply = await win.webContents.executeJavaScript(`window.aiAPI.comment({
+            ownerId: "king_cal",
+            pageUrl: "web://kingcalscars.biz/home",
+            pageTitle: "King Cal's Auto Kingdom",
+            pageSummary: "A sleazy buy-here-pay-here lot advertising a Crown Regent at $1,999 down plus $89 per week for 156 weeks.",
+            playerComment: "Skip the royal pitch. What is the full payment total before taxes and fees?",
+            relationshipScore: -2,
+            recentComments: []
+          })`);
+          if (!calReply.text || !/(15[,. ]?883|89.{0,30}156)/i.test(calReply.text)) throw new Error(`King Cal evaded the disclosed total: ${calReply.text}`);
+          const earlReply = await win.webContents.executeJavaScript(`window.aiAPI.comment({
+            ownerId: "honest_earl",
+            pageUrl: "web://honestearl.com/home",
+            pageTitle: "Honest Earl's Budget Motors",
+            pageSummary: "A sleazy buy-here-pay-here lot advertising a SunnyBee at $1,495 down plus $79 per week for 180 weeks.",
+            playerComment: "Be honest: what is the full payment total before taxes and fees?",
+            relationshipScore: -3,
+            recentComments: []
+          })`);
+          if (!earlReply.text || !/(15[,. ]?715|79.{0,30}180)/i.test(earlReply.text)) throw new Error(`Honest Earl evaded the disclosed total: ${earlReply.text}`);
 
           const image = await win.webContents.capturePage();
           const target = path.resolve(__dirname, "artifacts", "boot-flow-desktop.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log(`BOOT_OK: startup completed; Toni answered the newest turn, Orbit Pal helped, Jax sold the network, Chip recommended “${chipReply.text}”, Bev advised “${bevReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
+          console.log(`BOOT_OK: startup completed; existing personas passed, King Cal disclosed “${calReply.text}”, Honest Earl disclosed “${earlReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
         } catch (error) {
           console.error("BOOT_FAILED:", error);
           process.exitCode = 1;

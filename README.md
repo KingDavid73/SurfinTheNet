@@ -29,9 +29,9 @@ npm.cmd run make
 - An original OrbitOS startup jingle, stored as editable MIDI and a deterministic in-game WAV
 - A draggable fake desktop with a Start menu and taskbar
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
-- Three member-run sites, nine search-only local businesses, and the OrbitNet directory
+- Three member-run sites, eleven search-only local businesses, and the OrbitNet directory
 - Site-colored public comment threads on character and business homepages; subpages keep one canonical conversation per owner
-- Thirteen original page MIDI loops that auto-play on navigation, with a shared play/stop control and deterministic WAV playback renders
+- Fifteen original page MIDI loops that auto-play on navigation, with a shared play/stop control and deterministic WAV playback renders
 - A downloadable Orbit Pal app: launch its installed icon to summon the desktop buddy, click the buddy to chat, and use Close Pal to exit it completely
 - Instant lexical/concept search plus asynchronous local-model semantic matching when Qwen is warm
 - A one-use Rainbow Garden guestbook signature stored in the player profile
@@ -90,6 +90,11 @@ The Rocketbox Toys, Moon Munch Cereal, and ToonBurst campaigns are documented in
 `docs/kids-products-research.md`. They were produced in parallel research, art,
 music, and integration lanes, with separate campaign sheets preserving each
 brand's toy-catalog photography, cereal-box illustration, and cel-animation look.
+
+King Cal's Auto Kingdom and Honest Earl's Budget Motors are documented in
+`docs/used-car-dealer-research.md`. Their sites use separate 35mm-film campaign
+sheets, terrible fully calculated financing offers, reciprocal feud links, and
+pre-filled public comments from both rival owners and dissatisfied customers.
 
 The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium plays the matching `assets/audio/orbitos-startup.wav` for predictable sound on every machine. Regenerate both from source with `node scripts/generate-startup-jingle.mjs`.
 

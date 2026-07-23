@@ -21,7 +21,9 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
   cubit: { label: "Four on the Floor", file: "four-on-the-floor.mid", midiUrl: new URL("../assets/audio/pages/four-on-the-floor.mid", import.meta.url).href, url: new URL("../assets/audio/pages/four-on-the-floor.wav", import.meta.url).href },
   rocketbox: { label: "Toybox Turbo", file: "toybox-turbo.mid", midiUrl: new URL("../assets/audio/pages/toybox-turbo.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toybox-turbo.wav", import.meta.url).href },
   moonmunch: { label: "Moon Munch March", file: "moon-munch-march.mid", midiUrl: new URL("../assets/audio/pages/moon-munch-march.mid", import.meta.url).href, url: new URL("../assets/audio/pages/moon-munch-march.wav", import.meta.url).href },
-  toonburst: { label: "ToonBurst Theme", file: "toonburst-theme.mid", midiUrl: new URL("../assets/audio/pages/toonburst-theme.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toonburst-theme.wav", import.meta.url).href }
+  toonburst: { label: "ToonBurst Theme", file: "toonburst-theme.mid", midiUrl: new URL("../assets/audio/pages/toonburst-theme.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toonburst-theme.wav", import.meta.url).href },
+  kingcal: { label: "Crown and Clunker", file: "crown-and-clunker.mid", midiUrl: new URL("../assets/audio/pages/crown-and-clunker.mid", import.meta.url).href, url: new URL("../assets/audio/pages/crown-and-clunker.wav", import.meta.url).href },
+  earl: { label: "Honest Handshake", file: "honest-handshake.mid", midiUrl: new URL("../assets/audio/pages/honest-handshake.mid", import.meta.url).href, url: new URL("../assets/audio/pages/honest-handshake.wav", import.meta.url).href }
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -43,7 +45,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -59,7 +61,9 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   cubby_clover: { screenName: "CubbyClover", displayName: "Cubby" },
   rocketbox_rick: { screenName: "Rocketbox_Rick", displayName: "Rick" },
   major_munch: { screenName: "Major_Munch", displayName: "Major Munch" },
-  kip_toonburst: { screenName: "Kip_ToonBurst", displayName: "Kip" }
+  kip_toonburst: { screenName: "Kip_ToonBurst", displayName: "Kip" },
+  king_cal: { screenName: "KingCalCars", displayName: "King Cal" },
+  honest_earl: { screenName: "Honest_Earl", displayName: "Earl" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -81,7 +85,9 @@ const CHARACTER_CONTACTS: Record<string, {
   cubby_clover: { screenName: "CubbyClover", displayName: "Cubby", statusMessage: "controller four is still free!" },
   rocketbox_rick: { screenName: "Rocketbox_Rick", displayName: "Rick", statusMessage: "prototype survived the drop test!" },
   major_munch: { screenName: "Major_Munch", displayName: "Major Munch", statusMessage: "breakfast has landed!" },
-  kip_toonburst: { screenName: "Kip_ToonBurst", displayName: "Kip", statusMessage: "rewinding Saturday" }
+  kip_toonburst: { screenName: "Kip_ToonBurst", displayName: "Kip", statusMessage: "rewinding Saturday" },
+  king_cal: { screenName: "KingCalCars", displayName: "King Cal", statusMessage: "another chariot leaves the kingdom!" },
+  honest_earl: { screenName: "Honest_Earl", displayName: "Earl", statusMessage: "honestly here for YOU, neighbor" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -97,7 +103,9 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   cubby_clover: "web://cubit.fun/home",
   rocketbox_rick: "web://rocketbox.toys/home",
   major_munch: "web://moonmunch.com/home",
-  kip_toonburst: "web://toonburst.tv/home"
+  kip_toonburst: "web://toonburst.tv/home",
+  king_cal: "web://kingcalscars.biz/home",
+  honest_earl: "web://honestearl.com/home"
 };
 
 const GAME_TIME_SCALE = 2;
@@ -247,7 +255,16 @@ const SEARCH_CONCEPTS: Record<string, string[]> = {
   cartoon: ["cartoons", "animation", "television", "tv", "kids"],
   cartoons: ["cartoon", "animation", "television", "tv", "kids"],
   television: ["tv", "cartoon", "cartoons", "shows"],
-  tv: ["television", "cartoon", "cartoons", "shows"]
+  tv: ["television", "cartoon", "cartoons", "shows"],
+  car: ["cars", "auto", "vehicle", "used", "dealer", "dealership"],
+  cars: ["car", "auto", "vehicle", "used", "dealer", "dealership"],
+  auto: ["car", "cars", "vehicle", "used", "dealer", "dealership"],
+  vehicle: ["car", "cars", "auto", "used", "dealer"],
+  used: ["car", "cars", "auto", "vehicle", "dealer"],
+  dealer: ["dealership", "car", "cars", "auto", "financing"],
+  dealership: ["dealer", "car", "cars", "auto", "financing"],
+  loan: ["financing", "credit", "dealer", "car"],
+  credit: ["financing", "loan", "dealer", "car"]
 };
 
 function lexicalSearchResults(query: string) {
@@ -388,7 +405,7 @@ function formatGameTimestamp(value: string) {
 function pageCommentSection(page: PageDefinition) {
   const owner = PAGE_OWNERS[page.ownerId] ?? PAGE_OWNERS.orbit_guide;
   const visits = state.pageVisitCounts[page.url] ?? 0;
-  const comments = state.pageComments.filter((comment) =>
+  const comments = [...(page.seedComments ?? []), ...state.pageComments].filter((comment) =>
     comment.pageUrl === page.url && (comment.role === "player" || comment.revealAfterVisit <= visits)
   );
   const pending = pendingPageComments.has(page.url);
@@ -1131,7 +1148,7 @@ async function submitPageComment(pageUrl: string, message: string) {
     return;
   }
   try {
-    const recentComments = state.pageComments
+    const recentComments = [...(page.seedComments ?? []), ...state.pageComments]
       .filter((comment) => comment.pageUrl === pageUrl && comment.id !== playerComment.id)
       .map((comment) => ({ role: comment.role, author: comment.author, text: comment.text }));
     const result = await window.aiAPI.comment({
