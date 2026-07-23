@@ -137,13 +137,16 @@ function createWindow() {
           const midiStopped = await win.webContents.executeJavaScript(`!document.querySelector('.midi-led.playing') && document.querySelector('[data-page-music]')?.textContent.includes('Play')`);
           if (!midiStopped) throw new Error("Page MIDI player did not stop");
           await click("[data-download-helper]");
-          const helperInstalled = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.desktop-helper')) && !document.querySelector('.helper-window')`);
+          const helperInstalled = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.desktop-icons [data-open="helper"]')) && !document.querySelector('.helper-window')`);
           if (!helperInstalled) throw new Error("Orbit Pal did not install closed on the desktop");
-          await click(".desktop-helper");
+          await capture("orbit-pal-desktop-icon.png");
+          await click('.desktop-icons [data-open="helper"]');
           const helperOpened = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.helper-window'))`);
           if (!helperOpened) throw new Error("Orbit Pal desktop app did not open");
           await capture("orbit-pal-installed.png");
-          await click('.helper-actions [data-close="helper"]');
+          await click("[data-helper-close]");
+          const helperClosed = await win.webContents.executeJavaScript(`!document.querySelector('.helper-window') && !document.querySelector('[data-task="helper"]')`);
+          if (!helperClosed) throw new Error("Orbit Pal close button did not close the helper app");
 
           const searchFor = async (query, expectedUrl) => {
             const submitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = ${JSON.stringify(query)}; form.requestSubmit(); return true; })()`);

@@ -32,7 +32,7 @@ npm.cmd run make
 - Three member-run sites, three unlisted local businesses, and the OrbitNet directory
 - Site-colored public comment threads on character and business homepages; subpages keep one canonical conversation per owner
 - Seven original page MIDI loops that auto-play on navigation, with a shared play/stop control and deterministic WAV playback renders
-- A downloadable Orbit Pal desktop mascot that installs closed and provides general help and non-spoiler exploration hints
+- A downloadable Orbit Pal desktop app that installs as a closed icon and provides general help and non-spoiler exploration hints when opened
 - Instant lexical/concept search plus asynchronous local-model semantic matching when Qwen is warm
 - A one-use Rainbow Garden guestbook signature stored in the player profile
 - Selective period-style contact links: Juniper publishes email, while Mira and DarkRaven publish AIM names

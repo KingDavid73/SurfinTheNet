@@ -575,14 +575,14 @@ function helperWindow() {
     <div class="helper-layout">
       <aside class="helper-portrait" aria-hidden="true"><div class="orbit-pal-body"><i></i><b>?</b><span></span></div></aside>
       <main>
-        <header><b>What can I help you with?</b><span>${aiStatus.warmed ? "Local help ready" : "Help service starting…"}</span></header>
+        <header><div><b>What can I help you with?</b><span>${aiStatus.warmed ? "Local help ready" : "Help service starting…"}</span></div><button type="button" data-helper-close>Close</button></header>
         <div class="helper-transcript" id="helper-transcript">${empty}${messageHtml}${pending ? `<p class="helper-typing">Orbit Pal is thinking…</p>` : ""}</div>
         ${chatError ? `<p class="helper-error">${escapeHtml(chatError)}</p>` : ""}
         <form class="helper-form">
           <textarea name="message" maxlength="500" rows="2" placeholder="How do I search? Where are downloads?" ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
           <button ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}>Ask</button>
         </form>
-        <footer class="helper-actions"><span>Enter sends · Shift+Enter adds a line</span><button data-close="helper">Close Orbit Pal</button></footer>
+        <footer class="helper-actions"><span>Enter sends · Shift+Enter adds a line</span></footer>
       </main>
     </div>`);
 }
@@ -882,9 +882,9 @@ function render() {
       <button data-open="files"><span class="desktop-icon folder">▰</span><b>My Files</b></button>
       <button data-open="chat"><span class="desktop-icon chat">◎</span><b>Orbit Messenger</b></button>
       <button data-open="settings"><span class="desktop-icon settings">⚙</span><b>Settings</b></button>
+      ${state.flags.orbit_pal_installed ? `<button data-open="helper"><span class="desktop-icon helper">?</span><b>Orbit Pal</b></button>` : ""}
     </div>
     <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Search for food or pets</span><span>• Try a page’s MIDI player</span><span>• Download Orbit Pal</span></aside>
-    ${state.flags.orbit_pal_installed ? `<button class="desktop-helper" data-open="helper" aria-label="Open Orbit Pal"><span class="orbit-pal-body"><i></i><b>?</b><em></em></span><strong>Need help?</strong></button>` : ""}
     ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}${helperWindow()}
     ${notification ? `<div class="toast">${notification}</div>` : ""}
     ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off David</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ Reset Demo</button></div>` : ""}
@@ -1144,6 +1144,11 @@ function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-download]").forEach((el) => el.addEventListener("click", downloadSignalNote));
   document.querySelector<HTMLElement>("[data-download-helper]")?.addEventListener("click", downloadOrbitPal);
   document.querySelector<HTMLElement>("[data-page-music]")?.addEventListener("click", togglePageMusic);
+  document.querySelector<HTMLElement>("[data-helper-close]")?.addEventListener("click", () => {
+    windows.helper.open = false;
+    windows.helper.minimized = false;
+    render();
+  });
   document.querySelectorAll<HTMLElement>("[data-window]").forEach((el) => el.addEventListener("pointerdown", () => { focusApp(el.dataset.window as AppId); el.style.zIndex = String(topZ); }));
   document.querySelectorAll<HTMLElement>("[data-close]").forEach((el) => el.addEventListener("click", () => {
     const app = el.dataset.close as AppId;

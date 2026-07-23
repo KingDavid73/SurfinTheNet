@@ -569,6 +569,7 @@ button { color: #111; }
 .desktop-icon.mail { color: #172a72; background: #eee; border: 3px solid #fff; transform: skew(-5deg); }
 .desktop-icon.folder { color: #ffd54a; font-size: 35px; }
 .desktop-icon.chat { color: #fff; border-radius: 6px; background: #ee8c16; border: 3px solid #fff2ad; font-family: Arial, sans-serif; }
+.desktop-icon.helper { color: #fff; border-radius: 50%; background: radial-gradient(circle at 32% 25%, #8ee8ff, #1762ca 58%, #082b79); border: 3px solid #d9f7ff; font-family: Georgia, serif; }
 
 .sticky-note {
   position: absolute;
@@ -1097,17 +1098,13 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .smart-search-status { max-width: 720px; margin: -10px auto 12px; color: #626b83; font: italic 10px Tahoma, sans-serif; text-align: left; }
 .smart-search-status.working::before { content: "● "; color: #e58c18; animation: midi-pulse .6s steps(1) infinite; }
 
-.desktop-helper { position: absolute; right: 24px; bottom: 55px; z-index: 20; display: grid; justify-items: center; gap: 3px; width: 92px; padding: 4px; color: white; background: transparent; border: 1px solid transparent; text-shadow: 1px 1px #002; }
-.desktop-helper:hover { background: rgb(0 0 128 / 22%); border-color: rgb(255 255 255 / 55%); }
-.desktop-helper .orbit-pal-body { width: 66px; height: 72px; animation: helper-bob 2.2s ease-in-out infinite; }
-.desktop-helper strong { font-size: 11px; }
-@keyframes helper-bob { 50% { transform: translateY(-4px) rotate(1deg); } }
-
 .helper-window { min-width: 390px; min-height: 350px; }
 .helper-layout { display: grid; grid-template-columns: 100px 1fr; min-height: 0; flex: 1; background: #eef7ff; border: 2px inset white; }
 .helper-layout > main { display: flex; flex-direction: column; min-width: 0; padding: 7px; }
-.helper-layout > main > header { display: grid; padding-bottom: 5px; color: #173b78; border-bottom: 1px solid #93add1; }
+.helper-layout > main > header { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding-bottom: 5px; color: #173b78; border-bottom: 1px solid #93add1; }
+.helper-layout > main > header > div { display: grid; }
 .helper-layout > main > header span { color: #5d7190; font-size: 9px; }
+.helper-layout > main > header button { padding: 3px 7px; background: #c0c0c0; border: 2px outset white; font-size: 9px; }
 .helper-portrait { display: grid; place-items: center; background: radial-gradient(circle, #fff8b8, #86cce8); border-right: 1px solid #769ab7; }
 .helper-portrait .orbit-pal-body { transform: scale(1.35); }
 .helper-transcript { flex: 1; min-height: 0; overflow: auto; padding: 6px 2px; }
@@ -1120,8 +1117,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .helper-form { display: flex; gap: 5px; }
 .helper-form textarea { flex: 1; resize: none; padding: 5px; border: 2px inset white; font-size: 10px; }
 .helper-form button { width: 52px; border: 2px outset white; background: #c0c0c0; font-weight: bold; }
-.helper-actions { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin-top: 5px; color: #61728a; font-size: 8px; }
-.helper-actions button { padding: 3px 7px; background: #c0c0c0; border: 2px outset white; font-size: 9px; }
+.helper-actions { margin-top: 5px; color: #61728a; font-size: 8px; }
 .helper-typing, .helper-error { margin: 5px; font-size: 9px; }
 .helper-typing { color: #526d92; font-style: italic; }
 .helper-error { color: #8b1717; }
