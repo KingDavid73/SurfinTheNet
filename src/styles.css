@@ -1120,6 +1120,8 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .helper-form { display: flex; gap: 5px; }
 .helper-form textarea { flex: 1; resize: none; padding: 5px; border: 2px inset white; font-size: 10px; }
 .helper-form button { width: 52px; border: 2px outset white; background: #c0c0c0; font-weight: bold; }
+.helper-actions { display: flex; align-items: center; justify-content: space-between; gap: 5px; margin-top: 5px; color: #61728a; font-size: 8px; }
+.helper-actions button { padding: 3px 7px; background: #c0c0c0; border: 2px outset white; font-size: 9px; }
 .helper-typing, .helper-error { margin: 5px; font-size: 9px; }
 .helper-typing { color: #526d92; font-style: italic; }
 .helper-error { color: #8b1717; }

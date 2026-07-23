@@ -68,7 +68,7 @@ export interface PageCommentRequest {
   pageTitle: string;
   pageSummary: string;
   playerComment: string;
-  recentComments: Array<{ author: string; text: string }>;
+  recentComments: Array<{ role: "player" | "owner"; author: string; text: string }>;
   relationshipScore: number;
 }
 
@@ -111,7 +111,7 @@ export interface DirectReplyRequest {
   playerMessage: string;
   subject?: string;
   relationshipScore: number;
-  recentMessages: Array<{ author: string; text: string }>;
+  recentMessages: Array<{ role: "player" | "owner"; author: string; text: string }>;
 }
 
 export interface DirectReplyResult {

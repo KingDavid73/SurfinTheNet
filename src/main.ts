@@ -149,10 +149,12 @@ const pendingDirectReplies = new Set<string>();
 let activeAimOwnerId = "mira_917";
 let mailComposeOwnerId: string | null = null;
 let selectedMailMessageId: string | null = null;
-let pageMusicPlaying = false;
+let pageMusicPlaying = true;
 let loadedPageMusicSite: PageDefinition["site"] | null = null;
 const semanticSearchCache = new Map<string, string[]>();
 const pendingSearches = new Set<string>();
+const browserScrollPositions = new Map<string, number>();
+let renderedBrowserUrl = state.currentUrl;
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
 
@@ -285,7 +287,10 @@ function submitOrbitSearch(query: string) {
 
 function navigate(url: string, push = true) {
   const normalized = url.trim().toLowerCase().replace(/^https?:\/\//, "web://");
-  state.currentUrl = normalized || "web://home";
+  const nextUrl = normalized || "web://home";
+  if (push && nextUrl !== state.currentUrl) browserScrollPositions.set(nextUrl, 0);
+  state.currentUrl = nextUrl;
+  pageMusicPlaying = true;
   if (!state.visited.includes(state.currentUrl)) state.visited.push(state.currentUrl);
   state.pageVisitCounts[state.currentUrl] = (state.pageVisitCounts[state.currentUrl] ?? 0) + 1;
   if (push) {
@@ -302,6 +307,8 @@ function openApp(app: AppId) {
     state.currentUrl = "web://home";
     history = ["web://home"];
     historyIndex = 0;
+    browserScrollPositions.set("web://home", 0);
+    pageMusicPlaying = true;
     void saveState();
   }
   windows[app].open = true;
@@ -371,6 +378,13 @@ function pageMusicPlayer(page: PageDefinition) {
   </aside>`;
 }
 
+function refreshBrowserPage() {
+  state.pageVisitCounts[state.currentUrl] = (state.pageVisitCounts[state.currentUrl] ?? 0) + 1;
+  pageMusicPlaying = true;
+  void saveState();
+  render();
+}
+
 function syncPageMusic(page = currentPage()) {
   const track = PAGE_MUSIC[page.site];
   if (loadedPageMusicSite !== page.site) {
@@ -398,6 +412,7 @@ function browserWindow() {
       <button data-browser="back" ${historyIndex === 0 ? "disabled" : ""} title="Back">◀</button>
       <button data-browser="forward" ${historyIndex >= history.length - 1 ? "disabled" : ""} title="Forward">▶</button>
       <button data-browser="home" title="Home">⌂</button>
+      <button data-browser="refresh" title="Refresh">↻</button>
       <form class="address-form"><label>Address</label><input value="${state.currentUrl}" spellcheck="false"><button>Go</button></form>
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
     </div>
@@ -567,6 +582,7 @@ function helperWindow() {
           <textarea name="message" maxlength="500" rows="2" placeholder="How do I search? Where are downloads?" ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
           <button ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}>Ask</button>
         </form>
+        <footer class="helper-actions"><span>Enter sends · Shift+Enter adds a line</span><button data-close="helper">Close Orbit Pal</button></footer>
       </main>
     </div>`);
 }
@@ -849,6 +865,8 @@ function sleepDialog() {
 }
 
 function render() {
+  const existingViewport = document.querySelector<HTMLElement>(".browser-viewport");
+  if (existingViewport) browserScrollPositions.set(renderedBrowserUrl, existingViewport.scrollTop);
   if (startupStage !== "desktop") {
     pageMusic.pause();
     root.innerHTML = startupScreen();
@@ -876,6 +894,12 @@ function render() {
   bindEvents();
   syncPageMusic();
   updateClock();
+  renderedBrowserUrl = state.currentUrl;
+  const savedScrollTop = browserScrollPositions.get(state.currentUrl) ?? 0;
+  requestAnimationFrame(() => {
+    const viewport = document.querySelector<HTMLElement>(".browser-viewport");
+    if (viewport) viewport.scrollTop = savedScrollTop;
+  });
 }
 
 function showNotification(message: string) {
@@ -902,7 +926,6 @@ function downloadSignalNote() {
 
 function downloadOrbitPal() {
   if (state.flags.orbit_pal_installed) {
-    openApp("helper");
     return;
   }
   state.downloads.push({
@@ -912,9 +935,10 @@ function downloadOrbitPal() {
     downloadedAt: new Date().toISOString()
   });
   state.flags.orbit_pal_installed = true;
+  windows.helper.open = false;
+  windows.helper.minimized = false;
   void saveState();
-  openApp("helper");
-  showNotification("Orbit Pal installed! Your helper is now on the desktop.");
+  showNotification("Orbit Pal installed! Open the new helper on your desktop.");
 }
 
 function scrollChatToBottom() {
@@ -958,8 +982,7 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
 
   const recentMessages = state.directMessages
     .filter((entry) => entry.ownerId === ownerId && entry.channel === channel)
-    .slice(-10)
-    .map((entry) => ({ author: entry.author, text: entry.text }));
+    .map((entry) => ({ role: entry.role, author: entry.author, text: entry.text }));
   const playerEntry: DirectMessage = {
     id: crypto.randomUUID(),
     ownerId,
@@ -1064,8 +1087,7 @@ async function submitPageComment(pageUrl: string, message: string) {
   try {
     const recentComments = state.pageComments
       .filter((comment) => comment.pageUrl === pageUrl && comment.id !== playerComment.id)
-      .slice(-6)
-      .map((comment) => ({ author: comment.author, text: comment.text }));
+      .map((comment) => ({ role: comment.role, author: comment.author, text: comment.text }));
     const result = await window.aiAPI.comment({
       ownerId: page.ownerId,
       pageUrl,
@@ -1274,6 +1296,7 @@ function bindEvents() {
   document.querySelector<HTMLElement>("[data-browser='back']")?.addEventListener("click", () => { if (historyIndex > 0) { historyIndex -= 1; navigate(history[historyIndex], false); } });
   document.querySelector<HTMLElement>("[data-browser='forward']")?.addEventListener("click", () => { if (historyIndex < history.length - 1) { historyIndex += 1; navigate(history[historyIndex], false); } });
   document.querySelector<HTMLElement>("[data-browser='home']")?.addEventListener("click", () => navigate("web://home"));
+  document.querySelector<HTMLElement>("[data-browser='refresh']")?.addEventListener("click", refreshBrowserPage);
   document.querySelector<HTMLElement>("[data-browser='bookmark']")?.addEventListener("click", () => {
     state.bookmarks = state.bookmarks.includes(state.currentUrl) ? state.bookmarks.filter((url) => url !== state.currentUrl) : [...state.bookmarks, state.currentUrl];
     void saveState(); render();
@@ -1299,6 +1322,11 @@ function bindEvents() {
     viewer.querySelector("pre")!.textContent = file.contents;
     viewer.querySelector("button")!.addEventListener("click", () => viewer.remove());
     document.querySelector(".desktop")!.append(viewer);
+  }));
+  document.querySelectorAll<HTMLTextAreaElement>("textarea").forEach((textarea) => textarea.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+    event.preventDefault();
+    if (!textarea.disabled) textarea.form?.requestSubmit();
   }));
 
   bindDragging();

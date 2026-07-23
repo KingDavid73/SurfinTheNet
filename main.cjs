@@ -129,17 +129,21 @@ function createWindow() {
 
           const homepageHasComments = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments'))`);
           if (homepageHasComments) throw new Error("OrbitNet homepage still has a public comment section");
-          const midiPlayerReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-page-music]'))`);
-          if (!midiPlayerReady) throw new Error("Homepage MIDI player was not available");
+          const browserControlsReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-browser="refresh"]'))`);
+          if (!browserControlsReady) throw new Error("Browser refresh button was not available");
+          const midiPlayerReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('[data-page-music]')?.textContent.includes('Stop')`);
+          if (!midiPlayerReady) throw new Error("Homepage MIDI did not auto-play");
           await click("[data-page-music]");
-          const midiPlaying = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('[data-page-music]')?.textContent.includes('Stop')`);
-          if (!midiPlaying) throw new Error("Page MIDI player did not enter its playing state");
-          await click("[data-page-music]");
+          const midiStopped = await win.webContents.executeJavaScript(`!document.querySelector('.midi-led.playing') && document.querySelector('[data-page-music]')?.textContent.includes('Play')`);
+          if (!midiStopped) throw new Error("Page MIDI player did not stop");
           await click("[data-download-helper]");
-          const helperInstalled = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.desktop-helper')) && Boolean(document.querySelector('.helper-window'))`);
-          if (!helperInstalled) throw new Error("Orbit Pal did not install as a desktop helper");
+          const helperInstalled = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.desktop-helper')) && !document.querySelector('.helper-window')`);
+          if (!helperInstalled) throw new Error("Orbit Pal did not install closed on the desktop");
+          await click(".desktop-helper");
+          const helperOpened = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.helper-window'))`);
+          if (!helperOpened) throw new Error("Orbit Pal desktop app did not open");
           await capture("orbit-pal-installed.png");
-          await click('[data-close="helper"]');
+          await click('.helper-actions [data-close="helper"]');
 
           const searchFor = async (query, expectedUrl) => {
             const submitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = ${JSON.stringify(query)}; form.requestSubmit(); return true; })()`);
@@ -150,7 +154,7 @@ function createWindow() {
           };
           await searchFor("food", "web://cosmiccrust.biz/home");
           await click('[data-nav="web://cosmiccrust.biz/home"]');
-          const pizzaReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.pizza-page')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('[data-page-music]'))`);
+          const pizzaReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.pizza-page')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing'))`);
           if (!pizzaReady) throw new Error("Cosmic Crust page skeleton was incomplete");
           await capture("cosmic-crust.png");
           await click('[data-browser="home"]');
@@ -165,7 +169,7 @@ function createWindow() {
           if (subpageHasComments) throw new Error("Character subpage incorrectly had its own comment thread");
           await click('[data-nav="web://rainbow.gdn/home"]');
           await click('[data-nav="web://rainbow.gdn/guestbook"]');
-          const signed = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.guestbook-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = 'Your garden page is wonderful!'; form.requestSubmit(); return Boolean(document.querySelector('.player-signature')) && !document.querySelector('.guestbook-form'); })()`);
+          const signed = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.guestbook-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = 'Your garden page is wonderful!'; input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); return Boolean(document.querySelector('.player-signature')) && !document.querySelector('.guestbook-form'); })()`);
           if (!signed) throw new Error("One-time Rainbow guestbook signature did not persist in the page");
           await click('[data-browser="home"]');
           const searched = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'below'; form.requestSubmit(); return true; })()`);
@@ -322,21 +326,24 @@ function createWindow() {
     win.webContents.once("did-finish-load", () => {
       setTimeout(async () => {
         try {
-          const submitted = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-nav="web://rainbow.gdn/home"]')?.click(); const form = document.querySelector('.page-comment-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = 'Hi Juniper, thanks for sharing the page. Why does Modem stare at the phone jack?'; form.requestSubmit(); return true; })()`);
-          if (!submitted) throw new Error("Page comment form was not available");
+          await win.webContents.executeJavaScript(`document.querySelector('[data-nav="web://rainbow.gdn/home"]')?.click()`);
+          await new Promise((resolve) => setTimeout(resolve, 120));
+          const submittedAtScroll = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.page-comment-form'); const input = form?.querySelector('textarea'); const viewport = document.querySelector('.browser-viewport'); if (!form || !input || !viewport) return 0; viewport.scrollTop = viewport.scrollHeight; input.value = 'Hi Juniper, thanks for sharing the page. Why does Modem stare at the phone jack?'; input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); return viewport.scrollTop; })()`);
+          if (!submittedAtScroll) throw new Error("Page comment form was not available or the page could not scroll");
 
           const deadline = Date.now() + 180_000;
           let result = null;
           while (Date.now() < deadline) {
             await new Promise((resolve) => setTimeout(resolve, 500));
-            result = await win.webContents.executeJavaScript(`(() => ({ playerCount: document.querySelectorAll('.page-comment.player').length, ownerCount: document.querySelectorAll('.page-comment.owner').length, pending: document.querySelector('.page-comment-form button')?.textContent || '', error: document.querySelector('.comment-error')?.textContent || '', toast: document.querySelector('.toast')?.textContent || '' }))()`);
+            result = await win.webContents.executeJavaScript(`(() => ({ playerCount: document.querySelectorAll('.page-comment.player').length, ownerCount: document.querySelectorAll('.page-comment.owner').length, pending: document.querySelector('.page-comment-form button')?.textContent || '', error: document.querySelector('.comment-error')?.textContent || '', toast: document.querySelector('.toast')?.textContent || '', scrollTop: document.querySelector('.browser-viewport')?.scrollTop || 0 }))()`);
             if (result.error) throw new Error(result.error);
             if (result.playerCount === 1 && result.pending !== "Posting...") break;
           }
           if (!result || result.pending === "Posting...") throw new Error("Timed out waiting for page-owner response generation");
           if (result.ownerCount !== 0) throw new Error("Generated owner response appeared before the next page load");
+          if (result.scrollTop < 50) throw new Error("Reply notification reset the browser scroll position");
 
-          await win.webContents.executeJavaScript(`document.querySelector('.address-form')?.requestSubmit()`);
+          await win.webContents.executeJavaScript(`document.querySelector('[data-browser="refresh"]')?.click()`);
           await new Promise((resolve) => setTimeout(resolve, 300));
           const revealed = await win.webContents.executeJavaScript(`(() => ({ count: document.querySelectorAll('.page-comment.owner').length, author: document.querySelector('.page-comment.owner header b')?.textContent || '', reply: document.querySelector('.page-comment.owner p')?.textContent || '' }))()`);
           if (revealed.count !== 1 || revealed.author !== "Juniper_Gdn" || !revealed.reply) throw new Error("Owner response did not appear after reloading the page");
@@ -411,6 +418,28 @@ function createWindow() {
             ]
           })`);
           if (!semanticResult.urls.includes("web://cosmiccrust.biz/home")) throw new Error(`Semantic search missed Cosmic Crust: ${JSON.stringify(semanticResult.urls)}`);
+          const toniReply = await win.webContents.executeJavaScript(`window.aiAPI.comment({
+            ownerId: "toni_pizza",
+            pageUrl: "web://cosmiccrust.biz/home",
+            pageTitle: "Cosmic Crust Pizza Online",
+            pageSummary: "A family pizza restaurant serving slices, dinner, delivery, and takeout.",
+            playerComment: "Fine, I shall partake in a singular slice of your finest pepperoni pizza pie, my good sir.",
+            relationshipScore: 10,
+            recentComments: [
+              { role: "player", author: "David", text: "Do you have anchovies?" },
+              { role: "owner", author: "Toni_CosmicCrust", text: "Anchovies? Nah, we stick to the real stuff. But if you're looking for a good time, the pizza's always waiting. Come on in!" },
+              { role: "player", author: "David", text: "What's the good stuff?" },
+              { role: "owner", author: "Toni_CosmicCrust", text: "The good stuff is the crispy crust and the real sauce!" },
+              { role: "player", author: "David", text: "What if I am an anchovy?" },
+              { role: "owner", author: "Toni_CosmicCrust", text: "Anchovies? Nah, we stick to the real stuff. But if you're looking for a good time, the pizza's always waiting. Come on in!" }
+            ]
+          })`);
+          const staleReply = "Anchovies? Nah, we stick to the real stuff. But if you're looking for a good time, the pizza's always waiting. Come on in!";
+          const replyWords = new Set(toniReply.text.toLowerCase().match(/[a-z0-9']+/g) || []);
+          const staleWords = new Set(staleReply.toLowerCase().match(/[a-z0-9']+/g) || []);
+          const overlap = [...replyWords].filter((word) => staleWords.has(word)).length;
+          const replySimilarity = overlap / (replyWords.size + staleWords.size - overlap);
+          if (replySimilarity >= 0.72) throw new Error(`Toni repeated a stale reply instead of answering the newest comment: ${toniReply.text}`);
           const helperReply = await win.webContents.executeJavaScript(`window.aiAPI.directReply({
             ownerId: "orbit_guide",
             channel: "helper",
@@ -424,7 +453,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "boot-flow-desktop.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log(`BOOT_OK: startup and clean desktop completed; Browser opened at web://home, semantic search found Cosmic Crust, Orbit Pal answered “${helperReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
+          console.log(`BOOT_OK: startup completed; semantic search found Cosmic Crust, Toni answered the newest turn with “${toniReply.text}”, Orbit Pal answered “${helperReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
         } catch (error) {
           console.error("BOOT_FAILED:", error);
           process.exitCode = 1;
