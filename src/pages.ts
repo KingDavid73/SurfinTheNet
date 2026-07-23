@@ -4,6 +4,24 @@ const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
 const escapeHtml = (value: string) =>
   value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+const CONSOLE_ASSETS = {
+  "pulse-cgi-console": new URL("../assets/images/console-web/pulse-cgi-console.png", import.meta.url).href,
+  "pulse-cgi-controller": new URL("../assets/images/console-web/pulse-cgi-controller.png", import.meta.url).href,
+  "pulse-cgi-network": new URL("../assets/images/console-web/pulse-cgi-network.png", import.meta.url).href,
+  "pulse-cgi-racers": new URL("../assets/images/console-web/pulse-cgi-racers.png", import.meta.url).href,
+  "pulse-cgi-player": new URL("../assets/images/console-web/pulse-cgi-player.png", import.meta.url).href,
+  "vanta-editorial-console": new URL("../assets/images/console-web/vanta-editorial-console.png", import.meta.url).href,
+  "vanta-editorial-portal": new URL("../assets/images/console-web/vanta-editorial-portal.png", import.meta.url).href,
+  "vanta-editorial-eye": new URL("../assets/images/console-web/vanta-editorial-eye.png", import.meta.url).href,
+  "cubit-gouache-console": new URL("../assets/images/console-web/cubit-gouache-console.png", import.meta.url).href,
+  "cubit-gouache-mascot": new URL("../assets/images/console-web/cubit-gouache-mascot.png", import.meta.url).href,
+  "cubit-gouache-multiplayer": new URL("../assets/images/console-web/cubit-gouache-multiplayer.png", import.meta.url).href,
+  "cubit-gouache-cases": new URL("../assets/images/console-web/cubit-gouache-cases.png", import.meta.url).href,
+  "cubit-gouache-controller": new URL("../assets/images/console-web/cubit-gouache-controller.png", import.meta.url).href,
+  "cubit-gouache-players": new URL("../assets/images/console-web/cubit-gouache-players.png", import.meta.url).href
+} as const;
+const consoleAsset = (name: keyof typeof CONSOLE_ASSETS, alt: string, className = "") =>
+  `<img class="console-web-art ${className}" src="${CONSOLE_ASSETS[name]}" alt="${alt}">`;
 
 export const pages: Record<string, PageDefinition> = {
   "web://home": {
@@ -305,6 +323,161 @@ export const pages: Record<string, PageDefinition> = {
         <aside><b>Saturday Adoption Day</b><p>Meet local shelter animals from 10 AM–2 PM. Bring the whole family!</p></aside>
         <p class="business-owner">Bev reads every message. Pickles walks across the keyboard for about half of them.</p>
         <footer>22 Willow Lane · “If your pet can wear it, we probably sell it.”</footer>
+      </main>`
+  },
+  "web://pulsenet.red/home": {
+    url: "web://pulsenet.red/home",
+    title: "PULSE/NET - The World Is Player Two",
+    site: "pulse",
+    ownerId: "pulsenet_jax",
+    summary: "PULSE/NET is a $199 online-ready video game console built for arcade racing, fighting games, sports, and network multiplayer with an included 56K modem.",
+    commentsEnabled: true,
+    listed: true,
+    hubId: "business",
+    searchTerms: ["video games", "videogame console", "gaming", "arcade", "online", "multiplayer", "racing", "fighting", "sports", "modem", "cheap console"],
+    render: () => `
+      <main class="page pulse-page">
+        <header class="pulse-header">
+          <div class="pulse-logo"><span>PULSE</span><b>/NET</b><small>REDshift interactive</small></div>
+          <nav><button data-nav="web://pulsenet.red/home">START</button><button data-nav="web://pulsenet.red/network">NETWORK</button><button disabled>GAMES</button><button disabled>DOWNLOADS</button></nav>
+        </header>
+        <div class="pulse-status"><i></i> NETWORK STATUS: LIVE &nbsp;//&nbsp; 1,993 PLAYERS CONNECTED &nbsp;//&nbsp; 11.11.99</div>
+        <section class="pulse-hero">
+          <div class="pulse-rings">${consoleAsset("pulse-cgi-network", "")}${consoleAsset("pulse-cgi-console", "The white PULSE/NET console", "pulse-machine")}</div>
+          <div><p class="pulse-kicker">ARCADE. HOME. EVERYWHERE.</p><h1>THE WORLD IS<br><em>PLAYER TWO.</em></h1><p>Rivals do not go home anymore. Neither do you. PULSE/NET puts a 56K connection in every box and the arcade in every room.</p><strong class="pulse-price">$199</strong><button data-nav="web://pulsenet.red/network">ENTER THE NETWORK &gt;</button></div>
+        </section>
+        <section class="pulse-panels">
+          <article>${consoleAsset("pulse-cgi-racers", "Two orange arcade racing cars")}<b>SPEED HAS A SCREEN NAME.</b><span>RACE // RANK // REMATCH</span></article>
+          <article>${consoleAsset("pulse-cgi-controller", "PULSE/NET controller")}<b>FOUR PORTS. ZERO MERCY.</b><span>LOCAL OR GLOBAL</span></article>
+          <article>${consoleAsset("pulse-cgi-player", "An arcade racer leaning into a cabinet")}<b>THE NETWORK IS IN THE BOX.</b><span>NOT ON A ROADMAP.</span></article>
+        </section>
+        <p class="business-owner">Jax is running the launch lobby. Ask about PULSE/NET games, connections, or who is brave enough to play.</p>
+        <footer>REDshift interactive // Everybody's in. // Best experienced at 800 x 600</footer>
+      </main>`
+  },
+  "web://pulsenet.red/network": {
+    url: "web://pulsenet.red/network",
+    title: "PULSE/NET Network - Everybody's In",
+    site: "pulse",
+    ownerId: "pulsenet_jax",
+    summary: "The PULSE/NET network page explains its included 56K modem, player lobbies, rankings, web browser, email, and color save puck.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["PULSE network", "56K modem", "online play", "rankings", "lobby", "email", "web browser"],
+    render: () => `
+      <main class="page pulse-page pulse-network-page">
+        <header class="pulse-header"><div class="pulse-logo"><span>PULSE</span><b>/NET</b></div><nav><button data-nav="web://pulsenet.red/home">START</button><button>NETWORK</button><button disabled>GAMES</button></nav></header>
+        <div class="pulse-status"><i></i> YOU ARE CONNECTED // PING: 188ms // MODEM: 56K</div>
+        <section class="pulse-network-grid">
+          <div class="pulse-network-map">${consoleAsset("pulse-cgi-network", "Orange and cyan PULSE network signal")}<span class="node one">YOU</span><span class="node two">TOKYO</span><span class="node three">LONDON</span><span class="node four">CHICAGO</span></div>
+          <div><p class="pulse-kicker">NO EXTRA BOX. NO EXTRA EXCUSE.</p><h1>EVERYBODY'S IN.</h1><p>Plug PULSE/NET into a phone line. Make a screen name. Enter a game lobby. Check rankings, challenge friends, browse the web, or send electronic mail from the couch.</p><dl><div><dt>MODEM</dt><dd>56K INCLUDED</dd></div><div><dt>PLAYER PORTS</dt><dd>4</dd></div><div><dt>MEMORY</dt><dd>COLOR SAVE PUCK</dd></div><div><dt>DISC</dt><dd>1GB GD FORMAT</dd></div></dl></div>
+        </section>
+        <aside class="pulse-ticker">LIVE LOBBIES: VELOCITY BURN 214 // STEEL FIST 189 // TURF WAR '00 351 // NEW PLAYERS WELCOME</aside>
+        <button class="console-return" data-nav="web://pulsenet.red/home">&lt; BACK TO PULSE/NET</button>
+        <footer>Connection fees may apply. Ask whoever pays the phone bill before 200-minute tournament sessions.</footer>
+      </main>`
+  },
+  "web://vanta2.com/home": {
+    url: "web://vanta2.com/home",
+    title: "VANTA² - Leave Reality Running",
+    site: "vanta",
+    ownerId: "axiom_liaison_02",
+    summary: "VANTA2 is a premium $299 video game and DVD entertainment console for cinematic games, movies, music, and a library of more than 1,100 original Axiom titles.",
+    commentsEnabled: true,
+    listed: true,
+    hubId: "business",
+    searchTerms: ["video games", "videogame console", "gaming", "DVD player", "movies", "music", "cinematic", "premium console", "backward compatible", "entertainment"],
+    render: () => `
+      <main class="page vanta-page">
+        <div class="vanta-loader"><span>AXIOM CONSUMER SYSTEMS</span><i>INTRO COMPLETE</i><button disabled>SKIP INTRO</button></div>
+        <header><div class="vanta-mark">VANTA<sup>2</sup></div><nav><button data-nav="web://vanta2.com/home">01 / ARRIVAL</button><button data-nav="web://vanta2.com/spec">02 / SYSTEM</button><button disabled>03 / TRANSMISSIONS</button></nav></header>
+        <section class="vanta-hero">
+          <div class="vanta-machine">${consoleAsset("vanta-editorial-portal", "")}${consoleAsset("vanta-editorial-console", "The tall black VANTA2 console", "vanta-console")}</div>
+          <div><p class="vanta-node">NODE 01.1999 // SIGNAL ACQUIRED</p><h1>LEAVE REALITY<br><span>RUNNING.</span></h1><p class="vanta-manifesto">Games remember you.<br>Films surround you.<br>Music lives here.</p><button data-nav="web://vanta2.com/spec">OPEN THE SECOND DOOR</button></div>
+        </section>
+        <section class="vanta-strip"><div>300 MHz<br><small>VECTOR SOUL</small></div><div>4.7 GB<br><small>DVD MEDIA</small></div><div>1,100+<br><small>WORLDS RETURN</small></div><div>$299<br><small>WINTER 2000</small></div></section>
+        <p class="business-owner">The Axiom Liaison monitors this transmission. Product questions will be acknowledged.</p>
+        <footer>VANTA<sup>2</sup> // A second world is waiting. // Flash 4 recommended</footer>
+      </main>`
+  },
+  "web://vanta2.com/spec": {
+    url: "web://vanta2.com/spec",
+    title: "VANTA² System Architecture",
+    site: "vanta",
+    ownerId: "axiom_liaison_02",
+    summary: "The VANTA2 system architecture page lists its Vector Soul processor, Direct-RAM, DVD playback, audio CD support, USB expansion, and backward compatibility.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["VANTA specifications", "Vector Soul", "DVD playback", "USB", "backward compatibility", "Direct RAM"],
+    render: () => `
+      <main class="page vanta-page vanta-spec-page">
+        <div class="vanta-loader"><span>AXIOM CONSUMER SYSTEMS</span><i>TECHNICAL CHANNEL</i></div>
+        <header><div class="vanta-mark">VANTA<sup>2</sup></div><nav><button data-nav="web://vanta2.com/home">01 / ARRIVAL</button><button>02 / SYSTEM</button></nav></header>
+        <section class="vanta-spec-intro">${consoleAsset("vanta-editorial-eye", "A silver collage eye surrounding a blue iris")}<div><p class="vanta-node">NODE 02 // THE MACHINE BEHIND THE IMAGE</p><h1>A SYSTEM FOR<br>SECOND WORLDS.</h1></div></section>
+        <section class="vanta-specs">
+          <article><span>01</span><b>VECTOR SOUL</b><strong>300 MHz / 128-bit</strong><p>Geometry, light, behavior, memory.</p></article>
+          <article><span>02</span><b>DIRECT-RAM</b><strong>32 MB</strong><p>A straight path from thought to image.</p></article>
+          <article><span>03</span><b>DISC</b><strong>4.7 GB DVD</strong><p>Games. Films. CD audio. One aperture.</p></article>
+          <article><span>04</span><b>ANCESTRY</b><strong>1,100+ TITLES</strong><p>Your original Axiom library crosses over.</p></article>
+          <article><span>05</span><b>EXPANSION</b><strong>2 USB / 2 PAD</strong><p>What arrives later already has a door.</p></article>
+          <article><span>06</span><b>ADMISSION</b><strong>$299</strong><p>Reality remains available separately.</p></article>
+        </section>
+        <button class="console-return" data-nav="web://vanta2.com/home">RETURN TO ARRIVAL</button>
+        <footer>Specifications subject to refinement before the threshold opens.</footer>
+      </main>`
+  },
+  "web://cubit.fun/home": {
+    url: "web://cubit.fun/home",
+    title: "CUBIT - Pure Play!",
+    site: "cubit",
+    ownerId: "cubby_clover",
+    summary: "CUBIT is a colorful $189 games-only console with four controller ports, a carrying grip, compact game discs, and an emphasis on simple local multiplayer fun.",
+    commentsEnabled: true,
+    listed: true,
+    hubId: "business",
+    searchTerms: ["video games", "videogame console", "gaming", "family", "kids", "four player", "local multiplayer", "party games", "colorful", "affordable console"],
+    render: () => `
+      <main class="page cubit-page">
+        <header><div class="cubit-logo">CU<span>B</span>IT<sup>*</sup></div><p>THE LITTLE BOX WITH A BIG WEEKEND!</p></header>
+        <nav><button data-nav="web://cubit.fun/home">HOME</button><button data-nav="web://cubit.fun/games">GAMES!</button><button disabled>COLORS!</button><button disabled>CLUB CUBIT!</button></nav>
+        <div class="cubit-marquee">*** PURE PLAY! *** FOUR CONTROLLER PORTS! *** NO LOADING A MOVIE BY ACCIDENT! ***</div>
+        <section class="cubit-hero">
+          <div class="cubit-product">${consoleAsset("cubit-gouache-console", "The hand-painted indigo CUBIT console with carrying handle")}${consoleAsset("cubit-gouache-mascot", "Cubby, the hand-painted smiling yellow star mascot", "cubit-star")}</div>
+          <div><span class="sticker">JUST<br>$189!</span><h1>BRING<br>EVERYBODY.</h1><p>No movies. No spreadsheets. No excuses. Pick a controller.</p><button data-nav="web://cubit.fun/games">SEE THE GAMES &gt;&gt;</button></div>
+        </section>
+        <section class="cubit-features">
+          <article>${consoleAsset("cubit-gouache-multiplayer", "Four colorful hand-painted controllers")}<b>FOUR'S A PARTY!</b><p>Four ports right on the front. No adapter scavenger hunt.</p></article>
+          <article>${consoleAsset("cubit-gouache-cases", "A hand-painted stack of colorful game cases")}<b>SMALL DISC. BIG FUN!</b><p>1.2GB mini-discs are tough to mistake for your dad's jazz CDs.</p></article>
+          <article>${consoleAsset("cubit-gouache-controller", "Chunky hand-painted lime CUBIT controller")}<b>IT JUST FITS!</b><p>A big green button means nobody has to read the manual.</p></article>
+        </section>
+        <aside class="cubit-poll"><b>THIS WEEK'S POLL:</b> Which CUBIT color are you? <button disabled>INDIGO</button><button disabled>TANGERINE</button><button disabled>JET</button></aside>
+        <p class="business-owner">Cubby Clover answers questions between snack breaks and four-player rematches.</p>
+        <footer>Best viewed with images ON! &nbsp; | &nbsp; CUBIT is a Clover Toyworks thing &nbsp; | &nbsp; PURE PLAY</footer>
+      </main>`
+  },
+  "web://cubit.fun/games": {
+    url: "web://cubit.fun/games",
+    title: "CUBIT Games - Pick a Controller!",
+    site: "cubit",
+    ownerId: "cubby_clover",
+    summary: "The CUBIT games page features colorful fictional four-player party, racing, adventure, and fighting games for the CUBIT console.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["CUBIT games", "party games", "kart racing", "adventure", "fighting", "four player games"],
+    render: () => `
+      <main class="page cubit-page cubit-games-page">
+        <header><div class="cubit-logo">CU<span>B</span>IT<sup>*</sup></div><p>GAMES! GAMES! ALSO: GAMES!</p></header>
+        <nav><button data-nav="web://cubit.fun/home">HOME</button><button>GAMES!</button><button disabled>COLORS!</button><button disabled>CLUB CUBIT!</button></nav>
+        <section class="cubit-games-title">${consoleAsset("cubit-gouache-players", "Four friends playing CUBIT together on a couch")}<div><h1>PICK A CONTROLLER!</h1><p>Everybody gets a turn. Preferably at the same time.</p></div></section>
+        <section class="cubit-game-grid">
+          <article><span class="game-burst indigo">4P</span><h2>BLOCK PARTY DELUXE</h2><p>Build it. Bump it. Knock your friend's tower into the soup.</p><b>PUZZLE / PARTY</b></article>
+          <article><span class="game-burst orange">NEW</span><h2>TURBO LUNCHBOX</h2><p>Race sandwiches, juice boxes, and one extremely fast banana.</p><b>RACING / 1-4 PLAYERS</b></article>
+          <article><span class="game-burst aqua">BIG!</span><h2>STAR SCOUTS</h2><p>Save seven tiny planets with a flashlight and excellent teamwork.</p><b>ADVENTURE / 1-2 PLAYERS</b></article>
+          <article><span class="game-burst lime">WOW</span><h2>BACKYARD BRAWLERS</h2><p>The sprinkler is on. The gloves are off. Mom is going to be furious.</p><b>ACTION / 1-4 PLAYERS</b></article>
+        </section>
+        <div class="cubit-downloads">${consoleAsset("cubit-gouache-cases", "A hand-painted stack of CUBIT game cases")}<p><b>FREE STUFF!</b><br>Printable covers and desktop pictures are coming as soon as our webmaster finds the ZIP disk.</p></div>
+        <button class="console-return" data-nav="web://cubit.fun/home">&lt;&lt; BACK HOME</button>
+        <footer>Coming dates are guesses made by cheerful people in a very busy office.</footer>
       </main>`
   },
   "web://orbitnet.local/below": {

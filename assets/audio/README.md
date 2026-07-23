@@ -22,7 +22,7 @@ short echoes.
 
 ## Web page loops
 
-The `pages` directory contains seven original General MIDI loops, one for each
+The `pages` directory contains ten original General MIDI loops, one for each
 current site style, plus deterministic mono WAV renders. Pages on the same
 domain share a theme so sub-pages sound like parts of one site. Orbit
 Explorer's “PAGE MIDI” bar controls the WAV render because Chromium cannot

@@ -15,7 +15,10 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
   raven: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
   computer: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
   pizza: { label: "Pepperoni Comet", file: "pepperoni-comet.mid", midiUrl: new URL("../assets/audio/pages/pepperoni-comet.mid", import.meta.url).href, url: new URL("../assets/audio/pages/pepperoni-comet.wav", import.meta.url).href },
-  pets: { label: "Paws on the Keys", file: "paws-on-the-keys.mid", midiUrl: new URL("../assets/audio/pages/paws-on-the-keys.mid", import.meta.url).href, url: new URL("../assets/audio/pages/paws-on-the-keys.wav", import.meta.url).href }
+  pets: { label: "Paws on the Keys", file: "paws-on-the-keys.mid", midiUrl: new URL("../assets/audio/pages/paws-on-the-keys.mid", import.meta.url).href, url: new URL("../assets/audio/pages/paws-on-the-keys.wav", import.meta.url).href },
+  pulse: { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
+  vanta: { label: "Second World", file: "second-world.mid", midiUrl: new URL("../assets/audio/pages/second-world.mid", import.meta.url).href, url: new URL("../assets/audio/pages/second-world.wav", import.meta.url).href },
+  cubit: { label: "Four on the Floor", file: "four-on-the-floor.mid", midiUrl: new URL("../assets/audio/pages/four-on-the-floor.mid", import.meta.url).href, url: new URL("../assets/audio/pages/four-on-the-floor.wav", import.meta.url).href }
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -37,7 +40,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -47,7 +50,10 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   darkraven_xx: { screenName: "xX_DarkRaven_Xx", displayName: "DarkRaven" },
   chip_bytebarn: { screenName: "Chip_At_ByteBarn", displayName: "Chip" },
   toni_pizza: { screenName: "Toni_CosmicCrust", displayName: "Toni" },
-  bev_paws: { screenName: "Bev_PawsNClaws", displayName: "Bev" }
+  bev_paws: { screenName: "Bev_PawsNClaws", displayName: "Bev" },
+  pulsenet_jax: { screenName: "PULSEnet_Jax", displayName: "Jax" },
+  axiom_liaison_02: { screenName: "AXIOM_Liaison_02", displayName: "Axiom Liaison" },
+  cubby_clover: { screenName: "CubbyClover", displayName: "Cubby" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -63,7 +69,10 @@ const CHARACTER_CONTACTS: Record<string, {
   orbit_guide: { screenName: "OrbitPal", displayName: "Orbit Pal", statusMessage: "Click me if you need a hand!" },
   chip_bytebarn: { screenName: "Chip_At_ByteBarn", displayName: "Chip", statusMessage: "probably under a desk" },
   toni_pizza: { screenName: "Toni_CosmicCrust", displayName: "Toni", statusMessage: "one hand on the oven" },
-  bev_paws: { screenName: "Bev_PawsNClaws", displayName: "Bev", statusMessage: "Pickles is on the keyboard" }
+  bev_paws: { screenName: "Bev_PawsNClaws", displayName: "Bev", statusMessage: "Pickles is on the keyboard" },
+  pulsenet_jax: { screenName: "PULSEnet_Jax", displayName: "Jax", statusMessage: "lobby's open // everybody in" },
+  axiom_liaison_02: { screenName: "AXIOM_Liaison_02", displayName: "Axiom Liaison", statusMessage: "a second world is waiting" },
+  cubby_clover: { screenName: "CubbyClover", displayName: "Cubby", statusMessage: "controller four is still free!" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -73,7 +82,10 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   orbit_guide: "web://home",
   chip_bytebarn: "web://bytebarn.com/home",
   toni_pizza: "web://cosmiccrust.biz/home",
-  bev_paws: "web://pawsnclaws.net/home"
+  bev_paws: "web://pawsnclaws.net/home",
+  pulsenet_jax: "web://pulsenet.red/home",
+  axiom_liaison_02: "web://vanta2.com/home",
+  cubby_clover: "web://cubit.fun/home"
 };
 
 const GAME_TIME_SCALE = 2;
@@ -206,6 +218,13 @@ const SEARCH_CONCEPTS: Record<string, string[]> = {
   technology: ["computer", "hardware", "software", "modem"],
   tech: ["computer", "hardware", "software", "modem"],
   pc: ["computer", "hardware"],
+  game: ["games", "gaming", "console", "videogame"],
+  games: ["game", "gaming", "console", "videogame"],
+  videogame: ["game", "games", "gaming", "console"],
+  gaming: ["game", "games", "videogame", "console"],
+  console: ["game", "games", "gaming", "videogame"],
+  arcade: ["game", "games", "console", "multiplayer"],
+  multiplayer: ["game", "games", "console", "arcade"],
   shopping: ["store", "shop", "business"]
 };
 

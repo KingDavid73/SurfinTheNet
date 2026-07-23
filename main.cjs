@@ -25,7 +25,7 @@ const DEFAULT_SAVE = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10 }
 };
 
 function savePath() {
@@ -169,6 +169,39 @@ function createWindow() {
           await click('[data-browser="home"]');
           await searchFor("animals", "web://pawsnclaws.net/home");
           await click('[data-browser="home"]');
+          const consoleSearchSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'video game console'; form.requestSubmit(); return true; })()`);
+          if (!consoleSearchSubmitted) throw new Error("Console search form was unavailable");
+          await new Promise((resolve) => setTimeout(resolve, 120));
+          const consoleResults = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.search-results [data-nav]')).map((result) => result.getAttribute('data-nav'))`);
+          for (const expectedUrl of ["web://pulsenet.red/home", "web://vanta2.com/home", "web://cubit.fun/home"]) {
+            if (!consoleResults.includes(expectedUrl)) throw new Error(`Video game console search missed ${expectedUrl}: ${JSON.stringify(consoleResults)}`);
+          }
+
+          await click('[data-nav="web://pulsenet.red/home"]');
+          const pulseReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.pulse-page .pulse-machine')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing'))`);
+          if (!pulseReady) throw new Error("PULSE/NET homepage was incomplete");
+          await capture("console-pulsenet.png");
+          await click('[data-nav="web://pulsenet.red/network"]');
+          if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments'))`)) throw new Error("PULSE/NET subpage incorrectly had a comment thread");
+
+          await click('[data-browser="home"]');
+          await searchFor("dvd games", "web://vanta2.com/home");
+          await click('[data-nav="web://vanta2.com/home"]');
+          const vantaReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.vanta-page .vanta-console')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing'))`);
+          if (!vantaReady) throw new Error("VANTA2 homepage was incomplete");
+          await capture("console-vanta2.png");
+          await click('[data-nav="web://vanta2.com/spec"]');
+          if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments'))`)) throw new Error("VANTA2 subpage incorrectly had a comment thread");
+
+          await click('[data-browser="home"]');
+          await searchFor("family multiplayer", "web://cubit.fun/home");
+          await click('[data-nav="web://cubit.fun/home"]');
+          const cubitReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.cubit-page .cubit-product')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing'))`);
+          if (!cubitReady) throw new Error("CUBIT homepage was incomplete");
+          await capture("console-cubit.png");
+          await click('[data-nav="web://cubit.fun/games"]');
+          if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments'))`)) throw new Error("CUBIT subpage incorrectly had a comment thread");
+          await click('[data-browser="home"]');
 
           await click('[data-nav="web://rainbow.gdn/home"]');
           await click('[data-nav="web://rainbow.gdn/about"]');
@@ -201,7 +234,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "clue-flow.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log("SMOKE_OK: installed Orbit Pal, found all business pages through related searches, verified page MIDI/comments, browsed to the archive, and persisted downloads.");
+          console.log("SMOKE_OK: installed Orbit Pal, found all six businesses through related searches, verified all three console campaigns and their page MIDI/comment boundaries, browsed to the archive, and persisted downloads.");
         } catch (error) {
           console.error("SMOKE_FAILED:", error);
           process.exitCode = 1;
@@ -455,12 +488,22 @@ function createWindow() {
             recentMessages: []
           })`);
           if (!helperReply.text || helperReply.text.length > 240) throw new Error("Orbit Pal did not provide a concise help response");
+          const jaxReply = await win.webContents.executeJavaScript(`window.aiAPI.comment({
+            ownerId: "pulsenet_jax",
+            pageUrl: "web://pulsenet.red/home",
+            pageTitle: "PULSE/NET - The World Is Player Two",
+            pageSummary: "A $199 online-ready arcade console with an included 56K modem.",
+            playerComment: "Does the modem come in the box, and what should I play first?",
+            relationshipScore: 8,
+            recentComments: []
+          })`);
+          if (!jaxReply.text || jaxReply.text.length > 280) throw new Error("PULSEnet_Jax did not provide a concise product response");
 
           const image = await win.webContents.capturePage();
           const target = path.resolve(__dirname, "artifacts", "boot-flow-desktop.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log(`BOOT_OK: startup completed; semantic search found Cosmic Crust, Toni answered the newest turn with “${toniReply.text}”, Orbit Pal answered “${helperReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
+          console.log(`BOOT_OK: startup completed; semantic search found Cosmic Crust, Toni answered the newest turn with “${toniReply.text}”, Orbit Pal answered “${helperReply.text}”, PULSEnet_Jax answered “${jaxReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
         } catch (error) {
           console.error("BOOT_FAILED:", error);
           process.exitCode = 1;

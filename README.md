@@ -29,9 +29,9 @@ npm.cmd run make
 - An original OrbitOS startup jingle, stored as editable MIDI and a deterministic in-game WAV
 - A draggable fake desktop with a Start menu and taskbar
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
-- Three member-run sites, three unlisted local businesses, and the OrbitNet directory
+- Three member-run sites, six search-only local businesses, and the OrbitNet directory
 - Site-colored public comment threads on character and business homepages; subpages keep one canonical conversation per owner
-- Seven original page MIDI loops that auto-play on navigation, with a shared play/stop control and deterministic WAV playback renders
+- Ten original page MIDI loops that auto-play on navigation, with a shared play/stop control and deterministic WAV playback renders
 - A downloadable Orbit Pal app: launch its installed icon to summon the desktop buddy, click the buddy to chat, and use Close Pal to exit it completely
 - Instant lexical/concept search plus asynchronous local-model semantic matching when Qwen is warm
 - A one-use Rainbow Garden guestbook signature stored in the player profile
@@ -75,6 +75,11 @@ npm.cmd run test:ui
 Character definitions live in `personas/`. All personal-site owners, business owners, and Orbit Pal share one resident model and one queued context sequence, so adding page owners does not multiply VRAM use. The Electron main-process service is in `ai-service.cjs`. Direct AIM/email/helper history, hidden relationship scores, page comments and their reveal visit, guestbook signatures, settings, and fictional time are part of the versioned game save.
 
 The design direction and cited research on Hypnospace, GeoCities, Flash-era sites, hidden-page discovery, character interaction, and period visual styles is collected in `docs/design-research.md`.
+
+The three fictional console campaigns and their period references are documented
+in `docs/console-marketing-research.md`. Their campaign graphics use separate
+company-specific contact sheets so each brand can have its own medium and visual
+voice.
 
 The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium plays the matching `assets/audio/orbitos-startup.wav` for predictable sound on every machine. Regenerate both from source with `node scripts/generate-startup-jingle.mjs`.
 

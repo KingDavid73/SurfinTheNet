@@ -1081,6 +1081,124 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .pets-page > aside p { margin: 4px; }
 .pets-page footer { padding: 8px; color: white; background: #267c61; text-align: center; }
 .business-owner { margin: 18px auto; padding: 8px; max-width: 620px; background: rgb(255 255 255 / 68%); border: 1px dotted currentColor; text-align: center; font-size: 11px; }
+.console-web-art { display: block; max-width: 100%; image-rendering: pixelated; }
+.console-return { margin: 16px 0; padding: 6px 12px; font-weight: bold; }
+
+.pulse-page {
+  max-width: 900px;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  color: #101820;
+  background: #f8faf8;
+  font-family: "Arial Narrow", Impact, Arial, sans-serif;
+  border: 1px solid #9ca8aa;
+}
+.pulse-header { display: flex; align-items: stretch; min-height: 78px; color: #fff; background: #0b1217; border-bottom: 7px solid #ff4b16; }
+.pulse-logo { display: grid; grid-template-columns: auto auto; align-content: center; padding: 8px 22px; background: #fff; transform: skew(-6deg); }
+.pulse-logo span { color: #111; font: italic 900 34px/1 Arial, sans-serif; letter-spacing: -.08em; transform: skew(6deg); }
+.pulse-logo b { color: #ff4b16; font: italic 900 34px/1 Arial, sans-serif; transform: skew(6deg); }
+.pulse-logo small { grid-column: 1 / -1; color: #536065; font: 7px "Courier New", monospace; letter-spacing: .2em; transform: skew(6deg); }
+.pulse-header nav { display: flex; align-items: end; flex: 1; justify-content: end; gap: 1px; padding: 0 10px; }
+.pulse-header nav button { padding: 8px 10px; color: #fff; background: #17242b; border: 0; border-top: 2px solid #00cddd; font: bold 9px "Courier New", monospace; }
+.pulse-header nav button:hover { color: #111; background: #00cddd; }
+.pulse-status, .pulse-ticker { padding: 5px 12px; color: #fff; background: #303c40; font: 9px "Courier New", monospace; letter-spacing: .06em; }
+.pulse-status i { display: inline-block; width: 7px; height: 7px; margin-right: 5px; background: #00e396; border-radius: 50%; box-shadow: 0 0 7px #00e396; animation: midi-pulse 1s steps(1) infinite; }
+.pulse-hero { display: grid; grid-template-columns: 45% 1fr; align-items: center; min-height: 350px; padding: 18px 28px; background: linear-gradient(118deg, #fff 0 48%, #e9f0ef 48%); }
+.pulse-rings { position: relative; min-height: 290px; }
+.pulse-rings > img:first-child { position: absolute; inset: 18px auto auto 15px; width: 85%; opacity: .28; }
+.pulse-rings .pulse-machine { position: absolute; inset: 52px auto auto 20px; width: 84%; filter: drop-shadow(9px 14px 0 rgb(0 0 0 / 15%)); }
+.pulse-kicker { color: #00859c; font: bold 10px "Courier New", monospace; letter-spacing: .18em; }
+.pulse-hero h1, .pulse-network-page h1 { margin: 5px 0; font: italic 900 clamp(38px, 7vw, 66px)/.84 Arial, sans-serif; letter-spacing: -.08em; }
+.pulse-hero h1 em { color: #ff4b16; font-style: normal; }
+.pulse-hero p { max-width: 420px; font: 12px/1.4 Arial, sans-serif; }
+.pulse-price { display: block; margin: 9px 0; color: #ff4b16; font-size: 34px; }
+.pulse-hero button, .pulse-network-page .console-return { padding: 9px 13px; color: #fff; background: #ff4b16; border: 0; box-shadow: 4px 4px #00a4b9; font-weight: 900; }
+.pulse-panels { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 8px solid #111; }
+.pulse-panels article { position: relative; display: grid; grid-template-rows: 120px auto auto; align-items: end; padding: 9px; overflow: hidden; background: #eef3f2; border-right: 1px solid #9fa9aa; }
+.pulse-panels img { width: 100%; height: 115px; object-fit: contain; }
+.pulse-panels b { padding: 4px; color: #fff; background: #111; font-size: 14px; }
+.pulse-panels span { padding: 3px; color: #ff4b16; font: bold 9px "Courier New", monospace; }
+.pulse-page .business-owner { background: #d9f9fb; }
+.pulse-page footer { padding: 8px; color: #a9b2b5; background: #111; font: 8px "Courier New", monospace; text-align: center; }
+.pulse-network-grid { display: grid; grid-template-columns: 44% 1fr; gap: 25px; padding: 30px; }
+.pulse-network-map { position: relative; display: grid; place-items: center; min-height: 330px; background: #101820; border: 8px solid #dfe7e6; box-shadow: 6px 6px #ff4b16; }
+.pulse-network-map img { width: 80%; }
+.pulse-network-map .node { position: absolute; padding: 3px; color: #00efff; background: #101820; border: 1px solid #00cddd; font: 8px "Courier New", monospace; }
+.pulse-network-map .one { left: 10%; top: 10%; }.pulse-network-map .two { right: 8%; top: 18%; }.pulse-network-map .three { left: 15%; bottom: 12%; }.pulse-network-map .four { right: 12%; bottom: 18%; }
+.pulse-network-grid dl { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.pulse-network-grid dl div { padding: 7px; background: #e4edec; border-left: 4px solid #00a9bd; }
+.pulse-network-grid dt { font: 8px "Courier New", monospace; }.pulse-network-grid dd { margin: 2px 0; font-weight: bold; }
+.pulse-ticker { color: #00f0ff; background: #101820; border-block: 1px solid #00cddd; }
+
+.vanta-page {
+  max-width: 900px;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  color: #dce5ff;
+  background: #06070b;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  border: 1px solid #26306b;
+}
+.vanta-loader { display: flex; justify-content: space-between; padding: 5px 12px; color: #6472a9; background: #020306; border-bottom: 1px solid #17234f; font: 8px "Courier New", monospace; letter-spacing: .18em; }
+.vanta-loader i { color: #5a55ff; font-style: normal; }.vanta-loader button { padding: 1px 5px; color: #555e87; background: #0b0e1c; border: 1px solid #202d63; font-size: 7px; }
+.vanta-page > header { display: flex; align-items: end; justify-content: space-between; min-height: 76px; padding: 0 22px; background: linear-gradient(90deg, #06070b, #0b1230); border-bottom: 1px solid #233275; }
+.vanta-mark { padding: 10px 0; color: #fff; font: 300 34px/1 "Trebuchet MS", sans-serif; letter-spacing: .22em; }.vanta-mark sup { color: #5a55ff; font-size: 15px; }
+.vanta-page nav { display: flex; gap: 2px; }.vanta-page nav button { padding: 8px; color: #7889c4; background: transparent; border: 0; border-bottom: 2px solid #102b81; font: 8px "Trebuchet MS", sans-serif; letter-spacing: .12em; }
+.vanta-page nav button:hover { color: #fff; border-color: #5a55ff; }
+.vanta-hero { display: grid; grid-template-columns: 52% 1fr; min-height: 420px; background: radial-gradient(circle at 35% 45%, #132460 0, #070918 30%, #06070b 61%); }
+.vanta-machine { position: relative; overflow: hidden; }
+.vanta-machine > img:first-child { position: absolute; left: 2%; top: 12%; width: 90%; opacity: .52; filter: blur(1px); }
+.vanta-machine .vanta-console { position: absolute; left: 28%; top: 12%; width: 45%; height: 76%; object-fit: contain; filter: drop-shadow(0 0 20px #284dff); }
+.vanta-hero > div:last-child { align-self: center; padding: 30px 20px 30px 0; }
+.vanta-node { color: #576cbd; font: 8px "Courier New", monospace; letter-spacing: .18em; }
+.vanta-hero h1, .vanta-spec-page h1 { margin: 12px 0; color: #fff; font: 300 clamp(32px, 5.5vw, 56px)/.94 "Trebuchet MS", sans-serif; letter-spacing: .04em; }
+.vanta-hero h1 span { color: #6865ff; }
+.vanta-manifesto { color: #bdc9ef; font: 15px/1.7 Georgia, serif; }
+.vanta-hero button, .vanta-page .console-return { padding: 8px 10px; color: #b7c8ff; background: #0c1537; border: 1px solid #344cac; font: 9px "Trebuchet MS", sans-serif; letter-spacing: .12em; }
+.vanta-strip { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid #1c2d6f; background: #090d1d; }
+.vanta-strip div { padding: 12px; color: #fff; border-right: 1px solid #1c2d6f; font-size: 18px; }.vanta-strip small { color: #5d72be; font-size: 7px; letter-spacing: .15em; }
+.vanta-page .business-owner { color: #b7c7ff; background: #0b1128; border-color: #344cac; }
+.vanta-page footer { padding: 10px; color: #45547e; background: #020306; font: 8px "Courier New", monospace; text-align: center; letter-spacing: .11em; }
+.vanta-spec-intro { display: flex; align-items: center; gap: 25px; padding: 35px; background: linear-gradient(120deg, #0b1233, #06070b 60%); }
+.vanta-spec-intro img { width: 190px; }
+.vanta-specs { display: grid; grid-template-columns: repeat(3, 1fr); }
+.vanta-specs article { min-height: 125px; padding: 14px; border: solid #17234f; border-width: 1px 1px 0 0; }
+.vanta-specs article > span { color: #4052a2; font: 9px "Courier New", monospace; }.vanta-specs b, .vanta-specs strong { display: block; }.vanta-specs b { margin-top: 13px; color: #687fe0; font-size: 9px; letter-spacing: .16em; }.vanta-specs strong { margin-top: 4px; color: #fff; font-size: 17px; }.vanta-specs p { color: #68749d; font: 9px/1.4 "Trebuchet MS", sans-serif; }
+
+.cubit-page {
+  max-width: 860px;
+  margin: auto;
+  padding: 12px;
+  color: #312663;
+  background-color: #fffbe9;
+  background-image: radial-gradient(#bde638 1px, transparent 2px), radial-gradient(#37cee0 1px, transparent 2px);
+  background-position: 0 0, 8px 8px;
+  background-size: 16px 16px;
+  font-family: Verdana, Arial, sans-serif;
+  border: 7px ridge #725ab5;
+}
+.cubit-page > header { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; color: #fff; background: #5637a6; border: 4px outset #977ddb; transform: rotate(-.5deg); }
+.cubit-logo { font: 900 44px/1 Arial, sans-serif; letter-spacing: -.08em; text-shadow: 3px 3px #23124e; }.cubit-logo span { color: #bde638; }.cubit-logo sup { color: #ff8a24; }
+.cubit-page > header p { margin: 0; color: #fff; font: bold 11px "Comic Sans MS", sans-serif; transform: rotate(2deg); }
+.cubit-page > nav { display: flex; justify-content: center; gap: 5px; padding: 8px; }.cubit-page > nav button { padding: 6px 12px; color: #341d6e; background: #bde638; border: 3px outset #e7ff83; border-radius: 13px; font-weight: bold; font-size: 9px; }
+.cubit-page > nav button:nth-child(even) { background: #37cee0; border-color: #9ff8ff; }
+.cubit-marquee { padding: 4px; color: #fff; background: #ff8a24; border: 2px dashed #fff; font: bold 9px "Courier New", monospace; text-align: center; }
+.cubit-hero { display: grid; grid-template-columns: 50% 1fr; align-items: center; min-height: 330px; margin-top: 8px; padding: 14px; background: rgb(255 255 255 / 82%); border: 4px dotted #37cee0; }
+.cubit-hero > div { min-width: 0; }
+.cubit-product { position: relative; min-height: 280px; }.cubit-product > img:first-child { position: absolute; left: 5%; top: 20px; width: 82%; filter: drop-shadow(10px 10px 0 rgb(86 55 166 / 22%)); }.cubit-product .cubit-star { position: absolute; right: -2%; bottom: 0; width: 40%; transform: rotate(8deg); }
+.cubit-hero > div:last-child { position: relative; }.cubit-hero h1 { max-width: 100%; margin: 4px 0; color: #5637a6; font: 900 clamp(38px, 5.2vw, 58px)/.82 "Arial Rounded MT Bold", Arial, sans-serif; letter-spacing: -.09em; overflow-wrap: anywhere; text-shadow: 3px 3px #c8ec4d; transform: rotate(-2deg); }.cubit-hero p { font: bold 13px/1.5 "Comic Sans MS", sans-serif; }
+.cubit-hero button, .cubit-page .console-return { padding: 8px 14px; color: #fff; background: #ff7925; border: 3px outset #ffc98a; border-radius: 10px; font-weight: bold; }
+.sticker { position: absolute; right: 5px; top: -48px; display: grid; place-items: center; width: 66px; height: 66px; color: #352069; background: #bde638; border: 3px dashed #5637a6; border-radius: 50%; font: bold 13px/1.1 "Comic Sans MS", sans-serif; text-align: center; transform: rotate(11deg); }
+.cubit-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 10px 0; }.cubit-features article { padding: 8px; background: #fff; border: 3px solid #5637a6; box-shadow: 4px 4px #37cee0; text-align: center; }.cubit-features img { width: 100%; height: 110px; object-fit: contain; }.cubit-features b { display: block; color: #e55e14; font-size: 13px; }.cubit-features p { font-size: 9px; line-height: 1.35; }
+.cubit-poll { padding: 9px; background: #fff3a4; border: 3px dashed #ff8a24; text-align: center; font-size: 9px; }.cubit-poll button { margin-left: 5px; padding: 3px; font-size: 8px; }
+.cubit-page .business-owner { background: #eaffad; border-color: #5637a6; }
+.cubit-page footer { padding: 7px; color: #fff; background: #5637a6; font-size: 8px; text-align: center; }
+.cubit-games-title { display: flex; align-items: center; justify-content: center; gap: 25px; padding: 10px; background: #fff; border: 4px dotted #ff8a24; }.cubit-games-title img { width: 150px; }.cubit-games-title h1 { margin: 0; color: #5637a6; font: 900 32px "Arial Rounded MT Bold", Arial, sans-serif; }.cubit-games-title p { margin: 2px; font-size: 10px; }
+.cubit-game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }.cubit-game-grid article { position: relative; min-height: 115px; padding: 13px 13px 13px 63px; background: #fff; border: 4px outset #ddd; }.cubit-game-grid h2 { margin: 0; color: #4c318f; font-size: 16px; }.cubit-game-grid p { font-size: 9px; line-height: 1.4; }.cubit-game-grid b { color: #ea651c; font-size: 8px; }
+.game-burst { position: absolute; left: 8px; top: 22px; display: grid; place-items: center; width: 44px; height: 44px; color: #fff; background: #5637a6; border-radius: 50%; font-weight: bold; transform: rotate(-12deg); }.game-burst.orange { background: #ff8a24; }.game-burst.aqua { color: #322268; background: #37cee0; }.game-burst.lime { color: #322268; background: #bde638; }
+.cubit-downloads { display: flex; align-items: center; gap: 14px; padding: 9px; background: #eaffad; border: 3px dashed #5637a6; }.cubit-downloads img { width: 120px; }.cubit-downloads p { font-size: 10px; }
 
 .site-computer .page-comments { color: #172850; background: #e8edf3; border-color: #426399; box-shadow: 4px 4px #9eafc5; }
 .site-computer .comments-heading { border-color: #274e88; }
@@ -1094,6 +1212,20 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .site-pets .comments-heading { border-color: #27775b; }
 .site-pets .comments-heading h2, .site-pets .page-comment header, .site-pets .page-comment-form label { color: #246c54; }
 .site-pets .page-comment.owner { background: #fffbd6; border-left-color: #dc703d; }
+.site-pulse .page-comments { color: #101820; background: #eef3f2; border-color: #ff4b16; box-shadow: 4px 4px #00a9bd; }
+.site-pulse .comments-heading { border-color: #101820; }
+.site-pulse .comments-heading h2, .site-pulse .page-comment header, .site-pulse .page-comment-form label { color: #d83a0b; }
+.site-pulse .page-comment.owner { background: #d9f9fb; border-left-color: #00a9bd; }
+.site-vanta .page-comments { color: #cbd6ff; background: #090d1d; border-color: #344cac; box-shadow: 4px 4px #050711; }
+.site-vanta .comments-heading { border-color: #253b8c; }
+.site-vanta .comments-heading h2, .site-vanta .page-comment header, .site-vanta .page-comment-form label { color: #8799ef; }
+.site-vanta .page-comment { color: #cbd6ff; background: #0d1430; border-color: #263a80; }
+.site-vanta .page-comment.owner { background: #151240; border-left-color: #5a55ff; }
+.site-vanta .page-comment-form textarea { color: #dce5ff; background: #070b18; border-color: #1f326f; }
+.site-cubit .page-comments { color: #332268; background: #fffbe9; border-color: #5637a6; box-shadow: 4px 4px #37cee0; }
+.site-cubit .comments-heading { border-color: #ff8a24; }
+.site-cubit .comments-heading h2, .site-cubit .page-comment header, .site-cubit .page-comment-form label { color: #5637a6; }
+.site-cubit .page-comment.owner { background: #eaffad; border-left-color: #ff8a24; }
 
 .smart-search-status { max-width: 720px; margin: -10px auto 12px; color: #626b83; font: italic 10px Tahoma, sans-serif; text-align: left; }
 .smart-search-status.working::before { content: "● "; color: #e58c18; animation: midi-pulse .6s steps(1) infinite; }
@@ -1167,8 +1299,12 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   .dialup-dialog { transform: scale(.9); }
   .settings-window { left: 135px !important; top: 55px !important; width: calc(100vw - 170px) !important; height: calc(100vh - 110px) !important; }
   .page-comment-form { grid-template-columns: 1fr; }
-  .computer-hero, .pizza-splash, .pet-welcome { grid-template-columns: 1fr; }
+  .computer-hero, .pizza-splash, .pet-welcome, .pulse-hero, .pulse-network-grid, .vanta-hero, .cubit-hero { grid-template-columns: 1fr; }
   .computer-deals { grid-template-columns: 1fr; }
+  .pulse-panels, .cubit-features, .vanta-strip { grid-template-columns: 1fr; }
+  .vanta-specs, .cubit-game-grid { grid-template-columns: 1fr; }
+  .pulse-header, .vanta-page > header { flex-direction: column; }
+  .pulse-header nav, .vanta-page nav { justify-content: center; }
   .orbit-pal-promo { grid-template-columns: 55px 1fr; }
   .orbit-pal-promo > button { grid-column: 1 / -1; }
   .sleep-options { grid-template-columns: 1fr; }
