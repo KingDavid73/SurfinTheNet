@@ -11,5 +11,6 @@ contextBridge.exposeInMainWorld("aiAPI", {
   preload: () => ipcRenderer.invoke("ai:preload"),
   conversation: () => ipcRenderer.invoke("ai:conversation"),
   send: (message) => ipcRenderer.invoke("ai:send", message),
+  comment: (request) => ipcRenderer.invoke("ai:page-comment", request),
   reset: () => ipcRenderer.invoke("ai:reset")
 });

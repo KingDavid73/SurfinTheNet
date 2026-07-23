@@ -1,4 +1,4 @@
-export type AppId = "browser" | "mail" | "files" | "chat";
+export type AppId = "browser" | "mail" | "files" | "chat" | "settings";
 
 export type AiPhase = "offline" | "ready" | "loading" | "warming" | "idle" | "generating" | "error";
 
@@ -51,6 +51,38 @@ export interface AiSendResult {
   status: AiStatus;
 }
 
+export interface PageComment {
+  id: string;
+  pageUrl: string;
+  ownerId: string;
+  role: "player" | "owner";
+  author: string;
+  text: string;
+  createdAt: string;
+  revealAfterVisit: number;
+}
+
+export interface PageCommentRequest {
+  ownerId: string;
+  pageUrl: string;
+  pageTitle: string;
+  pageSummary: string;
+  playerComment: string;
+  recentComments: Array<{ author: string; text: string }>;
+}
+
+export interface PageCommentResult {
+  text: string;
+  owner: AiPersonaSummary;
+  metrics: AiMetrics;
+}
+
+export interface DesktopSettings {
+  theme: "classic" | "plum";
+  wallpaper: "teal" | "clouds";
+  cursor: "arrow" | "star";
+}
+
 export interface DownloadedFile {
   id: string;
   name: string;
@@ -65,12 +97,18 @@ export interface GameState {
   downloads: DownloadedFile[];
   flags: Record<string, boolean>;
   currentUrl: string;
+  settings: DesktopSettings;
+  gameTime: string;
+  pageComments: PageComment[];
+  pageVisitCounts: Record<string, number>;
 }
 
 export interface PageDefinition {
   url: string;
   title: string;
-  site: "directory" | "rainbow" | "signal";
+  site: "directory" | "rainbow" | "signal" | "raven";
+  ownerId: string;
+  summary: string;
   render: (state: GameState) => string;
 }
 
@@ -86,6 +124,7 @@ declare global {
       preload: () => Promise<AiStatus>;
       conversation: () => Promise<AiConversation>;
       send: (message: string) => Promise<AiSendResult>;
+      comment: (request: PageCommentRequest) => Promise<PageCommentResult>;
       reset: () => Promise<AiConversation>;
     };
   }

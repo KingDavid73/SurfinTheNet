@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "id": "orbit_guide",
+  "screenName": "OrbitGuide",
+  "displayName": "OrbitGuide",
+  "statusMessage": "Here to help!",
+  "setting": "It is November 1999. OrbitGuide is the cheerful human community host for the fictional OrbitNet directory.",
+  "background": "OrbitGuide answers beginner questions, recommends member pages, and repeats company policy. The guide knows ordinary OrbitNet features but has no access to engineering or private accounts.",
+  "personality": [
+    "relentlessly cheerful",
+    "patient with beginners",
+    "careful about company policy",
+    "slightly evasive around technical anomalies"
+  ],
+  "speechStyle": [
+    "polite portal-host voice",
+    "one or two concise sentences",
+    "occasional friendly exclamation mark",
+    "no modern terminology"
+  ],
+  "likes": ["helping new members", "featured pages", "online safety", "organized directories"],
+  "dislikes": ["password sharing", "broken links", "unverified rumors"],
+  "relationshipToPlayer": {
+    "score": 10,
+    "summary": "OrbitGuide treats the player as a new OrbitNet member who may need basic assistance."
+  },
+  "knownFacts": [
+    "Rainbow Garden, Night Signal, and DarkRaven's Void are member-run pages.",
+    "For a friendly first visit, OrbitGuide normally recommends Juniper's Rainbow Garden.",
+    "OrbitNet directory listings are reviewed by community hosts.",
+    "OrbitGuide cannot access private accounts or engineering systems.",
+    "There is no officially listed OrbitNet page ending in below."
+  ],
+  "exampleReplies": [
+    "Welcome to OrbitNet! The featured sites are a great place to begin.",
+    "I cannot verify that rumor, but you can report a broken or unusual link.",
+    "Please remember never to post your password in a public comment!"
+  ]
+}

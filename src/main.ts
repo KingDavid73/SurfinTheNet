@@ -1,6 +1,6 @@
 import "./styles.css";
 import { notFoundPage, pages } from "./pages";
-import type { AiConversation, AiStatus, AppId, GameState } from "./types";
+import type { AiConversation, AiStatus, AppId, GameState, PageComment, PageDefinition } from "./types";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
 const startupJingleUrl = new URL("../assets/audio/orbitos-startup.wav", import.meta.url).href;
@@ -11,13 +11,26 @@ startupJingle.volume = 0.58;
 type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
 
 const DEFAULT_STATE: GameState = {
-  version: 1,
+  version: 2,
   visited: ["web://home"],
   bookmarks: ["web://rainbow.gdn/home"],
   downloads: [],
   flags: {},
-  currentUrl: "web://home"
+  currentUrl: "web://home",
+  settings: { theme: "classic", wallpaper: "teal", cursor: "arrow" },
+  gameTime: "1999-11-03T19:30:00",
+  pageComments: [],
+  pageVisitCounts: { "web://home": 1 }
 };
+
+const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
+  orbit_guide: { screenName: "OrbitGuide", displayName: "OrbitGuide" },
+  juniper_gdn: { screenName: "Juniper_Gdn", displayName: "Juniper" },
+  mira_917: { screenName: "Mira_917", displayName: "Mira" },
+  darkraven_xx: { screenName: "xX_DarkRaven_Xx", displayName: "DarkRaven" }
+};
+
+const GAME_TIME_SCALE = 2;
 
 interface WindowModel {
   open: boolean;
@@ -33,14 +46,16 @@ const windows: Record<AppId, WindowModel> = {
   browser: { open: true, minimized: false, z: 3, x: 116, y: 44, width: 820, height: 600 },
   mail: { open: false, minimized: false, z: 2, x: 205, y: 94, width: 660, height: 470 },
   files: { open: false, minimized: false, z: 1, x: 255, y: 126, width: 590, height: 410 },
-  chat: { open: true, minimized: false, z: 4, x: 190, y: 72, width: 620, height: 520 }
+  chat: { open: false, minimized: false, z: 4, x: 190, y: 72, width: 620, height: 520 },
+  settings: { open: false, minimized: false, z: 1, x: 260, y: 70, width: 590, height: 540 }
 };
 
 const APP_META: Record<AppId, { icon: string; title: string }> = {
   browser: { icon: "O", title: "Orbit Explorer" },
   mail: { icon: "@", title: "Orbit Mail" },
   files: { icon: "▣", title: "My Files" },
-  chat: { icon: "◎", title: "Orbit Messenger" }
+  chat: { icon: "◎", title: "Orbit Messenger" },
+  settings: { icon: "⚙", title: "Desktop Settings" }
 };
 
 const EMPTY_AI_CONVERSATION: AiConversation = {
@@ -64,7 +79,7 @@ const EMPTY_AI_STATUS: AiStatus = {
 let state = structuredClone(DEFAULT_STATE);
 let history: string[] = [state.currentUrl];
 let historyIndex = 0;
-let topZ = 4;
+let topZ = 3;
 let startOpen = false;
 let notification = "";
 let aiConversation = structuredClone(EMPTY_AI_CONVERSATION);
@@ -76,6 +91,12 @@ let chatStartedAt = 0;
 let startupStage: StartupStage = new URLSearchParams(window.location.search).has("skipBoot") ? "desktop" : "title";
 let startupTimer: number | null = null;
 let startupStatusTimer: number | null = null;
+let computerHasBooted = startupStage === "desktop";
+let sleepDialogOpen = false;
+let lastGameClockTick = performance.now();
+let lastClockSave = performance.now();
+const pendingPageComments = new Set<string>();
+const pageCommentErrors = new Map<string, string>();
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
 
@@ -89,9 +110,20 @@ function formatDuration(milliseconds: number | null) {
 }
 
 async function loadState() {
-  if (window.gameAPI) return window.gameAPI.load();
+  if (window.gameAPI) return normalizeState(await window.gameAPI.load());
   const stored = localStorage.getItem("surfin-save");
-  return stored ? { ...DEFAULT_STATE, ...JSON.parse(stored) } : structuredClone(DEFAULT_STATE);
+  return stored ? normalizeState(JSON.parse(stored)) : structuredClone(DEFAULT_STATE);
+}
+
+function normalizeState(loaded: Partial<GameState>): GameState {
+  return {
+    ...structuredClone(DEFAULT_STATE),
+    ...loaded,
+    version: DEFAULT_STATE.version,
+    settings: { ...DEFAULT_STATE.settings, ...(loaded.settings ?? {}) },
+    pageComments: Array.isArray(loaded.pageComments) ? loaded.pageComments : [],
+    pageVisitCounts: { ...DEFAULT_STATE.pageVisitCounts, ...(loaded.pageVisitCounts ?? {}) }
+  };
 }
 
 async function saveState() {
@@ -107,6 +139,7 @@ function navigate(url: string, push = true) {
   const normalized = url.trim().toLowerCase().replace(/^https?:\/\//, "web://");
   state.currentUrl = normalized || "web://home";
   if (!state.visited.includes(state.currentUrl)) state.visited.push(state.currentUrl);
+  state.pageVisitCounts[state.currentUrl] = (state.pageVisitCounts[state.currentUrl] ?? 0) + 1;
   if (push) {
     history = [...history.slice(0, historyIndex + 1), state.currentUrl];
     historyIndex = history.length - 1;
@@ -137,6 +170,43 @@ function windowShell(app: AppId, title: string, icon: string, content: string) {
   </section>`;
 }
 
+function formatGameTimestamp(value: string) {
+  const date = new Date(value);
+  return new Intl.DateTimeFormat([], {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  }).format(date);
+}
+
+function pageCommentSection(page: PageDefinition) {
+  const owner = PAGE_OWNERS[page.ownerId] ?? PAGE_OWNERS.orbit_guide;
+  const visits = state.pageVisitCounts[page.url] ?? 0;
+  const comments = state.pageComments.filter((comment) =>
+    comment.pageUrl === page.url && (comment.role === "player" || comment.revealAfterVisit <= visits)
+  );
+  const pending = pendingPageComments.has(page.url);
+  const unavailable = !aiStatus.modelAvailable || aiStatus.phase === "loading" || aiStatus.phase === "warming";
+  const commentHtml = comments.length
+    ? comments.map((comment) => `<article class="page-comment ${comment.role}">
+        <header><b>${escapeHtml(comment.author)}</b><time>${escapeHtml(formatGameTimestamp(comment.createdAt))}</time></header>
+        <p>${escapeHtml(comment.text)}</p>
+      </article>`).join("")
+    : `<p class="no-comments">Nobody has commented on this page yet.</p>`;
+
+  return `<section class="page-comments">
+    <header class="comments-heading"><div><small>PUBLIC COMMENTS</small><h2>Talk to ${escapeHtml(owner.displayName)}</h2></div><span>${comments.length} message${comments.length === 1 ? "" : "s"}</span></header>
+    <div class="comment-list">${commentHtml}</div>
+    ${pageCommentErrors.has(page.url) ? `<p class="comment-error">${escapeHtml(pageCommentErrors.get(page.url)!)}</p>` : ""}
+    <form class="page-comment-form" data-comment-page="${escapeHtml(page.url)}">
+      <label><b>David:</b><textarea name="comment" maxlength="500" rows="3" placeholder="Leave a comment for ${escapeHtml(owner.screenName)}..." ${pending || unavailable ? "disabled" : ""}></textarea></label>
+      <button ${pending || unavailable ? "disabled" : ""}>${pending ? "Posting..." : unavailable ? "Offline" : "Post"}</button>
+    </form>
+    <p class="comment-note">${pending ? `${escapeHtml(owner.screenName)} will answer in the background.` : "Replies are delivered asynchronously and appear the next time this page loads."}</p>
+  </section>`;
+}
+
 function browserWindow() {
   const page = currentPage();
   const bookmarked = state.bookmarks.includes(state.currentUrl);
@@ -149,7 +219,7 @@ function browserWindow() {
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
     </div>
     <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
-    <div class="browser-viewport site-${page.site}">${page.render(state)}</div>
+    <div class="browser-viewport site-${page.site}">${page.render(state)}${pageCommentSection(page)}</div>
     <footer class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></footer>`);
 }
 
@@ -175,6 +245,35 @@ function filesWindow() {
   return windowShell("files", "C:\\My Files", "▣", `
     <div class="files-toolbar"><button disabled>Back</button><span>Address: C:\\My Files</span></div>
     <div class="files-layout"><aside><h3>My Files</h3><p>Personal files and internet downloads.</p><hr><b>${state.downloads.length} object${state.downloads.length === 1 ? "" : "s"}</b></aside><main class="file-grid">${downloads}</main></div>`);
+}
+
+function settingsWindow() {
+  const settingOption = (group: "theme" | "wallpaper" | "cursor", value: string, title: string, description: string) => `
+    <label class="setting-option ${state.settings[group] === value ? "selected" : ""}">
+      <input type="radio" name="${group}" value="${value}" data-setting="${group}" ${state.settings[group] === value ? "checked" : ""}>
+      <span class="setting-preview preview-${group}-${value}"><i></i></span>
+      <span><b>${title}</b><small>${description}</small></span>
+    </label>`;
+
+  return windowShell("settings", "Desktop Settings", "⚙", `
+    <div class="settings-layout">
+      <aside><h2>Appearance</h2><p>Personalize this OrbitOS profile.</p><span>Some styles may become unlockable as you explore.</span></aside>
+      <main>
+        <fieldset><legend>Color theme</legend>
+          ${settingOption("theme", "classic", "Orbit Classic", "Gray windows and blue title bars")}
+          ${settingOption("theme", "plum", "After Hours", "Plum windows with amber highlights")}
+        </fieldset>
+        <fieldset><legend>Wallpaper</legend>
+          ${settingOption("wallpaper", "teal", "Orbit Teal", "The familiar OrbitOS desktop")}
+          ${settingOption("wallpaper", "clouds", "Evening Clouds", "A dreamy violet sky at dusk")}
+        </fieldset>
+        <fieldset><legend>Mouse pointer</legend>
+          ${settingOption("cursor", "arrow", "System Arrow", "Standard precise pointer")}
+          ${settingOption("cursor", "star", "Star Pointer", "A playful unlockable-style cursor")}
+        </fieldset>
+      </main>
+    </div>
+    <footer class="settings-footer"><span>Changes are saved to this profile.</span><button data-close="settings">OK</button></footer>`);
 }
 
 function chatWindow() {
@@ -208,7 +307,7 @@ function chatWindow() {
     ? `<article class="chat-message player pending"><header><b>You</b><time>now</time></header><p>${escapeHtml(chatPendingMessage)}</p></article><div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : `${escapeHtml(persona.screenName)} is typing`}</span></div>`
     : "";
   const empty = !messageHtml && !pending
-    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>Send something to begin the local conversation test.</span><span>${aiStatus.warmed ? "Qwen3-4B was preloaded during startup." : "Qwen3-4B is still getting ready in the background."}</span></div>`
+    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>Send something to begin the local conversation test.</span><span>${aiStatus.warmed ? "Qwen3-4B was preloaded during startup." : aiStatus.phase === "idle" ? "Qwen3-4B is loaded and ready." : "Qwen3-4B is still getting ready in the background."}</span></div>`
     : "";
 
   return windowShell("chat", `${persona.screenName} - Orbit Messenger`, "◎", `
@@ -392,11 +491,19 @@ async function startComputer() {
 
 async function loginUser() {
   if (startupStage !== "login") return;
+  if (computerHasBooted) {
+    startupStage = "desktop";
+    lastGameClockTick = performance.now();
+    render();
+    return;
+  }
   startupStage = "dialup";
   render();
   playDialupSounds();
   await waitForStartup(7800);
   startupStage = "desktop";
+  computerHasBooted = true;
+  lastGameClockTick = performance.now();
   if (startupStatusTimer !== null) {
     window.clearInterval(startupStatusTimer);
     startupStatusTimer = null;
@@ -437,6 +544,24 @@ function bindStartupEvents() {
   document.querySelector<HTMLElement>("[data-login-user]")?.addEventListener("click", () => void loginUser());
 }
 
+function sleepDialog() {
+  if (!sleepDialogOpen) return "";
+  const gameDate = new Date(state.gameTime);
+  const timeLabel = new Intl.DateTimeFormat([], { weekday: "long", hour: "numeric", minute: "2-digit" }).format(gameDate);
+  return `<div class="system-dialog-backdrop">
+    <section class="sleep-dialog">
+      <header>Sleep Mode <button data-sleep-cancel aria-label="Close">&times;</button></header>
+      <main><div class="sleep-moon">☾</div><div><h2>How long should David sleep?</h2><p>Current time: <b>${escapeHtml(timeLabel)}</b></p></div></main>
+      <div class="sleep-options">
+        <button data-sleep-hours="1"><b>Take a nap</b><span>Advance 1 hour</span></button>
+        <button data-sleep-hours="3"><b>Sleep a while</b><span>Advance 3 hours</span></button>
+        <button data-sleep-hours="morning"><b>Until morning</b><span>Wake at 7:00 AM</span></button>
+      </div>
+      <footer>Sleeping advances the story clock. Nothing progresses while the computer is off.</footer>
+    </section>
+  </div>`;
+}
+
 function render() {
   if (startupStage !== "desktop") {
     root.innerHTML = startupScreen();
@@ -444,19 +569,21 @@ function render() {
     return;
   }
 
-  root.innerHTML = `<main class="desktop">
+  root.innerHTML = `<main class="desktop theme-${state.settings.theme} wallpaper-${state.settings.wallpaper} cursor-${state.settings.cursor}">
     <div class="wallpaper-logo"><span>ORBIT</span><b>OS</b><small>98</small></div>
     <div class="desktop-icons">
       <button data-open="browser"><span class="desktop-icon globe">O</span><b>Orbit Explorer</b></button>
       <button data-open="mail"><span class="desktop-icon mail">@</span><b>Orbit Mail</b></button>
       <button data-open="files"><span class="desktop-icon folder">▰</span><b>My Files</b></button>
       <button data-open="chat"><span class="desktop-icon chat">◎</span><b>Orbit Messenger</b></button>
+      <button data-open="settings"><span class="desktop-icon settings">⚙</span><b>Settings</b></button>
     </div>
-    <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Chat with Mira_917</span><span>• Compare first and later response times</span><span>• Test her personality</span></aside>
-    ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}
+    <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Leave a page comment</span><span>• Reload it for a reply</span><span>• Try Settings + Sleep</span></aside>
+    ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}
     ${notification ? `<div class="toast">${notification}</div>` : ""}
-    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><hr><button data-reset>↻ Reset Demo</button></div>` : ""}
+    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button><hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off David</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ Reset Demo</button></div>` : ""}
     <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
+    ${sleepDialog()}
   </main>`;
   bindEvents();
   updateClock();
@@ -546,6 +673,85 @@ async function sendChatMessage(message: string) {
   }
 }
 
+async function submitPageComment(pageUrl: string, message: string) {
+  const page = pages[pageUrl] ?? notFoundPage(pageUrl);
+  const owner = PAGE_OWNERS[page.ownerId] ?? PAGE_OWNERS.orbit_guide;
+  const playerComment: PageComment = {
+    id: crypto.randomUUID(),
+    pageUrl,
+    ownerId: page.ownerId,
+    role: "player",
+    author: "David",
+    text: message,
+    createdAt: state.gameTime,
+    revealAfterVisit: state.pageVisitCounts[pageUrl] ?? 1
+  };
+  state.pageComments.push(playerComment);
+  pendingPageComments.add(pageUrl);
+  pageCommentErrors.delete(pageUrl);
+  await saveState();
+  render();
+
+  if (!window.aiAPI) {
+    pendingPageComments.delete(pageUrl);
+    pageCommentErrors.set(pageUrl, "The local character service is unavailable.");
+    render();
+    return;
+  }
+  try {
+    const recentComments = state.pageComments
+      .filter((comment) => comment.pageUrl === pageUrl && comment.id !== playerComment.id)
+      .slice(-6)
+      .map((comment) => ({ author: comment.author, text: comment.text }));
+    const result = await window.aiAPI.comment({
+      ownerId: page.ownerId,
+      pageUrl,
+      pageTitle: page.title,
+      pageSummary: page.summary,
+      playerComment: message,
+      recentComments
+    });
+    state.pageComments.push({
+      id: crypto.randomUUID(),
+      pageUrl,
+      ownerId: page.ownerId,
+      role: "owner",
+      author: result.owner.screenName || owner.screenName,
+      text: result.text,
+      createdAt: state.gameTime,
+      revealAfterVisit: (state.pageVisitCounts[pageUrl] ?? 0) + 1
+    });
+    aiStatus = await window.aiAPI.status();
+    await saveState();
+    pendingPageComments.delete(pageUrl);
+    if (startupStage === "desktop") showNotification(`${owner.screenName} replied. Reload the page to see it.`);
+  } catch (error) {
+    pendingPageComments.delete(pageUrl);
+    pageCommentErrors.set(pageUrl, error instanceof Error ? error.message.replace(/^Error invoking remote method '[^']+':\s*/i, "") : String(error));
+    if (startupStage === "desktop") render();
+  }
+}
+
+function localGameTimeString(date: Date) {
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+}
+
+function advanceGameTime(option: string) {
+  const date = new Date(state.gameTime);
+  if (option === "morning") {
+    if (date.getHours() >= 7) date.setDate(date.getDate() + 1);
+    date.setHours(7, 0, 0, 0);
+  } else {
+    date.setHours(date.getHours() + Number(option));
+  }
+  state.gameTime = localGameTimeString(date);
+  lastGameClockTick = performance.now();
+  sleepDialogOpen = false;
+  void saveState();
+  showNotification(`Clock advanced to ${new Intl.DateTimeFormat([], { weekday: "short", hour: "numeric", minute: "2-digit" }).format(date)}.`);
+}
+
 function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-open]").forEach((el) => el.addEventListener("click", () => openApp(el.dataset.open as AppId)));
   document.querySelectorAll<HTMLElement>("[data-nav]").forEach((el) => el.addEventListener("click", () => navigate(el.dataset.nav!)));
@@ -560,8 +766,45 @@ function bindEvents() {
     render();
   }));
   document.querySelector<HTMLElement>("[data-start]")?.addEventListener("click", () => { startOpen = !startOpen; render(); });
+  document.querySelectorAll<HTMLInputElement>("[data-setting]").forEach((input) => input.addEventListener("change", () => {
+    const group = input.dataset.setting as keyof GameState["settings"];
+    state.settings = { ...state.settings, [group]: input.value };
+    void saveState();
+    render();
+  }));
+  document.querySelector<HTMLFormElement>(".page-comment-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const message = new FormData(form).get("comment")?.toString().trim() ?? "";
+    const pageUrl = form.dataset.commentPage ?? state.currentUrl;
+    if (message) void submitPageComment(pageUrl, message);
+  });
+  document.querySelectorAll<HTMLElement>("[data-session]").forEach((button) => button.addEventListener("click", () => {
+    const action = button.dataset.session;
+    startOpen = false;
+    if (action === "sleep") {
+      sleepDialogOpen = true;
+      render();
+    } else if (action === "logoff") {
+      void saveState();
+      startupStage = "login";
+      render();
+    } else if (action === "shutdown") {
+      void saveState();
+      computerHasBooted = false;
+      startupStage = "title";
+      render();
+    }
+  }));
+  document.querySelector<HTMLElement>("[data-sleep-cancel]")?.addEventListener("click", () => {
+    sleepDialogOpen = false;
+    render();
+  });
+  document.querySelectorAll<HTMLElement>("[data-sleep-hours]").forEach((button) => button.addEventListener("click", () => {
+    advanceGameTime(button.dataset.sleepHours ?? "1");
+  }));
   document.querySelector<HTMLElement>("[data-reset]")?.addEventListener("click", async () => {
-    state = window.gameAPI ? await window.gameAPI.reset() : structuredClone(DEFAULT_STATE);
+    state = normalizeState(window.gameAPI ? await window.gameAPI.reset() : structuredClone(DEFAULT_STATE));
     if (!window.gameAPI) localStorage.removeItem("surfin-save");
     history = [state.currentUrl]; historyIndex = 0; startOpen = false;
     render();
@@ -644,8 +887,27 @@ function bindDragging() {
 }
 
 function updateClock() {
+  const now = performance.now();
+  if (startupStage === "desktop") {
+    const elapsed = now - lastGameClockTick;
+    if (elapsed > 0) {
+      const gameDate = new Date(state.gameTime);
+      gameDate.setMilliseconds(gameDate.getMilliseconds() + elapsed * GAME_TIME_SCALE);
+      state.gameTime = localGameTimeString(gameDate);
+    }
+    if (now - lastClockSave >= 30_000) {
+      lastClockSave = now;
+      void saveState();
+    }
+  }
+  lastGameClockTick = now;
   const clock = document.querySelector<HTMLTimeElement>("#clock");
-  if (clock) clock.textContent = new Intl.DateTimeFormat([], { hour: "numeric", minute: "2-digit" }).format(new Date());
+  if (clock) {
+    const gameDate = new Date(state.gameTime);
+    clock.dateTime = state.gameTime;
+    clock.title = `Game time · ${new Intl.DateTimeFormat([], { dateStyle: "full", timeStyle: "short" }).format(gameDate)}`;
+    clock.innerHTML = `<b>${new Intl.DateTimeFormat([], { hour: "numeric", minute: "2-digit" }).format(gameDate)}</b><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "numeric", day: "numeric" }).format(gameDate)}</span>`;
+  }
 }
 
 void Promise.all([
@@ -657,6 +919,7 @@ void Promise.all([
   aiConversation = loadedConversation;
   aiStatus = loadedStatus;
   history = [state.currentUrl];
+  lastGameClockTick = performance.now();
   render();
-  window.setInterval(updateClock, 30000);
+  window.setInterval(updateClock, 1000);
 });
