@@ -1,0 +1,291 @@
+:root {
+  font-family: Tahoma, "MS Sans Serif", Arial, sans-serif;
+  color: #111;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+html, body, #app { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+button, input, textarea { font: inherit; }
+button { color: #111; }
+
+.desktop {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 75% 25%, rgb(255 255 255 / 7%) 0 2px, transparent 3px),
+    linear-gradient(145deg, #087f80, #006464);
+  user-select: none;
+}
+
+.wallpaper-logo {
+  position: absolute;
+  right: 6vw;
+  bottom: 11vh;
+  color: rgb(255 255 255 / 13%);
+  font-size: clamp(54px, 10vw, 140px);
+  font-weight: 900;
+  letter-spacing: -8px;
+  transform: skew(-8deg);
+}
+.wallpaper-logo b { font-weight: 400; }
+.wallpaper-logo small { font-size: .35em; vertical-align: top; margin-left: 8px; }
+
+.desktop-icons {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  display: grid;
+  gap: 16px;
+  width: 84px;
+}
+.desktop-icons button {
+  border: 1px solid transparent;
+  background: transparent;
+  color: white;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 4px;
+  text-shadow: 1px 1px #004040;
+}
+.desktop-icons button:hover, .desktop-icons button:focus { background: rgb(0 0 128 / 25%); border: 1px dotted white; }
+.desktop-icons b { font-size: 12px; line-height: 1.2; }
+.desktop-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 38px;
+  font-family: Georgia, serif;
+  font-size: 25px;
+  font-weight: bold;
+  text-shadow: none;
+  filter: drop-shadow(2px 2px rgb(0 0 0 / 35%));
+}
+.desktop-icon.globe { color: #fff; border-radius: 50%; background: #146bd1; border: 3px solid #bdeeff; }
+.desktop-icon.mail { color: #172a72; background: #eee; border: 3px solid #fff; transform: skew(-5deg); }
+.desktop-icon.folder { color: #ffd54a; font-size: 35px; }
+
+.sticky-note {
+  position: absolute;
+  right: 24px;
+  top: 26px;
+  width: 190px;
+  padding: 17px 17px 21px;
+  background: #fff08b;
+  color: #333115;
+  box-shadow: 3px 5px 12px rgb(0 0 0 / 25%);
+  transform: rotate(1.5deg);
+  font-family: "Comic Sans MS", cursive;
+  display: grid;
+  gap: 7px;
+  z-index: 0;
+}
+.sticky-note b { text-align: center; border-bottom: 2px solid #b6a851; padding-bottom: 5px; }
+.sticky-note span { font-size: 13px; }
+
+.app-window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-width: 360px;
+  min-height: 260px;
+  padding: 3px;
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #202020 #202020 #fff;
+  box-shadow: 2px 3px 10px rgb(0 0 0 / 38%);
+}
+.titlebar {
+  height: 27px;
+  flex: 0 0 27px;
+  padding: 3px 3px 3px 6px;
+  background: linear-gradient(90deg, #000080, #1687b5);
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  touch-action: none;
+}
+.titlebar > span { display: flex; align-items: center; gap: 6px; }
+.mini-icon { display: inline-grid; place-items: center; width: 17px; height: 17px; color: #001c6d; background: white; font-family: Georgia, serif; }
+.window-buttons { display: flex; gap: 2px; }
+.window-buttons button, .browser-toolbar > button, .mail-toolbar button, .files-toolbar button, .start-button, .task-buttons button {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #fff #333 #333 #fff;
+  box-shadow: inset 1px 1px #ddd;
+}
+.window-buttons button { width: 21px; height: 20px; padding: 0; line-height: 14px; font-weight: bold; }
+button:active:not(:disabled), button.pressed { border-color: #333 #fff #fff #333; box-shadow: inset 1px 1px #777; }
+button:disabled { color: #777; text-shadow: 1px 1px white; }
+
+.browser-toolbar {
+  min-height: 39px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid #777;
+}
+.browser-toolbar > button { width: 31px; height: 28px; font-weight: bold; }
+.browser-toolbar .bookmark { color: #777; font-size: 19px; }
+.browser-toolbar .bookmark.active { color: #f0b400; text-shadow: 1px 1px #704e00; }
+.address-form { flex: 1; display: flex; align-items: center; gap: 4px; margin-left: 3px; }
+.address-form label { font-size: 12px; }
+.address-form input { flex: 1; height: 26px; min-width: 80px; padding: 2px 6px; border: 2px solid; border-color: #555 #fff #fff #555; background: white; }
+.address-form button { height: 26px; background: #c0c0c0; border: 2px solid; border-color: white #333 #333 white; }
+.bookmark-row {
+  min-height: 25px;
+  padding: 3px 6px;
+  border-bottom: 1px solid #777;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  overflow: hidden;
+  font-size: 11px;
+}
+.bookmark-row button { border: 0; background: none; color: #000080; text-decoration: underline; white-space: nowrap; padding: 2px; }
+.browser-viewport {
+  flex: 1;
+  overflow: auto;
+  border: 2px solid;
+  border-color: #333 #fff #fff #333;
+  background: white;
+  user-select: text;
+}
+.browser-status { height: 23px; flex: 0 0 23px; display: flex; justify-content: space-between; padding: 4px 7px 2px; font-size: 11px; border-top: 1px solid white; }
+
+.page { min-height: 100%; padding: 25px; }
+.page button { cursor: pointer; }
+.fake-image {
+  min-height: 100px;
+  display: grid;
+  place-items: center;
+  margin: 10px auto;
+  border: 3px ridge #ddd;
+  background: repeating-linear-gradient(135deg, #1458a6 0 12px, #63c7f4 12px 24px);
+  color: white;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px #111;
+}
+.fake-image.rainbow { background: linear-gradient(90deg, #ff5c78, #ffdf55, #55e6a5, #57b9ff, #ba73ff); }
+.fake-image.pink { background: repeating-radial-gradient(circle, #ffd3e2 0 9px, #ed8eb1 10px 18px); min-height: 150px; }
+.fake-image.night { background: radial-gradient(circle at 70% 20%, #ddd 0 4px, transparent 5px), linear-gradient(#05051c, #20185a); }
+.fake-image.static { background: repeating-radial-gradient(ellipse, #222 0 2px, #b7b7b7 3px, #333 4px); color: #8bff86; min-height: 140px; }
+
+.directory-page { text-align: center; background: #f4f1df; color: #1f294d; }
+.directory-logo { font: 900 54px/1 Arial, sans-serif; letter-spacing: -5px; color: #eb5b28; text-shadow: 2px 2px white, 4px 4px #243c89; transform: skew(-8deg); }
+.directory-logo b { color: #2358ad; }
+.directory-tagline { color: #777; font-style: italic; }
+.search-box { display: flex; max-width: 520px; margin: 18px auto; padding: 8px; background: #ddd3ac; border: 1px solid #a79761; }
+.search-box input { flex: 1; min-width: 0; }
+.directory-grid { display: grid; grid-template-columns: repeat(2, minmax(180px, 1fr)); gap: 18px; max-width: 650px; margin: auto; }
+.directory-card { display: grid; gap: 5px; padding: 9px; border: 2px outset white; background: white; color: #183588; }
+.directory-card .fake-image { width: 100%; margin: 0; min-height: 85px; }
+.directory-card strong { font-size: 18px; text-decoration: underline; }
+.directory-card span { font-size: 12px; }
+.counter { font-family: "Courier New", monospace; font-size: 12px; margin-top: 25px; }
+
+.rainbow-page {
+  max-width: 760px;
+  margin: auto;
+  background: #fff6fc;
+  color: #6c2155;
+  font-family: "Comic Sans MS", cursive;
+  background-image: radial-gradient(#ffd0e8 1.5px, transparent 1.5px);
+  background-size: 18px 18px;
+  border-left: 7px double #f193c3;
+  border-right: 7px double #f193c3;
+  text-align: center;
+}
+.rainbow-page h1 { color: #cf2983; text-shadow: 2px 2px #ffe44f; font-size: 32px; }
+.sparkles { color: #8a40b8; letter-spacing: 6px; }
+.marquee { padding: 4px; color: #263aa5; background: #fff39a; }
+.rainbow-page .fake-image { max-width: 480px; }
+.page-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 20px; }
+.page-links button, .rainbow-page .text-link { color: #073ec7; border: 0; background: transparent; text-decoration: underline; }
+.rainbow-page footer { border-top: 1px dashed #d26ba4; margin-top: 25px; padding-top: 8px; font-size: 11px; }
+.profile-layout { display: grid; grid-template-columns: minmax(180px, 1fr) 1fr; gap: 18px; text-align: left; align-items: center; }
+.profile-layout .fake-image { width: 100%; }
+.guestbook-page { text-align: left; }
+.guestbook-page > p { padding: 9px; background: rgb(255 255 255 / 80%); border-bottom: 1px dashed #d68bae; }
+.guestbook-page fieldset { display: grid; gap: 6px; }
+.guestbook-page textarea { height: 60px; }
+
+.signal-page { background: #05070a; color: #9cf5a4; font-family: "Courier New", monospace; max-width: 860px; margin: auto; }
+.signal-page > header { border: 2px solid #9cf5a4; padding: 10px; font-size: clamp(28px, 6vw, 58px); font-weight: bold; letter-spacing: -5px; }
+.signal-page > header span { color: #eee; }
+.signal-page > header small { font-size: 15px; letter-spacing: 0; color: #ff5050; }
+.signal-page h2 { color: white; }
+.signal-page .fake-image { width: 100%; }
+.signal-nav { display: grid; gap: 8px; margin: 22px 0; }
+.signal-nav button, .signal-page .text-link { border: 1px solid #9cf5a4; color: #9cf5a4; background: #101b12; padding: 8px; font-family: inherit; }
+.signal-nav button:hover { background: #9cf5a4; color: #05070a; }
+.warning { color: #ff6464; }
+.archive-page table { width: 100%; border-collapse: collapse; color: #9cf5a4; font-size: 13px; }
+.archive-page th, .archive-page td { padding: 9px; text-align: left; border: 1px solid #447d49; }
+.featured-file { color: white; background: #19221a; }
+.featured-file button { color: #05070a; background: #9cf5a4; border: 0; padding: 5px 8px; font-family: inherit; font-weight: bold; }
+.featured-file button:disabled { color: #777; background: #333; text-shadow: none; }
+.archive-hint { color: #ddd; font-size: 12px; }
+.not-found { text-align: center; background: white; font-family: Arial, sans-serif; }
+.not-found h1 { font-size: 70px; color: #aaa; margin: 20px 0 0; }
+
+.mail-toolbar, .files-toolbar { min-height: 38px; display: flex; gap: 5px; align-items: center; padding: 5px; border-bottom: 1px solid #777; }
+.mail-toolbar button, .files-toolbar button { min-height: 26px; }
+.mail-layout { display: grid; grid-template-columns: 145px 1fr; min-height: 0; flex: 1; border: 2px inset white; }
+.mail-layout aside { padding: 10px 5px; background: #e6e6e6; display: flex; flex-direction: column; gap: 5px; }
+.mail-layout aside button { text-align: left; border: 0; background: none; padding: 5px; }
+.mail-layout aside button.selected { color: white; background: #000080; }
+.inbox { min-width: 0; display: flex; flex-direction: column; background: white; }
+.mail-columns, .mail-row { display: grid; grid-template-columns: 1fr 1.8fr 60px; text-align: left; align-items: center; }
+.mail-columns { padding: 5px; background: #ddd; font-size: 11px; border-bottom: 1px solid #777; }
+.mail-row { border: 0; border-bottom: 1px solid #ddd; background: white; padding: 6px; font-size: 12px; }
+.mail-row.unread { background: #fffbd8; }
+.mail-row.selected { color: white; background: #000080; }
+.mail-row time { font-size: 10px; }
+.mail-preview { flex: 1; overflow: auto; padding: 12px; border-top: 3px ridge #ddd; user-select: text; font-family: Arial, sans-serif; }
+.mail-preview h3 { color: #000080; }
+
+.files-toolbar span { flex: 1; padding: 4px; background: white; border: 2px inset white; font-size: 12px; }
+.files-layout { flex: 1; min-height: 0; display: grid; grid-template-columns: 150px 1fr; border: 2px inset white; }
+.files-layout aside { color: white; background: linear-gradient(#5576c4, #809bdc); padding: 14px; font-size: 12px; }
+.files-layout aside h3 { font-size: 20px; margin: 0; }
+.file-grid { background: white; padding: 16px; }
+.file-icon { display: grid; justify-items: center; width: 115px; gap: 3px; border: 1px solid transparent; background: none; font-size: 11px; }
+.file-icon:hover { border: 1px dotted #000080; background: #dce5ff; }
+.file-icon span { font-size: 42px; }
+.empty-folder { color: #888; font-style: italic; text-align: center; margin-top: 80px; }
+.file-viewer { position: absolute; inset: 0; display: grid; place-items: center; z-index: 10000; background: rgb(0 0 0 / 15%); }
+.file-viewer section { width: min(520px, 80vw); background: #c0c0c0; padding: 3px; border: 2px outset white; box-shadow: 4px 5px 15px #222; }
+.file-viewer header { display: flex; justify-content: space-between; padding: 4px 5px; background: #000080; color: white; font-weight: bold; }
+.file-viewer header button { width: 22px; height: 20px; padding: 0; }
+.file-viewer pre { min-height: 240px; margin: 3px 0 0; padding: 14px; background: white; border: 2px inset white; white-space: pre-wrap; font: 14px/1.5 "Courier New", monospace; user-select: text; }
+
+.toast { position: absolute; right: 16px; bottom: 50px; z-index: 11000; width: 300px; padding: 13px; background: #fffbd2; border: 2px solid; border-color: white #333 #333 white; box-shadow: 3px 4px 10px rgb(0 0 0 / 35%); font-size: 13px; }
+.start-menu { position: absolute; left: 3px; bottom: 38px; z-index: 12000; width: 250px; padding: 3px; background: #c0c0c0; border: 2px solid; border-color: white #222 #222 white; box-shadow: 3px 3px 8px rgb(0 0 0 / 30%); display: grid; }
+.start-menu header { padding: 10px; color: white; background: linear-gradient(#202c93, #3758be); font-size: 24px; }
+.start-menu header span { font-weight: 300; }
+.start-menu button { padding: 9px; border: 0; background: transparent; text-align: left; }
+.start-menu button:hover { color: white; background: #000080; }
+.start-menu hr { width: 100%; margin: 2px 0; border: 1px inset white; }
+.taskbar { position: absolute; inset: auto 0 0; z-index: 13000; height: 39px; padding: 3px; display: flex; gap: 5px; background: #c0c0c0; border-top: 2px solid white; }
+.start-button { width: 82px; font-weight: bold; font-size: 13px; }
+.start-button span { color: #146bd1; font-size: 18px; }
+.task-buttons { flex: 1; display: flex; gap: 4px; overflow: hidden; }
+.task-buttons button { width: 155px; text-align: left; font-size: 11px; overflow: hidden; white-space: nowrap; }
+.task-buttons button.active { border-color: #333 white white #333; background: #ddd; }
+.taskbar time { min-width: 84px; display: grid; place-items: center; border: 2px inset white; font-size: 12px; }
+
+@media (max-width: 900px), (max-height: 650px) {
+  .sticky-note { display: none; }
+  .browser-window { left: 92px !important; top: 22px !important; width: calc(100vw - 112px) !important; height: calc(100vh - 65px) !important; }
+  .directory-logo { font-size: 40px; }
+  .page { padding: 17px; }
+}
