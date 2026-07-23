@@ -46,7 +46,7 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   mira_917: { screenName: "Mira_917", displayName: "Mira" },
   darkraven_xx: { screenName: "xX_DarkRaven_Xx", displayName: "DarkRaven" },
   chip_bytebarn: { screenName: "Chip_At_ByteBarn", displayName: "Chip" },
-  toni_pizza: { screenName: "Toni_PizzaPlanet", displayName: "Toni" },
+  toni_pizza: { screenName: "Toni_CosmicCrust", displayName: "Toni" },
   bev_paws: { screenName: "Bev_PawsNClaws", displayName: "Bev" }
 };
 
@@ -62,7 +62,7 @@ const CHARACTER_CONTACTS: Record<string, {
   darkraven_xx: { screenName: "xX_DarkRaven_Xx", displayName: "DarkRaven", statusMessage: "the truth is cached", aim: "xX_DarkRaven_Xx" },
   orbit_guide: { screenName: "OrbitPal", displayName: "Orbit Pal", statusMessage: "Click me if you need a hand!" },
   chip_bytebarn: { screenName: "Chip_At_ByteBarn", displayName: "Chip", statusMessage: "probably under a desk" },
-  toni_pizza: { screenName: "Toni_PizzaPlanet", displayName: "Toni", statusMessage: "one hand on the oven" },
+  toni_pizza: { screenName: "Toni_CosmicCrust", displayName: "Toni", statusMessage: "one hand on the oven" },
   bev_paws: { screenName: "Bev_PawsNClaws", displayName: "Bev", statusMessage: "Pickles is on the keyboard" }
 };
 
@@ -72,7 +72,7 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   darkraven_xx: "web://raven.web/home",
   orbit_guide: "web://home",
   chip_bytebarn: "web://bytebarn.com/home",
-  toni_pizza: "web://pizzaplanet.biz/home",
+  toni_pizza: "web://cosmiccrust.biz/home",
   bev_paws: "web://pawsnclaws.net/home"
 };
 

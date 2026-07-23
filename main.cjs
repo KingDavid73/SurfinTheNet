@@ -148,11 +148,11 @@ function createWindow() {
             const found = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-nav="${expectedUrl}"]'))`);
             if (!found) throw new Error(`Search for ${query} did not return ${expectedUrl}`);
           };
-          await searchFor("food", "web://pizzaplanet.biz/home");
-          await click('[data-nav="web://pizzaplanet.biz/home"]');
+          await searchFor("food", "web://cosmiccrust.biz/home");
+          await click('[data-nav="web://cosmiccrust.biz/home"]');
           const pizzaReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.pizza-page')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('[data-page-music]'))`);
-          if (!pizzaReady) throw new Error("Pizza Planet page skeleton was incomplete");
-          await capture("pizza-planet.png");
+          if (!pizzaReady) throw new Error("Cosmic Crust page skeleton was incomplete");
+          await capture("cosmic-crust.png");
           await click('[data-browser="home"]');
           await searchFor("tech", "web://bytebarn.com/home");
           await click('[data-browser="home"]');
@@ -406,11 +406,11 @@ function createWindow() {
             query: "somewhere to get dinner",
             pages: [
               { url: "web://bytebarn.com/home", title: "BYTE BARN Computer Superstore", summary: "A neighborhood computer and repair shop." },
-              { url: "web://pizzaplanet.biz/home", title: "Pizza Planet Online", summary: "A family pizza restaurant serving food, lunch, dinner, delivery, and takeout." },
+              { url: "web://cosmiccrust.biz/home", title: "Cosmic Crust Pizza Online", summary: "A family pizza restaurant serving food, lunch, dinner, delivery, and takeout." },
               { url: "web://pawsnclaws.net/home", title: "Paws & Claws Pet Emporium", summary: "A pet store with animal supplies." }
             ]
           })`);
-          if (!semanticResult.urls.includes("web://pizzaplanet.biz/home")) throw new Error(`Semantic search missed Pizza Planet: ${JSON.stringify(semanticResult.urls)}`);
+          if (!semanticResult.urls.includes("web://cosmiccrust.biz/home")) throw new Error(`Semantic search missed Cosmic Crust: ${JSON.stringify(semanticResult.urls)}`);
           const helperReply = await win.webContents.executeJavaScript(`window.aiAPI.directReply({
             ownerId: "orbit_guide",
             channel: "helper",
@@ -424,7 +424,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "boot-flow-desktop.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log(`BOOT_OK: startup and clean desktop completed; Browser opened at web://home, semantic search found Pizza Planet, Orbit Pal answered “${helperReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
+          console.log(`BOOT_OK: startup and clean desktop completed; Browser opened at web://home, semantic search found Cosmic Crust, Orbit Pal answered “${helperReply.text}”, and the model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
         } catch (error) {
           console.error("BOOT_FAILED:", error);
           process.exitCode = 1;

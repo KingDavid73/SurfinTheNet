@@ -266,19 +266,19 @@ export const pages: Record<string, PageDefinition> = {
         <footer>BYTE BARN · 1840 Market Plaza · Open Mon–Sat</footer>
       </main>`
   },
-  "web://pizzaplanet.biz/home": {
-    url: "web://pizzaplanet.biz/home",
-    title: "Pizza Planet Online",
+  "web://cosmiccrust.biz/home": {
+    url: "web://cosmiccrust.biz/home",
+    title: "Cosmic Crust Pizza Online",
     site: "pizza",
     ownerId: "toni_pizza",
-    summary: "Pizza Planet is a family pizza restaurant offering hot food, slices, dinner, lunch, delivery, coupons, and late-night takeout.",
+    summary: "Cosmic Crust is a family pizza restaurant offering hot food, slices, dinner, lunch, delivery, coupons, and late-night takeout.",
     commentsEnabled: true,
     listed: true,
     hubId: "business",
     searchTerms: ["pizza", "food", "restaurant", "dinner", "lunch", "delivery", "takeout", "coupon", "pepperoni"],
     render: () => `
       <main class="page pizza-page">
-        <header><span>PIZZA</span><b>PLANET</b><i>★</i></header>
+        <header><span>COSMIC</span><b>CRUST</b><i>★</i></header>
         <div class="pizza-marquee">HOT · FRESH · DELIVERED TO EARTH AND SURROUNDING SUBURBS · CALL 555-PIES</div>
         <section class="pizza-splash">${fakeImage("SPINNING PIZZA.GIF", "pizza")}<div><h1>The Future of Dinner Is Round!</h1><p>Family recipes, arcade games, and cheese with appropriate gravitational pull.</p><button disabled>ORDER ONLINE (COMING SOON)</button></div></section>
         <section class="coupon"><b>PRINT THIS PAGE!</b><strong>$3 OFF</strong><span>any large two-topping pizza · Expires 12/31/99</span></section>
