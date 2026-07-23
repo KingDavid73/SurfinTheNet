@@ -23,7 +23,10 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
   moonmunch: { label: "Moon Munch March", file: "moon-munch-march.mid", midiUrl: new URL("../assets/audio/pages/moon-munch-march.mid", import.meta.url).href, url: new URL("../assets/audio/pages/moon-munch-march.wav", import.meta.url).href },
   toonburst: { label: "ToonBurst Theme", file: "toonburst-theme.mid", midiUrl: new URL("../assets/audio/pages/toonburst-theme.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toonburst-theme.wav", import.meta.url).href },
   kingcal: { label: "Crown and Clunker", file: "crown-and-clunker.mid", midiUrl: new URL("../assets/audio/pages/crown-and-clunker.mid", import.meta.url).href, url: new URL("../assets/audio/pages/crown-and-clunker.wav", import.meta.url).href },
-  earl: { label: "Honest Handshake", file: "honest-handshake.mid", midiUrl: new URL("../assets/audio/pages/honest-handshake.mid", import.meta.url).href, url: new URL("../assets/audio/pages/honest-handshake.wav", import.meta.url).href }
+  earl: { label: "Honest Handshake", file: "honest-handshake.mid", midiUrl: new URL("../assets/audio/pages/honest-handshake.mid", import.meta.url).href, url: new URL("../assets/audio/pages/honest-handshake.wav", import.meta.url).href },
+  skater: { label: "Curb Static", file: "curb-static.mid", midiUrl: new URL("../assets/audio/pages/curb-static.mid", import.meta.url).href, url: new URL("../assets/audio/pages/curb-static.wav", import.meta.url).href },
+  bmx: { label: "Dirtline Drive", file: "dirtline-drive.mid", midiUrl: new URL("../assets/audio/pages/dirtline-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/dirtline-drive.wav", import.meta.url).href },
+  blader: { label: "Eight-Wheel Velocity", file: "eight-wheel-velocity.mid", midiUrl: new URL("../assets/audio/pages/eight-wheel-velocity.mid", import.meta.url).href, url: new URL("../assets/audio/pages/eight-wheel-velocity.wav", import.meta.url).href }
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -46,7 +49,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -70,7 +73,10 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   player_four: { screenName: "PlayerFourEver", displayName: "Player Four" },
   modkit_maddy: { screenName: "ModKit_Maddy", displayName: "Maddy" },
   quarter_queen: { screenName: "QuarterQueen", displayName: "Queenie" },
-  code_dex: { screenName: "CodeDex", displayName: "Dex" }
+  code_dex: { screenName: "CodeDex", displayName: "Dex" },
+  deckwrecker_dee: { screenName: "DeckWrecker_Dee", displayName: "Dee" },
+  crankcase_cole: { screenName: "CrankCase_Cole", displayName: "Cole" },
+  neonblade_nico: { screenName: "NeonBlade_Nico", displayName: "Nico" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -100,7 +106,10 @@ const CHARACTER_CONTACTS: Record<string, {
   player_four: { screenName: "PlayerFourEver", displayName: "Player Four", statusMessage: "controller four is always open" },
   modkit_maddy: { screenName: "ModKit_Maddy", displayName: "Maddy", statusMessage: "compiling. remain geometrically calm." },
   quarter_queen: { screenName: "QuarterQueen", displayName: "Queenie", statusMessage: "one credit. no continues." },
-  code_dex: { screenName: "CodeDex", displayName: "Dex", statusMessage: "testing one more extremely specific rumor" }
+  code_dex: { screenName: "CodeDex", displayName: "Dex", statusMessage: "testing one more extremely specific rumor" },
+  deckwrecker_dee: { screenName: "DeckWrecker_Dee", displayName: "Dee", statusMessage: "waxing a curb. mind your business." },
+  crankcase_cole: { screenName: "CrankCase_Cole", displayName: "Cole", statusMessage: "trail's dry. send it." },
+  neonblade_nico: { screenName: "NeonBlade_Nico", displayName: "Nico", statusMessage: "night session // eight wheels online" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -124,7 +133,10 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   player_four: "web://gamegrid.zone/users/player4ever/home",
   modkit_maddy: "web://gamegrid.zone/users/modkitmaddy/home",
   quarter_queen: "web://gamegrid.zone/users/quarterqueen/home",
-  code_dex: "web://gamegrid.zone/users/codedex/home"
+  code_dex: "web://gamegrid.zone/users/codedex/home",
+  deckwrecker_dee: "web://xtreme.zone/users/deckwreckerdee/home",
+  crankcase_cole: "web://xtreme.zone/users/crankcasecole/home",
+  neonblade_nico: "web://xtreme.zone/users/neonbladenico/home"
 };
 
 const GAME_TIME_SCALE = 2;

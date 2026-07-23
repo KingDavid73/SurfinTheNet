@@ -2,6 +2,7 @@ import type { GameState, PageDefinition } from "./types";
 import { kidsBusinessPages } from "./kids-business-pages";
 import { dealerPages } from "./dealer-pages";
 import { gameGridMembers, gameGridPages } from "./gamegrid-pages";
+import { xtremeMembers, xtremePages } from "./xtreme-pages";
 
 const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
@@ -122,13 +123,18 @@ function zoneNavigation(activeId?: string) {
 }
 
 function zoneDirectoryBody(zoneId: string) {
-  if (zoneId !== "gamegrid") return `
-    <section class="zone-directory-placeholder"><div class="zone-construction">WORK IN PROGRESS</div><div><h2>Member Page Directory</h2><p>No individual member pages are indexed in this zone yet. Please check back after the next directory update.</p></div></section>`;
-  return `
-    <section class="gamegrid-member-directory">
+  if (zoneId === "gamegrid") return `
+    <section class="gamegrid-member-directory member-page-directory">
       <header><div><small>NEW &amp; UPDATED</small><h2>Game Grid Member Pages</h2></div><span>${gameGridMembers.length} pages online</span></header>
       <div>${gameGridMembers.map((member) => `<button class="gamegrid-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>PLAYS: ${member.console}</b></span><em>VISIT ›</em></button>`).join("")}</div>
     </section>`;
+  if (zoneId === "xtreme") return `
+    <section class="xtreme-member-directory member-page-directory">
+      <header><div><small>CREW PAGES // FRESH UPLOADS</small><h2>X-Treme Edge Riders</h2></div><span>${xtremeMembers.length} pages online</span></header>
+      <div>${xtremeMembers.map((member) => `<button class="xtreme-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>RIDES: ${member.discipline}</b></span><em>DROP IN ›</em></button>`).join("")}</div>
+    </section>`;
+  return `
+    <section class="zone-directory-placeholder"><div class="zone-construction">WORK IN PROGRESS</div><div><h2>Member Page Directory</h2><p>No individual member pages are indexed in this zone yet. Please check back after the next directory update.</p></div></section>`;
 }
 
 const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
@@ -162,6 +168,7 @@ export const pages: Record<string, PageDefinition> = {
   ...dealerPages,
   ...orbitZonePages,
   ...gameGridPages,
+  ...xtremePages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",

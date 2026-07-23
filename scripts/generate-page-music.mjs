@@ -49,7 +49,10 @@ const tracks = [
   { id: "moon-munch-march", title: "Moon Munch March", bpm: 132, program: 13, wave: "bell", melody: [67, 71, 74, 79, 76, 74, 71, -1, 69, 72, 76, 81, 79, 76, 74, 67], bass: [43, 47, 48, 50, 45, 48, 50, 43] },
   { id: "toonburst-theme", title: "ToonBurst Theme", bpm: 174, program: 81, wave: "square", melody: [64, 67, 71, 72, 76, 72, 71, 67, 65, 69, 72, 77, 76, 72, 69, 66], bass: [40, 43, 38, 45, 41, 45, 38, 47] },
   { id: "crown-and-clunker", title: "Crown and Clunker", bpm: 146, program: 56, wave: "bright", melody: [67, 71, 74, 79, 78, 74, 71, 67, 69, 72, 76, 81, 79, 76, 72, 67], bass: [43, 47, 50, 48, 45, 48, 50, 43] },
-  { id: "honest-handshake", title: "Honest Handshake", bpm: 128, program: 22, wave: "organ", melody: [64, 69, 72, 76, 72, 69, 67, 64, 62, 67, 71, 74, 71, 67, 66, 62], bass: [40, 45, 43, 48, 38, 43, 45, 38] }
+  { id: "honest-handshake", title: "Honest Handshake", bpm: 128, program: 22, wave: "organ", melody: [64, 69, 72, 76, 72, 69, 67, 64, 62, 67, 71, 74, 71, 67, 66, 62], bass: [40, 45, 43, 48, 38, 43, 45, 38] },
+  { id: "curb-static", title: "Curb Static", bpm: 176, program: 29, wave: "square", melody: [52, 52, 55, 57, 52, 59, 57, 55, 52, 55, 59, 60, 59, 57, 55, 52], bass: [28, 31, 33, 31, 28, 35, 33, 31], melodyVelocity: 92, bassVelocity: 70 },
+  { id: "dirtline-drive", title: "Dirtline Drive", bpm: 160, program: 30, wave: "bright", melody: [55, 62, 58, 65, 55, 67, 65, 62, 58, 65, 60, 67, 65, 62, 58, 55], bass: [31, 34, 36, 38, 31, 36, 34, 29], melodyVelocity: 88, bassVelocity: 68 },
+  { id: "eight-wheel-velocity", title: "Eight-Wheel Velocity", bpm: 150, program: 81, wave: "bright", melody: [72, 76, 79, 83, 74, 78, 81, 86, 76, 79, 83, 88, 86, 83, 79, 76], bass: [36, 43, 41, 45, 36, 48, 43, 41], padProgram: 89, padWave: "warm-pad", padChords: [[60, 64, 67], [62, 66, 69], [57, 60, 64], [59, 62, 67]] }
 ];
 
 function u16(value) {
