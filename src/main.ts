@@ -149,6 +149,7 @@ const pendingDirectReplies = new Set<string>();
 let activeAimOwnerId = "mira_917";
 let mailComposeOwnerId: string | null = null;
 let selectedMailMessageId: string | null = null;
+let helperPanelOpen = false;
 let pageMusicPlaying = true;
 let loadedPageMusicSite: PageDefinition["site"] | null = null;
 const semanticSearchCache = new Map<string, string[]>();
@@ -311,6 +312,7 @@ function openApp(app: AppId) {
     pageMusicPlaying = true;
     void saveState();
   }
+  if (app === "helper") helperPanelOpen = wasOpen;
   windows[app].open = true;
   windows[app].minimized = false;
   focusApp(app);
@@ -559,7 +561,7 @@ function chatWindow() {
 }
 
 function helperWindow() {
-  if (!state.flags.orbit_pal_installed) return "";
+  if (!state.flags.orbit_pal_installed || !windows.helper.open || !helperPanelOpen) return "";
   const messages = state.directMessages.filter((message) => message.channel === "helper" && message.ownerId === "orbit_guide");
   const pending = pendingDirectReplies.has("helper:orbit_guide");
   const modelStarting = aiStatus.phase === "loading" || aiStatus.phase === "warming";
@@ -575,7 +577,7 @@ function helperWindow() {
     <div class="helper-layout">
       <aside class="helper-portrait" aria-hidden="true"><div class="orbit-pal-body"><i></i><b>?</b><span></span></div></aside>
       <main>
-        <header><div><b>What can I help you with?</b><span>${aiStatus.warmed ? "Local help ready" : "Help service starting…"}</span></div><button type="button" data-helper-close>Close</button></header>
+        <header><div><b>What can I help you with?</b><span>${aiStatus.warmed ? "Local help ready" : "Help service starting…"}</span></div><button type="button" data-helper-close>Close Pal</button></header>
         <div class="helper-transcript" id="helper-transcript">${empty}${messageHtml}${pending ? `<p class="helper-typing">Orbit Pal is thinking…</p>` : ""}</div>
         ${chatError ? `<p class="helper-error">${escapeHtml(chatError)}</p>` : ""}
         <form class="helper-form">
@@ -752,6 +754,7 @@ function prepareFreshDesktopSession() {
   activeAimOwnerId = "mira_917";
   mailComposeOwnerId = null;
   selectedMailMessageId = null;
+  helperPanelOpen = false;
   state.currentUrl = "web://home";
   history = ["web://home"];
   historyIndex = 0;
@@ -885,6 +888,7 @@ function render() {
       ${state.flags.orbit_pal_installed ? `<button data-open="helper"><span class="desktop-icon helper">?</span><b>Orbit Pal</b></button>` : ""}
     </div>
     <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Search for food or pets</span><span>• Try a page’s MIDI player</span><span>• Download Orbit Pal</span></aside>
+    ${windows.helper.open ? `<button class="desktop-helper" data-helper-talk aria-label="Talk to Orbit Pal"><span class="orbit-pal-body"><i></i><b>?</b><em></em></span><strong>Orbit Pal</strong><small>Click to talk</small></button>` : ""}
     ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}${helperWindow()}
     ${notification ? `<div class="toast">${notification}</div>` : ""}
     ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off David</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ Reset Demo</button></div>` : ""}
@@ -937,6 +941,7 @@ function downloadOrbitPal() {
   state.flags.orbit_pal_installed = true;
   windows.helper.open = false;
   windows.helper.minimized = false;
+  helperPanelOpen = false;
   void saveState();
   showNotification("Orbit Pal installed! Open the new helper on your desktop.");
 }
@@ -1144,7 +1149,14 @@ function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-download]").forEach((el) => el.addEventListener("click", downloadSignalNote));
   document.querySelector<HTMLElement>("[data-download-helper]")?.addEventListener("click", downloadOrbitPal);
   document.querySelector<HTMLElement>("[data-page-music]")?.addEventListener("click", togglePageMusic);
+  document.querySelector<HTMLElement>("[data-helper-talk]")?.addEventListener("click", () => {
+    helperPanelOpen = true;
+    windows.helper.minimized = false;
+    focusApp("helper");
+    render();
+  });
   document.querySelector<HTMLElement>("[data-helper-close]")?.addEventListener("click", () => {
+    helperPanelOpen = false;
     windows.helper.open = false;
     windows.helper.minimized = false;
     render();
@@ -1153,6 +1165,7 @@ function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-close]").forEach((el) => el.addEventListener("click", () => {
     const app = el.dataset.close as AppId;
     windows[app].open = false;
+    if (app === "helper") helperPanelOpen = false;
     if (app === "browser") {
       pageMusicPlaying = false;
       pageMusic.pause();
@@ -1163,6 +1176,13 @@ function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-minimize]").forEach((el) => el.addEventListener("click", () => { windows[el.dataset.minimize as AppId].minimized = true; render(); }));
   document.querySelectorAll<HTMLElement>("[data-task]").forEach((el) => el.addEventListener("click", () => {
     const app = el.dataset.task as AppId;
+    if (app === "helper" && !helperPanelOpen) {
+      helperPanelOpen = true;
+      windows.helper.minimized = false;
+      focusApp("helper");
+      render();
+      return;
+    }
     if (!windows[app].minimized && windows[app].z === topZ) windows[app].minimized = true;
     else { windows[app].minimized = false; focusApp(app); }
     render();
@@ -1229,6 +1249,7 @@ function bindEvents() {
     if (!window.gameAPI) localStorage.removeItem("surfin-save");
     history = [state.currentUrl]; historyIndex = 0; startOpen = false;
     windows.helper.open = false;
+    helperPanelOpen = false;
     pageMusicPlaying = false;
     pageMusic.pause();
     render();

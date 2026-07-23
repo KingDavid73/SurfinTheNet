@@ -1098,6 +1098,13 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .smart-search-status { max-width: 720px; margin: -10px auto 12px; color: #626b83; font: italic 10px Tahoma, sans-serif; text-align: left; }
 .smart-search-status.working::before { content: "● "; color: #e58c18; animation: midi-pulse .6s steps(1) infinite; }
 
+.desktop-helper { position: absolute; right: 27px; bottom: 54px; z-index: 30; display: grid; justify-items: center; gap: 2px; width: 92px; padding: 5px; color: white; background: transparent; border: 1px solid transparent; text-shadow: 1px 1px #002; }
+.desktop-helper:hover, .desktop-helper:focus-visible { background: rgb(0 0 128 / 22%); border-color: rgb(255 255 255 / 55%); }
+.desktop-helper .orbit-pal-body { width: 66px; height: 72px; animation: helper-bob 2.2s ease-in-out infinite; }
+.desktop-helper strong { font-size: 11px; }
+.desktop-helper small { color: #e5ffff; font-size: 8px; }
+@keyframes helper-bob { 50% { transform: translateY(-4px) rotate(1deg); } }
+
 .helper-window { min-width: 390px; min-height: 350px; }
 .helper-layout { display: grid; grid-template-columns: 100px 1fr; min-height: 0; flex: 1; background: #eef7ff; border: 2px inset white; }
 .helper-layout > main { display: flex; flex-direction: column; min-width: 0; padding: 7px; }
@@ -1136,6 +1143,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .sleep-dialog > footer { padding: 7px 10px; color: #4c5365; background: #d8deef; border-top: 1px solid #888; font-size: 9px; }
 
 .toast { position: absolute; right: 16px; bottom: 50px; z-index: 11000; width: 300px; padding: 13px; background: #fffbd2; border: 2px solid; border-color: white #333 #333 white; box-shadow: 3px 4px 10px rgb(0 0 0 / 35%); font-size: 13px; }
+.desktop-helper ~ .toast { right: 125px; }
 .start-menu { position: absolute; left: 3px; bottom: 38px; z-index: 12000; width: 250px; padding: 3px; background: #c0c0c0; border: 2px solid; border-color: white #222 #222 white; box-shadow: 3px 3px 8px rgb(0 0 0 / 30%); display: grid; }
 .start-menu header { padding: 10px; color: white; background: linear-gradient(#202c93, #3758be); font-size: 24px; }
 .start-menu header span { font-weight: 300; }

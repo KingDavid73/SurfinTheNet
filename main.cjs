@@ -141,12 +141,16 @@ function createWindow() {
           if (!helperInstalled) throw new Error("Orbit Pal did not install closed on the desktop");
           await capture("orbit-pal-desktop-icon.png");
           await click('.desktop-icons [data-open="helper"]');
-          const helperOpened = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.helper-window'))`);
-          if (!helperOpened) throw new Error("Orbit Pal desktop app did not open");
+          const helperRunning = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.desktop-helper')) && Boolean(document.querySelector('[data-task="helper"]')) && !document.querySelector('.helper-window')`);
+          if (!helperRunning) throw new Error("Launching Orbit Pal did not create a closed desktop buddy");
+          await capture("orbit-pal-running.png");
+          await click("[data-helper-talk]");
+          const helperOpened = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.desktop-helper')) && Boolean(document.querySelector('.helper-window'))`);
+          if (!helperOpened) throw new Error("Clicking the desktop buddy did not open Orbit Pal chat");
           await capture("orbit-pal-installed.png");
           await click("[data-helper-close]");
-          const helperClosed = await win.webContents.executeJavaScript(`!document.querySelector('.helper-window') && !document.querySelector('[data-task="helper"]')`);
-          if (!helperClosed) throw new Error("Orbit Pal close button did not close the helper app");
+          const helperClosed = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.desktop-icons [data-open="helper"]')) && !document.querySelector('.desktop-helper') && !document.querySelector('.helper-window') && !document.querySelector('[data-task="helper"]')`);
+          if (!helperClosed) throw new Error("Close Pal did not exit the buddy while preserving its installed icon");
 
           const searchFor = async (query, expectedUrl) => {
             const submitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = ${JSON.stringify(query)}; form.requestSubmit(); return true; })()`);
