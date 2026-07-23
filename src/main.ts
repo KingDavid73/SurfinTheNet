@@ -206,6 +206,13 @@ function navigate(url: string, push = true) {
 }
 
 function openApp(app: AppId) {
+  const wasOpen = windows[app].open;
+  if (app === "browser" && !wasOpen) {
+    state.currentUrl = "web://home";
+    history = ["web://home"];
+    historyIndex = 0;
+    void saveState();
+  }
   windows[app].open = true;
   windows[app].minimized = false;
   focusApp(app);
@@ -431,11 +438,13 @@ function startupScreen() {
 
   if (startupStage === "title" || startupStage === "powering") {
     return `<main class="startup-screen desk-stage ${startupStage}">
-      <img class="startup-desk-art" src="${titleArtworkUrl}" alt="A powered-off beige computer on a desk at night">
-      <div class="desk-vignette"></div>
+      <div class="desk-camera">
+        <img class="startup-desk-art" src="${titleArtworkUrl}" alt="A powered-off beige computer on a desk at night">
+        <div class="desk-vignette"></div>
+        <div class="screen-flicker" aria-hidden="true"></div>
+      </div>
       <div class="game-title"><small>AN ORBIT NETWORK EXPERIENCE</small><h1>SURFIN' THE NET</h1><p>Some pages were never meant to be found.</p></div>
       <button class="computer-power" data-power aria-label="Turn on the computer"><i></i><span>POWER ON</span></button>
-      <div class="screen-flicker" aria-hidden="true"></div>
       ${scanlines}
     </main>`;
   }
@@ -560,6 +569,48 @@ function beginAiPreload() {
   }
 }
 
+function prepareFreshDesktopSession() {
+  const defaults: Record<AppId, Omit<WindowModel, "open" | "minimized">> = {
+    browser: { z: 3, x: 116, y: 44, width: 820, height: 600 },
+    mail: { z: 2, x: 205, y: 94, width: 660, height: 470 },
+    files: { z: 1, x: 255, y: 126, width: 590, height: 410 },
+    chat: { z: 4, x: 190, y: 72, width: 620, height: 520 },
+    settings: { z: 1, x: 260, y: 70, width: 590, height: 540 }
+  };
+  for (const app of Object.keys(windows) as AppId[]) {
+    Object.assign(windows[app], defaults[app], { open: false, minimized: false });
+  }
+  topZ = 3;
+  startOpen = false;
+  sleepDialogOpen = false;
+  notification = "";
+  chatError = "";
+  activeAimOwnerId = "mira_917";
+  mailComposeOwnerId = null;
+  selectedMailMessageId = null;
+  state.currentUrl = "web://home";
+  history = ["web://home"];
+  historyIndex = 0;
+  void saveState();
+}
+
+function playBiosBeep() {
+  const AudioContextClass = window.AudioContext ?? (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!AudioContextClass) return;
+  const context = new AudioContextClass();
+  const oscillator = context.createOscillator();
+  const gain = context.createGain();
+  oscillator.type = "square";
+  oscillator.frequency.setValueAtTime(880, context.currentTime);
+  gain.gain.setValueAtTime(0.0001, context.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.035, context.currentTime + 0.008);
+  gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.14);
+  oscillator.connect(gain).connect(context.destination);
+  oscillator.start();
+  oscillator.stop(context.currentTime + 0.15);
+  window.setTimeout(() => void context.close(), 300);
+}
+
 async function startComputer() {
   if (startupStage !== "title") return;
   startupStage = "powering";
@@ -569,6 +620,7 @@ async function startComputer() {
   await waitForStartup(2300);
   startupStage = "bios";
   render();
+  playBiosBeep();
 
   await waitForStartup(3600);
   startupStage = "splash";
@@ -583,24 +635,15 @@ async function startComputer() {
 
 async function loginUser() {
   if (startupStage !== "login") return;
-  if (computerHasBooted) {
-    startupStage = "desktop";
-    lastGameClockTick = performance.now();
-    render();
-    return;
-  }
-  startupStage = "dialup";
-  render();
-  playDialupSounds();
-  await waitForStartup(7800);
   startupStage = "desktop";
   computerHasBooted = true;
   lastGameClockTick = performance.now();
+  prepareFreshDesktopSession();
   if (startupStatusTimer !== null) {
     window.clearInterval(startupStatusTimer);
     startupStatusTimer = null;
   }
-  await pollBootAiStatus();
+  void pollBootAiStatus();
   render();
 }
 

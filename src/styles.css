@@ -33,6 +33,12 @@ button { color: #111; }
   background: #05080c;
 }
 
+.desk-camera {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
 .startup-desk-art {
   position: absolute;
   inset: 0;
@@ -151,19 +157,18 @@ button { color: #111; }
   transition: opacity .3s;
 }
 
-.desk-stage.powering .startup-desk-art,
-.desk-stage.powering .desk-vignette {
-  transform-origin: 49% 42%;
+.desk-stage.powering .desk-camera {
+  transform-origin: 45.5% 41%;
   animation: camera-into-monitor 2.3s cubic-bezier(.4, 0, .15, 1) forwards;
 }
 
 .screen-flicker {
   position: absolute;
   z-index: 10;
-  left: 29.2%;
-  top: 26%;
-  width: 38.5%;
-  height: 35%;
+  left: 28.8%;
+  top: 22.3%;
+  width: 32.8%;
+  height: 38.2%;
   opacity: 0;
   background: #c8eff0;
   border-radius: 9% / 12%;
@@ -176,9 +181,9 @@ button { color: #111; }
 }
 
 @keyframes camera-into-monitor {
-  0%, 18% { transform: scale(1.002); filter: saturate(.88) brightness(.82); }
-  25% { filter: saturate(.75) brightness(1.08); }
-  100% { transform: scale(3.4); filter: saturate(.25) brightness(.22); }
+  0%, 18% { transform: scale(1); filter: brightness(1); }
+  25% { filter: brightness(1.2); }
+  100% { transform: scale(3.4); filter: saturate(.4) brightness(.25); }
 }
 
 @keyframes monitor-flicker {
@@ -189,7 +194,7 @@ button { color: #111; }
   29% { opacity: .08; }
   40% { opacity: .36; }
   70% { opacity: .14; }
-  100% { opacity: 0; transform: scale(3.4); }
+  100% { opacity: 0; }
 }
 
 .bios-stage {

@@ -334,12 +334,25 @@ function createWindow() {
 
           const powerClicked = await win.webContents.executeJavaScript(`(() => { const power = document.querySelector('[data-power]'); if (!power) return false; power.click(); return true; })()`);
           if (!powerClicked) throw new Error("Title screen power button was not available");
+          await new Promise((resolve) => setTimeout(resolve, 600));
+          const crtImage = await win.webContents.capturePage();
+          const crtTarget = path.resolve(__dirname, "artifacts", "crt-power-on.png");
+          await fs.mkdir(path.dirname(crtTarget), { recursive: true });
+          await fs.writeFile(crtTarget, crtImage.toPNG());
 
           await waitForSelector(".login-stage", 15_000);
           const loginClicked = await win.webContents.executeJavaScript(`(() => { const user = document.querySelector('[data-login-user]'); if (!user) return false; user.click(); return true; })()`);
           if (!loginClicked) throw new Error("Login profile was not available");
 
           await waitForSelector(".desktop", 12_000);
+          const restoredWindowCount = await win.webContents.executeJavaScript(`document.querySelectorAll('.app-window').length`);
+          if (restoredWindowCount !== 0) throw new Error(`Login restored ${restoredWindowCount} app window(s) instead of showing a clean desktop`);
+          const browserOpened = await win.webContents.executeJavaScript(`(() => { const browser = document.querySelector('[data-open="browser"]'); if (!browser) return false; browser.click(); return true; })()`);
+          if (!browserOpened) throw new Error("Browser desktop icon was not available");
+          const browserUrl = await win.webContents.executeJavaScript(`document.querySelector('.address-form input')?.value || ''`);
+          if (browserUrl !== "web://home") throw new Error(`Browser opened at ${browserUrl || "an empty address"} instead of web://home`);
+          await win.webContents.executeJavaScript(`document.querySelector('[data-close="browser"]')?.click()`);
+
           const deadline = Date.now() + 90_000;
           let status = null;
           while (Date.now() < deadline) {
@@ -354,7 +367,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "boot-flow-desktop.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log(`BOOT_OK: title, power-on, BIOS, OrbitOS splash, login, dial-up, and desktop completed; model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
+          console.log(`BOOT_OK: title, aligned CRT power-on, BIOS, OrbitOS splash, login, and clean desktop completed; Browser opened at web://home and model warmed in ${status.warmupMs}ms after ${status.loadMs}ms load.`);
         } catch (error) {
           console.error("BOOT_FAILED:", error);
           process.exitCode = 1;
