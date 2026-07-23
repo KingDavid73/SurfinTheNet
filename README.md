@@ -32,6 +32,29 @@ npm.cmd run make
 - A downloadable clue that becomes a readable file
 - Versioned state saved through Electron and restored after restarting
 - An end-to-end smoke test (`npm.cmd run test:smoke`)
+- Orbit Messenger backed by a local Qwen3-4B Q4_K_M model
+- A JSON-defined test persona, persistent conversation, and per-reply latency/token diagnostics
+
+## Local AI conversation test
+
+The model is a separate 2.5 GB local download and is never committed to Git:
+
+```powershell
+npm.cmd run models:pull
+npm.cmd run dev
+```
+
+Open **Orbit Messenger** and chat with `Mira_917`. The first message loads the model into memory; subsequent messages reuse it. Each reply reports generation time, output tokens, tokens per second, backend, and initial load time.
+
+Run the automated cold/warm inference check with:
+
+```powershell
+npm.cmd run test:ai
+```
+
+The current persona is in `personas/mira_917.json`. The Electron main-process service is in `ai-service.cjs`. Conversation data is stored separately in Electron's user-data directory.
+
+Packaging is still deferred. `node-llama-cpp` native binaries require special unpacking rules when milestone builds resume.
 
 ## Adding content
 

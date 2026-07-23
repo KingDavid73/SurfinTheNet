@@ -1,10 +1,16 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const { AiService } = require("./ai-service.cjs");
 
-if (process.env.SMOKE_TEST) {
+if (process.env.SMOKE_TEST || process.env.AI_SMOKE_TEST) {
   app.setPath("userData", path.join(app.getPath("temp"), `surfin-the-net-smoke-${process.pid}`));
 }
+
+const aiService = new AiService({
+  rootDirectory: __dirname,
+  getUserDataDirectory: () => app.getPath("userData")
+});
 
 const DEFAULT_SAVE = {
   version: 1,
@@ -40,6 +46,10 @@ ipcMain.handle("save:reset", async () => {
   await fs.rm(savePath(), { force: true });
   return structuredClone(DEFAULT_SAVE);
 });
+ipcMain.handle("ai:status", () => aiService.getStatus());
+ipcMain.handle("ai:conversation", () => aiService.getConversation());
+ipcMain.handle("ai:send", (_event, message) => aiService.sendMessage(message));
+ipcMain.handle("ai:reset", () => aiService.resetConversation());
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -119,6 +129,48 @@ function createWindow() {
           app.quit();
         }
       }, 500);
+    });
+  }
+
+  if (process.env.AI_SMOKE_TEST) {
+    win.webContents.once("did-finish-load", () => {
+      setTimeout(async () => {
+        try {
+          const submitAndWait = async (message, expectedReplyCount) => {
+            const submitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.chat-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = ${JSON.stringify(message)}; form.requestSubmit(); return true; })()`);
+            if (!submitted) throw new Error("Messenger form was not available");
+
+            const deadline = Date.now() + 180_000;
+            let result = null;
+            while (Date.now() < deadline) {
+              await new Promise((resolve) => setTimeout(resolve, 500));
+              result = await win.webContents.executeJavaScript(`(() => ({ count: document.querySelectorAll('.chat-message.character').length, reply: document.querySelector('.chat-message.character:last-of-type p')?.textContent || '', metrics: document.querySelector('.chat-message.character:last-of-type .chat-metrics')?.textContent || '', error: document.querySelector('.chat-error')?.textContent || '', status: document.querySelector('[data-ai-phase]')?.textContent || '' }))()`);
+              if (result.error) throw new Error(result.error);
+              if (result.count >= expectedReplyCount && result.reply) break;
+            }
+            if (!result?.reply || result.count < expectedReplyCount) throw new Error(`Timed out waiting for local model response; last status: ${result?.status ?? "unknown"}`);
+            if (result.reply.length > 400) throw new Error(`Model ignored brevity controls (${result.reply.length} characters)`);
+            return result;
+          };
+
+          const coldResult = await submitAndWait("hey mira, what kind of stuff do you listen to when you are up this late?", 1);
+          const warmResult = await submitAndWait("the strange transmissions sound interesting. what makes them strange?", 2);
+
+          const image = await win.webContents.capturePage();
+          const target = path.resolve(__dirname, "artifacts", "local-ai-chat.png");
+          await fs.mkdir(path.dirname(target), { recursive: true });
+          await fs.writeFile(target, image.toPNG());
+          console.log(`AI_COLD_REPLY: ${coldResult.reply}`);
+          console.log(`AI_COLD_METRICS: ${coldResult.metrics}`);
+          console.log(`AI_WARM_REPLY: ${warmResult.reply}`);
+          console.log(`AI_WARM_METRICS: ${warmResult.metrics}`);
+        } catch (error) {
+          console.error("AI_SMOKE_FAILED:", error);
+          process.exitCode = 1;
+        } finally {
+          app.quit();
+        }
+      }, 700);
     });
   }
 }

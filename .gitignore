@@ -3,3 +3,5 @@ dist/
 out/
 artifacts/
 *.log
+models/*.gguf
+models/*.gguf.*

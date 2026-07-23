@@ -1,0 +1,10 @@
+{
+  "model": "Qwen/Qwen3-4B-GGUF",
+  "modelUri": "hf:Qwen/Qwen3-4B-GGUF:Q4_K_M",
+  "quantization": "Q4_K_M",
+  "file": "hf_Qwen_Qwen3-4B.Q4_K_M.gguf",
+  "bytes": 2497280256,
+  "sha256": "7485FE6F11AF29433BC51CAB58009521F205840F5B4AE3A32FA7F92E8534FDF5",
+  "license": "Apache-2.0",
+  "source": "https://huggingface.co/Qwen/Qwen3-4B-GGUF"
+}

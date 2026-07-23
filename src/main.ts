@@ -1,6 +1,6 @@
 import "./styles.css";
 import { notFoundPage, pages } from "./pages";
-import type { AppId, GameState } from "./types";
+import type { AiConversation, AiStatus, AppId, GameState } from "./types";
 
 const DEFAULT_STATE: GameState = {
   version: 1,
@@ -24,17 +24,56 @@ interface WindowModel {
 const windows: Record<AppId, WindowModel> = {
   browser: { open: true, minimized: false, z: 3, x: 116, y: 44, width: 820, height: 600 },
   mail: { open: false, minimized: false, z: 2, x: 205, y: 94, width: 660, height: 470 },
-  files: { open: false, minimized: false, z: 1, x: 255, y: 126, width: 590, height: 410 }
+  files: { open: false, minimized: false, z: 1, x: 255, y: 126, width: 590, height: 410 },
+  chat: { open: true, minimized: false, z: 4, x: 190, y: 72, width: 620, height: 520 }
+};
+
+const APP_META: Record<AppId, { icon: string; title: string }> = {
+  browser: { icon: "O", title: "Orbit Explorer" },
+  mail: { icon: "@", title: "Orbit Mail" },
+  files: { icon: "▣", title: "My Files" },
+  chat: { icon: "◎", title: "Orbit Messenger" }
+};
+
+const EMPTY_AI_CONVERSATION: AiConversation = {
+  persona: { id: "mira_917", screenName: "Mira_917", displayName: "Mira", statusMessage: "offline" },
+  messages: []
+};
+
+const EMPTY_AI_STATUS: AiStatus = {
+  phase: "offline",
+  modelAvailable: false,
+  modelName: "Qwen3-4B Q4_K_M",
+  modelFile: "",
+  persona: EMPTY_AI_CONVERSATION.persona,
+  backend: null,
+  loadMs: null,
+  error: null
 };
 
 let state = structuredClone(DEFAULT_STATE);
 let history: string[] = [state.currentUrl];
 let historyIndex = 0;
-let topZ = 3;
+let topZ = 4;
 let startOpen = false;
 let notification = "";
+let aiConversation = structuredClone(EMPTY_AI_CONVERSATION);
+let aiStatus = structuredClone(EMPTY_AI_STATUS);
+let chatBusy = false;
+let chatPendingMessage = "";
+let chatError = "";
+let chatStartedAt = 0;
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
+
+function escapeHtml(value: string) {
+  return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+}
+
+function formatDuration(milliseconds: number | null) {
+  if (milliseconds === null) return "—";
+  return milliseconds < 1000 ? `${milliseconds}ms` : `${(milliseconds / 1000).toFixed(1)}s`;
+}
 
 async function loadState() {
   if (window.gameAPI) return window.gameAPI.load();
@@ -125,6 +164,52 @@ function filesWindow() {
     <div class="files-layout"><aside><h3>My Files</h3><p>Personal files and internet downloads.</p><hr><b>${state.downloads.length} object${state.downloads.length === 1 ? "" : "s"}</b></aside><main class="file-grid">${downloads}</main></div>`);
 }
 
+function chatWindow() {
+  const persona = aiConversation.persona;
+  const statusLabel = aiStatus.phase === "ready"
+    ? "model on disk · loads with first message"
+    : aiStatus.phase === "loading"
+      ? "loading 2.5 GB model into memory…"
+      : aiStatus.phase === "generating"
+        ? "Mira is typing…"
+        : aiStatus.phase === "idle"
+          ? `model loaded · ${aiStatus.backend ?? "CPU"}`
+          : aiStatus.phase === "error"
+            ? `error · ${aiStatus.error ?? "generation failed"}`
+            : "local model unavailable";
+
+  const messageHtml = aiConversation.messages.map((message) => {
+    const metrics = message.metrics
+      ? `<small class="chat-metrics">generation ${formatDuration(message.metrics.generationMs)} · ${message.metrics.outputTokens} tokens · ${message.metrics.tokensPerSecond ?? "—"} tok/s · ${message.metrics.backend ?? "CPU"}${message.metrics.modelLoadMs ? ` · initial load ${formatDuration(message.metrics.modelLoadMs)}` : ""}</small>`
+      : "";
+    return `<article class="chat-message ${message.role}">
+      <header><b>${message.role === "player" ? "You" : escapeHtml(persona.screenName)}</b><time>${new Date(message.createdAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</time></header>
+      <p>${escapeHtml(message.text)}</p>${metrics}
+    </article>`;
+  }).join("");
+
+  const pending = chatPendingMessage
+    ? `<article class="chat-message player pending"><header><b>You</b><time>now</time></header><p>${escapeHtml(chatPendingMessage)}</p></article><div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : `${escapeHtml(persona.screenName)} is typing`}</span></div>`
+    : "";
+  const empty = !messageHtml && !pending
+    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>Send something to load Qwen3-4B and begin the local conversation test.</span><span>The first response includes model-loading time; later replies should be faster.</span></div>`
+    : "";
+
+  return windowShell("chat", `${persona.screenName} - Orbit Messenger`, "◎", `
+    <div class="aim-menu"><button disabled>File</button><button disabled>Edit</button><button disabled>People</button><button data-ai-reset>Clear Chat</button></div>
+    <div class="aim-contact">
+      <div class="aim-avatar">M</div><div><b>${escapeHtml(persona.screenName)}</b><span><i></i> Online</span><small>“${escapeHtml(persona.statusMessage)}”</small></div>
+      <aside><b>LOCAL AI TEST</b><span>${escapeHtml(aiStatus.modelName)}</span></aside>
+    </div>
+    <div class="chat-transcript" id="chat-transcript">${empty}${messageHtml}${pending}</div>
+    ${chatError ? `<div class="chat-error">${escapeHtml(chatError)}</div>` : ""}
+    <form class="chat-form">
+      <textarea name="message" maxlength="500" rows="2" placeholder="Type an instant message…" ${chatBusy || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
+      <button ${chatBusy || !aiStatus.modelAvailable ? "disabled" : ""}>${chatBusy ? "Waiting…" : "Send"}</button>
+    </form>
+    <footer class="ai-statusbar"><span data-ai-phase>${escapeHtml(statusLabel)}</span><span data-ai-elapsed>${chatBusy ? "0.0s elapsed" : aiStatus.loadMs ? `load ${formatDuration(aiStatus.loadMs)}` : "not loaded"}</span></footer>`);
+}
+
 function render() {
   root.innerHTML = `<main class="desktop">
     <div class="wallpaper-logo"><span>ORBIT</span><b>OS</b><small>98</small></div>
@@ -132,12 +217,13 @@ function render() {
       <button data-open="browser"><span class="desktop-icon globe">O</span><b>Orbit Explorer</b></button>
       <button data-open="mail"><span class="desktop-icon mail">@</span><b>Orbit Mail</b></button>
       <button data-open="files"><span class="desktop-icon folder">▰</span><b>My Files</b></button>
+      <button data-open="chat"><span class="desktop-icon chat">◎</span><b>Orbit Messenger</b></button>
     </div>
-    <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Browse both featured sites</span><span>• Check Orbit Mail</span><span>• Download the archive note</span></aside>
-    ${browserWindow()}${mailWindow()}${filesWindow()}
+    <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Chat with Mira_917</span><span>• Compare first and later response times</span><span>• Test her personality</span></aside>
+    ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}
     ${notification ? `<div class="toast">${notification}</div>` : ""}
-    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><hr><button data-reset>↻ Reset Demo</button></div>` : ""}
-    <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${app === "browser" ? "O" : app === "mail" ? "@" : "▣"} ${app === "browser" ? "Orbit Explorer" : app === "mail" ? "Orbit Mail" : "My Files"}</button>`).join("")}</div><time id="clock"></time></footer>
+    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><hr><button data-reset>↻ Reset Demo</button></div>` : ""}
+    <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
   </main>`;
   bindEvents();
   updateClock();
@@ -165,6 +251,66 @@ function downloadSignalNote() {
   showNotification("Download complete: SIGNAL_NOTE.TXT");
 }
 
+function scrollChatToBottom() {
+  requestAnimationFrame(() => {
+    const transcript = document.querySelector<HTMLElement>("#chat-transcript");
+    if (transcript) transcript.scrollTop = transcript.scrollHeight;
+  });
+}
+
+async function refreshAiProgress() {
+  if (!window.aiAPI) return;
+  try {
+    aiStatus = await window.aiAPI.status();
+    const phase = document.querySelector<HTMLElement>("[data-ai-phase]");
+    const elapsed = document.querySelector<HTMLElement>("[data-ai-elapsed]");
+    if (phase) {
+      phase.textContent = aiStatus.phase === "loading"
+        ? "loading 2.5 GB model into memory…"
+        : aiStatus.phase === "generating"
+          ? "Mira_917 is typing…"
+          : aiStatus.phase === "error"
+            ? `error · ${aiStatus.error ?? "generation failed"}`
+            : `model loaded · ${aiStatus.backend ?? "CPU"}`;
+    }
+    if (elapsed && chatBusy) elapsed.textContent = `${((performance.now() - chatStartedAt) / 1000).toFixed(1)}s elapsed`;
+  } catch {
+    // A failed status poll should not replace the actual generation error.
+  }
+}
+
+async function sendChatMessage(message: string) {
+  if (!window.aiAPI || chatBusy) return;
+  chatBusy = true;
+  chatPendingMessage = message;
+  chatError = "";
+  chatStartedAt = performance.now();
+  render();
+  scrollChatToBottom();
+  const progressTimer = window.setInterval(() => void refreshAiProgress(), 400);
+
+  try {
+    const result = await window.aiAPI.send(message);
+    aiConversation = result.conversation;
+    aiStatus = result.status;
+  } catch (error) {
+    chatError = error instanceof Error ? error.message.replace(/^Error invoking remote method '[^']+':\s*/i, "") : String(error);
+    try {
+      aiConversation = await window.aiAPI.conversation();
+      aiStatus = await window.aiAPI.status();
+    } catch {
+      // Preserve the original inference error.
+    }
+  } finally {
+    window.clearInterval(progressTimer);
+    chatBusy = false;
+    chatPendingMessage = "";
+    render();
+    scrollChatToBottom();
+    document.querySelector<HTMLTextAreaElement>(".chat-form textarea")?.focus();
+  }
+}
+
 function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-open]").forEach((el) => el.addEventListener("click", () => openApp(el.dataset.open as AppId)));
   document.querySelectorAll<HTMLElement>("[data-nav]").forEach((el) => el.addEventListener("click", () => navigate(el.dataset.nav!)));
@@ -183,6 +329,19 @@ function bindEvents() {
     state = window.gameAPI ? await window.gameAPI.reset() : structuredClone(DEFAULT_STATE);
     if (!window.gameAPI) localStorage.removeItem("surfin-save");
     history = [state.currentUrl]; historyIndex = 0; startOpen = false;
+    render();
+  });
+  document.querySelector<HTMLFormElement>(".chat-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const message = new FormData(form).get("message")?.toString().trim() ?? "";
+    if (message) void sendChatMessage(message);
+  });
+  document.querySelector<HTMLElement>("[data-ai-reset]")?.addEventListener("click", async () => {
+    if (!window.aiAPI || chatBusy || !window.confirm("Clear this test conversation and its model context?")) return;
+    aiConversation = await window.aiAPI.reset();
+    aiStatus = await window.aiAPI.status();
+    chatError = "";
     render();
   });
 
@@ -225,6 +384,7 @@ function bindEvents() {
   }));
 
   bindDragging();
+  scrollChatToBottom();
 }
 
 function bindDragging() {
@@ -253,8 +413,14 @@ function updateClock() {
   if (clock) clock.textContent = new Intl.DateTimeFormat([], { hour: "numeric", minute: "2-digit" }).format(new Date());
 }
 
-void loadState().then((loaded) => {
-  state = loaded;
+void Promise.all([
+  loadState(),
+  window.aiAPI?.conversation() ?? Promise.resolve(structuredClone(EMPTY_AI_CONVERSATION)),
+  window.aiAPI?.status() ?? Promise.resolve(structuredClone(EMPTY_AI_STATUS))
+]).then(([loadedState, loadedConversation, loadedStatus]) => {
+  state = loadedState;
+  aiConversation = loadedConversation;
+  aiStatus = loadedStatus;
   history = [state.currentUrl];
   render();
   window.setInterval(updateClock, 30000);

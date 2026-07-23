@@ -5,3 +5,10 @@ contextBridge.exposeInMainWorld("gameAPI", {
   save: (state) => ipcRenderer.invoke("save:write", state),
   reset: () => ipcRenderer.invoke("save:reset")
 });
+
+contextBridge.exposeInMainWorld("aiAPI", {
+  status: () => ipcRenderer.invoke("ai:status"),
+  conversation: () => ipcRenderer.invoke("ai:conversation"),
+  send: (message) => ipcRenderer.invoke("ai:send", message),
+  reset: () => ipcRenderer.invoke("ai:reset")
+});
