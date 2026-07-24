@@ -38,7 +38,9 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
   petiguana: { label: "Basking After Dark", file: "basking-after-dark.mid", midiUrl: new URL("../assets/audio/pages/basking-after-dark.mid", import.meta.url).href, url: new URL("../assets/audio/pages/basking-after-dark.wav", import.meta.url).href },
   petskunk: { label: "Cabinet Caper", file: "cabinet-caper.mid", midiUrl: new URL("../assets/audio/pages/cabinet-caper.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cabinet-caper.wav", import.meta.url).href },
   fanmoss: { label: "Fogberry Moon", file: "fogberry-moon.mid", midiUrl: new URL("../assets/audio/pages/fogberry-moon.mid", import.meta.url).href, url: new URL("../assets/audio/pages/fogberry-moon.wav", import.meta.url).href },
-  fanblipzo: { label: "Store 00 Loader", file: "store-zero-loader.mid", midiUrl: new URL("../assets/audio/pages/store-zero-loader.mid", import.meta.url).href, url: new URL("../assets/audio/pages/store-zero-loader.wav", import.meta.url).href }
+  fanblipzo: { label: "Store 00 Loader", file: "store-zero-loader.mid", midiUrl: new URL("../assets/audio/pages/store-zero-loader.mid", import.meta.url).href, url: new URL("../assets/audio/pages/store-zero-loader.wav", import.meta.url).href },
+  fanstar: { label: "Weather Drawer Waltz", file: "weather-drawer-waltz.mid", midiUrl: new URL("../assets/audio/pages/weather-drawer-waltz.mid", import.meta.url).href, url: new URL("../assets/audio/pages/weather-drawer-waltz.wav", import.meta.url).href },
+  fanprism: { label: "Five-Color Drive", file: "five-color-drive.mid", midiUrl: new URL("../assets/audio/pages/five-color-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/five-color-drive.wav", import.meta.url).href }
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -61,7 +63,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -100,7 +102,9 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   iguana_iris: { screenName: "Iguana_Iris", displayName: "Iris" },
   skunkuncle_sam: { screenName: "SkunkUncle_Sam", displayName: "Sam" },
   mossmunch_mel: { screenName: "MossMunch_Mel", displayName: "Mel" },
-  blipzo_believer_88: { screenName: "BlipzoBeliever_88", displayName: "Trent" }
+  blipzo_believer_88: { screenName: "BlipzoBeliever_88", displayName: "Trent" },
+  tapeattic_tess: { screenName: "TapeAttic_Tess", displayName: "Tess" },
+  prismpilot_aya: { screenName: "PrismPilot_Aya", displayName: "Aya" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -145,7 +149,9 @@ const CHARACTER_CONTACTS: Record<string, {
   iguana_iris: { screenName: "Iguana_Iris", displayName: "Iris", statusMessage: "Gomez is basking. naturally." },
   skunkuncle_sam: { screenName: "SkunkUncle_Sam", displayName: "Sam", statusMessage: "cabinet latch revision four" },
   mossmunch_mel: { screenName: "MossMunch_Mel", displayName: "Mel", statusMessage: "rewinding episode 19 again" },
-  blipzo_believer_88: { screenName: "BlipzoBeliever_88", displayName: "Trent", statusMessage: "STORE 00 IS REAL" }
+  blipzo_believer_88: { screenName: "BlipzoBeliever_88", displayName: "Trent", statusMessage: "STORE 00 IS REAL" },
+  tapeattic_tess: { screenName: "TapeAttic_Tess", displayName: "Tess", statusMessage: "rewinding the weather special" },
+  prismpilot_aya: { screenName: "PrismPilot_Aya", displayName: "Aya", statusMessage: "frame 05 contains six colors" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -184,7 +190,9 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   iguana_iris: "web://petplanet.zone/users/iguanairis/home",
   skunkuncle_sam: "web://petplanet.zone/users/skunkunclesam/home",
   mossmunch_mel: "web://fanverse.zone/users/mossmunchmel/home",
-  blipzo_believer_88: "web://fanverse.zone/users/blipzobeliever88/home"
+  blipzo_believer_88: "web://fanverse.zone/users/blipzobeliever88/home",
+  tapeattic_tess: "web://fanverse.zone/users/tapeattictess/home",
+  prismpilot_aya: "web://fanverse.zone/users/prismpilotaya/home"
 };
 
 const GAME_TIME_SCALE = 2;
@@ -1468,6 +1476,29 @@ function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-download]").forEach((el) => el.addEventListener("click", downloadSignalNote));
   document.querySelector<HTMLElement>("[data-download-helper]")?.addEventListener("click", downloadOrbitPal);
   document.querySelector<HTMLElement>("[data-page-music]")?.addEventListener("click", togglePageMusic);
+  document.querySelectorAll<HTMLElement>("[data-fandom-toggle]").forEach((button) => button.addEventListener("click", () => {
+    const target = document.getElementById(button.dataset.fandomToggle!);
+    if (!target) return;
+    const open = target.classList.toggle("open");
+    button.classList.toggle("active", open);
+    button.setAttribute("aria-expanded", String(open));
+  }));
+  document.querySelectorAll<HTMLElement>("[data-fandom-tab]").forEach((button) => button.addEventListener("click", () => {
+    const targetId = button.dataset.fandomTarget!;
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    target.dataset.active = button.dataset.fandomTab!;
+    document.querySelectorAll<HTMLElement>(`[data-fandom-target="${targetId}"]`).forEach((peer) => peer.classList.toggle("active", peer === button));
+  }));
+  document.querySelectorAll<HTMLElement>("[data-fandom-animate]").forEach((button) => button.addEventListener("click", () => {
+    const target = document.getElementById(button.dataset.fandomAnimate!);
+    if (!target) return;
+    target.classList.add("activated");
+    target.classList.remove("animating");
+    void target.offsetWidth;
+    target.classList.add("animating");
+    window.setTimeout(() => target.classList.remove("animating"), 1100);
+  }));
   document.querySelector<HTMLElement>("[data-helper-talk]")?.addEventListener("click", () => {
     helperPanelOpen = true;
     windows.helper.minimized = false;

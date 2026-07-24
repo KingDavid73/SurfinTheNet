@@ -3,6 +3,8 @@ import type { PageComment, PageDefinition } from "./types";
 const FANVERSE_URL = "web://orbitnet.local/zones/fanverse";
 const MOSS_URL = "web://fanverse.zone/users/mossmunchmel/home";
 const BLIPZO_URL = "web://fanverse.zone/users/blipzobeliever88/home";
+const STAR_URL = "web://fanverse.zone/users/tapeattictess/home";
+const PRISM_URL = "web://fanverse.zone/users/prismpilotaya/home";
 
 const FANDOM_ASSETS = {
   "moss-ensemble": new URL("../assets/images/fandom-members/mossmunch/official/ensemble.png", import.meta.url).href,
@@ -40,7 +42,43 @@ const FANDOM_ASSETS = {
   "blipzo-zero-map": new URL("../assets/images/fandom-members/blipzo/fan/store-zero-map.png", import.meta.url).href,
   "blipzo-trent": new URL("../assets/images/fandom-members/blipzo/fan/trent-portrait.png", import.meta.url).href,
   "blipzo-clay": new URL("../assets/images/fandom-members/blipzo/fan/clay-models.png", import.meta.url).href,
-  "blipzo-comparison": new URL("../assets/images/fandom-members/blipzo/fan/level-comparison.png", import.meta.url).href
+  "blipzo-comparison": new URL("../assets/images/fandom-members/blipzo/fan/level-comparison.png", import.meta.url).href,
+  "star-ensemble": new URL("../assets/images/fandom-members/starthimble/official/ensemble.png", import.meta.url).href,
+  "star-cabinet": new URL("../assets/images/fandom-members/starthimble/official/cabinet-glow.png", import.meta.url).href,
+  "star-luma-rain": new URL("../assets/images/fandom-members/starthimble/official/luma-rain.png", import.meta.url).href,
+  "star-mayor": new URL("../assets/images/fandom-members/starthimble/official/mayor-town.png", import.meta.url).href,
+  "star-upward-snow": new URL("../assets/images/fandom-members/starthimble/official/upward-snow.png", import.meta.url).href,
+  "star-bottle-storm": new URL("../assets/images/fandom-members/starthimble/official/bottle-storm.png", import.meta.url).href,
+  "star-observatory": new URL("../assets/images/fandom-members/starthimble/official/observatory.png", import.meta.url).href,
+  "star-workshop": new URL("../assets/images/fandom-members/starthimble/official/workshop.png", import.meta.url).href,
+  "star-vhs-art": new URL("../assets/images/fandom-members/starthimble/official/vhs-art.png", import.meta.url).href,
+  "star-tess": new URL("../assets/images/fandom-members/starthimble/fan/tess-portrait.png", import.meta.url).href,
+  "star-vhs-shelf": new URL("../assets/images/fandom-members/starthimble/fan/vhs-shelf.png", import.meta.url).href,
+  "star-corkboard": new URL("../assets/images/fandom-members/starthimble/fan/corkboard.png", import.meta.url).href,
+  "star-luma-plush": new URL("../assets/images/fandom-members/starthimble/fan/luma-plush.png", import.meta.url).href,
+  "star-zine": new URL("../assets/images/fandom-members/starthimble/fan/zine.png", import.meta.url).href,
+  "star-fiction-cover": new URL("../assets/images/fandom-members/starthimble/fan/fiction-cover.png", import.meta.url).href,
+  "star-fiction-pages": new URL("../assets/images/fandom-members/starthimble/fan/fiction-pages.png", import.meta.url).href,
+  "star-diagram": new URL("../assets/images/fandom-members/starthimble/fan/cabinet-diagram.png", import.meta.url).href,
+  "star-key-tape": new URL("../assets/images/fandom-members/starthimble/fan/key-tape.png", import.meta.url).href,
+  "prism-group": new URL("../assets/images/fandom-members/prism5/official/group.png", import.meta.url).href,
+  "prism-civilians": new URL("../assets/images/fandom-members/prism5/official/civilians.png", import.meta.url).href,
+  "prism-rose": new URL("../assets/images/fandom-members/prism5/official/rose-transform.png", import.meta.url).href,
+  "prism-azure": new URL("../assets/images/fandom-members/prism5/official/azure-transform.png", import.meta.url).href,
+  "prism-viridian": new URL("../assets/images/fandom-members/prism5/official/viridian-flight.png", import.meta.url).href,
+  "prism-citrine-violet": new URL("../assets/images/fandom-members/prism5/official/citrine-violet.png", import.meta.url).href,
+  "prism-null": new URL("../assets/images/fandom-members/prism5/official/null-regent.png", import.meta.url).href,
+  "prism-badges": new URL("../assets/images/fandom-members/prism5/official/badges.png", import.meta.url).href,
+  "prism-finale": new URL("../assets/images/fandom-members/prism5/official/finale.png", import.meta.url).href,
+  "prism-aya": new URL("../assets/images/fandom-members/prism5/fan/aya-portrait.png", import.meta.url).href,
+  "prism-pencil": new URL("../assets/images/fandom-members/prism5/fan/pencil-group.png", import.meta.url).href,
+  "prism-violet-art": new URL("../assets/images/fandom-members/prism5/fan/violet-watercolor.png", import.meta.url).href,
+  "prism-bootlegs": new URL("../assets/images/fandom-members/prism5/fan/bootleg-figures.png", import.meta.url).href,
+  "prism-chart": new URL("../assets/images/fandom-members/prism5/fan/transform-chart.png", import.meta.url).href,
+  "prism-sixth": new URL("../assets/images/fandom-members/prism5/fan/sixth-crystal-art.png", import.meta.url).href,
+  "prism-fiction-pages": new URL("../assets/images/fandom-members/prism5/fan/fiction-pages.png", import.meta.url).href,
+  "prism-tapes": new URL("../assets/images/fandom-members/prism5/fan/tape-collection.png", import.meta.url).href,
+  "prism-handmade-badges": new URL("../assets/images/fandom-members/prism5/fan/handmade-badges.png", import.meta.url).href
 } as const;
 
 const fanImage = (name: keyof typeof FANDOM_ASSETS, alt: string, className = "") =>
@@ -72,6 +110,22 @@ export const fandomMembers = [
     description: "Cult platformer screenshots, Store 00 maps, low-poly mascot science, fan fiction, and evidence that the food court hides a second game.",
     fandom: "BLIPZO! MALL DIMENSION",
     className: "blipzo"
+  },
+  {
+    url: STAR_URL,
+    handle: "TapeAttic_Tess",
+    title: "Tess's StarThimble Tape Attic",
+    description: "A drawer-by-drawer archive of impossible weather, regional broadcasts, handmade puppets, lost episodes, fan fiction, and one unlabeled cassette.",
+    fandom: "PROFESSOR STARTHIMBLE'S WEATHER CABINET",
+    className: "starthimble"
+  },
+  {
+    url: PRISM_URL,
+    handle: "PrismPilot_Aya",
+    title: "PRISM//5 Chroma Knights: Refraction",
+    description: "Character prisms, transformation frames, imported tapes, bootleg toys, fan art, finale analysis, and the forbidden sixth color.",
+    fandom: "PRISM//5: CHROMA KNIGHTS",
+    className: "prism5"
   }
 ] as const;
 
@@ -93,6 +147,28 @@ const blipzoComments: PageComment[] = [
   seed("blipzo-moss-1", BLIPZO_URL, "blipzo_believer_88", "visitor", "MossMunch_Mel", "Kiosk Kid would be friends with Brindlebug. Both know too much and carry the entire plot.", "1999-11-03T17:27:00"),
   seed("blipzo-four-1", BLIPZO_URL, "blipzo_believer_88", "visitor", "PlayerFourEver", "Food Court Eclipse four-player rumor: false. We tried every controller-port order. Great sleepover though.", "1999-11-03T19:02:00"),
   seed("blipzo-owner-2", BLIPZO_URL, "blipzo_believer_88", "owner", "BlipzoBeliever_88", "Not false. UNCONFIRMED. The manual says 'bring friends after closing.' That punctuation matters.", "1999-11-03T19:09:00")
+];
+
+const starComments: PageComment[] = [
+  seed("star-kip-1", STAR_URL, "tapeattic_tess", "visitor", "Kip_ToonBurst", "We had three StarThimble tapes in the station cabinet. One was labeled WEATHER SPECIAL - DO NOT AIR. Naturally I watched it.", "1999-11-01T09:14:00"),
+  seed("star-owner-1", STAR_URL, "tapeattic_tess", "owner", "TapeAttic_Tess", "KIP. Was the leader blue or yellow? Did the opening clock run backward? This is an emergency.", "1999-11-01T09:28:00"),
+  seed("star-mel-1", STAR_URL, "tapeattic_tess", "visitor", "MossMunch_Mel", "Upward snow also appears in MossMunch episode 11, but ours is clearly soap flakes on fishing line. Yours looks like cotton through reverse film.", "1999-11-02T18:06:00"),
+  seed("star-dex-1", STAR_URL, "tapeattic_tess", "visitor", "CodeDex", "The unlabeled cassette shell is a 1988 mold. PARTIAL evidence only, but it cannot be an original 1986 recording.", "1999-11-02T20:36:00"),
+  seed("star-hal-1", STAR_URL, "tapeattic_tess", "visitor", "HamCam_Hal", "Drawer 14's linkage would jam immediately. I mean that with affection. Wonderful cabinet.", "1999-11-03T14:41:00"),
+  seed("star-trent-1", STAR_URL, "tapeattic_tess", "visitor", "BlipzoBeliever_88", "Does the cabinet have a Drawer 00? Please check before saying no.", "1999-11-03T17:52:00"),
+  seed("star-aya-1", STAR_URL, "tapeattic_tess", "visitor", "PrismPilot_Aya", "Luma's tiny rain boots are perfect. I would defend that cloud with my life and several imported magazines.", "1999-11-03T19:11:00"),
+  seed("star-owner-2", STAR_URL, "tapeattic_tess", "owner", "TapeAttic_Tess", "Drawer 00 is not in the model sheets. There is, however, a gap between 9 and 10. Trent, do not make me draw more string.", "1999-11-03T19:19:00")
+];
+
+const prismComments: PageComment[] = [
+  seed("prism-mel-1", PRISM_URL, "prismpilot_aya", "visitor", "MossMunch_Mel", "The clear badge in episode 12 reflects six colors, not five. I checked on two televisions and one very confused spoon.", "1999-11-01T19:42:00"),
+  seed("prism-owner-1", PRISM_URL, "prismpilot_aya", "owner", "PrismPilot_Aya", "YES. Pause after Gleam says 'a rainbow remembers what light forgets.' The clear outline is deliberate.", "1999-11-01T19:51:00"),
+  seed("prism-velvet-1", PRISM_URL, "prismpilot_aya", "visitor", "VelvetMage", "Violet Knight refusing the final attack is more interesting than the attack itself. Your watercolor understands this.", "1999-11-02T21:18:00"),
+  seed("prism-maddy-1", PRISM_URL, "prismpilot_aya", "visitor", "ModKit_Maddy", "Transformation charts confirm Rose gets eight frames while Azure gets seven. Either budget or symbolism. Probably both.", "1999-11-02T22:04:00"),
+  seed("prism-queenie-1", PRISM_URL, "prismpilot_aya", "visitor", "QuarterQueen", "Bootleg Citrine has two left hands. This may improve the baton combo.", "1999-11-03T15:33:00"),
+  seed("prism-tess-1", PRISM_URL, "prismpilot_aya", "visitor", "TapeAttic_Tess", "My imported episode 6 starts eleven seconds earlier and includes a black frame with a tiny cabinet shape. Copy available if you bring a blank tape.", "1999-11-03T18:47:00"),
+  seed("prism-trent-1", PRISM_URL, "prismpilot_aya", "visitor", "BlipzoBeliever_88", "Null Regent's palace and Store 00 use the SAME FLOOR PATTERN. Different dimensions. Same mall contractor.", "1999-11-03T19:24:00"),
+  seed("prism-owner-2", PRISM_URL, "prismpilot_aya", "owner", "PrismPilot_Aya", "I cannot endorse the mall-contractor theory. I have added it to the theory page.", "1999-11-03T19:31:00")
 ];
 
 export const fandomPages: Record<string, PageDefinition> = {
@@ -191,6 +267,175 @@ export const fandomPages: Record<string, PageDefinition> = {
           <footer><span>FLASHPLUG 4 REQUIRED*</span><b>*not actually required because Trent rebuilt this page four times</b></footer>
         </div>
         <p class="fandom-owner-note">Post Store 00 evidence, route times, or respectful Kiosk Kid opinions below.</p>
+      </main>`
+  },
+  [STAR_URL]: {
+    url: STAR_URL,
+    title: "TapeAttic_Tess - StarThimble Weather Cabinet",
+    site: "fanstar",
+    ownerId: "tapeattic_tess",
+    summary: "Tess's attic-built archive for the obscure puppet show Professor StarThimble's Weather Cabinet includes episode capsules, broadcast variants, practical-effects notes, fan crafts, fiction, a lost upward-snow special, and interactive cabinet drawers.",
+    commentsEnabled: true,
+    seedComments: starComments,
+    listed: true,
+    hubId: "zone-fanverse",
+    searchTerms: ["TapeAttic Tess", "Professor StarThimble", "Weather Cabinet", "Luma cloud", "Mayor Barometer", "puppet show", "stop motion", "upward snow", "lost episode", "VHS", "fan fiction", "public television"],
+    render: () => `
+      <main class="page fandom-page starthimble-page">
+        <nav class="star-attic-nav"><button data-nav="${FANVERSE_URL}">&larr; DOWNSTAIRS</button><span>TAPEATTIC_TESS PRESENTS</span><b>last dusted 11/03/99</b></nav>
+        <header>
+          ${fanImage("star-ensemble", "Professor StarThimble, Luma and Mayor Barometer posed as handmade television puppets")}
+          <div><small>A DRAWER-BY-DRAWER FAN ARCHIVE</small><h1>Professor StarThimble's</h1><h2>Weather Cabinet</h2><p>Thirty-two drawers. Twenty-four broadcasts. At least one forecast that never happened.</p></div>
+        </header>
+        <section class="star-welcome">
+          <div class="star-tape-stack">${fanImage("star-vhs-shelf", "Tess's shelf of carefully illustrated StarThimble VHS recordings")}<i>24 TAPES<br>19 COMPLETE</i></div>
+          <div><h2>Come up to the attic.</h2><p>I'm Tess. My local station ran this little puppet program whenever baseball got rained out, which is funny because Professor StarThimble kept most of the rain in Drawer 8. I collect regional edits, reconstruct missing scenes, build questionable props, and write stories about the parts the show forgot to explain.</p><p><strong>Start with the cabinet below.</strong> Its drawers actually open. Web magic!</p></div>
+          ${fanImage("star-tess", "A 1999 flash photograph of Tess beside an attic CRT and VCR showing StarThimble")}
+        </section>
+        <section class="star-cabinet-lab">
+          <div class="star-cabinet-title"><span>CLICK A BRASS LABEL</span><h2>THE WEATHER CABINET</h2><p>Reconstructed from 183 screenshots, one publicity photo, and Hal telling me the hinges make no sense.</p></div>
+          <div class="star-cabinet-object">
+            ${fanImage("star-cabinet", "Professor StarThimble opening the glowing miniature Weather Cabinet")}
+            <button class="drawer-button drawer-three" data-fandom-toggle="star-drawer-three" aria-expanded="false"><b>03</b><span>UPWARD SNOW</span></button>
+            <button class="drawer-button drawer-eight" data-fandom-toggle="star-drawer-eight" aria-expanded="false"><b>08</b><span>INDOOR RAIN</span></button>
+            <button class="drawer-button drawer-fourteen" data-fandom-toggle="star-drawer-fourteen" aria-expanded="false"><b>14</b><span>BOTTLED THUNDER</span></button>
+          </div>
+          <div class="star-drawers">
+            <article id="star-drawer-three">
+              ${fanImage("star-upward-snow", "Professor StarThimble watching snow fall upward in the lost weather special")}
+              <div><small>DRAWER 03 // TAPE VARIANT B</small><h3>The Snow That Fell Upward</h3><p>Most broadcasts end when the snow reaches the observatory roof. Tess's WPLM tape continues for eleven seconds: StarThimble looks directly at the camera and says, “Weather remembers which way home is.”</p></div>
+            </article>
+            <article id="star-drawer-eight">
+              ${fanImage("star-luma-rain", "Luma the wool cloud puppet making rain inside StarThimble's observatory")}
+              <div><small>DRAWER 08 // LUMA FILE</small><h3>Rain With No Outside</h3><p>Luma winds her own key for the only time in the series. The rain falls beneath every object except the empty chair by the telescope.</p></div>
+            </article>
+            <article id="star-drawer-fourteen">
+              ${fanImage("star-bottle-storm", "A practical-effects thunderstorm sealed inside a glass bottle")}
+              <div><small>DRAWER 14 // PROP NOTES</small><h3>Thunder, bottled locally</h3><p>The lightning is scratched onto three rotating acetate cylinders. The cloud appears to be dyed cotton, although Tess's replica keeps turning purple.</p></div>
+            </article>
+          </div>
+        </section>
+        <section class="star-episode-reel">
+          <header><small>SELECTED EPISODE CAPSULES</small><h2>Weather Log, 1986–1988</h2><p>Broadcast order is not story order. The moon-clock proves it.</p></header>
+          <article class="reel-left">${fanImage("star-mayor", "Mayor Barometer towering over the show's miniature town")}<div><b>04</b><h3>The Mayor Measures a Breeze</h3><p>Mayor Barometer taxes the west wind. It relocates to the east side of town out of spite.</p><small>KNOWN TAPES: 5</small></div></article>
+          <article class="reel-right">${fanImage("star-observatory", "The miniature hilltop observatory used in Professor StarThimble")}<div><b>11</b><h3>A Forecast for Yesterday</h3><p>The observatory receives a weather report one day late and must return the unused sunshine.</p><small>KNOWN TAPES: 2</small></div></article>
+          <article class="reel-left">${fanImage("star-vhs-art", "Hand-painted period artwork of the StarThimble puppets and cabinet")}<div><b>??</b><h3>The Clock Behind the Cabinet</h3><p>Listed in one station ledger. No confirmed recording. Possibly an alternate title for episode 17—or the missing special.</p><small>STATUS: WEATHER WATCH</small></div></article>
+        </section>
+        <section class="star-prop-table">
+          <div class="star-pinned">${fanImage("star-corkboard", "Tess's corkboard of episode notes connected by colored string")}<span>THE BROADCAST ORDER PROBLEM</span></div>
+          <div class="star-prop-copy"><h2>Tess's Practical Weather Lab</h2><p>No computer effects were used in the original show, unless you count the station manager pressing the wrong button. I am rebuilding the cabinet from cereal boxes, brass paper fasteners, and optimism.</p>${fanImage("star-diagram", "A detailed hand-drawn fan diagram of the Weather Cabinet's drawers and mechanisms")}</div>
+          <div class="star-windup" id="star-windup">
+            ${fanImage("star-luma-plush", "Tess's handmade wind-up Luma cloud plush")}
+            <button data-fandom-animate="star-windup">WIND LUMA'S KEY</button>
+            <span class="star-puff">pffft!</span>
+          </div>
+        </section>
+        <section class="star-fiction">
+          ${fanImage("star-fiction-cover", "Tess's colored-pencil StarThimble fanfiction cover")}
+          <div><small>FAN NOVEL // 17,804 WORDS // COMPLETE</small><h2>The Forecast at the End of the Hall</h2><p>After the Cabinet predicts a perfectly ordinary Tuesday, StarThimble becomes suspicious. Luma finds a tiny door behind Drawer 9. Mayor Barometer brings an umbrella but refuses to explain why.</p><blockquote>“There is no bad weather,” said the Professor. “Only weather that has forgotten its manners.”</blockquote></div>
+          ${fanImage("star-fiction-pages", "Typed StarThimble fanfiction pages covered in small puppet doodles")}
+        </section>
+        <section class="star-mystery-tape" id="star-mystery-tape">
+          <div>${fanImage("star-key-tape", "A brass wind-up key and mysterious unlabeled cassette on plaid fabric")}<button data-fandom-animate="star-mystery-tape">TURN THE KEY &amp; PLAY SIDE B</button></div>
+          <div><small>FOUND IN A CHURCH SALE BOX // OCTOBER 1999</small><h2>The unlabeled tape</h2><p>Thirty-eight seconds of room tone, a cabinet latch, and someone quietly counting backward from ten. The tape shell is newer than the show. The voice may be Tess's VCR motor.</p><p class="star-tape-secret">After the key turns, a second voice whispers: “Not every drawer belongs to the cabinet.”</p></div>
+        </section>
+        <aside class="star-zine-strip">${fanImage("star-zine", "A photocopied Professor StarThimble fan-club zine")}<p><b>THE WEATHER DRAWER #3</b><br>Six photocopied pages! Prop patterns! Tape-trading rules! Do not send original recordings through the mail!</p>${fanImage("star-workshop", "The practical puppet workshop with StarThimble, Luma and Mayor Barometer models")}</aside>
+        <p class="fandom-owner-note">Leave a forecast, tape lead, or puppet question in the attic ledger below.</p>
+      </main>`
+  },
+  [PRISM_URL]: {
+    url: PRISM_URL,
+    title: "PrismPilot_Aya - PRISM//5 Refraction",
+    site: "fanprism",
+    ownerId: "prismpilot_aya",
+    summary: "Aya's kinetic shrine for the obscure 1994 transformation cartoon PRISM//5: Chroma Knights includes a five-character selector, frame-by-frame transformation analysis, episode shards, fan art, bootleg toys, imported tapes, fiction, and an interactive sixth-crystal theory.",
+    commentsEnabled: true,
+    seedComments: prismComments,
+    listed: true,
+    hubId: "zone-fanverse",
+    searchTerms: ["PrismPilot Aya", "PRISM 5", "Chroma Knights", "Rose Knight", "Azure Knight", "Citrine Knight", "Viridian Knight", "Violet Knight", "Gleam", "Null Regent", "transformation cartoon", "anime", "sixth crystal", "fan fiction"],
+    render: () => `
+      <main class="page fandom-page prism5-page">
+        <div class="prism-scanline"></div>
+        <nav class="prism-top-nav"><button data-nav="${FANVERSE_URL}">FANVERSE // ESC</button><span>REFRACTION NODE 05</span><b>56K COLOR MODE</b></nav>
+        <header>
+          <div class="prism-title"><small>PRISMPILOT_AYA'S CHARACTER SHRINE + TAPE INDEX</small><h1>PRISM<span>//5</span></h1><h2>CHROMA KNIGHTS</h2><p>Five colors entered the mirror. Six came back.</p></div>
+          ${fanImage("prism-group", "The five color-coded Chroma Knights posed beneath beams of colored light")}
+        </header>
+        <section class="prism-welcome">
+          ${fanImage("prism-aya", "A 1999 flash photograph of Aya beside a CRT decorated with Chroma Knights prism stickers")}
+          <div><h2>Initialize refraction!</h2><p>I'm Aya. PRISM//5 ran for twelve episodes, arrived here on four badly subtitled tapes, and somehow has more transformation lore than shows with ten times the budget. I archive every cel wobble, badge reflection, imported magazine scan, and deeply suspicious clear crystal.</p><p><strong>Click the five shards below.</strong> This character selector took me all weekend.</p></div>
+          ${fanImage("prism-civilians", "The five civilian Chroma Knights teenagers posing with Gleam the prism-tailed ferret")}
+        </section>
+        <section class="prism-selector">
+          <div class="prism-shard-buttons">
+            <button class="rose active" data-fandom-tab="rose" data-fandom-target="prism-dossiers"><i></i>ROSE</button>
+            <button class="azure" data-fandom-tab="azure" data-fandom-target="prism-dossiers"><i></i>AZURE</button>
+            <button class="citrine" data-fandom-tab="citrine" data-fandom-target="prism-dossiers"><i></i>CITRINE</button>
+            <button class="viridian" data-fandom-tab="viridian" data-fandom-target="prism-dossiers"><i></i>VIRIDIAN</button>
+            <button class="violet" data-fandom-tab="violet" data-fandom-target="prism-dossiers"><i></i>VIOLET</button>
+          </div>
+          <div class="prism-dossiers" id="prism-dossiers" data-active="rose">
+            <article data-fandom-panel="rose">${fanImage("prism-rose", "Rose Knight transforming through a storm of magenta crystal ribbons")}<div><small>REFRACTION 01 // HEART VECTOR</small><h2>Rose Knight</h2><p>Rin turns emotion into momentum. Her ribbon blade becomes longer when she admits what she is actually feeling, which happens approximately twice.</p><b>TRANSFORMATION: 8 FRAMES</b></div></article>
+            <article data-fandom-panel="azure">${fanImage("prism-azure", "Azure Knight transforming through cyan crystal arcs")}<div><small>REFRACTION 02 // STILL WATER</small><h2>Azure Knight</h2><p>Sora's shield stores one attack and returns it as light. The dub calls this “mirror bounce,” which nobody has forgiven.</p><b>TRANSFORMATION: 7 FRAMES</b></div></article>
+            <article data-fandom-panel="citrine">${fanImage("prism-citrine-violet", "Citrine and Violet Knights combining yellow batons and a crescent staff")}<div><small>REFRACTION 03 // TWIN SPARK</small><h2>Citrine Knight</h2><p>Jun is the only Knight who reads the mission brief. His light batons make a tuning-fork tone hidden under the soundtrack.</p><b>FAVORITE EPISODE: 07</b></div></article>
+            <article data-fandom-panel="viridian">${fanImage("prism-viridian", "Viridian Knight flying through a formation of mirror drones")}<div><small>REFRACTION 04 // OPEN SKY</small><h2>Viridian Knight</h2><p>Midori's mechanical crystal wings appear one episode before she learns to fly. Either foreshadowing or the cels were aired out of order.</p><b>WING PANELS: 12</b></div></article>
+            <article data-fandom-panel="violet">${fanImage("prism-violet-art", "Aya's watercolor fan portrait of Violet Knight and Gleam")}<div><small>REFRACTION 05 // QUIET ORBIT</small><h2>Violet Knight</h2><p>Rei can hear cracks forming in mirrors. She refuses the final team attack and saves everyone by lowering her staff instead.</p><b>AYA'S FAVORITE. OBJECTIVITY SUSPENDED.</b></div></article>
+          </div>
+        </section>
+        <section class="prism-frame-lab">
+          <div>${fanImage("prism-chart", "Aya's obsessive frame-by-frame chart of all five Chroma Knight transformations")}</div>
+          <div>
+            <small>FRAME-BY-FRAME LAB // CLICK TO SCRUB</small><h2>Transformation Sequence 05</h2>
+            <div class="prism-frame-buttons">
+              <button class="active" data-fandom-tab="one" data-fandom-target="prism-frame-notes">01</button>
+              <button data-fandom-tab="two" data-fandom-target="prism-frame-notes">02</button>
+              <button data-fandom-tab="three" data-fandom-target="prism-frame-notes">03</button>
+              <button data-fandom-tab="four" data-fandom-target="prism-frame-notes">04</button>
+              <button data-fandom-tab="five" data-fandom-target="prism-frame-notes">05</button>
+            </div>
+            <div class="prism-frame-notes" id="prism-frame-notes" data-active="one">
+              <p data-fandom-panel="one"><b>01:</b> Civilian outline. Badge is already reflecting six points.</p>
+              <p data-fandom-panel="two"><b>02:</b> Armor silhouette enters one frame early on the left shoulder.</p>
+              <p data-fandom-panel="three"><b>03:</b> Gleam's tail becomes transparent before the background changes.</p>
+              <p data-fandom-panel="four"><b>04:</b> Hidden clear outline appears between Violet and Rose.</p>
+              <p data-fandom-panel="five"><b>05:</b> Final pose. The soundtrack contains six bell strikes.</p>
+            </div>
+          </div>
+        </section>
+        <section class="prism-episode-shards">
+          <header><h2>TWELVE EPISODES // TWELVE FRACTURES</h2><p>Aya's compact guide to the frames that matter.</p></header>
+          <article><b>01</b><h3>Five Lights at Dusk</h3><p>Gleam chooses five heroes and looks past the camera before naming the last one.</p></article>
+          <article><b>03</b><h3>Blue Refuses Blue</h3><p>Azure's shield reflects an attack that has not happened yet.</p></article>
+          <article><b>06</b><h3>The Palace Has No Back</h3><p>Null Regent removes a mirror and reveals another copy of the same room.</p></article>
+          <article><b>07</b><h3>Two Batons, One Note</h3><p>Citrine finds a sixth tone beneath the team's transformation chord.</p></article>
+          <article><b>09</b><h3>Wings Before Flight</h3><p>Viridian remembers a battle nobody else experienced.</p></article>
+          <article><b>12</b><h3>Colorless Morning</h3><p>The rainbow shatters. A clear badge lands outside the frame.</p></article>
+        </section>
+        <section class="prism-null-file">
+          ${fanImage("prism-null", "Null Regent standing in a palace of fractured black mirrors")}
+          <div><small>VILLAIN FILE // TRANSLATION DISPUTE</small><h2>Null Regent</h2><p>Not “King Nothing.” Not “Lord Blank.” The title card uses a word closer to <i>the person temporarily keeping a place empty.</i> That makes the finale considerably stranger.</p></div>
+          ${fanImage("prism-finale", "The five Chroma Knights facing a shattered rainbow void in the final episode")}
+        </section>
+        <section class="prism-fan-gallery">
+          <article>${fanImage("prism-pencil", "Colored-pencil fan art of the five Chroma Knights and Gleam")}<h3>AYA'S TEAM PORTRAIT</h3><p>Colored pencil, gel pen, three evenings.</p></article>
+          <article>${fanImage("prism-bootlegs", "A flea-market package of inaccurate Chroma Knights action figures")}<h3>BOOTLEG HALL OF LIGHT</h3><p>Citrine has two left hands. Violet is labeled Blue Wizard.</p></article>
+          <article>${fanImage("prism-tapes", "Aya's Chroma Knights imported VHS tapes, magazine clippings and fan collection")}<h3>TAPE MATRIX</h3><p>Four imports, two fan copies, one convention dub.</p></article>
+          <article id="prism-badge-spin">${fanImage("prism-handmade-badges", "Handmade translucent Chroma Knight crystal badges on holographic fabric")}<h3>HOMEMADE REFRACTORS</h3><button data-fandom-animate="prism-badge-spin">CHARGE BADGES</button></article>
+        </section>
+        <section class="prism-sixth-file">
+          <button class="prism-sixth-door" data-fandom-toggle="prism-sixth-reveal" aria-expanded="false"><i></i><b>UNLISTED COLOR</b><span>click the clear shard</span></button>
+          <div id="prism-sixth-reveal">
+            ${fanImage("prism-sixth", "Aya's fan illustration of a mysterious clear sixth crystal surrounded by the Chroma Knights")}
+            <div><small>THEORY FILE 6/5 // SPOILERS</small><h2>The color between colors</h2><p>The final clear badge does not belong to a sixth Knight. Aya thinks it belongs to the viewer—the only person who remembers every timeline reflected by Null Regent's mirrors.</p><p>Tess's early episode 6 tape contains a cabinet-shaped silhouette during the clear frame. Coincidence rating: 72%.</p></div>
+          </div>
+        </section>
+        <section class="prism-fiction">
+          ${fanImage("prism-badges", "The five official translucent Chroma Knight crystal badges")}
+          <div><small>FAN FICTION // 9 CHAPTERS // CONTINUING</small><h2>Clear Is Not a Color</h2><p>One year after the mirror palace closes, Gleam brings Rei a badge that reflects everybody except her. The team reunites at an abandoned planetarium to decide whether some doors should remain colorless.</p><blockquote>“A mirror is only honest about what stands in front of it.”</blockquote></div>
+          ${fanImage("prism-fiction-pages", "Typed PRISM//5 fanfiction pages with pencil drawings of Gleam and Null Regent")}
+        </section>
+        <p class="fandom-owner-note">Submit transformation timing, tape variants, fan works, or sixth-color theories below.</p>
       </main>`
   }
 };

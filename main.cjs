@@ -26,7 +26,7 @@ const DEFAULT_SAVE = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8 }
 };
 
 function savePath() {
@@ -244,19 +244,37 @@ function createWindow() {
             if (zoneUrl.endsWith("/fanverse")) {
               const expectedFandomUrls = [
                 "web://fanverse.zone/users/mossmunchmel/home",
-                "web://fanverse.zone/users/blipzobeliever88/home"
+                "web://fanverse.zone/users/blipzobeliever88/home",
+                "web://fanverse.zone/users/tapeattictess/home",
+                "web://fanverse.zone/users/prismpilotaya/home"
               ];
               const fandomUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.fandom-member-card')).map((card) => card.getAttribute('data-nav'))`);
               if (JSON.stringify(fandomUrls) !== JSON.stringify(expectedFandomUrls)) throw new Error(`FanVerse member directory was incomplete: ${JSON.stringify(fandomUrls)}`);
               await win.webContents.executeJavaScript(`document.querySelector('.fandom-member-directory')?.scrollIntoView({ block: 'start' }); true`);
               await capture("orbitnet-zone-fanverse-members.png");
-              const fandomClasses = [".moss-page", ".blipzo-page"];
-              const featureClasses = [".moss-winding-gallery", ".blipzo-screen-orbit"];
-              const trackLabels = ["Fogberry Moon", "Store 00 Loader"];
+              const fandomClasses = [".moss-page", ".blipzo-page", ".starthimble-page", ".prism5-page"];
+              const featureClasses = [".moss-winding-gallery", ".blipzo-screen-orbit", ".star-cabinet-lab", ".prism-selector"];
+              const trackLabels = ["Fogberry Moon", "Store 00 Loader", "Weather Drawer Waltz", "Five-Color Drive"];
               for (let fandomIndex = 0; fandomIndex < expectedFandomUrls.length; fandomIndex += 1) {
                 await click(`[data-nav="${expectedFandomUrls[fandomIndex]}"]`);
                 const fandomPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(fandomClasses[fandomIndex])})) && document.querySelectorAll('.page-comment').length >= 7 && document.querySelectorAll('.fandom-art').length >= 10 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[fandomIndex])})`);
                 if (!fandomPageReady) throw new Error(`FanVerse member page was incomplete: ${expectedFandomUrls[fandomIndex]}`);
+                if (fandomIndex === 2) {
+                  await click('[data-fandom-toggle="star-drawer-three"]');
+                  const drawerOpened = await win.webContents.executeJavaScript(`document.querySelector('#star-drawer-three')?.classList.contains('open') && document.querySelector('[data-fandom-toggle="star-drawer-three"]')?.getAttribute('aria-expanded') === 'true'`);
+                  if (!drawerOpened) throw new Error("StarThimble cabinet drawer did not open");
+                  await click('[data-fandom-animate="star-mystery-tape"]');
+                  const tapeActivated = await win.webContents.executeJavaScript(`document.querySelector('#star-mystery-tape')?.classList.contains('activated')`);
+                  if (!tapeActivated) throw new Error("StarThimble mystery tape did not reveal its discovery");
+                }
+                if (fandomIndex === 3) {
+                  await click('[data-fandom-tab="violet"][data-fandom-target="prism-dossiers"]');
+                  const violetSelected = await win.webContents.executeJavaScript(`document.querySelector('#prism-dossiers')?.getAttribute('data-active') === 'violet' && document.querySelector('[data-fandom-tab="violet"]')?.classList.contains('active')`);
+                  if (!violetSelected) throw new Error("PRISM//5 character selector did not switch dossiers");
+                  await click('[data-fandom-toggle="prism-sixth-reveal"]');
+                  const sixthRevealed = await win.webContents.executeJavaScript(`document.querySelector('#prism-sixth-reveal')?.classList.contains('open')`);
+                  if (!sixthRevealed) throw new Error("PRISM//5 sixth-color discovery did not open");
+                }
                 await capture(`fandom-member-${fandomIndex + 1}.png`);
                 await win.webContents.executeJavaScript(`document.querySelector(${JSON.stringify(featureClasses[fandomIndex])})?.scrollIntoView({ block: 'start' }); true`);
                 await capture(`fandom-member-${fandomIndex + 1}-feature.png`);
@@ -843,7 +861,7 @@ function createWindow() {
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
-          if (randomCalls !== 37) throw new Error(`Expected 36 persona rolls plus one page selection, got ${randomCalls} random calls`);
+          if (randomCalls !== 39) throw new Error(`Expected 38 persona rolls plus one page selection, got ${randomCalls} random calls`);
           const finalSaved = await waitForAmbientIdle(2);
           const hourlyAmbient = finalSaved.pageComments.find((comment) => comment.role === "visitor" && comment.id !== miraAmbient.id);
           if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);
