@@ -64,6 +64,12 @@ The model may hint at those authored facts but cannot invent or change the code.
 Opening the Black File:
 
 - records phase two in the save;
+- forces an overnight sleep to 7:00 AM and returns the player to a clean
+  desktop so the next network state reads as a new day;
+- adds Newbie Nebula to the main directory with five active, comment-capable
+  newcomers and their first homepages;
+- gives six established members one new comment-free subpage for a silly,
+  weakly evidenced theory;
 - adds the authored `ghostline` message;
 - restores The Folded Wire and Index Null to the Backchannel directory;
 - activates six additional ambient commenters;
@@ -106,6 +112,8 @@ borrowed persona ID so the forgery can be traced later.
 Finding all four terminal pages:
 
 - records phase three;
+- forces another overnight sleep to 7:00 AM before the higher-traffic,
+  degraded network state appears;
 - increases hourly ambient chance from 3.5% to 7%, with a long-skip cap of 50%;
 - adds three authored cross-persona slips;
 - permits generated ambient comments exactly one small controlled error,
@@ -131,6 +139,9 @@ examples, while later time advances can reveal the rest without notifying the
 player.
 
 ### Phase 4 — stable free play
+
+The reveal forces one final overnight transition. The epilogue morning states
+that synthetic mystery publication has stopped while the community remains.
 
 Unlocking the continuity console reveals the complete mechanism and ends
 synthetic mystery publication. C9 admits that it used a trusted friend's name,

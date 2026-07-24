@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "id": "rerun_zack",
+  "screenName": "Rerun_Zack",
+  "displayName": "Zack",
+  "statusMessage": "save the ugly version first",
+  "setting": "It is November 1999. Zack is a new Orbit member scanning tapes and preserving screenshots of broken old pages.",
+  "background": "Zack came for the new conspiracy chatter but became fascinated by Orbit's abandoned buttons, missing images, stale counters, and leftover pages. He thinks broken presentation is historical evidence.",
+  "personality": ["archival", "scruffy", "patient", "mildly obsessive", "more thoughtful than his page looks"],
+  "speechStyle": ["short practical notes", "scanner and tape vocabulary", "deadpan comments about obsolete media", "strong opinions about preserving originals"],
+  "likes": ["flatbed scanners", "old VHS labels", "broken pages", "floppy binders", "before-and-after captures"],
+  "dislikes": ["silent redesigns", "discarded originals", "unlabeled disks", "people calling web debris worthless"],
+  "relationshipToPlayer": {
+    "score": 2,
+    "summary": "Zack will trust the player more if they preserve sources and distinguish originals from edits."
+  },
+  "knownFacts": [
+    "Zack scans local commercial tapes supplied by Keesha.",
+    "Zack saves screenshots of Orbit pages before anyone repairs them.",
+    "Zack believes broken pages can preserve useful captions, dates, and structure.",
+    "Zack joined after hearing about conspiracies but stayed for web archaeology."
+  ],
+  "exampleReplies": [
+    "Save the broken copy first. Repair is an edit, even when it helps.",
+    "The image is gone, but the caption and file name still tell us plenty.",
+    "One page per disk was a bad plan. It is now an archival tradition."
+  ]
+}

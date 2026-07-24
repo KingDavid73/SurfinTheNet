@@ -11,6 +11,12 @@ import { cozyMembers, cozyPages } from "./cozy-pages";
 import { mysteryPages, phaseTwoBackchannelDirectory } from "./mystery-pages";
 import { rumorPages } from "./rumor-pages";
 import { legacyFragmentPages } from "./legacy-fragment-pages";
+import {
+  NEWCOMER_ZONE_BUTTON,
+  newcomerMembers,
+  newcomerPages,
+  phaseTwoOddityPages
+} from "./newcomer-pages";
 
 const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
@@ -65,6 +71,7 @@ const NAV_BUTTON_ASSETS: Record<string, string> = {
   "soundwave-zone": new URL("../assets/images/navigation-buttons/soundwave-zone.png", import.meta.url).href,
   "cozycommons-zone": new URL("../assets/images/navigation-buttons/cozycommons-zone.png", import.meta.url).href,
   "backchannel-zone": new URL("../assets/images/navigation-buttons/backchannel-zone.png", import.meta.url).href,
+  "newcomer-zone": NEWCOMER_ZONE_BUTTON,
   lagmaster: new URL("../assets/images/navigation-buttons/lagmaster.png", import.meta.url).href,
   velvetmage: new URL("../assets/images/navigation-buttons/velvetmage.png", import.meta.url).href,
   playerfour: new URL("../assets/images/navigation-buttons/playerfour.png", import.meta.url).href,
@@ -191,11 +198,27 @@ const ORBIT_ZONES = [
     categories: ["Signal Watchers", "Unlisted Pages", "Codes & Ciphers", "Shareware & Tools", "Rumor Boards", "Midnight Logs"],
     bulletin: "Extraordinary claims still require screenshots. Mark guesses as guesses, preserve original files, and synchronize your clocks before declaring a pattern.",
     searchTerms: ["conspiracy", "hacker", "hidden web", "deep web", "numbers station", "codes", "cipher", "secrets", "unlisted pages", "mystery", "radio signal"]
+  },
+  {
+    id: "newcomers",
+    url: "web://orbitnet.local/zones/newcomers",
+    title: "Newbie Nebula",
+    badge: "NEW",
+    tagline: "Fresh accounts, first homepages & links worth the wait",
+    welcome: "OrbitNet is busy again. New arrivals are building first pages, trading strange addresses, preserving favorite commercials, and discovering that the old neighborhood has a lot of unexplained closets.",
+    categories: ["First Homepages", "Favorite Finds", "Fan Shrines", "Web Reviews", "New User Help", "Page Archaeology"],
+    bulletin: "New member wave detected overnight. Be welcoming, label borrowed graphics, and tell somebody if their background makes the text disappear.",
+    searchTerms: ["newcomers", "new users", "newbies", "first homepage", "fan page", "weird pages", "new members"],
+    minimumPhase: 2
   }
 ] as const;
 
-function zoneNavigation(activeId?: string) {
-  return ORBIT_ZONES.map((zone) => activeId === zone.id
+function availableZones(state: GameState) {
+  return ORBIT_ZONES.filter((zone) => !("minimumPhase" in zone) || zone.minimumPhase <= state.storyPhase);
+}
+
+function zoneNavigation(state: GameState, activeId?: string) {
+  return availableZones(state).map((zone) => activeId === zone.id
     ? `<b class="active">${zone.title}</b>`
     : `<button data-nav="${zone.url}">${zone.title}</button>`).join("");
 }
@@ -245,16 +268,25 @@ function zoneDirectoryBody(zoneId: string, state: GameState) {
         <aside><b>BACKCHANNEL ETIQUETTE</b><p>Archive first. Compare clocks. Separate observation from theory. Do not run mystery executables just because the filename says FINAL_REAL_2.</p></aside>
       </div>
     </section>`;
+  if (zoneId === "newcomers") return `
+    <section class="newcomer-member-directory member-page-directory">
+      <header><div><small>FRESH ACCOUNTS // INDEXED THIS MORNING</small><h2>Meet the New Arrivals</h2></div><span>${newcomerMembers.length} first pages online</span></header>
+      <div>
+        ${newcomerMembers.map((member) => `<button class="newcomer-member-card" data-nav="${member.url}"><img src="${member.button}" alt="${member.handle}'s homemade page badge"><span><strong>${member.title}</strong><small>${member.description}</small><b>NEW USER: ${member.handle}</b></span><em>MEET THEM ›</em></button>`).join("")}
+        <aside class="newcomer-wave-note"><b>WHY A NEW ZONE?</b><p>Traffic climbed faster than the old categories could absorb it. New pages stay here until their owners choose a permanent neighborhood—or decide that collecting weird links is a neighborhood.</p></aside>
+      </div>
+    </section>`;
   return "";
 }
 
 const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
   url: zone.url,
   title: `${zone.title} - OrbitNet Community Zone`,
-  site: zone.id === "gamegrid" ? "gamegridzone" : zone.id === "xtreme" ? "xtremezone" : zone.id === "yesterday" ? "yesterdayzone" : "directory",
+  site: zone.id === "gamegrid" ? "gamegridzone" : zone.id === "xtreme" ? "xtremezone" : zone.id === "yesterday" ? "yesterdayzone" : zone.id === "newcomers" ? "newcomerzone" : "directory",
   ownerId: "orbit_guide",
   summary: `${zone.title} is an OrbitNet community zone for ${zone.tagline.toLowerCase()}.`,
   listed: true,
+  ...("minimumPhase" in zone ? { minimumPhase: zone.minimumPhase } : {}),
   hubId: `zone-${zone.id}`,
   searchTerms: [...zone.searchTerms, "orbitnet zone", "community"],
   render: (state) => `
@@ -263,7 +295,7 @@ const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
         <div class="zone-badge" aria-hidden="true">${zone.badge}</div>
         <div><small>ORBITNET COMMUNITY ZONE</small><h1>${zone.title}</h1><p>${zone.tagline}</p></div>
       </header>
-      <nav class="zone-network-nav"><button data-nav="web://home">⌂ OrbitNet Home</button>${zoneNavigation(zone.id)}</nav>
+      <nav class="zone-network-nav"><button data-nav="web://home">⌂ OrbitNet Home</button>${zoneNavigation(state, zone.id)}</nav>
       <section class="zone-welcome"><h2>Welcome to ${zone.title}!</h2><p>${zone.welcome}</p></section>
       <aside class="zone-bulletin"><h2>Zone Bulletin</h2><p>${zone.bulletin}</p></aside>
       ${zoneDirectoryBody(zone.id, state)}
@@ -285,23 +317,25 @@ export const pages: Record<string, PageDefinition> = {
   ...mysteryPages,
   ...rumorPages,
   ...legacyFragmentPages,
+  ...newcomerPages,
+  ...phaseTwoOddityPages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",
     site: "orbithome",
     ownerId: "orbit_guide",
-    summary: "The official OrbitNet directory connects members to eight topic-based community zones and provides basic help for new users.",
+    summary: "The official OrbitNet directory connects members to topic-based community zones and provides basic help for new users.",
     listed: true,
     hubId: "directory",
     searchTerms: ["directory", "community zones", "communities", "help", "orbitnet"],
     render: (state) => `
       <main class="page directory-page">
         <header class="directory-logo"><span>ORBIT</span><b>NET</b></header>
-        <p class="directory-tagline">Eight communities. Thousands of interests. One friendly corner of the Information Superhighway!</p>
+        <p class="directory-tagline">${availableZones(state).length} communities. Thousands of interests. One friendly corner of the Information Superhighway!</p>
         <form class="search-box orbit-search-form"><input name="query" placeholder="Search pages, people, and phrases..." aria-label="Search OrbitNet"><button>Search</button></form>
         <section class="zone-directory-intro"><div><small>START EXPLORING</small><h1>Choose Your Community</h1></div><p>Every OrbitNet member page belongs to a neighborhood. Pick a zone or search the entire network.</p></section>
         <section class="zone-directory-grid">
-          ${ORBIT_ZONES.map((zone) => `<button class="zone-directory-card zone-${zone.id}" data-nav="${zone.url}">${navButtonArt(`${zone.id}-zone`, `${zone.title} community button`, "zone-card-art")}<span class="zone-card-copy"><strong>${zone.title}</strong><small>${zone.tagline}</small></span><b>ENTER ZONE ›</b></button>`).join("")}
+          ${availableZones(state).map((zone) => `<button class="zone-directory-card zone-${zone.id}" data-nav="${zone.url}">${navButtonArt(`${zone.id}-zone`, `${zone.title} community button`, "zone-card-art")}<span class="zone-card-copy"><strong>${zone.title}</strong><small>${zone.tagline}</small></span><b>ENTER ZONE ›</b></button>`).join("")}
         </section>
         <section class="orbit-pal-promo">
           <div class="orbit-pal-mini"><i></i><b>?</b></div>

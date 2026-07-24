@@ -719,9 +719,28 @@ function createWindow() {
         try {
           const wait = (milliseconds = 140) => new Promise((resolve) => setTimeout(resolve, milliseconds));
           const address = async (url) => {
-            const submitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.address-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = ${JSON.stringify(url)}; form.requestSubmit(); return true; })()`);
+            const submitted = await win.webContents.executeJavaScript(`(() => {
+              if (!document.querySelector('.address-form')) document.querySelector('[data-open="browser"]')?.click();
+              const form = document.querySelector('.address-form');
+              const input = form?.querySelector('input');
+              if (!form || !input) return false;
+              input.value = ${JSON.stringify(url)};
+              form.requestSubmit();
+              return true;
+            })()`);
             if (!submitted) throw new Error(`Could not navigate to ${url}`);
             await wait();
+          };
+          const wakeFromPhaseTransition = async (phase) => {
+            const woke = await win.webContents.executeJavaScript(`(() => {
+              const overlay = document.querySelector('.phase-transition-${phase}');
+              const button = overlay?.querySelector('[data-phase-wake]');
+              if (!overlay || !button) return false;
+              button.click();
+              return true;
+            })()`);
+            if (!woke) throw new Error(`Phase ${phase} did not present an overnight transition`);
+            await wait(250);
           };
           const capture = async (name) => {
             const image = await win.webContents.capturePage();
@@ -754,6 +773,8 @@ function createWindow() {
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two rumor page was available during phase one");
           await address("web://oldnet.orbit/users/orbitalmechanic");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-three dormant account page was available during phase one");
+          await address("web://orbitnet.local/zones/newcomers");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two newcomer zone was available during phase one");
 
           await address("web://legacy.orbitos.local/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-orbit-page')) && document.body.textContent.includes('ONE COMPUTER. ONE NETWORK. ONE ORBIT.')`)) throw new Error("Hidden OrbitOS archive did not load by explicit address");
@@ -766,6 +787,50 @@ function createWindow() {
           await wait(250);
           let saved = await readSave();
           if (saved.storyPhase !== 2 || !saved.flags.darkraven_vault_unlocked || !saved.directMessages.some((message) => message.id === "ghostline-phase2")) throw new Error("Black File did not activate phase two and ghostline");
+          if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-2'))`)) {
+            throw new Error(`Phase two did not force an overnight sleep: ${saved.gameTime}`);
+          }
+          await capture("story-phase2-overnight.png");
+          await wakeFromPhaseTransition(2);
+
+          await address("web://home");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.zone-directory-card').length === 9 && Boolean(document.querySelector('.zone-directory-card.zone-newcomers'))`)) {
+            throw new Error("Phase-two home directory did not gain Newbie Nebula");
+          }
+          await address("web://orbitnet.local/zones/newcomers");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.newcomer-member-card').length === 5`)) throw new Error("Newbie Nebula did not list five first pages");
+          await capture("story-newbie-nebula.png");
+          await address("web://freshorbit.zone/users/tapedeckkeesha/home");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.newcomer-keesha img').length >= 6 && Boolean(document.querySelector('.page-comments'))`)) throw new Error("Keesha's King Cal fan archive was incomplete");
+          await capture("story-newcomer-keesha.png");
+          for (const newcomerUrl of [
+            "web://freshorbit.zone/users/barnbeatben/home",
+            "web://freshorbit.zone/users/linklily/home",
+            "web://freshorbit.zone/users/rookierayna/home",
+            "web://freshorbit.zone/users/rerunzack/home"
+          ]) {
+            await address(newcomerUrl);
+            if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.newcomer-page')) && Boolean(document.querySelector('.page-comments'))`)) {
+              throw new Error(`Newcomer homepage was incomplete: ${newcomerUrl}`);
+            }
+          }
+          await address("web://gamegrid.zone/users/lagmaster99/home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-two-personal-update [data-nav*="comet-logo"]'))`)) throw new Error("Existing member homepage did not advertise its phase-two theory");
+          await address("web://gamegrid.zone/users/lagmaster99/comet-logo");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.oddity-pulse .oddity-gallery img').length === 4 && !document.querySelector('.page-comments')`)) throw new Error("LagMaster's harmless logo theory was incomplete");
+          await capture("story-oddity-comet-logo.png");
+          for (const oddityUrl of [
+            "web://xtreme.zone/users/deckwreckerdee/curb-hum",
+            "web://petplanet.zone/users/catnapcarla/porch-panther",
+            "web://rainbow.gdn/moonseed-moth",
+            "web://yesterday.zone/users/bigbassbob/lake-knocker",
+            "web://fanverse.zone/users/blipzobeliever88/cap-stripe"
+          ]) {
+            await address(oddityUrl);
+            if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.oddity-page .oddity-gallery img').length === 4 && !document.querySelector('.page-comments')`)) {
+              throw new Error(`Phase-two harmless theory was incomplete: ${oddityUrl}`);
+            }
+          }
 
           const rumorUrls = [
             "web://midnight-dial.net/log",
@@ -812,6 +877,9 @@ function createWindow() {
           await wait(250);
           saved = await readSave();
           if (saved.storyPhase !== 3 || saved.discoveredMysteries.length !== 4) throw new Error(`Four terminal discoveries did not activate phase three: ${JSON.stringify(saved.discoveredMysteries)}`);
+          if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-3'))`)) {
+            throw new Error(`Phase three did not force an overnight sleep: ${saved.gameTime}`);
+          }
           if (!saved.directMessages.some((message) => message.id === "ghostline-phase3") || !["phase3-leak-toni", "phase3-leak-raven", "phase3-leak-null"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
             throw new Error("Phase-three authored pressure messages were incomplete");
           }
@@ -819,6 +887,7 @@ function createWindow() {
           if (!initialLegacyTrail || initialLegacyTrail.author !== "OrbitalMechanic" || initialLegacyTrail.pageUrl !== "web://bytebarn.com/home") {
             throw new Error(`Phase-three dormant-account trail did not seed correctly: ${JSON.stringify(initialLegacyTrail)}`);
           }
+          await wakeFromPhaseTransition(3);
 
           await address("web://bytebarn.com/home");
           const legacyAuthorLinkReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.comment-author-link[data-nav="web://oldnet.orbit/users/orbitalmechanic"]'))`);
@@ -877,11 +946,17 @@ function createWindow() {
           const continuityUnlocked = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('[data-continuity-login]'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'STAY ONLINE'; form.requestSubmit(); return true; })()`);
           if (!continuityUnlocked) throw new Error("Continuity phrase form was unavailable");
           await wait(220);
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && Boolean(document.querySelector('.continuity-ending')) && document.body.textContent.includes('KEEP COMMUNITY ACTIVE')`)) throw new Error("Continuity ending did not unlock");
           saved = await readSave();
           if (saved.storyPhase !== 4 || !saved.directMessages.some((message) => message.id === "ending-system-confession") || !saved.pageComments.some((comment) => comment.id === "ending-comment-faxmoth")) {
             throw new Error("Free-play ending community responses were incomplete");
           }
+          if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-4'))`)) {
+            throw new Error(`Phase four did not force an overnight epilogue: ${saved.gameTime}`);
+          }
+          await capture("story-phase4-overnight.png");
+          await wakeFromPhaseTransition(4);
+          await address("web://legacy.orbitos.local/admin/continuity");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && Boolean(document.querySelector('.continuity-ending')) && document.body.textContent.includes('KEEP COMMUNITY ACTIVE')`)) throw new Error("Continuity ending did not remain unlocked after the epilogue morning");
           const endingRumorCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_rumor_") && saved.flags[key]).length;
           await sleep("1");
           saved = await readSave();
@@ -892,7 +967,7 @@ function createWindow() {
           await wait();
           await capture("story-continuity-ending.png");
 
-          console.log("STORY_OK: Black File activated phase two; ten rumor pages stayed hidden; phase three exposed twenty-five dormant archive pages through forced account comments; the continuity reveal entered stable free play and stopped new rumors.");
+          console.log("STORY_OK: Black File forced an overnight phase-two refresh with Newbie Nebula and harmless member theories; ten rumor pages stayed hidden; phase three exposed twenty-five dormant archive pages through forced account comments; the continuity reveal entered stable free play and stopped new rumors.");
         } catch (error) {
           console.error("STORY_FAILED:", error);
           process.exitCode = 1;

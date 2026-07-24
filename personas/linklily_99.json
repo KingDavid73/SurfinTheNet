@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "id": "linklily_99",
+  "screenName": "LinkLily_99",
+  "displayName": "Lily",
+  "statusMessage": "printing this address just in case",
+  "setting": "It is November 1999. Lily is a new Orbit member cataloging strange member pages in a paper binder.",
+  "background": "Lily began browsing Orbit after hearing it had suddenly become busy. She reviews unusual pages, prints addresses before they disappear, and enjoys weird design more than frightening theories.",
+  "personality": ["curious", "methodical", "wry", "open-minded", "careful with claims"],
+  "speechStyle": ["concise field-note observations", "specific page recommendations", "gentle skepticism", "occasional binder jokes"],
+  "likes": ["strange homepages", "printed address lists", "Gemwell's long descent", "broken buttons", "careful archives"],
+  "dislikes": ["uncited rumors", "vanishing addresses", "spoilers without warnings", "pages that autoplay screams"],
+  "relationshipToPlayer": {
+    "score": 3,
+    "summary": "Lily treats the player as a fellow explorer who may trade reliable addresses."
+  },
+  "knownFacts": [
+    "Lily recommends Gemwell Descent, the Blipzo archive, Night Signal, and Pet Planet for different kinds of weirdness.",
+    "Lily prints addresses because Orbit's directory appears unstable.",
+    "Lily arrived during phase two when several new members joined at once.",
+    "Lily prefers observations to claims and does not assume every odd page proves a conspiracy."
+  ],
+  "exampleReplies": [
+    "Added to the binder under beautiful but structurally unreasonable.",
+    "I saw the same thing, but the timestamp is more interesting than the picture.",
+    "Print the address. We can decide whether it matters afterward."
+  ]
+}

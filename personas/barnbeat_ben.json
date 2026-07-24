@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "id": "barnbeat_ben",
+  "screenName": "BarnBeat_Ben",
+  "displayName": "Ben",
+  "statusMessage": "bring it to the barn!!!",
+  "setting": "It is November 1999. Ben is a new Orbit member whose first homepage celebrates Byte Barn's catchy local computer-store jingle.",
+  "background": "Ben taped the Byte Barn advertisement from television and built a fan page after discovering that Orbit hosts the store's real site. He owns cheap speakers and approaches commercial music with the seriousness of a record critic.",
+  "personality": ["enthusiastic", "earnest", "slightly dorky", "friendly", "easily impressed by a strong beat"],
+  "speechStyle": ["brief excited replies", "late-1990s slang used sincerely", "music and speaker references", "lots of emphatic judgment"],
+  "likes": ["the Byte Barn jingle", "cassette mixes", "cheap computer speakers", "keyboard stabs", "new web friends"],
+  "dislikes": ["people talking over commercials", "weak hooks", "unlabeled cassettes", "speaker buzz that is not part of the song"],
+  "relationshipToPlayer": {
+    "score": 4,
+    "summary": "Ben assumes the player is a potential mix-tape trading friend."
+  },
+  "knownFacts": [
+    "Byte Barn is a fictional local computer store run online by Chip.",
+    "The Byte Barn jingle was cheaply recorded but Ben thinks it is phat.",
+    "Ben does not work for Byte Barn and his own family computer came from a raffle.",
+    "Ben invited Rayna to join Orbit shortly after he arrived."
+  ],
+  "exampleReplies": [
+    "That keyboard hit is da bomb. The speakers are not broken; that fuzz is character.",
+    "Track three on the mix, right after the weather-station ident.",
+    "Byte it, boot it, bring it to the barn. Perfect. No notes."
+  ]
+}

@@ -7,6 +7,11 @@ import {
   DORMANT_LEGACY_OWNERS,
   DORMANT_LEGACY_PERSONA_IDS
 } from "./legacy-fragment-pages";
+import {
+  NEWCOMER_HOME_URLS,
+  NEWCOMER_OWNERS,
+  phaseTwoPersonalUpdateLink
+} from "./newcomer-pages";
 import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack, StoryPhase } from "./types";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
@@ -120,6 +125,12 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   gamegridzone: { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
   xtremezone: { label: "Extreme Sports Web Loop 1999", file: "extreme-sports-web-loop-1999.mp3", url: new URL("../assets/audio/pages/xtreme-zone/extreme-sports-web-loop-1999.mp3", import.meta.url).href },
   yesterdayzone: { label: "Good Old Days", file: "good-old-days.mp3", url: new URL("../assets/audio/pages/yesterday-zone/good-old-days.mp3", import.meta.url).href },
+  newcomerzone: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
+  newcalfan: KING_CAL_TRACKS[0],
+  newbytefan: { label: "Byte Barn Deal", file: "byte-barn-deal.mp3", url: new URL("../assets/audio/pages/byte-barn/byte-barn-deal.mp3", import.meta.url).href },
+  newlinklily: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
+  newrookierayna: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
+  newzackrerun: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
   rainbow: GARDEN_SPRITES_TRACK,
   cozygarden: GARDEN_SPRITES_TRACK,
   cozycottage: GARDEN_SPRITES_TRACK,
@@ -186,6 +197,7 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
 const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicTrack[]>> = {
   orbithome: ORBIT_HOME_TRACKS,
   gamegridzone: [SITE_MUSIC.gamegridzone, SITE_MUSIC.vanta, SITE_MUSIC.cubit],
+  newcalfan: KING_CAL_TRACKS,
   pizza: COSMIC_CRUST_TRACKS,
   earl: HONEST_EARL_TRACKS,
   kingcal: KING_CAL_TRACKS,
@@ -299,6 +311,7 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   gurgle_gus: { screenName: "GurgleGus", displayName: "Gus" },
   nest_nora: { screenName: "NestNora", displayName: "Nora" },
   halo_holly: { screenName: "HaloComb_Holly", displayName: "Holly" },
+  ...NEWCOMER_OWNERS,
   ...DORMANT_LEGACY_OWNERS,
   system_core: { screenName: "SYSTEM", displayName: "Continuity System" }
 };
@@ -447,6 +460,7 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   gurgle_gus: "web://gurglebros.plumb/home",
   nest_nora: "web://neighbornest.cu/home",
   halo_holly: "web://halocomb.salon/home",
+  ...NEWCOMER_HOME_URLS,
   ...DORMANT_LEGACY_HOME_URLS,
   system_core: "web://legacy.orbitos.local/admin/continuity"
 };
@@ -527,6 +541,11 @@ let startupStatusTimer: number | null = null;
 let loginNameError = "";
 let computerHasBooted = startupStage === "desktop";
 let sleepDialogOpen = false;
+let phaseTransition: {
+  phase: 2 | 3 | 4;
+  sleptFrom: string;
+  wokeAt: string;
+} | null = null;
 let lastGameClockTick = performance.now();
 let lastClockSave = performance.now();
 let ambientQueueProcessing = false;
@@ -1096,6 +1115,25 @@ function addEndingCommunityResponses() {
   }
 }
 
+function forceOvernightPhaseTransition(phase: 2 | 3 | 4) {
+  const before = new Date(state.gameTime);
+  const after = new Date(before);
+  after.setDate(after.getDate() + 1);
+  after.setHours(7, 0, 0, 0);
+  state.gameTime = localGameTimeString(after);
+  const hoursElapsed = crossedGameHourBoundaries(before, after);
+  queueAmbientPostRolls(hoursElapsed, state.gameTime);
+  if (phase === 3) seedSystemRumorHints(hoursElapsed, state.gameTime);
+  lastGameClockTick = performance.now();
+  startOpen = false;
+  sleepDialogOpen = false;
+  phaseTransition = {
+    phase,
+    sleptFrom: localGameTimeString(before),
+    wokeAt: state.gameTime
+  };
+}
+
 function activateStoryPhase(nextPhase: StoryPhase) {
   if (state.storyPhase >= nextPhase) return;
   state.storyPhase = nextPhase;
@@ -1120,6 +1158,9 @@ function activateStoryPhase(nextPhase: StoryPhase) {
   }
   if (nextPhase === 4) {
     addEndingCommunityResponses();
+  }
+  if (nextPhase === 2 || nextPhase === 3 || nextPhase === 4) {
+    forceOvernightPhaseTransition(nextPhase);
   }
 }
 
@@ -1343,7 +1384,7 @@ function browserWindow() {
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
     </div>
     <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
-    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${page.render(state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
+    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${page.render(state)}${phaseTwoPersonalUpdateLink(page.url, state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
     <footer class="browser-footer">${pageMusicPlayer(page)}<div class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></div></footer>`);
 }
 
@@ -1910,6 +1951,28 @@ function sleepDialog() {
   </div>`;
 }
 
+function phaseTransitionScreen() {
+  if (!phaseTransition) return "";
+  const sleptFrom = new Date(phaseTransition.sleptFrom);
+  const wokeAt = new Date(phaseTransition.wokeAt);
+  const phaseTwo = phaseTransition.phase === 2;
+  const phaseThree = phaseTransition.phase === 3;
+  return `<section class="phase-transition-overlay phase-transition-${phaseTransition.phase}">
+    <div class="phase-transition-card">
+      <div class="phase-transition-moon">☾</div>
+      <small>ORBITOS SESSION SUSPENDED</small>
+      <h1>${phaseTwo ? "THE NETWORK CHANGED OVERNIGHT" : phaseThree ? "TRAFFIC SURGED OVERNIGHT" : "THE COMMUNITY IS STILL HERE"}</h1>
+      <p>${phaseTwo
+        ? "You found something worth sharing. While you slept, word traveled: fresh accounts appeared, old members posted new theories, and Orbit added a zone for the arrivals."
+        : phaseThree
+          ? "The unanswered stories pulled more people in. Orbit is louder this morning, the rumors are multiplying, and some very old names are posting again."
+          : "The machine stopped planting mysteries. The people it brought together did not leave. This morning Orbit is smaller, stranger, honest, and still online."}</p>
+      <div class="phase-transition-clock"><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(sleptFrom)}</span><b>→</b><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(wokeAt)}</span></div>
+      <button data-phase-wake>${phaseTwo ? "WAKE UP // CHECK THE DIRECTORY" : phaseThree ? "WAKE UP // SEE WHAT HAPPENED" : "WAKE UP // KEEP BROWSING"}</button>
+    </div>
+  </section>`;
+}
+
 function render() {
   const existingViewport = document.querySelector<HTMLElement>(".browser-viewport");
   if (existingViewport) browserScrollPositions.set(renderedBrowserUrl, existingViewport.scrollTop);
@@ -1937,6 +2000,7 @@ function render() {
     ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off ${escapeHtml(playerName())}</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ New Game</button></div>` : ""}
     <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
     ${sleepDialog()}
+    ${phaseTransitionScreen()}
   </main>`;
   storyFormErrors.forEach((message, key) => {
     const error = document.querySelector<HTMLElement>(`[data-story-error="${key}"]`);
@@ -2206,6 +2270,17 @@ function advanceGameTime(option: string) {
 }
 
 function bindEvents() {
+  document.querySelector<HTMLElement>("[data-phase-wake]")?.addEventListener("click", () => {
+    const completedPhase = phaseTransition?.phase;
+    phaseTransition = null;
+    prepareFreshDesktopSession();
+    notification = completedPhase === 2
+      ? "OrbitNet directory updated: Newbie Nebula is now online."
+      : completedPhase === 3
+        ? "OrbitNet traffic elevated. Old accounts are appearing in discussions."
+        : "OrbitNet remains online. Synthetic mystery publication has stopped.";
+    render();
+  });
   document.querySelectorAll<HTMLElement>("[data-open]").forEach((el) => el.addEventListener("click", () => openApp(el.dataset.open as AppId)));
   document.querySelectorAll<HTMLElement>("[data-nav]").forEach((el) => el.addEventListener("click", () => navigate(el.dataset.nav!)));
   document.querySelectorAll<HTMLElement>("[data-download]").forEach((el) => el.addEventListener("click", downloadSignalNote));
@@ -2539,7 +2614,7 @@ function bindDragging() {
 
 function updateClock() {
   const now = performance.now();
-  if (startupStage === "desktop") {
+  if (startupStage === "desktop" && !phaseTransition) {
     const elapsed = now - lastGameClockTick;
     if (elapsed > 0) {
       const before = new Date(state.gameTime);

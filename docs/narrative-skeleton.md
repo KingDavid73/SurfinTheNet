@@ -141,6 +141,15 @@ boundary are recorded in `phase-arc-research.md`.
 
 ### Phase 2: Small inconsistencies
 
+- Entering a major new phase forces an overnight sleep to 7:00 AM. Waking on
+  a clean desktop makes the network's changed state legible instead of
+  replacing pages while the player is looking at them.
+- Orbit creates Newbie Nebula for a visible wave of five new members. Their
+  first pages mostly celebrate strange finds, preserve favorite commercials,
+  and document what it feels like to arrive during the revival.
+- Existing users catch the investigation mood and add harmless, low-evidence
+  subpages about changed logos, local cryptids, odd noises, and minor fandom
+  discrepancies. These make rumor-building feel social before the darker bait.
 - Characters occasionally share unusual phrasing.
 - Someone knows information they should not possess.
 - An abandoned business responds as though it is staffed.

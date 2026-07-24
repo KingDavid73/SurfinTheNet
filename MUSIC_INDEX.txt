@@ -112,3 +112,10 @@ KING CAL COMMERCIAL ARCHIVE — 34 ACTIVE TRACKS
 [ ] yesterday.zone/users/colonelhal — Tin Cup Reenactor (colonel-hal/tin-cup-reenactor.mp3)
 [ ] yesterday.zone/users/railroadlenny — Back on the Rails (railroad-lenny/back-on-the-rails.mp3); Whistle at Dawn (railroad-lenny/whistle-at-dawn.mp3)
 [ ] yesterday.zone/users/bigbassbob — Gone Fishin' Again (big-bass-bob/gone-fishin-again.mp3); Lake Day Legend (big-bass-bob/lake-day-legend-01.mp3); Lake Day Legend II (big-bass-bob/lake-day-legend-02.mp3); The One That Got Away (big-bass-bob/the-one-that-got-away.mp3); Back Off the Line (big-bass-bob/back-off-the-line-secret-01.mp3); Big One Got Away (big-bass-bob/big-one-got-away-secret-02.mp3); Redacted Bait (big-bass-bob/redacted-bait-secret-03.mp3); Reel It In (big-bass-bob/reel-it-in-secret-04.mp3)
+
+[ ] orbitnet.local/zones/newcomers — Orbit Avenue Afterglow (orbit-avenue.mid)
+[ ] freshorbit.zone/users/tapedeckkeesha — King Cal playlist (king-cal/*.mp3)
+[ ] freshorbit.zone/users/barnbeatben — Byte Barn Deal (byte-barn/byte-barn-deal.mp3)
+[ ] freshorbit.zone/users/linklily — Orbit Avenue Afterglow (orbit-avenue.mid)
+[ ] freshorbit.zone/users/rookierayna — Orbit Avenue Afterglow (orbit-avenue.mid)
+[ ] freshorbit.zone/users/rerunzack — Cached Shadows (cached-shadows.mid)

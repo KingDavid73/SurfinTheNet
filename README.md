@@ -29,12 +29,14 @@ npm.cmd run make
 - An original OrbitOS startup jingle, stored as editable MIDI and a deterministic in-game WAV
 - A draggable fake desktop with a Start menu and taskbar
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
-- A cleaned-up OrbitNet directory linking to eight topic communities—Game Grid, X-Treme Edge, Pet Planet, The FanVerse, Yesterday Online, SoundWave, Cozy Commons, and The Backchannel
-- Eight complete community-zone landing pages, with Game Grid populated by six console-era member sites, X-Treme Edge by seven rival riders, Yesterday Online by six first-generation homepages, Rainbow Garden in Cozy Commons, and Night Signal plus DarkRaven in The Backchannel
+- A cleaned-up OrbitNet directory that begins with eight topic communities, then gains the phase-two Newbie Nebula when traffic returns
+- Nine complete community-zone landing pages, including five active newcomer sites devoted to favorite finds, King Cal, Byte Barn, first-computer diaries, and web archaeology
 - Dozens of member-run sites and twenty-one search-only local businesses
 - A hidden, address-only 1995 OrbitOS corporate archive with broken media, retired communities, Orbit Bridge lore, and a protected continuity console
 - A playable mystery arc: DarkRaven's first password puzzle, phase-two Backchannel arrivals, three fabricated investigations, one genuine archive, phase-three continuity glitches, and a stable post-reveal free-play state
 - Ten unindexed phase-two rumor pages illustrated with 25 low-resolution amateur “evidence” photos
+- Forced overnight chapter breaks at every major phase transition, advancing the clock to 7:00 AM and reopening on a refreshed desktop
+- Six harmless phase-two theory subpages made by existing users, covering a remembered logo, humming curb, porch “panther,” modem moth, lake noise, and mascot cap stripe
 - Twenty-five phase-three pre-upgrade archive fragments surfaced only through comments forged under dormant account names
 - System-forged rumor hints delivered through comments, AIM, and email using subtly altered borrowed usernames; phase three increases their frequency, name damage, and unsupported orphan rumors
 - Refined first-wave sites: Rainbow Garden's scrapbook, Night Signal's receiver console, DarkRaven's linked case files, and complete navigation for Byte Barn, Cosmic Crust, and Paws & Claws
