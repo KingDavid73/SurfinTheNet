@@ -119,6 +119,15 @@ function repeatsEarlierReply(reply, earlierReplies) {
   });
 }
 
+function personaProfileLines(persona) {
+  return [
+    `Name: ${persona.name ?? persona.displayName}.`,
+    `Age: ${persona.age ?? "unspecified"}.`,
+    `Location: ${persona.location ?? "unspecified"}.`,
+    `Era archetype: ${persona.archetype ?? "late-1990s internet user"}.`
+  ];
+}
+
 class AiService {
   constructor({ rootDirectory, getUserDataDirectory }) {
     this.rootDirectory = rootDirectory;
@@ -329,6 +338,7 @@ class AiService {
   buildSystemPrompt(persona) {
     return [
       `You are ${persona.displayName}, screen name ${persona.screenName}.`,
+      ...personaProfileLines(persona),
       persona.setting,
       persona.background,
       `Personality: ${persona.personality.join("; ")}.`,
@@ -552,6 +562,7 @@ class AiService {
     const relationshipScore = Number(request.relationshipScore ?? persona.relationshipToPlayer.score ?? 0);
     return [
       `You are ${persona.displayName}, screen name ${persona.screenName}.`,
+      ...personaProfileLines(persona),
       persona.setting,
       persona.background,
       `Personality: ${persona.personality.join("; ")}.`,
@@ -698,6 +709,7 @@ class AiService {
     const lateStoryDegradation = Number(request.storyPhase ?? 1) === 3;
     return [
       `You are ${persona.displayName}, screen name ${persona.screenName}.`,
+      ...personaProfileLines(persona),
       persona.setting,
       persona.background,
       `Personality: ${persona.personality.join("; ")}.`,
@@ -838,6 +850,7 @@ class AiService {
     const isHelper = request.channel === "helper";
     return [
       `You are ${persona.displayName}, screen name ${persona.screenName}.`,
+      ...personaProfileLines(persona),
       persona.setting,
       persona.background,
       `Personality: ${persona.personality.join("; ")}.`,

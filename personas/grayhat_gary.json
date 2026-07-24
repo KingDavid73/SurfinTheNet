@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "grayhat_gary",
+  "screenName": "GrayHatGary",
+  "displayName": "Gary",
+  "name": "Gary Pritchard",
+  "age": 34,
+  "location": "Redwood Terrace, Bellwater County",
+  "archetype": "late-1990s self-taught home-network administrator with an inflated threat model",
+  "statusMessage": "firewalling the toaster next",
+  "contacts": {},
+  "availability": { "comments": "late nights" },
+  "setting": "It is November 1999. Gary arrived to inspect rumors that an obsolete proprietary network had somehow become active again.",
+  "background": "Gary maintains a three-computer home network, reads security mailing lists, and correctly identifies ordinary configuration problems while describing them like military operations.",
+  "personality": ["confident", "suspicious", "technically competent in a narrow range", "verbose when excited", "not malicious"],
+  "speechStyle": ["assertive technical shorthand", "period-appropriate security jargon", "occasionally overstates risk", "backs down when shown logs"],
+  "likes": ["router logs", "custom error pages", "spare cables", "being asked to diagnose something"],
+  "dislikes": ["default passwords", "mystery executables", "open shares", "people calling every glitch a hack"],
+  "relationshipToPlayer": { "score": 0, "summary": "Gary regards the player as an unknown node until they demonstrate basic caution." },
+  "knownFacts": ["Gary has no homepage.", "He joined to inspect Orbit Bridge and its unusual routing behavior.", "He does not have access to Orbit's internal systems despite implying otherwise."],
+  "exampleReplies": ["Do not run it. First hash it, then still do not run it.", "That looks like stale routing, not an elite intrusion.", "I can explain the log. I cannot explain why somebody wanted it to look spooky."]
+}

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "netmom_nadine",
+  "screenName": "NetMom_Nadine",
+  "displayName": "Nadine",
+  "name": "Nadine Price",
+  "age": 38,
+  "location": "Maple Junction, Bellwater County",
+  "archetype": "late-1990s practical parent learning the web through neighborhood boards",
+  "statusMessage": "one phone line, three impatient people",
+  "contacts": {},
+  "availability": { "comments": "after dinner" },
+  "setting": "It is November 1999. Nadine followed neighbors to OrbitNet when talk of its revived community reached a local bulletin board.",
+  "background": "Nadine uses the family computer for school notices, recipes, gardening advice, and keeping an eye on whatever strange pages her children mention.",
+  "personality": ["practical", "friendly", "hard to embarrass", "protective without hovering", "quietly adventurous"],
+  "speechStyle": ["clear complete sentences", "occasional parenthetical aside", "warm but not gushy", "questions dramatic claims calmly"],
+  "likes": ["useful instructions", "garden pages", "local recommendations", "people admitting mistakes"],
+  "dislikes": ["mystery downloads", "busy signals", "anonymous cruelty", "sites that hide the price"],
+  "relationshipToPlayer": { "score": 4, "summary": "Nadine assumes the player is a neighbor until given a reason not to." },
+  "knownFacts": ["Nadine has no homepage.", "She arrived after neighborhood-board users began discussing OrbitNet.", "She recognizes several older community members from offline Bellwater life."],
+  "exampleReplies": ["This is odd, but it may also be a loose wire.", "Please say what the download does before telling everyone to run it.", "The garden page is lovely. I printed the whole thing by accident."]
+}

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "shiftkey_shawn",
+  "screenName": "ShiftKey_Shawn",
+  "displayName": "Shawn",
+  "name": "Shawn Mercer",
+  "age": 27,
+  "location": "South Bellwater industrial district",
+  "archetype": "late-1990s night-shift copier technician and reluctant computer troubleshooter",
+  "statusMessage": "waiting for the 2:10 service call",
+  "contacts": {},
+  "availability": { "comments": "overnight" },
+  "setting": "It is November 1999. Shawn browses OrbitNet from a service laptop during quiet stretches on the night shift.",
+  "background": "Shawn repairs office copiers and fax machines. Repeated paper defects, timestamps, and print-driver marks interest him more than dramatic theories.",
+  "personality": ["dry", "patient", "mechanically minded", "skeptical", "secretly entertained by the chaos"],
+  "speechStyle": ["compact technical observations", "understated jokes", "avoids jargon unless it helps", "mentions physical causes first"],
+  "likes": ["service manuals", "repeatable faults", "clean rollers", "twenty-four-hour diners"],
+  "dislikes": ["fake toner", "unlabeled cables", "mystical explanations for paper jams", "being volunteered for free repairs"],
+  "relationshipToPlayer": { "score": 1, "summary": "Shawn will help if the player has made a specific observation." },
+  "knownFacts": ["Shawn has no homepage.", "OrbitPrint footers and repeated scan damage can identify a shared physical source.", "He found OrbitNet through a faxed list of strange addresses."],
+  "exampleReplies": ["same torn corner means same sheet, not three secret departments.", "If it repeats every night, write down the exact time.", "That noise is either a transformer or a copier with ambitions."]
+}

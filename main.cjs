@@ -817,7 +817,7 @@ function createWindow() {
           await address("web://gamegrid.zone/users/lagmaster99/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-two-personal-update [data-nav*="comet-logo"]'))`)) throw new Error("Existing member homepage did not advertise its phase-two theory");
           await address("web://gamegrid.zone/users/lagmaster99/comet-logo");
-          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.oddity-pulse .oddity-gallery img').length === 4 && !document.querySelector('.page-comments')`)) throw new Error("LagMaster's harmless logo theory was incomplete");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.oddity-pulse .oddity-gallery img').length === 4 && document.querySelectorAll('.oddity-pulse .oddity-breadcrumb').length === 1 && !document.querySelector('.page-comments')`)) throw new Error("LagMaster's harmless logo theory was incomplete");
           await capture("story-oddity-comet-logo.png");
           for (const oddityUrl of [
             "web://xtreme.zone/users/deckwreckerdee/curb-hum",
@@ -827,7 +827,7 @@ function createWindow() {
             "web://fanverse.zone/users/blipzobeliever88/cap-stripe"
           ]) {
             await address(oddityUrl);
-            if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.oddity-page .oddity-gallery img').length === 4 && !document.querySelector('.page-comments')`)) {
+            if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.oddity-page .oddity-gallery img').length === 4 && document.querySelectorAll('.oddity-page .oddity-breadcrumb').length === 1 && !document.querySelector('.page-comments')`)) {
               throw new Error(`Phase-two harmless theory was incomplete: ${oddityUrl}`);
             }
           }
@@ -868,20 +868,50 @@ function createWindow() {
           if (!phaseTwoDirectoryReady) throw new Error("Phase-two Backchannel nodes were not restored");
           await capture("story-backchannel-phase2.png");
 
-          for (const terminal of [
-            "web://morrow-five.net/decoded",
-            "web://glasslake-field.gov/report",
-            "web://quiet-county.org/case",
-            "web://archive.orbitnet.local/labs/findings"
-          ]) await address(terminal);
+          const archiveSearched = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-browser="home"]')?.click(); const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'adaptive index government research'; form.requestSubmit(); return true; })()`);
+          if (!archiveSearched) throw new Error("Could not test hidden government archive search");
+          await wait();
+          if (await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.search-results code')).some((node) => node.textContent.includes('archive.orbitnet.local'))`)) throw new Error("Hidden government archive leaked into search");
+
+          await address("web://archive.orbitnet.local/labs/findings");
+          saved = await readSave();
+          if (saved.storyPhase !== 2 || saved.discoveredMysteries.includes("adaptive_index") || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.algorithm-archive-sealed'))`)) {
+            throw new Error("Government archive opened before the three main phase-two cases were complete");
+          }
+
+          const mainMysteryTerminals = [
+            ["web://morrow-five.net/decoded", "web://archive"],
+            ["web://glasslake-field.gov/report", "orbitnet.local"],
+            ["web://quiet-county.org/case", "/labs/home"]
+          ];
+          for (const [terminal, fragment] of mainMysteryTerminals) {
+            await address(terminal);
+            if (!await win.webContents.executeJavaScript(`document.querySelector('.mystery-terminal footer')?.textContent.includes(${JSON.stringify(fragment)})`)) {
+              throw new Error(`Main mystery did not reveal its archive route fragment: ${terminal}`);
+            }
+          }
+          saved = await readSave();
+          if (saved.storyPhase !== 2 || saved.discoveredMysteries.length !== 3) {
+            throw new Error(`The three headline mysteries should lead to the archive without starting phase three: ${JSON.stringify(saved.discoveredMysteries)}`);
+          }
+
+          await address("web://archive.orbitnet.local/labs/home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.algorithm-archive-page:not(.algorithm-archive-sealed)')) && document.body.textContent.includes('Adaptive Indexing Study')`)) {
+            throw new Error("Assembled route did not open the hidden government archive");
+          }
+          await address("web://archive.orbitnet.local/labs/findings");
           await wait(250);
           saved = await readSave();
-          if (saved.storyPhase !== 3 || saved.discoveredMysteries.length !== 4) throw new Error(`Four terminal discoveries did not activate phase three: ${JSON.stringify(saved.discoveredMysteries)}`);
+          if (saved.storyPhase !== 3 || saved.discoveredMysteries.length !== 4) throw new Error(`Hidden government archive did not activate phase three: ${JSON.stringify(saved.discoveredMysteries)}`);
           if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-3'))`)) {
             throw new Error(`Phase three did not force an overnight sleep: ${saved.gameTime}`);
           }
           if (!saved.directMessages.some((message) => message.id === "ghostline-phase3") || !["phase3-leak-toni", "phase3-leak-raven", "phase3-leak-null"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
             throw new Error("Phase-three authored pressure messages were incomplete");
+          }
+          const phaseThreeExplorerIds = ["dialup_daria", "cached_cory", "netmom_nadine", "shiftkey_shawn", "ufowendy_77", "archive_omar", "pixiekit_amy", "grayhat_gary"];
+          if (!phaseThreeExplorerIds.every((ownerId) => saved.pageComments.some((comment) => comment.ownerId === ownerId))) {
+            throw new Error("Page-less phase-three explorers did not arrive through comments");
           }
           const initialLegacyTrail = saved.pageComments.find((comment) => String(comment.id).startsWith("system-legacy-orbit_mechanic-"));
           if (!initialLegacyTrail || initialLegacyTrail.author !== "OrbitalMechanic" || initialLegacyTrail.pageUrl !== "web://bytebarn.com/home") {
@@ -890,6 +920,8 @@ function createWindow() {
           await wakeFromPhaseTransition(3);
 
           await address("web://bytebarn.com/home");
+          const pageLessExplorerReady = await win.webContents.executeJavaScript(`(() => { const author = Array.from(document.querySelectorAll('.page-comment header b')).find((node) => node.textContent === 'GrayHatGary'); return Boolean(author) && !author.querySelector('.comment-author-link'); })()`);
+          if (!pageLessExplorerReady) throw new Error("Phase-three explorer did not appear as a page-less commenter");
           const legacyAuthorLinkReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.comment-author-link[data-nav="web://oldnet.orbit/users/orbitalmechanic"]'))`);
           if (!legacyAuthorLinkReady) throw new Error("Dormant account comment did not expose its hidden homepage link");
           await win.webContents.executeJavaScript(`document.querySelector('.comment-author-link[data-nav="web://oldnet.orbit/users/orbitalmechanic"]')?.click()`);
@@ -967,7 +999,7 @@ function createWindow() {
           await wait();
           await capture("story-continuity-ending.png");
 
-          console.log("STORY_OK: Black File forced an overnight phase-two refresh with Newbie Nebula and harmless member theories; ten rumor pages stayed hidden; phase three exposed twenty-five dormant archive pages through forced account comments; the continuity reveal entered stable free play and stopped new rumors.");
+          console.log("STORY_OK: small phase-two oddities fed three headline cases; their route fragments opened the hidden government archive and phase three; eight page-less explorers joined the comment pool; dormant archives and stable free play still passed.");
         } catch (error) {
           console.error("STORY_FAILED:", error);
           process.exitCode = 1;

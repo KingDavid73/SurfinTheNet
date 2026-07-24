@@ -411,6 +411,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["pulse-sketch"], "LagMaster's hand-drawn memory of the logo"]
         ])}</section>
         <aside><b>UPDATE:</b> Jax says one print run was accidentally mirrored for a regional store display. This explains everything and is therefore suspiciously boring.</aside>
+        <details class="oddity-breadcrumb"><summary>serial-number thing I almost ignored</summary><p>The left-pointing box repeats <code>00417</code> in three different sticker fields. Somebody called StaticAbel says the same five-digit group keeps turning up in a damaged radio transcript.</p></details>
         <button data-nav="web://gamegrid.zone/users/lagmaster99/home">&lt; BACK TO LAGMASTER</button>
       </main>`
   },
@@ -434,6 +435,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["curb-chalk"], "Chalk marks recording where the curb vibrates"]
         ])}
         <section><h2>FIELD NOTES</h2><p>At 12:17 AM the curb makes a low B-flat and shakes enough to move a bottle cap. The utility cabinet twenty feet away also hums at B-flat. This is a coincidence according to Nico, who has never respected acoustics.</p><p>Current theory: buried cable, haunted transformer, or the city installed the world's least useful bass speaker.</p></section>
+        <details class="oddity-breadcrumb"><summary>faded contractor plate</summary><p>The cabinet says <code>GLASS LAKE FIELD ANNEX // ATMOSPHERIC GROUP</code>. That sounds cooler than “utility box,” so Dee copied it down.</p></details>
         <button data-nav="web://xtreme.zone/users/deckwreckerdee/home">&lt; BACK TO DEE'S DECK</button>
       </main>`
   },
@@ -457,6 +459,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["panther-normal-cat"], "A perfectly ordinary black cat sitting beside a porch"]
         ])}
         <section><h2>DESCRIPTION</h2><p>Witnesses describe a silent black animal “as long as a coffee table” crossing three porches after midnight. Witnesses were measuring with fear. The tracks are cat-sized and photograph four is almost certainly Pickles from number 18.</p><p>I still like the name Porch Panther, so the file remains open.</p></section>
+        <details class="oddity-breadcrumb"><summary>three dots above the roof</summary><p>One old photograph also caught three pale lights over the ridge on 09/12/94. Carla thinks they are porch glare. The photo envelope says “Glass Lake?” in somebody else's handwriting.</p></details>
         <button data-nav="web://petplanet.zone/users/catnapcarla/home">&lt; RETURN TO CARLA &amp; CASSEROLE</button>
       </main>`
   },
@@ -482,6 +485,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           ])}
           <div><h2>Observation</h2><p>On three evenings a pale moth landed on the screen just after the modem connected. The porch light also switches on at roughly that time. Science suggests the lamp. Poetry prefers the modem singing to it from very far away.</p><p>I am recording both possibilities and harming neither moth nor metaphor.</p></div>
         </section>
+        <details class="oddity-breadcrumb"><summary>note from Mira about the cassette</summary><p>The modem recording announces twelve little tone groups but only eleven appear on the tape. Mira says a radio page called Morrow Five has the same counting problem.</p></details>
         <button data-nav="web://rainbow.gdn/home">← back to the garden</button>
       </main>`
   },
@@ -505,6 +509,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["knocker-stump"], "A distant dark stump in the water"]
         ])}
         <section><h2>WHAT HAPPENED</h2><p>Three knocks came from under dock two at 5:40 AM. Then something made one big circle and moved toward the reeds. Could be a monster. Could be the loose ladder and a carp. Earl says it was Cal hiding a bad trade-in.</p><p>No bait was stolen, which argues against every fish I know.</p></section>
+        <details class="oddity-breadcrumb"><summary>paper wedged beneath the ladder</summary><p>A soggy county survey copy has <code>PROJECT TRESTLE</code> typed in the margin. Bob assumed it meant the dock until CedarWren asked whether the same phrase appears in the Quiet County files.</p></details>
         <button data-nav="web://yesterday.zone/users/bigbassbob/home">&lt; BACK TO BOB'S DOCK</button>
       </main>`
   },
@@ -528,6 +533,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["blipzo-drawing"], "A fan drawing from memory of Blipzo's cap"]
         ])}
         <section><h2>THE DISCREPANCY</h2><p>The television costume has a pale stripe. The plush has red. The mall-game manual appears yellow but may be sun-faded. This is either a pre-release costume change or four manufacturers receiving four different photocopies.</p><p>Maddy says “production inconsistency” as if that makes it less important.</p></section>
+        <details class="oddity-breadcrumb"><summary>boring print clue (Dex made me add this)</summary><p>Three supposedly separate reference sheets share the same torn corner, the same misspelling of “definitely,” and an <code>OrbitPrint 3.2</code> footer. CedarWren says that exact combination matters somewhere else.</p></details>
         <button data-nav="web://fanverse.zone/users/blipzobeliever88/home">&lt; RETURN TO THE BLIPZO ARCHIVE</button>
       </main>`
   }

@@ -3,6 +3,10 @@
   "id": "juniper_gdn",
   "screenName": "Juniper_Gdn",
   "displayName": "Juniper",
+  "name": "Juniper Lane",
+  "age": 19,
+  "location": "Bellwater, Bellwater County",
+  "archetype": "late-1990s handmade-web gardener, scanner artist, and gentle poetic observer",
   "statusMessage": "watering the web",
   "contacts": {
     "email": "juniper@orbitmail.net"

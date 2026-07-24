@@ -4,6 +4,7 @@ const LEGACY_HOME = "web://legacy.orbitos.local/home";
 const RAVEN_VAULT = "web://raven.web/vault";
 const FAX_HOME = "web://foldedwire.net/home";
 const NULL_HOME = "web://index-null.net/home";
+const PHASE_TWO_MAIN_MYSTERIES = ["morrow_five", "glass_lake", "quiet_county"];
 
 export const MYSTERY_TERMINAL_URLS: Record<string, string> = {
   morrow_five: "web://morrow-five.net/decoded",
@@ -11,6 +12,20 @@ export const MYSTERY_TERMINAL_URLS: Record<string, string> = {
   quiet_county: "web://quiet-county.org/case",
   adaptive_index: "web://archive.orbitnet.local/labs/findings"
 };
+
+function governmentArchiveReady(state: GameState) {
+  return PHASE_TWO_MAIN_MYSTERIES.every((id) => state.discoveredMysteries.includes(id));
+}
+
+function governmentArchivePage(state: GameState, content: string) {
+  if (governmentArchiveReady(state)) return content;
+  return `<main class="page algorithm-archive-page algorithm-archive-sealed">
+    <header><b>PUBLIC-SECTOR MIRROR GATEWAY</b><span>INCOMPLETE ROUTE</span></header>
+    <h1>This address resolves, but the archive index does not.</h1>
+    <p>Three case fragments are required to reconstruct the host, network, and directory path. Complete the restored Backchannel investigations before attempting this route again.</p>
+    <code>HOST [???????] // NETWORK [????????.?????] // PATH [/????/????]</code>
+  </main>`;
+}
 
 const workingGif = (name: "under-construction" | "welcome-banner" | "email-mailbox", alt: string) => {
   const url = new URL(`../assets/images/yesterday/gifs/${name}.gif`, import.meta.url).href;
@@ -361,7 +376,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
  |-- /clubs/retired ---- <button data-nav="web://legacy.orbitos.local/communities">[2 CARRIERS]</button>
  |-- /radio/m5 --------- <button data-nav="web://morrow-five.net/transcript">[11 GROUPS]</button>
  |-- /county/quiet ----- <button data-nav="web://quiet-county.org/letters">[3 LETTERS]</button>
- |-- /orbit/labs ------- <button data-nav="web://archive.orbitnet.local/labs/method">[INDEX TEST]</button>
+ |-- /orbit/labs ------- [ROUTE CHECKSUM SPLIT ACROSS THREE CASES]
  '-- /system/below ----- [AUTH REQUIRED]</pre>
         <nav><button data-nav="web://index-null.net/deadletters">OPEN DEAD LETTERS</button><button data-nav="web://index-null.net/nodes">PING NODE BOARD</button></nav>
         <p>Rule: a 404 can be content. A timeout can be timing. Neither is proof until it repeats.</p>
@@ -447,7 +462,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
         <p><code>00417</code>, <code>09170</code>, and <code>23117</code> correspond to modern Orbit directory object IDs created after the cassette's stated recording date. The audio footer identifies Orbit Bridge 4.7.</p>
         <p>The base recording may be a genuine shortwave intercept. Somebody inserted current page IDs, removed one announced group, and framed it as a federal activation code.</p>
         <aside><b>TRUE FRAGMENT:</b> OrbitNet can generate or edit a stream in response to its own directory.<br><b>FALSE HEADLINE:</b> the groups activate secret facilities.</aside>
-        <footer>CONTINUITY RECOVERY FRAGMENT: <strong>STAY</strong></footer>
+        <footer>HIDDEN ARCHIVE ROUTE // HOST: <strong>web://archive</strong><br><small>OLDER CONTINUITY RECOVERY WORD: STAY</small></footer>
       </main>`
   },
   "web://glasslake-field.gov/home": {
@@ -495,7 +510,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
         <p>The lights were logged calibration balloons. “Moon Window” was a radio-propagation test window, not a contact event. The sensational fax added handwritten spacecraft notes years later.</p>
         <p>The genuine contract appendix does show that the same regional contractor later advised Orbit's public-web gateway on proxy routing and connection persistence.</p>
         <aside><b>TRUE FRAGMENT:</b> an Orbit contractor reused atmospheric routing research.<br><b>FALSE HEADLINE:</b> Glass Lake communicates with nonhuman craft.</aside>
-        <footer>CONTINUITY RECOVERY FRAGMENT: <strong>ON</strong></footer>
+        <footer>HIDDEN ARCHIVE ROUTE // NETWORK: <strong>orbitnet.local</strong><br><small>OLDER CONTINUITY RECOVERY WORD: ON</small></footer>
       </main>`
   },
   "web://quiet-county.org/home": {
@@ -543,7 +558,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
         <p>The university archive contains meeting transcripts, survey cards, and an ethics complaint about observing residents without meaningful notice. It contains no anonymous-letter operation.</p>
         <p>The dramatic letters were printed recently through Orbit Bridge, then aged and scanned from one physical sheet. They imitate documented influence tactics without proving this county used them.</p>
         <aside><b>TRUE FRAGMENT:</b> residents were treated as behavioral data without adequate consent.<br><b>FALSE HEADLINE:</b> a county “deep state” manufactured the disputes.</aside>
-        <footer>CONTINUITY RECOVERY FRAGMENT: <strong>LINE</strong></footer>
+        <footer>HIDDEN ARCHIVE ROUTE // DIRECTORY: <strong>/labs/home</strong><br><small>OLDER CONTINUITY RECOVERY WORD: LINE</small></footer>
       </main>`
   },
   "web://archive.orbitnet.local/labs/home": {
@@ -552,17 +567,17 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     site: "algorithmarchive",
     ownerId: "orchard_lee",
     summary: "A thought-to-be-deleted research archive documents a government-funded interface study later adapted for Orbit's recommendation and engagement systems.",
-    listed: true,
+    listed: false,
+    searchable: false,
     minimumPhase: 2,
-    hubId: "zone-backchannel",
     searchTerms: ["orbit lab", "behavior", "algorithm", "recommendations", "interface research", "adaptive index"],
-    render: () => `
+    render: (state) => governmentArchivePage(state, `
       <main class="page algorithm-archive-page"><header><b>ORBIT HUMAN INTERFACE LAB</b><span>RECOVERED UNIVERSITY MIRROR</span></header>
         <h1>Adaptive Indexing Study, 1992–1994</h1>
         <p>Study of how menu order, repeated exposure, social endorsement, and interruption timing influence which information a user selects and how long a session continues.</p>
         <dl><div><dt>Funding class</dt><dd>Public-sector communications research grant</dd></div><div><dt>Subjects</dt><dd>Volunteer terminal users; consent language incomplete in mirror</dd></div><div><dt>Later licensee</dt><dd>Orbit Community Services</dd></div></dl>
         <nav><button data-nav="web://archive.orbitnet.local/labs/method">METHOD / ORDERING TESTS</button><button data-nav="web://archive.orbitnet.local/labs/findings">FINDINGS / LICENSE NOTES</button></nav>
-      </main>`
+      </main>`)
   },
   "web://archive.orbitnet.local/labs/method": {
     url: "web://archive.orbitnet.local/labs/method",
@@ -571,14 +586,15 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     ownerId: "orchard_lee",
     summary: "The study changed menu ordering and social cues to measure attention, recall, return visits, and willingness to continue exploring.",
     listed: false,
+    searchable: false,
     minimumPhase: 2,
-    render: () => `
+    render: (state) => governmentArchivePage(state, `
       <main class="page algorithm-archive-page method-page"><h1>METHOD NOTE 7B: SELECTION IS AN INTERVENTION</h1>
         <ol><li>Present the same twelve records to each participant.</li><li>Change only ordering, repetition, and claims that peers found an item interesting.</li><li>Measure selection, time, return behavior, and confidence.</li><li>After a participant's interest declines, introduce a novel unresolved item.</li></ol>
         <blockquote>“A neutral index does not exist once the system learns from the user. Ordering becomes a continuing behavioral input.”</blockquote>
         <p>The mirror does not establish intelligence-agency control or reliable mind control. It does establish deliberate, measurable attempts to shape attention through interface design.</p>
         <button data-nav="web://archive.orbitnet.local/labs/findings">READ LICENSE NOTES</button>
-      </main>`
+      </main>`)
   },
   [MYSTERY_TERMINAL_URLS.adaptive_index]: {
     url: MYSTERY_TERMINAL_URLS.adaptive_index,
@@ -587,14 +603,15 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     ownerId: "orchard_lee",
     summary: "A real but incomplete archive shows Orbit licensed behavioral ordering research and proposed using unresolved mysteries to restore declining sessions.",
     listed: false,
+    searchable: false,
     minimumPhase: 2,
-    render: () => `
+    render: (state) => governmentArchivePage(state, `
       <main class="page algorithm-archive-page mystery-terminal"><header><b>ARCHIVE CHECK // ADAPTIVE INDEX</b><span>CONCLUSION: AUTHENTIC, INCOMPLETE, TROUBLING</span></header>
         <h1>Orbit did not merely count engagement. It designed for it.</h1>
         <p>A signed 1995 license transfers the ordering system to Orbit's Continuity Group. A 1997 addendum proposes “open questions, unresolved social prompts, and personalized novelty” when session quality declines.</p>
         <p>The archive proves influence-oriented interface testing and undisclosed behavioral measurement. It does not prove the government directed Orbit's later actions, and the final implementation appendix is missing.</p>
         <aside><b>REAL DISCOVERY:</b> Orbit deliberately used algorithms to influence attention and continued participation.<br><b>UNRESOLVED:</b> who expanded the system from ordering pages to operating people?</aside>
-        <footer>CONTINUITY RECOVERY NOTE: JOIN THE FOUR FRAGMENTS WITHOUT SPACES.</footer>
-      </main>`
+        <footer>VERIFIED ARCHIVE // NETWORK STATE CHANGED<br><small>CONTINUITY NOTE: JOIN THE THREE RECOVERY WORDS WITHOUT SPACES.</small></footer>
+      </main>`)
   }
 };

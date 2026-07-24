@@ -123,9 +123,10 @@ current implementation groups its first half into three playable phases:
 1. **Ordinary exploration:** no investigation objective; DarkRaven's locked
    Black File is the first optional gate.
 2. **Active investigation:** opening the Black File restores old Backchannel
-   nodes, introduces `ghostline`, and exposes three synthetic mysteries plus one
-   authentic behavioral-interface archive.
-3. **Continuity pressure:** finding all four conclusions increases posting and
+   nodes and introduces `ghostline`. Six harmless member theories point toward
+   three synthetic headline mysteries; those conclusions assemble the address
+   of an authentic, otherwise hidden behavioral-interface archive.
+3. **Continuity pressure:** verifying that hidden archive increases posting and
    introduces controlled cross-persona slips, inaccuracies, and leaked system
    language.
 
@@ -149,7 +150,9 @@ boundary are recorded in `phase-arc-research.md`.
   and document what it feels like to arrive during the revival.
 - Existing users catch the investigation mood and add harmless, low-evidence
   subpages about changed logos, local cryptids, odd noises, and minor fandom
-  discrepancies. These make rumor-building feel social before the darker bait.
+  discrepancies. Each hides a small observational clue toward one of the three
+  headline investigations, making rumor-building feel social before the darker
+  bait.
 - Characters occasionally share unusual phrasing.
 - Someone knows information they should not possess.
 - An abandoned business responds as though it is staffed.
@@ -162,6 +165,9 @@ These clues must remain individually explainable.
 
 ### Phase 3: Rabbit holes
 
+- A visible wave of genuine explorers arrives after word spreads. Eight initial
+  newcomers have no pages of their own; they appear only in comments and join
+  the normal ambient-comment pool.
 - Genuine documents and peculiar pages suggest corporate or government secrets.
 - Rumors spread between accounts and mutate.
 - The player's searches and stated theories influence which clues surface.

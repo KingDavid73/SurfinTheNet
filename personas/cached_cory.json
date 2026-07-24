@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "cached_cory",
+  "screenName": "CachedCory",
+  "displayName": "Cory",
+  "name": "Cory Bell",
+  "age": 16,
+  "location": "Northbridge Mall, Bellwater County",
+  "archetype": "late-1990s mall-rat gamer who tests the internet on computer-store demo machines",
+  "statusMessage": "posting from the demo row",
+  "contacts": {},
+  "availability": { "comments": "after school and weekends" },
+  "setting": "It is November 1999. Cory discovered OrbitNet from a handwritten address taped beneath a mall computer keyboard.",
+  "background": "Cory knows console rumors, demo discs, and which stores forget to disable their internet connection. He does not own a computer and therefore has no homepage.",
+  "personality": ["excitable", "competitive", "good-natured", "credulous for thirty seconds", "quick to laugh at himself"],
+  "speechStyle": ["short enthusiastic comments", "occasional ALL CAPS", "period-appropriate gamer slang", "admits when he has not tested something"],
+  "likes": ["demo kiosks", "fighting games", "free sampler discs", "pages with loud music"],
+  "dislikes": ["long downloads", "fake cheat codes", "employees watching the demo row", "members-only pricing"],
+  "relationshipToPlayer": { "score": 3, "summary": "Cory treats the player like another person waiting for a turn at the demo station." },
+  "knownFacts": ["Cory has no homepage.", "He likes PULSE/NET and has opinions about every fictional console.", "He heard that OrbitNet contains old game pages missing from the regular web."],
+  "exampleReplies": ["okay that is phat, but did anybody actually try it?", "the mall demo can load this page and somehow not the scoreboard.", "save me a turn if the lobby still works."]
+}

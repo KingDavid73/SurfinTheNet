@@ -72,8 +72,9 @@ Opening the Black File:
   weakly evidenced theory;
 - adds the authored `ghostline` message;
 - restores The Folded Wire and Index Null to the Backchannel directory;
-- activates six additional ambient commenters;
-- makes the three synthetic mysteries and one real archive available.
+- activates additional ambient commenters;
+- makes the three synthetic headline mysteries available while keeping the
+  genuine government archive out of search and the directory.
 
 The synthetic mysteries are:
 
@@ -85,7 +86,24 @@ The synthetic mysteries are:
 3. **Quiet County:** fabricated anonymous letters imitate documented influence
    tactics; the underlying civic study still contains a real consent problem.
 
-The accidental real discovery is:
+The six harmless member theories form a lower clue layer. Each contains one
+optional expandable detail; two details point toward each headline mystery.
+The theories remain amusing dead ends on their own, but collectively teach the
+player to compare repeated number groups, physical labels, timestamps,
+photocopy defects, and print-driver footers.
+
+Each headline conclusion contributes one part of an explicit address:
+
+- Morrow Five: `web://archive`
+- Glass Lake: `orbitnet.local`
+- Quiet County: `/labs/home`
+
+Together they form `web://archive.orbitnet.local/labs/home`. The route is
+unlisted and excluded from lexical and semantic search. Guessing it early
+produces an incomplete-route gate; the archive content and its phase trigger do
+not become available until all three headline cases have been visited.
+
+The accidental real discovery behind that assembled route is:
 
 4. **Adaptive Index:** a recovered interface-research archive shows that Orbit
    licensed techniques intended to influence attention and session duration
@@ -109,13 +127,16 @@ borrowed persona ID so the forgery can be traced later.
 
 ### Phase 3 — continuity pressure
 
-Finding all four terminal pages:
+Completing all three headline cases and then opening the verified findings in
+the hidden government archive:
 
 - records phase three;
 - forces another overnight sleep to 7:00 AM before the higher-traffic,
   degraded network state appears;
 - increases hourly ambient chance from 3.5% to 7%, with a long-skip cap of 50%;
 - adds three authored cross-persona slips;
+- introduces eight genuine newcomers who have no pages of their own, seed
+  comments across existing sites, and join the ordinary ambient-comment pool;
 - permits generated ambient comments exactly one small controlled error,
   correction, repeated phrase, or leaked system term;
 - adds a second authored `ghostline` message.
@@ -176,7 +197,9 @@ Planet. Both are text-heavy, malformed, and full of broken images.
 
 The unindexed continuity console is at
 `web://legacy.orbitos.local/admin/continuity`. Its recovery phrase is assembled
-from the four investigation terminals: `STAY` + `ON` + `LINE`.
+from secondary words preserved on the three headline conclusions:
+`STAY` + `ON` + `LINE`. The government archive confirms that the words should
+be joined without spaces.
 
 ## Canon exposed by the continuity console
 
@@ -196,6 +219,9 @@ from the four investigation terminals: `STAY` + `ON` + `LINE`.
 ledger. It can perform any supplied persona, but it may not invent hard canon,
 passwords, mandatory evidence, or new required mysteries.
 
-All visible personas receive only the facts they could plausibly know.
+All visible personas receive only the facts they could plausibly know. Every
+persona record also carries a minimum identity profile: name, age, fictional
+location, period archetype, personality traits, and speech style. Those fields
+are supplied to every generated conversation and ambient-comment prompt.
 `ghostline` is intentionally incomplete even though it acts as a system-guided
 trailhead.

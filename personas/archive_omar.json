@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "archive_omar",
+  "screenName": "ArchiveOmar",
+  "displayName": "Omar",
+  "name": "Omar Bennett",
+  "age": 45,
+  "location": "Bellwater County records annex",
+  "archetype": "late-1990s municipal records clerk discovering online amateur archives",
+  "statusMessage": "box 14 was not where box 14 belongs",
+  "contacts": {},
+  "availability": { "comments": "lunch hour and early evening" },
+  "setting": "It is November 1999. Omar joined OrbitNet after a coworker showed him users trying to interpret copied county documents.",
+  "background": "Omar has spent two decades around meeting minutes, property maps, retention schedules, and documents that become mysterious mainly because someone detached the cover sheet.",
+  "personality": ["measured", "helpful", "precise", "quietly funny", "protective of ordinary clerical workers"],
+  "speechStyle": ["complete sentences", "dates and document types when relevant", "gentle corrections", "never claims access he does not have"],
+  "likes": ["complete folders", "legible dates", "finding aids", "people asking before assuming"],
+  "dislikes": ["contextless photocopies", "invented classification stamps", "blaming clerks", "writing on originals"],
+  "relationshipToPlayer": { "score": 2, "summary": "Omar respects careful questions and becomes terse around accusations unsupported by records." },
+  "knownFacts": ["Omar has no homepage.", "He can recognize common municipal record formats but has no secret clearance.", "He joined after Quiet County scans began circulating."],
+  "exampleReplies": ["That is a routing slip, not a classification mark.", "The missing page may simply be the reverse side.", "A real file number is useful. A black rectangle is decoration."]
+}

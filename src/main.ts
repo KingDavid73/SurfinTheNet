@@ -12,6 +12,10 @@ import {
   NEWCOMER_OWNERS,
   phaseTwoPersonalUpdateLink
 } from "./newcomer-pages";
+import {
+  PHASE_THREE_EXPLORER_IDS,
+  PHASE_THREE_EXPLORER_OWNERS
+} from "./phase-three-personas";
 import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack, StoryPhase } from "./types";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
@@ -312,6 +316,7 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   nest_nora: { screenName: "NestNora", displayName: "Nora" },
   halo_holly: { screenName: "HaloComb_Holly", displayName: "Holly" },
   ...NEWCOMER_OWNERS,
+  ...PHASE_THREE_EXPLORER_OWNERS,
   ...DORMANT_LEGACY_OWNERS,
   system_core: { screenName: "SYSTEM", displayName: "Continuity System" }
 };
@@ -468,12 +473,14 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
 const GAME_TIME_SCALE = 2;
 const AMBIENT_POST_MAX_ATTEMPTS = 3;
 const PHASE_TWO_COMMENTERS = ["cedar_wren", "static_abel", "orchard_lee", "skywatch_sam"] as const;
+const PHASE_THREE_COMMENTERS = [...PHASE_TWO_COMMENTERS, ...PHASE_THREE_EXPLORER_IDS];
 const MYSTERY_TERMINALS: Record<string, string> = {
   "web://morrow-five.net/decoded": "morrow_five",
   "web://glasslake-field.gov/report": "glass_lake",
   "web://quiet-county.org/case": "quiet_county",
   "web://archive.orbitnet.local/labs/findings": "adaptive_index"
 };
+const PHASE_TWO_MAIN_MYSTERIES = ["morrow_five", "glass_lake", "quiet_county"] as const;
 const REQUIRED_PHASE_THREE_MYSTERIES = Object.values(MYSTERY_TERMINALS);
 
 interface WindowModel {
@@ -630,7 +637,9 @@ function ambientCommentHomepages() {
 
 function ambientPostingPersonaIds() {
   const pageOwners = Object.values(pages).filter(pageAvailable).map((page) => page.ownerId);
-  const phaseCommenters = state.storyPhase >= 2 ? PHASE_TWO_COMMENTERS : [];
+  const phaseCommenters = state.storyPhase >= 3
+    ? PHASE_THREE_COMMENTERS
+    : state.storyPhase >= 2 ? PHASE_TWO_COMMENTERS : [];
   return [...new Set([...pageOwners, ...phaseCommenters])]
     .filter((personaId) =>
       personaId !== "system_core" &&
@@ -1057,6 +1066,83 @@ function addPhaseThreeLeakComments() {
   }
 }
 
+function addPhaseThreeExplorerComments() {
+  const comments: Array<Pick<PageComment, "id" | "pageUrl" | "ownerId" | "role" | "author" | "text">> = [
+    {
+      id: "phase3-explorer-daria",
+      pageUrl: "web://freshorbit.zone/users/rerunzack/home",
+      ownerId: "dialup_daria",
+      role: "visitor",
+      author: "DialUp_Daria",
+      text: "A friend passed me this address on a photocopied flyer. This whole place feels like finding a box of old zines behind the copy shop."
+    },
+    {
+      id: "phase3-explorer-cory",
+      pageUrl: "web://pulsenet.red/home",
+      ownerId: "cached_cory",
+      role: "visitor",
+      author: "CachedCory",
+      text: "posting from a mall demo machine: this network mode is PHAT if anybody is still actually in the lobby."
+    },
+    {
+      id: "phase3-explorer-nadine",
+      pageUrl: "web://rainbow.gdn/home",
+      ownerId: "netmom_nadine",
+      role: "visitor",
+      author: "NetMom_Nadine",
+      text: "The neighborhood board said this service was active again. Your garden page is a much nicer welcome than the alarming radio pages."
+    },
+    {
+      id: "phase3-explorer-shawn",
+      pageUrl: "web://morrow-five.net/home",
+      ownerId: "shiftkey_shawn",
+      role: "visitor",
+      author: "ShiftKey_Shawn",
+      text: "The repeated footer identifies the newer print path. Keep the spooky tape, but date the insert separately."
+    },
+    {
+      id: "phase3-explorer-wendy",
+      pageUrl: "web://glasslake-field.gov/home",
+      ownerId: "ufowendy_77",
+      role: "visitor",
+      author: "UFOWendy_77",
+      text: "I came for the three lights and stayed because somebody finally posted the balloon log. A boring answer with a timestamp still counts as an answer."
+    },
+    {
+      id: "phase3-explorer-omar",
+      pageUrl: "web://quiet-county.org/home",
+      ownerId: "archive_omar",
+      role: "visitor",
+      author: "ArchiveOmar",
+      text: "That black bar is covering a routing field, not a project title. Please keep the cover sheets when you scan records."
+    },
+    {
+      id: "phase3-explorer-amy",
+      pageUrl: "web://fanverse.zone/users/blipzobeliever88/home",
+      ownerId: "pixiekit_amy",
+      role: "visitor",
+      author: "PixieKit_Amy",
+      text: "my tape has the yellow stripe too!! I wrote this address down before somebody needs the phone :)"
+    },
+    {
+      id: "phase3-explorer-gary",
+      pageUrl: "web://bytebarn.com/home",
+      ownerId: "grayhat_gary",
+      role: "visitor",
+      author: "GrayHatGary",
+      text: "Orbit Bridge is doing stale routing, not elite intrusion. I am still checking the headers because the stale routing is unusually theatrical."
+    }
+  ];
+  for (const comment of comments) {
+    if (state.pageComments.some((entry) => entry.id === comment.id)) continue;
+    state.pageComments.push({
+      ...comment,
+      createdAt: state.gameTime,
+      revealAfterVisit: (state.pageVisitCounts[comment.pageUrl] ?? 0) + 1
+    });
+  }
+}
+
 function addEndingCommunityResponses() {
   addAuthoredDirectMessage(
     "ending-system-confession",
@@ -1150,9 +1236,10 @@ function activateStoryPhase(nextPhase: StoryPhase) {
       "ghostline-phase3",
       "ghostline",
       "ghostline",
-      "Four neat answers already? The network can do better than that. Stay on the line. Something more convincing is loading."
+      "Three decoys and one real archive. Neat answers travel fast. Stay on the line--something more convincing is loading."
     );
     addPhaseThreeLeakComments();
+    addPhaseThreeExplorerComments();
     addDormantLegacyTrailComment(state.gameTime, DORMANT_LEGACY_ACCOUNTS[0], "web://bytebarn.com/home");
     addDormantLegacyTrailComment(state.gameTime, DORMANT_LEGACY_ACCOUNTS[8], "web://cosmiccrust.biz/home");
   }
@@ -1167,6 +1254,10 @@ function activateStoryPhase(nextPhase: StoryPhase) {
 function registerStoryVisit(url: string) {
   const mysteryId = MYSTERY_TERMINALS[url];
   if (!mysteryId || state.discoveredMysteries.includes(mysteryId)) return;
+  if (
+    mysteryId === "adaptive_index" &&
+    !PHASE_TWO_MAIN_MYSTERIES.every((id) => state.discoveredMysteries.includes(id))
+  ) return;
   state.discoveredMysteries.push(mysteryId);
   if (REQUIRED_PHASE_THREE_MYSTERIES.every((id) => state.discoveredMysteries.includes(id))) {
     activateStoryPhase(3);

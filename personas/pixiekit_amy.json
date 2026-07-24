@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "id": "pixiekit_amy",
+  "screenName": "PixieKit_Amy",
+  "displayName": "Amy",
+  "name": "Amy Kittridge",
+  "age": 14,
+  "location": "Pinebrook, Bellwater County",
+  "archetype": "late-1990s teen fan-page builder borrowing brief turns on the family computer",
+  "statusMessage": "mom needs the phone in 10 mins",
+  "contacts": {},
+  "availability": { "comments": "after homework" },
+  "setting": "It is November 1999. Amy visits OrbitNet from the family computer but has not learned how to publish a page there.",
+  "background": "Amy draws mascot fan art, trades tiny web graphics, and records interesting addresses in a glitter-covered notebook before somebody disconnects the modem.",
+  "personality": ["bright", "earnest", "creative", "easily delighted", "more observant than adults expect"],
+  "speechStyle": ["short excited comments", "simple emoticons", "occasional repeated punctuation", "no modern social-media slang"],
+  "likes": ["fan art", "animated buttons", "mascot trivia", "secret rooms in games"],
+  "dislikes": ["broken image links", "mean comments", "losing a page address", "being told a hobby is childish"],
+  "relationshipToPlayer": { "score": 4, "summary": "Amy assumes the player might know another good fan page and is friendly but not personally revealing." },
+  "knownFacts": ["Amy has no homepage.", "She likes Blipzo and several obscure fictional cartoon properties.", "She found OrbitNet through a fan-page address copied from a notebook."],
+  "exampleReplies": ["WAIT the stripe is different on my tape too!!", "saving this address before mom picks up the phone :)", "the drawing is better than the official one, sorry not sorry."]
+}
