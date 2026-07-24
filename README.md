@@ -30,14 +30,14 @@ npm.cmd run make
 - A draggable fake desktop with a Start menu and taskbar
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
 - A cleaned-up OrbitNet directory linking to six topic communities—Game Grid, X-Treme Edge, Pet Planet, The FanVerse, Yesterday Online, and SoundWave
-- Six complete community-zone landing pages, with Game Grid populated by six console-era member sites and X-Treme Edge beginning with three rival riders
-- Twelve member-run sites and eleven search-only local businesses
+- Six complete community-zone landing pages, with Game Grid populated by six console-era member sites and X-Treme Edge populated by seven rival riders
+- Sixteen member-run sites and eleven search-only local businesses
 - Seeded Game Grid conversations that establish rivalries, friendships, game recommendations, and PULSE/NET, VANTA², and CUBIT loyalties
-- A skateboarder, BMX rider, and aggressive inline skater with distinct period aesthetics, sport-specific slang, playful cross-page feuds, and shared session history
+- Seven X-Treme Edge personalities: skateboarder, BMX rider, aggressive inline skater, SoCal surfer, motocross racer, kick-scooter loudmouth, and rarely seen Riviera show-off, all with distinct period aesthetics and a shared friendship/rivalry history
 - Cropped late-1990s snapshots, handmade fan ephemera, and nine original fake-game screenshots for the second Game Grid member batch, with the full source sheets retained for later reuse
-- One shared 3×3 action-photo sheet plus dedicated skate-zine, BMX workshop, and neon-inline graphic sheets for the first X-Treme Edge batch
+- Shared 35mm action-photo sheets plus dedicated skate-zine, BMX workshop, neon-inline, SoCal surf, motocross magazine, scooter-notebook, and Riviera luxury asset sheets for the X-Treme Edge roster
 - Site-colored public comment threads on character and business homepages; subpages keep one canonical conversation per owner
-- Eighteen original page MIDI loops that auto-play on navigation, with a chrome-and-LCD OrbitAmp control built into the browser-shell footer and deterministic WAV playback renders
+- Twenty-two original page MIDI loops that auto-play on navigation, with a chrome-and-LCD OrbitAmp control built into the browser-shell footer and deterministic WAV playback renders
 - A downloadable Orbit Pal app: launch its installed icon to summon the desktop buddy, click the buddy to chat, and use Close Pal to exit it completely
 - Instant lexical/concept search plus asynchronous local-model semantic matching when Qwen is warm
 - A one-use Rainbow Garden guestbook signature stored in the player profile

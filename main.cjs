@@ -26,7 +26,7 @@ const DEFAULT_SAVE = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8 }
 };
 
 function savePath() {
@@ -193,15 +193,19 @@ function createWindow() {
               const expectedRiderUrls = [
                 "web://xtreme.zone/users/deckwreckerdee/home",
                 "web://xtreme.zone/users/crankcasecole/home",
-                "web://xtreme.zone/users/neonbladenico/home"
+                "web://xtreme.zone/users/neonbladenico/home",
+                "web://xtreme.zone/users/tideriderty/home",
+                "web://xtreme.zone/users/throttletroy/home",
+                "web://xtreme.zone/users/scootlordollie/home",
+                "web://xtreme.zone/users/veloceviktor/home"
               ];
               const riderUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.xtreme-member-card')).map((card) => card.getAttribute('data-nav'))`);
               if (JSON.stringify(riderUrls) !== JSON.stringify(expectedRiderUrls)) throw new Error(`X-Treme Edge member directory was incomplete: ${JSON.stringify(riderUrls)}`);
               await win.webContents.executeJavaScript(`document.querySelector('.xtreme-member-directory')?.scrollIntoView({ block: 'start' }); true`);
               await capture("orbitnet-zone-xtreme-members.png");
-              const riderClasses = [".dee-page", ".cole-page", ".nico-page"];
-              const featureClasses = [".dee-feature", ".cole-jump", ".nico-action"];
-              const trackLabels = ["Curb Static", "Dirtline Drive", "Eight-Wheel Velocity"];
+              const riderClasses = [".dee-page", ".cole-page", ".nico-page", ".ty-page", ".troy-page", ".ollie-page", ".viktor-page"];
+              const featureClasses = [".dee-feature", ".cole-jump", ".nico-action", ".ty-action", ".troy-action", ".ollie-action", ".viktor-feature"];
+              const trackLabels = ["Curb Static", "Dirtline Drive", "Eight-Wheel Velocity", "Pacific Lazyline", "Roost and Thunder", "Scooter Siren", "Riviera Idle"];
               for (let riderIndex = 0; riderIndex < expectedRiderUrls.length; riderIndex += 1) {
                 await click(`[data-nav="${expectedRiderUrls[riderIndex]}"]`);
                 const riderPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(riderClasses[riderIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.xtreme-art').length >= 8 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[riderIndex])})`);
@@ -792,7 +796,7 @@ function createWindow() {
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
-          if (randomCalls !== 25) throw new Error(`Expected 24 persona rolls plus one page selection, got ${randomCalls} random calls`);
+          if (randomCalls !== 29) throw new Error(`Expected 28 persona rolls plus one page selection, got ${randomCalls} random calls`);
           const finalSaved = await waitForAmbientIdle(2);
           const hourlyAmbient = finalSaved.pageComments.find((comment) => comment.role === "visitor" && comment.id !== miraAmbient.id);
           if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);

@@ -26,7 +26,11 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
   earl: { label: "Honest Handshake", file: "honest-handshake.mid", midiUrl: new URL("../assets/audio/pages/honest-handshake.mid", import.meta.url).href, url: new URL("../assets/audio/pages/honest-handshake.wav", import.meta.url).href },
   skater: { label: "Curb Static", file: "curb-static.mid", midiUrl: new URL("../assets/audio/pages/curb-static.mid", import.meta.url).href, url: new URL("../assets/audio/pages/curb-static.wav", import.meta.url).href },
   bmx: { label: "Dirtline Drive", file: "dirtline-drive.mid", midiUrl: new URL("../assets/audio/pages/dirtline-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/dirtline-drive.wav", import.meta.url).href },
-  blader: { label: "Eight-Wheel Velocity", file: "eight-wheel-velocity.mid", midiUrl: new URL("../assets/audio/pages/eight-wheel-velocity.mid", import.meta.url).href, url: new URL("../assets/audio/pages/eight-wheel-velocity.wav", import.meta.url).href }
+  blader: { label: "Eight-Wheel Velocity", file: "eight-wheel-velocity.mid", midiUrl: new URL("../assets/audio/pages/eight-wheel-velocity.mid", import.meta.url).href, url: new URL("../assets/audio/pages/eight-wheel-velocity.wav", import.meta.url).href },
+  surfer: { label: "Pacific Lazyline", file: "pacific-lazyline.mid", midiUrl: new URL("../assets/audio/pages/pacific-lazyline.mid", import.meta.url).href, url: new URL("../assets/audio/pages/pacific-lazyline.wav", import.meta.url).href },
+  motocross: { label: "Roost and Thunder", file: "roost-and-thunder.mid", midiUrl: new URL("../assets/audio/pages/roost-and-thunder.mid", import.meta.url).href, url: new URL("../assets/audio/pages/roost-and-thunder.wav", import.meta.url).href },
+  scooter: { label: "Scooter Siren", file: "scooter-siren.mid", midiUrl: new URL("../assets/audio/pages/scooter-siren.mid", import.meta.url).href, url: new URL("../assets/audio/pages/scooter-siren.wav", import.meta.url).href },
+  euro: { label: "Riviera Idle", file: "riviera-idle.mid", midiUrl: new URL("../assets/audio/pages/riviera-idle.mid", import.meta.url).href, url: new URL("../assets/audio/pages/riviera-idle.wav", import.meta.url).href }
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -49,7 +53,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -76,7 +80,11 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   code_dex: { screenName: "CodeDex", displayName: "Dex" },
   deckwrecker_dee: { screenName: "DeckWrecker_Dee", displayName: "Dee" },
   crankcase_cole: { screenName: "CrankCase_Cole", displayName: "Cole" },
-  neonblade_nico: { screenName: "NeonBlade_Nico", displayName: "Nico" }
+  neonblade_nico: { screenName: "NeonBlade_Nico", displayName: "Nico" },
+  tiderider_ty: { screenName: "TideRider_Ty", displayName: "Ty" },
+  throttle_troy: { screenName: "Throttle_Troy", displayName: "Troy" },
+  scootlord_ollie: { screenName: "ScootLord_Ollie", displayName: "Ollie" },
+  veloce_viktor: { screenName: "Veloce_Viktor", displayName: "Viktor" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -109,7 +117,11 @@ const CHARACTER_CONTACTS: Record<string, {
   code_dex: { screenName: "CodeDex", displayName: "Dex", statusMessage: "testing one more extremely specific rumor" },
   deckwrecker_dee: { screenName: "DeckWrecker_Dee", displayName: "Dee", statusMessage: "waxing a curb. mind your business." },
   crankcase_cole: { screenName: "CrankCase_Cole", displayName: "Cole", statusMessage: "trail's dry. send it." },
-  neonblade_nico: { screenName: "NeonBlade_Nico", displayName: "Nico", statusMessage: "night session // eight wheels online" }
+  neonblade_nico: { screenName: "NeonBlade_Nico", displayName: "Nico", statusMessage: "night session // eight wheels online" },
+  tiderider_ty: { screenName: "TideRider_Ty", displayName: "Ty", statusMessage: "dawn patrol, maybe" },
+  throttle_troy: { screenName: "Throttle_Troy", displayName: "Troy", statusMessage: "317 ready for Sunday" },
+  scootlord_ollie: { screenName: "ScootLord_Ollie", displayName: "Ollie", statusMessage: "THUNDER SCOOT 2.0 IS COMING" },
+  veloce_viktor: { screenName: "Veloce_Viktor", displayName: "Viktor", statusMessage: "away // marina reception" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -136,7 +148,11 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   code_dex: "web://gamegrid.zone/users/codedex/home",
   deckwrecker_dee: "web://xtreme.zone/users/deckwreckerdee/home",
   crankcase_cole: "web://xtreme.zone/users/crankcasecole/home",
-  neonblade_nico: "web://xtreme.zone/users/neonbladenico/home"
+  neonblade_nico: "web://xtreme.zone/users/neonbladenico/home",
+  tiderider_ty: "web://xtreme.zone/users/tideriderty/home",
+  throttle_troy: "web://xtreme.zone/users/throttletroy/home",
+  scootlord_ollie: "web://xtreme.zone/users/scootlordollie/home",
+  veloce_viktor: "web://xtreme.zone/users/veloceviktor/home"
 };
 
 const GAME_TIME_SCALE = 2;
