@@ -126,6 +126,12 @@ Yesterday Online combines generated amateur 35mm portraits with nine archival
 GeoCities-era animations sourced through GifCities. Exact asset and archived-page
 provenance is retained in `assets/images/yesterday/gifs/SOURCES.md`.
 
+The homepage and member directories use low-resolution, creator-specific page
+buttons cropped from 4x4 amateur-web contact sheets in
+`artwork/button-sheets/`. The active 180px crops live in
+`assets/images/navigation-buttons/`; the research and future GifCities/background
+workflow are recorded in `docs/design-research.md`.
+
 The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium plays the matching `assets/audio/orbitos-startup.wav` for predictable sound on every machine. Regenerate both from source with `node scripts/generate-startup-jingle.mjs`.
 
 Page loops live in `assets/audio/pages/` as editable MIDI plus matching WAV renders. Regenerate them with `npm.cmd run music:generate`. The homepage uses the softer, percussion-free “Orbit Avenue Afterglow” loop; period music and player-design notes live in `docs/period-web-music-notes.md`.

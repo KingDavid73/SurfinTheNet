@@ -156,7 +156,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page gamegrid-user-page lagmaster-page">
         <header><small>GAME GRID MEMBER PAGE // USER 00481</small><h1>_LAGMASTER_99_</h1><p>WELCOME TO THE 56K FRAG SHACK</p></header>
-        <nav><button data-nav="${GAMEGRID_URL}">&lt;&lt; GAME GRID</button><button data-nav="web://pulsenet.red/home">PULSE/NET</button><button disabled>RANKINGS</button><button disabled>DEMOS</button></nav>
+        <nav><button data-nav="${GAMEGRID_URL}">&lt;&lt; GAME GRID</button><button data-nav="web://pulsenet.red/home">PULSE/NET</button></nav>
         <div class="lag-marquee">*** LAG IS A CONDITION — LOSING IS A DECISION ***</div>
         <section class="lag-hero">
           <div class="lag-rig"><span>56K</span><b>PULSE/NET</b><i>ONLINE</i></div>
@@ -186,7 +186,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
       <main class="page gamegrid-user-page velvetmage-page">
         <div class="velvet-stars">✦　·　.　✧　.　·　✦　·　.　✧　.　·　✦</div>
         <header><small>an RPG journal by</small><h1>VelvetMage</h1><p>~ rest here before the next world ~</p></header>
-        <nav><button data-nav="${GAMEGRID_URL}">Game Grid</button><button data-nav="web://vanta2.com/home">VANTA² Transmission</button><button disabled>Fan Art</button><button disabled>Save Files</button></nav>
+        <nav><button data-nav="${GAMEGRID_URL}">Game Grid</button><button data-nav="web://vanta2.com/home">VANTA² Transmission</button></nav>
         <section class="velvet-intro">
           <div class="velvet-orb"><span>VM</span></div>
           <div><h2>Welcome, traveler.</h2><p>I keep journals for games that deserve more thought than a score out of ten. At present I am replaying <b>Kingdoms of Ashglass</b> on my original Axiom and saving for a VANTA².</p><p>Please do not email me to say the library chapter is boring. The library chapter explains everything.</p></div>
@@ -214,7 +214,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page gamegrid-user-page playerfour-page">
         <header><div class="four-logo">P<span>4</span>E</div><div><small>PLAYER FOUR'S COUCH</small><h1>EVERY CONTROLLER COUNTS!</h1><p>A CUBIT fan page by PlayerFourEver</p></div></header>
-        <nav><button data-nav="${GAMEGRID_URL}">&lt;&lt; GAME GRID</button><button data-nav="web://cubit.fun/home">CUBIT HOME</button><button data-nav="web://cubit.fun/games">GAME LIST</button><button disabled>PRINTABLE SCORECARD</button></nav>
+        <nav><button data-nav="${GAMEGRID_URL}">&lt;&lt; GAME GRID</button><button data-nav="web://cubit.fun/home">CUBIT HOME</button><button data-nav="web://cubit.fun/games">GAME LIST</button></nav>
         <section class="four-welcome"><div class="four-controller"><i></i><b>4</b><em></em></div><div><h2>Controller Four Is Not the Bad Controller.</h2><p>Everybody acts like player four gets the loose controller and the corner of the couch. Not here. Pick a color, grab a snack, and settle it in the game.</p></div></section>
         <section class="four-scoreboard">
           <h2>LAST SATURDAY'S SCOREBOARD</h2>
@@ -244,7 +244,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page gamegrid-user-page maddy-page">
         <header><div><small>MODKIT_MADDY'S PERSONAL WORKBENCH</small><h1>MADDY'S MAP LAB</h1><p>if it compiles, ship it to your friends on a floppy</p></div>${gameGridImage("maddy-wizard-pc", "Maddy's hand-drawn wizard computer mascot", "maddy-mascot")}</header>
-        <nav><button data-nav="${GAMEGRID_URL}">&lt; GAME GRID</button><button disabled>MY MAPS</button><button disabled>MOD LINKS</button><button data-nav="web://bytebarn.com/home">PC PARTS</button></nav>
+        <nav><button data-nav="${GAMEGRID_URL}">&lt; GAME GRID</button><button data-nav="web://bytebarn.com/home">PC PARTS</button></nav>
         <section class="maddy-intro">
           ${gameGridImage("maddy-portrait", "A scanned 1999 snapshot of Maddy at her beige PC")}
           <div><h2>Hello, geometry enjoyers!</h2><p>I'm Maddy. I make levels after homework, test them until the sun comes up, and mail the least broken versions to people who promise to read README files.</p><p>My PC is a Byte Barn Orbit 350 with an extremely unofficial purple joystick. PULSE/NET gets the best online lobbies, but no console lets me move a wall two pixels because it feels better.</p></div>
@@ -276,7 +276,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page gamegrid-user-page queenie-page">
         <header>${gameGridImage("queenie-token-crown", "A handmade crown built from colorful arcade tokens")}<div><small>INSERT COIN // CLAIM THE CROWN</small><h1>QUARTER<br>QUEEN</h1><p>local cabinets, honest scores, zero continues</p></div></header>
-        <nav><button data-nav="${GAMEGRID_URL}">GAME GRID</button><button disabled>SCORES</button><button disabled>CABINET MAP</button><button data-nav="web://pulsenet.red/home">HOME PORTS</button></nav>
+        <nav><button data-nav="${GAMEGRID_URL}">GAME GRID</button><button data-nav="web://pulsenet.red/home">HOME PORTS</button></nav>
         <section class="queenie-intro">
           ${gameGridImage("queenie-portrait", "A scanned snapshot of QuarterQueen inside a neighborhood arcade")}
           <div><h2>Welcome to the Token Palace.</h2><p>I'm Queenie. If an arcade has sticky carpet, a change machine that only likes certain dollars, and one cabinet nobody else can clear, I want its address.</p><p>Current territory: Star Harbor Arcade, Galaxy Lanes lobby, and the laundromat with Graveyard Shift '99 beside dryer twelve.</p></div>
@@ -317,7 +317,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
           <article><header><b>FILE V-204</b><span>PARTIAL</span></header>${gameGridImage("dream-orchard", "Screenshot of the fictional VANTA2 game Dream Orchard")}<h2>Dream Orchard</h2><p>A tree without a shadow hides the silver fruit. Waiting is an input, even when no button is pressed.</p><small>VANTAÂ² // MOON ORCHARD MAP</small></article>
           <article><header><b>FILE C-088</b><span>RUMOR</span></header>${gameGridImage("microbe-ranch", "Screenshot of the fictional CUBIT game Microbe Ranch")}<h2>Microbe Ranch</h2><p>Blue + blue may produce orange after midnight. Cubby will neither confirm nor confiscate my notes.</p><small>CUBIT // BREEDING CHART</small></article>
         </section>
-        <section class="dex-map-box">${gameGridImage("dex-orchard-map", "CodeDex's colored-pencil map of the Dream Orchard")}<div><h2>MAP OF THE WEEK</h2><p>Dream Orchard's fruit cycle, reconstructed from moon phases, save files, and VelvetMage standing in the wrong grove for forty minutes.</p><button disabled>VIEW FULL-SIZE MAP (72K)</button></div></section>
+        <section class="dex-map-box">${gameGridImage("dex-orchard-map", "CodeDex's colored-pencil map of the Dream Orchard")}<div><h2>MAP OF THE WEEK</h2><p>Dream Orchard's fruit cycle, reconstructed from moon phases, save files, and VelvetMage standing in the wrong grove for forty minutes.</p></div></section>
         <aside class="dex-archive">${gameGridImage("dex-space", "A shelf of fictional consoles, games and handwritten strategy binders")}<p><b>THE PHYSICAL ARCHIVE:</b> Three consoles, twenty-seven binders, sixty-one game boxes, and one cartridge labeled only with a question mark.</p></aside>
         <p class="gamegrid-owner-note">Submit a secret below. Please label rumors before they become everybody's afternoon.</p>
       </main>`

@@ -150,6 +150,42 @@ Sources: [personal-homepage study](https://pages.gseis.ucla.edu/faculty/bates/ar
 [Olia Lialina's vernacular-web essay](https://networkcultures.org/decadeofwebdesign/2014/06/05/olia-lialina/),
 [Web Design Museum exhibitions](https://www.webdesignmuseum.org/exhibitions).
 
+## Creator-made directory graphics
+
+Zone and member-page entry graphics should feel authored by the people behind
+the pages, not commissioned as one professional icon family. The useful lesson
+from the [Hypnospace club-button archive](https://hypnospace-outlaw-rips.neocities.org/clubs/Clubs)
+is variety in skill, materials, dimensions, and taste: one creator may use an
+early Photoshop bevel and lens flare, another a scanned photograph with a crude
+lasso edge, and another a Paint-style doodle or stretched clip-art image.
+
+Production rules:
+
+- Generate low-resolution contact sheets in a 4x4 grid when the set can share a
+  research brief. Sixteen source graphics per sheet is the default efficiency
+  target.
+- Downsample directory crops to roughly 180 pixels wide before integration.
+- Preserve jagged selections, dithering, scanner dust, JPEG halos, cheap preset
+  effects, awkward whitespace, and inconsistent creator skill.
+- Keep page names in HTML when image-generation lettering would be unreliable.
+  The graphic can act as the creator-made badge beside the editable link label.
+- Do not turn the network into a unified set of polished retro app icons.
+
+For every future page batch, search [GifCities](https://gifcities.org/) for one
+or two theme-appropriate archived GeoCities animations after the design research
+is locked. Record the original GIF and archived-page provenance beside the
+download, following the existing Yesterday Online `SOURCES.md` pattern.
+[Internet Archive's GifCities update](https://blog.archive.org/2025/06/09/keep-on-gifin-a-new-version-of-gifcities-internet-archives-geocities-animated-gif-search-engine/)
+documents semantic and size-filtered search. [Cameron's World](https://www.cameronsworld.net/)
+is a useful composition reference for dense, personal, uneven collage rather
+than a source to copy wholesale.
+
+Future tiled-background passes should use the
+[Hypnospace background archive](https://hypnospace-outlaw-rips.neocities.org/backgrounds/backgrounds)
+as a reference for scale, repetition, contrast, and page-specific identity.
+Create original tiles for OrbitNet instead of importing Hypnospace's shipped
+art.
+
 ## Flash-era sites
 
 Flash was a medium, not a single style. Its recognizable grammar was a fixed

@@ -331,7 +331,6 @@ function createWindow() {
             if (zoneUrl.endsWith("/cozycommons")) {
               const cozyUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.cozy-member-card')).map((card) => card.getAttribute('data-nav'))`);
               if (JSON.stringify(cozyUrls) !== JSON.stringify(["web://rainbow.gdn/home"])) throw new Error(`Cozy Commons member directory was incomplete: ${JSON.stringify(cozyUrls)}`);
-              if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.cozy-coming-soon'))`)) throw new Error("Cozy Commons did not include its open-directory notice");
               await win.webContents.executeJavaScript(`document.querySelector('.cozy-member-directory')?.scrollIntoView({ block: 'start' }); true`);
               await capture("orbitnet-zone-cozy-commons.png");
             }

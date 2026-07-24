@@ -64,7 +64,7 @@ export const dealerPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page kingcal-page">
         <header class="kingcal-header"><div><span>♛</span><h1>KING CAL'S</h1><b>AUTO KINGDOM</b></div><p>EVERYBODY RIDES LIKE ROYALTY!</p></header>
-        <nav class="kingcal-nav"><button data-nav="${CAL_URL}">CASTLE GATES</button><button data-nav="web://kingcalscars.biz/inventory">ROYAL INVENTORY</button><button disabled>INSTANT APPROVAL</button><button data-nav="${EARL_URL}">WHY EARL IS WRONG</button></nav>
+        <nav class="kingcal-nav"><button data-nav="${CAL_URL}">CASTLE GATES</button><button data-nav="web://kingcalscars.biz/inventory">ROYAL INVENTORY</button><button data-nav="${EARL_URL}">WHY EARL IS WRONG</button></nav>
         <div class="kingcal-marquee">KING CAL WILL NOT BE UNDERSOLD! &nbsp; ESPECIALLY BY HONEST EARL, WHO IS NEITHER!</div>
         <section class="kingcal-hero">
           <div class="cal-portrait">${dealerAsset("cal-owner", "King Cal in a mustard suit and plastic crown leaning on a burgundy used sedan")}<span>THE KING<br>HIMSELF!</span></div>
@@ -92,7 +92,7 @@ export const dealerPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page kingcal-page cal-inventory-page">
         <header class="kingcal-header"><div><span>♛</span><h1>KING CAL'S</h1><b>ROYAL INVENTORY</b></div><p>THREE CHARIOTS. MANY PAYMENTS.</p></header>
-        <nav class="kingcal-nav"><button data-nav="${CAL_URL}">CASTLE GATES</button><button>ROYAL INVENTORY</button><button disabled>INSTANT APPROVAL</button></nav>
+        <nav class="kingcal-nav"><button data-nav="${CAL_URL}">CASTLE GATES</button></nav>
         <section class="cal-inventory-grid">
           <article>${dealerAsset("cal-sedan", "The burgundy Crown Regent used sedan")}<h2>1990 CROWN REGENT</h2><p>142,000 mi · automatic · radio receives most stations · passenger window stored safely inside door</p><strong>$1,999 DOWN<br>+ $89/WK × 156</strong><b>$15,883 + TAX &amp; FEES</b></article>
           <article>${dealerAsset("cal-minivan", "A faded blue and woodgrain Family Voyager minivan")}<h2>1988 FAMILY VOYAGER</h2><p>187,000 mi · seven seats · simulated wood · air conditioning described as seasonal</p><strong>$7,995 CASH</strong><b>FINANCING TOTAL AVAILABLE IN OFFICE</b></article>
@@ -117,7 +117,7 @@ export const dealerPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page earl-page">
         <header class="earl-header"><div><small>YOUR NEIGHBOR IN AUTOMOTIVE FRIENDSHIP</small><h1>HONEST <span>EARL'S</span></h1><b>BUDGET MOTORS</b></div><strong>✓ HONEST PRICES<br>✓ HONEST CARS<br>✓ HONEST!</strong></header>
-        <nav class="earl-nav"><button data-nav="${EARL_URL}">HOME, NEIGHBOR</button><button data-nav="web://honestearl.com/inventory">HONEST INVENTORY</button><button disabled>FRIENDLY CREDIT</button><button data-nav="${CAL_URL}">KING CAL FACT CHECK</button></nav>
+        <nav class="earl-nav"><button data-nav="${EARL_URL}">HOME, NEIGHBOR</button><button data-nav="web://honestearl.com/inventory">HONEST INVENTORY</button><button data-nav="${CAL_URL}">KING CAL FACT CHECK</button></nav>
         <div class="earl-alert">WHY PAY FOR CAL'S CROWN? &nbsp; HONEST EARL BEATS ANY LEGIBLE OFFER BY ONE WHOLE DOLLAR!</div>
         <section class="earl-hero">
           <div>${dealerAsset("earl-owner", "Honest Earl in a white sport coat giving two thumbs up beside a yellow hatchback")}<span>THAT'S<br>HONEST EARL!</span></div>
@@ -145,7 +145,7 @@ export const dealerPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page earl-page earl-inventory-page">
         <header class="earl-header"><div><small>YOUR NEIGHBOR IN AUTOMOTIVE FRIENDSHIP</small><h1>HONEST <span>EARL'S</span></h1><b>HONEST INVENTORY</b></div><strong>EVERY PRICE<br>HAS A NUMBER!</strong></header>
-        <nav class="earl-nav"><button data-nav="${EARL_URL}">HOME, NEIGHBOR</button><button>HONEST INVENTORY</button><button disabled>FRIENDLY CREDIT</button></nav>
+        <nav class="earl-nav"><button data-nav="${EARL_URL}">HOME, NEIGHBOR</button></nav>
         <section class="earl-inventory-grid">
           <article>${dealerAsset("earl-hatchback", "The yellow SunnyBee used hatchback")}<h2>1989 SUNNYBEE</h2><p>164,000 mi · automatic · compact outside · surprisingly expansive payment schedule</p><strong>$1,495 DOWN<br>+ $79/WK × 180</strong><b>$15,715 + TAX &amp; FEES</b></article>
           <article>${dealerAsset("earl-convertible", "A faded white Breeze convertible with a cloudy roof")}<h2>1991 BREEZE CONVERTIBLE</h2><p>118,000 mi · top included · cooling system encourages open-air driving · three matching hubcaps</p><strong>$2,000 DOWN<br>+ $129/WK × 156</strong><b>$22,124 + TAX &amp; FEES</b></article>

@@ -184,7 +184,7 @@ const pageTemplate = ({
 }) => `
   <main class="page pet-member-page ${className}">
     <header><small>${eyebrow}</small><h1>${title}</h1><p>${subtitle}</p></header>
-    <nav><button data-nav="${PET_PLANET_URL}">&lt; PET PLANET</button><button disabled>PHOTO ALBUM</button><button disabled>CARE NOTES</button><button disabled>FAVORITE LINKS</button></nav>
+    <nav><button data-nav="${PET_PLANET_URL}">&lt; PET PLANET</button></nav>
     <section class="pet-member-intro">${petImage(portrait, portraitAlt)}<div><h2>${introTitle}</h2><p>${intro}</p></div></section>
     <section class="pet-member-feature">${petImage(activity, activityAlt)}<div><small>NEW PHOTO // NOVEMBER 1999</small><h2>${featureTitle}</h2><p>${feature}</p></div></section>
     <section class="pet-member-facts"><article><b>01</b><h2>FAVORITE THING</h2><p>${facts[0]}</p></article><article><b>02</b><h2>STRANGEST HABIT</h2><p>${facts[1]}</p></article><article><b>03</b><h2>HOUSE RULE</h2><p>${facts[2]}</p></article></section>

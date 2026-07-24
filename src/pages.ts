@@ -51,6 +51,52 @@ const BUSINESS_ASSETS = {
 } as const;
 const businessAsset = (name: keyof typeof BUSINESS_ASSETS, alt: string, className = "") =>
   `<img class="business-web-art ${className}" src="${BUSINESS_ASSETS[name]}" alt="${alt}">`;
+const NAV_BUTTON_ASSETS: Record<string, string> = {
+  "gamegrid-zone": new URL("../assets/images/navigation-buttons/gamegrid-zone.png", import.meta.url).href,
+  "xtreme-zone": new URL("../assets/images/navigation-buttons/xtreme-zone.png", import.meta.url).href,
+  "petplanet-zone": new URL("../assets/images/navigation-buttons/petplanet-zone.png", import.meta.url).href,
+  "fanverse-zone": new URL("../assets/images/navigation-buttons/fanverse-zone.png", import.meta.url).href,
+  "yesterday-zone": new URL("../assets/images/navigation-buttons/yesterday-zone.png", import.meta.url).href,
+  "soundwave-zone": new URL("../assets/images/navigation-buttons/soundwave-zone.png", import.meta.url).href,
+  "cozycommons-zone": new URL("../assets/images/navigation-buttons/cozycommons-zone.png", import.meta.url).href,
+  "backchannel-zone": new URL("../assets/images/navigation-buttons/backchannel-zone.png", import.meta.url).href,
+  lagmaster: new URL("../assets/images/navigation-buttons/lagmaster.png", import.meta.url).href,
+  velvetmage: new URL("../assets/images/navigation-buttons/velvetmage.png", import.meta.url).href,
+  playerfour: new URL("../assets/images/navigation-buttons/playerfour.png", import.meta.url).href,
+  maddy: new URL("../assets/images/navigation-buttons/maddy.png", import.meta.url).href,
+  queenie: new URL("../assets/images/navigation-buttons/queenie.png", import.meta.url).href,
+  codedex: new URL("../assets/images/navigation-buttons/codedex.png", import.meta.url).href,
+  dee: new URL("../assets/images/navigation-buttons/dee.png", import.meta.url).href,
+  cole: new URL("../assets/images/navigation-buttons/cole.png", import.meta.url).href,
+  nico: new URL("../assets/images/navigation-buttons/nico.png", import.meta.url).href,
+  ty: new URL("../assets/images/navigation-buttons/ty.png", import.meta.url).href,
+  troy: new URL("../assets/images/navigation-buttons/troy.png", import.meta.url).href,
+  ollie: new URL("../assets/images/navigation-buttons/ollie.png", import.meta.url).href,
+  viktor: new URL("../assets/images/navigation-buttons/viktor.png", import.meta.url).href,
+  juniper: new URL("../assets/images/navigation-buttons/juniper.png", import.meta.url).href,
+  mira: new URL("../assets/images/navigation-buttons/mira.png", import.meta.url).href,
+  raven: new URL("../assets/images/navigation-buttons/raven.png", import.meta.url).href,
+  carla: new URL("../assets/images/navigation-buttons/carla.png", import.meta.url).href,
+  ray: new URL("../assets/images/navigation-buttons/ray.png", import.meta.url).href,
+  bea: new URL("../assets/images/navigation-buttons/bea.png", import.meta.url).href,
+  "pet-hal": new URL("../assets/images/navigation-buttons/pet-hal.png", import.meta.url).href,
+  iris: new URL("../assets/images/navigation-buttons/iris.png", import.meta.url).href,
+  sam: new URL("../assets/images/navigation-buttons/sam.png", import.meta.url).href,
+  moss: new URL("../assets/images/navigation-buttons/moss.png", import.meta.url).href,
+  blipzo: new URL("../assets/images/navigation-buttons/blipzo.png", import.meta.url).href,
+  starthimble: new URL("../assets/images/navigation-buttons/starthimble.png", import.meta.url).href,
+  prism5: new URL("../assets/images/navigation-buttons/prism5.png", import.meta.url).href,
+  gemwell: new URL("../assets/images/navigation-buttons/gemwell.png", import.meta.url).href,
+  atlas: new URL("../assets/images/navigation-buttons/atlas.png", import.meta.url).href,
+  roadhog: new URL("../assets/images/navigation-buttons/roadhog.png", import.meta.url).href,
+  "dot-old": new URL("../assets/images/navigation-buttons/dot-old.png", import.meta.url).href,
+  "dot-new": new URL("../assets/images/navigation-buttons/dot-new.png", import.meta.url).href,
+  "old-hal": new URL("../assets/images/navigation-buttons/old-hal.png", import.meta.url).href,
+  lenny: new URL("../assets/images/navigation-buttons/lenny.png", import.meta.url).href,
+  bob: new URL("../assets/images/navigation-buttons/bob.png", import.meta.url).href
+};
+const navButtonArt = (name: string, alt: string, className = "") =>
+  `<img class="nav-button-art ${className}" src="${NAV_BUTTON_ASSETS[name]}" alt="${alt}">`;
 
 const ORBIT_ZONES = [
   {
@@ -153,47 +199,45 @@ function zoneDirectoryBody(zoneId: string) {
   if (zoneId === "gamegrid") return `
     <section class="gamegrid-member-directory member-page-directory">
       <header><div><small>NEW &amp; UPDATED</small><h2>Game Grid Member Pages</h2></div><span>${gameGridMembers.length} pages online</span></header>
-      <div>${gameGridMembers.map((member) => `<button class="gamegrid-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>PLAYS: ${member.console}</b></span><em>VISIT ›</em></button>`).join("")}</div>
+      <div>${gameGridMembers.map((member) => `<button class="gamegrid-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className === "dex" ? "codedex" : member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>PLAYS: ${member.console}</b></span><em>VISIT ›</em></button>`).join("")}</div>
     </section>`;
   if (zoneId === "xtreme") return `
     <section class="xtreme-member-directory member-page-directory">
       <header><div><small>CREW PAGES // FRESH UPLOADS</small><h2>X-Treme Edge Riders</h2></div><span>${xtremeMembers.length} pages online</span></header>
-      <div>${xtremeMembers.map((member) => `<button class="xtreme-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>RIDES: ${member.discipline}</b></span><em>DROP IN ›</em></button>`).join("")}</div>
+      <div>${xtremeMembers.map((member) => `<button class="xtreme-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>RIDES: ${member.discipline}</b></span><em>DROP IN ›</em></button>`).join("")}</div>
     </section>`;
   if (zoneId === "petplanet") return `
     <section class="petplanet-member-directory member-page-directory">
       <header><div><small>FRESH PHOTOS // GOOD ANIMALS</small><h2>Pet Planet Member Pages</h2></div><span>${petPlanetMembers.length} pages online</span></header>
-      <div>${petPlanetMembers.map((member) => `<button class="petplanet-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>PETS: ${member.pets}</b></span><em>VISIT</em></button>`).join("")}</div>
+      <div>${petPlanetMembers.map((member) => `<button class="petplanet-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className === "hal" ? "pet-hal" : member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>PETS: ${member.pets}</b></span><em>VISIT</em></button>`).join("")}</div>
     </section>`;
   if (zoneId === "fanverse") return `
     <section class="fandom-member-directory member-page-directory">
       <header><div><small>DEEP ARCHIVES // BIG FEELINGS</small><h2>FanVerse Member Archives</h2></div><span>${fandomMembers.length} shrines online</span></header>
-      <div>${fandomMembers.map((member) => `<button class="fandom-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>FANDOM: ${member.fandom}</b></span><em>ENTER ARCHIVE</em></button>`).join("")}</div>
+      <div>${fandomMembers.map((member) => `<button class="fandom-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>FANDOM: ${member.fandom}</b></span><em>ENTER ARCHIVE</em></button>`).join("")}</div>
     </section>`;
   if (zoneId === "yesterday") return `
     <section class="yesterday-member-directory member-page-directory">
       <header><div><small>PERSONAL HOME PAGES // BEST VIEWED AT 800×600</small><h2>Yesterday Online Neighbors</h2></div><span>${yesterdayMembers.length} pages indexed (probably)</span></header>
-      <div>${yesterdayMembers.map((member) => `<button class="yesterday-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>TOPIC: ${member.interest}</b></span><em>CLICK HERE!!!</em></button>`).join("")}</div>
+      <div>${yesterdayMembers.map((member) => `<button class="yesterday-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className === "hal" ? "old-hal" : member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>TOPIC: ${member.interest}</b></span><em>CLICK HERE!!!</em></button>`).join("")}</div>
     </section>`;
   if (zoneId === "cozycommons") return `
     <section class="cozy-member-directory member-page-directory">
       <header><div><small>FRESH TEA // SLOW PAGES</small><h2>Neighbors Around the Commons</h2></div><span>1 garden gate open</span></header>
       <div>
-        <button class="cozy-member-card member-juniper" data-nav="web://rainbow.gdn/home"><i>JG</i><span><strong>~* Rainbow Garden *~</strong><small>Juniper's scrapbook of flowers, scanner art, tiny poems, rainy radio, and her orange cat Modem.</small><b>PATCH: GARDENS &amp; JOURNALS</b></span><em>FOLLOW THE PATH</em></button>
-        <article class="cozy-coming-soon"><b>MORE SMALL DOORS SOON</b><p>The Commons directory is accepting recipe pages, hiking logs, craft circles, pen-pal corners, and hard-to-categorize personal sites.</p></article>
+        <button class="cozy-member-card member-juniper" data-nav="web://rainbow.gdn/home">${navButtonArt("juniper", "Juniper's homemade Rainbow Garden page button", "member-button-art")}<span><strong>~* Rainbow Garden *~</strong><small>Juniper's scrapbook of flowers, scanner art, tiny poems, rainy radio, and her orange cat Modem.</small><b>PATCH: GARDENS &amp; JOURNALS</b></span><em>FOLLOW THE PATH</em></button>
       </div>
     </section>`;
   if (zoneId === "backchannel") return `
     <section class="backchannel-member-directory member-page-directory">
       <header><div><small>UNVERIFIED // RECORDED // STILL ONLINE</small><h2>Backchannel Nodes</h2></div><span>2 live connections</span></header>
       <div>
-        <button class="backchannel-member-card member-mira" data-nav="web://nightsignal.net/home"><i>91.7</i><span><strong>NIGHT SIGNAL</strong><small>Mira's after-hours archive of strange broadcasts, clock drift, answering-machine fragments, and disciplined field notes.</small><b>NODE: SIGNAL WATCH</b></span><em>TUNE IN</em></button>
-        <button class="backchannel-member-card member-raven" data-nav="web://raven.web/home"><i>XX</i><span><strong>xX_DarkRaven_Xx's VOID</strong><small>Deleted games, forbidden files, hidden pages, suspicious patterns, and approximately one useful fact per seven theories.</small><b>NODE: UNLISTED WEB</b></span><em>ENTER VOID</em></button>
+        <button class="backchannel-member-card member-mira" data-nav="web://nightsignal.net/home">${navButtonArt("mira", "Mira's homemade Night Signal page button", "member-button-art")}<span><strong>NIGHT SIGNAL</strong><small>Mira's after-hours archive of strange broadcasts, clock drift, answering-machine fragments, and disciplined field notes.</small><b>NODE: SIGNAL WATCH</b></span><em>TUNE IN</em></button>
+        <button class="backchannel-member-card member-raven" data-nav="web://raven.web/home">${navButtonArt("raven", "DarkRaven's homemade hidden-web page button", "member-button-art")}<span><strong>xX_DarkRaven_Xx's VOID</strong><small>Deleted games, forbidden files, hidden pages, suspicious patterns, and approximately one useful fact per seven theories.</small><b>NODE: UNLISTED WEB</b></span><em>ENTER VOID</em></button>
         <aside><b>BACKCHANNEL ETIQUETTE</b><p>Archive first. Compare clocks. Separate observation from theory. Do not run mystery executables just because the filename says FINAL_REAL_2.</p></aside>
       </div>
     </section>`;
-  return `
-    <section class="zone-directory-placeholder"><div class="zone-construction">WORK IN PROGRESS</div><div><h2>Member Page Directory</h2><p>No individual member pages are indexed in this zone yet. Please check back after the next directory update.</p></div></section>`;
+  return "";
 }
 
 const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
@@ -214,8 +258,8 @@ const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
       <nav class="zone-network-nav"><button data-nav="web://home">⌂ OrbitNet Home</button>${zoneNavigation(zone.id)}</nav>
       <section class="zone-welcome"><h2>Welcome to ${zone.title}!</h2><p>${zone.welcome}</p></section>
       <div class="zone-columns">
-        <section class="zone-categories"><header><b>EXPLORE THIS ZONE</b><span>6 departments</span></header><div>${zone.categories.map((category, index) => `<article><i>${String(index + 1).padStart(2, "0")}</i><strong>${category}</strong><small>${zone.id === "soundwave" ? "Member directory opening soon" : "Browse member pages below"}</small></article>`).join("")}</div></section>
-        <aside class="zone-bulletin"><h2>Zone Bulletin</h2><p>${zone.bulletin}</p><hr><b>BUILD YOUR OWN PAGE!</b><p>Member-page tools and neighborhood listings will arrive in a future OrbitNet update.</p></aside>
+        <section class="zone-categories"><header><b>EXPLORE THIS ZONE</b><span>6 departments</span></header><div>${zone.categories.map((category, index) => `<article><i>${String(index + 1).padStart(2, "0")}</i><strong>${category}</strong></article>`).join("")}</div></section>
+        <aside class="zone-bulletin"><h2>Zone Bulletin</h2><p>${zone.bulletin}</p></aside>
       </div>
       ${zoneDirectoryBody(zone.id)}
       <footer>OrbitNet Community Services · Zone ID: ${zone.id.toUpperCase()} · Last indexed 11/03/1999</footer>
@@ -247,7 +291,7 @@ export const pages: Record<string, PageDefinition> = {
         <form class="search-box orbit-search-form"><input name="query" placeholder="Search pages, people, and phrases..." aria-label="Search OrbitNet"><button>Search</button></form>
         <section class="zone-directory-intro"><div><small>START EXPLORING</small><h1>Choose Your Community</h1></div><p>Every OrbitNet member page belongs to a neighborhood. Pick a zone or search the entire network.</p></section>
         <section class="zone-directory-grid">
-          ${ORBIT_ZONES.map((zone) => `<button class="zone-directory-card zone-${zone.id}" data-nav="${zone.url}"><span class="zone-card-badge">${zone.badge}</span><span class="zone-card-copy"><strong>${zone.title}</strong><small>${zone.tagline}</small></span><b>ENTER ZONE ›</b></button>`).join("")}
+          ${ORBIT_ZONES.map((zone) => `<button class="zone-directory-card zone-${zone.id}" data-nav="${zone.url}">${navButtonArt(`${zone.id}-zone`, `${zone.title} community button`, "zone-card-art")}<span class="zone-card-copy"><strong>${zone.title}</strong><small>${zone.tagline}</small></span><b>ENTER ZONE ›</b></button>`).join("")}
         </section>
         <section class="orbit-pal-promo">
           <div class="orbit-pal-mini"><i></i><b>?</b></div>
@@ -601,7 +645,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page computer-page bytebarn-systems-page">
         <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>SYSTEMS & UPGRADES / NOVEMBER 1999</em></header>
-        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button>SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
+        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
         <section class="bytebarn-systems-intro">${businessAsset("bytebarn-open-tower", "An open beige computer tower showing its components")}<div><p class="catalog-code">NO MYSTERY PARTS INSIDE</p><h1>Choose the computer you need.</h1><p>Not the one a salesman needs to move before inventory.</p></div></section>
         <section class="system-comparison">
           <article><span>GOOD</span><h2>STUDY 300</h2><strong>$899</strong><ul><li>300MHz Celeron</li><li>32MB RAM</li><li>3.2GB drive</li><li>40X CD-ROM</li><li>15&quot; monitor</li></ul><button data-email-owner="chip_bytebarn">ASK CHIP</button></article>
@@ -628,7 +672,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page computer-page bytebarn-software-page">
         <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>SOFTWARE AISLE / SHELF 4</em></header>
-        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button>SOFTWARE</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
+        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
         <section class="software-aisle-hero">${businessAsset("bytebarn-software", "Boxed late-1990s computer software arranged on a Byte Barn shelf")}<div><p class="catalog-code">NO MYSTERY BUNDLES</p><h1>Programs you might actually open.</h1><p>Chip has removed the trial discs, duplicate encyclopedias, and anything that changes your browser homepage without asking.</p></div></section>
         <div class="software-shelf-tabs"><b>HOME & OFFICE</b><span>INTERNET</span><span>LEARNING</span><span>GAMES</span></div>
         <section class="software-shelf">
@@ -655,7 +699,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page computer-page bytebarn-service-page">
         <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>1840 MARKET PLAZA / SERVICE ENTRANCE B</em></header>
-        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button><button>STORE & SERVICE</button></nav>
+        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button></nav>
         <section class="service-desk-layout">
           <div class="service-photo">${businessAsset("bytebarn-technician", "Chip working at the Byte Barn repair counter")}<span>Chip at bench 2. Bench 1 is where the coffee goes.</span></div>
           <section><p class="catalog-code">WALK-INS WELCOME</p><h1>We fix computers without making you feel foolish.</h1><div class="service-hours"><h2>STORE HOURS</h2><dl><div><dt>MON-FRI</dt><dd>9 AM-8 PM</dd></div><div><dt>SATURDAY</dt><dd>9 AM-6 PM</dd></div><div><dt>SUNDAY</dt><dd>CLOSED</dd></div></dl></div><button data-email-owner="chip_bytebarn">EMAIL CHIP A QUESTION</button></section>
@@ -711,7 +755,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page pizza-page cosmic-menu-page">
         <header class="cosmic-header"><div><span>COSMIC</span><b>CRUST</b><i>★</i></div><small>GALACTIC MENU / FALL 1999</small></header>
-        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button>MENU & COUPONS</button><button data-nav="web://cosmiccrust.biz/arcade">ARCADE SCORES</button><button data-nav="web://cosmiccrust.biz/alienclub">ALIEN CLUB</button></nav>
+        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button data-nav="web://cosmiccrust.biz/arcade">ARCADE SCORES</button><button data-nav="web://cosmiccrust.biz/alienclub">ALIEN CLUB</button></nav>
         <section class="menu-hero">${businessAsset("cosmiccrust-slice", "A giant stretchy-cheese pepperoni pizza slice")}<div><h1>BUILD YOUR OWN<br>PIZZA PLANET</h1><p>Every orbit begins with sauce and cheese.</p></div></section>
         <section class="cosmic-menu-grid">
           <article><h2>CHOOSE A SIZE</h2><dl><div><dt>PERSONAL / 8&quot;</dt><dd>$4.49</dd></div><div><dt>MEDIUM / 12&quot;</dt><dd>$8.99</dd></div><div><dt>LARGE / 14&quot;</dt><dd>$11.99</dd></div><div><dt>GALACTIC / 18&quot;</dt><dd>$15.99</dd></div></dl><small>First topping included. Extra toppings 75&cent; / $1 / $1.25 / $1.50.</small></article>
@@ -736,7 +780,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page pizza-page cosmic-arcade-page">
         <header class="cosmic-header"><div><span>COSMIC</span><b>CRUST</b><i>★</i></div><small>GALACTIC ARCADE / SCORE LINK</small></header>
-        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button data-nav="web://cosmiccrust.biz/menu">MENU & COUPONS</button><button>ARCADE SCORES</button><button data-nav="web://cosmiccrust.biz/alienclub">ALIEN CLUB</button></nav>
+        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button data-nav="web://cosmiccrust.biz/menu">MENU & COUPONS</button><button data-nav="web://cosmiccrust.biz/alienclub">ALIEN CLUB</button></nav>
         <section class="arcade-score-hero">${businessAsset("cosmiccrust-arcade", "Two colorful arcade cabinets in the Cosmic Crust game room")}<div><small>SCORES PHONED IN BY TONI</small><h1>DEFEND YOUR INITIALS.</h1><p>The red cabinet's second button sticks. This is part of the challenge until the repair guy comes Tuesday.</p></div></section>
         <section class="arcade-leaderboards">
           <article><h2>STAR HAULER</h2><ol><li><b>TAZ</b><span>88,420</span></li><li><b>MIR</b><span>71,105</span></li><li><b>JAX</b><span>69,990</span></li><li><b>DAD</b><span>12,400</span></li></ol></article>
@@ -760,7 +804,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page pizza-page alien-club-page">
         <header class="cosmic-header"><div><span>COSMIC</span><b>CRUST</b><i>★</i></div><small>JUNIOR ALIEN CLUB / AGES 12 & UNDER</small></header>
-        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button data-nav="web://cosmiccrust.biz/menu">MENU & COUPONS</button><button data-nav="web://cosmiccrust.biz/arcade">ARCADE SCORES</button><button>ALIEN CLUB</button></nav>
+        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button data-nav="web://cosmiccrust.biz/menu">MENU & COUPONS</button><button data-nav="web://cosmiccrust.biz/arcade">ARCADE SCORES</button></nav>
         <section class="alien-club-hero"><div>${businessAsset("cosmiccrust-astronaut", "A child astronaut mascot holding a Cosmic Crust pizza")}<span>CAPTAIN CRUSTY SAYS: BRING AN ADULT!</span></div><section><small>ATTENTION EARTH KIDS</small><h1>JOIN THE JUNIOR ALIEN CLUB!</h1><p>Get one free personal cheese pizza during your birthday month, a membership card, and important mail approximately four times per year.</p><div class="club-status">ONLINE SIGN-UP: <b>NOT INVENTED YET</b><br><span>Print this page or ask Toni for the paper form.</span></div></section></section>
         <section class="club-perks"><article><b>MISSION PATCHES</b><p>Collect Moon, Mars, and Mysterious Green Planet patches with three separate visits.</p></article><article><b>COLORING CONTEST</b><p>Draw Captain Crusty somewhere pizza has never been. Winner receives tokens and wall fame.</p></article><article><b>BIRTHDAY ORBIT</b><p>Free personal cheese pizza. Toppings cost regular Earth money.</p></article></section>
         <div class="club-form"><b>MEMBERSHIP TRANSMISSION FORM</b><span>Name ____________________ Birthday __________ Favorite topping ____________________</span><small>Parent or guardian signature required. Cosmic Crust will not sell your address because Toni cannot find the mailing-label program.</small></div>
@@ -809,7 +853,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page pets-page paws-adoption-page">
         <header class="paws-header"><div><span>PAWS</span><i>&</i><b>CLAWS</b></div><small>SATURDAY ADOPTION DAY</small></header>
-        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button>ADOPTION DAY</button><button data-nav="web://pawsnclaws.net/departments">DEPARTMENTS</button><button data-nav="web://pawsnclaws.net/photos">PET PHOTO WALL</button></nav>
+        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button data-nav="web://pawsnclaws.net/departments">DEPARTMENTS</button><button data-nav="web://pawsnclaws.net/photos">PET PHOTO WALL</button></nav>
         <section class="adoption-hero">${businessAsset("pawsnclaws-adoption", "A friendly shelter dog and cat at adoption day")}<div><p class="paws-note">WILLOW COUNTY SHELTER VISITS EVERY SATURDAY</p><h1>Maybe your best friend is waiting.</h1><p>10 AM-2 PM at 22 Willow Lane. Meeting is easy. Taking somebody home should take a little thought.</p></div></section>
         <section class="adoption-steps">
           <article><span>1</span><h2>MEET</h2><p>Talk with a shelter volunteer and spend time with an animal. Everybody in the household should agree.</p></article>
@@ -837,7 +881,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page pets-page paws-departments-page">
         <header class="paws-header"><div><span>PAWS</span><i>&</i><b>CLAWS</b></div><small>STORE DEPARTMENTS &middot; ASK BEFORE TAPPING THE GLASS</small></header>
-        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button data-nav="web://pawsnclaws.net/adoption">ADOPTION DAY</button><button>DEPARTMENTS</button><button data-nav="web://pawsnclaws.net/photos">PET PHOTO WALL</button></nav>
+        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button data-nav="web://pawsnclaws.net/adoption">ADOPTION DAY</button><button data-nav="web://pawsnclaws.net/photos">PET PHOTO WALL</button></nav>
         <section class="department-map">
           <header><small>YOU ARE AT THE FRONT DOOR</small><h1>Everything they need.<br>Several things they absolutely do not.</h1></header>
           <div class="department-map-grid">
@@ -864,7 +908,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page pets-page paws-photos-page">
         <header class="paws-header"><div><span>PAWS</span><i>&</i><b>CLAWS</b></div><small>CUSTOMER PET PHOTO WALL / SCANNED BY BEV</small></header>
-        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button data-nav="web://pawsnclaws.net/adoption">ADOPTION DAY</button><button data-nav="web://pawsnclaws.net/departments">DEPARTMENTS</button><button>PET PHOTO WALL</button></nav>
+        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button data-nav="web://pawsnclaws.net/adoption">ADOPTION DAY</button><button data-nav="web://pawsnclaws.net/departments">DEPARTMENTS</button></nav>
         <div class="photo-wall-title"><span>NEW!</span><h1>Our Customers Have Excellent Pets</h1><p>Photographs are returned unless Pickles sits on the envelope.</p></div>
         <section class="pet-photo-wall">
           <article>${businessAsset("pawsnclaws-pickles", "Pickles the orange shop cat asleep by the register")}<b>PICKLES</b><small>Employee of the month, self-appointed.</small></article>
@@ -893,7 +937,7 @@ export const pages: Record<string, PageDefinition> = {
       <main class="page pulse-page">
         <header class="pulse-header">
           <div class="pulse-logo"><span>PULSE</span><b>/NET</b><small>REDshift interactive</small></div>
-          <nav><button data-nav="web://pulsenet.red/home">START</button><button data-nav="web://pulsenet.red/network">NETWORK</button><button disabled>GAMES</button><button disabled>DOWNLOADS</button></nav>
+          <nav><button data-nav="web://pulsenet.red/home">START</button><button data-nav="web://pulsenet.red/network">NETWORK</button></nav>
         </header>
         <div class="pulse-status"><i></i> NETWORK STATUS: LIVE &nbsp;//&nbsp; 1,993 PLAYERS CONNECTED &nbsp;//&nbsp; 11.11.99</div>
         <section class="pulse-hero">
@@ -920,7 +964,7 @@ export const pages: Record<string, PageDefinition> = {
     searchTerms: ["PULSE network", "56K modem", "online play", "rankings", "lobby", "email", "web browser"],
     render: () => `
       <main class="page pulse-page pulse-network-page">
-        <header class="pulse-header"><div class="pulse-logo"><span>PULSE</span><b>/NET</b></div><nav><button data-nav="web://pulsenet.red/home">START</button><button>NETWORK</button><button disabled>GAMES</button></nav></header>
+        <header class="pulse-header"><div class="pulse-logo"><span>PULSE</span><b>/NET</b></div><nav><button data-nav="web://pulsenet.red/home">START</button></nav></header>
         <div class="pulse-status"><i></i> YOU ARE CONNECTED // PING: 188ms // MODEM: 56K</div>
         <section class="pulse-network-grid">
           <div class="pulse-network-map">${consoleAsset("pulse-cgi-network", "Orange and cyan PULSE network signal")}<span class="node one">YOU</span><span class="node two">TOKYO</span><span class="node three">LONDON</span><span class="node four">CHICAGO</span></div>
@@ -943,8 +987,8 @@ export const pages: Record<string, PageDefinition> = {
     searchTerms: ["video games", "videogame console", "gaming", "DVD player", "movies", "music", "cinematic", "premium console", "backward compatible", "entertainment"],
     render: () => `
       <main class="page vanta-page">
-        <div class="vanta-loader"><span>AXIOM CONSUMER SYSTEMS</span><i>INTRO COMPLETE</i><button disabled>SKIP INTRO</button></div>
-        <header><div class="vanta-mark">VANTA<sup>2</sup></div><nav><button data-nav="web://vanta2.com/home">01 / ARRIVAL</button><button data-nav="web://vanta2.com/spec">02 / SYSTEM</button><button disabled>03 / TRANSMISSIONS</button></nav></header>
+        <div class="vanta-loader"><span>AXIOM CONSUMER SYSTEMS</span><i>INTRO COMPLETE</i></div>
+        <header><div class="vanta-mark">VANTA<sup>2</sup></div><nav><button data-nav="web://vanta2.com/home">01 / ARRIVAL</button><button data-nav="web://vanta2.com/spec">02 / SYSTEM</button></nav></header>
         <section class="vanta-hero">
           <div class="vanta-machine">${consoleAsset("vanta-editorial-portal", "")}${consoleAsset("vanta-editorial-console", "The tall black VANTA2 console", "vanta-console")}</div>
           <div><p class="vanta-node">NODE 01.1999 // SIGNAL ACQUIRED</p><h1>LEAVE REALITY<br><span>RUNNING.</span></h1><p class="vanta-manifesto">Games remember you.<br>Films surround you.<br>Music lives here.</p><button data-nav="web://vanta2.com/spec">OPEN THE SECOND DOOR</button></div>
@@ -966,7 +1010,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page vanta-page vanta-spec-page">
         <div class="vanta-loader"><span>AXIOM CONSUMER SYSTEMS</span><i>TECHNICAL CHANNEL</i></div>
-        <header><div class="vanta-mark">VANTA<sup>2</sup></div><nav><button data-nav="web://vanta2.com/home">01 / ARRIVAL</button><button>02 / SYSTEM</button></nav></header>
+        <header><div class="vanta-mark">VANTA<sup>2</sup></div><nav><button data-nav="web://vanta2.com/home">01 / ARRIVAL</button></nav></header>
         <section class="vanta-spec-intro">${consoleAsset("vanta-editorial-eye", "A silver collage eye surrounding a blue iris")}<div><p class="vanta-node">NODE 02 // THE MACHINE BEHIND THE IMAGE</p><h1>A SYSTEM FOR<br>SECOND WORLDS.</h1></div></section>
         <section class="vanta-specs">
           <article><span>01</span><b>VECTOR SOUL</b><strong>300 MHz / 128-bit</strong><p>Geometry, light, behavior, memory.</p></article>
@@ -993,7 +1037,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page cubit-page">
         <header><div class="cubit-logo">CU<span>B</span>IT<sup>*</sup></div><p>THE LITTLE BOX WITH A BIG WEEKEND!</p></header>
-        <nav><button data-nav="web://cubit.fun/home">HOME</button><button data-nav="web://cubit.fun/games">GAMES!</button><button disabled>COLORS!</button><button disabled>CLUB CUBIT!</button></nav>
+        <nav><button data-nav="web://cubit.fun/home">HOME</button><button data-nav="web://cubit.fun/games">GAMES!</button></nav>
         <div class="cubit-marquee">*** PURE PLAY! *** FOUR CONTROLLER PORTS! *** NO LOADING A MOVIE BY ACCIDENT! ***</div>
         <section class="cubit-hero">
           <div class="cubit-product">${consoleAsset("cubit-gouache-console", "The hand-painted indigo CUBIT console with carrying handle")}${consoleAsset("cubit-gouache-mascot", "Cubby, the hand-painted smiling yellow star mascot", "cubit-star")}</div>
@@ -1004,7 +1048,6 @@ export const pages: Record<string, PageDefinition> = {
           <article>${consoleAsset("cubit-gouache-cases", "A hand-painted stack of colorful game cases")}<b>SMALL DISC. BIG FUN!</b><p>1.2GB mini-discs are tough to mistake for your dad's jazz CDs.</p></article>
           <article>${consoleAsset("cubit-gouache-controller", "Chunky hand-painted lime CUBIT controller")}<b>IT JUST FITS!</b><p>A big green button means nobody has to read the manual.</p></article>
         </section>
-        <aside class="cubit-poll"><b>THIS WEEK'S POLL:</b> Which CUBIT color are you? <button disabled>INDIGO</button><button disabled>TANGERINE</button><button disabled>JET</button></aside>
         <p class="business-owner">Cubby Clover answers questions between snack breaks and four-player rematches.</p>
         <footer>Best viewed with images ON! &nbsp; | &nbsp; CUBIT is a Clover Toyworks thing &nbsp; | &nbsp; PURE PLAY</footer>
       </main>`
@@ -1021,7 +1064,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page cubit-page cubit-games-page">
         <header><div class="cubit-logo">CU<span>B</span>IT<sup>*</sup></div><p>GAMES! GAMES! ALSO: GAMES!</p></header>
-        <nav><button data-nav="web://cubit.fun/home">HOME</button><button>GAMES!</button><button disabled>COLORS!</button><button disabled>CLUB CUBIT!</button></nav>
+        <nav><button data-nav="web://cubit.fun/home">HOME</button></nav>
         <section class="cubit-games-title">${consoleAsset("cubit-gouache-players", "Four friends playing CUBIT together on a couch")}<div><h1>PICK A CONTROLLER!</h1><p>Everybody gets a turn. Preferably at the same time.</p></div></section>
         <section class="cubit-game-grid">
           <article><span class="game-burst indigo">4P</span><h2>BLOCK PARTY DELUXE</h2><p>Build it. Bump it. Knock your friend's tower into the soup.</p><b>PUZZLE / PARTY</b></article>

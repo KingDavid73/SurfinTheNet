@@ -299,7 +299,6 @@ export const fandomPages: Record<string, PageDefinition> = {
           ${fanImage("moss-ensemble", "Official animation cel of MossMunch, Pipglow, Brindlebug and the Dry Mayor in Fogberry Bog")}
           <div><small>MOSSMUNCH_MEL'S UNOFFICIAL ARCHIVE</small><h1>MossMunch<br><i>&amp; the Moonlings</i></h1><p>Every episode. Every moon. Every map Brindlebug folded wrong.</p></div>
         </header>
-        <nav class="moss-lily-nav"><button disabled>EPISODE POND</button><button disabled>CHARACTER ROOTS</button><button disabled>MEL'S FANSTUFF</button><button disabled>VHS SWAP</button></nav>
         <section class="moss-welcome moss-leaf">
           ${fanImage("moss-mel", "A 1999 flash photograph of Mel wearing a homemade Pipglow antenna cap beside her CRT")}
           <div><h2>WELCOME TO FOGBERRY BOG!</h2><p>I'm Mel. I have loved this strange little 1989 cartoon since a rain-delay broadcast ate the first six minutes of episode four. There are twenty-six episodes, unless the rumored moon festival special is real, in which case there are twenty-seven and I owe CodeDex five dollars.</p><p><b>LAST UPDATE:</b> new Store 00 leaf-emblem theory added against my better judgment.</p></div>
@@ -347,7 +346,7 @@ export const fandomPages: Record<string, PageDefinition> = {
             <div><small>BLIPZOBELIEVER_88 // CULT MASCOT ARCHIVE</small><h1>BLIPZO!</h1><p>MALL DIMENSION <b>ZERO</b></p></div>
             ${fanImage("blipzo-hero", "Glossy low-poly promotional render of Blipzo leaping with his receipt-ribbon yo-yo")}
           </header>
-          <nav class="blipzo-orbit-nav"><button data-nav="${FANVERSE_URL}">EXIT</button><button disabled>GAMES</button><button disabled>STORE 00</button><button disabled>FAN LAB</button><button disabled>FICTION</button></nav>
+          <nav class="blipzo-orbit-nav"><button data-nav="${FANVERSE_URL}">EXIT</button></nav>
           <section class="blipzo-intro">
             ${fanImage("blipzo-trent", "A 1999 flash photograph of Trent holding a homemade Blipzo shopping-basket helmet beside his CRT")}
             <div><h2>WELCOME, AFTER-HOURS SHOPPERS.</h2><p>I'm Trent. BLIPZO! Mall Dimension sold badly, reviewed weirdly, and contains more personality in one escalator than most games have in an entire castle. This archive covers the 1996 original, 1998's <i>Food Court Eclipse</i>, and the hidden Store 00 that absolutely exists.</p></div>

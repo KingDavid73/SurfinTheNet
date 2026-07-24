@@ -737,8 +737,8 @@ function mailWindow() {
     const contact = CHARACTER_CONTACTS[mailComposeOwnerId];
     const pending = pendingDirectReplies.has(`email:${mailComposeOwnerId}`);
     return windowShell("mail", `New Message - Orbit Mail`, "@", `
-      <div class="mail-toolbar"><button data-email-cancel>Back to Inbox</button><button disabled>Address Book</button></div>
-      <div class="mail-layout"><aside><b>Folders</b><button>📥 Inbox (${2 + receivedEmails.length})</button><button class="selected">✉ New Message</button><button>📤 Sent</button></aside>
+      <div class="mail-toolbar"><button data-email-cancel>Back to Inbox</button></div>
+      <div class="mail-layout"><aside><b>Folders</b><span class="selected">✉ New Message</span></aside>
       <main class="mail-compose">
         <form class="email-compose-form" data-email-compose="${mailComposeOwnerId}">
           <label>To:<input value="${escapeHtml(contact.email ?? contact.screenName)}" readonly></label>
@@ -753,8 +753,8 @@ function mailWindow() {
     ? `<h3>${escapeHtml(selectedEmail.subject ?? "Message")}</h3><p><b>From:</b> ${escapeHtml(selectedEmail.author)}</p><p>${escapeHtml(selectedEmail.text).replaceAll("\n", "<br>")}</p>`
     : `<p>Select a message to read it.</p>`;
   return windowShell("mail", "Orbit Mail", "@", `
-    <div class="mail-toolbar">${state.visited.includes(CHARACTER_HOME_URLS.juniper_gdn) ? `<button data-email-owner="juniper_gdn">New Message to Juniper</button>` : `<button disabled>New Message</button>`}<button disabled>Reply</button><button disabled>Delete</button></div>
-    <div class="mail-layout"><aside><b>Folders</b><button class="selected">📥 Inbox (${2 + receivedEmails.length}${state.flags.signal_note_downloaded ? "+1" : ""})</button><button>📤 Sent</button><button>🗑 Trash</button></aside>
+    <div class="mail-toolbar">${state.visited.includes(CHARACTER_HOME_URLS.juniper_gdn) ? `<button data-email-owner="juniper_gdn">New Message to Juniper</button>` : ""}</div>
+    <div class="mail-layout"><aside><b>Folders</b><span class="selected">📥 Inbox (${2 + receivedEmails.length}${state.flags.signal_note_downloaded ? "+1" : ""})</span></aside>
     <main class="inbox"><div class="mail-columns"><b>From</b><b>Subject</b><b>Received</b></div>
       ${receipt}
       ${dynamicRows}
@@ -769,7 +769,7 @@ function filesWindow() {
     ? state.downloads.map((file) => `<button class="file-icon" data-file="${file.id}"><span>📄</span><b>${file.name}</b></button>`).join("")
     : `<p class="empty-folder">This folder is empty.<br>Files downloaded from Orbit Explorer will appear here.</p>`;
   return windowShell("files", "C:\\My Files", "▣", `
-    <div class="files-toolbar"><button disabled>Back</button><span>Address: C:\\My Files</span></div>
+    <div class="files-toolbar"><span>Address: C:\\My Files</span></div>
     <div class="files-layout"><aside><h3>My Files</h3><p>Personal files and internet downloads.</p><hr><b>${state.downloads.length} object${state.downloads.length === 1 ? "" : "s"}</b></aside><main class="file-grid">${downloads}</main></div>`);
 }
 
@@ -846,7 +846,7 @@ function chatWindow() {
     .join("");
 
   return windowShell("chat", `${persona.screenName} - Orbit Messenger`, "◎", `
-    <div class="aim-menu"><button disabled>File</button><button disabled>Edit</button><button disabled>People</button><button data-ai-reset>Clear Chat</button></div>
+    <div class="aim-menu"><button data-ai-reset>Clear Chat</button></div>
     <nav class="aim-buddy-tabs">${contactButtons}</nav>
     <div class="aim-contact">
       <div class="aim-avatar">${escapeHtml(persona.displayName.slice(0, 1))}</div><div><b>${escapeHtml(persona.screenName)}</b><span><i></i> Online</span><small>“${escapeHtml(persona.statusMessage)}”</small></div>
@@ -956,10 +956,6 @@ function startupScreen() {
           <span><b>David</b><small>Local User &middot; November 3, 1999</small></span>
           <i>&rsaquo;</i>
         </button>
-        <button class="user-profile empty-profile" disabled>
-          <span class="user-avatar">+</span>
-          <span><b>New User</b><small>Create another profile</small></span>
-        </button>
         <footer><i class="activity-light"></i><span data-boot-ai>${escapeHtml(bootAiStatus())}</span></footer>
       </section>
       ${scanlines}
@@ -971,13 +967,13 @@ function startupScreen() {
       <div class="wallpaper-logo"><span>ORBIT</span><b>OS</b><small>98</small></div>
     </div>
     <section class="dialup-dialog">
-      <header>Connect to OrbitNet <button disabled>&times;</button></header>
+      <header>Connect to OrbitNet</header>
       <div class="dialup-body">
         <div class="modem-art"><span>PC</span><i></i><b>O</b></div>
         <div><h2>Connecting to OrbitNet...</h2><p>Dialing 555-0179</p><div class="dialup-progress"><i></i></div></div>
       </div>
       <div class="dialup-log"><span>Dialing...</span><span>Negotiating connection...</span><span>Verifying user name and password...</span></div>
-      <footer><span data-boot-ai>${escapeHtml(bootAiStatus())}</span><button disabled>Cancel</button></footer>
+      <footer><span data-boot-ai>${escapeHtml(bootAiStatus())}</span></footer>
     </section>
     ${scanlines}
   </main>`;

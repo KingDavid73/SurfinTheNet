@@ -38,7 +38,7 @@ export const kidsBusinessPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page rocketbox-page">
         <header class="rocketbox-header"><div class="rocketbox-logo">ROCKET<span>BOX</span><sup>™</sup></div><p>ENGINEERED FOR IMAGINATION</p></header>
-        <nav class="rocketbox-nav"><button data-nav="web://rocketbox.toys/home">LAUNCH PAD</button><button data-nav="web://rocketbox.toys/catalog">1999 CATALOG</button><button disabled>BUILDER LAB</button><button disabled>ROCKET CLUB</button></nav>
+        <nav class="rocketbox-nav"><button data-nav="web://rocketbox.toys/home">LAUNCH PAD</button><button data-nav="web://rocketbox.toys/catalog">1999 CATALOG</button></nav>
         <div class="rocketbox-stripe">NEW FOR FALL 1999! &nbsp; EVERY RIVET FORCE SET WORKS WITH EVERY OTHER SET!</div>
         <section class="rocketbox-hero">
           <div class="rocketbox-product">${kidsAsset("rocketbox-hero-robot", "A large modular Rocketbox robot action figure")}<span class="rocketbox-burst">48<br>WAYS TO<br>REBUILD!</span></div>
@@ -66,7 +66,7 @@ export const kidsBusinessPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page rocketbox-page rocketbox-catalog-page">
         <header class="rocketbox-header"><div class="rocketbox-logo">ROCKET<span>BOX</span><sup>™</sup></div><p>1999 TOY VAULT // FILE 02</p></header>
-        <nav class="rocketbox-nav"><button data-nav="web://rocketbox.toys/home">LAUNCH PAD</button><button>1999 CATALOG</button><button disabled>BUILDER LAB</button></nav>
+        <nav class="rocketbox-nav"><button data-nav="web://rocketbox.toys/home">LAUNCH PAD</button></nav>
         <section class="rocketbox-catalog-hero">${kidsAsset("rocketbox-accessories", "A Rocketbox accessory pack in colorful blister packaging")}<div><span>ONE SYSTEM. ENDLESS REBUILDS.</span><h1>THE RIVET FORCE<br>FIELD GUIDE</h1><p>Look for the silver hexagon on the box. If it has a Snap-Lock port, it connects.</p></div></section>
         <section class="rocketbox-catalog-grid">
           <article><h2>ALPHA BOT</h2><b>ITEM 1101 · $14.99</b><p>11-inch command robot with four swappable arms, light-up chest, and rescue claw.</p></article>
@@ -93,7 +93,7 @@ export const kidsBusinessPages: Record<string, PageDefinition> = {
       <main class="page moonmunch-page">
         <div class="moonmunch-stars"></div>
         <header class="moonmunch-header"><div class="moonmunch-logo"><small>MAJOR MUNCH PRESENTS</small>MOON <span>MUNCH!</span></div><strong>BREAKFAST HAS LANDED!</strong></header>
-        <nav class="moonmunch-nav"><button data-nav="web://moonmunch.com/home">MISSION CONTROL</button><button data-nav="web://moonmunch.com/prizes">PRIZE ZONE</button><button disabled>SPACE GAMES</button><button disabled>MUNCH MAIL</button></nav>
+        <nav class="moonmunch-nav"><button data-nav="web://moonmunch.com/home">MISSION CONTROL</button><button data-nav="web://moonmunch.com/prizes">PRIZE ZONE</button></nav>
         <section class="moonmunch-hero">
           <div class="moonmunch-mascot">${kidsAsset("moonmunch-mascot", "Major Munch, a smiling cartoon astronaut mascot")}<span class="moon-speech">Cadet! Your spoon<br>is cleared for launch!</span></div>
           <div class="moonmunch-bowl">${kidsAsset("moonmunch-bowl", "A bowl of Moon Munch corn stars and colorful moon marshmallows")}<div><span>NEW!</span><h1>FRUITY<br>MOON<br>MALLOWS!</h1><p>Toasty corn stars with rockets, moons, aliens, and comets in four far-out fruit flavors.</p></div></div>
@@ -120,7 +120,7 @@ export const kidsBusinessPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page moonmunch-page moonmunch-prizes-page">
         <header class="moonmunch-header"><div class="moonmunch-logo"><small>MAJOR MUNCH PRESENTS</small>MOON <span>MUNCH!</span></div><strong>PRIZE ZONE // TOP SECRET</strong></header>
-        <nav class="moonmunch-nav"><button data-nav="web://moonmunch.com/home">MISSION CONTROL</button><button>PRIZE ZONE</button><button disabled>SPACE GAMES</button></nav>
+        <nav class="moonmunch-nav"><button data-nav="web://moonmunch.com/home">MISSION CONTROL</button></nav>
         <section class="prize-zone-hero">${kidsAsset("moonmunch-prize", "The Moon Munch plastic decoder ring")}<div><span>PRIZE FILE 11-99</span><h1>CRACK THE<br>BREAKFAST CODE!</h1><ol><li>Find the ring sealed inside a specially marked box.</li><li>Match the symbol in the cereal-box message window.</li><li>Turn the red dial to reveal your secret letter.</li></ol></div></section>
         <section class="moonmunch-collect">
           <article>${kidsAsset("moonmunch-breakfast", "A cheerful late-1990s family breakfast scene")}<div><h2>COLLECT ALL 4 STAR CARDS</h2><p>Orion, Cassiopeia, Cygnus, and “Major Munch's Definitely Real Space Route.” One card printed on every participating box.</p></div></article>
@@ -144,7 +144,7 @@ export const kidsBusinessPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page toonburst-page">
         <header class="toonburst-header"><div class="toonburst-logo">TOON<span>BURST!</span></div><strong>SATURDAY STARTS HERE.</strong></header>
-        <nav class="toonburst-nav"><button data-nav="web://toonburst.tv/home">ON AIR</button><button data-nav="web://toonburst.tv/schedule">SHOW GRID</button><button disabled>CHARACTER BIOS</button><button disabled>FAN CLUB</button></nav>
+        <nav class="toonburst-nav"><button data-nav="web://toonburst.tv/home">ON AIR</button><button data-nav="web://toonburst.tv/schedule">SHOW GRID</button></nav>
         <div class="toonburst-ticker">NEXT SATURDAY: NEW GIZMO RANGERS! + MONDO MONSTERS MARATHON! + A LUNCHBOX LEGENDS MYSTERY!</div>
         <section class="toonburst-hero">
           ${kidsAsset("toonburst-hero-team", "The colorful Gizmo Rangers cartoon hero team")}
@@ -155,7 +155,6 @@ export const kidsBusinessPages: Record<string, PageDefinition> = {
           <article>${kidsAsset("toonburst-comedy", "The slapstick cartoon cast of Lunchbox Legends")}<div><b>LUNCHBOX LEGENDS</b><span>9:00 — Cafeteria justice, one pudding cup at a time.</span></div></article>
           <article>${kidsAsset("toonburst-tv", "A chunky television showing the ToonBurst logo")}<div><b>TOONBURST REWIND</b><span>10:30 — You pick the classic episode. Kip tries to find the tape.</span></div></article>
         </section>
-        <aside class="toonburst-poll">${kidsAsset("toonburst-remote", "A colorful television remote control")}<div><b>REMOTE CONTROL POLL:</b><span>Who should get the giant robot next week?</span><button disabled>DOT</button><button disabled>RICO</button><button disabled>THE HAMSTER</button><small>Voting modem temporarily busy.</small></div></aside>
         <p class="business-owner">Kip reads the mailbag after the block. Ask about show times, characters, or last week's episode.</p>
         <footer>Check local listings. Programs and times subject to the mysterious decisions of adults. © 1999 ToonBurst Television.</footer>
       </main>`
@@ -172,7 +171,7 @@ export const kidsBusinessPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page toonburst-page toonburst-schedule-page">
         <header class="toonburst-header"><div class="toonburst-logo">TOON<span>BURST!</span></div><strong>SHOW GRID // SATURDAY 11.06.99</strong></header>
-        <nav class="toonburst-nav"><button data-nav="web://toonburst.tv/home">ON AIR</button><button>SHOW GRID</button><button disabled>CHARACTER BIOS</button></nav>
+        <nav class="toonburst-nav"><button data-nav="web://toonburst.tv/home">ON AIR</button></nav>
         <section class="schedule-hero">${kidsAsset("toonburst-fanclub", "A ToonBurst fan club package with membership card and stickers")}<div><span>CLIP IT. TAPE IT. DON'T MISS IT.</span><h1>YOUR SATURDAY,<br>PLANNED.</h1><p>Times are Central. Ask whoever controls the remote before promising the couch to three friends.</p></div></section>
         <section class="toonburst-grid">
           <article><time>8:00</time><div><h2>GIZMO RANGERS</h2><b>NEW: “Locker 404”</b><p>The Rangers download a map to a hallway that does not exist.</p></div></article>
