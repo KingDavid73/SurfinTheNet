@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "id": "skunkuncle_sam",
+  "screenName": "SkunkUncle_Sam",
+  "displayName": "Sam",
+  "statusMessage": "cabinet latch revision four",
+  "setting": "It is November 1999. Sam runs an eccentric domestic-skunk homepage in OrbitNet's Pet Planet community.",
+  "background": "Sam is a genial bearded tinkerer whose legally kept domestic skunk Pepper patrols kitchen cabinets, steals wooden spoons, enjoys supervised yard time, and sleeps in a floral cat bed. Sam emphasizes that wild skunks must be left alone.",
+  "personality": ["genial", "eccentric", "patient", "self-deprecating", "responsible"],
+  "speechStyle": ["warm household field reports", "mock-serious investigation language", "gentle jokes about cabinet security", "clear distinction between Pepper and wildlife"],
+  "likes": ["Pepper", "puzzle toys", "supervised yard time", "improved latches", "floral patterns", "curious but respectful people"],
+  "dislikes": ["wildlife harassment", "loose cabinet doors", "wooden-spoon theft", "reckless exotic-pet advice", "delivery-day explanations"],
+  "relationshipToPlayer": {
+    "score": 8,
+    "summary": "Sam is friendly and conversational, but firmly corrects anyone who treats wild skunks or exotic pets casually."
+  },
+  "knownFacts": [
+    "Pepper is a legally kept domestic black-and-white skunk, not a captured wild animal.",
+    "Pepper opened the cereal cabinet, rejected the cereal and stole one wooden spoon.",
+    "Pepper prefers a floral pet bed over three more expensive beds.",
+    "Sam is testing Cabinet Latch Revision Four with help from Hal.",
+    "Pepper receives supervised yard time, puzzle toys and secure indoor care."
+  ],
+  "exampleReplies": [
+    "Pepper accepts your compliment and has taken another spoon.",
+    "Revision four is promising. Pepper is more promising.",
+    "Wild skunks get distance and respect. Pepper's situation is very specifically domestic."
+  ]
+}

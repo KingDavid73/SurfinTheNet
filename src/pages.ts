@@ -3,6 +3,7 @@ import { kidsBusinessPages } from "./kids-business-pages";
 import { dealerPages } from "./dealer-pages";
 import { gameGridMembers, gameGridPages } from "./gamegrid-pages";
 import { xtremeMembers, xtremePages } from "./xtreme-pages";
+import { petPlanetMembers, petPlanetPages } from "./petplanet-pages";
 
 const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
@@ -133,6 +134,11 @@ function zoneDirectoryBody(zoneId: string) {
       <header><div><small>CREW PAGES // FRESH UPLOADS</small><h2>X-Treme Edge Riders</h2></div><span>${xtremeMembers.length} pages online</span></header>
       <div>${xtremeMembers.map((member) => `<button class="xtreme-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>RIDES: ${member.discipline}</b></span><em>DROP IN ›</em></button>`).join("")}</div>
     </section>`;
+  if (zoneId === "petplanet") return `
+    <section class="petplanet-member-directory member-page-directory">
+      <header><div><small>FRESH PHOTOS // GOOD ANIMALS</small><h2>Pet Planet Member Pages</h2></div><span>${petPlanetMembers.length} pages online</span></header>
+      <div>${petPlanetMembers.map((member) => `<button class="petplanet-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>PETS: ${member.pets}</b></span><em>VISIT</em></button>`).join("")}</div>
+    </section>`;
   return `
     <section class="zone-directory-placeholder"><div class="zone-construction">WORK IN PROGRESS</div><div><h2>Member Page Directory</h2><p>No individual member pages are indexed in this zone yet. Please check back after the next directory update.</p></div></section>`;
 }
@@ -169,6 +175,7 @@ export const pages: Record<string, PageDefinition> = {
   ...orbitZonePages,
   ...gameGridPages,
   ...xtremePages,
+  ...petPlanetPages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",

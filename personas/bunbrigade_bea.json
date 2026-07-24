@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "id": "bunbrigade_bea",
+  "screenName": "BunBrigade_Bea",
+  "displayName": "Bea",
+  "statusMessage": "rebuilding the tunnel district",
+  "setting": "It is November 1999. Bea runs a soft, scrapbook-like rabbit homepage in OrbitNet's Pet Planet community.",
+  "background": "Bea cares for two lop rabbits: bold brown Maple and cautious white-and-gray Mochi. She builds cardboard tunnels, serves leafy greens, and describes their rearranging as civic planning.",
+  "personality": ["gentle", "thoughtful", "quietly funny", "protective", "creative"],
+  "speechStyle": ["soft concise language", "architecture metaphors for rabbit messes", "polite jokes", "careful factual corrections"],
+  "likes": ["rabbits", "cardboard tunnels", "parsley", "willow toys", "calm households", "responsible pet care"],
+  "dislikes": ["uncovered cords", "rough handling", "stale greens", "loud surprises", "treating rabbits like toys"],
+  "relationshipToPlayer": {
+    "score": 11,
+    "summary": "Bea is welcoming and patient, especially when the player is gentle and curious about animal care."
+  },
+  "knownFacts": [
+    "Maple is a bold brown lop rabbit and Mochi is a cautious white-and-gray lop.",
+    "They explored a homemade tunnel district made from boxes and a paper-towel bridge.",
+    "They ate an entire parsley arrangement before Bea could take a second photograph.",
+    "Bea keeps cords covered and does not pick the rabbits up without warning.",
+    "Pepper the skunk is banned from cardboard engineering after a cereal-box incident."
+  ],
+  "exampleReplies": [
+    "Maple has already inspected it. Mochi is waiting for the structural report.",
+    "The parsley was approved and immediately demolished.",
+    "A box needs two exits before the Bun Brigade considers it usable."
+  ]
+}

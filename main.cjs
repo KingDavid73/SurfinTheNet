@@ -26,7 +26,7 @@ const DEFAULT_SAVE = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8 }
 };
 
 function savePath() {
@@ -214,6 +214,31 @@ function createWindow() {
                 await win.webContents.executeJavaScript(`document.querySelector(${JSON.stringify(featureClasses[riderIndex])})?.scrollIntoView({ block: 'start' }); true`);
                 await capture(`xtreme-member-${riderIndex + 1}-action.png`);
                 await click('[data-nav="web://orbitnet.local/zones/xtreme"]');
+              }
+            }
+            if (zoneUrl.endsWith("/petplanet")) {
+              const expectedPetUrls = [
+                "web://petplanet.zone/users/catnapcarla/home",
+                "web://petplanet.zone/users/fetchquestray/home",
+                "web://petplanet.zone/users/bunbrigadebea/home",
+                "web://petplanet.zone/users/hamcamhal/home",
+                "web://petplanet.zone/users/iguanairis/home",
+                "web://petplanet.zone/users/skunkunclesam/home"
+              ];
+              const petUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.petplanet-member-card')).map((card) => card.getAttribute('data-nav'))`);
+              if (JSON.stringify(petUrls) !== JSON.stringify(expectedPetUrls)) throw new Error(`Pet Planet member directory was incomplete: ${JSON.stringify(petUrls)}`);
+              await win.webContents.executeJavaScript(`document.querySelector('.petplanet-member-directory')?.scrollIntoView({ block: 'start' }); true`);
+              await capture("orbitnet-zone-petplanet-members.png");
+              const petClasses = [".carla-page", ".ray-page", ".bea-page", ".hal-page", ".iris-page", ".sam-page"];
+              const trackLabels = ["Whisker Waltz", "Backyard Bound", "Parsley Promenade", "TubeNet Telemetry", "Basking After Dark", "Cabinet Caper"];
+              for (let petIndex = 0; petIndex < expectedPetUrls.length; petIndex += 1) {
+                await click(`[data-nav="${expectedPetUrls[petIndex]}"]`);
+                const petPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(petClasses[petIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.pet-member-art').length === 3 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[petIndex])})`);
+                if (!petPageReady) throw new Error(`Pet Planet member page was incomplete: ${expectedPetUrls[petIndex]}`);
+                await capture(`petplanet-member-${petIndex + 1}.png`);
+                await win.webContents.executeJavaScript(`document.querySelector('.pet-member-feature')?.scrollIntoView({ block: 'start' }); true`);
+                await capture(`petplanet-member-${petIndex + 1}-feature.png`);
+                await click('[data-nav="web://orbitnet.local/zones/petplanet"]');
               }
             }
             await click('[data-nav="web://home"]');
@@ -796,7 +821,7 @@ function createWindow() {
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
-          if (randomCalls !== 29) throw new Error(`Expected 28 persona rolls plus one page selection, got ${randomCalls} random calls`);
+          if (randomCalls !== 35) throw new Error(`Expected 34 persona rolls plus one page selection, got ${randomCalls} random calls`);
           const finalSaved = await waitForAmbientIdle(2);
           const hourlyAmbient = finalSaved.pageComments.find((comment) => comment.role === "visitor" && comment.id !== miraAmbient.id);
           if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);

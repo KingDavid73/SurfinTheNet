@@ -30,7 +30,13 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
   surfer: { label: "Pacific Lazyline", file: "pacific-lazyline.mid", midiUrl: new URL("../assets/audio/pages/pacific-lazyline.mid", import.meta.url).href, url: new URL("../assets/audio/pages/pacific-lazyline.wav", import.meta.url).href },
   motocross: { label: "Roost and Thunder", file: "roost-and-thunder.mid", midiUrl: new URL("../assets/audio/pages/roost-and-thunder.mid", import.meta.url).href, url: new URL("../assets/audio/pages/roost-and-thunder.wav", import.meta.url).href },
   scooter: { label: "Scooter Siren", file: "scooter-siren.mid", midiUrl: new URL("../assets/audio/pages/scooter-siren.mid", import.meta.url).href, url: new URL("../assets/audio/pages/scooter-siren.wav", import.meta.url).href },
-  euro: { label: "Riviera Idle", file: "riviera-idle.mid", midiUrl: new URL("../assets/audio/pages/riviera-idle.mid", import.meta.url).href, url: new URL("../assets/audio/pages/riviera-idle.wav", import.meta.url).href }
+  euro: { label: "Riviera Idle", file: "riviera-idle.mid", midiUrl: new URL("../assets/audio/pages/riviera-idle.mid", import.meta.url).href, url: new URL("../assets/audio/pages/riviera-idle.wav", import.meta.url).href },
+  petcat: { label: "Whisker Waltz", file: "whisker-waltz.mid", midiUrl: new URL("../assets/audio/pages/whisker-waltz.mid", import.meta.url).href, url: new URL("../assets/audio/pages/whisker-waltz.wav", import.meta.url).href },
+  petdog: { label: "Backyard Bound", file: "backyard-bound.mid", midiUrl: new URL("../assets/audio/pages/backyard-bound.mid", import.meta.url).href, url: new URL("../assets/audio/pages/backyard-bound.wav", import.meta.url).href },
+  petrabbit: { label: "Parsley Promenade", file: "parsley-promenade.mid", midiUrl: new URL("../assets/audio/pages/parsley-promenade.mid", import.meta.url).href, url: new URL("../assets/audio/pages/parsley-promenade.wav", import.meta.url).href },
+  pethamster: { label: "TubeNet Telemetry", file: "tubenet-telemetry.mid", midiUrl: new URL("../assets/audio/pages/tubenet-telemetry.mid", import.meta.url).href, url: new URL("../assets/audio/pages/tubenet-telemetry.wav", import.meta.url).href },
+  petiguana: { label: "Basking After Dark", file: "basking-after-dark.mid", midiUrl: new URL("../assets/audio/pages/basking-after-dark.mid", import.meta.url).href, url: new URL("../assets/audio/pages/basking-after-dark.wav", import.meta.url).href },
+  petskunk: { label: "Cabinet Caper", file: "cabinet-caper.mid", midiUrl: new URL("../assets/audio/pages/cabinet-caper.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cabinet-caper.wav", import.meta.url).href }
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -53,7 +59,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -84,7 +90,13 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   tiderider_ty: { screenName: "TideRider_Ty", displayName: "Ty" },
   throttle_troy: { screenName: "Throttle_Troy", displayName: "Troy" },
   scootlord_ollie: { screenName: "ScootLord_Ollie", displayName: "Ollie" },
-  veloce_viktor: { screenName: "Veloce_Viktor", displayName: "Viktor" }
+  veloce_viktor: { screenName: "Veloce_Viktor", displayName: "Viktor" },
+  catnap_carla: { screenName: "CatNap_Carla", displayName: "Carla" },
+  fetchquest_ray: { screenName: "FetchQuest_Ray", displayName: "Ray" },
+  bunbrigade_bea: { screenName: "BunBrigade_Bea", displayName: "Bea" },
+  hamcam_hal: { screenName: "HamCam_Hal", displayName: "Hal" },
+  iguana_iris: { screenName: "Iguana_Iris", displayName: "Iris" },
+  skunkuncle_sam: { screenName: "SkunkUncle_Sam", displayName: "Sam" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -121,7 +133,13 @@ const CHARACTER_CONTACTS: Record<string, {
   tiderider_ty: { screenName: "TideRider_Ty", displayName: "Ty", statusMessage: "dawn patrol, maybe" },
   throttle_troy: { screenName: "Throttle_Troy", displayName: "Troy", statusMessage: "317 ready for Sunday" },
   scootlord_ollie: { screenName: "ScootLord_Ollie", displayName: "Ollie", statusMessage: "THUNDER SCOOT 2.0 IS COMING" },
-  veloce_viktor: { screenName: "Veloce_Viktor", displayName: "Viktor", statusMessage: "away // marina reception" }
+  veloce_viktor: { screenName: "Veloce_Viktor", displayName: "Viktor", statusMessage: "away // marina reception" },
+  catnap_carla: { screenName: "CatNap_Carla", displayName: "Carla", statusMessage: "Mr. Boots is on the keyboard" },
+  fetchquest_ray: { screenName: "FetchQuest_Ray", displayName: "Ray", statusMessage: "one more throw!" },
+  bunbrigade_bea: { screenName: "BunBrigade_Bea", displayName: "Bea", statusMessage: "rebuilding the tunnel district" },
+  hamcam_hal: { screenName: "HamCam_Hal", displayName: "Hal", statusMessage: "TubeNet node 17 online" },
+  iguana_iris: { screenName: "Iguana_Iris", displayName: "Iris", statusMessage: "Gomez is basking. naturally." },
+  skunkuncle_sam: { screenName: "SkunkUncle_Sam", displayName: "Sam", statusMessage: "cabinet latch revision four" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -152,7 +170,13 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   tiderider_ty: "web://xtreme.zone/users/tideriderty/home",
   throttle_troy: "web://xtreme.zone/users/throttletroy/home",
   scootlord_ollie: "web://xtreme.zone/users/scootlordollie/home",
-  veloce_viktor: "web://xtreme.zone/users/veloceviktor/home"
+  veloce_viktor: "web://xtreme.zone/users/veloceviktor/home",
+  catnap_carla: "web://petplanet.zone/users/catnapcarla/home",
+  fetchquest_ray: "web://petplanet.zone/users/fetchquestray/home",
+  bunbrigade_bea: "web://petplanet.zone/users/bunbrigadebea/home",
+  hamcam_hal: "web://petplanet.zone/users/hamcamhal/home",
+  iguana_iris: "web://petplanet.zone/users/iguanairis/home",
+  skunkuncle_sam: "web://petplanet.zone/users/skunkunclesam/home"
 };
 
 const GAME_TIME_SCALE = 2;

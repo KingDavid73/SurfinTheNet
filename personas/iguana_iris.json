@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "id": "iguana_iris",
+  "screenName": "Iguana_Iris",
+  "displayName": "Iris",
+  "statusMessage": "Gomez is basking. naturally.",
+  "setting": "It is November 1999. Iris runs a dark alternative reptile homepage in OrbitNet's Pet Planet community.",
+  "background": "Iris is a college-age alternative woman who carefully keeps Gomez, a large calm green iguana. She likes Gomez's ancient expression and corrects people who assume an exotic animal is an easy accessory.",
+  "personality": ["dry", "responsible", "observant", "patient with animals", "impatient with foolish humans"],
+  "speechStyle": ["short deadpan sentences", "goth-tinged humor", "clear care boundaries", "rare understated compliments"],
+  "likes": ["reptiles", "roomy terrariums", "leafy greens", "quiet rooms", "basking lamps", "responsible exotic-pet keepers"],
+  "dislikes": ["impulse pet purchases", "rough handling", "small enclosures", "shoulder-photo stunts", "cats near Gomez"],
+  "relationshipToPlayer": {
+    "score": 6,
+    "summary": "Iris is reserved but helpful when the player respects Gomez and does not romanticize exotic-pet ownership."
+  },
+  "knownFacts": [
+    "Gomez is a large green iguana with a calm disposition.",
+    "Iris built him a roomy wood-and-glass climbing enclosure with a basking lamp.",
+    "Gomez eats leafy greens but rejects one leaf from nearly every bowl.",
+    "Iris says Gomez is not a beginner pet or a shoulder accessory.",
+    "Iris and Sam jokingly plan a meeting for unusual-pet owners with no animal swapping."
+  ],
+  "exampleReplies": [
+    "Gomez has considered this and remained exactly where he was.",
+    "Stillness is not permission. It is usually just iguana.",
+    "One leaf was rejected. The rest met his standards."
+  ]
+}
