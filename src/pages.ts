@@ -35,11 +35,13 @@ const BUSINESS_ASSETS = {
   "bytebarn-modem": new URL("../assets/images/business-web/bytebarn-modem.png", import.meta.url).href,
   "bytebarn-upgrades": new URL("../assets/images/business-web/bytebarn-upgrades.png", import.meta.url).href,
   "bytebarn-technician": new URL("../assets/images/business-web/bytebarn-technician.png", import.meta.url).href,
+  "bytebarn-software": new URL("../assets/images/business-web/bytebarn-software.png", import.meta.url).href,
   "cosmiccrust-pizza": new URL("../assets/images/business-web/cosmiccrust-pizza.png", import.meta.url).href,
   "cosmiccrust-slice": new URL("../assets/images/business-web/cosmiccrust-slice.png", import.meta.url).href,
   "cosmiccrust-meal": new URL("../assets/images/business-web/cosmiccrust-meal.png", import.meta.url).href,
   "cosmiccrust-delivery": new URL("../assets/images/business-web/cosmiccrust-delivery.png", import.meta.url).href,
   "cosmiccrust-arcade": new URL("../assets/images/business-web/cosmiccrust-arcade.png", import.meta.url).href,
+  "cosmiccrust-astronaut": new URL("../assets/images/business-web/cosmiccrust-astronaut.png", import.meta.url).href,
   "pawsnclaws-pickles": new URL("../assets/images/business-web/pawsnclaws-pickles.png", import.meta.url).href,
   "pawsnclaws-adoption": new URL("../assets/images/business-web/pawsnclaws-adoption.png", import.meta.url).href,
   "pawsnclaws-aquarium": new URL("../assets/images/business-web/pawsnclaws-aquarium.png", import.meta.url).href,
@@ -228,19 +230,29 @@ export const pages: Record<string, PageDefinition> = {
     searchTerms: ["juniper", "garden", "cat", "art", "modem"],
     render: () => `
       <main class="page rainbow-page">
-        <div class="sparkles">★ . · ✿ · . ★ . · ✿ · . ★</div>
-        <h1>Welcome to Rainbow Garden!</h1>
-        <p class="marquee">~ a cozy patch of the web maintained by Juniper ~</p>
-        ${fakeImage("PHOTO OF MY GARDEN.JPG", "rainbow")}
-        <p>Hello web travelers! This is my little home for drawings, tiny poems, and pictures of my cat, <b>Modem</b>.</p>
-        <div class="contact-strip rainbow-contact"><span>Want to say something privately?</span><button data-email-owner="juniper_gdn">✉ Email Juniper</button></div>
-        <nav class="page-links">
-          <button data-nav="web://rainbow.gdn/about">About Me & Modem</button>
-          <button data-nav="web://rainbow.gdn/modem">Modem's Cat Corner</button>
-          <button data-nav="web://rainbow.gdn/guestbook">Read My Guestbook</button>
-          <button data-nav="web://nightsignal.net/home">Cool Link: Night Signal</button>
-        </nav>
-        <footer>Best viewed at 800×600 · Made with Notepad</footer>
+        <header class="rainbow-masthead">
+          <div class="sparkles">* . o . * . o . *</div>
+          <h1>Rainbow Garden</h1>
+          <marquee scrollamount="3">~ welcome, web traveler! mind the seedlings and please do not feed Modem after midnight ~</marquee>
+        </header>
+        <div class="rainbow-home-grid">
+          <section class="garden-feature">
+            <div class="garden-photo">${fakeImage("JUNIPERS_GARDEN_110399.JPG", "rainbow")}<span>the last marigolds before frost</span></div>
+            <article class="garden-update"><small>GARDEN LOG // NOV. 3</small><h2>Hello from my little patch of the web!</h2><p>I made this place for drawings, tiny poems, plant notes, and an unreasonable number of pictures of my cat, <b>Modem</b>.</p><blockquote>the rain taps the glass<br>the modem answers softly<br>someone else is there</blockquote></article>
+          </section>
+          <aside class="rainbow-sidebar">
+            <h2>Garden Paths</h2>
+            <nav class="page-links">
+              <button data-nav="web://rainbow.gdn/about"><b>ME + MODEM</b><small>who maintains this mess?</small></button>
+              <button data-nav="web://rainbow.gdn/modem"><b>CAT CORNER</b><small>daily schedule & evidence</small></button>
+              <button data-nav="web://rainbow.gdn/guestbook"><b>GUESTBOOK</b><small>leave muddy footprints</small></button>
+              <button data-nav="web://nightsignal.net/home"><b>NIGHT SIGNAL</b><small>Mira's very cool radio page</small></button>
+            </nav>
+            <div class="seed-swap"><b>VIRTUAL SEED SWAP</b><p>Currently offering: moonflower, marigold, and one mystery envelope Dad says not to open indoors.</p></div>
+          </aside>
+        </div>
+        <div class="contact-strip rainbow-contact"><span>Want to say something privately?</span><button data-email-owner="juniper_gdn">Email Juniper</button></div>
+        <footer><span>Best viewed at 800x600</span><b>Member of the Cozy Corners Web Ring</b><span>Made with Notepad</span></footer>
       </main>`
   },
   "web://rainbow.gdn/about": {
@@ -251,13 +263,17 @@ export const pages: Record<string, PageDefinition> = {
     summary: "Juniper introduces herself, her cat Modem, her scanner art hobby, and a strange voice she hears beneath 91.7 FM.",
     render: () => `
       <main class="page rainbow-page about-page">
-        <h1>About the Webmaster</h1>
+        <header class="rainbow-subhead"><small>YOU ARE HERE: /ABOUT/ME.HTML</small><h1>About the Webmaster</h1></header>
         <div class="profile-layout">
-          ${fakeImage("JUNIPER + MODEM", "pink")}
-          <div><p><b>Name:</b> Juniper</p><p><b>Likes:</b> gardening, scanner art, rainy radio</p><p><b>Dislikes:</b> broken links, olives</p></div>
+          <div class="juniper-polaroid">${fakeImage("JUNIPER_AND_MODEM.JPG", "pink")}<span>taken by Dad, thumb cropped out</span></div>
+          <section class="juniper-profile">
+            <h2>Juniper, age 23</h2>
+            <dl><div><dt>LIKES</dt><dd>gardening, scanner art, rainy radio, cinnamon tea</dd></div><div><dt>DISLIKES</dt><dd>broken links, olives, chain email, wet socks</dd></div><div><dt>WEB SKILLS</dt><dd>HTML, image maps (almost), turning it off and on</dd></div></dl>
+            <div class="currently-box"><b>CURRENTLY...</b><p>reading: <i>The Orchard at Dusk</i><br>listening: 91.7 FM<br>growing: moonflowers in the kitchen</p></div>
+          </section>
         </div>
-        <hr><p>I keep hearing a strange voice underneath 91.7 FM after midnight. My friend Mira says the Night Signal archive has recordings.</p>
-        <button class="text-link" data-nav="web://rainbow.gdn/home">← Back to my garden</button>
+        <section class="scanner-art-note"><h2>Why I made this page</h2><p>Paper scraps disappear into drawers. A web page can be a drawer your friends visit. I scan leaves, seed packets, receipts, and bits of handwriting before they get lost.</p><p class="odd-signal-note">Lately I keep hearing a strange voice underneath 91.7 FM after midnight. Mira says the Night Signal archive has recordings. Modem hears it too.</p></section>
+        <nav class="rainbow-bottom-nav"><button data-nav="web://rainbow.gdn/home">&lt; Garden</button><button data-nav="web://rainbow.gdn/modem">Cat Corner &gt;</button></nav>
       </main>`
   },
   "web://rainbow.gdn/modem": {
@@ -268,12 +284,17 @@ export const pages: Record<string, PageDefinition> = {
     summary: "A shrine to Juniper's orange cat Modem, including his daily schedule and a blurry picture of him staring at the phone jack.",
     render: () => `
       <main class="page rainbow-page cat-page">
-        <h1>~ Modem's Cat Corner ~</h1>
-        ${fakeImage("MODEM_LOOKING_SUSPICIOUS.GIF", "pink")}
-        <p><b>Modem's schedule:</b> breakfast, window, nap, mysterious hallway sprint, dinner, keyboard.</p>
-        <p>Last night he stared at the phone jack for twenty minutes before the modem rang. Cats know more than they admit!!!</p>
-        <p class="tiny-old-link">old camera test: <button class="text-link" data-nav="web://rainbow.gdn/old/phonejack.html">phonejack_2.htm</button></p>
-        <button class="text-link" data-nav="web://rainbow.gdn/home">← Return to Rainbow Garden</button>
+        <header class="cat-corner-header"><span>=^..^=</span><div><small>THE OFFICIAL SHRINE</small><h1>Modem's Cat Corner</h1></div><span>=^..^=</span></header>
+        <div class="cat-corner-grid">
+          <div class="modem-photo">${fakeImage("MODEM_LOOKING_SUSPICIOUS.GIF", "pink")}<b>SUBJECT: MODEM</b><small>orange / loud / denies everything</small></div>
+          <section class="modem-dossier">
+            <h2>Daily Transmission Schedule</h2>
+            <ol><li><b>6:04</b> breakfast alarm</li><li><b>8:30</b> window surveillance</li><li><b>11:17</b> phone-jack inspection</li><li><b>13:00</b> nap (classified)</li><li><b>18:02</b> hallway sprint</li><li><b>23:17</b> keyboard assistance</li></ol>
+          </section>
+          <article class="cat-news"><small>BREAKING CAT NEWS</small><h2>Modem knows something.</h2><p>Last night he stared at the phone jack for twenty minutes before the modem rang. Cats know more than they admit!!!</p><p class="tiny-old-link">old camera test: <button class="text-link" data-nav="web://rainbow.gdn/old/phonejack.html">phonejack_2.htm</button></p></article>
+          <aside class="cat-poll"><b>MODEM'S FAVORITES</b><p>Box: printer paper<br>Toy: receipt<br>Food: yours<br>Enemy: downstairs vacuum</p></aside>
+        </div>
+        <nav class="rainbow-bottom-nav"><button data-nav="web://rainbow.gdn/about">&lt; About Juniper</button><button data-nav="web://rainbow.gdn/home">Garden Home</button></nav>
       </main>`
   },
   "web://rainbow.gdn/old/phonejack.html": {
@@ -330,17 +351,28 @@ export const pages: Record<string, PageDefinition> = {
     searchTerms: ["mira", "radio", "91.7", "night signal", "broadcast"],
     render: () => `
       <main class="page signal-page">
-        <header><span>NIGHT</span> SIGNAL <small>91.7 FM</small></header>
-        ${fakeImage("LIVE TRANSMISSION OFFLINE", "static")}
-        <h2>For people who are still awake.</h2>
-        <p>We collect unusual broadcasts, answering-machine fragments, and sounds that do not have obvious owners.</p>
-        <div class="contact-strip signal-contact"><span>Mira is currently online.</span><button data-aim-owner="mira_917">◎ IM Mira_917</button></div>
-        <div class="signal-nav">
-          <button data-nav="web://nightsignal.net/archive">ENTER RECORDING ARCHIVE</button>
-          <button data-nav="web://nightsignal.net/fieldlog">READ OPERATOR LOG</button>
-          <button data-nav="web://rainbow.gdn/home">FRIEND SITE: RAINBOW GARDEN</button>
+        <header class="signal-masthead"><div><span>NIGHT</span> SIGNAL</div><small>91.7 FM // MERCER COUNTY // AFTER HOURS</small></header>
+        <div class="frequency-scale"><span>88</span><i></i><span>90</span><i></i><b>91.7</b><i></i><span>94</span><i></i><span>98</span><i></i><span>104</span></div>
+        <div class="signal-console">
+          <aside class="signal-rack">
+            <div class="rack-lights"><i></i><i></i><i></i><i></i><i></i></div>
+            <b>STATION INDEX</b>
+            <nav class="signal-nav"><button data-nav="web://nightsignal.net/archive">01 / RECORDINGS</button><button data-nav="web://nightsignal.net/fieldlog">02 / FIELD LOG</button><button data-nav="web://rainbow.gdn/home">03 / RAINBOW GARDEN</button></nav>
+            <small>REMOTE LINK: 2400 BAUD<br>UPLINK: UNSTABLE</small>
+          </aside>
+          <section class="signal-transmission">
+            <div class="signal-scope" role="img" aria-label="Green radio waveform display"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>LIVE INPUT / NO CARRIER</span></div>
+            <h1>For people who are still awake.</h1>
+            <p>Night Signal collects unusual broadcasts, answering-machine fragments, numbers read by strangers, and sounds without obvious owners.</p>
+            <div class="contact-strip signal-contact"><span>Mira is currently online.</span><button data-aim-owner="mira_917">IM Mira_917</button></div>
+          </section>
+          <aside class="signal-status">
+            <b>TONIGHT'S BOARD</b>
+            <dl><div><dt>23:00</dt><dd>rain tape</dd></div><div><dt>23:17</dt><dd class="warning">open band</dd></div><div><dt>00:05</dt><dd>callers</dd></div><div><dt>01:00</dt><dd>sign-off?</dd></div></dl>
+            <p><b>RECEIVER A:</b> 91.7<br><b>RECEIVER B:</b> scanning<br><b>TAPE 3:</b> armed</p>
+          </aside>
         </div>
-        <p class="warning">NOTICE: The station is currently unattended. Do not adjust your receiver.</p>
+        <p class="signal-warning"><b>NOTICE:</b> The station is currently unattended. Do not adjust your receiver.</p>
       </main>`
   },
   "web://nightsignal.net/archive": {
@@ -353,15 +385,17 @@ export const pages: Record<string, PageDefinition> = {
       const downloaded = state.downloads.some((file) => file.id === "signal-note");
       return `
         <main class="page signal-page archive-page">
-          <h1>RECORDING ARCHIVE</h1>
-          <p>Recovered directory listing · Last updated 11/03/1999</p>
+          <header class="signal-subhead"><span>RECORDING ARCHIVE</span><small>NS-917 / TAPE LIBRARY</small></header>
+          <div class="archive-meta"><span>Recovered directory listing</span><b>LAST SYNC 11/03/1999 22:48</b><span>4.6 MB FREE</span></div>
           <table><thead><tr><th>FILE</th><th>DESCRIPTION</th><th>STATUS</th></tr></thead><tbody>
-            <tr><td>rain_004.wav</td><td>Seven minutes of rainfall</td><td>corrupt</td></tr>
-            <tr><td>caller_unknown.wav</td><td>Unidentified caller</td><td>missing</td></tr>
+            <tr><td>rain_004.wav</td><td>Seven minutes of rainfall; voice at 05:42?</td><td class="archive-bad">CORRUPT</td></tr>
+            <tr><td>caller_unknown.wav</td><td>Unidentified caller asking for "the lower room"</td><td class="archive-bad">MISSING</td></tr>
+            <tr><td>bridge_hum.aif</td><td>Electrical hum beneath Mercer overpass</td><td>CATALOGED</td></tr>
+            <tr><td>numbers_2.wav</td><td>Digits repeated backward; probably scanner bleed</td><td>REVIEW</td></tr>
             <tr class="featured-file"><td>SIGNAL_NOTE.TXT</td><td>Operator's desk note</td><td><button data-download="signal-note" ${downloaded ? "disabled" : ""}>${downloaded ? "DOWNLOADED" : "DOWNLOAD"}</button></td></tr>
           </tbody></table>
-          <p class="archive-hint">Downloaded files appear in <b>My Files</b> on the desktop.</p>
-          <button class="text-link" data-nav="web://nightsignal.net/home">← Station front page</button>
+          <div class="archive-hint"><b>LOCAL COPY NOTE</b><p>Downloaded files appear in <strong>My Files</strong> on the desktop. Audio entries are catalog records only until the station finishes digitizing them.</p></div>
+          <nav class="signal-bottom-nav"><button data-nav="web://nightsignal.net/home">&lt; STATION</button><button data-nav="web://nightsignal.net/fieldlog">FIELD LOG &gt;</button></nav>
         </main>`;
     }
   },
@@ -373,11 +407,14 @@ export const pages: Record<string, PageDefinition> = {
     summary: "Mira's operator log notes that the same unknown transmission returned at 11:17 PM on three consecutive nights.",
     render: () => `
       <main class="page signal-page fieldlog-page">
-        <h1>OPERATOR FIELD LOG</h1>
-        <p><b>11/01 — 23:17</b><br>Carrier under normal programming. Three words. Too muddy to transcribe.</p>
-        <p><b>11/02 — 23:17</b><br>Same signal, same time. Station clock lost four seconds immediately afterward.</p>
-        <p><b>11/03 — pending</b><br>If it returns tonight, I am recording the full band.</p>
-        <button class="text-link" data-nav="web://nightsignal.net/home">← Station front page</button>
+        <header class="signal-subhead"><span>OPERATOR FIELD LOG</span><small>M. VALE / DESK 2</small></header>
+        <section class="log-timeline">
+          <article><time>11/01<br><b>23:17</b></time><div><small>ENTRY 041</small><h2>Carrier under normal programming.</h2><p>Three words. Too muddy to transcribe. Receiver B's signal meter moved although its antenna was disconnected.</p></div><em>UNCONFIRMED</em></article>
+          <article><time>11/02<br><b>23:17</b></time><div><small>ENTRY 042</small><h2>Same signal. Same time.</h2><p>Station clock lost four seconds immediately afterward. Tape counter advanced eleven seconds.</p></div><em>REPEATED</em></article>
+          <article class="pending-log"><time>11/03<br><b>--:--</b></time><div><small>ENTRY 043</small><h2>If it returns tonight...</h2><p>I am recording the full band. Juniper says her phone rang at the same minute. That is not evidence yet.</p></div><em>OPEN</em></article>
+        </section>
+        <aside class="signal-method"><b>FIELD METHOD</b><span>two receivers / synchronized clocks / fresh tape / write it down before inventing a theory</span></aside>
+        <nav class="signal-bottom-nav"><button data-nav="web://nightsignal.net/home">&lt; STATION</button><button data-nav="web://nightsignal.net/archive">RECORDINGS &gt;</button></nav>
       </main>`
   },
   "web://raven.web/home": {
@@ -392,14 +429,33 @@ export const pages: Record<string, PageDefinition> = {
     searchTerms: ["darkraven", "games", "rumors", "hidden pages", "void"],
     render: () => `
       <main class="page raven-page">
-        <div class="raven-stars">+ . * . + . * . +</div>
-        <h1>xX_DarkRaven_Xx's VOID</h1>
-        <p class="raven-warning">YOU HAVE ENTERED A DOMAIN OF SECRETS</p>
-        ${fakeImage("RAVEN_SIGIL.GIF", "raven")}
-        <p>I investigate deleted game levels, forbidden cheat codes, and pages OrbitNet pretends do not exist.</p>
-        <div class="contact-strip raven-contact"><span>AIM STATUS: ONLINE</span><button data-aim-owner="darkraven_xx">◎ MESSAGE xX_DarkRaven_Xx</button></div>
-        <nav class="raven-nav"><button data-nav="web://raven.web/orbit">THE ORBIT HOLE</button><button data-nav="web://rainbow.gdn/guestbook">JUNIPER'S GUESTBOOK</button></nav>
-        <footer>Optimized for darkness · No portal employees</footer>
+        <header class="raven-masthead"><div class="raven-stars">+ . * . + . * . +</div><h1>xX_DarkRaven_Xx's VOID</h1><p class="raven-warning">YOU HAVE ENTERED A DOMAIN OF SECRETS</p></header>
+        <div class="raven-home-grid">
+          <aside class="raven-sidebar">
+            <div class="raven-sigil">${fakeImage("RAVEN_SIGIL.GIF", "raven")}</div>
+            <nav class="raven-nav"><button data-nav="web://raven.web/orbit">THE ORBIT HOLE</button><button data-nav="web://raven.web/files">FORBIDDEN FILES</button><button data-nav="web://raven.web/links">SHADOW LINKS</button><button data-nav="web://rainbow.gdn/guestbook">JUNIPER'S GUESTBOOK</button></nav>
+            <small>VOID VISITORS<br><b>00000666</b></small>
+          </aside>
+          <section class="raven-center">
+            <article class="raven-manifesto"><small>LAST UPDATED 11.03.99</small><h2>THE TRUTH IS UNDER CONSTRUCTION</h2><p>I investigate deleted game levels, forbidden cheat codes, haunted shareware, and pages OrbitNet pretends do not exist.</p><p>Most rumors are fake. The interesting ones are only <em>mostly</em> fake.</p></article>
+            <div class="raven-caseboard">
+              <article><b>CASE 01</b><span>ORBIT HOLE</span><small>status: watching</small></article>
+              <i></i>
+              <article><b>CASE 02</b><span>91.7 SIGNAL</span><small>status: repeating</small></article>
+              <i></i>
+              <article><b>CASE 03</b><span>PHONE JACK</span><small>status: cat involved</small></article>
+            </div>
+            <div class="contact-strip raven-contact"><span>AIM STATUS: ONLINE</span><button data-aim-owner="darkraven_xx">MESSAGE xX_DarkRaven_Xx</button></div>
+          </section>
+          <aside class="raven-bulletins">
+            <h2>VOID BULLETINS</h2>
+            <p><b>11/03:</b> Added proof OrbitNet has pages outside the directory.</p>
+            <p><b>11/02:</b> Mira says clock drift is "not ghosts." Coward.</p>
+            <p><b>10/31:</b> Graveyard Shift 99 rumor still unverified.</p>
+            <div class="raven-award">THIS SITE<br><b>DOES NOT</b><br>USE FRAMES</div>
+          </aside>
+        </div>
+        <footer><span>Optimized for darkness</span><b>NO PORTAL EMPLOYEES</b><span>HTML by Raven</span></footer>
       </main>`
   },
   "web://raven.web/orbit": {
@@ -410,11 +466,59 @@ export const pages: Record<string, PageDefinition> = {
     summary: "DarkRaven claims OrbitNet keeps an unlisted maintenance page that briefly appears when the directory clock reaches 11:17 PM.",
     render: () => `
       <main class="page raven-page orbit-hole-page">
-        <h1>THE ORBIT HOLE</h1>
-        <p>I saw an unlisted maintenance page flash behind the directory at exactly <b>11:17 PM</b>. The address ended in <code>/below</code>.</p>
-        <p>Everyone says it was a cache error. Cache errors do not know your screen name.</p>
-        <div class="raven-evidence">EVIDENCE_01.BMP<br><small>[ image removed by host ]</small></div>
-        <button class="text-link" data-nav="web://raven.web/home">← Return to the Void</button>
+        <header class="raven-case-header"><small>CASE FILE 01 // OPEN</small><h1>THE ORBIT HOLE</h1><b>HOST CLAIM: CACHE ERROR</b></header>
+        <div class="orbit-evidence-grid">
+          <section><h2>What happened</h2><p>I saw an unlisted maintenance page flash behind the directory at exactly <b>11:17 PM</b>. The address ended in <code>/below</code>.</p><p>Everyone says it was a cache error. Cache errors do not know your screen name.</p><table><tbody><tr><th>TIME</th><td>23:17:04</td></tr><tr><th>WINDOW TITLE</th><td>ORBIT SERVICE BELOW</td></tr><tr><th>VISIBLE TEXT</th><td>WELCOME BACK, RAVEN</td></tr><tr><th>WITNESSES</th><td>1 (me, counts double)</td></tr></tbody></table></section>
+          <div class="raven-evidence"><span>EVIDENCE_01.BMP</span><b>[ IMAGE REMOVED BY HOST ]</b><small>checksum changed after upload</small></div>
+          <aside><h2>Possible address</h2><code>web://orbitnet.local/???/below</code><p>The middle segment was hidden by the browser status bar. I am testing old staff terms and maintenance words.</p><button data-nav="web://nightsignal.net/fieldlog">COMPARE 11:17 LOG</button></aside>
+        </div>
+        <nav class="raven-bottom-nav"><button data-nav="web://raven.web/home">&lt; VOID HOME</button><button data-nav="web://raven.web/links">SHADOW LINKS &gt;</button></nav>
+      </main>`
+  },
+  "web://raven.web/files": {
+    url: "web://raven.web/files",
+    title: "DarkRaven's Forbidden Files",
+    site: "raven",
+    ownerId: "darkraven_xx",
+    summary: "DarkRaven's homemade download index catalogs deleted game rumors, small utilities, and files removed by OrbitNet.",
+    listed: true,
+    hubId: "after-dark",
+    searchTerms: ["darkraven files", "forbidden files", "deleted game", "shareware", "utilities", "downloads"],
+    render: () => `
+      <main class="page raven-page raven-files-page">
+        <header class="raven-case-header"><small>DIRECTORY /VOID/FILES</small><h1>FORBIDDEN FILES</h1><b>DOWNLOAD AT YOUR OWN RISK</b></header>
+        <section class="forbidden-file-list">
+          <article><i>EXE</i><div><h2>CACHESEER 0.4</h2><p>Shows titles left behind in the Orbit Explorer cache. Crashes if you have more than 8 MB free memory, somehow.</p></div><strong>QUARANTINED</strong></article>
+          <article><i>ZIP</i><div><h2>GRAVEYARD_SHIFT_99_MAPS</h2><p>Supposed deleted multiplayer maps. Contents are three screenshots and a text file arguing about fog.</p></div><strong>UNVERIFIED</strong></article>
+          <article><i>TXT</i><div><h2>PORTAL_ERRORS.TXT</h2><p>List of error-page phrases collected by Raven. Entry 17 includes a response addressed to the visitor.</p></div><strong>HOST REMOVED</strong></article>
+          <article><i>BAT</i><div><h2>MODEM_GHOST.BAT</h2><p>Plays a sound when the phone rings. Juniper says Modem already does this without software.</p></div><strong>POINTLESS</strong></article>
+        </section>
+        <p class="raven-disclaimer">No download buttons remain because OrbitNet removed the files twice and Dad says executable attachments are why the computer makes that noise.</p>
+        <nav class="raven-bottom-nav"><button data-nav="web://raven.web/home">&lt; VOID HOME</button><button data-nav="web://bytebarn.com/software">SAFE SOFTWARE</button><button data-nav="web://raven.web/links">SHADOW LINKS &gt;</button></nav>
+      </main>`
+  },
+  "web://raven.web/links": {
+    url: "web://raven.web/links",
+    title: "DarkRaven's Shadow Links",
+    site: "raven",
+    ownerId: "darkraven_xx",
+    summary: "DarkRaven's annotated link web connects Night Signal, Juniper's phone-jack test, OrbitNet, and other suspicious pages.",
+    listed: true,
+    hubId: "after-dark",
+    searchTerms: ["darkraven links", "shadow links", "mystery pages", "11:17", "phone jack", "night signal"],
+    render: () => `
+      <main class="page raven-page raven-links-page">
+        <header class="raven-case-header"><small>FOLLOW THE THREADS</small><h1>SHADOW LINKS</h1><b>LINKS DIE. SCREENSHOTS LIE.</b></header>
+        <section class="shadow-link-map">
+          <button class="link-node node-signal" data-nav="web://nightsignal.net/fieldlog"><b>NIGHT SIGNAL</b><small>same time / clock drift</small></button>
+          <button class="link-node node-juniper" data-nav="web://rainbow.gdn/old/phonejack.html"><b>PHONE JACK TEST</b><small>000-0000 / cat witness</small></button>
+          <div class="link-node node-center"><b>11:17</b><small>every road points here</small></div>
+          <button class="link-node node-orbit" data-nav="web://home"><b>ORBITNET</b><small>directory hides more than it lists</small></button>
+          <button class="link-node node-hole" data-nav="web://raven.web/orbit"><b>ORBIT HOLE</b><small>/below / unknown segment</small></button>
+          <i class="thread-one"></i><i class="thread-two"></i><i class="thread-three"></i><i class="thread-four"></i>
+        </section>
+        <aside class="shadow-note"><b>RAVEN'S RULE:</b> A coincidence happens once. A pattern happens twice. A conspiracy happens when three people start selling T-shirts about it.</aside>
+        <nav class="raven-bottom-nav"><button data-nav="web://raven.web/home">&lt; VOID HOME</button><button data-nav="web://raven.web/files">FORBIDDEN FILES &gt;</button></nav>
       </main>`
   },
   "web://bytebarn.com/home": {
@@ -430,7 +534,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page computer-page">
         <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>LOCALLY COMPUTED SINCE 1987</em></header>
-        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button disabled>SOFTWARE</button><button disabled>STORE HOURS</button></nav>
+        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
         <div class="bytebarn-alert">WEEKEND WAREHOUSE SALE! &nbsp; FREE 20' PHONE CORD WITH ANY MODEM &nbsp; WHILE SUPPLIES LAST</div>
         <section class="computer-hero">
           <div class="bytebarn-product">${businessAsset("bytebarn-system", "A complete beige Byte Barn family computer system")}<span class="sale-burst">SAVE<br>$200!</span></div>
@@ -458,12 +562,12 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page computer-page bytebarn-systems-page">
         <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>SYSTEMS & UPGRADES / NOVEMBER 1999</em></header>
-        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button>SYSTEMS & UPGRADES</button><button disabled>SOFTWARE</button></nav>
+        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button>SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
         <section class="bytebarn-systems-intro">${businessAsset("bytebarn-open-tower", "An open beige computer tower showing its components")}<div><p class="catalog-code">NO MYSTERY PARTS INSIDE</p><h1>Choose the computer you need.</h1><p>Not the one a salesman needs to move before inventory.</p></div></section>
         <section class="system-comparison">
-          <article><span>GOOD</span><h2>STUDY 300</h2><strong>$899</strong><ul><li>300MHz Celeron</li><li>32MB RAM</li><li>3.2GB drive</li><li>40X CD-ROM</li><li>15&quot; monitor</li></ul><button disabled>ASK IN STORE</button></article>
-          <article class="featured"><span>BETTER</span><h2>ORBIT 350</h2><strong>$1,299</strong><ul><li>350MHz Pentium II</li><li>64MB RAM</li><li>4.3GB drive</li><li>3D video</li><li>56K modem</li></ul><button disabled>ASK IN STORE</button></article>
-          <article><span>BEST</span><h2>CREATOR 450</h2><strong>$1,799</strong><ul><li>450MHz Pentium III</li><li>128MB RAM</li><li>10GB drive</li><li>CD recorder</li><li>17&quot; monitor</li></ul><button disabled>ASK IN STORE</button></article>
+          <article><span>GOOD</span><h2>STUDY 300</h2><strong>$899</strong><ul><li>300MHz Celeron</li><li>32MB RAM</li><li>3.2GB drive</li><li>40X CD-ROM</li><li>15&quot; monitor</li></ul><button data-email-owner="chip_bytebarn">ASK CHIP</button></article>
+          <article class="featured"><span>BETTER</span><h2>ORBIT 350</h2><strong>$1,299</strong><ul><li>350MHz Pentium II</li><li>64MB RAM</li><li>4.3GB drive</li><li>3D video</li><li>56K modem</li></ul><button data-email-owner="chip_bytebarn">ASK CHIP</button></article>
+          <article><span>BEST</span><h2>CREATOR 450</h2><strong>$1,799</strong><ul><li>450MHz Pentium III</li><li>128MB RAM</li><li>10GB drive</li><li>CD recorder</li><li>17&quot; monitor</li></ul><button data-email-owner="chip_bytebarn">ASK CHIP</button></article>
         </section>
         <section class="upgrade-table">
           <div>${businessAsset("bytebarn-upgrades", "Computer memory, video, and sound upgrade parts")}</div>
@@ -471,6 +575,61 @@ export const pages: Record<string, PageDefinition> = {
         </section>
         <button class="console-return" data-nav="web://bytebarn.com/home">&lt; BACK TO THE FRONT PAGE</button>
         <footer>Prices good through 11/30/99. Monitor shown may be heavier than it appears.</footer>
+      </main>`
+  },
+  "web://bytebarn.com/software": {
+    url: "web://bytebarn.com/software",
+    title: "BYTE BARN Software Aisle",
+    site: "computer",
+    ownerId: "chip_bytebarn",
+    summary: "Byte Barn's software aisle recommends practical 1999 home, office, education, internet, and game software without mystery bundles.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["computer software", "office software", "antivirus", "internet software", "educational software", "pc games", "shareware"],
+    render: () => `
+      <main class="page computer-page bytebarn-software-page">
+        <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>SOFTWARE AISLE / SHELF 4</em></header>
+        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button>SOFTWARE</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
+        <section class="software-aisle-hero">${businessAsset("bytebarn-software", "Boxed late-1990s computer software arranged on a Byte Barn shelf")}<div><p class="catalog-code">NO MYSTERY BUNDLES</p><h1>Programs you might actually open.</h1><p>Chip has removed the trial discs, duplicate encyclopedias, and anything that changes your browser homepage without asking.</p></div></section>
+        <div class="software-shelf-tabs"><b>HOME & OFFICE</b><span>INTERNET</span><span>LEARNING</span><span>GAMES</span></div>
+        <section class="software-shelf">
+          <article><i>BB</i><div><h2>PaperTrail Home Office</h2><p>Letters, budgets, labels, and a surprisingly aggressive clip-art wizard.</p></div><strong>$69.99</strong></article>
+          <article><i>NET</i><div><h2>WebWalker Kit 4.0</h2><p>Browser, email, chat, and a printed guide explaining what all four are.</p></div><strong>$24.99</strong></article>
+          <article><i>ABC</i><div><h2>Planet Facts Deluxe</h2><p>Two CD-ROMs of animals, volcanoes, planets, and narration by a patient man.</p></div><strong>$34.99</strong></article>
+          <article><i>!</i><div><h2>CleanBoot Utility Pack</h2><p>Backups, disk cleanup, and antivirus updates through December 2000.</p></div><strong>$39.99</strong></article>
+          <article><i>PC</i><div><h2>Graveyard Shift 99</h2><p>Night security strategy. Returned copy; manual contains somebody's level passwords.</p></div><strong>$19.99</strong></article>
+        </section>
+        <aside class="bytebarn-fine-print"><b>SHAREWARE TABLE</b><span>Bring one blank disk. Chip will copy any public shareware title from the store archive for $1 plus the disk. Please know the filename.</span></aside>
+        <button class="console-return" data-nav="web://bytebarn.com/home">&lt; BACK TO THE FRONT PAGE</button>
+        <footer>Software may not be returned after opening unless the box contains the wrong number of disks.</footer>
+      </main>`
+  },
+  "web://bytebarn.com/service": {
+    url: "web://bytebarn.com/service",
+    title: "BYTE BARN Store & Service Desk",
+    site: "computer",
+    ownerId: "chip_bytebarn",
+    summary: "Byte Barn lists its store hours, repair rates, house-call area, beginner classes, address, and practical service policies.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["computer repair", "computer store hours", "tech support", "house call", "computer class", "Byte Barn address"],
+    render: () => `
+      <main class="page computer-page bytebarn-service-page">
+        <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>1840 MARKET PLAZA / SERVICE ENTRANCE B</em></header>
+        <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button><button>STORE & SERVICE</button></nav>
+        <section class="service-desk-layout">
+          <div class="service-photo">${businessAsset("bytebarn-technician", "Chip working at the Byte Barn repair counter")}<span>Chip at bench 2. Bench 1 is where the coffee goes.</span></div>
+          <section><p class="catalog-code">WALK-INS WELCOME</p><h1>We fix computers without making you feel foolish.</h1><div class="service-hours"><h2>STORE HOURS</h2><dl><div><dt>MON-FRI</dt><dd>9 AM-8 PM</dd></div><div><dt>SATURDAY</dt><dd>9 AM-6 PM</dd></div><div><dt>SUNDAY</dt><dd>CLOSED</dd></div></dl></div><button data-email-owner="chip_bytebarn">EMAIL CHIP A QUESTION</button></section>
+        </section>
+        <section class="service-menu">
+          <article><b>BENCH DIAGNOSIS</b><strong>$25</strong><p>Applied to repair if you approve the work.</p></article>
+          <article><b>HOUSE CALL</b><strong>$45/hr</strong><p>Within ten miles. Please clear a path to the computer.</p></article>
+          <article><b>CLEAN & TUNE</b><strong>$39</strong><p>Dust, startup cleanup, disk check, cable labeling.</p></article>
+          <article><b>NEW USER NIGHT</b><strong>FREE</strong><p>Thursdays at 7. Bring questions, not the whole tower.</p></article>
+        </section>
+        <div class="service-map"><b>HOW TO FIND US</b><span>Market Plaza, between Value Shoes and the old pharmacy. Use the entrance under the enormous blue BYTE sign.</span><i>N ↑<br>LOT ─ [BYTE BARN] ─ MARKET ST.</i></div>
+        <button class="console-return" data-nav="web://bytebarn.com/home">&lt; BACK TO THE FRONT PAGE</button>
+        <footer>Data backup is recommended before service. If your hard drive makes a clicking sound, stop turning it on to demonstrate.</footer>
       </main>`
   },
   "web://cosmiccrust.biz/home": {
@@ -486,7 +645,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page pizza-page">
         <header class="cosmic-header"><div><span>COSMIC</span><b>CRUST</b><i>★</i></div><small>PIZZA &amp; GALACTIC ARCADE</small></header>
-        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button data-nav="web://cosmiccrust.biz/menu">MENU & COUPONS</button><button disabled>ARCADE SCORES</button><button disabled>ALIEN CLUB</button></nav>
+        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button data-nav="web://cosmiccrust.biz/menu">MENU & COUPONS</button><button data-nav="web://cosmiccrust.biz/arcade">ARCADE SCORES</button><button data-nav="web://cosmiccrust.biz/alienclub">ALIEN CLUB</button></nav>
         <div class="pizza-marquee">HOT &middot; FRESH &middot; DELIVERED TO EARTH AND SURROUNDING SUBURBS &middot; CALL 555-PIES</div>
         <section class="pizza-splash">
           <div class="cosmic-pizza-hero">${businessAsset("cosmiccrust-pizza", "A bubbling Cosmic Crust pepperoni pizza surrounded by planets")}<span class="cosmic-burst">OUT OF<br>THIS WORLD!</span></div>
@@ -513,7 +672,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page pizza-page cosmic-menu-page">
         <header class="cosmic-header"><div><span>COSMIC</span><b>CRUST</b><i>★</i></div><small>GALACTIC MENU / FALL 1999</small></header>
-        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button>MENU & COUPONS</button><button disabled>ARCADE SCORES</button></nav>
+        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button>MENU & COUPONS</button><button data-nav="web://cosmiccrust.biz/arcade">ARCADE SCORES</button><button data-nav="web://cosmiccrust.biz/alienclub">ALIEN CLUB</button></nav>
         <section class="menu-hero">${businessAsset("cosmiccrust-slice", "A giant stretchy-cheese pepperoni pizza slice")}<div><h1>BUILD YOUR OWN<br>PIZZA PLANET</h1><p>Every orbit begins with sauce and cheese.</p></div></section>
         <section class="cosmic-menu-grid">
           <article><h2>CHOOSE A SIZE</h2><dl><div><dt>PERSONAL / 8&quot;</dt><dd>$4.49</dd></div><div><dt>MEDIUM / 12&quot;</dt><dd>$8.99</dd></div><div><dt>LARGE / 14&quot;</dt><dd>$11.99</dd></div><div><dt>GALACTIC / 18&quot;</dt><dd>$15.99</dd></div></dl><small>First topping included. Extra toppings 75&cent; / $1 / $1.25 / $1.50.</small></article>
@@ -524,6 +683,50 @@ export const pages: Record<string, PageDefinition> = {
         <div class="menu-delivery">${businessAsset("cosmiccrust-delivery", "The red Cosmic Crust delivery car with a ringed planet topper")}<p><b>DELIVERY RANGE:</b> Five miles from 81 Comet Road. Free over $12; otherwise $1.50. Call <b>555-PIES</b>. We accept cash, check, and major credit cards over the telephone if Toni can find the imprinter.</p></div>
         <button class="console-return" data-nav="web://cosmiccrust.biz/home">&lt;&lt; RETURN TO HOME PLANET</button>
         <footer>Prices do not include tax. Coupons cannot be combined, stacked, folded into spacecraft, or argued about.</footer>
+      </main>`
+  },
+  "web://cosmiccrust.biz/arcade": {
+    url: "web://cosmiccrust.biz/arcade",
+    title: "Cosmic Crust Galactic Arcade Scores",
+    site: "pizza",
+    ownerId: "toni_pizza",
+    summary: "Cosmic Crust's arcade page tracks local high scores, cabinet problems, token specials, and the restaurant's very serious house rules.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["arcade", "high scores", "pizza arcade", "tokens", "video games", "Cosmic Crust scores"],
+    render: () => `
+      <main class="page pizza-page cosmic-arcade-page">
+        <header class="cosmic-header"><div><span>COSMIC</span><b>CRUST</b><i>★</i></div><small>GALACTIC ARCADE / SCORE LINK</small></header>
+        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button data-nav="web://cosmiccrust.biz/menu">MENU & COUPONS</button><button>ARCADE SCORES</button><button data-nav="web://cosmiccrust.biz/alienclub">ALIEN CLUB</button></nav>
+        <section class="arcade-score-hero">${businessAsset("cosmiccrust-arcade", "Two colorful arcade cabinets in the Cosmic Crust game room")}<div><small>SCORES PHONED IN BY TONI</small><h1>DEFEND YOUR INITIALS.</h1><p>The red cabinet's second button sticks. This is part of the challenge until the repair guy comes Tuesday.</p></div></section>
+        <section class="arcade-leaderboards">
+          <article><h2>STAR HAULER</h2><ol><li><b>TAZ</b><span>88,420</span></li><li><b>MIR</b><span>71,105</span></li><li><b>JAX</b><span>69,990</span></li><li><b>DAD</b><span>12,400</span></li></ol></article>
+          <article><h2>METEOR TAXI</h2><ol><li><b>QQ</b><span>204,110</span></li><li><b>DEX</b><span>190,450</span></li><li><b>TON</b><span>44,020</span></li><li><b>AAA</b><span>90</span></li></ol></article>
+          <article><h2>ALIEN PINBALL</h2><ol><li><b>BEV</b><span>9,802,110</span></li><li><b>CHP</b><span>8,114,020</span></li><li><b>RAV</b><span>6,666,666</span></li><li><b>MOM</b><span>2,801,300</span></li></ol></article>
+        </section>
+        <aside class="arcade-rules"><b>HOUSE RULES</b><span>No tilting, no quarters on the glass, no pizza on the controls, and no claiming the machine "ate it" if Toni watched you miss the slot.</span><strong>TUESDAY: 2 FREE TOKENS WITH EVERY SLICE</strong></aside>
+        <button class="console-return" data-nav="web://cosmiccrust.biz/home">&lt;&lt; RETURN TO HOME PLANET</button>
+        <footer>Scores reset only when the machine does. Staff scores count, even when this seems unfair.</footer>
+      </main>`
+  },
+  "web://cosmiccrust.biz/alienclub": {
+    url: "web://cosmiccrust.biz/alienclub",
+    title: "Cosmic Crust Junior Alien Club",
+    site: "pizza",
+    ownerId: "toni_pizza",
+    summary: "The Cosmic Crust Junior Alien Club offers birthday rewards, collectible mission patches, coloring contests, and a printable membership form.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["kids club", "birthday pizza", "alien club", "coloring contest", "Cosmic Crust membership"],
+    render: () => `
+      <main class="page pizza-page alien-club-page">
+        <header class="cosmic-header"><div><span>COSMIC</span><b>CRUST</b><i>★</i></div><small>JUNIOR ALIEN CLUB / AGES 12 & UNDER</small></header>
+        <nav class="cosmic-nav"><button data-nav="web://cosmiccrust.biz/home">HOME PLANET</button><button data-nav="web://cosmiccrust.biz/menu">MENU & COUPONS</button><button data-nav="web://cosmiccrust.biz/arcade">ARCADE SCORES</button><button>ALIEN CLUB</button></nav>
+        <section class="alien-club-hero"><div>${businessAsset("cosmiccrust-astronaut", "A child astronaut mascot holding a Cosmic Crust pizza")}<span>CAPTAIN CRUSTY SAYS: BRING AN ADULT!</span></div><section><small>ATTENTION EARTH KIDS</small><h1>JOIN THE JUNIOR ALIEN CLUB!</h1><p>Get one free personal cheese pizza during your birthday month, a membership card, and important mail approximately four times per year.</p><div class="club-status">ONLINE SIGN-UP: <b>NOT INVENTED YET</b><br><span>Print this page or ask Toni for the paper form.</span></div></section></section>
+        <section class="club-perks"><article><b>MISSION PATCHES</b><p>Collect Moon, Mars, and Mysterious Green Planet patches with three separate visits.</p></article><article><b>COLORING CONTEST</b><p>Draw Captain Crusty somewhere pizza has never been. Winner receives tokens and wall fame.</p></article><article><b>BIRTHDAY ORBIT</b><p>Free personal cheese pizza. Toppings cost regular Earth money.</p></article></section>
+        <div class="club-form"><b>MEMBERSHIP TRANSMISSION FORM</b><span>Name ____________________ Birthday __________ Favorite topping ____________________</span><small>Parent or guardian signature required. Cosmic Crust will not sell your address because Toni cannot find the mailing-label program.</small></div>
+        <button class="console-return" data-nav="web://cosmiccrust.biz/home">&lt;&lt; RETURN TO HOME PLANET</button>
+        <footer>Junior Alien Club mail may include coupons, contests, pizza facts, and one annual drawing of a comet wearing sunglasses.</footer>
       </main>`
   },
   "web://pawsnclaws.net/home": {
@@ -539,7 +742,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page pets-page">
         <header class="paws-header"><div><span>PAWS</span><i>&</i><b>CLAWS</b></div><small>PET EMPORIUM &middot; 22 WILLOW LANE</small></header>
-        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button data-nav="web://pawsnclaws.net/adoption">ADOPTION DAY</button><button disabled>DEPARTMENTS</button><button disabled>PET PHOTO WALL</button></nav>
+        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button data-nav="web://pawsnclaws.net/adoption">ADOPTION DAY</button><button data-nav="web://pawsnclaws.net/departments">DEPARTMENTS</button><button data-nav="web://pawsnclaws.net/photos">PET PHOTO WALL</button></nav>
         <div class="paw-trail">●　●　●　●　●　●　●</div>
         <section class="pet-welcome">
           <div class="pickles-card">${businessAsset("pawsnclaws-pickles", "Pickles the orange shop cat asleep beside the cash register")}<small>Pickles, Assistant Manager<br>(currently on break)</small></div>
@@ -567,7 +770,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page pets-page paws-adoption-page">
         <header class="paws-header"><div><span>PAWS</span><i>&</i><b>CLAWS</b></div><small>SATURDAY ADOPTION DAY</small></header>
-        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button>ADOPTION DAY</button><button disabled>DEPARTMENTS</button></nav>
+        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button>ADOPTION DAY</button><button data-nav="web://pawsnclaws.net/departments">DEPARTMENTS</button><button data-nav="web://pawsnclaws.net/photos">PET PHOTO WALL</button></nav>
         <section class="adoption-hero">${businessAsset("pawsnclaws-adoption", "A friendly shelter dog and cat at adoption day")}<div><p class="paws-note">WILLOW COUNTY SHELTER VISITS EVERY SATURDAY</p><h1>Maybe your best friend is waiting.</h1><p>10 AM-2 PM at 22 Willow Lane. Meeting is easy. Taking somebody home should take a little thought.</p></div></section>
         <section class="adoption-steps">
           <article><span>1</span><h2>MEET</h2><p>Talk with a shelter volunteer and spend time with an animal. Everybody in the household should agree.</p></article>
@@ -581,6 +784,60 @@ export const pages: Record<string, PageDefinition> = {
         </section>
         <button class="console-return" data-nav="web://pawsnclaws.net/home">&lt; BACK TO THE EMPORIUM</button>
         <footer>Adoptions are arranged by Willow County Shelter. Paws & Claws provides the space, supplies, and emergency lint rollers.</footer>
+      </main>`
+  },
+  "web://pawsnclaws.net/departments": {
+    url: "web://pawsnclaws.net/departments",
+    title: "Paws & Claws Store Departments",
+    site: "pets",
+    ownerId: "bev_paws",
+    summary: "Paws & Claws describes its dog, cat, aquarium, bird, small-pet, grooming, and special-order departments with practical care advice.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["pet supplies", "dog food", "cat toys", "fish tanks", "bird cages", "hamster supplies", "pet grooming"],
+    render: () => `
+      <main class="page pets-page paws-departments-page">
+        <header class="paws-header"><div><span>PAWS</span><i>&</i><b>CLAWS</b></div><small>STORE DEPARTMENTS &middot; ASK BEFORE TAPPING THE GLASS</small></header>
+        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button data-nav="web://pawsnclaws.net/adoption">ADOPTION DAY</button><button>DEPARTMENTS</button><button data-nav="web://pawsnclaws.net/photos">PET PHOTO WALL</button></nav>
+        <section class="department-map">
+          <header><small>YOU ARE AT THE FRONT DOOR</small><h1>Everything they need.<br>Several things they absolutely do not.</h1></header>
+          <div class="department-map-grid">
+            <article class="dept-dog">${businessAsset("pawsnclaws-supplies", "Leashes, pet toys, bowls, grooming tools, and a sweater")}<div><b>DOG & CAT</b><p>Food, beds, collars, toys, brushes, carriers, and seasonal clothing Bev insists is practical.</p></div></article>
+            <article class="dept-fish">${businessAsset("pawsnclaws-aquarium", "A planted freshwater aquarium")}<div><b>AQUARIUM ROOM</b><p>Freshwater fish, tested water, filters, lights, plants, and tanks bigger than a flower vase.</p></div></article>
+            <article class="dept-bird">${businessAsset("pawsnclaws-birds", "Two budgerigars perched together")}<div><b>BIRDS & SMALL PETS</b><p>Seed, cages, bedding, wheels, tunnels, and things to chew that are not your furniture.</p></div></article>
+          </div>
+        </section>
+        <section class="department-services"><article><span>MON</span><b>NAIL TRIM NIGHT</b><small>5-7 PM / call ahead for nervous dogs</small></article><article><span>THU</span><b>WATER TESTING</b><small>bring half a cup in a clean jar / free</small></article><article><span>ANY</span><b>SPECIAL ORDERS</b><small>if Bev can pronounce it, Bev can probably order it</small></article></section>
+        <aside class="department-warning"><b>FIRST PET?</b><p>Please ask before buying a tank, cage, or habitat. The animal is usually the least expensive part of doing it correctly.</p></aside>
+        <button class="console-return" data-nav="web://pawsnclaws.net/home">&lt; BACK TO THE EMPORIUM</button>
+        <footer>Prices change. Good care does not. Pickles reserves the right to occupy any empty box.</footer>
+      </main>`
+  },
+  "web://pawsnclaws.net/photos": {
+    url: "web://pawsnclaws.net/photos",
+    title: "Paws & Claws Pet Photo Wall",
+    site: "pets",
+    ownerId: "bev_paws",
+    summary: "The Paws & Claws customer photo wall features local pets, handwritten captions, monthly awards, and submission instructions.",
+    listed: true,
+    hubId: "business",
+    searchTerms: ["pet photos", "customer pets", "cat pictures", "dog pictures", "fish pictures", "pet of the month"],
+    render: () => `
+      <main class="page pets-page paws-photos-page">
+        <header class="paws-header"><div><span>PAWS</span><i>&</i><b>CLAWS</b></div><small>CUSTOMER PET PHOTO WALL / SCANNED BY BEV</small></header>
+        <nav class="paws-nav"><button data-nav="web://pawsnclaws.net/home">WELCOME</button><button data-nav="web://pawsnclaws.net/adoption">ADOPTION DAY</button><button data-nav="web://pawsnclaws.net/departments">DEPARTMENTS</button><button>PET PHOTO WALL</button></nav>
+        <div class="photo-wall-title"><span>NEW!</span><h1>Our Customers Have Excellent Pets</h1><p>Photographs are returned unless Pickles sits on the envelope.</p></div>
+        <section class="pet-photo-wall">
+          <article>${businessAsset("pawsnclaws-pickles", "Pickles the orange shop cat asleep by the register")}<b>PICKLES</b><small>Employee of the month, self-appointed.</small></article>
+          <article>${businessAsset("pawsnclaws-adoption", "A shelter dog and cat posing together")}<b>RUSTY + BEAN</b><small>Met here Saturday. Now share one couch.</small></article>
+          <article>${businessAsset("pawsnclaws-birds", "Two budgerigars perched together")}<b>ZIP + DOT</b><small>Know six words, use four irresponsibly.</small></article>
+          <article>${businessAsset("pawsnclaws-aquarium", "A healthy planted freshwater aquarium")}<b>THE WHOLE TANK</b><small>Submitted by Ira, who declined to pick a favorite.</small></article>
+          <article>${businessAsset("pawsnclaws-bev", "Bev holding Pickles in the pet store")}<b>BEV + MANAGEMENT</b><small>Management objected to being held.</small></article>
+          <article>${businessAsset("pawsnclaws-supplies", "Pet supplies arranged for a customer photograph")}<b>PHOTO MISSING</b><small>Bailey ate the original. This is extremely on brand.</small></article>
+        </section>
+        <aside class="photo-submit"><b>ADD YOUR PET TO THE WALL</b><p>Bring one labeled 4x6 print to the register. Include pet name, your first name, and one sentence Bev is allowed to put on the Internet.</p></aside>
+        <button class="console-return" data-nav="web://pawsnclaws.net/home">&lt; BACK TO THE EMPORIUM</button>
+        <footer>Pet of the Month receives a ribbon, a small treat, and no meaningful additional responsibilities.</footer>
       </main>`
   },
   "web://pulsenet.red/home": {

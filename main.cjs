@@ -360,6 +360,12 @@ function createWindow() {
           const menuReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.cosmic-menu-page .cosmic-menu-grid')) && !document.querySelector('.page-comments')`);
           if (!menuReady) throw new Error("Cosmic Crust menu was incomplete or had a separate comment thread");
           await capture("cosmic-crust-menu.png");
+          await click('[data-nav="web://cosmiccrust.biz/arcade"]');
+          if (await win.webContents.executeJavaScript(`document.querySelectorAll('.arcade-leaderboards article').length !== 3 || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Cosmic Crust arcade was incomplete or had a separate comment thread");
+          await capture("cosmic-crust-arcade.png");
+          await click('[data-nav="web://cosmiccrust.biz/alienclub"]');
+          if (await win.webContents.executeJavaScript(`document.querySelectorAll('.club-perks article').length !== 3 || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Cosmic Crust Alien Club was incomplete or had a separate comment thread");
+          await capture("cosmic-crust-alien-club.png");
           await click('[data-browser="home"]');
           await searchFor("tech", "web://bytebarn.com/home");
           await click('[data-nav="web://bytebarn.com/home"]');
@@ -370,6 +376,12 @@ function createWindow() {
           const systemsReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.bytebarn-systems-page .system-comparison')) && !document.querySelector('.page-comments')`);
           if (!systemsReady) throw new Error("Byte Barn systems page was incomplete or had a separate comment thread");
           await capture("byte-barn-systems.png");
+          await click('[data-nav="web://bytebarn.com/software"]');
+          if (await win.webContents.executeJavaScript(`document.querySelectorAll('.software-shelf article').length !== 5 || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Byte Barn software aisle was incomplete or had a separate comment thread");
+          await capture("byte-barn-software.png");
+          await click('[data-nav="web://bytebarn.com/service"]');
+          if (await win.webContents.executeJavaScript(`document.querySelectorAll('.service-menu article').length !== 4 || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Byte Barn service page was incomplete or had a separate comment thread");
+          await capture("byte-barn-service.png");
           await click('[data-browser="home"]');
           await searchFor("animals", "web://pawsnclaws.net/home");
           await click('[data-nav="web://pawsnclaws.net/home"]');
@@ -380,6 +392,12 @@ function createWindow() {
           const adoptionReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.paws-adoption-page .adoption-steps')) && !document.querySelector('.page-comments')`);
           if (!adoptionReady) throw new Error("Paws & Claws adoption page was incomplete or had a separate comment thread");
           await capture("paws-adoption.png");
+          await click('[data-nav="web://pawsnclaws.net/departments"]');
+          if (await win.webContents.executeJavaScript(`document.querySelectorAll('.department-map-grid article').length !== 3 || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Paws & Claws departments were incomplete or had a separate comment thread");
+          await capture("paws-departments.png");
+          await click('[data-nav="web://pawsnclaws.net/photos"]');
+          if (await win.webContents.executeJavaScript(`document.querySelectorAll('.pet-photo-wall article').length !== 6 || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Paws & Claws photo wall was incomplete or had a separate comment thread");
+          await capture("paws-photo-wall.png");
           await click('[data-browser="home"]');
 
           await searchFor("robot toys", "web://rocketbox.toys/home");
@@ -480,9 +498,14 @@ function createWindow() {
           await click('[data-browser="home"]');
 
           await click('[data-nav="web://rainbow.gdn/home"]');
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rainbow-home-grid')) && Boolean(document.querySelector('.page-comments'))`)) throw new Error("Refined Rainbow Garden homepage was incomplete");
+          await capture("refined-rainbow-garden.png");
           await click('[data-nav="web://rainbow.gdn/about"]');
-          const subpageHasComments = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments'))`);
-          if (subpageHasComments) throw new Error("Character subpage incorrectly had its own comment thread");
+          if (await win.webContents.executeJavaScript(`!document.querySelector('.juniper-profile') || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Rainbow about page was incomplete or had its own comment thread");
+          await capture("refined-rainbow-about.png");
+          await click('[data-nav="web://rainbow.gdn/modem"]');
+          if (await win.webContents.executeJavaScript(`!document.querySelector('.cat-corner-grid') || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Modem's Cat Corner was incomplete or had its own comment thread");
+          await capture("refined-rainbow-modem.png");
           await click('[data-nav="web://rainbow.gdn/home"]');
           await click('[data-nav="web://rainbow.gdn/guestbook"]');
           const signatureSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.guestbook-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = 'Your garden page is wonderful!'; input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); return true; })()`);
@@ -494,6 +517,20 @@ function createWindow() {
             signed = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.player-signature')) && !document.querySelector('.guestbook-form')`);
           }
           if (!signed) throw new Error("One-time Rainbow guestbook signature did not persist in the page");
+          const ravenAddressed = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.address-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'web://raven.web/home'; form.requestSubmit(); return true; })()`);
+          if (!ravenAddressed) throw new Error("Could not enter DarkRaven's address directly");
+          await new Promise((resolve) => setTimeout(resolve, 120));
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-home-grid')) && Boolean(document.querySelector('.page-comments'))`)) throw new Error("Refined DarkRaven homepage was incomplete");
+          await capture("refined-darkraven.png");
+          await click('[data-nav="web://raven.web/files"]');
+          if (await win.webContents.executeJavaScript(`document.querySelectorAll('.forbidden-file-list article').length !== 4 || Boolean(document.querySelector('.page-comments'))`)) throw new Error("DarkRaven's file index was incomplete or had its own comment thread");
+          await capture("refined-darkraven-files.png");
+          await click('[data-nav="web://raven.web/links"]');
+          if (await win.webContents.executeJavaScript(`document.querySelectorAll('.shadow-link-map [data-nav]').length !== 4 || Boolean(document.querySelector('.page-comments'))`)) throw new Error("DarkRaven's shadow links were incomplete or had their own comment thread");
+          await capture("refined-darkraven-links.png");
+          await click('[data-nav="web://raven.web/orbit"]');
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.orbit-evidence-grid'))`)) throw new Error("DarkRaven's Orbit Hole case file was incomplete");
+          await capture("refined-darkraven-orbit.png");
           await click('[data-browser="home"]');
           const searched = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'below'; form.requestSubmit(); return true; })()`);
           if (!searched) throw new Error("OrbitNet search form was not available");
@@ -505,7 +542,14 @@ function createWindow() {
           const nightSignalAddressed = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.address-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'web://nightsignal.net/home'; form.requestSubmit(); return true; })()`);
           if (!nightSignalAddressed) throw new Error("Could not enter the Night Signal address directly");
           await new Promise((resolve) => setTimeout(resolve, 120));
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.signal-console')) && Boolean(document.querySelector('.page-comments'))`)) throw new Error("Refined Night Signal homepage was incomplete");
+          await capture("refined-night-signal.png");
+          await click('[data-nav="web://nightsignal.net/fieldlog"]');
+          if (await win.webContents.executeJavaScript(`document.querySelectorAll('.log-timeline article').length !== 3 || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Night Signal field log was incomplete or had its own comment thread");
+          await capture("refined-night-signal-log.png");
           await click('[data-nav="web://nightsignal.net/archive"]');
+          if (await win.webContents.executeJavaScript(`document.querySelectorAll('.archive-page tbody tr').length !== 5 || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Night Signal archive was incomplete or had its own comment thread");
+          await capture("refined-night-signal-archive.png");
           await click('[data-download="signal-note"]');
           await click('[data-open="files"]');
           const foundFile = await win.webContents.executeJavaScript(`(() => { const file = document.querySelector('[data-file="signal-note"]'); if (!file) return false; file.dispatchEvent(new MouseEvent('dblclick', { bubbles: true })); return true; })()`);

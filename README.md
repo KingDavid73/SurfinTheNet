@@ -32,6 +32,7 @@ npm.cmd run make
 - A cleaned-up OrbitNet directory linking to six topic communities—Game Grid, X-Treme Edge, Pet Planet, The FanVerse, Yesterday Online, and SoundWave
 - Six complete community-zone landing pages, with Game Grid populated by six console-era member sites, X-Treme Edge by seven rival riders, and Yesterday Online by six first-generation homepages
 - Thirty-four member-run sites and eleven search-only local businesses
+- Refined first-wave sites: Rainbow Garden's scrapbook, Night Signal's receiver console, DarkRaven's linked case files, and complete navigation for Byte Barn, Cosmic Crust, and Paws & Claws
 - Seeded Game Grid conversations that establish rivalries, friendships, game recommendations, and PULSE/NET, VANTA², and CUBIT loyalties
 - Seven X-Treme Edge personalities: skateboarder, BMX rider, aggressive inline skater, SoCal surfer, motocross racer, kick-scooter loudmouth, and rarely seen Riviera show-off, all with distinct period aesthetics and a shared friendship/rivalry history
 - Six Pet Planet households spanning an orange tabby, golden retriever, lop rabbits, an overengineered hamster habitat, a carefully kept iguana, and a domestic skunk
