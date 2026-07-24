@@ -4,6 +4,305 @@
   font-synthesis: none;
 }
 
+/* FanVerse: GEMWELL's deliberately bottomless shareware shrine */
+.gemwell-page {
+  --cave-ink: #eaf7ff;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  color: var(--cave-ink);
+  font-family: "Courier New", monospace;
+  background: linear-gradient(180deg, #422b7e 0%, #153a6d 12%, #0c284c 30%, #091a35 49%, #060e22 68%, #030716 86%, #01020a 100%);
+  min-height: 6500px;
+}
+
+.gemwell-page::before,
+.gemwell-page::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: 250px;
+  bottom: 0;
+  width: clamp(28px, 12vw, 170px);
+  opacity: .68;
+  background: repeating-linear-gradient(135deg, transparent 0 31px, rgba(80, 117, 161, .24) 32px 55px, rgba(2, 4, 15, .82) 56px 110px);
+  clip-path: polygon(0 0, 100% 4%, 65% 9%, 100% 15%, 72% 22%, 100% 29%, 60% 37%, 100% 44%, 72% 53%, 100% 61%, 58% 71%, 100% 80%, 73% 90%, 100% 100%, 0 100%);
+}
+
+.gemwell-page::before { left: 0; }
+.gemwell-page::after { right: 0; transform: scaleX(-1); }
+.gemwell-page > * { position: relative; z-index: 1; }
+
+.gemwell-mouth {
+  min-height: 760px;
+  padding: 26px clamp(24px, 11vw, 170px) 90px;
+  text-align: center;
+  background: radial-gradient(ellipse at 50% -8%, rgba(195, 236, 255, .75), rgba(83, 60, 165, .42) 32%, transparent 70%);
+}
+
+.gemwell-mouth > button,
+.gemwell-bottom button {
+  border: 2px outset #8fd9ff;
+  padding: 8px 14px;
+  color: #061123;
+  background: #bfeeff;
+  font: bold 12px "Courier New", monospace;
+}
+
+.gemwell-mouth div { margin: 105px auto 0; max-width: 790px; }
+.gemwell-mouth small { color: #bff6ff; letter-spacing: 2px; }
+.gemwell-mouth h1 {
+  margin: 8px 0 -10px;
+  color: #fff7b0;
+  font: 900 clamp(54px, 10vw, 120px) Georgia, serif;
+  letter-spacing: 8px;
+  text-shadow: 0 0 6px #fff, 0 0 18px #55dfff, 6px 6px 0 #36157c;
+}
+.gemwell-mouth h2 { margin: 0; color: #7fffdc; letter-spacing: 7px; }
+.gemwell-mouth aside {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 65px;
+  border: 2px ridge #73b7d7;
+  padding: 15px 28px;
+  color: #d4efff;
+  background: rgba(2, 10, 31, .76);
+  text-align: left;
+}
+.gemwell-mouth aside b { color: #ffe66e; text-align: center; }
+
+.gemwell-rope {
+  position: absolute !important;
+  z-index: 2 !important;
+  top: 605px;
+  bottom: 365px;
+  left: 50%;
+  width: 5px;
+  transform: translateX(-50%);
+  opacity: .4;
+  background: repeating-linear-gradient(#e8c486 0 9px, #75552d 10px 15px);
+  box-shadow: 2px 0 0 rgba(0, 0, 0, .5);
+}
+
+.gemwell-stratum {
+  min-height: 1050px;
+  padding: 110px clamp(45px, 15vw, 220px) 140px;
+}
+.gemwell-stratum:nth-of-type(even) .gemwell-log { margin-left: auto; transform: rotate(1deg); }
+.gemwell-stratum:nth-of-type(odd) .gemwell-log { transform: rotate(-1deg); }
+.gemwell-stratum-5 { min-height: 1250px; }
+.gemwell-depth {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 38px;
+  border-bottom: 1px dashed rgba(174, 233, 255, .45);
+  color: #87dcff;
+}
+.gemwell-depth span { font-size: 28px; color: #ffe96e; }
+.gemwell-depth b { letter-spacing: 5px; }
+.gemwell-log {
+  max-width: 570px;
+  border: 1px solid #5ab1cf;
+  padding: 18px 22px;
+  color: #c9e8f4;
+  background: rgba(2, 10, 26, .72);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, .33);
+}
+.gemwell-log h2 { margin: 0; color: #7fffd4; font-size: 17px; }
+.gemwell-log blockquote { margin: 15px 0 0; color: #ffe990; font-size: 12px; }
+.gemwell-specimens {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(90px, 1fr));
+  gap: 24px 13px;
+  margin: 105px auto 0;
+  max-width: 850px;
+}
+.gemwell-specimen {
+  min-height: 150px;
+  border: 1px dashed rgba(124, 230, 255, .3);
+  padding: 10px 5px;
+  color: #d7f8ff;
+  background: rgba(1, 3, 13, .5);
+  font: 11px "Courier New", monospace;
+  cursor: crosshair;
+}
+.gemwell-specimen:hover { border-color: #f8ee77; color: #fff495; }
+.gemwell-specimen img {
+  display: block;
+  width: 82px;
+  height: 82px;
+  margin: 0 auto 7px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  transition: transform .15s, filter .15s;
+}
+.gemwell-specimen:hover img,
+.gemwell-specimen[aria-expanded="true"] img { transform: scale(1.18) rotate(-3deg); filter: drop-shadow(0 0 8px #65eaff); }
+.gemwell-specimen b, .gemwell-specimen span { display: block; }
+.gemwell-specimen span { margin-top: 4px; color: #688fa3; font-size: 9px; }
+.gemwell-note {
+  display: none;
+  grid-column: span 1;
+  align-self: start;
+  margin: -20px 0 0;
+  border-left: 2px solid #ffe568;
+  padding: 5px 8px;
+  color: #ffe568;
+  background: rgba(0, 0, 0, .72);
+  font-size: 10px;
+}
+.gemwell-note.open { display: block; }
+.gemwell-down { margin-top: 120px; text-align: center; color: rgba(172, 222, 242, .55); letter-spacing: 4px; }
+.gemwell-bottom {
+  min-height: 620px;
+  padding: 100px 20px;
+  text-align: center;
+  background: radial-gradient(circle at center, rgba(87, 27, 126, .25), transparent 36%);
+}
+.gemwell-bottom img { width: 96px; image-rendering: pixelated; filter: drop-shadow(0 0 13px #59efff); }
+.gemwell-bottom p { color: #ffdf4e; letter-spacing: 7px; }
+.gemwell-bottom h2 { margin-bottom: 45px; color: #a8bad0; font-weight: normal; }
+
+/* FanVerse: Mina's clickable old-CD-ROM atlas */
+.atlas-page {
+  min-height: 100%;
+  padding: 20px clamp(15px, 3vw, 42px) 55px;
+  color: #352c22;
+  font-family: Georgia, "Times New Roman", serif;
+  background: #d7c48e;
+  background-image: repeating-linear-gradient(4deg, rgba(85, 58, 22, .04) 0 1px, transparent 1px 5px);
+}
+.atlas-ribbon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #3c4938;
+  padding: 7px;
+  color: #eee4bd;
+  background: #52614d;
+  font: bold 11px "Courier New", monospace;
+}
+.atlas-ribbon button { border: 1px outset #e4d5a8; background: #d6c58f; font: inherit; }
+.atlas-page > header { padding: 34px 10px 22px; text-align: center; }
+.atlas-page > header small { letter-spacing: 2px; }
+.atlas-page > header h1 {
+  margin: 4px 0 -12px;
+  color: #2f473d;
+  font: italic 700 clamp(44px, 7vw, 82px) Georgia, serif;
+  text-shadow: 2px 2px #eee2b7;
+}
+.atlas-page > header h2 { margin: 0; color: #895b3a; letter-spacing: 12px; }
+.atlas-page > header p { font-style: italic; }
+.atlas-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin: 0 auto 20px;
+  max-width: 1050px;
+  border: 1px solid #897752;
+  padding: 14px 22px;
+  background: rgba(244, 232, 193, .7);
+}
+.atlas-instruction { border-left: 4px double #7d3e32; padding-left: 14px; font-family: "Courier New", monospace; font-size: 12px; }
+.atlas-map-frame {
+  position: relative;
+  max-width: 1180px;
+  margin: auto;
+  border: 11px ridge #71542f;
+  background: #e9d8a8;
+  box-shadow: 0 13px 24px rgba(42, 27, 12, .5);
+}
+.atlas-map-frame > img { display: block; width: 100%; }
+.atlas-hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 0;
+  padding: 0;
+  color: #2f261d;
+  background: none;
+  font: bold 10px Georgia, serif;
+  cursor: pointer;
+  filter: drop-shadow(0 1px #f7edc5);
+}
+.atlas-hotspot i {
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: auto;
+  border: 2px solid #fff0a7;
+  border-radius: 50%;
+  background: rgba(125, 36, 27, .82);
+  box-shadow: 0 0 0 2px rgba(67, 39, 20, .7);
+  animation: atlas-pulse 1.8s infinite alternate;
+}
+.atlas-hotspot span { display: block; margin-top: 3px; padding: 2px 4px; background: rgba(245, 228, 180, .82); white-space: nowrap; }
+.atlas-hotspot:hover { z-index: 4; transform: translate(-50%, -50%) scale(1.12) rotate(-1deg); }
+@keyframes atlas-pulse { to { box-shadow: 0 0 0 5px rgba(255, 240, 167, .3); } }
+.atlas-legend {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 1050px;
+  margin: 42px auto 25px;
+}
+.atlas-legend h2 { grid-column: 1 / -1; border-bottom: 3px double #665232; text-align: center; }
+.atlas-legend button {
+  display: flex;
+  gap: 9px;
+  border: 1px solid #8f7d58;
+  padding: 7px;
+  color: #30281f;
+  background: #e9dcaf;
+  text-align: left;
+  cursor: pointer;
+}
+.atlas-legend button:hover { transform: rotate(-.5deg); background: #fff0bd; }
+.atlas-legend img { width: 78px; height: 65px; object-fit: cover; border: 2px solid #705633; }
+.atlas-legend span, .atlas-legend b, .atlas-legend small, .atlas-legend em { display: block; }
+.atlas-legend b { color: #4c563b; font-size: 11px; }
+.atlas-legend small { color: #8d503c; }
+.atlas-legend em { margin-top: 5px; font-size: 10px; }
+.atlas-margin-note { max-width: 800px; margin: 35px auto; transform: rotate(-1deg); border: 1px dashed #66513f; padding: 14px; background: #eee2b8; }
+
+.atlas-fragment-page {
+  min-height: 100%;
+  padding: 25px;
+  color: #3c3128;
+  background: #d9c99e repeating-linear-gradient(0deg, transparent 0 27px, rgba(85, 98, 100, .14) 28px);
+  font-family: Georgia, serif;
+}
+.atlas-fragment-page nav { display: flex; justify-content: space-between; max-width: 980px; margin: auto; font: 11px "Courier New", monospace; }
+.atlas-fragment-page nav button, .atlas-back-seal { border: 2px outset #cfbc87; padding: 7px 12px; background: #eadcaf; }
+.atlas-fragment-page article {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
+  gap: 34px;
+  align-items: center;
+  max-width: 980px;
+  margin: 55px auto 35px;
+  padding: 24px;
+  background: rgba(245, 235, 202, .7);
+  box-shadow: 8px 10px 0 rgba(76, 54, 31, .25);
+}
+.atlas-fragment-page article img { width: 100%; border: 9px solid #f2e5bd; outline: 1px solid #715b39; transform: rotate(-.5deg); }
+.atlas-fragment-page article small { letter-spacing: 2px; }
+.atlas-fragment-page article h1 { margin: 6px 0; color: #3d594a; font-size: clamp(35px, 5vw, 62px); line-height: .95; }
+.atlas-coordinate { color: #945b44; font: bold 12px "Courier New", monospace; }
+.atlas-fragment-page blockquote { margin: 34px 0; border-left: 3px solid #8d7050; padding-left: 18px; font-size: 19px; line-height: 1.8; font-style: italic; }
+.atlas-pencil { transform: rotate(-2deg); color: #6f6b62; font: 12px "Comic Sans MS", cursive; }
+.atlas-back-seal { display: block; margin: 30px auto; font: bold 12px "Courier New", monospace; }
+
+@media (max-width: 760px) {
+  .gemwell-stratum { padding-inline: 48px; }
+  .gemwell-specimens { grid-template-columns: repeat(2, 1fr); }
+  .gemwell-note { grid-column: span 1; }
+  .atlas-intro, .atlas-fragment-page article { grid-template-columns: 1fr; }
+  .atlas-legend { grid-template-columns: 1fr; }
+  .atlas-hotspot span { display: none; }
+}
+
 * { box-sizing: border-box; }
 html, body, #app { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 button, input, textarea { font: inherit; }

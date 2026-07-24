@@ -26,7 +26,7 @@ const DEFAULT_SAVE = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10 }
 };
 
 function savePath() {
@@ -246,18 +246,20 @@ function createWindow() {
                 "web://fanverse.zone/users/mossmunchmel/home",
                 "web://fanverse.zone/users/blipzobeliever88/home",
                 "web://fanverse.zone/users/tapeattictess/home",
-                "web://fanverse.zone/users/prismpilotaya/home"
+                "web://fanverse.zone/users/prismpilotaya/home",
+                "web://fanverse.zone/users/deepdelverdot/home",
+                "web://fanverse.zone/users/mapmousemina/home"
               ];
               const fandomUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.fandom-member-card')).map((card) => card.getAttribute('data-nav'))`);
               if (JSON.stringify(fandomUrls) !== JSON.stringify(expectedFandomUrls)) throw new Error(`FanVerse member directory was incomplete: ${JSON.stringify(fandomUrls)}`);
               await win.webContents.executeJavaScript(`document.querySelector('.fandom-member-directory')?.scrollIntoView({ block: 'start' }); true`);
               await capture("orbitnet-zone-fanverse-members.png");
-              const fandomClasses = [".moss-page", ".blipzo-page", ".starthimble-page", ".prism5-page"];
-              const featureClasses = [".moss-winding-gallery", ".blipzo-screen-orbit", ".star-cabinet-lab", ".prism-selector"];
-              const trackLabels = ["Fogberry Moon", "Store 00 Loader", "Weather Drawer Waltz", "Five-Color Drive"];
+              const fandomClasses = [".moss-page", ".blipzo-page", ".starthimble-page", ".prism5-page", ".gemwell-page", ".atlas-page"];
+              const featureClasses = [".moss-winding-gallery", ".blipzo-screen-orbit", ".star-cabinet-lab", ".prism-selector", ".gemwell-stratum-4", ".atlas-map-frame"];
+              const trackLabels = ["Fogberry Moon", "Store 00 Loader", "Weather Drawer Waltz", "Five-Color Drive", "Lusterkin Descent", "Atlas in the Wind"];
               for (let fandomIndex = 0; fandomIndex < expectedFandomUrls.length; fandomIndex += 1) {
                 await click(`[data-nav="${expectedFandomUrls[fandomIndex]}"]`);
-                const fandomPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(fandomClasses[fandomIndex])})) && document.querySelectorAll('.page-comment').length >= 7 && document.querySelectorAll('.fandom-art').length >= 10 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[fandomIndex])})`);
+                const fandomPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(fandomClasses[fandomIndex])})) && document.querySelectorAll('.page-comment').length >= 7 && document.querySelectorAll('main.page img').length >= ${fandomIndex < 4 ? 10 : 12} && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[fandomIndex])})`);
                 if (!fandomPageReady) throw new Error(`FanVerse member page was incomplete: ${expectedFandomUrls[fandomIndex]}`);
                 if (fandomIndex === 2) {
                   await click('[data-fandom-toggle="star-drawer-three"]');
@@ -274,6 +276,22 @@ function createWindow() {
                   await click('[data-fandom-toggle="prism-sixth-reveal"]');
                   const sixthRevealed = await win.webContents.executeJavaScript(`document.querySelector('#prism-sixth-reveal')?.classList.contains('open')`);
                   if (!sixthRevealed) throw new Error("PRISM//5 sixth-color discovery did not open");
+                }
+                if (fandomIndex === 4) {
+                  const cavernIsDeep = await win.webContents.executeJavaScript(`document.querySelector('.gemwell-page')?.scrollHeight > 6000 && document.querySelectorAll('.gemwell-specimen').length === 25`);
+                  if (!cavernIsDeep) throw new Error("GEMWELL cavern was not deep enough or was missing specimens");
+                  await click('[data-fandom-toggle="gemwell-note-0-0"]');
+                  const specimenOpened = await win.webContents.executeJavaScript(`document.querySelector('#gemwell-note-0-0')?.classList.contains('open')`);
+                  if (!specimenOpened) throw new Error("GEMWELL specimen note did not open");
+                }
+                if (fandomIndex === 5) {
+                  const mapIsComplete = await win.webContents.executeJavaScript(`document.querySelectorAll('.atlas-hotspot').length === 12 && document.querySelectorAll('.atlas-legend button').length === 12`);
+                  if (!mapIsComplete) throw new Error("Orra atlas was missing destinations");
+                  await click('.atlas-hotspot-glass-orchard');
+                  const fragmentOpened = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.atlas-fragment-glass-orchard')) && document.querySelectorAll('.atlas-fragment-page article img').length === 1 && !document.querySelector('.page-comments')`);
+                  if (!fragmentOpened) throw new Error("Orra atlas fragment did not open as a one-image hidden page");
+                  await capture("fandom-atlas-fragment.png");
+                  await click(`[data-nav="${expectedFandomUrls[fandomIndex]}"]`);
                 }
                 await capture(`fandom-member-${fandomIndex + 1}.png`);
                 await win.webContents.executeJavaScript(`document.querySelector(${JSON.stringify(featureClasses[fandomIndex])})?.scrollIntoView({ block: 'start' }); true`);
@@ -861,7 +879,7 @@ function createWindow() {
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
-          if (randomCalls !== 39) throw new Error(`Expected 38 persona rolls plus one page selection, got ${randomCalls} random calls`);
+          if (randomCalls !== 41) throw new Error(`Expected 40 persona rolls plus one page selection, got ${randomCalls} random calls`);
           const finalSaved = await waitForAmbientIdle(2);
           const hourlyAmbient = finalSaved.pageComments.find((comment) => comment.role === "visitor" && comment.id !== miraAmbient.id);
           if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);

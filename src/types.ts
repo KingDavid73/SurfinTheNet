@@ -187,7 +187,7 @@ export interface GameState {
 export interface PageDefinition {
   url: string;
   title: string;
-  site: "directory" | "rainbow" | "signal" | "raven" | "computer" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl" | "skater" | "bmx" | "blader" | "surfer" | "motocross" | "scooter" | "euro" | "petcat" | "petdog" | "petrabbit" | "pethamster" | "petiguana" | "petskunk" | "fanmoss" | "fanblipzo" | "fanstar" | "fanprism";
+  site: "directory" | "rainbow" | "signal" | "raven" | "computer" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl" | "skater" | "bmx" | "blader" | "surfer" | "motocross" | "scooter" | "euro" | "petcat" | "petdog" | "petrabbit" | "pethamster" | "petiguana" | "petskunk" | "fanmoss" | "fanblipzo" | "fanstar" | "fanprism" | "fangemwell" | "fanatlas";
   ownerId: string;
   summary: string;
   commentsEnabled?: boolean;

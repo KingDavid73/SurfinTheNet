@@ -40,7 +40,9 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
   fanmoss: { label: "Fogberry Moon", file: "fogberry-moon.mid", midiUrl: new URL("../assets/audio/pages/fogberry-moon.mid", import.meta.url).href, url: new URL("../assets/audio/pages/fogberry-moon.wav", import.meta.url).href },
   fanblipzo: { label: "Store 00 Loader", file: "store-zero-loader.mid", midiUrl: new URL("../assets/audio/pages/store-zero-loader.mid", import.meta.url).href, url: new URL("../assets/audio/pages/store-zero-loader.wav", import.meta.url).href },
   fanstar: { label: "Weather Drawer Waltz", file: "weather-drawer-waltz.mid", midiUrl: new URL("../assets/audio/pages/weather-drawer-waltz.mid", import.meta.url).href, url: new URL("../assets/audio/pages/weather-drawer-waltz.wav", import.meta.url).href },
-  fanprism: { label: "Five-Color Drive", file: "five-color-drive.mid", midiUrl: new URL("../assets/audio/pages/five-color-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/five-color-drive.wav", import.meta.url).href }
+  fanprism: { label: "Five-Color Drive", file: "five-color-drive.mid", midiUrl: new URL("../assets/audio/pages/five-color-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/five-color-drive.wav", import.meta.url).href },
+  fangemwell: { label: "Lusterkin Descent", file: "lusterkin-descent.mid", midiUrl: new URL("../assets/audio/pages/lusterkin-descent.mid", import.meta.url).href, url: new URL("../assets/audio/pages/lusterkin-descent.wav", import.meta.url).href },
+  fanatlas: { label: "Atlas in the Wind", file: "atlas-in-the-wind.mid", midiUrl: new URL("../assets/audio/pages/atlas-in-the-wind.mid", import.meta.url).href, url: new URL("../assets/audio/pages/atlas-in-the-wind.wav", import.meta.url).href }
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -63,7 +65,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -104,7 +106,9 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   mossmunch_mel: { screenName: "MossMunch_Mel", displayName: "Mel" },
   blipzo_believer_88: { screenName: "BlipzoBeliever_88", displayName: "Trent" },
   tapeattic_tess: { screenName: "TapeAttic_Tess", displayName: "Tess" },
-  prismpilot_aya: { screenName: "PrismPilot_Aya", displayName: "Aya" }
+  prismpilot_aya: { screenName: "PrismPilot_Aya", displayName: "Aya" },
+  deepdelver_dot: { screenName: "DeepDelver_Dot", displayName: "Dot" },
+  mapmouse_mina: { screenName: "MapMouse_Mina", displayName: "Mina" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -151,7 +155,9 @@ const CHARACTER_CONTACTS: Record<string, {
   mossmunch_mel: { screenName: "MossMunch_Mel", displayName: "Mel", statusMessage: "rewinding episode 19 again" },
   blipzo_believer_88: { screenName: "BlipzoBeliever_88", displayName: "Trent", statusMessage: "STORE 00 IS REAL" },
   tapeattic_tess: { screenName: "TapeAttic_Tess", displayName: "Tess", statusMessage: "rewinding the weather special" },
-  prismpilot_aya: { screenName: "PrismPilot_Aya", displayName: "Aya", statusMessage: "frame 05 contains six colors" }
+  prismpilot_aya: { screenName: "PrismPilot_Aya", displayName: "Aya", statusMessage: "frame 05 contains six colors" },
+  deepdelver_dot: { screenName: "DeepDelver_Dot", displayName: "Dot", statusMessage: "depth counter stuck at 999" },
+  mapmouse_mina: { screenName: "MapMouse_Mina", displayName: "Mina", statusMessage: "north is taking the afternoon off" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -192,7 +198,9 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   mossmunch_mel: "web://fanverse.zone/users/mossmunchmel/home",
   blipzo_believer_88: "web://fanverse.zone/users/blipzobeliever88/home",
   tapeattic_tess: "web://fanverse.zone/users/tapeattictess/home",
-  prismpilot_aya: "web://fanverse.zone/users/prismpilotaya/home"
+  prismpilot_aya: "web://fanverse.zone/users/prismpilotaya/home",
+  deepdelver_dot: "web://fanverse.zone/users/deepdelverdot/home",
+  mapmouse_mina: "web://fanverse.zone/users/mapmousemina/home"
 };
 
 const GAME_TIME_SCALE = 2;

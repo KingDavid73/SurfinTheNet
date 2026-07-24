@@ -5,6 +5,8 @@ const MOSS_URL = "web://fanverse.zone/users/mossmunchmel/home";
 const BLIPZO_URL = "web://fanverse.zone/users/blipzobeliever88/home";
 const STAR_URL = "web://fanverse.zone/users/tapeattictess/home";
 const PRISM_URL = "web://fanverse.zone/users/prismpilotaya/home";
+const GEMWELL_URL = "web://fanverse.zone/users/deepdelverdot/home";
+const ATLAS_URL = "web://fanverse.zone/users/mapmousemina/home";
 
 const FANDOM_ASSETS = {
   "moss-ensemble": new URL("../assets/images/fandom-members/mossmunch/official/ensemble.png", import.meta.url).href,
@@ -84,6 +86,50 @@ const FANDOM_ASSETS = {
 const fanImage = (name: keyof typeof FANDOM_ASSETS, alt: string, className = "") =>
   `<img class="fandom-art ${className}" src="${FANDOM_ASSETS[name]}" alt="${alt}">`;
 
+const GEMWELL_SPRITES = [
+  ["ruby", "Ruby cluster", new URL("../assets/images/fandom-members/gemwell/sprites/ruby.png", import.meta.url).href],
+  ["sapphire", "Sapphire shard", new URL("../assets/images/fandom-members/gemwell/sprites/sapphire.png", import.meta.url).href],
+  ["emerald", "Emerald geode", new URL("../assets/images/fandom-members/gemwell/sprites/emerald.png", import.meta.url).href],
+  ["amethyst", "Spiral amethyst", new URL("../assets/images/fandom-members/gemwell/sprites/amethyst.png", import.meta.url).href],
+  ["citrine", "Citrine sunstone", new URL("../assets/images/fandom-members/gemwell/sprites/citrine.png", import.meta.url).href],
+  ["opal", "Opal egg", new URL("../assets/images/fandom-members/gemwell/sprites/opal.png", import.meta.url).href],
+  ["quartz", "Quartz crown", new URL("../assets/images/fandom-members/gemwell/sprites/quartz.png", import.meta.url).href],
+  ["black-prism", "Black rainbow prism", new URL("../assets/images/fandom-members/gemwell/sprites/black-prism.png", import.meta.url).href],
+  ["lantern-beetle", "Lantern beetle", new URL("../assets/images/fandom-members/gemwell/sprites/lantern-beetle.png", import.meta.url).href],
+  ["crystal-moth", "Crystal moth", new URL("../assets/images/fandom-members/gemwell/sprites/crystal-moth.png", import.meta.url).href],
+  ["centipede", "Cave centipede", new URL("../assets/images/fandom-members/gemwell/sprites/centipede.png", import.meta.url).href],
+  ["jewel-snail", "Jewel-shell snail", new URL("../assets/images/fandom-members/gemwell/sprites/jewel-snail.png", import.meta.url).href],
+  ["salamander", "Blind cave salamander", new URL("../assets/images/fandom-members/gemwell/sprites/salamander.png", import.meta.url).href],
+  ["gem-bat", "Gem-eyed bat", new URL("../assets/images/fandom-members/gemwell/sprites/gem-bat.png", import.meta.url).href],
+  ["walking-stalagmite", "Walking stalagmite", new URL("../assets/images/fandom-members/gemwell/sprites/walking-stalagmite.png", import.meta.url).href],
+  ["mushroom-crab", "Mushroom crab", new URL("../assets/images/fandom-members/gemwell/sprites/mushroom-crab.png", import.meta.url).href],
+  ["pearl-spider", "Pearl spider", new URL("../assets/images/fandom-members/gemwell/sprites/pearl-spider.png", import.meta.url).href],
+  ["geode-frog", "Geode frog", new URL("../assets/images/fandom-members/gemwell/sprites/geode-frog.png", import.meta.url).href],
+  ["helmet", "Abandoned helmet", new URL("../assets/images/fandom-members/gemwell/sprites/helmet.png", import.meta.url).href],
+  ["fossil-key", "Fossil key", new URL("../assets/images/fandom-members/gemwell/sprites/fossil-key.png", import.meta.url).href],
+  ["glass-tooth", "Glass tooth", new URL("../assets/images/fandom-members/gemwell/sprites/glass-tooth.png", import.meta.url).href],
+  ["compass-seed", "Compass seed", new URL("../assets/images/fandom-members/gemwell/sprites/compass-seed.png", import.meta.url).href],
+  ["singing-pebble", "Singing pebble", new URL("../assets/images/fandom-members/gemwell/sprites/singing-pebble.png", import.meta.url).href],
+  ["cracked-crown", "Cracked crown", new URL("../assets/images/fandom-members/gemwell/sprites/cracked-crown.png", import.meta.url).href],
+  ["depth-marker", "Runed depth marker", new URL("../assets/images/fandom-members/gemwell/sprites/depth-marker.png", import.meta.url).href]
+] as const;
+
+const ATLAS_MAP = new URL("../assets/images/fandom-members/atlas/unfinished-atlas-map.png", import.meta.url).href;
+const ATLAS_PLACES = [
+  ["glass-orchard", "The Glass Orchard", "7¼ east, at dusk", "Fruit rings when the wind is honest. / Pick none; carry the sound instead.", new URL("../assets/images/fandom-members/atlas/places/glass-orchard.png", import.meta.url).href, 15, 16],
+  ["sleeping-rail", "The Sleeping Rail", "two stops past yesterday", "The engine dreams beside the track. / Tickets are punched with tiny moons.", new URL("../assets/images/fandom-members/atlas/places/sleeping-rail.png", import.meta.url).href, 39, 17],
+  ["whale-library", "The Whale Library", "shelf-current 3", "Inside the whale, each book is damp. / The quietest volume knows your name.", new URL("../assets/images/fandom-members/atlas/places/whale-library.png", import.meta.url).href, 62, 17],
+  ["paper-volcano", "The Paper Volcano", "fold line 88", "It erupts in birds, never ash. / Unfold one and the mountain grows cold.", new URL("../assets/images/fandom-members/atlas/places/paper-volcano.png", import.meta.url).href, 84, 22],
+  ["rain-house", "The Rain House", "beneath one small cloud", "Every room has its own weather. / The attic rains upward on Thursdays.", new URL("../assets/images/fandom-members/atlas/places/rain-house.png", import.meta.url).href, 16, 43],
+  ["northless-tower", "Northless Tower", "where every arrow disagrees", "Climb until direction gives up. / The top window faces wherever you miss.", new URL("../assets/images/fandom-members/atlas/places/northless-tower.png", import.meta.url).href, 44, 43],
+  ["pocket-sea", "The Pocket Sea", "one coat-lining deep", "A thimble ship crosses all afternoon. / By evening it has traveled an inch.", new URL("../assets/images/fandom-members/atlas/places/pocket-sea.png", import.meta.url).href, 67, 45],
+  ["door-at-noon", "The Door at Noon", "shadow zero", "It opens only while casting no shadow. / Behind it: another handle, warm from a hand.", new URL("../assets/images/fandom-members/atlas/places/door-at-noon.png", import.meta.url).href, 88, 48],
+  ["moth-ferry", "The Moth Ferry", "lampwater crossing", "Pay the moths in candle smoke. / They will not take you where you point.", new URL("../assets/images/fandom-members/atlas/places/moth-ferry.png", import.meta.url).href, 26, 70],
+  ["bell-marsh", "Bell Marsh", "low tide, high chime", "The bells ring under still water. / Step only where the echo does not.", new URL("../assets/images/fandom-members/atlas/places/bell-marsh.png", import.meta.url).href, 48, 72],
+  ["borrowed-moon", "The Borrowed Moon", "return before morning", "Seven ropes keep it from remembering sky. / One knot is tied by nobody.", new URL("../assets/images/fandom-members/atlas/places/borrowed-moon.png", import.meta.url).href, 70, 74],
+  ["last-blank", "The Last Blank", "coordinates withheld", "Here the ink turns around. / Someone has penciled a road beyond the page.", new URL("../assets/images/fandom-members/atlas/places/last-blank.png", import.meta.url).href, 91, 76]
+] as const;
+
 const seed = (
   id: string,
   pageUrl: string,
@@ -126,6 +172,22 @@ export const fandomMembers = [
     description: "Character prisms, transformation frames, imported tapes, bootleg toys, fan art, finale analysis, and the forbidden sixth color.",
     fandom: "PRISM//5: CHROMA KNIGHTS",
     className: "prism5"
+  },
+  {
+    url: GEMWELL_URL,
+    handle: "DeepDelver_Dot",
+    title: "Dot's Bottomless GEMWELL Descent",
+    description: "A six-thousand-pixel expedition through an obscure shareware cavern, complete with luminous specimens, bug sightings, depth rumors, and a bottom that may not exist.",
+    fandom: "GEMWELL: DESCENT OF THE LUSTERKIN",
+    className: "gemwell"
+  },
+  {
+    url: ATLAS_URL,
+    handle: "MapMouse_Mina",
+    title: "Mina's Unfinished Atlas of Orra",
+    description: "A hand-mapped dream continent with twelve clickable destinations, tiny poems, missing coordinates, and one place the original book never finished.",
+    fandom: "THE UNFINISHED ATLAS OF ORRA",
+    className: "atlas"
   }
 ] as const;
 
@@ -170,6 +232,53 @@ const prismComments: PageComment[] = [
   seed("prism-trent-1", PRISM_URL, "prismpilot_aya", "visitor", "BlipzoBeliever_88", "Null Regent's palace and Store 00 use the SAME FLOOR PATTERN. Different dimensions. Same mall contractor.", "1999-11-03T19:24:00"),
   seed("prism-owner-2", PRISM_URL, "prismpilot_aya", "owner", "PrismPilot_Aya", "I cannot endorse the mall-contractor theory. I have added it to the theory page.", "1999-11-03T19:31:00")
 ];
+
+const gemwellComments: PageComment[] = [
+  seed("gemwell-dex-1", GEMWELL_URL, "deepdelver_dot", "visitor", "CodeDex", "My depth counter wraps from 999 to 000. The cavern does not. I left the machine running overnight to confirm.", "1999-11-01T23:08:00"),
+  seed("gemwell-owner-1", GEMWELL_URL, "deepdelver_dot", "owner", "DeepDelver_Dot", "CONFIRMED behavior, unconfirmed depth. Please do not call 000 the bottom. It gets excited.", "1999-11-01T23:16:00"),
+  seed("gemwell-trent-1", GEMWELL_URL, "deepdelver_dot", "visitor", "BlipzoBeliever_88", "The black prism looks exactly like the crystal behind Store 00. I am being calm about this.", "1999-11-02T20:12:00"),
+  seed("gemwell-tess-1", GEMWELL_URL, "deepdelver_dot", "visitor", "TapeAttic_Tess", "The singing pebble's three notes match the Weather Cabinet winding key. Probably a stock sound. Probably.", "1999-11-02T21:04:00"),
+  seed("gemwell-aya-1", GEMWELL_URL, "deepdelver_dot", "visitor", "PrismPilot_Aya", "That prism is reflecting eight colors and I only have theories for six.", "1999-11-03T17:49:00"),
+  seed("gemwell-maddy-1", GEMWELL_URL, "deepdelver_dot", "visitor", "ModKit_Maddy", "Sprite table contains 25 entries. Collision table contains 26. Geometrically concerning.", "1999-11-03T18:10:00"),
+  seed("gemwell-owner-2", GEMWELL_URL, "deepdelver_dot", "owner", "DeepDelver_Dot", "New field rule: if something blinks without a sprite number, scroll past it and do not answer.", "1999-11-03T18:22:00"),
+  seed("gemwell-mina-1", GEMWELL_URL, "deepdelver_dot", "visitor", "MapMouse_Mina", "Orra has a hole on its oldest map. Your depth marker uses the same curl. I dislike useful coincidences.", "1999-11-03T19:03:00")
+];
+
+const atlasComments: PageComment[] = [
+  seed("atlas-tess-1", ATLAS_URL, "mapmouse_mina", "visitor", "TapeAttic_Tess", "The Rain House appeared on a StarThimble set sketch, but the chimney is on the other side.", "1999-11-01T18:28:00"),
+  seed("atlas-owner-1", ATLAS_URL, "mapmouse_mina", "owner", "MapMouse_Mina", "Mirrored print, perhaps. Or the house moved during weather. Both are ordinary in Orra.", "1999-11-01T18:39:00"),
+  seed("atlas-mel-1", ATLAS_URL, "mapmouse_mina", "visitor", "MossMunch_Mel", "The Glass Orchard fruit looks like the moon berries from episode 6! Different stems, same impossible shine.", "1999-11-02T17:42:00"),
+  seed("atlas-velvet-1", ATLAS_URL, "mapmouse_mina", "visitor", "VelvetMage", "A map that admits it is unfinished is more trustworthy than one with a border.", "1999-11-02T20:51:00"),
+  seed("atlas-dex-1", ATLAS_URL, "mapmouse_mina", "visitor", "CodeDex", "The first-edition dotted road enters the Last Blank by four millimeters. Later printings erase it.", "1999-11-02T21:17:00"),
+  seed("atlas-aya-1", ATLAS_URL, "mapmouse_mina", "visitor", "PrismPilot_Aya", "Borrowed Moon has six tether points in the map and seven in the illustration. Noted loudly.", "1999-11-03T16:44:00"),
+  seed("atlas-dot-1", ATLAS_URL, "mapmouse_mina", "visitor", "DeepDelver_Dot", "Northless Tower rune matches a GEMWELL depth marker. This is not proof. This is an unpleasant breadcrumb.", "1999-11-03T18:55:00"),
+  seed("atlas-owner-2", ATLAS_URL, "mapmouse_mina", "owner", "MapMouse_Mina", "Route update: the Moth Ferry now departs from whichever shore you are not standing on.", "1999-11-03T19:12:00")
+];
+
+const atlasFragmentPages = Object.fromEntries(
+  ATLAS_PLACES.map(([slug, title, coordinate, poem, image]) => {
+    const url = `web://fanverse.zone/users/mapmousemina/places/${slug}`;
+    return [url, {
+      url,
+      title: `${title} - The Unfinished Atlas of Orra`,
+      site: "fanatlas",
+      ownerId: "mapmouse_mina",
+      summary: `A hidden illustrated atlas fragment for ${title}.`,
+      listed: false,
+      hubId: "zone-fanverse",
+      searchTerms: [title, "Orra", "atlas fragment", coordinate],
+      render: () => `
+        <main class="page fandom-page atlas-fragment-page atlas-fragment-${slug}">
+          <nav><button data-nav="${ATLAS_URL}">← return to Mina's map</button><span>LOOSE LEAF // ${coordinate}</span></nav>
+          <article>
+            <img src="${image}" alt="An illustrated atlas fragment showing ${title}">
+            <div><small>THE UNFINISHED ATLAS OF ORRA</small><h1>${title}</h1><p class="atlas-coordinate">${coordinate}</p><blockquote>${poem.replace(" / ", "<br>")}</blockquote><p class="atlas-pencil">Found between pages 43 and 44. The paper smells faintly of rain.</p></div>
+          </article>
+          <button class="atlas-back-seal" data-nav="${ATLAS_URL}">BACK TO THE WHOLE MAP</button>
+        </main>`
+    } satisfies PageDefinition];
+  })
+) as Record<string, PageDefinition>;
 
 export const fandomPages: Record<string, PageDefinition> = {
   [MOSS_URL]: {
@@ -437,5 +546,98 @@ export const fandomPages: Record<string, PageDefinition> = {
         </section>
         <p class="fandom-owner-note">Submit transformation timing, tape variants, fan works, or sixth-color theories below.</p>
       </main>`
-  }
+  },
+  [GEMWELL_URL]: {
+    url: GEMWELL_URL,
+    title: "DeepDelver_Dot - GEMWELL Descent",
+    site: "fangemwell",
+    ownerId: "deepdelver_dot",
+    summary: "Dot's extraordinarily long, progressively darker field guide to the obscure 1993 shareware cavern game GEMWELL: Descent of the Lusterkin, including 25 clickable low-resolution specimens and rumors of a bottomless depth counter.",
+    commentsEnabled: true,
+    seedComments: gemwellComments,
+    listed: true,
+    hubId: "zone-fanverse",
+    searchTerms: ["DeepDelver Dot", "GEMWELL", "Lusterkin", "cavern", "cave creatures", "gem sprites", "shareware", "bottomless pit"],
+    render: () => {
+      const strata = [
+        ["THE MOUTH", "000–080m", "Shareware players know this part: bright gems, tutorial beetles, and a comforting EXIT key that still works.", "Do not pocket the opal egg. It remembers inventory slots.", GEMWELL_SPRITES.slice(0, 5)],
+        ["GLASS ROOTS", "081–240m", "The walls begin repeating patterns from earlier rooms, except every fourth tile is one pixel lower.", "Dot's disk calls this MAP2. The hint sheet calls it 'the place below the map.'", GEMWELL_SPRITES.slice(5, 10)],
+        ["THE CRAWLING VEIN", "241–500m", "Creatures here react to the sound-card test. With music disabled, the centipede simply watches.", "The walking stalagmite is not a boss. Please stop writing to the developer.", GEMWELL_SPRITES.slice(10, 15)],
+        ["PEARL DARK", "501–900m", "No printed guide reaches this layer. The mushroom crabs spell shapes when viewed from the inventory screen.", "Three players report a second cursor moving behind the rock textures.", GEMWELL_SPRITES.slice(15, 20)],
+        ["THE COUNTER'S END", "901–???m", "At 999 meters the depth display returns to zero. The rooms keep descending and the music loses one note each loop.", "Click softly. Some objects down here were never assigned names.", GEMWELL_SPRITES.slice(20, 25)]
+      ] as const;
+      return `
+        <main class="page fandom-page gemwell-page">
+          <header class="gemwell-mouth">
+            <button data-nav="${FANVERSE_URL}">↑ CLIMB BACK TO FANVERSE</button>
+            <div><small>DEEPDELVER_DOT'S SHAREWARE EXPEDITION LOG // LAST UPDATED 11.03.99</small><h1>GEMWELL</h1><h2>DESCENT OF THE LUSTERKIN</h2><p>There is no bottom. There is only more page.</p></div>
+            <aside><b>FIELD RULES</b><span>1. Click specimens for Dot's notes.</span><span>2. Do not trust the depth counter.</span><span>3. Keep scrolling.</span></aside>
+          </header>
+          <div class="gemwell-rope" aria-hidden="true"></div>
+          ${strata.map(([name, depth, intro, rumor, sprites], stratumIndex) => `
+            <section class="gemwell-stratum gemwell-stratum-${stratumIndex + 1}">
+              <div class="gemwell-depth"><span>${depth}</span><b>${name}</b></div>
+              <article class="gemwell-log"><h2>FIELD LOG ${String(stratumIndex + 1).padStart(2, "0")}</h2><p>${intro}</p><blockquote>${rumor}</blockquote></article>
+              <div class="gemwell-specimens">
+                ${sprites.map(([slug, label, image], specimenIndex) => {
+                  const id = `gemwell-note-${stratumIndex}-${specimenIndex}`;
+                  const notes = [
+                    "COMMON // luminous, warm to the cursor.",
+                    "UNCOMMON // animation has one frame not found on disk.",
+                    "PASSIVE // approaches only when the music stops.",
+                    "RUMORED // name supplied by three unrelated save files.",
+                    "UNKNOWN // collision exists. Sprite number does not."
+                  ];
+                  return `<button class="gemwell-specimen gemwell-specimen-${slug}" data-fandom-toggle="${id}" aria-expanded="false"><img src="${image}" alt="${label}"><b>${label}</b><span>click to inspect</span></button><p class="gemwell-note" id="${id}">${notes[specimenIndex]}</p>`;
+                }).join("")}
+              </div>
+              <div class="gemwell-down">↓ ${stratumIndex === strata.length - 1 ? "THE PAGE ENDS. THE SHAFT DOES NOT." : "continue descent"} ↓</div>
+            </section>
+          `).join("")}
+          <footer class="gemwell-bottom">
+            <img src="${GEMWELL_SPRITES[24][2]}" alt="The last runed depth marker">
+            <p>DEPTH 000 // AGAIN</p>
+            <h2>Dot's machine is still scrolling.</h2>
+            <button data-nav="${FANVERSE_URL}">TAKE THE EMERGENCY ROPE UP</button>
+          </footer>
+          <p class="fandom-owner-note">Leave specimen sightings, disk checksums, or responsible depth rumors below.</p>
+        </main>`;
+    }
+  },
+  [ATLAS_URL]: {
+    url: ATLAS_URL,
+    title: "MapMouse_Mina - The Unfinished Atlas of Orra",
+    site: "fanatlas",
+    ownerId: "mapmouse_mina",
+    summary: "Mina's clickable fan atlas for an obscure illustrated fantasy serial, with twelve map destinations that each open a hidden illustrated fragment and miniature poem.",
+    commentsEnabled: true,
+    seedComments: atlasComments,
+    listed: true,
+    hubId: "zone-fanverse",
+    searchTerms: ["MapMouse Mina", "Unfinished Atlas", "Orra", "fantasy map", "Glass Orchard", "Whale Library", "Northless Tower", "Moth Ferry"],
+    render: () => `
+      <main class="page fandom-page atlas-page">
+        <nav class="atlas-ribbon"><button data-nav="${FANVERSE_URL}">FANVERSE INDEX</button><span>MAPMOUSE_MINA'S EDITION // 12 LOOSE LEAVES FOUND</span></nav>
+        <header><small>A CLICKABLE PILGRIMAGE THROUGH THE OUT-OF-PRINT 1991 ORRA ANNUAL</small><h1>The Unfinished Atlas</h1><h2>of ORRA</h2><p>North is taking the afternoon off.</p></header>
+        <section class="atlas-intro">
+          <p><b>Hello, wayward reader!</b> I'm Mina. Every edition of <i>The Unfinished Atlas of Orra</i> contains different roads, but the same twelve places. I scanned my map and pinned the loose illustrations where I think they belong.</p>
+          <p class="atlas-instruction">CLICK A LABELED PLACE. Each destination is one tiny page: one recovered picture, one scrap of writing, then back to the map.</p>
+        </section>
+        <section class="atlas-map-frame">
+          <img src="${ATLAS_MAP}" alt="A hand-painted map of Orra with twelve strange landmarks">
+          ${ATLAS_PLACES.map(([slug, title, , , , x, y]) => `<button class="atlas-hotspot atlas-hotspot-${slug}" style="left:${x}%;top:${y}%" data-nav="web://fanverse.zone/users/mapmousemina/places/${slug}"><i></i><span>${title}</span></button>`).join("")}
+        </section>
+        <section class="atlas-legend">
+          <h2>Places the map remembers</h2>
+          ${ATLAS_PLACES.map(([slug, title, coordinate, poem, image], index) => `
+            <button data-nav="web://fanverse.zone/users/mapmousemina/places/${slug}">
+              <img src="${image}" alt="">
+              <span><b>${String(index + 1).padStart(2, "0")} // ${title}</b><small>${coordinate}</small><em>${poem.split(" / ")[0]}</em></span>
+            </button>`).join("")}
+        </section>
+        <aside class="atlas-margin-note"><b>MINA'S PENCIL NOTE:</b> The road into the Last Blank is absent from the third printing. It is present in the first printing and in three readers' dreams.</aside>
+        <p class="fandom-owner-note">Leave route corrections, edition differences, or places your copy remembers below.</p>
+      </main>`
+  },
+  ...atlasFragmentPages
 };
