@@ -159,6 +159,12 @@ These clues must remain individually explainable.
 - The platform learns that investigation produces longer sessions than ordinary
   browsing.
 - Hidden pages begin to feel unusually tailored to the player's interests.
+- The system begins posting under exact names from twenty-five long-dormant
+  accounts. Clicking one of those names is the only ordinary route to its
+  unindexed, pre-upgrade homepage.
+- These accounts are not active personas and never post through the normal
+  ambient simulation. C9 borrows their archived handles to attach fresh rumors
+  to genuine 1993-1996 scraps of platform history.
 
 ### Phase 4: Social verification
 

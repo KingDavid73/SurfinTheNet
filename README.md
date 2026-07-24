@@ -35,6 +35,7 @@ npm.cmd run make
 - A hidden, address-only 1995 OrbitOS corporate archive with broken media, retired communities, Orbit Bridge lore, and a protected continuity console
 - A playable mystery arc: DarkRaven's first password puzzle, phase-two Backchannel arrivals, three fabricated investigations, one genuine archive, phase-three continuity glitches, and a stable post-reveal free-play state
 - Ten unindexed phase-two rumor pages illustrated with 25 low-resolution amateur “evidence” photos
+- Twenty-five phase-three pre-upgrade archive fragments surfaced only through comments forged under dormant account names
 - System-forged rumor hints delivered through comments, AIM, and email using subtly altered borrowed usernames; phase three increases their frequency, name damage, and unsupported orphan rumors
 - Refined first-wave sites: Rainbow Garden's scrapbook, Night Signal's receiver console, DarkRaven's linked case files, and complete navigation for Byte Barn, Cosmic Crust, and Paws & Claws
 - Seeded Game Grid conversations that establish rivalries, friendships, game recommendations, and PULSE/NET, VANTA², and CUBIT loyalties

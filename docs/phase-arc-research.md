@@ -119,6 +119,17 @@ time jump, the borrowed screen names contain multiple errors or missing
 segments, and some claims deliberately point nowhere. Eight authored orphan
 rumors have no corresponding page and can never become required evidence.
 
+Phase three also unlocks twenty-five dormant-account trails. These are
+low-detail, unindexed 1993-1996 pages with one surviving logo, broken media,
+short period-authentic copy, no comments, and no active persona simulation.
+C9 posts a fabricated rumor under an exact archived screen name; the globally
+clickable comment author is the only normal entry point to that account's page.
+The rumor may be false, but the page it exposes contains real history about
+Orbit's launch enthusiasm, bridge products, shrinking traffic, automated
+mirrors, and user farewells. A phase-three transition seeds two deterministic
+examples, while later time advances can reveal the rest without notifying the
+player.
+
 ### Phase 4 — stable free play
 
 Unlocking the continuity console reveals the complete mechanism and ends

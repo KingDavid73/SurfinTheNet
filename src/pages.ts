@@ -10,6 +10,7 @@ import { yesterdayMembers, yesterdayPages } from "./yesterday-pages";
 import { cozyMembers, cozyPages } from "./cozy-pages";
 import { mysteryPages, phaseTwoBackchannelDirectory } from "./mystery-pages";
 import { rumorPages } from "./rumor-pages";
+import { legacyFragmentPages } from "./legacy-fragment-pages";
 
 const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
@@ -283,6 +284,7 @@ export const pages: Record<string, PageDefinition> = {
   ...cozyPages,
   ...mysteryPages,
   ...rumorPages,
+  ...legacyFragmentPages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",

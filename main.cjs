@@ -752,6 +752,8 @@ function createWindow() {
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two Morrow Five page was available during phase one");
           await address("web://midnight-dial.net/log");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two rumor page was available during phase one");
+          await address("web://oldnet.orbit/users/orbitalmechanic");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-three dormant account page was available during phase one");
 
           await address("web://legacy.orbitos.local/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-orbit-page')) && document.body.textContent.includes('ONE COMPUTER. ONE NETWORK. ONE ORBIT.')`)) throw new Error("Hidden OrbitOS archive did not load by explicit address");
@@ -813,14 +815,62 @@ function createWindow() {
           if (!saved.directMessages.some((message) => message.id === "ghostline-phase3") || !["phase3-leak-toni", "phase3-leak-raven", "phase3-leak-null"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
             throw new Error("Phase-three authored pressure messages were incomplete");
           }
+          const initialLegacyTrail = saved.pageComments.find((comment) => String(comment.id).startsWith("system-legacy-orbit_mechanic-"));
+          if (!initialLegacyTrail || initialLegacyTrail.author !== "OrbitalMechanic" || initialLegacyTrail.pageUrl !== "web://bytebarn.com/home") {
+            throw new Error(`Phase-three dormant-account trail did not seed correctly: ${JSON.stringify(initialLegacyTrail)}`);
+          }
+
+          await address("web://bytebarn.com/home");
+          const legacyAuthorLinkReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.comment-author-link[data-nav="web://oldnet.orbit/users/orbitalmechanic"]'))`);
+          if (!legacyAuthorLinkReady) throw new Error("Dormant account comment did not expose its hidden homepage link");
+          await win.webContents.executeJavaScript(`document.querySelector('.comment-author-link[data-nav="web://oldnet.orbit/users/orbitalmechanic"]')?.click()`);
+          await wait();
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-fragment-page .legacy-fragment-logo')) && !document.querySelector('.page-comments')`)) {
+            throw new Error("Clicking the dormant username did not open its comment-free legacy page");
+          }
+          await capture("story-dormant-orbital-mechanic.png");
+
+          const legacyFragmentUrls = [
+            "web://oldnet.orbit/users/orbitalmechanic",
+            "web://starport.page/sally",
+            "web://bytestreet.press/94/orbit",
+            "web://horizondisc.co/catalog",
+            "web://telegarden.home/demo",
+            "web://silverdial.net/start",
+            "web://pixelpost.news/bridge",
+            "web://northlake.club/orbit",
+            "web://goodnight.nora/home",
+            "web://cratesoft.biz/shareware",
+            "web://netnest.family/welcome",
+            "web://futura.library/kiosk",
+            "web://dynamo.bizwire/orbit-falls",
+            "web://linkwarden.help/gateway",
+            "web://peachtree.school/room4",
+            "web://signalspring.weather/home",
+            "web://homeplanet.mall/directory",
+            "web://launchring.games/preview",
+            "web://morrowfinch.co/orbit",
+            "web://copperline.tel/modem",
+            "web://edna.kitchen/recipes",
+            "web://tad.space/comet",
+            "web://greyson.audio/netcast",
+            "web://commonground.civic/board",
+            "web://archivewatch.press/goodbye"
+          ];
+          for (const legacyUrl of legacyFragmentUrls) {
+            await address(legacyUrl);
+            const legacyPageReady = await win.webContents.executeJavaScript(`document.querySelectorAll('.legacy-fragment-page').length === 1 && document.querySelectorAll('.legacy-fragment-logo').length === 1 && !document.querySelector('.page-comments') && !document.querySelector('.legacy-fragment-page [data-nav]')`);
+            if (!legacyPageReady) throw new Error(`Dormant legacy fragment was incomplete or interactive: ${legacyUrl}`);
+          }
 
           await sleep("morning");
           saved = await readSave();
+          const legacyTrailCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_legacy_") && saved.flags[key]).length;
           const rumorFlagCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_rumor_") && saved.flags[key]).length;
           const phaseThreeAim = saved.directMessages.find((message) => String(message.id).startsWith("system-hint-orphan_") && message.channel === "aim");
           const orphanHint = [...saved.directMessages, ...saved.pageComments].find((message) => String(message.text).includes("planetarium"));
-          if (rumorFlagCount < 4 || !phaseThreeAim || phaseThreeAim.author === "Mira_917" || !orphanHint) {
-            throw new Error(`Phase-three desperate/orphan hints were incomplete: ${JSON.stringify({ rumorFlagCount, phaseThreeAim, orphanHint })}`);
+          if (legacyTrailCount < 4 || rumorFlagCount < 4 || !phaseThreeAim || phaseThreeAim.author === "Mira_917" || !orphanHint) {
+            throw new Error(`Phase-three dormant/desperate/orphan hints were incomplete: ${JSON.stringify({ legacyTrailCount, rumorFlagCount, phaseThreeAim, orphanHint })}`);
           }
 
           await address("web://legacy.orbitos.local/admin/continuity");
@@ -842,7 +892,7 @@ function createWindow() {
           await wait();
           await capture("story-continuity-ending.png");
 
-          console.log("STORY_OK: Black File activated phase two; ten rumor pages stayed hidden; forged phase-two and desperate phase-three hints appeared; the continuity reveal entered stable free play and stopped new rumors.");
+          console.log("STORY_OK: Black File activated phase two; ten rumor pages stayed hidden; phase three exposed twenty-five dormant archive pages through forced account comments; the continuity reveal entered stable free play and stopped new rumors.");
         } catch (error) {
           console.error("STORY_FAILED:", error);
           process.exitCode = 1;

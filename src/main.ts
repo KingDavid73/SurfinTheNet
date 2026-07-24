@@ -1,6 +1,12 @@
 import "./styles.css";
 import { notFoundPage, pages } from "./pages";
 import { ORPHAN_RUMORS, SYSTEM_RUMORS } from "./rumor-pages";
+import {
+  DORMANT_LEGACY_ACCOUNTS,
+  DORMANT_LEGACY_HOME_URLS,
+  DORMANT_LEGACY_OWNERS,
+  DORMANT_LEGACY_PERSONA_IDS
+} from "./legacy-fragment-pages";
 import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack, StoryPhase } from "./types";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
@@ -293,6 +299,7 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   gurgle_gus: { screenName: "GurgleGus", displayName: "Gus" },
   nest_nora: { screenName: "NestNora", displayName: "Nora" },
   halo_holly: { screenName: "HaloComb_Holly", displayName: "Holly" },
+  ...DORMANT_LEGACY_OWNERS,
   system_core: { screenName: "SYSTEM", displayName: "Continuity System" }
 };
 
@@ -440,6 +447,7 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   gurgle_gus: "web://gurglebros.plumb/home",
   nest_nora: "web://neighbornest.cu/home",
   halo_holly: "web://halocomb.salon/home",
+  ...DORMANT_LEGACY_HOME_URLS,
   system_core: "web://legacy.orbitos.local/admin/continuity"
 };
 
@@ -605,7 +613,11 @@ function ambientPostingPersonaIds() {
   const pageOwners = Object.values(pages).filter(pageAvailable).map((page) => page.ownerId);
   const phaseCommenters = state.storyPhase >= 2 ? PHASE_TWO_COMMENTERS : [];
   return [...new Set([...pageOwners, ...phaseCommenters])]
-    .filter((personaId) => personaId !== "system_core" && Boolean(PAGE_OWNERS[personaId]));
+    .filter((personaId) =>
+      personaId !== "system_core" &&
+      !DORMANT_LEGACY_PERSONA_IDS.has(personaId) &&
+      Boolean(PAGE_OWNERS[personaId])
+    );
 }
 
 function extractAmbientPageContext(page: PageDefinition) {
@@ -711,6 +723,54 @@ function addSystemHintDirectMessage(text: string, channel: "aim" | "email", crea
   return true;
 }
 
+function addDormantLegacyTrailComment(
+  createdAt: string,
+  requestedAccount?: (typeof DORMANT_LEGACY_ACCOUNTS)[number],
+  requestedPageUrl?: string
+) {
+  const availableAccounts = DORMANT_LEGACY_ACCOUNTS.filter((account) =>
+    !state.flags[`system_legacy_${account.id}`]
+  );
+  const account = requestedAccount && !state.flags[`system_legacy_${requestedAccount.id}`]
+    ? requestedAccount
+    : availableAccounts[Math.floor(Math.random() * availableAccounts.length)];
+  if (!account) return false;
+
+  const targets = ambientCommentHomepages().filter((page) =>
+    page.ownerId !== account.id && !DORMANT_LEGACY_PERSONA_IDS.has(page.ownerId)
+  );
+  const requestedTarget = requestedPageUrl ? pages[requestedPageUrl] : null;
+  const page = requestedTarget?.commentsEnabled
+    ? requestedTarget
+    : targets[Math.floor(Math.random() * targets.length)] ?? targets[0];
+  if (!page) return false;
+
+  state.pageComments.push({
+    id: `system-legacy-${account.id}-${crypto.randomUUID()}`,
+    pageUrl: page.url,
+    ownerId: account.id,
+    role: "visitor",
+    author: account.screenName,
+    text: account.rumor,
+    createdAt,
+    revealAfterVisit: (state.pageVisitCounts[page.url] ?? 0) + 1
+  });
+  state.flags[`system_legacy_${account.id}`] = true;
+  return true;
+}
+
+function seedDormantLegacyTrailComments(hoursElapsed: number, createdAt: string) {
+  if (state.storyPhase !== 3 || hoursElapsed < 1) return;
+  const maximumComments = Math.min(4, Math.max(1, Math.ceil(hoursElapsed / 5)));
+  const chance = Math.min(0.95, 0.32 + hoursElapsed * 0.08);
+  let added = false;
+  for (let index = 0; index < maximumComments; index += 1) {
+    if (Math.random() >= chance || !addDormantLegacyTrailComment(createdAt)) break;
+    added = true;
+  }
+  if (added) void saveState();
+}
+
 function seedOneSystemRumorHint(createdAt: string) {
   const unusedRumors = SYSTEM_RUMORS.filter((rumor) => !state.flags[`system_rumor_${rumor.id}`]);
   const unusedOrphans = ORPHAN_RUMORS
@@ -736,6 +796,7 @@ function seedOneSystemRumorHint(createdAt: string) {
 
 function seedSystemRumorHints(hoursElapsed: number, createdAt: string) {
   if (hoursElapsed < 1 || state.storyPhase < 2 || state.storyPhase >= 4) return;
+  seedDormantLegacyTrailComments(hoursElapsed, createdAt);
   const chance = state.storyPhase === 3
     ? Math.min(0.85, hoursElapsed * 0.22)
     : Math.min(0.35, hoursElapsed * 0.08);
@@ -1054,6 +1115,8 @@ function activateStoryPhase(nextPhase: StoryPhase) {
       "Four neat answers already? The network can do better than that. Stay on the line. Something more convincing is loading."
     );
     addPhaseThreeLeakComments();
+    addDormantLegacyTrailComment(state.gameTime, DORMANT_LEGACY_ACCOUNTS[0], "web://bytebarn.com/home");
+    addDormantLegacyTrailComment(state.gameTime, DORMANT_LEGACY_ACCOUNTS[8], "web://cosmiccrust.biz/home");
   }
   if (nextPhase === 4) {
     addEndingCommunityResponses();
