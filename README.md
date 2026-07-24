@@ -147,9 +147,9 @@ buttons for single-track sites and exposes them automatically for playlists.
 Multi-track sites choose a random starting position once per game session, then
 retain that track and playback position while browsing sub-pages in the same
 site scope. King Cal currently has a 34-track commercial archive; GameGrid also
-demonstrates a three-track playlist. The current domain-to-song checklist is
-`MUSIC_INDEX.txt`. The homepage uses the softer, percussion-free “Orbit Avenue
-Afterglow” loop; period music and player-design notes live in
+demonstrates a three-track playlist, and the OrbitNet homepage now rotates
+through five Blue Screen tracks. The current domain-to-song checklist is
+`MUSIC_INDEX.txt`. Period music and player-design notes live in
 `docs/period-web-music-notes.md`.
 
 Packaging is still deferred. `node-llama-cpp` native binaries require special unpacking rules when milestone builds resume.

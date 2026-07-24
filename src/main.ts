@@ -45,14 +45,73 @@ const KING_CAL_TRACKS: readonly PageMusicTrack[] = [
   { label: "County Line Warning", file: "county-line-warning-secret-06.mp3", url: new URL("../assets/audio/pages/king-cal/county-line-warning-secret-06.mp3", import.meta.url).href }
 ];
 
+const ORBIT_HOME_TRACKS: readonly PageMusicTrack[] = [
+  { label: "Blue Screen of Love", file: "blue-screen-of-love-01.mp3", url: new URL("../assets/audio/pages/orbit-home/blue-screen-of-love-01.mp3", import.meta.url).href },
+  { label: "Blue Screen of Love II", file: "blue-screen-of-love-02.mp3", url: new URL("../assets/audio/pages/orbit-home/blue-screen-of-love-02.mp3", import.meta.url).href },
+  { label: "Blue Screen of Love III", file: "blue-screen-of-love-03.mp3", url: new URL("../assets/audio/pages/orbit-home/blue-screen-of-love-03.mp3", import.meta.url).href },
+  { label: "Blue Screen of Love IV", file: "blue-screen-of-love-04.mp3", url: new URL("../assets/audio/pages/orbit-home/blue-screen-of-love-04.mp3", import.meta.url).href },
+  { label: "Blue Screen of Memory", file: "blue-screen-of-memory.mp3", url: new URL("../assets/audio/pages/orbit-home/blue-screen-of-memory.mp3", import.meta.url).href }
+];
+
+const COSMIC_CRUST_TRACKS: readonly PageMusicTrack[] = [
+  { label: "Cosmic Crust Pizza", file: "cosmic-crust-pizza.mp3", url: new URL("../assets/audio/pages/cosmic-crust/cosmic-crust-pizza.mp3", import.meta.url).href },
+  { label: "Neon Pizza Dreams", file: "neon-pizza-dreams.mp3", url: new URL("../assets/audio/pages/cosmic-crust/neon-pizza-dreams.mp3", import.meta.url).href }
+];
+
+const HONEST_EARL_TRACKS: readonly PageMusicTrack[] = [
+  { label: "Honest Earl Jingle", file: "honest-earl-jingle.mp3", url: new URL("../assets/audio/pages/honest-earl/honest-earl-jingle.mp3", import.meta.url).href },
+  { label: "Honest Earl's Lot", file: "honest-earls-lot.mp3", url: new URL("../assets/audio/pages/honest-earl/honest-earls-lot.mp3", import.meta.url).href },
+  { label: "Chrome and Static", file: "chrome-and-static.mp3", url: new URL("../assets/audio/pages/honest-earl/chrome-and-static.mp3", import.meta.url).href },
+  { label: "Clean Getaway", file: "clean-getaway.mp3", url: new URL("../assets/audio/pages/honest-earl/clean-getaway.mp3", import.meta.url).href },
+  { label: "Lot Lizard Loop", file: "lot-lizard-loop.mp3", url: new URL("../assets/audio/pages/honest-earl/lot-lizard-loop.mp3", import.meta.url).href }
+];
+
+const SKATER_TRACKS: readonly PageMusicTrack[] = [
+  { label: "Demo Tape Spin", file: "demo-tape-spin.mp3", url: new URL("../assets/audio/pages/skater/demo-tape-spin.mp3", import.meta.url).href },
+  { label: "Grip Tape Summer", file: "grip-tape-summer.mp3", url: new URL("../assets/audio/pages/skater/grip-tape-summer.mp3", import.meta.url).href }
+];
+
+const SURFER_TRACKS: readonly PageMusicTrack[] = [
+  { label: "Banzai Loop", file: "banzai-loop-01.mp3", url: new URL("../assets/audio/pages/surfer/banzai-loop-01.mp3", import.meta.url).href },
+  { label: "Banzai Loop II", file: "banzai-loop-02.mp3", url: new URL("../assets/audio/pages/surfer/banzai-loop-02.mp3", import.meta.url).href },
+  { label: "Cutback Chaos", file: "cutback-chaos.mp3", url: new URL("../assets/audio/pages/surfer/cutback-chaos.mp3", import.meta.url).href }
+];
+
+const ROAD_HOG_TRACKS: readonly PageMusicTrack[] = [
+  { label: "Chrome and Grass", file: "chrome-and-grass.mp3", url: new URL("../assets/audio/pages/road-hog-ron/chrome-and-grass.mp3", import.meta.url).href },
+  { label: "Dented Fender Proud", file: "dented-fender-proud.mp3", url: new URL("../assets/audio/pages/road-hog-ron/dented-fender-proud.mp3", import.meta.url).href },
+  { label: "Hadda Lay 'Er Down", file: "hadda-lay-er-down-01.mp3", url: new URL("../assets/audio/pages/road-hog-ron/hadda-lay-er-down-01.mp3", import.meta.url).href },
+  { label: "Hadda Lay 'Er Down II", file: "hadda-lay-er-down-02.mp3", url: new URL("../assets/audio/pages/road-hog-ron/hadda-lay-er-down-02.mp3", import.meta.url).href }
+];
+
+const RAILROAD_LENNY_TRACKS: readonly PageMusicTrack[] = [
+  { label: "Back on the Rails", file: "back-on-the-rails.mp3", url: new URL("../assets/audio/pages/railroad-lenny/back-on-the-rails.mp3", import.meta.url).href },
+  { label: "Whistle at Dawn", file: "whistle-at-dawn.mp3", url: new URL("../assets/audio/pages/railroad-lenny/whistle-at-dawn.mp3", import.meta.url).href }
+];
+
+const BIG_BASS_BOB_TRACKS: readonly PageMusicTrack[] = [
+  { label: "Gone Fishin' Again", file: "gone-fishin-again.mp3", url: new URL("../assets/audio/pages/big-bass-bob/gone-fishin-again.mp3", import.meta.url).href },
+  { label: "Lake Day Legend", file: "lake-day-legend-01.mp3", url: new URL("../assets/audio/pages/big-bass-bob/lake-day-legend-01.mp3", import.meta.url).href },
+  { label: "Lake Day Legend II", file: "lake-day-legend-02.mp3", url: new URL("../assets/audio/pages/big-bass-bob/lake-day-legend-02.mp3", import.meta.url).href },
+  { label: "The One That Got Away", file: "the-one-that-got-away.mp3", url: new URL("../assets/audio/pages/big-bass-bob/the-one-that-got-away.mp3", import.meta.url).href },
+  { label: "Back Off the Line", file: "back-off-the-line-secret-01.mp3", url: new URL("../assets/audio/pages/big-bass-bob/back-off-the-line-secret-01.mp3", import.meta.url).href },
+  { label: "Big One Got Away", file: "big-one-got-away-secret-02.mp3", url: new URL("../assets/audio/pages/big-bass-bob/big-one-got-away-secret-02.mp3", import.meta.url).href },
+  { label: "Redacted Bait", file: "redacted-bait-secret-03.mp3", url: new URL("../assets/audio/pages/big-bass-bob/redacted-bait-secret-03.mp3", import.meta.url).href },
+  { label: "Reel It In", file: "reel-it-in-secret-04.mp3", url: new URL("../assets/audio/pages/big-bass-bob/reel-it-in-secret-04.mp3", import.meta.url).href }
+];
+
 const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
+  orbithome: ORBIT_HOME_TRACKS[0],
   directory: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
   gamegridzone: { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
+  xtremezone: { label: "Extreme Sports Web Loop 1999", file: "extreme-sports-web-loop-1999.mp3", url: new URL("../assets/audio/pages/xtreme-zone/extreme-sports-web-loop-1999.mp3", import.meta.url).href },
+  yesterdayzone: { label: "Good Old Days", file: "good-old-days.mp3", url: new URL("../assets/audio/pages/yesterday-zone/good-old-days.mp3", import.meta.url).href },
   rainbow: { label: "Garden Sprites", file: "garden-sprites.mid", midiUrl: new URL("../assets/audio/pages/garden-sprites.mid", import.meta.url).href, url: new URL("../assets/audio/pages/garden-sprites.wav", import.meta.url).href },
   signal: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
   raven: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
-  computer: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
-  pizza: { label: "Cosmic Crust Pizza", file: "cosmic-crust-pizza.mp3", url: new URL("../assets/audio/pages/cosmic-crust/cosmic-crust-pizza.mp3", import.meta.url).href },
+  computer: { label: "Byte Barn Deal", file: "byte-barn-deal.mp3", url: new URL("../assets/audio/pages/byte-barn/byte-barn-deal.mp3", import.meta.url).href },
+  modkit: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
+  pizza: COSMIC_CRUST_TRACKS[0],
   pets: { label: "Paws on the Keys", file: "paws-on-the-keys.mid", midiUrl: new URL("../assets/audio/pages/paws-on-the-keys.mid", import.meta.url).href, url: new URL("../assets/audio/pages/paws-on-the-keys.wav", import.meta.url).href },
   pulse: { label: "PULSE NET", file: "pulse-net.mp3", url: new URL("../assets/audio/pages/pulse-net/pulse-net.mp3", import.meta.url).href },
   vanta: { label: "Leave Reality Running", file: "leave-reality-running.mp3", url: new URL("../assets/audio/pages/vanta/leave-reality-running.mp3", import.meta.url).href },
@@ -61,13 +120,13 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   moonmunch: { label: "Moon Munch Blast", file: "moon-munch-blast.mp3", url: new URL("../assets/audio/pages/moon-munch/moon-munch-blast.mp3", import.meta.url).href },
   toonburst: { label: "ToonBurst Theme", file: "toonburst-theme.mid", midiUrl: new URL("../assets/audio/pages/toonburst-theme.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toonburst-theme.wav", import.meta.url).href },
   kingcal: KING_CAL_TRACKS[0],
-  earl: { label: "Honest Earl Jingle", file: "honest-earl-jingle.mp3", url: new URL("../assets/audio/pages/honest-earl/honest-earl-jingle.mp3", import.meta.url).href },
-  skater: { label: "Curb Static", file: "curb-static.mid", midiUrl: new URL("../assets/audio/pages/curb-static.mid", import.meta.url).href, url: new URL("../assets/audio/pages/curb-static.wav", import.meta.url).href },
-  bmx: { label: "Dirtline Drive", file: "dirtline-drive.mid", midiUrl: new URL("../assets/audio/pages/dirtline-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/dirtline-drive.wav", import.meta.url).href },
-  blader: { label: "Eight-Wheel Velocity", file: "eight-wheel-velocity.mid", midiUrl: new URL("../assets/audio/pages/eight-wheel-velocity.mid", import.meta.url).href, url: new URL("../assets/audio/pages/eight-wheel-velocity.wav", import.meta.url).href },
-  surfer: { label: "Pacific Lazyline", file: "pacific-lazyline.mid", midiUrl: new URL("../assets/audio/pages/pacific-lazyline.mid", import.meta.url).href, url: new URL("../assets/audio/pages/pacific-lazyline.wav", import.meta.url).href },
+  earl: HONEST_EARL_TRACKS[0],
+  skater: SKATER_TRACKS[0],
+  bmx: { label: "Tailwhip at Dusk", file: "tailwhip-at-dusk.mp3", url: new URL("../assets/audio/pages/bmx/tailwhip-at-dusk.mp3", import.meta.url).href },
+  blader: { label: "Wheelbite Anthem", file: "wheelbite-anthem.mp3", url: new URL("../assets/audio/pages/rollerblader/wheelbite-anthem.mp3", import.meta.url).href },
+  surfer: SURFER_TRACKS[0],
   motocross: { label: "Roost and Thunder", file: "roost-and-thunder.mid", midiUrl: new URL("../assets/audio/pages/roost-and-thunder.mid", import.meta.url).href, url: new URL("../assets/audio/pages/roost-and-thunder.wav", import.meta.url).href },
-  scooter: { label: "Scooter Siren", file: "scooter-siren.mid", midiUrl: new URL("../assets/audio/pages/scooter-siren.mid", import.meta.url).href, url: new URL("../assets/audio/pages/scooter-siren.wav", import.meta.url).href },
+  scooter: { label: "Scooter Kid Shuffle", file: "scooter-kid-shuffle.mp3", url: new URL("../assets/audio/pages/scooter/scooter-kid-shuffle.mp3", import.meta.url).href },
   euro: { label: "Riviera Idle", file: "riviera-idle.mid", midiUrl: new URL("../assets/audio/pages/riviera-idle.mid", import.meta.url).href, url: new URL("../assets/audio/pages/riviera-idle.wav", import.meta.url).href },
   petcat: { label: "Whisker Waltz", file: "whisker-waltz.mid", midiUrl: new URL("../assets/audio/pages/whisker-waltz.mid", import.meta.url).href, url: new URL("../assets/audio/pages/whisker-waltz.wav", import.meta.url).href },
   petdog: { label: "Backyard Bound", file: "backyard-bound.mid", midiUrl: new URL("../assets/audio/pages/backyard-bound.mid", import.meta.url).href, url: new URL("../assets/audio/pages/backyard-bound.wav", import.meta.url).href },
@@ -81,16 +140,24 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   fanprism: { label: "Five-Color Drive", file: "five-color-drive.mid", midiUrl: new URL("../assets/audio/pages/five-color-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/five-color-drive.wav", import.meta.url).href },
   fangemwell: { label: "Lusterkin Descent", file: "lusterkin-descent.mid", midiUrl: new URL("../assets/audio/pages/lusterkin-descent.mid", import.meta.url).href, url: new URL("../assets/audio/pages/lusterkin-descent.wav", import.meta.url).href },
   fanatlas: { label: "Atlas in the Wind", file: "atlas-in-the-wind.mid", midiUrl: new URL("../assets/audio/pages/atlas-in-the-wind.mid", import.meta.url).href, url: new URL("../assets/audio/pages/atlas-in-the-wind.wav", import.meta.url).href },
-  oldbiker: { label: "Chrome Weekend", file: "chrome-weekend.mid", midiUrl: new URL("../assets/audio/pages/chrome-weekend.mid", import.meta.url).href, url: new URL("../assets/audio/pages/chrome-weekend.wav", import.meta.url).href },
-  grandmaold: { label: "Dot's First Waltz", file: "dots-first-waltz.mid", midiUrl: new URL("../assets/audio/pages/dots-first-waltz.mid", import.meta.url).href, url: new URL("../assets/audio/pages/dots-first-waltz.wav", import.meta.url).href },
-  grandmanew: { label: "Dot Clicked Save", file: "dot-clicked-save.mid", midiUrl: new URL("../assets/audio/pages/dot-clicked-save.mid", import.meta.url).href, url: new URL("../assets/audio/pages/dot-clicked-save.wav", import.meta.url).href },
-  oldhistory: { label: "Binder and Bugle", file: "binder-and-bugle.mid", midiUrl: new URL("../assets/audio/pages/binder-and-bugle.mid", import.meta.url).href, url: new URL("../assets/audio/pages/binder-and-bugle.wav", import.meta.url).href },
-  oldtrains: { label: "Basement Limited", file: "basement-limited.mid", midiUrl: new URL("../assets/audio/pages/basement-limited.mid", import.meta.url).href, url: new URL("../assets/audio/pages/basement-limited.wav", import.meta.url).href },
-  oldfishing: { label: "North Reeds", file: "north-reeds.mid", midiUrl: new URL("../assets/audio/pages/north-reeds.mid", import.meta.url).href, url: new URL("../assets/audio/pages/north-reeds.wav", import.meta.url).href }
+  oldbiker: ROAD_HOG_TRACKS[0],
+  grandmaold: { label: "Red Barn Beer", file: "red-barn-beer.mp3", url: new URL("../assets/audio/pages/grandma-dot-old/red-barn-beer.mp3", import.meta.url).href },
+  grandmanew: { label: "Red Barn", file: "red-barn.mp3", url: new URL("../assets/audio/pages/grandma-dot-new/red-barn.mp3", import.meta.url).href },
+  oldhistory: { label: "Tin Cup Reenactor", file: "tin-cup-reenactor.mp3", url: new URL("../assets/audio/pages/colonel-hal/tin-cup-reenactor.mp3", import.meta.url).href },
+  oldtrains: RAILROAD_LENNY_TRACKS[0],
+  oldfishing: BIG_BASS_BOB_TRACKS[0]
 };
 const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicTrack[]>> = {
+  orbithome: ORBIT_HOME_TRACKS,
   gamegridzone: [SITE_MUSIC.gamegridzone, SITE_MUSIC.vanta, SITE_MUSIC.cubit],
-  kingcal: KING_CAL_TRACKS
+  pizza: COSMIC_CRUST_TRACKS,
+  earl: HONEST_EARL_TRACKS,
+  kingcal: KING_CAL_TRACKS,
+  skater: SKATER_TRACKS,
+  surfer: SURFER_TRACKS,
+  oldbiker: ROAD_HOG_TRACKS,
+  oldtrains: RAILROAD_LENNY_TRACKS,
+  oldfishing: BIG_BASS_BOB_TRACKS
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -780,6 +847,19 @@ function browserWindow() {
     <footer class="browser-footer">${pageMusicPlayer(page)}<div class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></div></footer>`);
 }
 
+function syncBrowserViewportBackground() {
+  const viewport = document.querySelector<HTMLElement>(".browser-viewport");
+  const pageRoot = viewport?.querySelector<HTMLElement>(":scope > .page");
+  if (!viewport || !pageRoot) return;
+  const background = getComputedStyle(pageRoot);
+  viewport.style.backgroundColor = background.backgroundColor;
+  viewport.style.backgroundImage = background.backgroundImage;
+  viewport.style.backgroundRepeat = background.backgroundRepeat;
+  viewport.style.backgroundPosition = background.backgroundPosition;
+  viewport.style.backgroundSize = background.backgroundSize;
+  viewport.style.backgroundAttachment = background.backgroundAttachment;
+}
+
 function decorateUnreadCommentEntrypoints() {
   const unreadUrls = new Set(
     state.pageComments
@@ -1332,6 +1412,7 @@ function render() {
   </main>`;
   decorateUnreadCommentEntrypoints();
   bindEvents();
+  syncBrowserViewportBackground();
   syncPageMusic();
   updateClock();
   renderedBrowserUrl = state.currentUrl;

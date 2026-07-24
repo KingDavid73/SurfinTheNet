@@ -243,7 +243,7 @@ function zoneDirectoryBody(zoneId: string) {
 const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
   url: zone.url,
   title: `${zone.title} - OrbitNet Community Zone`,
-  site: zone.id === "gamegrid" ? "gamegridzone" : "directory",
+  site: zone.id === "gamegrid" ? "gamegridzone" : zone.id === "xtreme" ? "xtremezone" : zone.id === "yesterday" ? "yesterdayzone" : "directory",
   ownerId: "orbit_guide",
   summary: `${zone.title} is an OrbitNet community zone for ${zone.tagline.toLowerCase()}.`,
   listed: true,
@@ -257,10 +257,7 @@ const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
       </header>
       <nav class="zone-network-nav"><button data-nav="web://home">⌂ OrbitNet Home</button>${zoneNavigation(zone.id)}</nav>
       <section class="zone-welcome"><h2>Welcome to ${zone.title}!</h2><p>${zone.welcome}</p></section>
-      <div class="zone-columns">
-        <section class="zone-categories"><header><b>EXPLORE THIS ZONE</b><span>6 departments</span></header><div>${zone.categories.map((category, index) => `<article><i>${String(index + 1).padStart(2, "0")}</i><strong>${category}</strong></article>`).join("")}</div></section>
-        <aside class="zone-bulletin"><h2>Zone Bulletin</h2><p>${zone.bulletin}</p></aside>
-      </div>
+      <aside class="zone-bulletin"><h2>Zone Bulletin</h2><p>${zone.bulletin}</p></aside>
       ${zoneDirectoryBody(zone.id)}
       <footer>OrbitNet Community Services · Zone ID: ${zone.id.toUpperCase()} · Last indexed 11/03/1999</footer>
     </main>`
@@ -278,7 +275,7 @@ export const pages: Record<string, PageDefinition> = {
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",
-    site: "directory",
+    site: "orbithome",
     ownerId: "orbit_guide",
     summary: "The official OrbitNet directory connects members to eight topic-based community zones and provides basic help for new users.",
     listed: true,

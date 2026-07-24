@@ -136,15 +136,15 @@ function createWindow() {
           const browserControlsReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-browser="refresh"]'))`);
           if (!browserControlsReady) throw new Error("Browser refresh button was not available");
           await click('[data-maximize="browser"]');
-          const browserMaximized = await win.webContents.executeJavaScript(`document.querySelector('.browser-window')?.classList.contains('maximized') && document.querySelector('[data-maximize="browser"]')?.getAttribute('aria-label') === 'Restore'`);
+          const browserMaximized = await win.webContents.executeJavaScript(`(() => { const viewport = document.querySelector('.browser-viewport'); const page = viewport?.querySelector(':scope > .page'); if (!viewport || !page) return false; const viewportStyle = getComputedStyle(viewport); const pageStyle = getComputedStyle(page); return document.querySelector('.browser-window')?.classList.contains('maximized') && document.querySelector('[data-maximize="browser"]')?.getAttribute('aria-label') === 'Restore' && viewportStyle.backgroundColor === pageStyle.backgroundColor && viewportStyle.backgroundImage === pageStyle.backgroundImage; })()`);
           if (!browserMaximized) throw new Error("Browser maximize control did not fill the desktop");
           await click('[data-maximize="browser"]');
           const browserRestored = await win.webContents.executeJavaScript(`!document.querySelector('.browser-window')?.classList.contains('maximized') && document.querySelector('[data-maximize="browser"]')?.getAttribute('aria-label') === 'Maximize'`);
           if (!browserRestored) throw new Error("Browser maximize control did not restore the window");
           const midiPlayerReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.browser-footer > .page-midi-player .midi-led.playing')) && document.querySelector('[data-page-music]')?.textContent.includes('Stop') && !document.querySelector('.browser-viewport > .page-midi-player')`);
           if (!midiPlayerReady) throw new Error("Homepage music did not auto-play from the browser-shell footer");
-          const singleTrackControlsHidden = await win.webContents.executeJavaScript(`!document.querySelector('[data-page-music-prev]') && !document.querySelector('[data-page-music-next]')`);
-          if (!singleTrackControlsHidden) throw new Error("Single-track homepage displayed playlist skip controls");
+          const homePlaylistReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'orbithome' && document.querySelector('.midi-controls > span')?.textContent.includes('/5') && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3') && Boolean(document.querySelector('[data-page-music-prev]')) && Boolean(document.querySelector('[data-page-music-next]'))`);
+          if (!homePlaylistReady) throw new Error("Five-track Blue Screen homepage playlist was unavailable");
           await click("[data-page-music]");
           const midiStopped = await win.webContents.executeJavaScript(`!document.querySelector('.midi-led.playing') && document.querySelector('[data-page-music]')?.textContent.includes('Play')`);
           if (!midiStopped) throw new Error("Page music player did not stop");
@@ -163,8 +163,8 @@ function createWindow() {
           await capture("orbitnet-zones.png");
           for (const zoneUrl of expectedZoneUrls) {
             await click(`[data-nav="${zoneUrl}"]`);
-            const zoneReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.orbit-zone-page')) && document.querySelectorAll('.zone-categories article').length === 6 && !document.querySelector('.page-comments')`);
-            if (!zoneReady) throw new Error(`Community zone was incomplete or had an unwanted comment thread: ${zoneUrl}`);
+            const zoneReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.orbit-zone-page')) && !document.querySelector('.zone-categories') && !document.querySelector('.page-comments')`);
+            if (!zoneReady) throw new Error(`Community zone was incomplete, retained placeholder departments, or had an unwanted comment thread: ${zoneUrl}`);
             if (zoneUrl.endsWith("/gamegrid")) {
               const gameGridInitialTrack = await win.webContents.executeJavaScript(`(() => { const player = document.querySelector('.page-midi-player'); return { playlist: player?.classList.contains('has-playlist'), scope: player?.getAttribute('data-music-scope'), index: Number(player?.getAttribute('data-track-index')), label: document.querySelector('.midi-track b')?.textContent, counter: document.querySelector('.midi-controls > span')?.textContent }; })()`);
               const gameGridTrackLabels = ["Everybody's In", "Leave Reality Running", "CUBIT Pure Play"];
@@ -206,6 +206,8 @@ function createWindow() {
               }
             }
             if (zoneUrl.endsWith("/xtreme")) {
+              const xtremeZoneMusicReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'xtremezone' && document.querySelector('.midi-track b')?.textContent === 'Extreme Sports Web Loop 1999' && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3')`);
+              if (!xtremeZoneMusicReady) throw new Error("X-Treme Edge zone MP3 was not assigned");
               const expectedRiderUrls = [
                 "web://xtreme.zone/users/deckwreckerdee/home",
                 "web://xtreme.zone/users/crankcasecole/home",
@@ -221,10 +223,10 @@ function createWindow() {
               await capture("orbitnet-zone-xtreme-members.png");
               const riderClasses = [".dee-page", ".cole-page", ".nico-page", ".ty-page", ".troy-page", ".ollie-page", ".viktor-page"];
               const featureClasses = [".dee-feature", ".cole-jump", ".nico-action", ".ty-action", ".troy-action", ".ollie-action", ".viktor-feature"];
-              const trackLabels = ["Curb Static", "Dirtline Drive", "Eight-Wheel Velocity", "Pacific Lazyline", "Roost and Thunder", "Scooter Siren", "Riviera Idle"];
+              const trackLabels = [["Demo Tape Spin", "Grip Tape Summer"], ["Tailwhip at Dusk"], ["Wheelbite Anthem"], ["Banzai Loop", "Banzai Loop II", "Cutback Chaos"], ["Roost and Thunder"], ["Scooter Kid Shuffle"], ["Riviera Idle"]];
               for (let riderIndex = 0; riderIndex < expectedRiderUrls.length; riderIndex += 1) {
                 await click(`[data-nav="${expectedRiderUrls[riderIndex]}"]`);
-                const riderPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(riderClasses[riderIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.xtreme-art').length >= 8 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[riderIndex])})`);
+                const riderPageReady = await win.webContents.executeJavaScript(`(() => { const player = document.querySelector('.page-midi-player'); const labels = ${JSON.stringify(trackLabels[riderIndex])}; return Boolean(document.querySelector(${JSON.stringify(riderClasses[riderIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.xtreme-art').length >= 8 && labels.some((label) => player?.textContent.includes(label)); })()`);
                 if (!riderPageReady) throw new Error(`X-Treme Edge rider page was incomplete: ${expectedRiderUrls[riderIndex]}`);
                 await capture(`xtreme-member-${riderIndex + 1}.png`);
                 await win.webContents.executeJavaScript(`document.querySelector(${JSON.stringify(featureClasses[riderIndex])})?.scrollIntoView({ block: 'start' }); true`);
@@ -316,6 +318,8 @@ function createWindow() {
               }
             }
             if (zoneUrl.endsWith("/yesterday")) {
+              const yesterdayZoneMusicReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'yesterdayzone' && document.querySelector('.midi-track b')?.textContent === 'Good Old Days' && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3')`);
+              if (!yesterdayZoneMusicReady) throw new Error("Yesterday Online zone MP3 was not assigned");
               const expectedYesterdayUrls = [
                 "web://yesterday.zone/users/roadhogron/home",
                 "web://yesterday.zone/users/grandmadot/1997",
@@ -329,10 +333,10 @@ function createWindow() {
               await win.webContents.executeJavaScript(`document.querySelector('.yesterday-member-directory')?.scrollIntoView({ block: 'start' }); true`);
               await capture("orbitnet-zone-yesterday-members.png");
               const yesterdayClasses = [".roadhog-page", ".dot-old-page", ".dot-new-page", ".colonel-hal-page", ".lenny-page", ".bob-page"];
-              const trackLabels = ["Chrome Weekend", "Dot's First Waltz", "Dot Clicked Save", "Binder and Bugle", "Basement Limited", "North Reeds"];
+              const trackLabels = [["Chrome and Grass", "Dented Fender Proud", "Hadda Lay 'Er Down", "Hadda Lay 'Er Down II"], ["Red Barn Beer"], ["Red Barn"], ["Tin Cup Reenactor"], ["Back on the Rails", "Whistle at Dawn"], ["Gone Fishin' Again", "Lake Day Legend", "Lake Day Legend II", "The One That Got Away", "Back Off the Line", "Big One Got Away", "Redacted Bait", "Reel It In"]];
               for (let yesterdayIndex = 0; yesterdayIndex < expectedYesterdayUrls.length; yesterdayIndex += 1) {
                 await click(`[data-nav="${expectedYesterdayUrls[yesterdayIndex]}"]`);
-                const yesterdayReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(yesterdayClasses[yesterdayIndex])})) && document.querySelectorAll('marquee').length >= 1 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[yesterdayIndex])}) && ${yesterdayIndex === 1 ? "!document.querySelector('.page-comments') && document.querySelectorAll('.broken-old-image').length === 2" : "document.querySelectorAll('.page-comment').length >= 6 && Boolean(document.querySelector('.page-comments'))"}`);
+                const yesterdayReady = await win.webContents.executeJavaScript(`(() => { const player = document.querySelector('.page-midi-player'); const labels = ${JSON.stringify(trackLabels[yesterdayIndex])}; return Boolean(document.querySelector(${JSON.stringify(yesterdayClasses[yesterdayIndex])})) && document.querySelectorAll('marquee').length >= 1 && labels.some((label) => player?.textContent.includes(label)) && !/secret/i.test(document.querySelector('.midi-track b')?.textContent ?? '') && ${yesterdayIndex === 1 ? "!document.querySelector('.page-comments') && document.querySelectorAll('.broken-old-image').length === 2" : "document.querySelectorAll('.page-comment').length >= 6 && Boolean(document.querySelector('.page-comments'))"}; })()`);
                 if (!yesterdayReady) throw new Error(`Yesterday Online member page was incomplete: ${expectedYesterdayUrls[yesterdayIndex]}`);
                 if (yesterdayIndex === 1) {
                   const duplicateDotLinked = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-nav="web://yesterday.zone/users/grandmadot/home"]'))`);
@@ -382,7 +386,7 @@ function createWindow() {
           };
           await searchFor("food", "web://cosmiccrust.biz/home");
           await click('[data-nav="web://cosmiccrust.biz/home"]');
-          const pizzaReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.pizza-page')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing'))`);
+          const pizzaReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.pizza-page')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.midi-controls > span')?.textContent.includes('/2') && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3')`);
           if (!pizzaReady) throw new Error("Cosmic Crust page skeleton was incomplete");
           await capture("cosmic-crust.png");
           await click('[data-nav="web://cosmiccrust.biz/menu"]');
@@ -398,7 +402,7 @@ function createWindow() {
           await click('[data-browser="home"]');
           await searchFor("tech", "web://bytebarn.com/home");
           await click('[data-nav="web://bytebarn.com/home"]');
-          const byteBarnReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.bytebarn-product .business-web-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing'))`);
+          const byteBarnReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.bytebarn-product .business-web-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.midi-track b')?.textContent === 'Byte Barn Deal' && document.querySelector('.midi-track code')?.textContent === 'byte-barn-deal.mp3'`);
           if (!byteBarnReady) throw new Error("Byte Barn campaign page was incomplete");
           await capture("byte-barn.png");
           await click('[data-nav="web://bytebarn.com/systems"]');
@@ -485,8 +489,8 @@ function createWindow() {
 
           await click('[data-nav="web://kingcalscars.biz/home"]');
           await click('[data-nav="web://honestearl.com/home"]');
-          const honestEarlReady = await win.webContents.executeJavaScript(`(() => ({ page: Boolean(document.querySelector('.earl-page .earl-hero .dealer-photo')), music: document.querySelector('.page-midi-player')?.textContent.includes('Honest Earl Jingle'), comments: document.querySelectorAll('.page-comment').length, cal: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'KingCalCars'), customer: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'Tina_R') }))()`);
-          if (!honestEarlReady.page || !honestEarlReady.music || honestEarlReady.comments < 6 || !honestEarlReady.cal || !honestEarlReady.customer) throw new Error(`Honest Earl page, music, or seeded feud comments were incomplete: ${JSON.stringify(honestEarlReady)}`);
+          const honestEarlReady = await win.webContents.executeJavaScript(`(() => ({ page: Boolean(document.querySelector('.earl-page .earl-hero .dealer-photo')), playlist: document.querySelector('.page-midi-player')?.classList.contains('has-playlist'), trackCount: document.querySelector('.midi-controls > span')?.textContent, trackFile: document.querySelector('.midi-track code')?.textContent, comments: document.querySelectorAll('.page-comment').length, cal: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'KingCalCars'), customer: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'Tina_R') }))()`);
+          if (!honestEarlReady.page || !honestEarlReady.playlist || !honestEarlReady.trackCount.includes('/5') || !honestEarlReady.trackFile.endsWith('.mp3') || honestEarlReady.comments < 6 || !honestEarlReady.cal || !honestEarlReady.customer) throw new Error(`Honest Earl page, music, or seeded feud comments were incomplete: ${JSON.stringify(honestEarlReady)}`);
           await capture("dealer-honest-earl.png");
           await win.webContents.executeJavaScript(`document.querySelector('.page-comments')?.scrollIntoView({ block: 'start' })`);
           await capture("dealer-honest-earl-comments.png");

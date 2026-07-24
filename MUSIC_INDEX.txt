@@ -1,14 +1,17 @@
 SURFIN' THE NET — DOMAIN MUSIC CHECKLIST
 =========================================
 
-[ ] home / orbitnet.local (all zone indexes except GameGrid) — Orbit Avenue Afterglow (orbit-avenue.mid)
+[ ] home / orbitnet.local — Blue Screen of Love (orbit-home/blue-screen-of-love-01.mp3); Blue Screen of Love II (orbit-home/blue-screen-of-love-02.mp3); Blue Screen of Love III (orbit-home/blue-screen-of-love-03.mp3); Blue Screen of Love IV (orbit-home/blue-screen-of-love-04.mp3); Blue Screen of Memory (orbit-home/blue-screen-of-memory.mp3)
+[ ] orbitnet.local/zones (Pet Planet, FanVerse, SoundWave, Cozy Commons, Backchannel) — Orbit Avenue Afterglow (orbit-avenue.mid)
 [ ] orbitnet.local/zones/gamegrid — Everybody's In (everybodys-in.mid); Leave Reality Running (vanta/leave-reality-running.mp3); CUBIT Pure Play (cubit/cubit-pure-play.mp3)
+[ ] orbitnet.local/zones/xtreme — Extreme Sports Web Loop 1999 (xtreme-zone/extreme-sports-web-loop-1999.mp3)
+[ ] orbitnet.local/zones/yesterday — Good Old Days (yesterday-zone/good-old-days.mp3)
 
 [ ] rainbow.gdn — Garden Sprites (garden-sprites.mid)
 [ ] nightsignal.net — After Midnight (after-midnight.mid)
 [ ] raven.web — Cached Shadows (cached-shadows.mid)
-[ ] bytebarn.com — Silicon Saturday (silicon-saturday.mid)
-[ ] cosmiccrust.biz — Cosmic Crust Pizza (cosmic-crust/cosmic-crust-pizza.mp3)
+[ ] bytebarn.com — Byte Barn Deal (byte-barn/byte-barn-deal.mp3)
+[ ] cosmiccrust.biz — Cosmic Crust Pizza (cosmic-crust/cosmic-crust-pizza.mp3); Neon Pizza Dreams (cosmic-crust/neon-pizza-dreams.mp3)
 [ ] pawsnclaws.net — Paws on the Keys (paws-on-the-keys.mid)
 [ ] pulsenet.red — PULSE NET (pulse-net/pulse-net.mp3)
 [ ] vanta2.com — Leave Reality Running (vanta/leave-reality-running.mp3)
@@ -16,7 +19,7 @@ SURFIN' THE NET — DOMAIN MUSIC CHECKLIST
 [ ] rocketbox.toys — Toybox Turbo (toybox-turbo.mid)
 [ ] moonmunch.com — Moon Munch Blast (moon-munch/moon-munch-blast.mp3)
 [ ] toonburst.tv — ToonBurst Theme (toonburst-theme.mid)
-[ ] honestearl.com — Honest Earl Jingle (honest-earl/honest-earl-jingle.mp3)
+[ ] honestearl.com — Honest Earl Jingle (honest-earl/honest-earl-jingle.mp3); Honest Earl's Lot (honest-earl/honest-earls-lot.mp3); Chrome and Static (honest-earl/chrome-and-static.mp3); Clean Getaway (honest-earl/clean-getaway.mp3); Lot Lizard Loop (honest-earl/lot-lizard-loop.mp3)
 
 KING CAL COMMERCIAL ARCHIVE — 34 ACTIVE TRACKS
 ------------------------------------------------
@@ -55,9 +58,6 @@ KING CAL COMMERCIAL ARCHIVE — 34 ACTIVE TRACKS
 [ ] kingcalscars.biz — County Line Cipher (Alt.) (king-cal/county-line-cipher-secret-05-alt.mp3)
 [ ] kingcalscars.biz — County Line Warning (king-cal/county-line-warning-secret-06.mp3)
 
-Preserved but not active: king-cal/king-cals-kingdom-duplicate-05.mp3
-(exact audio duplicate of king-cal/king-cals-kingdom-05.mp3)
-
 [ ] gamegrid.zone/users/lagmaster99 — PULSE NET (pulse-net/pulse-net.mp3)
 [ ] gamegrid.zone/users/velvetmage — Leave Reality Running (vanta/leave-reality-running.mp3)
 [ ] gamegrid.zone/users/player4ever — CUBIT Pure Play (cubit/cubit-pure-play.mp3)
@@ -65,12 +65,12 @@ Preserved but not active: king-cal/king-cals-kingdom-duplicate-05.mp3
 [ ] gamegrid.zone/users/quarterqueen — PULSE NET (pulse-net/pulse-net.mp3)
 [ ] gamegrid.zone/users/codedex — CUBIT Pure Play (cubit/cubit-pure-play.mp3)
 
-[ ] xtreme.zone/users/deckwreckerdee — Curb Static (curb-static.mid)
-[ ] xtreme.zone/users/crankcasecole — Dirtline Drive (dirtline-drive.mid)
-[ ] xtreme.zone/users/neonbladenico — Eight-Wheel Velocity (eight-wheel-velocity.mid)
-[ ] xtreme.zone/users/tideriderty — Pacific Lazyline (pacific-lazyline.mid)
+[ ] xtreme.zone/users/deckwreckerdee — Demo Tape Spin (skater/demo-tape-spin.mp3); Grip Tape Summer (skater/grip-tape-summer.mp3)
+[ ] xtreme.zone/users/crankcasecole — Tailwhip at Dusk (bmx/tailwhip-at-dusk.mp3)
+[ ] xtreme.zone/users/neonbladenico — Wheelbite Anthem (rollerblader/wheelbite-anthem.mp3)
+[ ] xtreme.zone/users/tideriderty — Banzai Loop (surfer/banzai-loop-01.mp3); Banzai Loop II (surfer/banzai-loop-02.mp3); Cutback Chaos (surfer/cutback-chaos.mp3)
 [ ] xtreme.zone/users/throttletroy — Roost and Thunder (roost-and-thunder.mid)
-[ ] xtreme.zone/users/scootlordollie — Scooter Siren (scooter-siren.mid)
+[ ] xtreme.zone/users/scootlordollie — Scooter Kid Shuffle (scooter/scooter-kid-shuffle.mp3)
 [ ] xtreme.zone/users/veloceviktor — Riviera Idle (riviera-idle.mid)
 
 [ ] petplanet.zone/users/catnapcarla — Whisker Waltz (whisker-waltz.mid)
@@ -87,9 +87,9 @@ Preserved but not active: king-cal/king-cals-kingdom-duplicate-05.mp3
 [ ] fanverse.zone/users/deepdelverdot — Lusterkin Descent (lusterkin-descent.mid)
 [ ] fanverse.zone/users/mapmousemina — Atlas in the Wind (atlas-in-the-wind.mid)
 
-[ ] yesterday.zone/users/roadhogron — Chrome Weekend (chrome-weekend.mid)
-[ ] yesterday.zone/users/grandmadot/1997 — Dot's First Waltz (dots-first-waltz.mid)
-[ ] yesterday.zone/users/grandmadot/home — Dot Clicked Save (dot-clicked-save.mid)
-[ ] yesterday.zone/users/colonelhal — Binder and Bugle (binder-and-bugle.mid)
-[ ] yesterday.zone/users/railroadlenny — Basement Limited (basement-limited.mid)
-[ ] yesterday.zone/users/bigbassbob — North Reeds (north-reeds.mid)
+[ ] yesterday.zone/users/roadhogron — Chrome and Grass (road-hog-ron/chrome-and-grass.mp3); Dented Fender Proud (road-hog-ron/dented-fender-proud.mp3); Hadda Lay 'Er Down (road-hog-ron/hadda-lay-er-down-01.mp3); Hadda Lay 'Er Down II (road-hog-ron/hadda-lay-er-down-02.mp3)
+[ ] yesterday.zone/users/grandmadot/1997 — Red Barn Beer (grandma-dot-old/red-barn-beer.mp3)
+[ ] yesterday.zone/users/grandmadot/home — Red Barn (grandma-dot-new/red-barn.mp3)
+[ ] yesterday.zone/users/colonelhal — Tin Cup Reenactor (colonel-hal/tin-cup-reenactor.mp3)
+[ ] yesterday.zone/users/railroadlenny — Back on the Rails (railroad-lenny/back-on-the-rails.mp3); Whistle at Dawn (railroad-lenny/whistle-at-dawn.mp3)
+[ ] yesterday.zone/users/bigbassbob — Gone Fishin' Again (big-bass-bob/gone-fishin-again.mp3); Lake Day Legend (big-bass-bob/lake-day-legend-01.mp3); Lake Day Legend II (big-bass-bob/lake-day-legend-02.mp3); The One That Got Away (big-bass-bob/the-one-that-got-away.mp3); Back Off the Line (big-bass-bob/back-off-the-line-secret-01.mp3); Big One Got Away (big-bass-bob/big-one-got-away-secret-02.mp3); Redacted Bait (big-bass-bob/redacted-bait-secret-03.mp3); Reel It In (big-bass-bob/reel-it-in-secret-04.mp3)

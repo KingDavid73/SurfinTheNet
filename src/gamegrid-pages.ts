@@ -233,7 +233,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
   [MADDY_URL]: {
     url: MADDY_URL,
     title: "ModKit_Maddy's Map Lab",
-    site: "computer",
+    site: "modkit",
     ownerId: "modkit_maddy",
     summary: "ModKit_Maddy's PC game workshop features handmade levels, floppy-disk mods, Steel Cathedral, Hexforge Arena, a level editor, and notes about console ports.",
     commentsEnabled: true,

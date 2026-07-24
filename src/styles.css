@@ -1377,15 +1377,6 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .zone-welcome h2, .zone-welcome p { margin: 2px 0; }
 .zone-welcome h2 { color: var(--zone-dark); font-size: 19px; }
 .zone-welcome p { font-size: 11px; line-height: 1.45; }
-.zone-columns { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 12px; }
-.zone-categories { background: white; border: 2px solid var(--zone-dark); }
-.zone-categories > header { display: flex; justify-content: space-between; padding: 7px 9px; color: white; background: var(--zone-dark); font-size: 9px; }
-.zone-categories > header span { color: var(--zone-accent); }
-.zone-categories > div { display: grid; grid-template-columns: 1fr 1fr; }
-.zone-categories article { display: grid; grid-template-columns: 30px 1fr; gap: 1px 7px; min-height: 56px; padding: 8px; border-right: 1px dotted #aaa; border-bottom: 1px dotted #aaa; }
-.zone-categories article i { grid-row: 1 / 3; display: grid; place-items: center; width: 27px; height: 27px; color: var(--zone-dark); background: var(--zone-accent); border-radius: 50%; font: bold 8px Arial, sans-serif; }
-.zone-categories article strong { color: var(--zone-dark); font-size: 11px; text-decoration: underline; }
-.zone-categories article small { color: #777; font-size: 8px; }
 .zone-bulletin { padding: 11px; color: var(--zone-ink); background: var(--zone-pale); border: 3px double var(--zone-dark); box-shadow: 3px 3px #0003; }
 .zone-bulletin h2 { margin: 0 0 8px; padding: 5px; color: var(--zone-accent); background: var(--zone-dark); font-size: 15px; text-align: center; }
 .zone-bulletin p { font-size: 9px; line-height: 1.4; }
@@ -2703,8 +2694,6 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   .zone-directory-card { grid-template-columns: 50px 1fr auto; }
   .zone-masthead { grid-template-columns: 68px 1fr; padding: 9px; }
   .zone-badge { width: 57px; height: 57px; font-size: 20px; }
-  .zone-columns { grid-template-columns: 1fr; }
-  .zone-categories > div { grid-template-columns: 1fr; }
   .zone-directory-placeholder { grid-template-columns: 1fr; }
   .gamegrid-member-directory > div, .xtreme-member-directory > div, .petplanet-member-directory > div, .lag-hero, .velvet-intro, .velvet-journals, .four-welcome, .maddy-intro, .maddy-workbench, .game-shot-grid, .maddy-download, .queenie-intro, .queenie-floor, .dex-intro, .dex-files, .dex-map-box, .dex-archive, .dee-intro, .dee-feature, .dee-grid, .dee-gear, .cole-intro, .cole-jump, .cole-panels, .cole-trails, .nico-intro, .nico-action, .nico-cards, .nico-park, .ty-intro, .ty-action, .ty-cards, .ty-bottom, .troy-intro, .troy-action, .troy-cards, .troy-bottom, .ollie-intro, .ollie-action, .ollie-cards, .ollie-bottom, .viktor-intro, .viktor-feature, .viktor-cards, .viktor-bottom, .pet-member-intro, .pet-member-feature, .pet-member-facts, .pet-member-closeup, .moss-page > header, .moss-leaf, .moss-root, .moss-fiction, .blipzo-stage > header, .blipzo-zero-file, .blipzo-fiction, .starthimble-page > header, .star-welcome, .star-prop-table, .star-fiction, .star-mystery-tape, .star-zine-strip, .prism5-page > header, .prism-welcome, .prism-dossiers article, .prism-frame-lab, .prism-null-file, .prism-sixth-file > div, .prism-fiction { grid-template-columns: 1fr; }
   .fandom-member-directory > div, .blipzo-fanstuff, .moss-theory, .blipzo-intro { flex-direction: column; }
