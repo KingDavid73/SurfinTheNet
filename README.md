@@ -29,8 +29,8 @@ npm.cmd run make
 - An original OrbitOS startup jingle, stored as editable MIDI and a deterministic in-game WAV
 - A draggable fake desktop with a Start menu and taskbar
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
-- A cleaned-up OrbitNet directory linking to six topic communities—Game Grid, X-Treme Edge, Pet Planet, The FanVerse, Yesterday Online, and SoundWave
-- Six complete community-zone landing pages, with Game Grid populated by six console-era member sites, X-Treme Edge by seven rival riders, and Yesterday Online by six first-generation homepages
+- A cleaned-up OrbitNet directory linking to eight topic communities—Game Grid, X-Treme Edge, Pet Planet, The FanVerse, Yesterday Online, SoundWave, Cozy Commons, and The Backchannel
+- Eight complete community-zone landing pages, with Game Grid populated by six console-era member sites, X-Treme Edge by seven rival riders, Yesterday Online by six first-generation homepages, Rainbow Garden in Cozy Commons, and Night Signal plus DarkRaven in The Backchannel
 - Thirty-four member-run sites and eleven search-only local businesses
 - Refined first-wave sites: Rainbow Garden's scrapbook, Night Signal's receiver console, DarkRaven's linked case files, and complete navigation for Byte Barn, Cosmic Crust, and Paws & Claws
 - Seeded Game Grid conversations that establish rivalries, friendships, game recommendations, and PULSE/NET, VANTA², and CUBIT loyalties
@@ -99,6 +99,8 @@ Player-authored Messenger, AIM, email, helper, page-comment, and guestbook text 
 The design direction and cited research on Hypnospace, GeoCities, Flash-era sites, hidden-page discovery, character interaction, and period visual styles is collected in `docs/design-research.md`.
 
 The current working story premise, escalation structure, conspiracy rules, and boundaries between authored canon and local-model improvisation are codified in `docs/narrative-skeleton.md`.
+
+Documented secret-program history, numbers-station structure, ARG safety, MGS2 information-control themes, a cipher ladder, period-authentic clue hiding, fair-play rules, and twelve OrbitNet-ready mystery patterns are collected in `docs/mystery-and-conspiracy-research.md`.
 
 The three fictional console campaigns and their period references are documented
 in `docs/console-marketing-research.md`. Their campaign graphics use separate

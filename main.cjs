@@ -152,7 +152,9 @@ function createWindow() {
             "web://orbitnet.local/zones/petplanet",
             "web://orbitnet.local/zones/fanverse",
             "web://orbitnet.local/zones/yesterday",
-            "web://orbitnet.local/zones/soundwave"
+            "web://orbitnet.local/zones/soundwave",
+            "web://orbitnet.local/zones/cozycommons",
+            "web://orbitnet.local/zones/backchannel"
           ];
           const homepageZoneUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.zone-directory-card')).map((card) => card.getAttribute('data-nav'))`);
           if (JSON.stringify(homepageZoneUrls) !== JSON.stringify(expectedZoneUrls)) throw new Error(`OrbitNet homepage zone directory was incomplete: ${JSON.stringify(homepageZoneUrls)}`);
@@ -325,6 +327,20 @@ function createWindow() {
                 await capture(`yesterday-member-${yesterdayIndex + 1}.png`);
                 await click('[data-nav="web://orbitnet.local/zones/yesterday"]');
               }
+            }
+            if (zoneUrl.endsWith("/cozycommons")) {
+              const cozyUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.cozy-member-card')).map((card) => card.getAttribute('data-nav'))`);
+              if (JSON.stringify(cozyUrls) !== JSON.stringify(["web://rainbow.gdn/home"])) throw new Error(`Cozy Commons member directory was incomplete: ${JSON.stringify(cozyUrls)}`);
+              if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.cozy-coming-soon'))`)) throw new Error("Cozy Commons did not include its open-directory notice");
+              await win.webContents.executeJavaScript(`document.querySelector('.cozy-member-directory')?.scrollIntoView({ block: 'start' }); true`);
+              await capture("orbitnet-zone-cozy-commons.png");
+            }
+            if (zoneUrl.endsWith("/backchannel")) {
+              const backchannelUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.backchannel-member-card')).map((card) => card.getAttribute('data-nav'))`);
+              const expectedBackchannelUrls = ["web://nightsignal.net/home", "web://raven.web/home"];
+              if (JSON.stringify(backchannelUrls) !== JSON.stringify(expectedBackchannelUrls)) throw new Error(`Backchannel member directory was incomplete: ${JSON.stringify(backchannelUrls)}`);
+              await win.webContents.executeJavaScript(`document.querySelector('.backchannel-member-directory')?.scrollIntoView({ block: 'start' }); true`);
+              await capture("orbitnet-zone-backchannel.png");
             }
             await click('[data-nav="web://home"]');
           }
@@ -563,7 +579,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "clue-flow.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log("SMOKE_OK: browsed all six OrbitNet zones, installed Orbit Pal, found all eleven businesses through related searches, verified all eleven business campaigns plus their page MIDI/comment boundaries and seeded dealer feud, browsed to the archive, and persisted downloads.");
+          console.log("SMOKE_OK: browsed all eight OrbitNet zones, installed Orbit Pal, found all eleven businesses through related searches, verified all eleven business campaigns plus their page MIDI/comment boundaries and seeded dealer feud, browsed to the archive, and persisted downloads.");
         } catch (error) {
           console.error("SMOKE_FAILED:", error);
           process.exitCode = 1;

@@ -118,6 +118,28 @@ const ORBIT_ZONES = [
     categories: ["Local Bands", "MP3 & Digital Audio", "Guitar Tabs", "Electronic & Rave", "Concert Journals", "Mixtapes & Reviews"],
     bulletin: "Bandwidth reminder: please compress audio previews before uploading them to your member page.",
     searchTerms: ["music", "bands", "mp3", "guitar", "tabs", "rave", "electronic", "concert", "mixtape", "dj", "audio"]
+  },
+  {
+    id: "cozycommons",
+    url: "web://orbitnet.local/zones/cozycommons",
+    title: "Cozy Commons",
+    badge: "CC",
+    tagline: "Gardens, journals, crafts & somewhere to linger",
+    welcome: "A low-pressure neighborhood for garden logs, personal journals, recipes, nature walks, handmade projects, pen pals, and pages that never fit anywhere else.",
+    categories: ["Personal Journals", "Gardens & Nature", "Crafts & Homemade", "Quiet Hobbies", "Pen Pals & Guestbooks", "Beautiful Miscellany"],
+    bulletin: "There is no weekly challenge. Make a cup of tea, sign somebody's guestbook, and tell us what is growing near your window.",
+    searchTerms: ["cozy", "cottage", "cottagecore", "nature", "garden", "journals", "crafts", "hang out", "friends", "miscellaneous", "personal pages"]
+  },
+  {
+    id: "backchannel",
+    url: "web://orbitnet.local/zones/backchannel",
+    title: "The Backchannel",
+    badge: "BC",
+    tagline: "Signals, secrets, code & pages off the index",
+    welcome: "OrbitNet's night shift compares strange broadcasts, unlisted addresses, homemade utilities, suspicious timestamps, code puzzles, and theories with varying relationships to reality.",
+    categories: ["Signal Watchers", "Unlisted Pages", "Codes & Ciphers", "Shareware & Tools", "Rumor Boards", "Midnight Logs"],
+    bulletin: "Extraordinary claims still require screenshots. Mark guesses as guesses, preserve original files, and synchronize your clocks before declaring a pattern.",
+    searchTerms: ["conspiracy", "hacker", "hidden web", "deep web", "numbers station", "codes", "cipher", "secrets", "unlisted pages", "mystery", "radio signal"]
   }
 ] as const;
 
@@ -153,6 +175,23 @@ function zoneDirectoryBody(zoneId: string) {
       <header><div><small>PERSONAL HOME PAGES // BEST VIEWED AT 800×600</small><h2>Yesterday Online Neighbors</h2></div><span>${yesterdayMembers.length} pages indexed (probably)</span></header>
       <div>${yesterdayMembers.map((member) => `<button class="yesterday-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>TOPIC: ${member.interest}</b></span><em>CLICK HERE!!!</em></button>`).join("")}</div>
     </section>`;
+  if (zoneId === "cozycommons") return `
+    <section class="cozy-member-directory member-page-directory">
+      <header><div><small>FRESH TEA // SLOW PAGES</small><h2>Neighbors Around the Commons</h2></div><span>1 garden gate open</span></header>
+      <div>
+        <button class="cozy-member-card member-juniper" data-nav="web://rainbow.gdn/home"><i>JG</i><span><strong>~* Rainbow Garden *~</strong><small>Juniper's scrapbook of flowers, scanner art, tiny poems, rainy radio, and her orange cat Modem.</small><b>PATCH: GARDENS &amp; JOURNALS</b></span><em>FOLLOW THE PATH</em></button>
+        <article class="cozy-coming-soon"><b>MORE SMALL DOORS SOON</b><p>The Commons directory is accepting recipe pages, hiking logs, craft circles, pen-pal corners, and hard-to-categorize personal sites.</p></article>
+      </div>
+    </section>`;
+  if (zoneId === "backchannel") return `
+    <section class="backchannel-member-directory member-page-directory">
+      <header><div><small>UNVERIFIED // RECORDED // STILL ONLINE</small><h2>Backchannel Nodes</h2></div><span>2 live connections</span></header>
+      <div>
+        <button class="backchannel-member-card member-mira" data-nav="web://nightsignal.net/home"><i>91.7</i><span><strong>NIGHT SIGNAL</strong><small>Mira's after-hours archive of strange broadcasts, clock drift, answering-machine fragments, and disciplined field notes.</small><b>NODE: SIGNAL WATCH</b></span><em>TUNE IN</em></button>
+        <button class="backchannel-member-card member-raven" data-nav="web://raven.web/home"><i>XX</i><span><strong>xX_DarkRaven_Xx's VOID</strong><small>Deleted games, forbidden files, hidden pages, suspicious patterns, and approximately one useful fact per seven theories.</small><b>NODE: UNLISTED WEB</b></span><em>ENTER VOID</em></button>
+        <aside><b>BACKCHANNEL ETIQUETTE</b><p>Archive first. Compare clocks. Separate observation from theory. Do not run mystery executables just because the filename says FINAL_REAL_2.</p></aside>
+      </div>
+    </section>`;
   return `
     <section class="zone-directory-placeholder"><div class="zone-construction">WORK IN PROGRESS</div><div><h2>Member Page Directory</h2><p>No individual member pages are indexed in this zone yet. Please check back after the next directory update.</p></div></section>`;
 }
@@ -175,7 +214,7 @@ const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
       <nav class="zone-network-nav"><button data-nav="web://home">⌂ OrbitNet Home</button>${zoneNavigation(zone.id)}</nav>
       <section class="zone-welcome"><h2>Welcome to ${zone.title}!</h2><p>${zone.welcome}</p></section>
       <div class="zone-columns">
-        <section class="zone-categories"><header><b>EXPLORE THIS ZONE</b><span>6 departments</span></header><div>${zone.categories.map((category, index) => `<article><i>${String(index + 1).padStart(2, "0")}</i><strong>${category}</strong><small>Member directory opening soon</small></article>`).join("")}</div></section>
+        <section class="zone-categories"><header><b>EXPLORE THIS ZONE</b><span>6 departments</span></header><div>${zone.categories.map((category, index) => `<article><i>${String(index + 1).padStart(2, "0")}</i><strong>${category}</strong><small>${zone.id === "soundwave" ? "Member directory opening soon" : "Browse member pages below"}</small></article>`).join("")}</div></section>
         <aside class="zone-bulletin"><h2>Zone Bulletin</h2><p>${zone.bulletin}</p><hr><b>BUILD YOUR OWN PAGE!</b><p>Member-page tools and neighborhood listings will arrive in a future OrbitNet update.</p></aside>
       </div>
       ${zoneDirectoryBody(zone.id)}
@@ -197,14 +236,14 @@ export const pages: Record<string, PageDefinition> = {
     title: "OrbitNet Directory",
     site: "directory",
     ownerId: "orbit_guide",
-    summary: "The official OrbitNet directory connects members to six topic-based community zones and provides basic help for new users.",
+    summary: "The official OrbitNet directory connects members to eight topic-based community zones and provides basic help for new users.",
     listed: true,
     hubId: "directory",
     searchTerms: ["directory", "community zones", "communities", "help", "orbitnet"],
     render: (state) => `
       <main class="page directory-page">
         <header class="directory-logo"><span>ORBIT</span><b>NET</b></header>
-        <p class="directory-tagline">Six communities. Thousands of interests. One friendly corner of the Information Superhighway!</p>
+        <p class="directory-tagline">Eight communities. Thousands of interests. One friendly corner of the Information Superhighway!</p>
         <form class="search-box orbit-search-form"><input name="query" placeholder="Search pages, people, and phrases..." aria-label="Search OrbitNet"><button>Search</button></form>
         <section class="zone-directory-intro"><div><small>START EXPLORING</small><h1>Choose Your Community</h1></div><p>Every OrbitNet member page belongs to a neighborhood. Pick a zone or search the entire network.</p></section>
         <section class="zone-directory-grid">
@@ -226,7 +265,7 @@ export const pages: Record<string, PageDefinition> = {
     summary: "Juniper's colorful homepage contains drawings, tiny poems, garden photos, and links about her cat Modem.",
     commentsEnabled: true,
     listed: true,
-    hubId: "personal-pages",
+    hubId: "zone-cozycommons",
     searchTerms: ["juniper", "garden", "cat", "art", "modem"],
     render: () => `
       <main class="page rainbow-page">
@@ -304,7 +343,7 @@ export const pages: Record<string, PageDefinition> = {
     ownerId: "juniper_gdn",
     summary: "An unlisted old camera-test page shows Juniper's phone jack and notes a repeating incoming call with no caller.",
     listed: false,
-    hubId: "personal-pages",
+    hubId: "zone-cozycommons",
     searchTerms: ["phone jack", "camera test", "incoming call", "modem"],
     render: () => `
       <main class="page rainbow-page old-page">
@@ -347,7 +386,7 @@ export const pages: Record<string, PageDefinition> = {
     summary: "Mira's Night Signal station collects unusual broadcasts, answering-machine fragments, and sounds without obvious owners.",
     commentsEnabled: true,
     listed: true,
-    hubId: "after-dark",
+    hubId: "zone-backchannel",
     searchTerms: ["mira", "radio", "91.7", "night signal", "broadcast"],
     render: () => `
       <main class="page signal-page">
@@ -425,7 +464,7 @@ export const pages: Record<string, PageDefinition> = {
     summary: "DarkRaven's dramatic black-and-purple homepage contains game rumors, homemade utilities, and claims about hidden OrbitNet pages.",
     commentsEnabled: true,
     listed: true,
-    hubId: "after-dark",
+    hubId: "zone-backchannel",
     searchTerms: ["darkraven", "games", "rumors", "hidden pages", "void"],
     render: () => `
       <main class="page raven-page">
@@ -482,7 +521,7 @@ export const pages: Record<string, PageDefinition> = {
     ownerId: "darkraven_xx",
     summary: "DarkRaven's homemade download index catalogs deleted game rumors, small utilities, and files removed by OrbitNet.",
     listed: true,
-    hubId: "after-dark",
+    hubId: "zone-backchannel",
     searchTerms: ["darkraven files", "forbidden files", "deleted game", "shareware", "utilities", "downloads"],
     render: () => `
       <main class="page raven-page raven-files-page">
@@ -504,7 +543,7 @@ export const pages: Record<string, PageDefinition> = {
     ownerId: "darkraven_xx",
     summary: "DarkRaven's annotated link web connects Night Signal, Juniper's phone-jack test, OrbitNet, and other suspicious pages.",
     listed: true,
-    hubId: "after-dark",
+    hubId: "zone-backchannel",
     searchTerms: ["darkraven links", "shadow links", "mystery pages", "11:17", "phone jack", "night signal"],
     render: () => `
       <main class="page raven-page raven-links-page">
