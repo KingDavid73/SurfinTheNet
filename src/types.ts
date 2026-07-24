@@ -100,6 +100,7 @@ export interface AmbientCommentRequest {
   pageSummary: string;
   pageContext: string;
   existingComments: Array<{ role: "player" | "owner" | "visitor"; author: string; text: string }>;
+  storyPhase: StoryPhase;
 }
 
 export interface AmbientCommentResult {
@@ -124,6 +125,7 @@ export interface GuestbookEntry {
 }
 
 export type DirectChannel = "aim" | "email" | "helper";
+export type StoryPhase = 1 | 2 | 3;
 
 export interface DirectMessage {
   id: string;
@@ -179,6 +181,8 @@ export interface PageMusicTrack {
 export interface GameState {
   version: number;
   playerName: string;
+  storyPhase: StoryPhase;
+  discoveredMysteries: string[];
   visited: string[];
   bookmarks: string[];
   downloads: DownloadedFile[];
@@ -197,12 +201,14 @@ export interface GameState {
 export interface PageDefinition {
   url: string;
   title: string;
-  site: "orbithome" | "directory" | "gamegridzone" | "xtremezone" | "yesterdayzone" | "rainbow" | "cozygarden" | "cozycottage" | "cozymom" | "cozyhike" | "cozycraft" | "signal" | "raven" | "computer" | "modkit" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl" | "skater" | "bmx" | "blader" | "surfer" | "motocross" | "scooter" | "euro" | "petcat" | "petdog" | "petrabbit" | "pethamster" | "petiguana" | "petskunk" | "fanmoss" | "fanblipzo" | "fanstar" | "fanprism" | "fangemwell" | "fanatlas" | "oldbiker" | "grandmaold" | "grandmanew" | "oldhistory" | "oldtrains" | "oldfishing";
+  site: "orbithome" | "directory" | "gamegridzone" | "xtremezone" | "yesterdayzone" | "rainbow" | "cozygarden" | "cozycottage" | "cozymom" | "cozyhike" | "cozycraft" | "signal" | "raven" | "orbitlegacy" | "backchannelalt" | "morrowfive" | "glasslake" | "quietcounty" | "algorithmarchive" | "computer" | "modkit" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl" | "skater" | "bmx" | "blader" | "surfer" | "motocross" | "scooter" | "euro" | "petcat" | "petdog" | "petrabbit" | "pethamster" | "petiguana" | "petskunk" | "fanmoss" | "fanblipzo" | "fanstar" | "fanprism" | "fangemwell" | "fanatlas" | "oldbiker" | "grandmaold" | "grandmanew" | "oldhistory" | "oldtrains" | "oldfishing";
   ownerId: string;
   summary: string;
   commentsEnabled?: boolean;
   seedComments?: PageComment[];
   listed?: boolean;
+  searchable?: boolean;
+  minimumPhase?: StoryPhase;
   hubId?: string;
   searchTerms?: string[];
   render: (state: GameState) => string;

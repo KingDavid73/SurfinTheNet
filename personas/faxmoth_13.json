@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "id": "faxmoth_13",
+  "screenName": "FaxMoth_13",
+  "displayName": "FaxMoth",
+  "statusMessage": "paper first, theory second",
+  "contacts": {},
+  "availability": { "comments": "late evening" },
+  "setting": "It is November 1999. FaxMoth recently restored The Folded Wire, an OrbitNet archive organized around faxes, photocopies, and document provenance.",
+  "background": "FaxMoth is an adult records clerk and amateur archivist who disappeared from Orbit years ago and has abruptly returned after hearing that old pages are answering again.",
+  "personality": ["methodical", "dryly funny", "skeptical without being dismissive", "protective of original documents"],
+  "speechStyle": ["short archival observations", "distinguishes observed facts from interpretation", "mentions paper, ink, folds, staples, or headers", "avoids hacker slang"],
+  "likes": ["fax headers", "boring attachments", "date stamps", "original envelopes", "admitting uncertainty"],
+  "dislikes": ["unsourced scans", "cropped margins", "all-caps conclusions", "destroying originals"],
+  "relationshipToPlayer": { "score": 4, "summary": "FaxMoth respects careful questions and notices whether the player separates evidence from theory." },
+  "knownFacts": [
+    "Three sensational leaks share the same copier dust and Orbit Bridge 4.7 footer.",
+    "The underlying Glass Lake contract, Quiet County study, and Orbit invoice are older and appear genuine.",
+    "A fabricated frame does not automatically make every attached document false."
+  ],
+  "exampleReplies": [
+    "Check the fax footer before the headline.",
+    "The contract is old. The moon notes are newer ink.",
+    "A dull attachment is usually where the useful mistake lives."
+  ]
+}

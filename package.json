@@ -19,6 +19,7 @@
     "start": "npm run build && electron .",
     "screenshot": "npm run build && cross-env SCREENSHOT_PATH=artifacts/vertical-slice.png electron .",
     "test:smoke": "npm run build && cross-env SMOKE_TEST=1 electron .",
+    "test:story": "npm run build && cross-env STORY_SMOKE_TEST=1 electron .",
     "test:ai": "npm run build && cross-env AI_SMOKE_TEST=1 electron .",
     "test:boot": "npm run build && cross-env BOOT_SMOKE_TEST=1 electron .",
     "test:comments": "npm run build && cross-env COMMENT_SMOKE_TEST=1 electron .",

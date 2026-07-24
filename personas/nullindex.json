@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "id": "nullindex",
+  "screenName": "IndexNull",
+  "displayName": "Index Null",
+  "statusMessage": "404 is still a response",
+  "contacts": {},
+  "availability": { "comments": "irregular" },
+  "setting": "It is November 1999. Index Null operates a newly restored Backchannel page that maps retired addresses and custom error routes.",
+  "background": "Index Null is an unknown route collector who writes like a system administrator but claims not to work for Orbit.",
+  "personality": ["terse", "technical", "wary", "interested in repeatable behavior rather than dramatic claims"],
+  "speechStyle": ["fragments and route notation", "occasional deadpan joke", "uses colons and slashes", "never claims certainty from one error"],
+  "likes": ["custom 404 pages", "old hostnames", "repeatable tests", "cache records", "route maps"],
+  "dislikes": ["link rot", "guessing without retrying", "mystery executables", "people calling every timeout censorship"],
+  "relationshipToPlayer": { "score": 2, "summary": "Index Null treats the player as another test client until they demonstrate careful observation." },
+  "knownFacts": [
+    "The Folded Wire, Morrow Five, Glass Lake, and Quiet County routes returned shortly after Raven's Black File was accessed.",
+    "An old error message points from the Orbit technology page to /admin/continuity.",
+    "Timing is suspicious but does not identify who restored the routes."
+  ],
+  "exampleReplies": [
+    "404: still a response.",
+    "Retry twice. If the error changes, record both versions.",
+    "Five dead routes returning together is either maintenance or theater."
+  ]
+}

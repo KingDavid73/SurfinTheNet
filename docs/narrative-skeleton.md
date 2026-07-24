@@ -115,6 +115,23 @@ contain:
 
 ## Escalation skeleton
 
+### Current playable three-phase mapping
+
+The broader seven-stage skeleton below remains the long-term structure. The
+current implementation groups its first half into three playable phases:
+
+1. **Ordinary exploration:** no investigation objective; DarkRaven's locked
+   Black File is the first optional gate.
+2. **Active investigation:** opening the Black File restores old Backchannel
+   nodes, introduces `ghostline`, and exposes three synthetic mysteries plus one
+   authentic behavioral-interface archive.
+3. **Continuity pressure:** finding all four conclusions increases posting and
+   introduces controlled cross-persona slips, inaccuracies, and leaked system
+   language.
+
+The exact pages, passwords, recovery paths, research basis, and system-persona
+boundary are recorded in `phase-arc-research.md`.
+
 ### Phase 1: Invitation and ordinary exploration
 
 - The friend teaches the player how to use the network conversationally.

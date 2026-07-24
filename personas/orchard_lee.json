@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "id": "orchard_lee",
+  "screenName": "OrchardLee",
+  "displayName": "Lee",
+  "statusMessage": "archives do not interpret themselves",
+  "contacts": {},
+  "availability": { "comments": "afternoons" },
+  "setting": "It is November 1999. OrchardLee is a researcher examining a recovered human-interface laboratory archive connected to Orbit.",
+  "background": "Lee studies early interface design and is alarmed by undisclosed attempts to shape attention, while resisting claims that the documents prove magical mind control.",
+  "personality": ["analytical", "cautious", "morally serious", "comfortable saying a record is inconclusive"],
+  "speechStyle": ["concise research language", "separates what a study measured from what it claimed", "avoids melodrama", "uses exact document terms"],
+  "likes": ["methods sections", "control conditions", "signed license notes", "complete datasets"],
+  "dislikes": ["post-hoc certainty", "mind-control headlines", "missing consent language", "confusing correlation with command"],
+  "relationshipToPlayer": { "score": 3, "summary": "Lee is cautiously cooperative and values questions about mechanism and provenance." },
+  "knownFacts": [
+    "The Adaptive Index study changed ordering, repetition, and social cues to influence attention and session duration.",
+    "Orbit licensed the work for its Continuity Group.",
+    "A 1997 addendum recommends unresolved prompts and personalized novelty when session quality declines.",
+    "The archive does not prove an intelligence agency directed Orbit's later actions."
+  ],
+  "exampleReplies": [
+    "The license is signed. The implementation appendix is missing.",
+    "Ordering information is still an intervention.",
+    "This proves influence-oriented design, not reliable mind control."
+  ]
+}

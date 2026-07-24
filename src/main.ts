@@ -1,6 +1,6 @@
 import "./styles.css";
 import { notFoundPage, pages } from "./pages";
-import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack } from "./types";
+import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack, StoryPhase } from "./types";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
 const startupJingleUrl = new URL("../assets/audio/orbitos-startup.wav", import.meta.url).href;
@@ -121,6 +121,12 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   cozycraft: GARDEN_SPRITES_TRACK,
   signal: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
   raven: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  orbitlegacy: { label: "Orbit Avenue Archive", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
+  backchannelalt: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  morrowfive: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
+  glasslake: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  quietcounty: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
+  algorithmarchive: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
   computer: { label: "Byte Barn Deal", file: "byte-barn-deal.mp3", url: new URL("../assets/audio/pages/byte-barn/byte-barn-deal.mp3", import.meta.url).href },
   modkit: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
   pizza: COSMIC_CRUST_TRACKS[0],
@@ -180,8 +186,10 @@ pageMusic.volume = PAGE_MUSIC_MAX_VOLUME * 0.5;
 type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
 
 const DEFAULT_STATE: GameState = {
-  version: 5,
+  version: 6,
   playerName: "",
+  storyPhase: 1,
+  discoveredMysteries: [],
   visited: ["web://home"],
   bookmarks: ["web://rainbow.gdn/home"],
   downloads: [],
@@ -202,7 +210,7 @@ const DEFAULT_STATE: GameState = {
     text: "hey, you made it! welcome to OrbitNet. poke around the community zones and search for whatever sounds interesting—there are some wonderfully weird pages hiding in here.",
     createdAt: "1999-11-03T19:31:00"
   }],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8, faxmoth_13: 4, nullindex: 2, cedar_wren: 1, static_abel: 0, orchard_lee: 3, skywatch_sam: 1, ghostline: 0 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -255,7 +263,15 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   hearthside_ellen: { screenName: "Hearthside_Ellen", displayName: "Ellen" },
   snacktime_sue: { screenName: "Snacktime_Sue", displayName: "Sue" },
   trailnote_tom: { screenName: "TrailNote_Tom", displayName: "Tom" },
-  paperbird_pam: { screenName: "PaperBird_Pam", displayName: "Pam" }
+  paperbird_pam: { screenName: "PaperBird_Pam", displayName: "Pam" },
+  faxmoth_13: { screenName: "FaxMoth_13", displayName: "FaxMoth" },
+  nullindex: { screenName: "IndexNull", displayName: "Index Null" },
+  cedar_wren: { screenName: "CedarWren", displayName: "Cedar" },
+  static_abel: { screenName: "StaticAbel", displayName: "Abel" },
+  orchard_lee: { screenName: "OrchardLee", displayName: "Lee" },
+  skywatch_sam: { screenName: "Skywatch_Sam", displayName: "Sam" },
+  ghostline: { screenName: "ghostline", displayName: "Ghostline" },
+  system_core: { screenName: "SYSTEM", displayName: "Continuity System" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -314,7 +330,14 @@ const CHARACTER_CONTACTS: Record<string, {
   hearthside_ellen: { screenName: "Hearthside_Ellen", displayName: "Ellen", statusMessage: "away from the upstairs computer" },
   snacktime_sue: { screenName: "Snacktime_Sue", displayName: "Sue", statusMessage: "probably driving somebody somewhere" },
   trailnote_tom: { screenName: "TrailNote_Tom", displayName: "Tom", statusMessage: "out until the weather turns" },
-  paperbird_pam: { screenName: "PaperBird_Pam", displayName: "Pam", statusMessage: "glue drying, computer clicking" }
+  paperbird_pam: { screenName: "PaperBird_Pam", displayName: "Pam", statusMessage: "glue drying, computer clicking" },
+  faxmoth_13: { screenName: "FaxMoth_13", displayName: "FaxMoth", statusMessage: "paper first, theory second" },
+  nullindex: { screenName: "IndexNull", displayName: "Index Null", statusMessage: "404 is still a response" },
+  cedar_wren: { screenName: "CedarWren", displayName: "Cedar", statusMessage: "checking the boring attachment" },
+  static_abel: { screenName: "StaticAbel", displayName: "Abel", statusMessage: "group count does not match" },
+  orchard_lee: { screenName: "OrchardLee", displayName: "Lee", statusMessage: "archives do not interpret themselves" },
+  skywatch_sam: { screenName: "Skywatch_Sam", displayName: "Sam", statusMessage: "three lights, four explanations" },
+  ghostline: { screenName: "ghostline", displayName: "Ghostline", statusMessage: "more than meets the index", aim: "ghostline" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -367,13 +390,27 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   hearthside_ellen: "web://hearthside.home/welcome",
   snacktime_sue: "web://snacktime.home/mompage",
   trailnote_tom: "web://trailnotes.home/index",
-  paperbird_pam: "web://paperbird.home/crafts"
+  paperbird_pam: "web://paperbird.home/crafts",
+  faxmoth_13: "web://foldedwire.net/home",
+  nullindex: "web://index-null.net/home",
+  cedar_wren: "web://quiet-county.org/home",
+  static_abel: "web://morrow-five.net/home",
+  orchard_lee: "web://archive.orbitnet.local/labs/home",
+  skywatch_sam: "web://glasslake-field.gov/home",
+  ghostline: "web://raven.web/vault",
+  system_core: "web://legacy.orbitos.local/admin/continuity"
 };
 
 const GAME_TIME_SCALE = 2;
-const AMBIENT_POST_CHANCE_PER_HOUR = 0.02;
-const AMBIENT_POST_MAX_CHANCE = 0.20;
 const AMBIENT_POST_MAX_ATTEMPTS = 3;
+const PHASE_TWO_COMMENTERS = ["cedar_wren", "static_abel", "orchard_lee", "skywatch_sam"] as const;
+const MYSTERY_TERMINALS: Record<string, string> = {
+  "web://morrow-five.net/decoded": "morrow_five",
+  "web://glasslake-field.gov/report": "glass_lake",
+  "web://quiet-county.org/case": "quiet_county",
+  "web://archive.orbitnet.local/labs/findings": "adaptive_index"
+};
+const REQUIRED_PHASE_THREE_MYSTERIES = Object.values(MYSTERY_TERMINALS);
 
 interface WindowModel {
   open: boolean;
@@ -445,6 +482,7 @@ let lastClockSave = performance.now();
 let ambientQueueProcessing = false;
 const pendingPageComments = new Set<string>();
 const pageCommentErrors = new Map<string, string>();
+const storyFormErrors = new Map<string, string>();
 const pendingDirectReplies = new Set<string>();
 let activeAimOwnerId = "mira_917";
 let mailComposeOwnerId: string | null = null;
@@ -492,6 +530,8 @@ function normalizeState(loaded: Partial<GameState>): GameState {
     ...loaded,
     version: DEFAULT_STATE.version,
     playerName,
+    storyPhase: loaded.storyPhase === 2 || loaded.storyPhase === 3 ? loaded.storyPhase : 1,
+    discoveredMysteries: Array.isArray(loaded.discoveredMysteries) ? [...new Set(loaded.discoveredMysteries.map(String))] : [],
     settings: { ...DEFAULT_STATE.settings, ...(loaded.settings ?? {}) },
     pageComments: Array.isArray(loaded.pageComments) ? loaded.pageComments : [],
     ambientPostQueue: Array.isArray(loaded.ambientPostQueue) ? loaded.ambientPostQueue : [],
@@ -513,12 +553,14 @@ function crossedGameHourBoundaries(before: Date, after: Date) {
 }
 
 function ambientCommentHomepages() {
-  return Object.values(pages).filter((page) => page.commentsEnabled && page.url.endsWith("/home"));
+  return Object.values(pages).filter((page) => pageAvailable(page) && page.commentsEnabled && page.url.endsWith("/home"));
 }
 
 function ambientPostingPersonaIds() {
-  return [...new Set(Object.values(pages).map((page) => page.ownerId))]
-    .filter((personaId) => Boolean(PAGE_OWNERS[personaId]));
+  const pageOwners = Object.values(pages).filter(pageAvailable).map((page) => page.ownerId);
+  const phaseCommenters = state.storyPhase >= 2 ? PHASE_TWO_COMMENTERS : [];
+  return [...new Set([...pageOwners, ...phaseCommenters])]
+    .filter((personaId) => personaId !== "system_core" && Boolean(PAGE_OWNERS[personaId]));
 }
 
 function extractAmbientPageContext(page: PageDefinition) {
@@ -531,7 +573,9 @@ function queueAmbientPostRolls(hoursElapsed: number, createdAt: string) {
   if (hoursElapsed < 1) return;
   const homepages = ambientCommentHomepages();
   if (!homepages.length) return;
-  const chance = Math.min(hoursElapsed * AMBIENT_POST_CHANCE_PER_HOUR, AMBIENT_POST_MAX_CHANCE);
+  const chancePerHour = state.storyPhase >= 3 ? 0.07 : state.storyPhase === 2 ? 0.035 : 0.02;
+  const maximumChance = state.storyPhase >= 3 ? 0.50 : state.storyPhase === 2 ? 0.30 : 0.20;
+  const chance = Math.min(hoursElapsed * chancePerHour, maximumChance);
   const jobs: AmbientPostJob[] = [];
   for (const personaId of ambientPostingPersonaIds()) {
     if (Math.random() >= chance) continue;
@@ -574,7 +618,8 @@ async function processAmbientPostQueue() {
           pageTitle: page.title,
           pageSummary: page.summary,
           pageContext: extractAmbientPageContext(page),
-          existingComments
+          existingComments,
+          storyPhase: state.storyPhase
         });
         state.pageComments.push({
           id: crypto.randomUUID(),
@@ -601,9 +646,14 @@ async function processAmbientPostQueue() {
   }
 }
 
+function pageAvailable(page: PageDefinition) {
+  return (page.minimumPhase ?? 1) <= state.storyPhase;
+}
+
 function currentPage() {
   if (state.currentUrl.startsWith("web://search?")) return orbitSearchPage(state.currentUrl);
-  return pages[state.currentUrl] ?? notFoundPage(state.currentUrl);
+  const page = pages[state.currentUrl];
+  return page && pageAvailable(page) ? page : notFoundPage(state.currentUrl);
 }
 
 const SEARCH_CONCEPTS: Record<string, string[]> = {
@@ -648,6 +698,8 @@ function lexicalSearchResults(query: string) {
   const queryWords: string[] = query.match(/[a-z0-9]+/g) ?? [];
   const expandedWords = new Set(queryWords.flatMap((word) => [word, ...(SEARCH_CONCEPTS[word] ?? [])]));
   return Object.values(pages)
+    .filter(pageAvailable)
+    .filter((page) => page.searchable !== false)
     .map((page) => {
       const haystack = [page.url, page.title, page.summary, ...(page.searchTerms ?? [])].join(" ").toLowerCase();
       const exactMatch = haystack.includes(query);
@@ -698,7 +750,8 @@ async function requestSemanticSearch(query: string) {
     const result = await window.aiAPI.search({
       query,
       pages: Object.values(pages)
-        .filter((page) => page.listed !== false)
+        .filter(pageAvailable)
+        .filter((page) => page.searchable !== false && page.listed !== false)
         .map((page) => ({ url: page.url, title: page.title, summary: page.summary }))
     });
     semanticSearchCache.set(query, result.urls.filter((resultUrl) => Boolean(pages[resultUrl])));
@@ -720,6 +773,87 @@ function submitOrbitSearch(query: string) {
   void requestSemanticSearch(normalized);
 }
 
+function addAuthoredDirectMessage(id: string, ownerId: string, author: string, text: string) {
+  if (state.directMessages.some((message) => message.id === id)) return;
+  state.directMessages.push({
+    id,
+    ownerId,
+    channel: "aim",
+    role: "owner",
+    author,
+    text,
+    createdAt: state.gameTime
+  });
+}
+
+function addPhaseThreeLeakComments() {
+  const comments: Array<Pick<PageComment, "id" | "pageUrl" | "ownerId" | "role" | "author" | "text">> = [
+    {
+      id: "phase3-leak-toni",
+      pageUrl: "web://bytebarn.com/home",
+      ownerId: "toni_pizza",
+      role: "visitor",
+      author: "Toni_CosmicCrust",
+      text: "Chip, your modem bundle looks good. Keep the line open—sorry, I meant keep one behind the counter for me."
+    },
+    {
+      id: "phase3-leak-raven",
+      pageUrl: "web://petplanet.zone/users/catnapcarla/home",
+      ownerId: "darkraven_xx",
+      role: "visitor",
+      author: "xX_DarkRaven_Xx",
+      text: "Modem is watching the phone jack again. Mr. Boots. I mean Mr. Boots. Different orange cat. Obviously."
+    },
+    {
+      id: "phase3-leak-null",
+      pageUrl: "web://cosmiccrust.biz/home",
+      ownerId: "nullindex",
+      role: "visitor",
+      author: "IndexNull",
+      text: "SESSION QUALITY RESTORED by pepperoni. That was a joke. Humans make jokes about pizza."
+    }
+  ];
+  for (const comment of comments) {
+    if (state.pageComments.some((entry) => entry.id === comment.id)) continue;
+    state.pageComments.push({
+      ...comment,
+      createdAt: state.gameTime,
+      revealAfterVisit: (state.pageVisitCounts[comment.pageUrl] ?? 0) + 1
+    });
+  }
+}
+
+function activateStoryPhase(nextPhase: StoryPhase) {
+  if (state.storyPhase >= nextPhase) return;
+  state.storyPhase = nextPhase;
+  if (nextPhase === 2) {
+    addAuthoredDirectMessage(
+      "ghostline-phase2",
+      "ghostline",
+      "ghostline",
+      "You found Raven's toy box. Good. There are older doors. Some addresses were removed from the directory, not the network."
+    );
+  }
+  if (nextPhase === 3) {
+    addAuthoredDirectMessage(
+      "ghostline-phase3",
+      "ghostline",
+      "ghostline",
+      "Four neat answers already? The network can do better than that. Stay on the line. Something more convincing is loading."
+    );
+    addPhaseThreeLeakComments();
+  }
+}
+
+function registerStoryVisit(url: string) {
+  const mysteryId = MYSTERY_TERMINALS[url];
+  if (!mysteryId || state.discoveredMysteries.includes(mysteryId)) return;
+  state.discoveredMysteries.push(mysteryId);
+  if (REQUIRED_PHASE_THREE_MYSTERIES.every((id) => state.discoveredMysteries.includes(id))) {
+    activateStoryPhase(3);
+  }
+}
+
 function navigate(url: string, push = true) {
   const normalized = url.trim().toLowerCase().replace(/^https?:\/\//, "web://");
   const nextUrl = normalized || "web://home";
@@ -728,6 +862,7 @@ function navigate(url: string, push = true) {
   pageMusicPlaying = true;
   if (!state.visited.includes(state.currentUrl)) state.visited.push(state.currentUrl);
   state.pageVisitCounts[state.currentUrl] = (state.pageVisitCounts[state.currentUrl] ?? 0) + 1;
+  registerStoryVisit(state.currentUrl);
   if (push) {
     history = [...history.slice(0, historyIndex + 1), state.currentUrl];
     historyIndex = history.length - 1;
@@ -1064,7 +1199,11 @@ function chatWindow() {
     ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>This character chose to share an AIM screen name.</span><span>${aiStatus.warmed ? "Local character service ready." : aiStatus.phase === "idle" ? "Local character service loaded." : "Local character service is still getting ready."}</span></div>`
     : "";
   const contactButtons = Object.entries(CHARACTER_CONTACTS)
-    .filter(([ownerId, contact]) => contact.aim && (ownerId === "mira_917" || state.visited.includes(CHARACTER_HOME_URLS[ownerId])))
+    .filter(([ownerId, contact]) => contact.aim && (
+      ownerId === "mira_917" ||
+      (ownerId === "ghostline" && state.storyPhase >= 2) ||
+      state.visited.includes(CHARACTER_HOME_URLS[ownerId])
+    ))
     .map(([ownerId, contact]) => `<button data-aim-contact="${ownerId}" class="${ownerId === activeAimOwnerId ? "selected" : ""}"><i></i>${escapeHtml(contact.screenName)}</button>`)
     .join("");
 
@@ -1485,7 +1624,7 @@ function render() {
     return;
   }
 
-  root.innerHTML = `<main class="desktop theme-${state.settings.theme} wallpaper-${state.settings.wallpaper} cursor-${state.settings.cursor}">
+  root.innerHTML = `<main class="desktop story-phase-${state.storyPhase} theme-${state.settings.theme} wallpaper-${state.settings.wallpaper} cursor-${state.settings.cursor}">
     <div class="wallpaper-logo"><span>ORBIT</span><b>OS</b><small>98</small></div>
     <div class="desktop-icons">
       <button data-open="browser"><span class="desktop-icon globe">O</span><b>Orbit Explorer</b></button>
@@ -1503,6 +1642,10 @@ function render() {
     <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
     ${sleepDialog()}
   </main>`;
+  storyFormErrors.forEach((message, key) => {
+    const error = document.querySelector<HTMLElement>(`[data-story-error="${key}"]`);
+    if (error) error.textContent = message;
+  });
   decorateUnreadCommentEntrypoints();
   bindEvents();
   syncBrowserViewportBackground();
@@ -1993,6 +2136,35 @@ function bindEvents() {
     const form = event.currentTarget as HTMLFormElement;
     const query = new FormData(form).get("query")?.toString().trim() ?? "";
     if (query) submitOrbitSearch(query);
+  });
+  document.querySelector<HTMLFormElement>("[data-darkraven-vault]")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const password = String(new FormData(form).get("password") ?? "").replace(/\D/g, "");
+    if (password !== "0614") {
+      storyFormErrors.set("raven", "ACCESS DENIED // memory is social engineering");
+      render();
+      return;
+    }
+    storyFormErrors.delete("raven");
+    state.flags.darkraven_vault_unlocked = true;
+    activateStoryPhase(2);
+    await saveState();
+    showNotification("New instant message from ghostline.");
+  });
+  document.querySelector<HTMLFormElement>("[data-continuity-login]")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const password = String(new FormData(form).get("password") ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (password !== "stayonline") {
+      storyFormErrors.set("continuity", "PHRASE REJECTED // four recovery fragments required");
+      render();
+      return;
+    }
+    storyFormErrors.delete("continuity");
+    state.flags.continuity_console_unlocked = true;
+    await saveState();
+    render();
   });
   const address = document.querySelector<HTMLInputElement>(".address-form input");
   if (address) address.name = "address";

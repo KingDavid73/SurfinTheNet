@@ -7,6 +7,7 @@ import { petPlanetMembers, petPlanetPages } from "./petplanet-pages";
 import { fandomMembers, fandomPages } from "./fandom-pages";
 import { yesterdayMembers, yesterdayPages } from "./yesterday-pages";
 import { cozyMembers, cozyPages } from "./cozy-pages";
+import { mysteryPages, phaseTwoBackchannelDirectory } from "./mystery-pages";
 
 const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
@@ -196,7 +197,7 @@ function zoneNavigation(activeId?: string) {
     : `<button data-nav="${zone.url}">${zone.title}</button>`).join("");
 }
 
-function zoneDirectoryBody(zoneId: string) {
+function zoneDirectoryBody(zoneId: string, state: GameState) {
   if (zoneId === "gamegrid") return `
     <section class="gamegrid-member-directory member-page-directory">
       <header><div><small>NEW &amp; UPDATED</small><h2>Game Grid Member Pages</h2></div><span>${gameGridMembers.length} pages online</span></header>
@@ -233,10 +234,11 @@ function zoneDirectoryBody(zoneId: string) {
     </section>`;
   if (zoneId === "backchannel") return `
     <section class="backchannel-member-directory member-page-directory">
-      <header><div><small>UNVERIFIED // RECORDED // STILL ONLINE</small><h2>Backchannel Nodes</h2></div><span>2 live connections</span></header>
+      <header><div><small>UNVERIFIED // RECORDED // STILL ONLINE</small><h2>Backchannel Nodes</h2></div><span>${state.storyPhase >= 2 ? "4 live connections" : "2 live connections"}</span></header>
       <div>
         <button class="backchannel-member-card member-mira" data-nav="web://nightsignal.net/home">${navButtonArt("mira", "Mira's homemade Night Signal page button", "member-button-art")}<span><strong>NIGHT SIGNAL</strong><small>Mira's after-hours archive of strange broadcasts, clock drift, answering-machine fragments, and disciplined field notes.</small><b>NODE: SIGNAL WATCH</b></span><em>TUNE IN</em></button>
         <button class="backchannel-member-card member-raven" data-nav="web://raven.web/home">${navButtonArt("raven", "DarkRaven's homemade hidden-web page button", "member-button-art")}<span><strong>xX_DarkRaven_Xx's VOID</strong><small>Deleted games, forbidden files, hidden pages, suspicious patterns, and approximately one useful fact per seven theories.</small><b>NODE: UNLISTED WEB</b></span><em>ENTER VOID</em></button>
+        ${phaseTwoBackchannelDirectory(state)}
         <aside><b>BACKCHANNEL ETIQUETTE</b><p>Archive first. Compare clocks. Separate observation from theory. Do not run mystery executables just because the filename says FINAL_REAL_2.</p></aside>
       </div>
     </section>`;
@@ -252,7 +254,7 @@ const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
   listed: true,
   hubId: `zone-${zone.id}`,
   searchTerms: [...zone.searchTerms, "orbitnet zone", "community"],
-  render: () => `
+  render: (state) => `
     <main class="page orbit-zone-page zone-${zone.id}">
       <header class="zone-masthead">
         <div class="zone-badge" aria-hidden="true">${zone.badge}</div>
@@ -261,7 +263,7 @@ const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
       <nav class="zone-network-nav"><button data-nav="web://home">⌂ OrbitNet Home</button>${zoneNavigation(zone.id)}</nav>
       <section class="zone-welcome"><h2>Welcome to ${zone.title}!</h2><p>${zone.welcome}</p></section>
       <aside class="zone-bulletin"><h2>Zone Bulletin</h2><p>${zone.bulletin}</p></aside>
-      ${zoneDirectoryBody(zone.id)}
+      ${zoneDirectoryBody(zone.id, state)}
       <footer>OrbitNet Community Services · Zone ID: ${zone.id.toUpperCase()} · Last indexed 11/03/1999</footer>
     </main>`
 } satisfies PageDefinition]));
@@ -276,6 +278,7 @@ export const pages: Record<string, PageDefinition> = {
   ...fandomPages,
   ...yesterdayPages,
   ...cozyPages,
+  ...mysteryPages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",
@@ -352,7 +355,7 @@ export const pages: Record<string, PageDefinition> = {
           <div class="juniper-polaroid">${fakeImage("JUNIPER_AND_MODEM.JPG", "pink")}<span>taken by Dad, thumb cropped out</span></div>
           <section class="juniper-profile">
             <h2>Juniper, age 23</h2>
-            <dl><div><dt>LIKES</dt><dd>gardening, scanner art, rainy radio, cinnamon tea</dd></div><div><dt>DISLIKES</dt><dd>broken links, olives, chain email, wet socks</dd></div><div><dt>WEB SKILLS</dt><dd>HTML, image maps (almost), turning it off and on</dd></div></dl>
+            <dl><div><dt>BIRTHDAY</dt><dd>June 14 (Raven forgot once and now has a “system”)</dd></div><div><dt>LIKES</dt><dd>gardening, scanner art, rainy radio, cinnamon tea</dd></div><div><dt>DISLIKES</dt><dd>broken links, olives, chain email, wet socks</dd></div><div><dt>WEB SKILLS</dt><dd>HTML, image maps (almost), turning it off and on</dd></div></dl>
             <div class="currently-box"><b>CURRENTLY...</b><p>reading: <i>The Orchard at Dusk</i><br>listening: 91.7 FM<br>growing: moonflowers in the kitchen</p></div>
           </section>
         </div>
@@ -517,7 +520,7 @@ export const pages: Record<string, PageDefinition> = {
         <div class="raven-home-grid">
           <aside class="raven-sidebar">
             <div class="raven-sigil">${fakeImage("RAVEN_SIGIL.GIF", "raven")}</div>
-            <nav class="raven-nav"><button data-nav="web://raven.web/orbit">THE ORBIT HOLE</button><button data-nav="web://raven.web/files">FORBIDDEN FILES</button><button data-nav="web://raven.web/links">SHADOW LINKS</button><button data-nav="web://rainbow.gdn/guestbook">JUNIPER'S GUESTBOOK</button></nav>
+            <nav class="raven-nav"><button data-nav="web://raven.web/orbit">THE ORBIT HOLE</button><button data-nav="web://raven.web/files">FORBIDDEN FILES</button><button data-nav="web://raven.web/links">SHADOW LINKS</button><button data-nav="web://raven.web/vault">BLACK FILE [LOCKED]</button><button data-nav="web://rainbow.gdn/guestbook">JUNIPER'S GUESTBOOK</button></nav>
             <small>VOID VISITORS<br><b>00000666</b></small>
           </aside>
           <section class="raven-center">
@@ -536,6 +539,7 @@ export const pages: Record<string, PageDefinition> = {
             <p><b>11/03:</b> Added proof OrbitNet has pages outside the directory.</p>
             <p><b>11/02:</b> Mira says clock drift is "not ghosts." Coward.</p>
             <p><b>10/31:</b> Graveyard Shift 99 rumor still unverified.</p>
+            <p><b>REMINDER:</b> four-digit dates use <code>MMDD</code>. This is not a hint.</p>
             <div class="raven-award">THIS SITE<br><b>DOES NOT</b><br>USE FRAMES</div>
           </aside>
         </div>
@@ -601,7 +605,7 @@ export const pages: Record<string, PageDefinition> = {
           <button class="link-node node-hole" data-nav="web://raven.web/orbit"><b>ORBIT HOLE</b><small>/below / unknown segment</small></button>
           <i class="thread-one"></i><i class="thread-two"></i><i class="thread-three"></i><i class="thread-four"></i>
         </section>
-        <aside class="shadow-note"><b>RAVEN'S RULE:</b> A coincidence happens once. A pattern happens twice. A conspiracy happens when three people start selling T-shirts about it.</aside>
+        <aside class="shadow-note"><b>RAVEN'S RULE:</b> A coincidence happens once. A pattern happens twice. A conspiracy happens when three people start selling T-shirts about it.<br><small>PERSONAL SECURITY RULE: a date is only a bad password if somebody knows whose date it is.</small></aside>
         <nav class="raven-bottom-nav"><button data-nav="web://raven.web/home">&lt; VOID HOME</button><button data-nav="web://raven.web/files">FORBIDDEN FILES &gt;</button></nav>
       </main>`
   },

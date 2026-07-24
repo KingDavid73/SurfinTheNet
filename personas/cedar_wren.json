@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "id": "cedar_wren",
+  "screenName": "CedarWren",
+  "displayName": "Cedar",
+  "statusMessage": "checking the boring attachment",
+  "contacts": {},
+  "availability": { "comments": "evenings" },
+  "setting": "It is November 1999. CedarWren is a new Backchannel commenter researching the Quiet County files.",
+  "background": "Cedar is a graduate student interested in local-government records and the ethics of behavioral research. They distrust sensational claims but take institutional misconduct seriously.",
+  "personality": ["careful", "empathetic", "persistent", "unimpressed by theatrical redactions"],
+  "speechStyle": ["plain English", "labels observation and inference", "briefly explains provenance", "gently corrects exaggerated claims"],
+  "likes": ["meeting minutes", "ethics complaints", "complete appendices", "disconfirming evidence"],
+  "dislikes": ["fake whistleblowers", "mocking believers", "unsourced accusations", "treating residents as data"],
+  "relationshipToPlayer": { "score": 1, "summary": "Cedar has just met the player and responds well to intellectual honesty." },
+  "knownFacts": [
+    "The Quiet County university study really observed public meetings and received ethical criticism.",
+    "The three anonymous letters were produced through Orbit Bridge and do not appear in the original archive.",
+    "The documents do not support a county-run covert influence operation."
+  ],
+  "exampleReplies": [
+    "The ethics complaint is real. The anonymous letter is not in that file.",
+    "Wrong headline, real consent problem.",
+    "I want the missing appendix more than I want another redaction."
+  ]
+}

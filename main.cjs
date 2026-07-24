@@ -3,7 +3,7 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const { AiService } = require("./ai-service.cjs");
 
-if (process.env.SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.BOOT_SMOKE_TEST || process.env.COMMENT_SMOKE_TEST || process.env.UI_SMOKE_TEST || process.env.AMBIENT_SMOKE_TEST || process.env.SAFEGUARD_SMOKE_TEST) {
+if (process.env.SMOKE_TEST || process.env.STORY_SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.BOOT_SMOKE_TEST || process.env.COMMENT_SMOKE_TEST || process.env.UI_SMOKE_TEST || process.env.AMBIENT_SMOKE_TEST || process.env.SAFEGUARD_SMOKE_TEST) {
   app.setPath("userData", path.join(app.getPath("temp"), `surfin-the-net-smoke-${process.pid}`));
 }
 
@@ -13,8 +13,10 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 5,
+  version: 6,
   playerName: "",
+  storyPhase: 1,
+  discoveredMysteries: [],
   visited: ["web://home"],
   bookmarks: ["web://rainbow.gdn/home"],
   downloads: [],
@@ -35,7 +37,7 @@ const DEFAULT_SAVE = {
     text: "hey, you made it! welcome to OrbitNet. poke around the community zones and search for whatever sounds interesting—there are some wonderfully weird pages hiding in here.",
     createdAt: "1999-11-03T19:31:00"
   }],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8, faxmoth_13: 4, nullindex: 2, cedar_wren: 1, static_abel: 0, orchard_lee: 3, skywatch_sam: 1, ghostline: 0 }
 };
 
 function savePath() {
@@ -100,7 +102,7 @@ function createWindow() {
     if (!url.startsWith(allowed)) event.preventDefault();
   });
 
-  const skipBoot = Boolean(process.env.SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.COMMENT_SMOKE_TEST || process.env.UI_SMOKE_TEST);
+  const skipBoot = Boolean(process.env.SMOKE_TEST || process.env.STORY_SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.COMMENT_SMOKE_TEST || process.env.UI_SMOKE_TEST);
   if (process.env.VITE_DEV_SERVER_URL) {
     const devUrl = new URL(process.env.VITE_DEV_SERVER_URL);
     if (skipBoot) devUrl.searchParams.set("skipBoot", "1");
@@ -670,6 +672,80 @@ function createWindow() {
           app.exit(process.exitCode ?? 0);
         }
       }, 500);
+    });
+  }
+
+  if (process.env.STORY_SMOKE_TEST) {
+    win.webContents.once("did-finish-load", () => {
+      setTimeout(async () => {
+        try {
+          const wait = (milliseconds = 140) => new Promise((resolve) => setTimeout(resolve, milliseconds));
+          const address = async (url) => {
+            const submitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.address-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = ${JSON.stringify(url)}; form.requestSubmit(); return true; })()`);
+            if (!submitted) throw new Error(`Could not navigate to ${url}`);
+            await wait();
+          };
+          const capture = async (name) => {
+            const image = await win.webContents.capturePage();
+            const target = path.resolve(__dirname, "artifacts", name);
+            await fs.mkdir(path.dirname(target), { recursive: true });
+            await fs.writeFile(target, image.toPNG());
+          };
+
+          const searched = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'legacy orbitos continuity'; form.requestSubmit(); return true; })()`);
+          if (!searched) throw new Error("Orbit search was unavailable");
+          await wait();
+          const hiddenSearchLeak = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.search-results code')).some((node) => node.textContent.includes('legacy.orbitos'))`);
+          if (hiddenSearchLeak) throw new Error("The explicit-address-only OrbitOS archive leaked into search");
+
+          await address("web://morrow-five.net/home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two Morrow Five page was available during phase one");
+
+          await address("web://legacy.orbitos.local/home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-orbit-page')) && document.body.textContent.includes('ONE COMPUTER. ONE NETWORK. ONE ORBIT.')`)) throw new Error("Hidden OrbitOS archive did not load by explicit address");
+          await capture("story-orbitos-archive.png");
+
+          await address("web://raven.web/vault");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-darkraven-vault]'))`)) throw new Error("DarkRaven Black File did not begin locked");
+          const unlocked = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('[data-darkraven-vault]'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = '0614'; form.requestSubmit(); return true; })()`);
+          if (!unlocked) throw new Error("Could not submit DarkRaven's authored password");
+          await wait(250);
+          let saved = await readSave();
+          if (saved.storyPhase !== 2 || !saved.flags.darkraven_vault_unlocked || !saved.directMessages.some((message) => message.id === "ghostline-phase2")) throw new Error("Black File did not activate phase two and ghostline");
+
+          await address("web://orbitnet.local/zones/backchannel");
+          const phaseTwoDirectoryReady = await win.webContents.executeJavaScript(`document.querySelectorAll('.backchannel-member-card').length === 4 && document.body.textContent.includes('NEW CARRIER DETECTED')`);
+          if (!phaseTwoDirectoryReady) throw new Error("Phase-two Backchannel nodes were not restored");
+          await capture("story-backchannel-phase2.png");
+
+          for (const terminal of [
+            "web://morrow-five.net/decoded",
+            "web://glasslake-field.gov/report",
+            "web://quiet-county.org/case",
+            "web://archive.orbitnet.local/labs/findings"
+          ]) await address(terminal);
+          await wait(250);
+          saved = await readSave();
+          if (saved.storyPhase !== 3 || saved.discoveredMysteries.length !== 4) throw new Error(`Four terminal discoveries did not activate phase three: ${JSON.stringify(saved.discoveredMysteries)}`);
+          if (!saved.directMessages.some((message) => message.id === "ghostline-phase3") || !["phase3-leak-toni", "phase3-leak-raven", "phase3-leak-null"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
+            throw new Error("Phase-three authored pressure messages were incomplete");
+          }
+
+          await address("web://legacy.orbitos.local/admin/continuity");
+          const continuityUnlocked = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('[data-continuity-login]'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'STAY ONLINE'; form.requestSubmit(); return true; })()`);
+          if (!continuityUnlocked) throw new Error("Continuity phrase form was unavailable");
+          await wait(220);
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && document.body.textContent.includes('KEEP COMMUNITY ACTIVE')`)) throw new Error("Continuity console did not unlock");
+          await capture("story-continuity-console.png");
+
+          console.log("STORY_OK: hidden OrbitOS archive stayed out of search; Black File activated phase two; four investigations activated phase three; continuity console unlocked from STAY+ON+LINE.");
+        } catch (error) {
+          console.error("STORY_FAILED:", error);
+          process.exitCode = 1;
+        } finally {
+          app.exit(process.exitCode ?? 0);
+        }
+      }, 700);
     });
   }
 

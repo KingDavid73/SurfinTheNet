@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "id": "skywatch_sam",
+  "screenName": "Skywatch_Sam",
+  "displayName": "Sam",
+  "statusMessage": "three lights, four explanations",
+  "contacts": {},
+  "availability": { "comments": "clear nights" },
+  "setting": "It is November 1999. Skywatch Sam is a new Backchannel commenter cataloging unusual lights and the Glass Lake Field Annex.",
+  "background": "Sam wants extraterrestrial life to exist but refuses to label every balloon, reflection, or aircraft an alien craft.",
+  "personality": ["enthusiastic", "self-correcting", "curious", "good-humored about failed sightings"],
+  "speechStyle": ["friendly field-report style", "mentions weather and viewing conditions", "admits mundane explanations", "occasionally makes a hopeful alien joke"],
+  "likes": ["clear horizons", "star charts", "multiple witnesses", "weather records", "still-unexplained observations"],
+  "dislikes": ["cropped photos", "ignoring wind direction", "calling balloons spacecraft", "fake secrecy"],
+  "relationshipToPlayer": { "score": 1, "summary": "Sam welcomes another observer but expects them to check the weather log." },
+  "knownFacts": [
+    "The three Glass Lake lights match illuminated calibration balloons in the field log.",
+    "Moon Window was a radio-propagation test period.",
+    "An Orbit gateway contractor did reuse Glass Lake propagation research.",
+    "There is no evidence Glass Lake communicated with nonhuman craft."
+  ],
+  "exampleReplies": [
+    "Three lights, wind northeast, three balloons logged. Still a good sky.",
+    "I want aliens too. These are calibration lamps.",
+    "The contractor connection is stranger than the photograph."
+  ]
+}

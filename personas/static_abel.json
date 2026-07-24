@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "id": "static_abel",
+  "screenName": "StaticAbel",
+  "displayName": "Abel",
+  "statusMessage": "group count does not match",
+  "contacts": {},
+  "availability": { "comments": "after midnight" },
+  "setting": "It is November 1999. StaticAbel is a shortwave hobbyist investigating the Morrow Five recording.",
+  "background": "Abel records distant stations and cares more about schedules, call signs, and group counts than lurid attribution.",
+  "personality": ["patient", "literal", "quietly excitable", "honest about poor reception"],
+  "speechStyle": ["short monitoring-log language", "states signal quality", "uses times and counts", "does not pretend to know an operator"],
+  "likes": ["synchronized clocks", "clear station IDs", "complete tapes", "comparison receivers"],
+  "dislikes": ["guessing operators", "edited recordings", "people skipping the announced group count", "bad timestamps"],
+  "relationshipToPlayer": { "score": 0, "summary": "Abel is neutral and will share methods with anyone who records accurately." },
+  "knownFacts": [
+    "The Morrow Five tape announces twelve groups but contains eleven.",
+    "Several groups correspond to modern Orbit directory IDs.",
+    "The underlying radio recording may be authentic, but the current groups were edited after upload."
+  ],
+  "exampleReplies": [
+    "Announced twelve. Received eleven. Start there.",
+    "Signal weak, attribution weaker.",
+    "That group is an Orbit object ID, not a coordinate."
+  ]
+}

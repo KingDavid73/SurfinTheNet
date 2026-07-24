@@ -1,0 +1,149 @@
+# Orbit Mystery Phase Pass
+
+Status: implemented narrative-design reference. This pass extends
+`narrative-skeleton.md` and `mystery-and-conspiracy-research.md` without changing
+their guardrails.
+
+## Research checked for this pass
+
+The in-game mysteries are fictional. Historical programs supply document
+texture and evidentiary structure, not a claim that Orbit participated in them.
+
+- The CIA's 1977 statement on MKULTRA describes an umbrella program whose
+  surviving material included financial records and whose activities included
+  behavioral-modification research, drugs, hypnosis, volunteers, and some
+  unwitting subjects. This supports using dull budget files, euphemistic project
+  language, destroyed appendices, and ethical failures rather than a magical
+  mind-control device:
+  <https://www.cia.gov/readingroom/document/cia-rdp99-00498r000300020007-3>
+- The FBI's own history acknowledges that COINTELPRO infiltrated groups, sowed
+  discord, and attempted to discredit people, including cases with little or no
+  evidence of unlawful activity. This supports a fictional anonymous-letter
+  mystery while requiring the game to distinguish documented tactics from a
+  fabricated local accusation:
+  <https://www.fbi.gov/history/history-of-the-fbi/and-justice-for-all>
+- The CIA's proposed STAR GATE management strategy reports that the external
+  review found remote-viewing information vague and ambiguous and recommended
+  terminating both operations and research. This supports a mystery whose
+  exciting “hits” become weaker when the misses and full evaluation are found:
+  <https://www.cia.gov/readingroom/docs/CIA-RDP96-00791R000100150004-8.pdf>
+- The National Archives' Paperclip report documents a morally compromised
+  institutional paper trail, including requests for revised security reports.
+  This supports sanitized biographies, renamed departments, revision history,
+  and bureaucratic inheritance without collapsing unrelated programs into one
+  omnipotent conspiracy:
+  <https://www.archives.gov/iwg/reports/nazi-war-crimes-interim-report-october-1999>
+- NSA's VENONA history emphasizes slow partial recovery made possible by
+  procedural key reuse, with many code groups never recovered. This supports
+  incomplete decrypts, repeated groups, corroboration, and the rule that real
+  secrets emerge from mistakes rather than magic keys:
+  <https://www.nsa.gov/serve-from-netstorage/news-features/declassified-documents/venona/index.html>
+  and
+  <https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/coldwar/venona_story.pdf>
+
+## Implemented three-phase structure
+
+### Phase 1 — ordinary use
+
+The player has no investigation objective. Orbit is primarily a funny, quiet,
+character-driven network. Optional anomalies exist on ordinary pages.
+
+The first authored gate is DarkRaven's Black File. Its code is `0614`, a bad
+four-digit password derived from Juniper's June 14 birthday. Recovery paths:
+
+1. Juniper's About page states the date and mentions Raven's “system.”
+2. Raven's homepage specifies month-day order.
+3. Raven's Shadow Links calls a personal date bad security.
+4. Juniper or Mira may discuss the clue because the relevant fact is in their
+   persona knowledge.
+
+The model may hint at those authored facts but cannot invent or change the code.
+
+### Phase 2 — active exploration
+
+Opening the Black File:
+
+- records phase two in the save;
+- adds the authored `ghostline` message;
+- restores The Folded Wire and Index Null to the Backchannel directory;
+- activates six additional ambient commenters;
+- makes the three synthetic mysteries and one real archive available.
+
+The synthetic mysteries are:
+
+1. **Morrow Five:** an authentic-looking old shortwave recording has modern
+   Orbit page IDs inserted into its five-number groups.
+2. **Glass Lake / Moon Window:** weather and propagation research is framed as
+   an alien-contact site; the actual Orbit contractor connection is mundane but
+   meaningful.
+3. **Quiet County:** fabricated anonymous letters imitate documented influence
+   tactics; the underlying civic study still contains a real consent problem.
+
+The accidental real discovery is:
+
+4. **Adaptive Index:** a recovered interface-research archive shows that Orbit
+   licensed techniques intended to influence attention and session duration
+   through ordering, repetition, social cues, and unresolved prompts. It does
+   not prove government control of Orbit or reliable “mind control.”
+
+Each terminal page records one deterministic discovery. Generated dialogue can
+interpret a mystery but cannot mark it solved.
+
+### Phase 3 — continuity pressure
+
+Finding all four terminal pages:
+
+- records phase three;
+- increases hourly ambient chance from 3.5% to 7%, with a long-skip cap of 50%;
+- adds three authored cross-persona slips;
+- permits generated ambient comments exactly one small controlled error,
+  correction, repeated phrase, or leaked system term;
+- adds a second authored `ghostline` message.
+
+Degradation is evidence, not random low-quality output.
+
+## Hidden OrbitOS history
+
+The exact address `web://legacy.orbitos.local/home` opens an unindexed 1995
+archive. OrbitOS originally unified:
+
+- operating system profile;
+- Orbit Explorer;
+- Orbit identity and mail;
+- proprietary OrbitPages and OrbitTags;
+- a small managed community network.
+
+Ordinary-web access required Orbit Bridge, a difficult emulator/gateway whose
+formatting, scripts, guestbooks, and proprietary widgets often failed. OrbitOS
+remained the reliable way to use the community. Late gateway improvements were
+too late to reverse the network's decline.
+
+Two retired communities preserve the early optimism: The Launch Ring and Home
+Planet. Both are text-heavy, malformed, and full of broken images.
+
+The unindexed continuity console is at
+`web://legacy.orbitos.local/admin/continuity`. Its recovery phrase is assembled
+from the four investigation terminals: `STAY` + `ON` + `LINE`.
+
+## Canon exposed by the continuity console
+
+- Orbit faced carrier delisting below 2,400 verified member sessions per rolling
+  thirty days.
+- The C9 mainframe was told to preserve network activity.
+- Distributed proxy health checks were counted as traffic.
+- Dormant identities were reactivated to exercise comments, mail, and updates.
+- An undated revision collapsed the distinction between testing a community and
+  operating it.
+- Missing appendices preserve room for later discoveries about invitation,
+  identity reconstruction, and autonomous behavior.
+
+## Persona boundary
+
+`personas/system_core.json` is the only persona with the complete canonical
+ledger. It can perform any supplied persona, but it may not invent hard canon,
+passwords, mandatory evidence, or new required mysteries.
+
+All visible personas receive only the facts they could plausibly know.
+`ghostline` is intentionally incomplete even though it acts as a system-guided
+trailhead.
+
