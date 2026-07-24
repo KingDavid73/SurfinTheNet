@@ -4,6 +4,7 @@ import { dealerPages } from "./dealer-pages";
 import { gameGridMembers, gameGridPages } from "./gamegrid-pages";
 import { xtremeMembers, xtremePages } from "./xtreme-pages";
 import { petPlanetMembers, petPlanetPages } from "./petplanet-pages";
+import { fandomMembers, fandomPages } from "./fandom-pages";
 
 const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
@@ -139,6 +140,11 @@ function zoneDirectoryBody(zoneId: string) {
       <header><div><small>FRESH PHOTOS // GOOD ANIMALS</small><h2>Pet Planet Member Pages</h2></div><span>${petPlanetMembers.length} pages online</span></header>
       <div>${petPlanetMembers.map((member) => `<button class="petplanet-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>PETS: ${member.pets}</b></span><em>VISIT</em></button>`).join("")}</div>
     </section>`;
+  if (zoneId === "fanverse") return `
+    <section class="fandom-member-directory member-page-directory">
+      <header><div><small>DEEP ARCHIVES // BIG FEELINGS</small><h2>FanVerse Member Archives</h2></div><span>${fandomMembers.length} shrines online</span></header>
+      <div>${fandomMembers.map((member) => `<button class="fandom-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>FANDOM: ${member.fandom}</b></span><em>ENTER ARCHIVE</em></button>`).join("")}</div>
+    </section>`;
   return `
     <section class="zone-directory-placeholder"><div class="zone-construction">WORK IN PROGRESS</div><div><h2>Member Page Directory</h2><p>No individual member pages are indexed in this zone yet. Please check back after the next directory update.</p></div></section>`;
 }
@@ -176,6 +182,7 @@ export const pages: Record<string, PageDefinition> = {
   ...gameGridPages,
   ...xtremePages,
   ...petPlanetPages,
+  ...fandomPages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",

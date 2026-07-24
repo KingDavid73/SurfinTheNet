@@ -36,7 +36,9 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
   petrabbit: { label: "Parsley Promenade", file: "parsley-promenade.mid", midiUrl: new URL("../assets/audio/pages/parsley-promenade.mid", import.meta.url).href, url: new URL("../assets/audio/pages/parsley-promenade.wav", import.meta.url).href },
   pethamster: { label: "TubeNet Telemetry", file: "tubenet-telemetry.mid", midiUrl: new URL("../assets/audio/pages/tubenet-telemetry.mid", import.meta.url).href, url: new URL("../assets/audio/pages/tubenet-telemetry.wav", import.meta.url).href },
   petiguana: { label: "Basking After Dark", file: "basking-after-dark.mid", midiUrl: new URL("../assets/audio/pages/basking-after-dark.mid", import.meta.url).href, url: new URL("../assets/audio/pages/basking-after-dark.wav", import.meta.url).href },
-  petskunk: { label: "Cabinet Caper", file: "cabinet-caper.mid", midiUrl: new URL("../assets/audio/pages/cabinet-caper.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cabinet-caper.wav", import.meta.url).href }
+  petskunk: { label: "Cabinet Caper", file: "cabinet-caper.mid", midiUrl: new URL("../assets/audio/pages/cabinet-caper.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cabinet-caper.wav", import.meta.url).href },
+  fanmoss: { label: "Fogberry Moon", file: "fogberry-moon.mid", midiUrl: new URL("../assets/audio/pages/fogberry-moon.mid", import.meta.url).href, url: new URL("../assets/audio/pages/fogberry-moon.wav", import.meta.url).href },
+  fanblipzo: { label: "Store 00 Loader", file: "store-zero-loader.mid", midiUrl: new URL("../assets/audio/pages/store-zero-loader.mid", import.meta.url).href, url: new URL("../assets/audio/pages/store-zero-loader.wav", import.meta.url).href }
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -59,7 +61,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -96,7 +98,9 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   bunbrigade_bea: { screenName: "BunBrigade_Bea", displayName: "Bea" },
   hamcam_hal: { screenName: "HamCam_Hal", displayName: "Hal" },
   iguana_iris: { screenName: "Iguana_Iris", displayName: "Iris" },
-  skunkuncle_sam: { screenName: "SkunkUncle_Sam", displayName: "Sam" }
+  skunkuncle_sam: { screenName: "SkunkUncle_Sam", displayName: "Sam" },
+  mossmunch_mel: { screenName: "MossMunch_Mel", displayName: "Mel" },
+  blipzo_believer_88: { screenName: "BlipzoBeliever_88", displayName: "Trent" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -139,7 +143,9 @@ const CHARACTER_CONTACTS: Record<string, {
   bunbrigade_bea: { screenName: "BunBrigade_Bea", displayName: "Bea", statusMessage: "rebuilding the tunnel district" },
   hamcam_hal: { screenName: "HamCam_Hal", displayName: "Hal", statusMessage: "TubeNet node 17 online" },
   iguana_iris: { screenName: "Iguana_Iris", displayName: "Iris", statusMessage: "Gomez is basking. naturally." },
-  skunkuncle_sam: { screenName: "SkunkUncle_Sam", displayName: "Sam", statusMessage: "cabinet latch revision four" }
+  skunkuncle_sam: { screenName: "SkunkUncle_Sam", displayName: "Sam", statusMessage: "cabinet latch revision four" },
+  mossmunch_mel: { screenName: "MossMunch_Mel", displayName: "Mel", statusMessage: "rewinding episode 19 again" },
+  blipzo_believer_88: { screenName: "BlipzoBeliever_88", displayName: "Trent", statusMessage: "STORE 00 IS REAL" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -176,7 +182,9 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   bunbrigade_bea: "web://petplanet.zone/users/bunbrigadebea/home",
   hamcam_hal: "web://petplanet.zone/users/hamcamhal/home",
   iguana_iris: "web://petplanet.zone/users/iguanairis/home",
-  skunkuncle_sam: "web://petplanet.zone/users/skunkunclesam/home"
+  skunkuncle_sam: "web://petplanet.zone/users/skunkunclesam/home",
+  mossmunch_mel: "web://fanverse.zone/users/mossmunchmel/home",
+  blipzo_believer_88: "web://fanverse.zone/users/blipzobeliever88/home"
 };
 
 const GAME_TIME_SCALE = 2;
