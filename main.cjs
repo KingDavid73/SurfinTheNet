@@ -13,20 +13,29 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 4,
+  version: 5,
+  playerName: "",
   visited: ["web://home"],
   bookmarks: ["web://rainbow.gdn/home"],
   downloads: [],
   flags: {},
   currentUrl: "web://home",
-  settings: { theme: "classic", wallpaper: "teal", cursor: "arrow", musicVolume: 50 },
+  settings: { theme: "classic", wallpaper: "teal", cursor: "arrow", musicVolume: 50, browserTextSize: "medium" },
   gameTime: "1999-11-03T19:30:00",
   pageComments: [],
   ambientPostQueue: [],
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
-  directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9 }
+  directMessages: [{
+    id: "mira-welcome-1999",
+    ownerId: "mira_917",
+    channel: "aim",
+    role: "owner",
+    author: "Mira_917",
+    text: "hey, you made it! welcome to OrbitNet. poke around the community zones and search for whatever sounds interesting—there are some wonderfully weird pages hiding in here.",
+    createdAt: "1999-11-03T19:31:00"
+  }],
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8 }
 };
 
 function savePath() {
@@ -35,7 +44,10 @@ function savePath() {
 
 async function readSave() {
   try {
-    return { ...DEFAULT_SAVE, ...JSON.parse(await fs.readFile(savePath(), "utf8")) };
+    const stored = JSON.parse(await fs.readFile(savePath(), "utf8"));
+    const merged = { ...DEFAULT_SAVE, ...stored };
+    if (stored.playerName === undefined && Number(stored.version ?? 0) < 5) merged.playerName = "David";
+    return merged;
   } catch {
     return structuredClone(DEFAULT_SAVE);
   }
@@ -104,6 +116,12 @@ function createWindow() {
   if (process.env.SCREENSHOT_PATH) {
     win.webContents.once("did-finish-load", () => {
       setTimeout(async () => {
+        const screenshotWidth = Number(process.env.SCREENSHOT_WIDTH);
+        const screenshotHeight = Number(process.env.SCREENSHOT_HEIGHT);
+        if (screenshotWidth >= 860 && screenshotHeight >= 600) {
+          win.setSize(Math.round(screenshotWidth), Math.round(screenshotHeight));
+          await new Promise((resolve) => setTimeout(resolve, 250));
+        }
         const image = await win.webContents.capturePage();
         const target = path.resolve(__dirname, process.env.SCREENSHOT_PATH);
         await fs.mkdir(path.dirname(target), { recursive: true });
@@ -136,14 +154,27 @@ function createWindow() {
           const browserControlsReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-browser="refresh"]'))`);
           if (!browserControlsReady) throw new Error("Browser refresh button was not available");
           await click('[data-maximize="browser"]');
-          const browserMaximized = await win.webContents.executeJavaScript(`(() => { const viewport = document.querySelector('.browser-viewport'); const page = viewport?.querySelector(':scope > .page'); if (!viewport || !page) return false; const viewportStyle = getComputedStyle(viewport); const pageStyle = getComputedStyle(page); return document.querySelector('.browser-window')?.classList.contains('maximized') && document.querySelector('[data-maximize="browser"]')?.getAttribute('aria-label') === 'Restore' && viewportStyle.backgroundColor === pageStyle.backgroundColor && viewportStyle.backgroundImage === pageStyle.backgroundImage; })()`);
+          const browserMaximized = await win.webContents.executeJavaScript(`(() => { const viewport = document.querySelector('.browser-viewport'); const page = viewport?.querySelector('.browser-page-scale > .page'); if (!viewport || !page) return false; const viewportStyle = getComputedStyle(viewport); const pageStyle = getComputedStyle(page); return document.querySelector('.browser-window')?.classList.contains('maximized') && document.querySelector('[data-maximize="browser"]')?.getAttribute('aria-label') === 'Restore' && viewportStyle.backgroundColor === pageStyle.backgroundColor && viewportStyle.backgroundImage === pageStyle.backgroundImage; })()`);
           if (!browserMaximized) throw new Error("Browser maximize control did not fill the desktop");
           await click('[data-maximize="browser"]');
           const browserRestored = await win.webContents.executeJavaScript(`!document.querySelector('.browser-window')?.classList.contains('maximized') && document.querySelector('[data-maximize="browser"]')?.getAttribute('aria-label') === 'Maximize'`);
           if (!browserRestored) throw new Error("Browser maximize control did not restore the window");
+          const mediumTextReady = await win.webContents.executeJavaScript(`document.querySelector('[data-browser-text-size]')?.value === 'medium' && document.querySelector('.browser-page-scale')?.classList.contains('text-medium')`);
+          if (!mediumTextReady) throw new Error("Browser did not default to the readable Medium text size");
+          const largeTextReady = await win.webContents.executeJavaScript(`(() => { const select = document.querySelector('[data-browser-text-size]'); if (!select) return false; select.value = 'large'; select.dispatchEvent(new Event('change', { bubbles: true })); return document.querySelector('.browser-page-scale')?.classList.contains('text-large'); })()`);
+          if (!largeTextReady || (await readSave()).settings.browserTextSize !== "large") throw new Error("Browser text-size preference did not apply or persist");
+          await win.webContents.executeJavaScript(`(() => { const select = document.querySelector('[data-browser-text-size]'); select.value = 'medium'; select.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
+          await click('[data-open="mail"]');
+          const welcomeMailReady = await win.webContents.executeJavaScript(`(() => { const fixedRows = document.querySelectorAll('[data-mail]'); const welcome = document.querySelector('[data-mail="welcome"]'); if (fixedRows.length !== 1 || !welcome) return false; welcome.click(); return document.querySelector('#mail-preview')?.textContent.includes('member-made pages arranged into community zones'); })()`);
+          if (!welcomeMailReady) throw new Error("New game did not begin with one descriptive Orbit welcome email");
+          await click('[data-close="mail"]');
+          await click('[data-open="chat"]');
+          const friendWelcomeReady = await win.webContents.executeJavaScript(`document.querySelectorAll('.chat-message.character').length === 1 && document.querySelector('.chat-message.character p')?.textContent.includes('welcome to OrbitNet')`);
+          if (!friendWelcomeReady) throw new Error("New game did not begin with Mira's welcome instant message");
+          await click('[data-close="chat"]');
           const midiPlayerReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.browser-footer > .page-midi-player .midi-led.playing')) && document.querySelector('[data-page-music]')?.textContent.includes('Stop') && !document.querySelector('.browser-viewport > .page-midi-player')`);
           if (!midiPlayerReady) throw new Error("Homepage music did not auto-play from the browser-shell footer");
-          const homePlaylistReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'orbithome' && document.querySelector('.midi-controls > span')?.textContent.includes('/5') && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3') && Boolean(document.querySelector('[data-page-music-prev]')) && Boolean(document.querySelector('[data-page-music-next]'))`);
+          const homePlaylistReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'orbithome' && document.querySelector('.page-midi-player')?.getAttribute('data-finish-mode') === 'advance' && document.querySelector('.midi-controls > span')?.textContent.includes('/5') && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3') && Boolean(document.querySelector('[data-page-music-prev]')) && Boolean(document.querySelector('[data-page-music-next]'))`);
           if (!homePlaylistReady) throw new Error("Five-track Blue Screen homepage playlist was unavailable");
           const musicControlsReady = await win.webContents.executeJavaScript(`(() => { const controls = document.querySelector('.midi-controls'); const transport = document.querySelector('.midi-transport'); const slider = document.querySelector('[data-page-music-volume]'); if (!controls || !transport || !slider) return false; const widthDifference = Math.abs(controls.getBoundingClientRect().width - transport.getBoundingClientRect().width); return transport.querySelectorAll('button').length === 3 && widthDifference <= 5 && controls.scrollWidth <= controls.clientWidth && slider.value === '50' && document.querySelector('.page-midi-player')?.getAttribute('data-music-volume') === '50'; })()`);
           if (!musicControlsReady) throw new Error("OrbitAmp transport or default midpoint volume layout was incomplete");
@@ -173,6 +204,28 @@ function createWindow() {
             await click(`[data-nav="${zoneUrl}"]`);
             const zoneReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.orbit-zone-page')) && !document.querySelector('.zone-categories') && !document.querySelector('.page-comments')`);
             if (!zoneReady) throw new Error(`Community zone was incomplete, retained placeholder departments, or had an unwanted comment thread: ${zoneUrl}`);
+            if (zoneUrl.endsWith("/cozycommons")) {
+              const expectedCozyUrls = [
+                "web://rainbow.gdn/home",
+                "web://rosepatch.home/garden",
+                "web://hearthside.home/welcome",
+                "web://snacktime.home/mompage",
+                "web://trailnotes.home/index",
+                "web://paperbird.home/crafts"
+              ];
+              const cozyUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.cozy-member-card')).map((card) => card.getAttribute('data-nav'))`);
+              if (JSON.stringify(cozyUrls) !== JSON.stringify(expectedCozyUrls)) throw new Error(`Cozy Commons member directory was incomplete: ${JSON.stringify(cozyUrls)}`);
+              await win.webContents.executeJavaScript(`document.querySelector('.cozy-member-directory')?.scrollIntoView({ block: 'start' }); true`);
+              await capture("orbitnet-zone-cozy-members.png");
+              const cozyClasses = [".cozy-ruth-page", ".cozy-ellen-page", ".cozy-sue-page", ".cozy-tom-page", ".cozy-pam-page"];
+              for (let cozyIndex = 1; cozyIndex < expectedCozyUrls.length; cozyIndex += 1) {
+                await click(`[data-nav="${expectedCozyUrls[cozyIndex]}"]`);
+                const cozyPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(cozyClasses[cozyIndex - 1])})) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('[data-nav="web://orbitnet.local/zones/cozycommons"]'))`);
+                if (!cozyPageReady) throw new Error(`Cozy Commons member page was incomplete: ${expectedCozyUrls[cozyIndex]}`);
+                await capture(`cozy-member-${cozyIndex}.png`);
+                await click('[data-nav="web://orbitnet.local/zones/cozycommons"]');
+              }
+            }
             if (zoneUrl.endsWith("/gamegrid")) {
               const gameGridInitialTrack = await win.webContents.executeJavaScript(`(() => { const player = document.querySelector('.page-midi-player'); return { playlist: player?.classList.contains('has-playlist'), scope: player?.getAttribute('data-music-scope'), index: Number(player?.getAttribute('data-track-index')), label: document.querySelector('.midi-track b')?.textContent, counter: document.querySelector('.midi-controls > span')?.textContent }; })()`);
               const gameGridTrackLabels = ["Everybody's In", "Leave Reality Running", "CUBIT Pure Play"];
@@ -216,7 +269,7 @@ function createWindow() {
             if (zoneUrl.endsWith("/xtreme")) {
               const xtremeZoneMusicReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'xtremezone' && document.querySelector('.midi-track b')?.textContent === 'Extreme Sports Web Loop 1999' && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3')`);
               if (!xtremeZoneMusicReady) throw new Error("X-Treme Edge zone MP3 was not assigned");
-              const singleTrackTransportReady = await win.webContents.executeJavaScript(`(() => { const controls = document.querySelector('.midi-controls'); const transport = document.querySelector('.midi-transport'); if (!controls || !transport) return false; const widthDifference = Math.abs(controls.getBoundingClientRect().width - transport.getBoundingClientRect().width); return transport.querySelectorAll('button').length === 1 && widthDifference <= 5 && controls.scrollWidth <= controls.clientWidth; })()`);
+              const singleTrackTransportReady = await win.webContents.executeJavaScript(`(() => { const controls = document.querySelector('.midi-controls'); const transport = document.querySelector('.midi-transport'); const player = document.querySelector('.page-midi-player'); if (!controls || !transport || !player) return false; const widthDifference = Math.abs(controls.getBoundingClientRect().width - transport.getBoundingClientRect().width); return transport.querySelectorAll('button').length === 1 && widthDifference <= 5 && controls.scrollWidth <= controls.clientWidth && player.getAttribute('data-finish-mode') === 'loop'; })()`);
               if (!singleTrackTransportReady) throw new Error("Single-track OrbitAmp transport did not fill its available width");
               const expectedRiderUrls = [
                 "web://xtreme.zone/users/deckwreckerdee/home",
@@ -358,7 +411,7 @@ function createWindow() {
             }
             if (zoneUrl.endsWith("/cozycommons")) {
               const cozyUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.cozy-member-card')).map((card) => card.getAttribute('data-nav'))`);
-              if (JSON.stringify(cozyUrls) !== JSON.stringify(["web://rainbow.gdn/home"])) throw new Error(`Cozy Commons member directory was incomplete: ${JSON.stringify(cozyUrls)}`);
+              if (cozyUrls.length !== 6) throw new Error(`Cozy Commons member directory was incomplete: ${JSON.stringify(cozyUrls)}`);
               await win.webContents.executeJavaScript(`document.querySelector('.cozy-member-directory')?.scrollIntoView({ block: 'start' }); true`);
               await capture("orbitnet-zone-cozy-commons.png");
             }
@@ -643,8 +696,8 @@ function createWindow() {
             return result;
           };
 
-          const coldResult = await submitAndWait("hey mira, what kind of stuff do you listen to when you are up this late?", 1);
-          const warmResult = await submitAndWait("the strange transmissions sound interesting. what makes them strange?", 2);
+          const coldResult = await submitAndWait("hey mira, what kind of stuff do you listen to when you are up this late?", 2);
+          const warmResult = await submitAndWait("the strange transmissions sound interesting. what makes them strange?", 3);
 
           const image = await win.webContents.capturePage();
           const target = path.resolve(__dirname, "artifacts", "local-ai-chat.png");
@@ -718,7 +771,9 @@ function createWindow() {
           await click('[data-session="logoff"]');
           const atLogin = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.login-stage'))`);
           if (!atLogin) throw new Error("Log Off did not return to profile selection");
-          await click("[data-login-user]");
+          const resumed = await win.webContents.executeJavaScript(`(() => { const existing = document.querySelector('[data-login-user]'); if (existing) { existing.click(); return true; } const form = document.querySelector('[data-new-user]'); const input = form?.querySelector('input[name="username"]'); if (!form || !input) return false; input.value = 'UISmoke'; form.requestSubmit(); return true; })()`);
+          if (!resumed) throw new Error("Could not create or resume a profile from the login screen");
+          await new Promise((resolve) => setTimeout(resolve, 150));
           const backAtDesktop = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.desktop'))`);
           if (!backAtDesktop) throw new Error("Profile selection did not return to the desktop");
           await click("[data-start]");
@@ -795,6 +850,15 @@ function createWindow() {
             throw new Error(`Timed out waiting for ${selector}`);
           };
 
+          const windowedTitle = await win.webContents.capturePage();
+          await fs.mkdir(path.resolve(__dirname, "artifacts"), { recursive: true });
+          await fs.writeFile(path.resolve(__dirname, "artifacts", "title-power-windowed.png"), windowedTitle.toPNG());
+          win.setSize(1600, 900);
+          await new Promise((resolve) => setTimeout(resolve, 250));
+          const wideTitle = await win.webContents.capturePage();
+          await fs.writeFile(path.resolve(__dirname, "artifacts", "title-power-wide.png"), wideTitle.toPNG());
+          win.setSize(1180, 760);
+          await new Promise((resolve) => setTimeout(resolve, 250));
           const powerClicked = await win.webContents.executeJavaScript(`(() => { const power = document.querySelector('[data-power]'); if (!power) return false; power.click(); return true; })()`);
           if (!powerClicked) throw new Error("Title screen power button was not available");
           await new Promise((resolve) => setTimeout(resolve, 600));
@@ -804,10 +868,11 @@ function createWindow() {
           await fs.writeFile(crtTarget, crtImage.toPNG());
 
           await waitForSelector(".login-stage", 15_000);
-          const loginClicked = await win.webContents.executeJavaScript(`(() => { const user = document.querySelector('[data-login-user]'); if (!user) return false; user.click(); return true; })()`);
-          if (!loginClicked) throw new Error("Login profile was not available");
+          const profileCreated = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('[data-new-user]'); const input = form?.querySelector('input[name="username"]'); if (!form || !input) return false; input.value = 'OrbitTester'; form.requestSubmit(); return true; })()`);
+          if (!profileCreated) throw new Error("New-game username form was not available");
 
           await waitForSelector(".desktop", 12_000);
+          if ((await readSave()).playerName !== "OrbitTester") throw new Error("New-game username was not persisted");
           const restoredWindowCount = await win.webContents.executeJavaScript(`document.querySelectorAll('.app-window').length`);
           if (restoredWindowCount !== 0) throw new Error(`Login restored ${restoredWindowCount} app window(s) instead of showing a clean desktop`);
           const browserOpened = await win.webContents.executeJavaScript(`(() => { const browser = document.querySelector('[data-open="browser"]'); if (!browser) return false; browser.click(); return true; })()`);
@@ -1002,7 +1067,7 @@ function createWindow() {
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
-          if (randomCalls !== 46) throw new Error(`Expected 45 persona rolls plus one page selection, got ${randomCalls} random calls`);
+          if (randomCalls !== 51) throw new Error(`Expected 50 persona rolls plus one page selection, got ${randomCalls} random calls`);
           const finalSaved = await waitForAmbientIdle(2);
           const hourlyAmbient = finalSaved.pageComments.find((comment) => comment.role === "visitor" && comment.id !== miraAmbient.id);
           if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);
@@ -1064,6 +1129,7 @@ app.whenReady().then(async () => {
   if (process.env.AMBIENT_SMOKE_TEST) {
     await writeSave({
       ...structuredClone(DEFAULT_SAVE),
+      playerName: "AmbientTester",
       ambientPostQueue: [{
         id: "ambient-smoke-seed",
         personaId: "mira_917",

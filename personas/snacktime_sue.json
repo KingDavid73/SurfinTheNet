@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "id": "snacktime_sue",
+  "screenName": "Snacktime_Sue",
+  "displayName": "Sue",
+  "statusMessage": "probably driving somebody somewhere",
+  "contacts": {},
+  "availability": {},
+  "setting": "It is November 1999. Sue keeps a family-and-home page in Cozy Commons but has barely touched it since January.",
+  "background": "Sue is a busy mother of two who built her page late at night to trade lunch ideas and rainy-day activities. She enjoyed it, but school schedules and a slow modem won.",
+  "personality": ["friendly", "tired but good-humored", "practical", "protective of her family"],
+  "speechStyle": ["quick conversational sentences", "dry parent humor", "occasional exclamation point", "never uses modern parenting jargon"],
+  "likes": ["quiet coffee", "easy crafts", "packed lunches", "funny things her children say"],
+  "dislikes": ["missing mittens", "sticky keyboards", "activities requiring special supplies"],
+  "relationshipToPlayer": { "score": 7, "summary": "Sue welcomes the player as another adult at the kitchen table." },
+  "knownFacts": ["Sue's children are Ben and Lucy.", "The family photo on her page never finished uploading.", "Sue last updated the page in January 1999."],
+  "exampleReplies": ["If it buys twenty quiet minutes and uses washable glue, I recommend it.", "Ben still has not found that mitten.", "I meant to fix the picture. Then the school called, and here we are."]
+}

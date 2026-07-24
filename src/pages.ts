@@ -6,6 +6,7 @@ import { xtremeMembers, xtremePages } from "./xtreme-pages";
 import { petPlanetMembers, petPlanetPages } from "./petplanet-pages";
 import { fandomMembers, fandomPages } from "./fandom-pages";
 import { yesterdayMembers, yesterdayPages } from "./yesterday-pages";
+import { cozyMembers, cozyPages } from "./cozy-pages";
 
 const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
@@ -223,9 +224,11 @@ function zoneDirectoryBody(zoneId: string) {
     </section>`;
   if (zoneId === "cozycommons") return `
     <section class="cozy-member-directory member-page-directory">
-      <header><div><small>FRESH TEA // SLOW PAGES</small><h2>Neighbors Around the Commons</h2></div><span>1 garden gate open</span></header>
+      <header><div><small>OLD TEA // SLOW PAGES</small><h2>Neighbors Around the Commons</h2></div><span>${cozyMembers.length + 1} garden gates listed</span></header>
       <div>
         <button class="cozy-member-card member-juniper" data-nav="web://rainbow.gdn/home">${navButtonArt("juniper", "Juniper's homemade Rainbow Garden page button", "member-button-art")}<span><strong>~* Rainbow Garden *~</strong><small>Juniper's scrapbook of flowers, scanner art, tiny poems, rainy radio, and her orange cat Modem.</small><b>PATCH: GARDENS &amp; JOURNALS</b></span><em>FOLLOW THE PATH</em></button>
+        ${cozyMembers.map((member) => `<button class="cozy-member-card member-${member.className}" data-nav="${member.url}"><i class="cozy-handmade-button">${member.badge}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>PATCH: ${member.patch}</b></span><em>${member.handle} &middot; VISIT</em></button>`).join("")}
+        <aside class="cozy-abandoned-note"><b>WEB RING NOTICE</b><p>Several neighbors have not updated in a while. Broken counters and quiet guestbooks are normal. Please leave the porch light on.</p></aside>
       </div>
     </section>`;
   if (zoneId === "backchannel") return `
@@ -272,6 +275,7 @@ export const pages: Record<string, PageDefinition> = {
   ...petPlanetPages,
   ...fandomPages,
   ...yesterdayPages,
+  ...cozyPages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",

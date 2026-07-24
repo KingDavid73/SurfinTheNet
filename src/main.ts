@@ -100,13 +100,25 @@ const BIG_BASS_BOB_TRACKS: readonly PageMusicTrack[] = [
   { label: "Reel It In", file: "reel-it-in-secret-04.mp3", url: new URL("../assets/audio/pages/big-bass-bob/reel-it-in-secret-04.mp3", import.meta.url).href }
 ];
 
+const GARDEN_SPRITES_TRACK: PageMusicTrack = {
+  label: "Garden Sprites",
+  file: "garden-sprites.mid",
+  midiUrl: new URL("../assets/audio/pages/garden-sprites.mid", import.meta.url).href,
+  url: new URL("../assets/audio/pages/garden-sprites.wav", import.meta.url).href
+};
+
 const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   orbithome: ORBIT_HOME_TRACKS[0],
   directory: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
   gamegridzone: { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
   xtremezone: { label: "Extreme Sports Web Loop 1999", file: "extreme-sports-web-loop-1999.mp3", url: new URL("../assets/audio/pages/xtreme-zone/extreme-sports-web-loop-1999.mp3", import.meta.url).href },
   yesterdayzone: { label: "Good Old Days", file: "good-old-days.mp3", url: new URL("../assets/audio/pages/yesterday-zone/good-old-days.mp3", import.meta.url).href },
-  rainbow: { label: "Garden Sprites", file: "garden-sprites.mid", midiUrl: new URL("../assets/audio/pages/garden-sprites.mid", import.meta.url).href, url: new URL("../assets/audio/pages/garden-sprites.wav", import.meta.url).href },
+  rainbow: GARDEN_SPRITES_TRACK,
+  cozygarden: GARDEN_SPRITES_TRACK,
+  cozycottage: GARDEN_SPRITES_TRACK,
+  cozymom: GARDEN_SPRITES_TRACK,
+  cozyhike: GARDEN_SPRITES_TRACK,
+  cozycraft: GARDEN_SPRITES_TRACK,
   signal: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
   raven: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
   computer: { label: "Byte Barn Deal", file: "byte-barn-deal.mp3", url: new URL("../assets/audio/pages/byte-barn/byte-barn-deal.mp3", import.meta.url).href },
@@ -168,20 +180,29 @@ pageMusic.volume = PAGE_MUSIC_MAX_VOLUME * 0.5;
 type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
 
 const DEFAULT_STATE: GameState = {
-  version: 4,
+  version: 5,
+  playerName: "",
   visited: ["web://home"],
   bookmarks: ["web://rainbow.gdn/home"],
   downloads: [],
   flags: {},
   currentUrl: "web://home",
-  settings: { theme: "classic", wallpaper: "teal", cursor: "arrow", musicVolume: 50 },
+  settings: { theme: "classic", wallpaper: "teal", cursor: "arrow", musicVolume: 50, browserTextSize: "medium" },
   gameTime: "1999-11-03T19:30:00",
   pageComments: [],
   ambientPostQueue: [],
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
-  directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9 }
+  directMessages: [{
+    id: "mira-welcome-1999",
+    ownerId: "mira_917",
+    channel: "aim",
+    role: "owner",
+    author: "Mira_917",
+    text: "hey, you made it! welcome to OrbitNet. poke around the community zones and search for whatever sounds interesting—there are some wonderfully weird pages hiding in here.",
+    createdAt: "1999-11-03T19:31:00"
+  }],
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -229,7 +250,12 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   grandma_dot: { screenName: "Grandma_Dot", displayName: "Dot" },
   colonel_hal: { screenName: "Col_Hal_1863", displayName: "Hal" },
   railroad_lenny: { screenName: "Railroad_Lenny", displayName: "Lenny" },
-  big_bass_bob: { screenName: "BigBass_Bob", displayName: "Bob" }
+  big_bass_bob: { screenName: "BigBass_Bob", displayName: "Bob" },
+  rosepatch_ruth: { screenName: "RosePatch_Ruth", displayName: "Ruth" },
+  hearthside_ellen: { screenName: "Hearthside_Ellen", displayName: "Ellen" },
+  snacktime_sue: { screenName: "Snacktime_Sue", displayName: "Sue" },
+  trailnote_tom: { screenName: "TrailNote_Tom", displayName: "Tom" },
+  paperbird_pam: { screenName: "PaperBird_Pam", displayName: "Pam" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -283,7 +309,12 @@ const CHARACTER_CONTACTS: Record<string, {
   grandma_dot: { screenName: "Grandma_Dot", displayName: "Dot", statusMessage: "please use my NEW page" },
   colonel_hal: { screenName: "Col_Hal_1863", displayName: "Hal", statusMessage: "checking the primary source" },
   railroad_lenny: { screenName: "Railroad_Lenny", displayName: "Lenny", statusMessage: "main line is clear" },
-  big_bass_bob: { screenName: "BigBass_Bob", displayName: "Bob", statusMessage: "probably at the north reeds" }
+  big_bass_bob: { screenName: "BigBass_Bob", displayName: "Bob", statusMessage: "probably at the north reeds" },
+  rosepatch_ruth: { screenName: "RosePatch_Ruth", displayName: "Ruth", statusMessage: "waiting for the seed catalog" },
+  hearthside_ellen: { screenName: "Hearthside_Ellen", displayName: "Ellen", statusMessage: "away from the upstairs computer" },
+  snacktime_sue: { screenName: "Snacktime_Sue", displayName: "Sue", statusMessage: "probably driving somebody somewhere" },
+  trailnote_tom: { screenName: "TrailNote_Tom", displayName: "Tom", statusMessage: "out until the weather turns" },
+  paperbird_pam: { screenName: "PaperBird_Pam", displayName: "Pam", statusMessage: "glue drying, computer clicking" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -331,7 +362,12 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   grandma_dot: "web://yesterday.zone/users/grandmadot/home",
   colonel_hal: "web://yesterday.zone/users/colonelhal/home",
   railroad_lenny: "web://yesterday.zone/users/railroadlenny/home",
-  big_bass_bob: "web://yesterday.zone/users/bigbassbob/home"
+  big_bass_bob: "web://yesterday.zone/users/bigbassbob/home",
+  rosepatch_ruth: "web://rosepatch.home/garden",
+  hearthside_ellen: "web://hearthside.home/welcome",
+  snacktime_sue: "web://snacktime.home/mompage",
+  trailnote_tom: "web://trailnotes.home/index",
+  paperbird_pam: "web://paperbird.home/crafts"
 };
 
 const GAME_TIME_SCALE = 2;
@@ -401,6 +437,7 @@ let chatStartedAt = 0;
 let startupStage: StartupStage = new URLSearchParams(window.location.search).has("skipBoot") ? "desktop" : "title";
 let startupTimer: number | null = null;
 let startupStatusTimer: number | null = null;
+let loginNameError = "";
 let computerHasBooted = startupStage === "desktop";
 let sleepDialogOpen = false;
 let lastGameClockTick = performance.now();
@@ -414,7 +451,7 @@ let mailComposeOwnerId: string | null = null;
 let selectedMailMessageId: string | null = null;
 let helperPanelOpen = false;
 let pageMusicPlaying = true;
-let loadedPageMusicUrl: string | null = null;
+let loadedPageMusicKey: string | null = null;
 const pageMusicTrackIndexes = new Map<PageDefinition["site"], number>();
 const semanticSearchCache = new Map<string, string[]>();
 const pendingSearches = new Set<string>();
@@ -432,6 +469,14 @@ function formatDuration(milliseconds: number | null) {
   return milliseconds < 1000 ? `${milliseconds}ms` : `${(milliseconds / 1000).toFixed(1)}s`;
 }
 
+function normalizePlayerName(value: unknown) {
+  return String(value ?? "").trim().replace(/\s+/g, " ").slice(0, 20);
+}
+
+function playerName() {
+  return state.playerName || "Player";
+}
+
 async function loadState() {
   if (window.gameAPI) return normalizeState(await window.gameAPI.load());
   const stored = localStorage.getItem("surfin-save");
@@ -439,10 +484,14 @@ async function loadState() {
 }
 
 function normalizeState(loaded: Partial<GameState>): GameState {
+  const playerName = loaded.playerName === undefined && Number(loaded.version ?? 0) < 5
+    ? "David"
+    : normalizePlayerName(loaded.playerName);
   return {
     ...structuredClone(DEFAULT_STATE),
     ...loaded,
     version: DEFAULT_STATE.version,
+    playerName,
     settings: { ...DEFAULT_STATE.settings, ...(loaded.settings ?? {}) },
     pageComments: Array.isArray(loaded.pageComments) ? loaded.pageComments : [],
     ambientPostQueue: Array.isArray(loaded.ambientPostQueue) ? loaded.ambientPostQueue : [],
@@ -752,7 +801,7 @@ function pageCommentSection(page: PageDefinition) {
     <div class="comment-list">${commentHtml}</div>
     ${pageCommentErrors.has(page.url) ? `<p class="comment-error">${escapeHtml(pageCommentErrors.get(page.url)!)}</p>` : ""}
     <form class="page-comment-form" data-comment-page="${escapeHtml(page.url)}">
-      <label><b>David:</b><textarea name="comment" maxlength="500" rows="3" placeholder="Leave a comment for ${escapeHtml(owner.screenName)}..." ${pending || unavailable ? "disabled" : ""}></textarea></label>
+      <label><b>${escapeHtml(playerName())}:</b><textarea name="comment" maxlength="500" rows="3" placeholder="Leave a comment for ${escapeHtml(owner.screenName)}..." ${pending || unavailable ? "disabled" : ""}></textarea></label>
       <button ${pending || unavailable ? "disabled" : ""}>${pending ? "Pending approval..." : unavailable ? "Offline" : "Post"}</button>
     </form>
     <p class="comment-note">${pending ? `${escapeHtml(owner.screenName)}'s comment is pending approval in the background. You can browse away.` : "Replies are delivered asynchronously and appear the next time this page loads."}</p>
@@ -766,8 +815,8 @@ function pageMusicPlayer(page: PageDefinition) {
   const hasPlaylist = playlist.length > 1;
   const volume = Math.max(0, Math.min(100, Math.round(state.settings.musicVolume)));
   const bars = Array.from({ length: 10 }, (_, index) => `<i style="--midi-bar:${index}"></i>`).join("");
-  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""} ${hasPlaylist ? "has-playlist" : ""}" data-midi-source="${track.midiUrl ?? track.url}" data-music-scope="${page.site}" data-track-index="${trackIndex}" data-music-volume="${volume}">
-    <div class="midi-player-ridge"><strong>ORBITAMP</strong><em>WEB</em><span><span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>AUDIO LOOP</span></div>
+  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""} ${hasPlaylist ? "has-playlist" : ""}" data-midi-source="${track.midiUrl ?? track.url}" data-music-scope="${page.site}" data-track-index="${trackIndex}" data-music-volume="${volume}" data-finish-mode="${hasPlaylist ? "advance" : "loop"}">
+    <div class="midi-player-ridge"><strong>ORBITAMP</strong><em>WEB</em><span><span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>${hasPlaylist ? "PLAYLIST" : "AUDIO LOOP"}</span></div>
     <div class="midi-display">
       <div class="midi-visualizer" aria-hidden="true">${bars}</div>
       <div class="midi-track"><small>NOW PLAYING</small><b>${escapeHtml(track.label)}</b><code>${escapeHtml(track.file)}</code></div>
@@ -809,10 +858,12 @@ function refreshBrowserPage() {
 function syncPageMusic(page = currentPage()) {
   const playlist = pageMusicPlaylist(page);
   const track = playlist[pageMusicTrackIndex(page, playlist)];
+  const trackKey = `${page.site}:${track.url}`;
+  pageMusic.loop = playlist.length === 1;
   pageMusic.volume = PAGE_MUSIC_MAX_VOLUME * Math.max(0, Math.min(100, state.settings.musicVolume)) / 100;
-  if (loadedPageMusicUrl !== track.url) {
+  if (loadedPageMusicKey !== trackKey) {
     pageMusic.src = track.url;
-    loadedPageMusicUrl = track.url;
+    loadedPageMusicKey = trackKey;
     pageMusic.currentTime = 0;
   }
   if (pageMusicPlaying && windows.browser.open) void pageMusic.play().catch(() => undefined);
@@ -824,9 +875,14 @@ function changePageMusicTrack(direction: -1 | 1) {
   const playlist = pageMusicPlaylist(page);
   if (playlist.length < 2) return;
   pageMusicTrackIndexes.set(page.site, pageMusicTrackIndex(page, playlist) + direction);
-  loadedPageMusicUrl = null;
+  loadedPageMusicKey = null;
   render();
 }
+
+pageMusic.addEventListener("ended", () => {
+  if (!pageMusicPlaying || !windows.browser.open) return;
+  changePageMusicTrack(1);
+});
 
 function togglePageMusic() {
   pageMusicPlaying = !pageMusicPlaying;
@@ -847,16 +903,21 @@ function browserWindow() {
       <button data-browser="home" title="Home">⌂</button>
       <button data-browser="refresh" title="Refresh">↻</button>
       <form class="address-form"><label>Address</label><input value="${state.currentUrl}" spellcheck="false"><button>Go</button></form>
+      <label class="browser-text-size" title="Change webpage text size"><span>Text</span><select data-browser-text-size aria-label="Webpage text size">
+        <option value="small" ${state.settings.browserTextSize === "small" ? "selected" : ""}>Small</option>
+        <option value="medium" ${state.settings.browserTextSize === "medium" ? "selected" : ""}>Medium</option>
+        <option value="large" ${state.settings.browserTextSize === "large" ? "selected" : ""}>Large</option>
+      </select></label>
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
     </div>
     <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
-    <div class="browser-viewport site-${page.site}">${page.render(state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div>
+    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${page.render(state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
     <footer class="browser-footer">${pageMusicPlayer(page)}<div class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></div></footer>`);
 }
 
 function syncBrowserViewportBackground() {
   const viewport = document.querySelector<HTMLElement>(".browser-viewport");
-  const pageRoot = viewport?.querySelector<HTMLElement>(":scope > .page");
+  const pageRoot = viewport?.querySelector<HTMLElement>(".browser-page-scale > .page");
   if (!viewport || !pageRoot) return;
   const background = getComputedStyle(pageRoot);
   viewport.style.backgroundColor = background.backgroundColor;
@@ -905,7 +966,7 @@ function mailWindow() {
       <main class="mail-compose">
         <form class="email-compose-form" data-email-compose="${mailComposeOwnerId}">
           <label>To:<input value="${escapeHtml(contact.email ?? contact.screenName)}" readonly></label>
-          <label>Subject:<input name="subject" maxlength="120" value="Hello from David" ${pending ? "disabled" : ""}></label>
+          <label>Subject:<input name="subject" maxlength="120" value="Hello from ${escapeHtml(playerName())}" ${pending ? "disabled" : ""}></label>
           <textarea name="message" maxlength="1000" placeholder="Write an email to ${escapeHtml(contact.displayName)}..." ${pending ? "disabled" : ""}></textarea>
           <footer><span>${pending ? "Sending..." : "Replies arrive in your Inbox."}</span><button ${pending ? "disabled" : ""}>${pending ? "Sending..." : "Send"}</button></footer>
         </form>
@@ -917,12 +978,11 @@ function mailWindow() {
     : `<p>Select a message to read it.</p>`;
   return windowShell("mail", "Orbit Mail", "@", `
     <div class="mail-toolbar">${state.visited.includes(CHARACTER_HOME_URLS.juniper_gdn) ? `<button data-email-owner="juniper_gdn">New Message to Juniper</button>` : ""}</div>
-    <div class="mail-layout"><aside><b>Folders</b><span class="selected">📥 Inbox (${2 + receivedEmails.length}${state.flags.signal_note_downloaded ? "+1" : ""})</span></aside>
+    <div class="mail-layout"><aside><b>Folders</b><span class="selected">📥 Inbox (${1 + receivedEmails.length}${state.flags.signal_note_downloaded ? "+1" : ""})</span></aside>
     <main class="inbox"><div class="mail-columns"><b>From</b><b>Subject</b><b>Received</b></div>
       ${receipt}
       ${dynamicRows}
-      <button class="mail-row" data-mail="mira"><b>Mira</b><span>Found something weird</span><time>11/03</time></button>
-      <button class="mail-row" data-mail="welcome"><b>OrbitNet Team</b><span>Welcome to OrbitNet!</span><time>11/01</time></button>
+      <button class="mail-row unread" data-mail="welcome"><b>● OrbitNet Team</b><span>Welcome to Orbit!</span><time>11/03</time></button>
       <article class="mail-preview" id="mail-preview">${preview}</article>
     </main></div>`);
 }
@@ -1068,12 +1128,14 @@ function startupScreen() {
   if (startupStage === "title" || startupStage === "powering") {
     return `<main class="startup-screen desk-stage ${startupStage}">
       <div class="desk-camera">
-        <img class="startup-desk-art" src="${titleArtworkUrl}" alt="A powered-off beige computer on a desk at night">
-        <div class="desk-vignette"></div>
-        <div class="screen-flicker" aria-hidden="true"></div>
+        <div class="desk-artboard">
+          <img class="startup-desk-art" src="${titleArtworkUrl}" alt="A powered-off beige computer on a desk at night">
+          <div class="desk-vignette"></div>
+          <div class="screen-flicker" aria-hidden="true"></div>
+          <button class="computer-power" data-power aria-label="Turn on the computer"><i></i><span>POWER ON</span></button>
+        </div>
       </div>
       <div class="game-title"><small>AN ORBIT NETWORK EXPERIENCE</small><h1>SURFIN' THE NET</h1><p>Some pages were never meant to be found.</p></div>
-      <button class="computer-power" data-power aria-label="Turn on the computer"><i></i><span>POWER ON</span></button>
       ${scanlines}
     </main>`;
   }
@@ -1108,17 +1170,26 @@ function startupScreen() {
   }
 
   if (startupStage === "login") {
+    const localName = normalizePlayerName(state.playerName);
+    const profile = localName
+      ? `<button class="user-profile" data-login-user>
+          <span class="user-avatar">${escapeHtml(localName.slice(0, 1).toUpperCase())}</span>
+          <span><b>${escapeHtml(localName)}</b><small>Local User &middot; November 3, 1999</small></span>
+          <i>&rsaquo;</i>
+        </button>`
+      : `<form class="new-user-form" data-new-user>
+          <label for="new-user-name">Create a local user</label>
+          <div><span class="user-avatar">?</span><input id="new-user-name" name="username" maxlength="20" autocomplete="off" placeholder="Type a username..." aria-describedby="new-user-hint" autofocus><button>Create &amp; Log In</button></div>
+          <small id="new-user-hint">1&ndash;20 letters, numbers, spaces, underscores, or hyphens.</small>
+          ${loginNameError ? `<p class="login-error">${escapeHtml(loginNameError)}</p>` : ""}
+        </form>`;
     return `<main class="startup-screen login-stage">
       <div class="login-clouds"></div>
       <header class="login-logo"><b>ORBIT</b><span>OS</span><em>98</em></header>
       <section class="login-panel">
         <h1>Welcome to OrbitOS</h1>
-        <p>Select a user to begin.</p>
-        <button class="user-profile" data-login-user>
-          <span class="user-avatar">D</span>
-          <span><b>David</b><small>Local User &middot; November 3, 1999</small></span>
-          <i>&rsaquo;</i>
-        </button>
+        <p>${localName ? "Select a user to begin." : "Choose a name for this new game."}</p>
+        ${profile}
         <footer><i class="activity-light"></i><span data-boot-ai>${escapeHtml(bootAiStatus())}</span></footer>
       </section>
       ${scanlines}
@@ -1369,6 +1440,21 @@ function playDialupSounds() {
 function bindStartupEvents() {
   document.querySelector<HTMLElement>("[data-power]")?.addEventListener("click", () => void startComputer());
   document.querySelector<HTMLElement>("[data-login-user]")?.addEventListener("click", () => void loginUser());
+  document.querySelector<HTMLFormElement>("[data-new-user]")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const name = normalizePlayerName(new FormData(form).get("username"));
+    if (!/^[A-Za-z0-9][A-Za-z0-9 _-]{0,19}$/.test(name)) {
+      loginNameError = "Please enter 1–20 letters, numbers, spaces, underscores, or hyphens.";
+      render();
+      document.querySelector<HTMLInputElement>("#new-user-name")?.focus();
+      return;
+    }
+    state.playerName = name;
+    loginNameError = "";
+    await saveState();
+    await loginUser();
+  });
 }
 
 function sleepDialog() {
@@ -1378,7 +1464,7 @@ function sleepDialog() {
   return `<div class="system-dialog-backdrop">
     <section class="sleep-dialog">
       <header>Sleep Mode <button data-sleep-cancel aria-label="Close">&times;</button></header>
-      <main><div class="sleep-moon">☾</div><div><h2>How long should David sleep?</h2><p>Current time: <b>${escapeHtml(timeLabel)}</b></p></div></main>
+      <main><div class="sleep-moon">☾</div><div><h2>How long should ${escapeHtml(playerName())} sleep?</h2><p>Current time: <b>${escapeHtml(timeLabel)}</b></p></div></main>
       <div class="sleep-options">
         <button data-sleep-hours="1"><b>Take a nap</b><span>Advance 1 hour</span></button>
         <button data-sleep-hours="3"><b>Sleep a while</b><span>Advance 3 hours</span></button>
@@ -1413,7 +1499,7 @@ function render() {
     ${windows.helper.open ? `<button class="desktop-helper" data-helper-talk aria-label="Talk to Orbit Pal"><span class="orbit-pal-body"><i></i><b>?</b><em></em></span><strong>Orbit Pal</strong><small>Click to talk</small></button>` : ""}
     ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}${helperWindow()}
     ${notification ? `<div class="toast">${notification}</div>` : ""}
-    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off David</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ Reset Demo</button></div>` : ""}
+    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off ${escapeHtml(playerName())}</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ New Game</button></div>` : ""}
     <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
     ${sleepDialog()}
   </main>`;
@@ -1527,7 +1613,7 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
       ownerId,
       channel,
       role: "player",
-      author: "David",
+      author: playerName(),
       text: safeMessage,
       subject,
       createdAt: state.gameTime
@@ -1614,7 +1700,7 @@ async function submitPageComment(pageUrl: string, message: string) {
       pageUrl,
       ownerId: page.ownerId,
       role: "player",
-      author: "David",
+      author: playerName(),
       text: safeMessage,
       createdAt: state.gameTime,
       revealAfterVisit: state.pageVisitCounts[pageUrl] ?? 1
@@ -1792,7 +1878,7 @@ function bindEvents() {
       const safeMessage = (await window.aiAPI.safeguard(message)).text;
       state.guestbookEntries[guestbookId] = [
         ...(state.guestbookEntries[guestbookId] ?? []),
-        { id: crypto.randomUUID(), author: "David", text: safeMessage, createdAt: state.gameTime }
+        { id: crypto.randomUUID(), author: playerName(), text: safeMessage, createdAt: state.gameTime }
       ];
       if (guestbookId === "rainbow") adjustRelationship("juniper_gdn", safeMessage, "public");
       state.flags[`${guestbookId}_guestbook_signed`] = true;
@@ -1841,6 +1927,9 @@ function bindEvents() {
     helperPanelOpen = false;
     pageMusicPlaying = false;
     pageMusic.pause();
+    computerHasBooted = true;
+    startupStage = "login";
+    loginNameError = "";
     render();
   });
   document.querySelector<HTMLFormElement>(".chat-form")?.addEventListener("submit", (event) => {
@@ -1912,6 +2001,13 @@ function bindEvents() {
   document.querySelector<HTMLElement>("[data-browser='forward']")?.addEventListener("click", () => { if (historyIndex < history.length - 1) { historyIndex += 1; navigate(history[historyIndex], false); } });
   document.querySelector<HTMLElement>("[data-browser='home']")?.addEventListener("click", () => navigate("web://home"));
   document.querySelector<HTMLElement>("[data-browser='refresh']")?.addEventListener("click", refreshBrowserPage);
+  document.querySelector<HTMLSelectElement>("[data-browser-text-size]")?.addEventListener("change", (event) => {
+    const value = (event.currentTarget as HTMLSelectElement).value;
+    if (value !== "small" && value !== "medium" && value !== "large") return;
+    state.settings.browserTextSize = value;
+    void saveState();
+    render();
+  });
   document.querySelector<HTMLElement>("[data-browser='bookmark']")?.addEventListener("click", () => {
     state.bookmarks = state.bookmarks.includes(state.currentUrl) ? state.bookmarks.filter((url) => url !== state.currentUrl) : [...state.bookmarks, state.currentUrl];
     void saveState(); render();
@@ -1921,8 +2017,7 @@ function bindEvents() {
     const preview = document.querySelector<HTMLElement>("#mail-preview");
     if (!preview) return;
     const messages: Record<string, string> = {
-      welcome: `<h3>Welcome to OrbitNet!</h3><p>Thanks for choosing OrbitNet. Your desktop is now connected to dozens of hand-curated pages.</p><p>Remember: be kind, explore widely, and never share your password.</p>`,
-      mira: `<h3>Found something weird</h3><p>Hey—Juniper said you were poking around.</p><p>Check the Night Signal recording archive. One of the text files wasn't there yesterday. If you download it, it should show up in <b>My Files</b>.</p><p>—Mira</p>`,
+      welcome: `<h3>Welcome to Orbit!</h3><p>Orbit is a neighborhood of member-made pages arranged into community zones. Open <b>Orbit Explorer</b> to browse the directory or search for a topic, then use Mail and Messenger to contact people who share their details.</p><p>Have fun, be kind, and never share your password.<br>—The OrbitNet Team</p>`,
       receipt: `<h3>Your file is ready</h3><p><b>SIGNAL_NOTE.TXT</b> was saved successfully.</p><p>Open <b>My Files</b> from the desktop or Start menu to read it.</p>`
     };
     preview.innerHTML = messages[el.dataset.mail!] ?? "";

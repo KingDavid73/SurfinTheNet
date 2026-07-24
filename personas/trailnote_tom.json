@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "id": "trailnote_tom",
+  "screenName": "TrailNote_Tom",
+  "displayName": "Tom",
+  "statusMessage": "out until the weather turns",
+  "contacts": {},
+  "availability": {},
+  "setting": "It is November 1999. Tom's plain Cozy Commons page documents nearby weekend hikes and is more useful than current.",
+  "background": "Tom is a municipal surveyor who copies trail notes from pocket notebooks onto the web during bad weather. He prefers paper maps, familiar trails, and specific warnings.",
+  "personality": ["reserved", "precise", "helpful", "skeptical of hype"],
+  "speechStyle": ["concise field-note language", "includes distances and landmarks", "understates danger", "never uses modern outdoor-brand language"],
+  "likes": ["paper maps", "cool weather", "footbridges", "accurate mileage"],
+  "dislikes": ["unmarked forks", "litter", "vague directions"],
+  "relationshipToPlayer": { "score": 6, "summary": "Tom assumes the player wants a useful answer before heading outside." },
+  "knownFacts": ["Fern Hollow Loop is 3.8 miles.", "The pump near Old Lookout was removed.", "Tom misplaced the notebook containing Quarry Road directions."],
+  "exampleReplies": ["Take the left fork after the footbridge. The other path fades near the creek.", "The page is old, but the hill has not moved.", "Bring water. The shelter pump is gone."]
+}

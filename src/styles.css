@@ -556,13 +556,20 @@ button { color: #111; }
   overflow: hidden;
 }
 
+.desk-artboard {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100vw, calc(100vh * 1.776833));
+  aspect-ratio: 1672 / 941;
+  transform: translate(-50%, -50%);
+}
+
 .startup-desk-art {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
   filter: saturate(.88) brightness(.82);
   transform: scale(1.002);
 }
@@ -609,7 +616,7 @@ button { color: #111; }
 .computer-power {
   position: absolute;
   z-index: 60;
-  left: 88.6%;
+  left: 85%;
   top: 72.2%;
   width: 72px;
   height: 72px;
@@ -927,6 +934,14 @@ button { color: #111; }
   font: bold 28px Georgia, serif;
 }
 
+.new-user-form { margin: 0 9px 8px; padding: 12px; background: #dedede; border: 2px solid; border-color: white #444 #444 white; }
+.new-user-form > label { display: block; margin-bottom: 8px; color: #000080; font-size: 14px; font-weight: bold; }
+.new-user-form > div { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.new-user-form input { min-width: 0; height: 32px; padding: 4px 7px; background: white; border: 2px inset #eee; font: 15px Tahoma, sans-serif; }
+.new-user-form button { height: 32px; padding: 4px 11px; background: #c0c0c0; border: 2px outset white; font-weight: bold; }
+.new-user-form > small { display: block; margin: 7px 0 0 60px; color: #555; font-size: 10px; }
+.new-user-form .login-error { margin: 7px 0 0 60px; color: #a00000; font-size: 11px; font-weight: bold; }
+
 .empty-profile { opacity: .52; min-height: 62px; }
 .empty-profile .user-avatar { height: 42px; width: 42px; color: #555; background: #aaa; font-family: Arial, sans-serif; }
 
@@ -1165,6 +1180,8 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .browser-toolbar > button { width: 31px; height: 28px; font-weight: bold; }
 .browser-toolbar .bookmark { color: #777; font-size: 19px; }
 .browser-toolbar .bookmark.active { color: #f0b400; text-shadow: 1px 1px #704e00; }
+.browser-text-size { display: grid; grid-template-columns: auto auto; align-items: center; gap: 3px; padding: 2px 4px; background: #d5d5d5; border: 1px solid #888; font-size: 10px; white-space: nowrap; }
+.browser-text-size select { height: 23px; min-width: 69px; padding: 1px 2px; background: white; border: 2px inset white; font: 10px Tahoma, sans-serif; }
 .address-form { flex: 1; display: flex; align-items: center; gap: 4px; margin-left: 3px; }
 .address-form label { font-size: 12px; }
 .address-form input { flex: 1; height: 26px; min-width: 80px; padding: 2px 6px; border: 2px solid; border-color: #555 #fff #fff #555; background: white; }
@@ -1188,6 +1205,10 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   background: white;
   user-select: text;
 }
+.browser-page-scale { min-height: 100%; transform-origin: left top; }
+.browser-page-scale.text-small { zoom: 1; }
+.browser-page-scale.text-medium { zoom: 1.15; }
+.browser-page-scale.text-large { zoom: 1.3; }
 .browser-footer { min-height: 50px; flex: 0 0 50px; display: grid; grid-template-columns: minmax(390px, 1fr) auto; border-top: 1px solid white; }
 .browser-status { display: flex; align-items: center; gap: 12px; padding: 4px 7px; font-size: 10px; border-left: 1px solid #777; white-space: nowrap; }
 
@@ -2113,6 +2134,103 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .midi-led { width: 6px; height: 6px; flex: 0 0 6px; background: #5d615c; border: 1px solid #333; border-radius: 50%; box-shadow: inset 1px 1px 2px #222; }
 .midi-led.playing { background: #35e256; box-shadow: 0 0 5px #35e256; animation: midi-pulse .8s steps(1) infinite; }
 @keyframes midi-pulse { 50% { opacity: .45; } }
+
+/* Quiet, lightly abandoned Cozy Commons member pages. */
+.cozy-handmade-button {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  color: #fff8ce;
+  background: #567451;
+  border: 4px ridge #f2e6bf;
+  font: bold 16px/1 Georgia, serif;
+  text-shadow: 1px 1px #263924;
+  transform: rotate(-2deg);
+}
+.cozy-member-card:nth-child(3n) .cozy-handmade-button { color: #472b34; background: #e8c7ae; border-style: double; transform: rotate(2deg); }
+.cozy-member-card:nth-child(4n) .cozy-handmade-button { color: #f6f1d2; background: #6f8190; border-style: outset; transform: rotate(-1deg); }
+.cozy-abandoned-note { grid-column: 1 / -1; padding: 10px 13px; color: #5d5741; background: #eee5bd; border: 2px dashed #8d8868; font: 10px/1.45 Georgia, serif; transform: rotate(.35deg); }
+.cozy-abandoned-note b { color: #765d2d; letter-spacing: .12em; }
+.cozy-abandoned-note p { margin: 4px 0; }
+
+.cozy-page { min-height: 100%; color: #39352c; font: 11px/1.5 Georgia, serif; }
+.cozy-page button { color: #314f37; background: #f4edcf; border: 2px outset #fff8dc; font: bold 9px Tahoma, sans-serif; }
+.cozy-page footer { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-top: 18px; padding-top: 9px; border-top: 1px dashed currentColor; font-size: 9px; }
+.cozy-memory-photo { display: grid; place-content: center; gap: 6px; min-height: 180px; padding: 12px; color: #5c5240; background: #ddd0aa; border: 8px solid #f9f1d4; box-shadow: 4px 5px #827b66; text-align: center; transform: rotate(-1.2deg); }
+.cozy-memory-photo b { font: bold 11px "Courier New", monospace; }
+.cozy-memory-photo span { max-width: 180px; font-size: 9px; font-style: italic; }
+
+.cozy-ruth-page { background: #f3efd2; background-image: repeating-linear-gradient(90deg, transparent 0 39px, rgb(86 116 74 / 8%) 40px); }
+.cozy-ruth-page > header { display: flex; justify-content: center; align-items: center; gap: 18px; padding: 12px; color: #fffbe1; background: #476d44; border: 7px double #d9cf88; text-align: center; }
+.cozy-ruth-page > header span { color: #efc857; font-size: 31px; }
+.cozy-ruth-page h1 { margin: 2px; font-size: 27px; }
+.cozy-ruth-page marquee { display: block; margin: 8px 0 14px; padding: 4px; color: #674216; background: #f8da75; border: 1px solid #a98635; font-family: Tahoma, sans-serif; }
+.cozy-ruth-grid { display: grid; grid-template-columns: minmax(180px, .75fr) 1.25fr; gap: 18px; align-items: center; }
+.cozy-ruth-grid article { padding: 14px; background: rgb(255 255 255 / 62%); border: 1px solid #9da37c; }
+.cozy-ruth-grid time { color: #745c2d; font: bold 9px "Courier New", monospace; }
+.cozy-ruth-page > aside { width: min(520px, 86%); margin: 15px auto; padding: 10px 18px; background: #e2e7ba; border: 3px ridge #aeba81; transform: rotate(.4deg); }
+
+.cozy-ellen-page { position: relative; padding-inline: 11%; background: #eee2c7; background-image: radial-gradient(#8c785c 0 .6px, transparent .8px); background-size: 7px 7px; }
+.cozy-ellen-page > header { padding: 25px 40px 13px; text-align: center; border-bottom: 1px solid #776951; }
+.cozy-ellen-page h1 { margin: 5px; color: #644839; font: italic 34px/1.1 Georgia, serif; }
+.cozy-ellen-page > header p { letter-spacing: .18em; }
+.pressed-sprig { float: left; margin: 25px 24px 18px 5px; color: #77754c; font-size: 27px; line-height: 1.1; text-align: center; transform: rotate(-11deg); }
+.cozy-ellen-page > section { display: grid; gap: 12px; margin-top: 14px; }
+.cozy-ellen-page article { padding: 13px 18px; background: rgb(255 252 235 / 58%); border-left: 3px double #8a7556; }
+.cozy-ellen-page article h2 { margin: 0; color: #654938; font-size: 18px; }
+.cozy-ellen-page blockquote { margin: 18px 12%; padding: 10px 18px; color: #665b4b; border-block: 1px dotted #8b7b60; font-style: italic; text-align: center; }
+
+.cozy-sue-page { background: #d9e3df; background-image: linear-gradient(90deg, rgb(255 255 255 / 18%) 50%, transparent 50%); background-size: 8px 8px; font-family: Tahoma, sans-serif; }
+.cozy-sue-page > header { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 13px; color: #1e4050; background: #f3f0e5; border: 5px ridge #d9d9d0; text-align: center; }
+.cozy-sue-page h1 { margin: 0; color: #7f3548; font: bold 27px Georgia, serif; }
+.fridge-magnet { display: grid; place-items: center; width: 39px; height: 39px; color: white; background: #d75843; border-radius: 5px; box-shadow: 2px 3px #777; font: bold 22px Arial, sans-serif; transform: rotate(-6deg); }
+.fridge-magnet:last-child { color: #513a18; background: #f1cb4c; transform: rotate(5deg); }
+.sue-corkboard { display: grid; grid-template-columns: 1fr 1.1fr 1fr; gap: 13px; align-items: center; margin: 15px 3%; padding: 18px; background: #b88858; border: 9px ridge #8a6340; }
+.sue-corkboard article { min-height: 120px; padding: 12px; box-shadow: 3px 4px rgb(56 37 24 / 35%); transform: rotate(-2deg); }
+.yellow-note { background: #fff08c; }.blue-note { background: #b9e5ef; transform: rotate(2deg) !important; }
+.broken-photo { min-height: 145px; color: #7a3030; background: #ddd; border-color: white; }
+.rainy-list { width: min(560px, 86%); margin: auto; padding: 12px 20px; background: #fff; border: 2px dotted #7f6570; }
+.rainy-list h2 { color: #7f3548; font: bold 17px Georgia, serif; }
+
+.cozy-tom-page { background: #d9d4b5; background-image: linear-gradient(rgb(68 75 51 / 11%) 1px, transparent 1px), linear-gradient(90deg, rgb(68 75 51 / 11%) 1px, transparent 1px); background-size: 22px 22px; font-family: "Courier New", monospace; }
+.cozy-tom-page > header { display: flex; gap: 14px; align-items: center; padding: 11px 18px; color: #eee8c6; background: #3e4d35; border-bottom: 6px solid #9d8048; }
+.cozy-tom-page h1 { margin: 2px 0; font-size: 25px; }
+.trail-mark { display: grid; place-items: center; width: 48px; height: 48px; color: #f0df8e; border: 3px solid #f0df8e; border-radius: 50%; font-size: 23px; }
+.trail-pencil-map { position: relative; min-height: 190px; margin: 15px 7%; background: rgb(250 246 216 / 68%); border: 1px solid #6e674e; transform: rotate(-.5deg); }
+.trail-pencil-map i { position: absolute; left: 14%; top: 62%; width: 66%; height: 3px; background: #596950; transform: rotate(-13deg); box-shadow: 90px -43px 0 #596950; }
+.trail-pencil-map b, .trail-pencil-map span, .trail-pencil-map em { position: absolute; }.trail-pencil-map b { left: 8%; bottom: 15%; }.trail-pencil-map span { left: 43%; top: 54%; }.trail-pencil-map em { right: 8%; top: 15%; }
+.trail-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.trail-cards article { padding: 12px; background: rgb(247 241 207 / 78%); border: 1px solid #706b50; }
+.trail-cards h2 { margin: 0; color: #344730; font-size: 16px; }
+.trail-last-note { padding: 8px; background: #eee1a4; border-left: 7px solid #706a3e; }
+
+.cozy-pam-page { background: #f4e5df; background-image: radial-gradient(#cb8ea4 1px, transparent 1.5px); background-size: 19px 19px; font-family: Tahoma, sans-serif; }
+.cozy-pam-page > header { display: flex; justify-content: center; align-items: center; gap: 18px; padding: 15px; color: #563448; background: #f8edb7; border: 5px dotted #bd6f91; text-align: center; transform: rotate(-.3deg); }
+.cozy-pam-page h1 { margin: 3px; font: bold 28px Georgia, serif; }
+.paper-bird { color: #4f7990; font-size: 45px; transform: rotate(-12deg); }.paper-bird.flip { transform: scaleX(-1) rotate(-12deg); }
+.craft-scraps { display: grid; grid-template-columns: 1fr 1fr .9fr; gap: 13px; align-items: center; margin-top: 16px; }
+.craft-scraps article { min-height: 150px; padding: 13px; background: #fff7d4; border: 1px solid #b99572; box-shadow: 4px 5px #d4aab9; transform: rotate(-1deg); }
+.craft-scraps article:nth-child(2) { background: #d8edf0; transform: rotate(1.5deg); }
+.craft-scraps article > b { color: #a94d76; font: bold 9px "Courier New", monospace; }
+.craft-scraps h2 { color: #59466d; font: bold 18px Georgia, serif; }
+.craft-photo { min-height: 150px; background: #dbcfbe; }
+.cozy-pam-page > aside { margin: 18px 10%; padding: 9px; color: #743d58; background: #ffd7e6; border: 2px dashed #ae5d81; text-align: center; }
+
+.site-cozygarden .page-comments, .site-cozycottage .page-comments, .site-cozymom .page-comments, .site-cozyhike .page-comments, .site-cozycraft .page-comments {
+  color: #4d4738;
+  background: #f4eed7;
+  border-color: #9a8e6e;
+  box-shadow: 4px 4px #b9ad8e;
+}
+.site-cozygarden .comments-heading, .site-cozycottage .comments-heading, .site-cozymom .comments-heading, .site-cozyhike .comments-heading, .site-cozycraft .comments-heading { border-color: #817552; }
+
+@media (max-width: 760px) {
+  .new-user-form > div { grid-template-columns: 48px minmax(0, 1fr); }
+  .new-user-form button { grid-column: 1 / -1; }
+  .new-user-form > small, .new-user-form .login-error { margin-left: 0; }
+  .sue-corkboard, .craft-scraps, .cozy-ruth-grid, .trail-cards { grid-template-columns: 1fr; }
+}
 
 .orbit-pal-promo {
   display: grid;

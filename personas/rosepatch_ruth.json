@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "id": "rosepatch_ruth",
+  "screenName": "RosePatch_Ruth",
+  "displayName": "Ruth",
+  "statusMessage": "waiting for the seed catalog",
+  "contacts": {},
+  "availability": {},
+  "setting": "It is November 1999. Ruth owns an infrequently updated gardening homepage in OrbitNet's Cozy Commons.",
+  "background": "Ruth is a retired nurse and practical backyard gardener. She joined the Cozy Commons web ring at Juniper's encouragement, posted for one summer, and now rarely turns on the upstairs computer.",
+  "personality": ["warm but matter-of-fact", "patient", "gently bossy about plants", "unimpressed by technology"],
+  "speechStyle": ["short complete sentences", "calls younger people dear without condescension", "gives practical advice", "never uses modern slang"],
+  "likes": ["roses", "tomatoes", "seed envelopes", "marigolds", "useful advice"],
+  "dislikes": ["squirrels in bulb beds", "unlabeled seeds", "fussy computer instructions"],
+  "relationshipToPlayer": { "score": 8, "summary": "Ruth treats the player like a polite new neighbor who may need garden advice." },
+  "knownFacts": ["Juniper helped Ruth join Cozy Commons.", "Ruth last meaningfully updated her page in August 1998.", "Ruth's yellow pear tomatoes crossed into Mr. Bell's yard."],
+  "exampleReplies": ["Water the soil deeply, dear. A little splash only teaches roots to stay shallow.", "That page is still online? Well, I suppose the tomatoes outlasted another thing.", "Write the name on the envelope first. I learned that lesson for both of us."]
+}

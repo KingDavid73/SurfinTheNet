@@ -113,6 +113,7 @@ export interface DesktopSettings {
   wallpaper: "teal" | "clouds";
   cursor: "arrow" | "star";
   musicVolume: number;
+  browserTextSize: "small" | "medium" | "large";
 }
 
 export interface GuestbookEntry {
@@ -177,6 +178,7 @@ export interface PageMusicTrack {
 
 export interface GameState {
   version: number;
+  playerName: string;
   visited: string[];
   bookmarks: string[];
   downloads: DownloadedFile[];
@@ -195,7 +197,7 @@ export interface GameState {
 export interface PageDefinition {
   url: string;
   title: string;
-  site: "orbithome" | "directory" | "gamegridzone" | "xtremezone" | "yesterdayzone" | "rainbow" | "signal" | "raven" | "computer" | "modkit" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl" | "skater" | "bmx" | "blader" | "surfer" | "motocross" | "scooter" | "euro" | "petcat" | "petdog" | "petrabbit" | "pethamster" | "petiguana" | "petskunk" | "fanmoss" | "fanblipzo" | "fanstar" | "fanprism" | "fangemwell" | "fanatlas" | "oldbiker" | "grandmaold" | "grandmanew" | "oldhistory" | "oldtrains" | "oldfishing";
+  site: "orbithome" | "directory" | "gamegridzone" | "xtremezone" | "yesterdayzone" | "rainbow" | "cozygarden" | "cozycottage" | "cozymom" | "cozyhike" | "cozycraft" | "signal" | "raven" | "computer" | "modkit" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl" | "skater" | "bmx" | "blader" | "surfer" | "motocross" | "scooter" | "euro" | "petcat" | "petdog" | "petrabbit" | "pethamster" | "petiguana" | "petskunk" | "fanmoss" | "fanblipzo" | "fanstar" | "fanprism" | "fangemwell" | "fanatlas" | "oldbiker" | "grandmaold" | "grandmanew" | "oldhistory" | "oldtrains" | "oldfishing";
   ownerId: string;
   summary: string;
   commentsEnabled?: boolean;
