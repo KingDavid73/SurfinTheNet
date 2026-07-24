@@ -9,7 +9,7 @@ SHEET_DIRECTORY = ROOT / "artwork" / "dealer-sheets"
 OUTPUT_DIRECTORY = ROOT / "assets" / "images" / "dealer-web"
 
 SHEETS = {
-    "king-cal-campaign-sheet.png": [
+    "king-cal-campaign-sheet-v2.png": [
         "cal-owner.png",
         "cal-sedan.png",
         "cal-minivan.png",

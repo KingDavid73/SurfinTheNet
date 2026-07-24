@@ -1,6 +1,6 @@
 import "./styles.css";
 import { notFoundPage, pages } from "./pages";
-import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition } from "./types";
+import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack } from "./types";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
 const startupJingleUrl = new URL("../assets/audio/orbitos-startup.wav", import.meta.url).href;
@@ -8,7 +8,7 @@ const startupJingle = new Audio(startupJingleUrl);
 startupJingle.preload = "auto";
 startupJingle.volume = 0.7;
 
-const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; midiUrl: string; url: string }> = {
+const PAGE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   directory: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
   rainbow: { label: "Garden Sprites", file: "garden-sprites.mid", midiUrl: new URL("../assets/audio/pages/garden-sprites.mid", import.meta.url).href, url: new URL("../assets/audio/pages/garden-sprites.wav", import.meta.url).href },
   signal: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
@@ -304,7 +304,8 @@ let mailComposeOwnerId: string | null = null;
 let selectedMailMessageId: string | null = null;
 let helperPanelOpen = false;
 let pageMusicPlaying = true;
-let loadedPageMusicSite: PageDefinition["site"] | null = null;
+let loadedPageMusicUrl: string | null = null;
+const pageMusicTrackIndexes = new Map<string, number>();
 const semanticSearchCache = new Map<string, string[]>();
 const pendingSearches = new Set<string>();
 const browserScrollPositions = new Map<string, number>();
@@ -649,16 +650,34 @@ function pageCommentSection(page: PageDefinition) {
 }
 
 function pageMusicPlayer(page: PageDefinition) {
-  const track = PAGE_MUSIC[page.site];
+  const playlist = pageMusicPlaylist(page);
+  const trackIndex = pageMusicTrackIndex(page, playlist);
+  const track = playlist[trackIndex];
+  const hasPlaylist = playlist.length > 1;
   const bars = Array.from({ length: 10 }, (_, index) => `<i style="--midi-bar:${index}"></i>`).join("");
-  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""}" data-midi-source="${track.midiUrl}">
+  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""} ${hasPlaylist ? "has-playlist" : ""}" data-midi-source="${track.midiUrl ?? track.url}">
     <div class="midi-player-ridge"><strong>ORBITAMP</strong><em>WEB</em><span><span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>MIDI LOOP</span></div>
     <div class="midi-display">
       <div class="midi-visualizer" aria-hidden="true">${bars}</div>
       <div class="midi-track"><small>NOW PLAYING</small><b>${escapeHtml(track.label)}</b><code>${escapeHtml(track.file)}</code></div>
     </div>
-    <div class="midi-controls"><button data-page-music aria-label="${pageMusicPlaying ? "Stop" : "Play"} page music">${pageMusicPlaying ? "■ Stop" : "▶ Play"}</button><span>LOOP ∞</span></div>
+    <div class="midi-controls">
+      ${hasPlaylist ? `<div class="midi-skip-controls"><button data-page-music-prev aria-label="Previous page music track" title="Previous track">&#9664;|</button><button data-page-music-next aria-label="Next page music track" title="Next track">|&#9654;</button></div>` : ""}
+      <button data-page-music aria-label="${pageMusicPlaying ? "Stop" : "Play"} page music">${pageMusicPlaying ? "■ Stop" : "▶ Play"}</button>
+      <span>${hasPlaylist ? `${trackIndex + 1}/${playlist.length} · ` : ""}LOOP ∞</span>
+    </div>
   </aside>`;
+}
+
+function pageMusicPlaylist(page: PageDefinition): readonly PageMusicTrack[] {
+  return page.music?.length ? page.music : [PAGE_MUSIC[page.site]];
+}
+
+function pageMusicTrackIndex(page: PageDefinition, playlist = pageMusicPlaylist(page)) {
+  const requestedIndex = pageMusicTrackIndexes.get(page.url) ?? 0;
+  const normalizedIndex = ((requestedIndex % playlist.length) + playlist.length) % playlist.length;
+  if (normalizedIndex !== requestedIndex) pageMusicTrackIndexes.set(page.url, normalizedIndex);
+  return normalizedIndex;
 }
 
 function refreshBrowserPage() {
@@ -669,13 +688,24 @@ function refreshBrowserPage() {
 }
 
 function syncPageMusic(page = currentPage()) {
-  const track = PAGE_MUSIC[page.site];
-  if (loadedPageMusicSite !== page.site) {
+  const playlist = pageMusicPlaylist(page);
+  const track = playlist[pageMusicTrackIndex(page, playlist)];
+  if (loadedPageMusicUrl !== track.url) {
     pageMusic.src = track.url;
-    loadedPageMusicSite = page.site;
+    loadedPageMusicUrl = track.url;
+    pageMusic.currentTime = 0;
   }
   if (pageMusicPlaying && windows.browser.open) void pageMusic.play().catch(() => undefined);
   else pageMusic.pause();
+}
+
+function changePageMusicTrack(direction: -1 | 1) {
+  const page = currentPage();
+  const playlist = pageMusicPlaylist(page);
+  if (playlist.length < 2) return;
+  pageMusicTrackIndexes.set(page.url, pageMusicTrackIndex(page, playlist) + direction);
+  loadedPageMusicUrl = null;
+  render();
 }
 
 function togglePageMusic() {
@@ -1520,6 +1550,8 @@ function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-download]").forEach((el) => el.addEventListener("click", downloadSignalNote));
   document.querySelector<HTMLElement>("[data-download-helper]")?.addEventListener("click", downloadOrbitPal);
   document.querySelector<HTMLElement>("[data-page-music]")?.addEventListener("click", togglePageMusic);
+  document.querySelector<HTMLElement>("[data-page-music-prev]")?.addEventListener("click", () => changePageMusicTrack(-1));
+  document.querySelector<HTMLElement>("[data-page-music-next]")?.addEventListener("click", () => changePageMusicTrack(1));
   document.querySelectorAll<HTMLElement>("[data-fandom-toggle]").forEach((button) => button.addEventListener("click", () => {
     const target = document.getElementById(button.dataset.fandomToggle!);
     if (!target) return;

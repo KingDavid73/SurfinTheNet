@@ -121,6 +121,9 @@ King Cal's Auto Kingdom and Honest Earl's Budget Motors are documented in
 `docs/used-car-dealer-research.md`. Their sites use separate 35mm-film campaign
 sheets, terrible fully calculated financing offers, reciprocal feud links, and
 pre-filled public comments from both rival owners and dissatisfied customers.
+King Cal's revised campaign casts him as a flamboyant Black local-TV showman
+with a velvet-and-gold wardrobe and a gloriously over-customized burgundy
+clunker.
 
 Yesterday Online combines generated amateur 35mm portraits with nine archival
 GeoCities-era animations sourced through GifCities. Exact asset and archived-page
@@ -134,7 +137,14 @@ workflow are recorded in `docs/design-research.md`.
 
 The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium plays the matching `assets/audio/orbitos-startup.wav` for predictable sound on every machine. Regenerate both from source with `node scripts/generate-startup-jingle.mjs`.
 
-Page loops live in `assets/audio/pages/` as editable MIDI plus matching WAV renders. Regenerate them with `npm.cmd run music:generate`. The homepage uses the softer, percussion-free “Orbit Avenue Afterglow” loop; period music and player-design notes live in `docs/period-web-music-notes.md`.
+Page loops live in `assets/audio/pages/` as editable MIDI plus matching WAV
+renders. Regenerate the legacy placeholders with `npm.cmd run music:generate`;
+future authored tracks can be dropped into the same folder and wired directly
+into a page's `music` array. ORBITAMP hides its previous/next buttons for
+single-track pages and exposes them automatically for playlists. GameGrid
+currently demonstrates a three-track playlist. The homepage uses the softer,
+percussion-free “Orbit Avenue Afterglow” loop; period music and player-design
+notes live in `docs/period-web-music-notes.md`.
 
 Packaging is still deferred. `node-llama-cpp` native binaries require special unpacking rules when milestone builds resume.
 
@@ -147,8 +157,9 @@ lives in `src/main.ts`; visual styling lives in `src/styles.css`.
 
 For new content batches, finish and review the era/industry design research before
 starting image generation. Once that research is distilled into a locked brand
-brief, page design and copy, one company-specific image sheet, original MIDI,
-and shared-system integration can proceed in parallel. Image generation is
-downstream of research, not a concurrent discovery lane.
+brief, page design and copy, company-specific image sheets, and shared-system
+integration can proceed in parallel. Image generation is downstream of research,
+not a concurrent discovery lane. Music is authored separately and wired in when
+tracks are added to the project resources.
 
 The renderer never receives unrestricted Node.js access. Save operations go through the narrow API exposed by `preload.cjs`.

@@ -143,6 +143,8 @@ function createWindow() {
           if (!browserRestored) throw new Error("Browser maximize control did not restore the window");
           const midiPlayerReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.browser-footer > .page-midi-player .midi-led.playing')) && document.querySelector('[data-page-music]')?.textContent.includes('Stop') && !document.querySelector('.browser-viewport > .page-midi-player')`);
           if (!midiPlayerReady) throw new Error("Homepage MIDI did not auto-play from the browser-shell footer");
+          const singleTrackControlsHidden = await win.webContents.executeJavaScript(`!document.querySelector('[data-page-music-prev]') && !document.querySelector('[data-page-music-next]')`);
+          if (!singleTrackControlsHidden) throw new Error("Single-track homepage displayed playlist skip controls");
           await click("[data-page-music]");
           const midiStopped = await win.webContents.executeJavaScript(`!document.querySelector('.midi-led.playing') && document.querySelector('[data-page-music]')?.textContent.includes('Play')`);
           if (!midiStopped) throw new Error("Page MIDI player did not stop");
@@ -164,6 +166,14 @@ function createWindow() {
             const zoneReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.orbit-zone-page')) && document.querySelectorAll('.zone-categories article').length === 6 && !document.querySelector('.page-comments')`);
             if (!zoneReady) throw new Error(`Community zone was incomplete or had an unwanted comment thread: ${zoneUrl}`);
             if (zoneUrl.endsWith("/gamegrid")) {
+              const gameGridPlaylistReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.midi-controls > span')?.textContent.includes('1/3') && document.querySelector('.midi-track b')?.textContent === "Everybody's In"`);
+              if (!gameGridPlaylistReady) throw new Error("GameGrid multi-track player was unavailable");
+              await click("[data-page-music-next]");
+              const nextTrackReady = await win.webContents.executeJavaScript(`document.querySelector('.midi-controls > span')?.textContent.includes('2/3') && document.querySelector('.midi-track b')?.textContent === "Second World"`);
+              if (!nextTrackReady) throw new Error("Page music next control did not select the second track");
+              await click("[data-page-music-prev]");
+              const previousTrackReady = await win.webContents.executeJavaScript(`document.querySelector('.midi-controls > span')?.textContent.includes('1/3') && document.querySelector('.midi-track b')?.textContent === "Everybody's In"`);
+              if (!previousTrackReady) throw new Error("Page music previous control did not return to the first track");
               const expectedMemberUrls = [
                 "web://gamegrid.zone/users/lagmaster99/home",
                 "web://gamegrid.zone/users/velvetmage/home",

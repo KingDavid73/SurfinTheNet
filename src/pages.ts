@@ -249,6 +249,11 @@ const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
   listed: true,
   hubId: `zone-${zone.id}`,
   searchTerms: [...zone.searchTerms, "orbitnet zone", "community"],
+  music: zone.id === "gamegrid" ? [
+    { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
+    { label: "Second World", file: "second-world.mid", midiUrl: new URL("../assets/audio/pages/second-world.mid", import.meta.url).href, url: new URL("../assets/audio/pages/second-world.wav", import.meta.url).href },
+    { label: "Four on the Floor", file: "four-on-the-floor.mid", midiUrl: new URL("../assets/audio/pages/four-on-the-floor.mid", import.meta.url).href, url: new URL("../assets/audio/pages/four-on-the-floor.wav", import.meta.url).href }
+  ] : undefined,
   render: () => `
     <main class="page orbit-zone-page zone-${zone.id}">
       <header class="zone-masthead">

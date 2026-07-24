@@ -167,6 +167,13 @@ export interface DownloadedFile {
   downloadedAt: string;
 }
 
+export interface PageMusicTrack {
+  label: string;
+  file: string;
+  url: string;
+  midiUrl?: string;
+}
+
 export interface GameState {
   version: number;
   visited: string[];
@@ -195,6 +202,7 @@ export interface PageDefinition {
   listed?: boolean;
   hubId?: string;
   searchTerms?: string[];
+  music?: readonly PageMusicTrack[];
   render: (state: GameState) => string;
 }
 

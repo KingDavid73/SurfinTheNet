@@ -2040,6 +2040,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   font: 9px/1.05 "Arial Narrow", Tahoma, sans-serif;
   user-select: none;
 }
+.page-midi-player.has-playlist { grid-template-columns: 78px minmax(145px, 1fr) 72px; }
 .midi-player-ridge {
   display: flex;
   flex-wrap: wrap;
@@ -2077,6 +2078,8 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .midi-controls { display: grid; place-items: center; align-content: center; gap: 1px; color: #17242c; font-weight: bold; }
 .midi-controls button { min-width: 54px; padding: 2px 4px; color: #10202b; background: linear-gradient(#f4f8fa, #8c9aa4); border: 2px outset #eefaff; border-radius: 2px; font-weight: bold; font-size: 8px; }
 .midi-controls > span { font-size: 6px; letter-spacing: .1em; text-shadow: 1px 1px #e8f7ff; }
+.midi-skip-controls { display: grid; grid-template-columns: 1fr 1fr; width: 61px; gap: 1px; }
+.midi-skip-controls button { min-width: 0; padding: 1px 2px; font-size: 7px; }
 .midi-led { width: 6px; height: 6px; flex: 0 0 6px; background: #5d615c; border: 1px solid #333; border-radius: 50%; box-shadow: inset 1px 1px 2px #222; }
 .midi-led.playing { background: #35e256; box-shadow: 0 0 5px #35e256; animation: midi-pulse .8s steps(1) infinite; }
 @keyframes midi-pulse { 50% { opacity: .45; } }

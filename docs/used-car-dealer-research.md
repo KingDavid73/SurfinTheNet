@@ -52,11 +52,17 @@ Guide.[^ads]
 
 ## King Cal's Auto Kingdom
 
-**Owner:** Calvin "King Cal" Rugg, screen name `KingCalCars`.
+**Owner:** Calvin "King Cal" Rugg, a flamboyant Black local-TV pitchman,
+screen name `KingCalCars`.
 
 **Visual identity:** burgundy, tarnished gold, black, and off-white. Crown
-clip-art, velvet-rope jokes, starbursts, and a fake heraldic border. The photos
-look like Cal paid a nephew to shoot the lot with a point-and-shoot camera.
+clip-art, velvet-rope jokes, starbursts, and a fake heraldic border. Cal wears
+an oversized mustard-and-burgundy velvet suit, cheap jewelry, and a plastic
+crown. His personal-style Crown Regent is an exhausted homemade show car with
+whitewalls, a fake landau roof, plush burgundy velour, a crown hood ornament,
+and far too much gold-look trim. The photos look like Cal paid a nephew to
+shoot the lot with a point-and-shoot camera. The comedy comes from Cal's
+theatrical sales persona and terrible cars, never from racial caricature.
 
 **Voice:** bombastic and wounded. Cal refers to cars as coaches, chariots, and
 royal inventory. He calls Earl a liar while giving answers that are technically
