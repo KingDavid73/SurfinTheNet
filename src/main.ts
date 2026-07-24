@@ -1131,6 +1131,25 @@ function formatGameTimestamp(value: string) {
   }).format(date);
 }
 
+function commentAuthorHomeUrl(comment: PageComment, page: PageDefinition) {
+  if (comment.role === "player" && comment.author === playerName()) return null;
+  const normalizedAuthor = comment.author.trim().toLocaleLowerCase();
+  const matchedPersonaId = Object.entries(PAGE_OWNERS).find(([, persona]) =>
+    persona.screenName.toLocaleLowerCase() === normalizedAuthor
+  )?.[0];
+  const personaId = matchedPersonaId ?? (comment.role === "owner" ? page.ownerId : null);
+  if (!personaId || personaId === "system_core") return null;
+  return CHARACTER_HOME_URLS[personaId] ?? null;
+}
+
+function commentAuthorHtml(comment: PageComment, page: PageDefinition) {
+  const author = escapeHtml(comment.author);
+  const homeUrl = commentAuthorHomeUrl(comment, page);
+  return homeUrl
+    ? `<button class="comment-author-link" data-nav="${escapeHtml(homeUrl)}" title="Visit ${author}'s homepage">${author}</button>`
+    : author;
+}
+
 function pageCommentSection(page: PageDefinition) {
   const owner = PAGE_OWNERS[page.ownerId] ?? PAGE_OWNERS.orbit_guide;
   const visits = state.pageVisitCounts[page.url] ?? 0;
@@ -1141,7 +1160,7 @@ function pageCommentSection(page: PageDefinition) {
   const unavailable = !aiStatus.modelAvailable || aiStatus.phase === "loading" || aiStatus.phase === "warming";
   const commentHtml = comments.length
     ? comments.map((comment) => `<article class="page-comment ${comment.role}">
-        <header><b>${escapeHtml(comment.author)}</b><time>${escapeHtml(formatGameTimestamp(comment.createdAt))}</time></header>
+        <header><b>${commentAuthorHtml(comment, page)}</b><time>${escapeHtml(formatGameTimestamp(comment.createdAt))}</time></header>
         <p>${escapeHtml(comment.text)}</p>
       </article>`).join("")
     : `<p class="no-comments">Nobody has commented on this page yet.</p>`;
