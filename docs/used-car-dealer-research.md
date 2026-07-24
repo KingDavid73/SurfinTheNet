@@ -68,6 +68,16 @@ theatrical sales persona and terrible cars, never from racial caricature.
 royal inventory. He calls Earl a liar while giving answers that are technically
 true only after reading every line of fine print.
 
+**Local celebrity history:** Cal has bought cheap late-night airtime since 1982
+and writes a different homemade rap or jingle for nearly every campaign. His
+cars are notorious, but the hooks circulate on dubbed tapes through barbershops,
+mechanic bays, bowling alleys, schools, and local parties. The site archives
+eight CRT/VHS stills across his changing commercial eras and advertises a
+sold-out 300-copy pressing of *County Line Royalty: Greatest Commercial Raps*.
+OrbitAmp plays 34 unique imported commercial recordings; six internally marked
+tracks contain subtle authored mystery hints, but their visible player titles
+do not advertise that fact.
+
 **Inventory examples:**
 
 - 1990 Crown Regent sedan, 142,000 miles: `$1,999 down + $89/week for 156 weeks`

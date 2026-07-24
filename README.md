@@ -43,7 +43,7 @@ npm.cmd run make
 - Shared 35mm action-photo sheets plus dedicated skate-zine, BMX workshop, neon-inline, SoCal surf, motocross magazine, scooter-notebook, and Riviera luxury asset sheets for the X-Treme Edge roster
 - Site-colored public comment threads on character and business homepages; subpages keep one canonical conversation per owner
 - Unread-comment markers on every visible page entry point, including company search results, which clear after the player visits the updated page
-- Forty original page MIDI loops that auto-play on navigation, with a chrome-and-LCD OrbitAmp control built into the browser-shell footer and deterministic WAV playback renders
+- A browser-level OrbitAmp music system with authored MP3 tracks, legacy MIDI/WAV placeholders, randomized playlist starts, and continuous playback across a site's sub-pages
 - A downloadable Orbit Pal app: launch its installed icon to summon the desktop buddy, click the buddy to chat, and use Close Pal to exit it completely
 - Instant lexical/concept search plus asynchronous local-model semantic matching when Qwen is warm
 - A one-use Rainbow Garden guestbook signature stored in the player profile
@@ -137,17 +137,20 @@ workflow are recorded in `docs/design-research.md`.
 
 The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium plays the matching `assets/audio/orbitos-startup.wav` for predictable sound on every machine. Regenerate both from source with `node scripts/generate-startup-jingle.mjs`.
 
-Page loops live in `assets/audio/pages/` as editable MIDI plus matching WAV
-renders. Regenerate the legacy placeholders with `npm.cmd run music:generate`;
-future authored tracks can be dropped into the same folder and wired directly
-into the site's entry in `SITE_PLAYLISTS`. ORBITAMP hides its previous/next
+Page music lives in `assets/audio/pages/`; legacy placeholders retain editable
+MIDI plus matching WAV renders, while authored replacements use domain folders
+and MP3 files. Regenerate only the legacy placeholders with
+`npm.cmd run music:generate`. Future authored tracks can be dropped into a
+domain folder and wired directly into the site's entry in `SITE_PLAYLISTS`.
+ORBITAMP hides its previous/next
 buttons for single-track sites and exposes them automatically for playlists.
 Multi-track sites choose a random starting position once per game session, then
 retain that track and playback position while browsing sub-pages in the same
-site scope. GameGrid currently demonstrates a three-track playlist. The current
-domain-to-song checklist is `MUSIC_INDEX.txt`. The homepage uses the softer,
-percussion-free “Orbit Avenue Afterglow” loop; period music and player-design
-notes live in `docs/period-web-music-notes.md`.
+site scope. King Cal currently has a 34-track commercial archive; GameGrid also
+demonstrates a three-track playlist. The current domain-to-song checklist is
+`MUSIC_INDEX.txt`. The homepage uses the softer, percussion-free “Orbit Avenue
+Afterglow” loop; period music and player-design notes live in
+`docs/period-web-music-notes.md`.
 
 Packaging is still deferred. `node-llama-cpp` native binaries require special unpacking rules when milestone builds resume.
 

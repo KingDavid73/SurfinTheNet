@@ -142,12 +142,12 @@ function createWindow() {
           const browserRestored = await win.webContents.executeJavaScript(`!document.querySelector('.browser-window')?.classList.contains('maximized') && document.querySelector('[data-maximize="browser"]')?.getAttribute('aria-label') === 'Maximize'`);
           if (!browserRestored) throw new Error("Browser maximize control did not restore the window");
           const midiPlayerReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.browser-footer > .page-midi-player .midi-led.playing')) && document.querySelector('[data-page-music]')?.textContent.includes('Stop') && !document.querySelector('.browser-viewport > .page-midi-player')`);
-          if (!midiPlayerReady) throw new Error("Homepage MIDI did not auto-play from the browser-shell footer");
+          if (!midiPlayerReady) throw new Error("Homepage music did not auto-play from the browser-shell footer");
           const singleTrackControlsHidden = await win.webContents.executeJavaScript(`!document.querySelector('[data-page-music-prev]') && !document.querySelector('[data-page-music-next]')`);
           if (!singleTrackControlsHidden) throw new Error("Single-track homepage displayed playlist skip controls");
           await click("[data-page-music]");
           const midiStopped = await win.webContents.executeJavaScript(`!document.querySelector('.midi-led.playing') && document.querySelector('[data-page-music]')?.textContent.includes('Play')`);
-          if (!midiStopped) throw new Error("Page MIDI player did not stop");
+          if (!midiStopped) throw new Error("Page music player did not stop");
           const expectedZoneUrls = [
             "web://orbitnet.local/zones/gamegrid",
             "web://orbitnet.local/zones/xtreme",
@@ -167,7 +167,7 @@ function createWindow() {
             if (!zoneReady) throw new Error(`Community zone was incomplete or had an unwanted comment thread: ${zoneUrl}`);
             if (zoneUrl.endsWith("/gamegrid")) {
               const gameGridInitialTrack = await win.webContents.executeJavaScript(`(() => { const player = document.querySelector('.page-midi-player'); return { playlist: player?.classList.contains('has-playlist'), scope: player?.getAttribute('data-music-scope'), index: Number(player?.getAttribute('data-track-index')), label: document.querySelector('.midi-track b')?.textContent, counter: document.querySelector('.midi-controls > span')?.textContent }; })()`);
-              const gameGridTrackLabels = ["Everybody's In", "Second World", "Four on the Floor"];
+              const gameGridTrackLabels = ["Everybody's In", "Leave Reality Running", "CUBIT Pure Play"];
               if (!gameGridInitialTrack.playlist || gameGridInitialTrack.scope !== "gamegridzone" || gameGridInitialTrack.index < 0 || gameGridInitialTrack.index > 2 || gameGridInitialTrack.label !== gameGridTrackLabels[gameGridInitialTrack.index] || !gameGridInitialTrack.counter.includes(`${gameGridInitialTrack.index + 1}/3`)) {
                 throw new Error(`GameGrid randomized multi-track player was unavailable: ${JSON.stringify(gameGridInitialTrack)}`);
               }
@@ -442,7 +442,7 @@ function createWindow() {
 
           await searchFor("breakfast", "web://moonmunch.com/home");
           await click('[data-nav="web://moonmunch.com/home"]');
-          const moonmunchReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.moonmunch-page .moonmunch-mascot .kids-business-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.page-midi-player')?.textContent.includes('Moon Munch March')`);
+          const moonmunchReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.moonmunch-page .moonmunch-mascot .kids-business-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.page-midi-player')?.textContent.includes('Moon Munch Blast')`);
           if (!moonmunchReady) throw new Error("Moon Munch campaign page was incomplete");
           await capture("kids-moon-munch.png");
           await click('[data-nav="web://moonmunch.com/prizes"]');
@@ -471,9 +471,11 @@ function createWindow() {
           }
 
           await click('[data-nav="web://kingcalscars.biz/home"]');
-          const kingCalReady = await win.webContents.executeJavaScript(`(() => ({ page: Boolean(document.querySelector('.kingcal-page .cal-portrait .dealer-photo')), music: document.querySelector('.page-midi-player')?.textContent.includes('Crown and Clunker'), musicScope: document.querySelector('.page-midi-player')?.getAttribute('data-music-scope'), musicSource: document.querySelector('.page-midi-player')?.getAttribute('data-midi-source'), comments: document.querySelectorAll('.page-comment').length, earl: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'Honest_Earl'), customer: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'DeniseM') }))()`);
-          if (!kingCalReady.page || !kingCalReady.music || kingCalReady.comments < 6 || !kingCalReady.earl || !kingCalReady.customer) throw new Error(`King Cal page, music, or seeded feud comments were incomplete: ${JSON.stringify(kingCalReady)}`);
+          const kingCalReady = await win.webContents.executeJavaScript(`(() => ({ page: Boolean(document.querySelector('.kingcal-page .cal-portrait .dealer-photo')), playlist: document.querySelector('.page-midi-player')?.classList.contains('has-playlist'), trackCount: document.querySelector('.midi-controls > span')?.textContent, trackFile: document.querySelector('.midi-track code')?.textContent, trackLabel: document.querySelector('.midi-track b')?.textContent, musicScope: document.querySelector('.page-midi-player')?.getAttribute('data-music-scope'), musicSource: document.querySelector('.page-midi-player')?.getAttribute('data-midi-source'), commercials: document.querySelectorAll('.cal-commercial-grid figure').length, soldOut: document.querySelector('.cal-album-ad i')?.textContent.replace(/\\s+/g, ' ').trim(), comments: document.querySelectorAll('.page-comment').length, earl: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'Honest_Earl'), customer: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'DeniseM'), fan: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'TeeVeeTom') }))()`);
+          if (!kingCalReady.page || !kingCalReady.playlist || !kingCalReady.trackCount.includes("/34") || !kingCalReady.trackFile.endsWith(".mp3") || /secret/i.test(kingCalReady.trackLabel) || kingCalReady.commercials !== 9 || kingCalReady.soldOut !== "SOLDOUT!" || kingCalReady.comments < 8 || !kingCalReady.earl || !kingCalReady.customer || !kingCalReady.fan) throw new Error(`King Cal page, commercial archive, playlist, or seeded comments were incomplete: ${JSON.stringify(kingCalReady)}`);
           await capture("dealer-king-cal.png");
+          await win.webContents.executeJavaScript(`document.querySelector('.cal-commercial-vault')?.scrollIntoView({ block: 'start' })`);
+          await capture("dealer-king-cal-commercials.png");
           await win.webContents.executeJavaScript(`document.querySelector('.page-comments')?.scrollIntoView({ block: 'start' })`);
           await capture("dealer-king-cal-comments.png");
           await click('[data-nav="web://kingcalscars.biz/inventory"]');
@@ -483,7 +485,7 @@ function createWindow() {
 
           await click('[data-nav="web://kingcalscars.biz/home"]');
           await click('[data-nav="web://honestearl.com/home"]');
-          const honestEarlReady = await win.webContents.executeJavaScript(`(() => ({ page: Boolean(document.querySelector('.earl-page .earl-hero .dealer-photo')), music: document.querySelector('.page-midi-player')?.textContent.includes('Honest Handshake'), comments: document.querySelectorAll('.page-comment').length, cal: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'KingCalCars'), customer: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'Tina_R') }))()`);
+          const honestEarlReady = await win.webContents.executeJavaScript(`(() => ({ page: Boolean(document.querySelector('.earl-page .earl-hero .dealer-photo')), music: document.querySelector('.page-midi-player')?.textContent.includes('Honest Earl Jingle'), comments: document.querySelectorAll('.page-comment').length, cal: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'KingCalCars'), customer: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'Tina_R') }))()`);
           if (!honestEarlReady.page || !honestEarlReady.music || honestEarlReady.comments < 6 || !honestEarlReady.cal || !honestEarlReady.customer) throw new Error(`Honest Earl page, music, or seeded feud comments were incomplete: ${JSON.stringify(honestEarlReady)}`);
           await capture("dealer-honest-earl.png");
           await win.webContents.executeJavaScript(`document.querySelector('.page-comments')?.scrollIntoView({ block: 'start' })`);
@@ -593,7 +595,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "clue-flow.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log("SMOKE_OK: browsed all eight OrbitNet zones, installed Orbit Pal, found all eleven businesses through related searches, verified all eleven business campaigns plus their page MIDI/comment boundaries and seeded dealer feud, browsed to the archive, and persisted downloads.");
+          console.log("SMOKE_OK: browsed all eight OrbitNet zones, installed Orbit Pal, found all eleven businesses through related searches, verified all eleven business campaigns plus their page-music/comment boundaries and seeded dealer feud, browsed to the archive, and persisted downloads.");
         } catch (error) {
           console.error("SMOKE_FAILED:", error);
           process.exitCode = 1;

@@ -8,6 +8,43 @@ const startupJingle = new Audio(startupJingleUrl);
 startupJingle.preload = "auto";
 startupJingle.volume = 0.7;
 
+const KING_CAL_TRACKS: readonly PageMusicTrack[] = [
+  { label: "Everybody Rides", file: "everybody-rides.mp3", url: new URL("../assets/audio/pages/king-cal/everybody-rides.mp3", import.meta.url).href },
+  { label: "Everybody Rides Royalty", file: "everybody-rides-royalty.mp3", url: new URL("../assets/audio/pages/king-cal/everybody-rides-royalty.mp3", import.meta.url).href },
+  { label: "Royalty on Wheels", file: "royalty-on-wheels-01.mp3", url: new URL("../assets/audio/pages/king-cal/royalty-on-wheels-01.mp3", import.meta.url).href },
+  { label: "Royalty on Wheels II", file: "royalty-on-wheels-02.mp3", url: new URL("../assets/audio/pages/king-cal/royalty-on-wheels-02.mp3", import.meta.url).href },
+  { label: "County Line Royalty", file: "county-line-royalty-01.mp3", url: new URL("../assets/audio/pages/king-cal/county-line-royalty-01.mp3", import.meta.url).href },
+  { label: "County Line Royalty II", file: "county-line-royalty-02.mp3", url: new URL("../assets/audio/pages/king-cal/county-line-royalty-02.mp3", import.meta.url).href },
+  { label: "County Line Royalty III", file: "county-line-royalty-03.mp3", url: new URL("../assets/audio/pages/king-cal/county-line-royalty-03.mp3", import.meta.url).href },
+  { label: "King Cal's Auto Kingdom", file: "king-cals-auto-kingdom-01.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-auto-kingdom-01.mp3", import.meta.url).href },
+  { label: "King Cal's Auto Kingdom II", file: "king-cals-auto-kingdom-02.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-auto-kingdom-02.mp3", import.meta.url).href },
+  { label: "King Cal's Auto Kingdom III", file: "king-cals-auto-kingdom-03.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-auto-kingdom-03.mp3", import.meta.url).href },
+  { label: "King Cal's Auto Kingdom IV", file: "king-cals-auto-kingdom-04.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-auto-kingdom-04.mp3", import.meta.url).href },
+  { label: "King Cal's Auto Kingdom V", file: "king-cals-auto-kingdom-05.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-auto-kingdom-05.mp3", import.meta.url).href },
+  { label: "King Cal's Auto Kingdom VI", file: "king-cals-auto-kingdom-06.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-auto-kingdom-06.mp3", import.meta.url).href },
+  { label: "King Cal's Auto Kingdom VII", file: "king-cals-auto-kingdom-07.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-auto-kingdom-07.mp3", import.meta.url).href },
+  { label: "King Cal's Auto Kingdom VIII", file: "king-cals-auto-kingdom-08.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-auto-kingdom-08.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom", file: "king-cals-kingdom-01.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-01.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom II", file: "king-cals-kingdom-02.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-02.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom III", file: "king-cals-kingdom-03.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-03.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom IV", file: "king-cals-kingdom-04.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-04.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom V", file: "king-cals-kingdom-05.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-05.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom VI", file: "king-cals-kingdom-06.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-06.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom VII", file: "king-cals-kingdom-07.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-07.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom VIII", file: "king-cals-kingdom-08.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-08.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom IX", file: "king-cals-kingdom-09.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-09.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom X", file: "king-cals-kingdom-10.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-10.mp3", import.meta.url).href },
+  { label: "King Cal's Kingdom XI", file: "king-cals-kingdom-11.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-11.mp3", import.meta.url).href },
+  { label: "County Line Crown", file: "county-line-crown-diss-track-01.mp3", url: new URL("../assets/audio/pages/king-cal/county-line-crown-diss-track-01.mp3", import.meta.url).href },
+  { label: "Kingdom Diss Track II", file: "king-cals-kingdom-diss-track-02.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-kingdom-diss-track-02.mp3", import.meta.url).href },
+  { label: "King Cal's Warning", file: "king-cals-warning-secret-01.mp3", url: new URL("../assets/audio/pages/king-cal/king-cals-warning-secret-01.mp3", import.meta.url).href },
+  { label: "County Line Code", file: "county-line-code-secret-02.mp3", url: new URL("../assets/audio/pages/king-cal/county-line-code-secret-02.mp3", import.meta.url).href },
+  { label: "County Line Code (Alt.)", file: "county-line-code-secret-03-alt.mp3", url: new URL("../assets/audio/pages/king-cal/county-line-code-secret-03-alt.mp3", import.meta.url).href },
+  { label: "County Line Cipher", file: "county-line-cipher-secret-04.mp3", url: new URL("../assets/audio/pages/king-cal/county-line-cipher-secret-04.mp3", import.meta.url).href },
+  { label: "County Line Cipher (Alt.)", file: "county-line-cipher-secret-05-alt.mp3", url: new URL("../assets/audio/pages/king-cal/county-line-cipher-secret-05-alt.mp3", import.meta.url).href },
+  { label: "County Line Warning", file: "county-line-warning-secret-06.mp3", url: new URL("../assets/audio/pages/king-cal/county-line-warning-secret-06.mp3", import.meta.url).href }
+];
+
 const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   directory: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
   gamegridzone: { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
@@ -15,16 +52,16 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   signal: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
   raven: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
   computer: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
-  pizza: { label: "Pepperoni Comet", file: "pepperoni-comet.mid", midiUrl: new URL("../assets/audio/pages/pepperoni-comet.mid", import.meta.url).href, url: new URL("../assets/audio/pages/pepperoni-comet.wav", import.meta.url).href },
+  pizza: { label: "Cosmic Crust Pizza", file: "cosmic-crust-pizza.mp3", url: new URL("../assets/audio/pages/cosmic-crust/cosmic-crust-pizza.mp3", import.meta.url).href },
   pets: { label: "Paws on the Keys", file: "paws-on-the-keys.mid", midiUrl: new URL("../assets/audio/pages/paws-on-the-keys.mid", import.meta.url).href, url: new URL("../assets/audio/pages/paws-on-the-keys.wav", import.meta.url).href },
-  pulse: { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
-  vanta: { label: "Second World", file: "second-world.mid", midiUrl: new URL("../assets/audio/pages/second-world.mid", import.meta.url).href, url: new URL("../assets/audio/pages/second-world.wav", import.meta.url).href },
-  cubit: { label: "Four on the Floor", file: "four-on-the-floor.mid", midiUrl: new URL("../assets/audio/pages/four-on-the-floor.mid", import.meta.url).href, url: new URL("../assets/audio/pages/four-on-the-floor.wav", import.meta.url).href },
+  pulse: { label: "PULSE NET", file: "pulse-net.mp3", url: new URL("../assets/audio/pages/pulse-net/pulse-net.mp3", import.meta.url).href },
+  vanta: { label: "Leave Reality Running", file: "leave-reality-running.mp3", url: new URL("../assets/audio/pages/vanta/leave-reality-running.mp3", import.meta.url).href },
+  cubit: { label: "CUBIT Pure Play", file: "cubit-pure-play.mp3", url: new URL("../assets/audio/pages/cubit/cubit-pure-play.mp3", import.meta.url).href },
   rocketbox: { label: "Toybox Turbo", file: "toybox-turbo.mid", midiUrl: new URL("../assets/audio/pages/toybox-turbo.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toybox-turbo.wav", import.meta.url).href },
-  moonmunch: { label: "Moon Munch March", file: "moon-munch-march.mid", midiUrl: new URL("../assets/audio/pages/moon-munch-march.mid", import.meta.url).href, url: new URL("../assets/audio/pages/moon-munch-march.wav", import.meta.url).href },
+  moonmunch: { label: "Moon Munch Blast", file: "moon-munch-blast.mp3", url: new URL("../assets/audio/pages/moon-munch/moon-munch-blast.mp3", import.meta.url).href },
   toonburst: { label: "ToonBurst Theme", file: "toonburst-theme.mid", midiUrl: new URL("../assets/audio/pages/toonburst-theme.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toonburst-theme.wav", import.meta.url).href },
-  kingcal: { label: "Crown and Clunker", file: "crown-and-clunker.mid", midiUrl: new URL("../assets/audio/pages/crown-and-clunker.mid", import.meta.url).href, url: new URL("../assets/audio/pages/crown-and-clunker.wav", import.meta.url).href },
-  earl: { label: "Honest Handshake", file: "honest-handshake.mid", midiUrl: new URL("../assets/audio/pages/honest-handshake.mid", import.meta.url).href, url: new URL("../assets/audio/pages/honest-handshake.wav", import.meta.url).href },
+  kingcal: KING_CAL_TRACKS[0],
+  earl: { label: "Honest Earl Jingle", file: "honest-earl-jingle.mp3", url: new URL("../assets/audio/pages/honest-earl/honest-earl-jingle.mp3", import.meta.url).href },
   skater: { label: "Curb Static", file: "curb-static.mid", midiUrl: new URL("../assets/audio/pages/curb-static.mid", import.meta.url).href, url: new URL("../assets/audio/pages/curb-static.wav", import.meta.url).href },
   bmx: { label: "Dirtline Drive", file: "dirtline-drive.mid", midiUrl: new URL("../assets/audio/pages/dirtline-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/dirtline-drive.wav", import.meta.url).href },
   blader: { label: "Eight-Wheel Velocity", file: "eight-wheel-velocity.mid", midiUrl: new URL("../assets/audio/pages/eight-wheel-velocity.mid", import.meta.url).href, url: new URL("../assets/audio/pages/eight-wheel-velocity.wav", import.meta.url).href },
@@ -52,7 +89,8 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   oldfishing: { label: "North Reeds", file: "north-reeds.mid", midiUrl: new URL("../assets/audio/pages/north-reeds.mid", import.meta.url).href, url: new URL("../assets/audio/pages/north-reeds.wav", import.meta.url).href }
 };
 const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicTrack[]>> = {
-  gamegridzone: [SITE_MUSIC.gamegridzone, SITE_MUSIC.vanta, SITE_MUSIC.cubit]
+  gamegridzone: [SITE_MUSIC.gamegridzone, SITE_MUSIC.vanta, SITE_MUSIC.cubit],
+  kingcal: KING_CAL_TRACKS
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -660,7 +698,7 @@ function pageMusicPlayer(page: PageDefinition) {
   const hasPlaylist = playlist.length > 1;
   const bars = Array.from({ length: 10 }, (_, index) => `<i style="--midi-bar:${index}"></i>`).join("");
   return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""} ${hasPlaylist ? "has-playlist" : ""}" data-midi-source="${track.midiUrl ?? track.url}" data-music-scope="${page.site}" data-track-index="${trackIndex}">
-    <div class="midi-player-ridge"><strong>ORBITAMP</strong><em>WEB</em><span><span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>MIDI LOOP</span></div>
+    <div class="midi-player-ridge"><strong>ORBITAMP</strong><em>WEB</em><span><span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>AUDIO LOOP</span></div>
     <div class="midi-display">
       <div class="midi-visualizer" aria-hidden="true">${bars}</div>
       <div class="midi-track"><small>NOW PLAYING</small><b>${escapeHtml(track.label)}</b><code>${escapeHtml(track.file)}</code></div>
@@ -1284,7 +1322,7 @@ function render() {
       <button data-open="settings"><span class="desktop-icon settings">⚙</span><b>Settings</b></button>
       ${state.flags.orbit_pal_installed ? `<button data-open="helper"><span class="desktop-icon helper">?</span><b>Orbit Pal</b></button>` : ""}
     </div>
-    <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Search for food or pets</span><span>• Try a page’s MIDI player</span><span>• Download Orbit Pal</span></aside>
+    <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Search for food or pets</span><span>• Try a page’s music player</span><span>• Download Orbit Pal</span></aside>
     ${windows.helper.open ? `<button class="desktop-helper" data-helper-talk aria-label="Talk to Orbit Pal"><span class="orbit-pal-body"><i></i><b>?</b><em></em></span><strong>Orbit Pal</strong><small>Click to talk</small></button>` : ""}
     ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}${helperWindow()}
     ${notification ? `<div class="toast">${notification}</div>` : ""}

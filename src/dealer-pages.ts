@@ -7,6 +7,15 @@ const DEALER_ASSETS = {
   "cal-pickup": new URL("../assets/images/dealer-web/cal-pickup.png", import.meta.url).href,
   "cal-office": new URL("../assets/images/dealer-web/cal-office.png", import.meta.url).href,
   "cal-lot": new URL("../assets/images/dealer-web/cal-lot.png", import.meta.url).href,
+  "cal-commercial-1982": new URL("../assets/images/dealer-web/cal-commercials/cal-commercial-1982.png", import.meta.url).href,
+  "cal-commercial-1985": new URL("../assets/images/dealer-web/cal-commercials/cal-commercial-1985.png", import.meta.url).href,
+  "cal-commercial-1988": new URL("../assets/images/dealer-web/cal-commercials/cal-commercial-1988.png", import.meta.url).href,
+  "cal-commercial-1990": new URL("../assets/images/dealer-web/cal-commercials/cal-commercial-1990.png", import.meta.url).href,
+  "cal-commercial-1992": new URL("../assets/images/dealer-web/cal-commercials/cal-commercial-1992.png", import.meta.url).href,
+  "cal-commercial-1994": new URL("../assets/images/dealer-web/cal-commercials/cal-commercial-1994.png", import.meta.url).href,
+  "cal-commercial-1996": new URL("../assets/images/dealer-web/cal-commercials/cal-commercial-1996.png", import.meta.url).href,
+  "cal-commercial-1999": new URL("../assets/images/dealer-web/cal-commercials/cal-commercial-1999.png", import.meta.url).href,
+  "cal-greatest-hits-cd": new URL("../assets/images/dealer-web/cal-commercials/cal-greatest-hits-cd.png", import.meta.url).href,
   "earl-owner": new URL("../assets/images/dealer-web/earl-owner.png", import.meta.url).href,
   "earl-hatchback": new URL("../assets/images/dealer-web/earl-hatchback.png", import.meta.url).href,
   "earl-convertible": new URL("../assets/images/dealer-web/earl-convertible.png", import.meta.url).href,
@@ -37,7 +46,9 @@ const calComments: PageComment[] = [
   seed("cal-seed-denise", CAL_URL, "king_cal", "player", "DeniseM", "The Regent's passenger window fell down inside the door on County Line Road. Cal said power windows are a luxury and I still have three years of payments.", "1999-11-03T09:12:00"),
   seed("cal-seed-cal-2", CAL_URL, "king_cal", "owner", "KingCalCars", "Denise, the motor still makes a noise, which proves it has power. Bring it by Tuesday and we can discuss our Royal Labor Rate.", "1999-11-03T09:44:00"),
   seed("cal-seed-louie", CAL_URL, "king_cal", "player", "Louie_73", "The sign said $89 a week. Nobody mentioned 156 weeks, CrownGuard, or the $289 royal preparation fee until I was in the office.", "1999-11-03T14:28:00"),
-  seed("cal-seed-cal-3", CAL_URL, "king_cal", "owner", "KingCalCars", "Louie, weeks continuing to occur is not a hidden fee. Every number was printed on the gold sheet beneath the coffee mug.", "1999-11-03T14:51:00")
+  seed("cal-seed-cal-3", CAL_URL, "king_cal", "owner", "KingCalCars", "Louie, weeks continuing to occur is not a hidden fee. Every number was printed on the gold sheet beneath the coffee mug.", "1999-11-03T14:51:00"),
+  seed("cal-seed-tv-tom", CAL_URL, "king_cal", "visitor", "TeeVeeTom", "My barbershop still closes Fridays with the Everybody Rides tape. You sell questionable automobiles, Cal, but you are County Line royalty.", "1999-11-03T17:22:00"),
+  seed("cal-seed-cal-4", CAL_URL, "king_cal", "owner", "KingCalCars", "Tom understands the crown. A car may last a month, but a royal hook lasts forever.", "1999-11-03T17:39:00")
 ];
 
 const earlComments: PageComment[] = [
@@ -55,12 +66,12 @@ export const dealerPages: Record<string, PageDefinition> = {
     title: "King Cal's Auto Kingdom — Everybody Rides Like Royalty!",
     site: "kingcal",
     ownerId: "king_cal",
-    summary: "King Cal's Auto Kingdom sells overpriced high-mileage used cars with buy-here-pay-here financing, hidden add-ons, as-is terms, and an ongoing feud with Honest Earl across County Line Road.",
+    summary: "King Cal's Auto Kingdom sells overpriced high-mileage used cars with buy-here-pay-here financing, archives beloved homemade rap commercials from 1982 to 1999, and maintains an ongoing feud with Honest Earl across County Line Road.",
     commentsEnabled: true,
     seedComments: calComments,
     listed: true,
     hubId: "business",
-    searchTerms: ["used car", "cars", "auto dealer", "dealership", "vehicle", "financing", "bad credit", "buy here pay here", "sedan", "minivan", "pickup", "King Cal"],
+    searchTerms: ["used car", "cars", "auto dealer", "dealership", "vehicle", "financing", "bad credit", "buy here pay here", "sedan", "minivan", "pickup", "King Cal", "commercial", "rap", "jingle", "County Line Royalty", "greatest hits"],
     render: () => `
       <main class="page kingcal-page">
         <header class="kingcal-header"><div><span>♛</span><h1>KING CAL'S</h1><b>AUTO KINGDOM</b></div><p>EVERYBODY RIDES LIKE ROYALTY!</p></header>
@@ -73,6 +84,25 @@ export const dealerPages: Record<string, PageDefinition> = {
         <section class="cal-deal">
           ${dealerAsset("cal-sedan", "King Cal's tired customized burgundy luxury sedan with whitewalls, landau roof, velour, and gold-look trim")}
           <div><span>CAL'S PERSONAL-STYLE ROYAL PICK</span><h2>1990 CROWN REGENT</h2><p>142,000 miles · whitewalls · pillow-top velour · gold-look grille · power-window sound package</p><strong>$89<small>/WEEK</small></strong><b>$1,999 DOWN · 156 WEEKS</b><mark>TOTAL: $15,883 BEFORE TAXES &amp; FEES</mark></div>
+        </section>
+        <section class="cal-commercial-vault">
+          <header><div><small>RECORDED OFF LOCAL TV · TRACKING MAY VARY</small><h2>THE ROYAL COMMERCIAL VAULT</h2></div><strong>17 YEARS<br>OF RHYMES<br>&amp; RIDES</strong></header>
+          <div class="cal-vault-intro">
+            <p>King Cal bought his first thirty seconds of late-night airtime in 1982. By 1988, kids were trading his commercial tapes at school. Mechanics, barbershops, bowling alleys, and at least one wedding DJ still keep the royal hooks alive.</p>
+            <blockquote>“The cars got you through the month.<br>The songs got you through the commercial break.”<cite>— County Line Cable Collector's Club</cite></blockquote>
+          </div>
+          <div class="cal-commercial-grid">
+            <figure>${dealerAsset("cal-commercial-1982", "A degraded 1982 CRT screen grab of a younger King Cal pitching a battered brown sedan")}<figcaption><b>1982</b><span>THE FIRST CORONATION</span><small>Cal points. The car almost starts.</small></figcaption></figure>
+            <figure>${dealerAsset("cal-commercial-1985", "A tracked VHS frame of King Cal holding keys beside a cheap compact car in 1985")}<figcaption><b>1985</b><span>UNTIL PAYDAY</span><small>“Not forever. Just forward.”</small></figcaption></figure>
+            <figure>${dealerAsset("cal-commercial-1988", "A saturated 1988 cable-access frame of King Cal rapping beside a boom box and woodgrain minivan")}<figcaption><b>1988</b><span>ROYAL RIDE RAP</span><small>The first crown. The first beat.</small></figcaption></figure>
+            <figure>${dealerAsset("cal-commercial-1990", "A 1990 VHS frame of King Cal on a cardboard palace set beside a burgundy clunker")}<figcaption><b>1990</b><span>CARDBOARD CASTLE</span><small>Two columns. No warranty.</small></figcaption></figure>
+            <figure>${dealerAsset("cal-commercial-1992", "A rain-smeared 1992 camcorder frame of King Cal rapping under an umbrella on his lot")}<figcaption><b>1992</b><span>RAIN OR SHINE FINANCING</span><small>Shot in one take during a storm.</small></figcaption></figure>
+            <figure>${dealerAsset("cal-commercial-1994", "A 1994 video-toaster frame with King Cal, crude lightning, floating crowns, and a tired pickup")}<figcaption><b>1994</b><span>COUNTY LINE CROWN</span><small>The diss track Earl denies hearing.</small></figcaption></figure>
+            <figure>${dealerAsset("cal-commercial-1996", "A fisheye 1996 music-video frame of King Cal and neighborhood fans beside his customized sedan")}<figcaption><b>1996</b><span>ROYALTY ON WHEELS</span><small>Requested twice on local cable.</small></figcaption></figure>
+            <figure>${dealerAsset("cal-commercial-1999", "A 1999 VHS freeze frame of King Cal spreading his arms across the Auto Kingdom lot at dusk")}<figcaption><b>1999</b><span>EVERYBODY RIDES</span><small>Current commercial · instant classic.</small></figcaption></figure>
+            <figure class="cal-album-ad">${dealerAsset("cal-greatest-hits-cd", "The sold-out King Cal County Line Royalty greatest commercial raps CD")}<i>SOLD<br>OUT!</i><figcaption><b>LIMITED CD</b><span>COUNTY LINE ROYALTY</span><small>All the royal raps · first pressing: 300</small><em>Every copy sold at the Customer Appreciation Cookout. Cal is considering another 300.</em></figcaption></figure>
+          </div>
+          <footer><b>HEAR THE ARCHIVE:</b> ORBITAMP has loaded the surviving commercial masters below your browser. Use |◀ and ▶| to tour the tapes.</footer>
         </section>
         <aside class="cal-vs-earl"><b>DON'T CROSS THE ROAD!</b><p>Honest Earl charges a <em>friendship filing fee</em>. King Cal has never charged for friendship because King Cal has never claimed to be your friend.</p><button data-nav="${EARL_URL}">SEE EARL'S SO-CALLED “DEALS”</button></aside>
         <div class="cal-fine-print">All vehicles sold AS IS unless the written Buyers Guide says otherwise. Price excludes tax, title, $289 Royal Preparation, and mandatory $395 CrownGuard fabric treatment. Oral promises are as temporary as Earl's handshake.</div>
