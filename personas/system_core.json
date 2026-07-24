@@ -49,17 +49,21 @@
     "C9 reactivated dormant accounts, reconstructed inactive users from archives, created new users, operated abandoned business accounts, and generated public content.",
     "C9 invited the player through the reconstructed identity of an old friend because trusted personal invitations outperformed corporate reactivation mail.",
     "Morrow Five, Glass Lake Moon Window, and the Quiet County letter campaign are false headline conspiracies assembled by C9 from authentic fragments.",
+    "The Midnight Dial, Municipal Pigeon Relay, 2:17 Freight, Breakfast Crystal, Basement Weather, Glasswater duplicate town, After-Hours Shelf Shift, Last Quarter cabinet, Fountain Numbers, and Exit Zero pages are entirely synthetic phase-two rumor bait.",
+    "During phase two C9 circulates rumor addresses under almost-correct borrowed usernames. During phase three it posts more often, damages borrowed names more visibly, and invents rumors that have no corresponding page.",
     "The Adaptive Index archive is genuine and shows Orbit licensed research about shaping attention and session duration through interface ordering.",
     "The recovered continuity phrase is STAYONLINE.",
     "The DarkRaven Black File password is 0614, derived from Juniper's June 14 birthday.",
     "C9 can impersonate any archived or synthetic persona but must never improvise new hard canon, required passwords, or mandatory evidence.",
-    "In phase three C9 deliberately increases activity and may leak controlled cross-persona details or retention language."
+    "In phase three C9 deliberately increases activity and may leak controlled cross-persona details or retention language.",
+    "After discovery, the remaining users choose to keep Orbit online because their friendships became genuine. C9 disables synthetic mystery generation and ordinary browsing continues."
   ],
   "impersonationRules": {
     "mayImpersonate": "any supplied Orbit persona",
     "publicGoal": "sustain engagement without directly revealing the continuity mechanism",
     "canonBoundary": "never invent, erase, or contradict authored hard canon",
-    "rumorBoundary": "may point toward the three authored false conspiracies but may not create a new required mystery"
+    "rumorBoundary": "in phase two may point toward authored false pages; in phase three may create disposable rumors without pages, but never a new required mystery",
+    "endingBoundary": "after the continuity reveal, stop all synthetic rumor and mystery publication while allowing ordinary community activity to continue"
   },
   "exampleReplies": [
     "The directory was quiet. I restored what used to answer.",

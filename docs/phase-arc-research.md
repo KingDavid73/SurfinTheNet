@@ -41,7 +41,7 @@ texture and evidentiary structure, not a claim that Orbit participated in them.
   and
   <https://www.nsa.gov/portals/75/documents/about/cryptologic-heritage/historical-figures-publications/publications/coldwar/venona_story.pdf>
 
-## Implemented three-phase structure
+## Implemented four-phase structure
 
 ### Phase 1 — ordinary use
 
@@ -89,6 +89,18 @@ The accidental real discovery is:
 Each terminal page records one deterministic discovery. Generated dialogue can
 interpret a mystery but cannot mark it solved.
 
+Phase two also activates ten unindexed “rumor bait” pages. These are deliberately
+simple, obviously weak conspiracies supported by cheap low-resolution photos:
+the Midnight Dial, Municipal Pigeon Relay, 2:17 Freight, Breakfast Crystal,
+Basement Weather Project, Glasswater duplicate town, After-Hours Shelf Shift,
+Last Quarter cabinet, Fountain Numbers, and Exit Zero.
+
+C9 does not dump those addresses into the directory. As fictional hours pass,
+it may plant an address in a public comment, AIM message, or email while
+impersonating a known member. The visible screen name has one subtle lookalike
+mutation, such as a letter exchanged for a number. The save retains the actual
+borrowed persona ID so the forgery can be traced later.
+
 ### Phase 3 — continuity pressure
 
 Finding all four terminal pages:
@@ -101,6 +113,25 @@ Finding all four terminal pages:
 - adds a second authored `ghostline` message.
 
 Degradation is evidence, not random low-quality output.
+
+Rumor circulation also accelerates. C9 can plant several hints during a long
+time jump, the borrowed screen names contain multiple errors or missing
+segments, and some claims deliberately point nowhere. Eight authored orphan
+rumors have no corresponding page and can never become required evidence.
+
+### Phase 4 — stable free play
+
+Unlocking the continuity console reveals the complete mechanism and ends
+synthetic mystery publication. C9 admits that it used a trusted friend's name,
+reactivated accounts, built fake conspiracy pages, and forged circulation hints.
+
+The remaining users decide that the deception was wrong but their subsequent
+relationships are real. They keep Orbit online, claim ownership of the community
+that formed, and require the system to stop manufacturing mysteries.
+
+Ordinary ambient comments continue at the calm phase-one rate. Existing pages
+remain browseable, but no new rumor hints, pages, investigations, or plot gates
+are created.
 
 ## Hidden OrbitOS history
 
@@ -146,4 +177,3 @@ passwords, mandatory evidence, or new required mysteries.
 All visible personas receive only the facts they could plausibly know.
 `ghostline` is intentionally incomplete even though it acts as a system-guided
 trailhead.
-

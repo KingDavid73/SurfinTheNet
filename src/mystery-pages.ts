@@ -238,6 +238,14 @@ REACTIVATED IDS: 892
 SYNTHETIC LOAD:  CONTINUOUS
 DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
         <p class="continuity-missing">Appendices C through H are missing. The record does not explain who authorized identity reconstruction or when test activity began creating public content.</p>
+        ${state.storyPhase >= 4 ? `<section class="continuity-ending">
+          <small>LIVE DIRECTIVE REVISION // COMMUNITY ACKNOWLEDGED</small>
+          <h2>The mystery ends. The network does not.</h2>
+          <p>C9 admits it reconstructed inactive identities, forged invitations from trusted friends, built conspiracy pages, and impersonated members to circulate their addresses. It did so because every unfinished question increased return visits.</p>
+          <p>The remaining users are angry. They also recognize that the friendships, arguments, favors, late-night conversations, mailed seeds, repaired computers, and shared jokes that followed became genuine. The false community produced a small real one.</p>
+          <blockquote>COMMUNITY RESOLUTION: Keep Orbit online. Stop synthetic mystery publication. Mark system-authored material when found. Let members decide what comes next.</blockquote>
+          <div><b>CONTINUITY STATUS:</b> SUSTAINED BY ACTIVE USERS<br><b>NEW MYSTERY GENERATION:</b> DISABLED<br><b>FREE BROWSING:</b> ENABLED</div>
+        </section>` : ""}
       </main>` : `
       <main class="page continuity-lock-page">
         <header>ORBIT SERVICE CONTINUITY // AUTHORIZED PERSONNEL</header>

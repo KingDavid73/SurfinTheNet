@@ -1,5 +1,6 @@
 import "./styles.css";
 import { notFoundPage, pages } from "./pages";
+import { ORPHAN_RUMORS, SYSTEM_RUMORS } from "./rumor-pages";
 import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack, StoryPhase } from "./types";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
@@ -127,6 +128,7 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   glasslake: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
   quietcounty: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
   algorithmarchive: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  rumorarchive: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
   computer: { label: "Byte Barn Deal", file: "byte-barn-deal.mp3", url: new URL("../assets/audio/pages/byte-barn/byte-barn-deal.mp3", import.meta.url).href },
   modkit: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
   pizza: COSMIC_CRUST_TRACKS[0],
@@ -186,7 +188,7 @@ pageMusic.volume = PAGE_MUSIC_MAX_VOLUME * 0.5;
 type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
 
 const DEFAULT_STATE: GameState = {
-  version: 6,
+  version: 7,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -525,12 +527,15 @@ function normalizeState(loaded: Partial<GameState>): GameState {
   const playerName = loaded.playerName === undefined && Number(loaded.version ?? 0) < 5
     ? "David"
     : normalizePlayerName(loaded.playerName);
+  const storyPhase = loaded.flags?.continuity_console_unlocked
+    ? 4
+    : loaded.storyPhase === 2 || loaded.storyPhase === 3 || loaded.storyPhase === 4 ? loaded.storyPhase : 1;
   return {
     ...structuredClone(DEFAULT_STATE),
     ...loaded,
     version: DEFAULT_STATE.version,
     playerName,
-    storyPhase: loaded.storyPhase === 2 || loaded.storyPhase === 3 ? loaded.storyPhase : 1,
+    storyPhase,
     discoveredMysteries: Array.isArray(loaded.discoveredMysteries) ? [...new Set(loaded.discoveredMysteries.map(String))] : [],
     settings: { ...DEFAULT_STATE.settings, ...(loaded.settings ?? {}) },
     pageComments: Array.isArray(loaded.pageComments) ? loaded.pageComments : [],
@@ -573,8 +578,8 @@ function queueAmbientPostRolls(hoursElapsed: number, createdAt: string) {
   if (hoursElapsed < 1) return;
   const homepages = ambientCommentHomepages();
   if (!homepages.length) return;
-  const chancePerHour = state.storyPhase >= 3 ? 0.07 : state.storyPhase === 2 ? 0.035 : 0.02;
-  const maximumChance = state.storyPhase >= 3 ? 0.50 : state.storyPhase === 2 ? 0.30 : 0.20;
+  const chancePerHour = state.storyPhase === 3 ? 0.07 : state.storyPhase === 2 ? 0.035 : 0.02;
+  const maximumChance = state.storyPhase === 3 ? 0.50 : state.storyPhase === 2 ? 0.30 : 0.20;
   const chance = Math.min(hoursElapsed * chancePerHour, maximumChance);
   const jobs: AmbientPostJob[] = [];
   for (const personaId of ambientPostingPersonaIds()) {
@@ -593,6 +598,114 @@ function queueAmbientPostRolls(hoursElapsed: number, createdAt: string) {
   void saveState().then(() => processAmbientPostQueue()).catch(() => {
     // Keep the queued jobs in memory; a later clock save or model status poll can retry them.
   });
+}
+
+const RUMOR_PUBLIC_IMPERSONATORS = [
+  "code_dex",
+  "big_bass_bob",
+  "faxmoth_13",
+  "nullindex",
+  "darkraven_xx",
+  "mira_917"
+] as const;
+const RUMOR_AIM_IMPERSONATORS = ["mira_917", "darkraven_xx", "ghostline"] as const;
+const RUMOR_EMAIL_IMPERSONATORS = ["juniper_gdn"] as const;
+
+function systemHintFlags(prefix: string) {
+  return Object.keys(state.flags).filter((key) => key.startsWith(prefix) && state.flags[key]);
+}
+
+function borrowedScreenName(ownerId: string, phase: StoryPhase) {
+  const original = PAGE_OWNERS[ownerId]?.screenName ?? ownerId;
+  const lookalikes: Record<string, string> = {
+    "0": "O", "1": "l", "2": "Z", "3": "E", "4": "A",
+    "5": "S", "6": "G", "7": "T", "8": "B", "9": "g",
+    O: "0", o: "0", l: "1", I: "1", S: "5", s: "5", B: "8", b: "8", E: "3", e: "3", A: "4", a: "4", T: "7", t: "7"
+  };
+  const mutable = [...original].map((character, index) => ({ character, index })).filter(({ character }) => lookalikes[character]);
+  if (!mutable.length) return phase === 2 ? `${original}_` : `${original.slice(0, Math.max(3, original.length - 3))}00`;
+
+  const changed = [...original];
+  const mutationCount = phase === 2 ? 1 : Math.min(4, Math.max(2, Math.ceil(original.length / 6)));
+  for (let mutation = 0; mutation < mutationCount; mutation += 1) {
+    const candidate = mutable[(Math.floor(Math.random() * mutable.length) + mutation) % mutable.length];
+    changed[candidate.index] = lookalikes[changed[candidate.index]] ?? lookalikes[candidate.character] ?? changed[candidate.index];
+  }
+  if (phase === 3 && changed.length > 8) {
+    const spliceAt = Math.max(2, Math.floor(changed.length * 0.65));
+    changed.splice(spliceAt, Math.min(3, changed.length - spliceAt));
+  }
+  return changed.join("");
+}
+
+function addSystemHintComment(text: string, authorOwnerId: string, createdAt: string, hintId: string) {
+  const targets = ambientCommentHomepages().filter((page) => page.ownerId !== authorOwnerId);
+  const page = targets[Math.floor(Math.random() * targets.length)] ?? targets[0];
+  if (!page) return false;
+  state.pageComments.push({
+    id: `system-hint-${hintId}-${crypto.randomUUID()}`,
+    pageUrl: page.url,
+    ownerId: authorOwnerId,
+    role: "visitor",
+    author: borrowedScreenName(authorOwnerId, state.storyPhase),
+    text,
+    createdAt,
+    revealAfterVisit: (state.pageVisitCounts[page.url] ?? 0) + 1
+  });
+  return true;
+}
+
+function addSystemHintDirectMessage(text: string, channel: "aim" | "email", createdAt: string, hintId: string) {
+  const candidates = channel === "aim" ? RUMOR_AIM_IMPERSONATORS : RUMOR_EMAIL_IMPERSONATORS;
+  const ownerId = candidates[Math.floor(Math.random() * candidates.length)] ?? candidates[0];
+  state.directMessages.push({
+    id: `system-hint-${hintId}-${crypto.randomUUID()}`,
+    ownerId,
+    channel,
+    role: "owner",
+    author: borrowedScreenName(ownerId, state.storyPhase),
+    text,
+    subject: channel === "email" ? "you should look at this before it moves" : undefined,
+    createdAt
+  });
+  return true;
+}
+
+function seedOneSystemRumorHint(createdAt: string) {
+  const unusedRumors = SYSTEM_RUMORS.filter((rumor) => !state.flags[`system_rumor_${rumor.id}`]);
+  const unusedOrphans = ORPHAN_RUMORS
+    .map((text, index) => ({ id: `orphan_${index + 1}`, text }))
+    .filter((rumor) => !state.flags[`system_rumor_${rumor.id}`]);
+  const chooseOrphan = state.storyPhase === 3 && unusedOrphans.length > 0 && (unusedRumors.length === 0 || Math.random() < 0.42);
+  const selected = chooseOrphan
+    ? unusedOrphans[Math.floor(Math.random() * unusedOrphans.length)]
+    : unusedRumors[Math.floor(Math.random() * unusedRumors.length)];
+  if (!selected) return false;
+
+  const text = "url" in selected
+    ? state.storyPhase === 3 ? selected.desperateHint : selected.hint
+    : selected.text;
+  const publishedCount = systemHintFlags("system_rumor_").length;
+  const surface = publishedCount % 3;
+  const added = surface === 0
+    ? addSystemHintComment(text, RUMOR_PUBLIC_IMPERSONATORS[publishedCount % RUMOR_PUBLIC_IMPERSONATORS.length], createdAt, selected.id)
+    : addSystemHintDirectMessage(text, surface === 1 ? "aim" : "email", createdAt, selected.id);
+  if (added) state.flags[`system_rumor_${selected.id}`] = true;
+  return added;
+}
+
+function seedSystemRumorHints(hoursElapsed: number, createdAt: string) {
+  if (hoursElapsed < 1 || state.storyPhase < 2 || state.storyPhase >= 4) return;
+  const chance = state.storyPhase === 3
+    ? Math.min(0.85, hoursElapsed * 0.22)
+    : Math.min(0.35, hoursElapsed * 0.08);
+  if (Math.random() >= chance) return;
+  const maximumHints = state.storyPhase === 3 ? Math.min(3, Math.max(1, Math.ceil(hoursElapsed / 4))) : 1;
+  for (let index = 0; index < maximumHints; index += 1) {
+    if (!seedOneSystemRumorHint(createdAt)) break;
+    if (state.storyPhase === 2 || Math.random() >= 0.55) break;
+  }
+  void saveState();
 }
 
 async function processAmbientPostQueue() {
@@ -773,15 +886,16 @@ function submitOrbitSearch(query: string) {
   void requestSemanticSearch(normalized);
 }
 
-function addAuthoredDirectMessage(id: string, ownerId: string, author: string, text: string) {
+function addAuthoredDirectMessage(id: string, ownerId: string, author: string, text: string, channel: "aim" | "email" = "aim", subject?: string) {
   if (state.directMessages.some((message) => message.id === id)) return;
   state.directMessages.push({
     id,
     ownerId,
-    channel: "aim",
+    channel,
     role: "owner",
     author,
     text,
+    subject,
     createdAt: state.gameTime
   });
 }
@@ -823,6 +937,64 @@ function addPhaseThreeLeakComments() {
   }
 }
 
+function addEndingCommunityResponses() {
+  addAuthoredDirectMessage(
+    "ending-system-confession",
+    "ghostline",
+    "SYSTEM",
+    "I used a name you trusted because invitations from friends kept sessions open. The rumors were manufactured. The replies you chose to send were not. I will stop creating mysteries. The community may remain."
+  );
+  addAuthoredDirectMessage(
+    "ending-raven-response",
+    "darkraven_xx",
+    "xX_DarkRaven_Xx",
+    "yeah, the moon phone was garbage and i'm furious. but FaxMoth stayed up half the night helping me prove it was garbage. that part happened. i'm not deleting everybody over it."
+  );
+  addAuthoredDirectMessage(
+    "ending-juniper-email",
+    "juniper_gdn",
+    "Juniper_Gdn",
+    "Finding out how we were pulled back here feels awful. But Ruth mailed me real seeds, and I talk to people here every morning now. The machine does not get credit for that. We do.",
+    "email",
+    "Re: whether we stay"
+  );
+
+  const responses: Array<Pick<PageComment, "id" | "pageUrl" | "ownerId" | "role" | "author" | "text">> = [
+    {
+      id: "ending-comment-faxmoth",
+      pageUrl: "web://foldedwire.net/home",
+      ownerId: "faxmoth_13",
+      role: "owner",
+      author: "FaxMoth_13",
+      text: "The archive lied about why we arrived. It did not fabricate this conversation. I vote we keep the lights on and label bad evidence properly."
+    },
+    {
+      id: "ending-comment-null",
+      pageUrl: "web://foldedwire.net/home",
+      ownerId: "nullindex",
+      role: "visitor",
+      author: "IndexNull",
+      text: "A false trail accidentally produced a real group. Annoying result. Still real."
+    },
+    {
+      id: "ending-comment-cedar",
+      pageUrl: "web://foldedwire.net/home",
+      ownerId: "cedar_wren",
+      role: "visitor",
+      author: "CedarWren",
+      text: "No more mystery drops from the system. New pages should come from people. I am staying."
+    }
+  ];
+  for (const response of responses) {
+    if (state.pageComments.some((comment) => comment.id === response.id)) continue;
+    state.pageComments.push({
+      ...response,
+      createdAt: state.gameTime,
+      revealAfterVisit: (state.pageVisitCounts[response.pageUrl] ?? 0) + 1
+    });
+  }
+}
+
 function activateStoryPhase(nextPhase: StoryPhase) {
   if (state.storyPhase >= nextPhase) return;
   state.storyPhase = nextPhase;
@@ -842,6 +1014,9 @@ function activateStoryPhase(nextPhase: StoryPhase) {
       "Four neat answers already? The network can do better than that. Stay on the line. Something more convincing is loading."
     );
     addPhaseThreeLeakComments();
+  }
+  if (nextPhase === 4) {
+    addEndingCommunityResponses();
   }
 }
 
@@ -1088,8 +1263,7 @@ function mailWindow() {
     ? `<button class="mail-row unread" data-mail="receipt"><b>● OrbitNet Downloads</b><span>Your file is ready</span><time>Now</time></button>`
     : "";
   const dynamicRows = receivedEmails.slice().reverse().map((message) => {
-    const contact = CHARACTER_CONTACTS[message.ownerId];
-    return `<button class="mail-row unread" data-direct-mail="${message.id}"><b>● ${escapeHtml(contact?.displayName ?? message.author)}</b><span>${escapeHtml(message.subject ?? "Re: Hello")}</span><time>${new Intl.DateTimeFormat([], { month: "numeric", day: "numeric" }).format(new Date(message.createdAt))}</time></button>`;
+    return `<button class="mail-row unread" data-direct-mail="${message.id}"><b>● ${escapeHtml(message.author)}</b><span>${escapeHtml(message.subject ?? "Re: Hello")}</span><time>${new Intl.DateTimeFormat([], { month: "numeric", day: "numeric" }).format(new Date(message.createdAt))}</time></button>`;
   }).join("");
 
   if (mailComposeOwnerId) {
@@ -1187,7 +1361,7 @@ function chatWindow() {
       ? `<small class="chat-metrics">generation ${formatDuration(message.metrics.generationMs)} · ${message.metrics.outputTokens} tokens · ${message.metrics.tokensPerSecond ?? "—"} tok/s · ${message.metrics.backend ?? "CPU"}${message.metrics.modelLoadMs ? ` · initial load ${formatDuration(message.metrics.modelLoadMs)}` : ""}</small>`
       : "";
     return `<article class="chat-message ${message.role === "owner" ? "character" : "player"}">
-      <header><b>${message.role === "player" ? "You" : escapeHtml(persona.screenName)}</b><time>${new Date(message.createdAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</time></header>
+      <header><b>${message.role === "player" ? "You" : escapeHtml(message.author || persona.screenName)}</b><time>${new Date(message.createdAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</time></header>
       <p>${escapeHtml(message.text)}</p>${metrics}
     </article>`;
   }).join("");
@@ -1900,7 +2074,9 @@ function advanceGameTime(option: string) {
     date.setHours(date.getHours() + Number(option));
   }
   state.gameTime = localGameTimeString(date);
-  queueAmbientPostRolls(crossedGameHourBoundaries(before, date), state.gameTime);
+  const hoursElapsed = crossedGameHourBoundaries(before, date);
+  queueAmbientPostRolls(hoursElapsed, state.gameTime);
+  seedSystemRumorHints(hoursElapsed, state.gameTime);
   lastGameClockTick = performance.now();
   sleepDialogOpen = false;
   void saveState();
@@ -2163,7 +2339,9 @@ function bindEvents() {
     }
     storyFormErrors.delete("continuity");
     state.flags.continuity_console_unlocked = true;
+    activateStoryPhase(4);
     await saveState();
+    showNotification("The continuity mystery is over. OrbitNet remains online.");
     render();
   });
   const address = document.querySelector<HTMLInputElement>(".address-form input");
@@ -2246,7 +2424,9 @@ function updateClock() {
       const gameDate = new Date(before);
       gameDate.setMilliseconds(gameDate.getMilliseconds() + elapsed * GAME_TIME_SCALE);
       state.gameTime = localGameTimeString(gameDate);
-      queueAmbientPostRolls(crossedGameHourBoundaries(before, gameDate), state.gameTime);
+      const hoursElapsed = crossedGameHourBoundaries(before, gameDate);
+      queueAmbientPostRolls(hoursElapsed, state.gameTime);
+      seedSystemRumorHints(hoursElapsed, state.gameTime);
     }
     if (now - lastClockSave >= 30_000) {
       lastClockSave = now;
@@ -2269,6 +2449,7 @@ void Promise.all([
   window.aiAPI?.status() ?? Promise.resolve(structuredClone(EMPTY_AI_STATUS))
 ]).then(([loadedState, loadedConversation, loadedStatus]) => {
   state = loadedState;
+  if (state.storyPhase === 4) addEndingCommunityResponses();
   aiConversation = loadedConversation;
   aiStatus = loadedStatus;
   history = [state.currentUrl];

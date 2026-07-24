@@ -33,7 +33,9 @@ npm.cmd run make
 - Eight complete community-zone landing pages, with Game Grid populated by six console-era member sites, X-Treme Edge by seven rival riders, Yesterday Online by six first-generation homepages, Rainbow Garden in Cozy Commons, and Night Signal plus DarkRaven in The Backchannel
 - Dozens of member-run sites and eleven search-only local businesses
 - A hidden, address-only 1995 OrbitOS corporate archive with broken media, retired communities, Orbit Bridge lore, and a protected continuity console
-- A playable three-phase mystery arc: DarkRaven's first password puzzle, phase-two Backchannel arrivals, three fabricated investigations, one genuine archive, and phase-three continuity glitches
+- A playable mystery arc: DarkRaven's first password puzzle, phase-two Backchannel arrivals, three fabricated investigations, one genuine archive, phase-three continuity glitches, and a stable post-reveal free-play state
+- Ten unindexed phase-two rumor pages illustrated with 25 low-resolution amateur “evidence” photos
+- System-forged rumor hints delivered through comments, AIM, and email using subtly altered borrowed usernames; phase three increases their frequency, name damage, and unsupported orphan rumors
 - Refined first-wave sites: Rainbow Garden's scrapbook, Night Signal's receiver console, DarkRaven's linked case files, and complete navigation for Byte Barn, Cosmic Crust, and Paws & Claws
 - Seeded Game Grid conversations that establish rivalries, friendships, game recommendations, and PULSE/NET, VANTA², and CUBIT loyalties
 - Seven X-Treme Edge personalities: skateboarder, BMX rider, aggressive inline skater, SoCal surfer, motocross racer, kick-scooter loudmouth, and rarely seen Riviera show-off, all with distinct period aesthetics and a shared friendship/rivalry history

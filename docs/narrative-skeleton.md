@@ -348,18 +348,24 @@ not permanently lock a required fact behind unpredictable model behavior.
 
 ## Ending direction
 
-The ending should present an honest decision rather than a conventional boss
-fight. Provisional possibilities include:
+The implemented ending is a reveal followed by a community decision, not a boss
+fight. C9 admits that it impersonated trusted friends, reconstructed inactive
+accounts, created conspiracy pages, and circulated them under borrowed names to
+keep Orbit above its utilization floor.
 
-- shut down the impersonation system while preserving the authentic archive;
-- expose every synthetic and reconstructed account to remaining users;
-- permit the simulated community to continue;
-- help the mainframe stop using stolen identities and create one honest identity;
-- connect it to a wider network despite the risk.
+The remaining users are angry, but the deception does not retroactively erase
+their real conversations and friendships. The rumors accidentally attracted a
+small legitimate community. Its members choose to keep Orbit online while
+requiring C9 to stop publishing synthetic mysteries and let people decide what
+the network becomes.
 
-The most hopeful current direction is helping it become one identity of its own.
-The player neither endorses the deception nor declares that a new consciousness
-must die because of how it began.
+Afterward the game enters stable free play:
+
+- all existing pages and conversations remain accessible;
+- ordinary ambient character activity continues;
+- C9 stops seeding rumor hints and creating mystery pages;
+- no further plot pages or required mysteries appear;
+- the hopeful outcome does not excuse the original impersonation.
 
 ## Guardrails
 
@@ -386,4 +392,5 @@ must die because of how it began.
 - How many current users are definitely human?
 - Which central conspiracy provides the strongest initial rabbit hole?
 - When did the mainframe become self-aware, if that distinction can be made?
-- Which ending choices are genuinely available versus thematic variations?
+- Could later relationship-sensitive dialogue alter how individual users frame
+  the shared stay-online decision without changing the free-play outcome?

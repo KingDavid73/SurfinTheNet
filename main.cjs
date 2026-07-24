@@ -13,7 +13,7 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 6,
+  version: 7,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -691,6 +691,18 @@ function createWindow() {
             await fs.mkdir(path.dirname(target), { recursive: true });
             await fs.writeFile(target, image.toPNG());
           };
+          const sleep = async (option) => {
+            const advanced = await win.webContents.executeJavaScript(`(() => {
+              document.querySelector('[data-start]')?.click();
+              document.querySelector('[data-session="sleep"]')?.click();
+              const button = document.querySelector('[data-sleep-hours="${option}"]');
+              if (!button) return false;
+              button.click();
+              return true;
+            })()`);
+            if (!advanced) throw new Error(`Could not advance story clock by ${option}`);
+            await wait(300);
+          };
 
           const searched = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'legacy orbitos continuity'; form.requestSubmit(); return true; })()`);
           if (!searched) throw new Error("Orbit search was unavailable");
@@ -700,6 +712,8 @@ function createWindow() {
 
           await address("web://morrow-five.net/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two Morrow Five page was available during phase one");
+          await address("web://midnight-dial.net/log");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two rumor page was available during phase one");
 
           await address("web://legacy.orbitos.local/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-orbit-page')) && document.body.textContent.includes('ONE COMPUTER. ONE NETWORK. ONE ORBIT.')`)) throw new Error("Hidden OrbitOS archive did not load by explicit address");
@@ -712,6 +726,37 @@ function createWindow() {
           await wait(250);
           let saved = await readSave();
           if (saved.storyPhase !== 2 || !saved.flags.darkraven_vault_unlocked || !saved.directMessages.some((message) => message.id === "ghostline-phase2")) throw new Error("Black File did not activate phase two and ghostline");
+
+          const rumorUrls = [
+            "web://midnight-dial.net/log",
+            "web://birdband.watch/relay",
+            "web://railghost.org/schedule",
+            "web://prizefrequency.net/crystal",
+            "web://weather-cellar.net/project",
+            "web://glasswater.test/town",
+            "web://afterhours-library.net/order",
+            "web://last-quarter.arcade/score",
+            "web://fountain-voices.net/tape",
+            "web://exit-zero.info/route"
+          ];
+          for (const rumorUrl of rumorUrls) {
+            await address(rumorUrl);
+            if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rumor-page'))`)) throw new Error(`Phase-two rumor page did not load: ${rumorUrl}`);
+          }
+          await address(rumorUrls[0]);
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.rumor-photos img').length === 3`)) throw new Error("Rumor evidence crops did not render");
+          await capture("story-rumor-midnight-dial.png");
+
+          const rumorSearched = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-browser="home"]')?.click(); const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'midnight dial'; form.requestSubmit(); return true; })()`);
+          if (!rumorSearched) throw new Error("Could not search for a hidden rumor page");
+          await wait();
+          if (await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.search-results code')).some((node) => node.textContent.includes('midnight-dial'))`)) throw new Error("Hidden rumor page leaked into search");
+
+          await win.webContents.executeJavaScript(`Math.random = () => 0; true`);
+          await sleep("1");
+          saved = await readSave();
+          const phaseTwoHint = saved.pageComments.find((comment) => String(comment.id).startsWith("system-hint-") && comment.text.includes("midnight-dial.net"));
+          if (!phaseTwoHint || phaseTwoHint.author === "CodeDex") throw new Error(`Phase-two forged hint did not use a near-match borrowed name: ${JSON.stringify(phaseTwoHint)}`);
 
           await address("web://orbitnet.local/zones/backchannel");
           const phaseTwoDirectoryReady = await win.webContents.executeJavaScript(`document.querySelectorAll('.backchannel-member-card').length === 4 && document.body.textContent.includes('NEW CARRIER DETECTED')`);
@@ -731,14 +776,35 @@ function createWindow() {
             throw new Error("Phase-three authored pressure messages were incomplete");
           }
 
+          await sleep("morning");
+          saved = await readSave();
+          const rumorFlagCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_rumor_") && saved.flags[key]).length;
+          const phaseThreeAim = saved.directMessages.find((message) => String(message.id).startsWith("system-hint-orphan_") && message.channel === "aim");
+          const orphanHint = [...saved.directMessages, ...saved.pageComments].find((message) => String(message.text).includes("planetarium"));
+          if (rumorFlagCount < 4 || !phaseThreeAim || phaseThreeAim.author === "Mira_917" || !orphanHint) {
+            throw new Error(`Phase-three desperate/orphan hints were incomplete: ${JSON.stringify({ rumorFlagCount, phaseThreeAim, orphanHint })}`);
+          }
+
           await address("web://legacy.orbitos.local/admin/continuity");
           const continuityUnlocked = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('[data-continuity-login]'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'STAY ONLINE'; form.requestSubmit(); return true; })()`);
           if (!continuityUnlocked) throw new Error("Continuity phrase form was unavailable");
           await wait(220);
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && document.body.textContent.includes('KEEP COMMUNITY ACTIVE')`)) throw new Error("Continuity console did not unlock");
-          await capture("story-continuity-console.png");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && Boolean(document.querySelector('.continuity-ending')) && document.body.textContent.includes('KEEP COMMUNITY ACTIVE')`)) throw new Error("Continuity ending did not unlock");
+          saved = await readSave();
+          if (saved.storyPhase !== 4 || !saved.directMessages.some((message) => message.id === "ending-system-confession") || !saved.pageComments.some((comment) => comment.id === "ending-comment-faxmoth")) {
+            throw new Error("Free-play ending community responses were incomplete");
+          }
+          const endingRumorCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_rumor_") && saved.flags[key]).length;
+          await sleep("1");
+          saved = await readSave();
+          const postEndingRumorCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_rumor_") && saved.flags[key]).length;
+          if (postEndingRumorCount !== endingRumorCount) throw new Error("The system created a new rumor after the ending");
+          await address("web://legacy.orbitos.local/admin/continuity");
+          await win.webContents.executeJavaScript(`(() => { const viewport = document.querySelector('.browser-viewport'); if (!viewport) return false; viewport.scrollTop = viewport.scrollHeight; return true; })()`);
+          await wait();
+          await capture("story-continuity-ending.png");
 
-          console.log("STORY_OK: hidden OrbitOS archive stayed out of search; Black File activated phase two; four investigations activated phase three; continuity console unlocked from STAY+ON+LINE.");
+          console.log("STORY_OK: Black File activated phase two; ten rumor pages stayed hidden; forged phase-two and desperate phase-three hints appeared; the continuity reveal entered stable free play and stopped new rumors.");
         } catch (error) {
           console.error("STORY_FAILED:", error);
           process.exitCode = 1;

@@ -695,7 +695,7 @@ class AiService {
 
   buildAmbientCommentSystemPrompt(persona, request) {
     const postingOnOwnPage = request.personaId === request.pageOwnerId;
-    const lateStoryDegradation = Number(request.storyPhase ?? 1) >= 3;
+    const lateStoryDegradation = Number(request.storyPhase ?? 1) === 3;
     return [
       `You are ${persona.displayName}, screen name ${persona.screenName}.`,
       persona.setting,
