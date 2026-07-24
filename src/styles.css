@@ -1188,7 +1188,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   background: white;
   user-select: text;
 }
-.browser-footer { min-height: 39px; flex: 0 0 39px; display: grid; grid-template-columns: minmax(315px, 1fr) auto; border-top: 1px solid white; }
+.browser-footer { min-height: 50px; flex: 0 0 50px; display: grid; grid-template-columns: minmax(390px, 1fr) auto; border-top: 1px solid white; }
 .browser-status { display: flex; align-items: center; gap: 12px; padding: 4px 7px; font-size: 10px; border-left: 1px solid #777; white-space: nowrap; }
 
 .page { min-height: 100%; padding: 25px; }
@@ -2017,10 +2017,10 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 
 .page-midi-player {
   display: grid;
-  grid-template-columns: 78px minmax(145px, 1fr) 59px;
+  grid-template-columns: 78px minmax(145px, 1fr) 138px;
   gap: 3px;
   min-width: 0;
-  min-height: 37px;
+  min-height: 48px;
   padding: 2px 3px;
   color: #e7faff;
   background:
@@ -2031,7 +2031,6 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   font: 9px/1.05 "Arial Narrow", Tahoma, sans-serif;
   user-select: none;
 }
-.page-midi-player.has-playlist { grid-template-columns: 78px minmax(145px, 1fr) 72px; }
 .midi-player-ridge {
   display: flex;
   flex-wrap: wrap;
@@ -2066,11 +2065,51 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .midi-visualizer i { width: 3px; height: 18%; background: linear-gradient(to top, #62f6e7 0 70%, #fff276 72%); box-shadow: 0 0 3px #15c9c0; opacity: .35; }
 .page-midi-player.playing .midi-visualizer i { animation: midi-eq .72s steps(4, end) infinite alternate; animation-delay: calc(var(--midi-bar) * -83ms); opacity: .9; }
 @keyframes midi-eq { 0% { height: 18%; } 35% { height: 82%; } 70% { height: 42%; } 100% { height: 96%; } }
-.midi-controls { display: grid; place-items: center; align-content: center; gap: 1px; color: #17242c; font-weight: bold; }
-.midi-controls button { min-width: 54px; padding: 2px 4px; color: #10202b; background: linear-gradient(#f4f8fa, #8c9aa4); border: 2px outset #eefaff; border-radius: 2px; font-weight: bold; font-size: 8px; }
-.midi-controls > span { font-size: 6px; letter-spacing: .1em; text-shadow: 1px 1px #e8f7ff; }
-.midi-skip-controls { display: grid; grid-template-columns: 1fr 1fr; width: 61px; gap: 1px; }
-.midi-skip-controls button { min-width: 0; padding: 1px 2px; font-size: 7px; }
+.midi-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 25px 15px;
+  gap: 2px 4px;
+  align-content: center;
+  min-width: 0;
+  padding: 1px 2px;
+  color: #17242c;
+  font-weight: bold;
+}
+.midi-controls button {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 2px 3px;
+  color: #10202b;
+  background: linear-gradient(#f4f8fa, #8c9aa4);
+  border: 2px outset #eefaff;
+  border-radius: 2px;
+  font-weight: bold;
+  font-size: 8px;
+  white-space: nowrap;
+}
+.midi-transport { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; gap: 2px; min-width: 0; }
+.midi-transport.has-skip { grid-template-columns: 28px minmax(0, 1fr) 28px; }
+.midi-transport.has-skip button:first-child, .midi-transport.has-skip button:last-child { padding-inline: 1px; font-size: 7px; }
+.midi-volume { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px; align-items: center; min-width: 0; font-size: 6px; letter-spacing: .08em; }
+.midi-volume input {
+  width: 100%;
+  min-width: 0;
+  height: 7px;
+  margin: 0;
+  appearance: none;
+  background: linear-gradient(90deg, #126d78 0 var(--midi-volume), #52616a var(--midi-volume) 100%);
+  border: 1px inset #dceaf0;
+}
+.midi-volume input::-webkit-slider-thumb {
+  width: 7px;
+  height: 12px;
+  appearance: none;
+  background: linear-gradient(90deg, #eaf2f5, #75848e);
+  border: 1px outset #f5fbff;
+}
+.midi-loop-status { align-self: center; min-width: 18px; font-size: 6px; letter-spacing: .06em; text-align: right; text-shadow: 1px 1px #e8f7ff; }
 .midi-led { width: 6px; height: 6px; flex: 0 0 6px; background: #5d615c; border: 1px solid #333; border-radius: 50%; box-shadow: inset 1px 1px 2px #222; }
 .midi-led.playing { background: #35e256; box-shadow: 0 0 5px #35e256; animation: midi-pulse .8s steps(1) infinite; }
 @keyframes midi-pulse { 50% { opacity: .45; } }

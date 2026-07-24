@@ -112,6 +112,7 @@ export interface DesktopSettings {
   theme: "classic" | "plum";
   wallpaper: "teal" | "clouds";
   cursor: "arrow" | "star";
+  musicVolume: number;
 }
 
 export interface GuestbookEntry {

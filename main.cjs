@@ -19,7 +19,7 @@ const DEFAULT_SAVE = {
   downloads: [],
   flags: {},
   currentUrl: "web://home",
-  settings: { theme: "classic", wallpaper: "teal", cursor: "arrow" },
+  settings: { theme: "classic", wallpaper: "teal", cursor: "arrow", musicVolume: 50 },
   gameTime: "1999-11-03T19:30:00",
   pageComments: [],
   ambientPostQueue: [],
@@ -145,6 +145,14 @@ function createWindow() {
           if (!midiPlayerReady) throw new Error("Homepage music did not auto-play from the browser-shell footer");
           const homePlaylistReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'orbithome' && document.querySelector('.midi-controls > span')?.textContent.includes('/5') && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3') && Boolean(document.querySelector('[data-page-music-prev]')) && Boolean(document.querySelector('[data-page-music-next]'))`);
           if (!homePlaylistReady) throw new Error("Five-track Blue Screen homepage playlist was unavailable");
+          const musicControlsReady = await win.webContents.executeJavaScript(`(() => { const controls = document.querySelector('.midi-controls'); const transport = document.querySelector('.midi-transport'); const slider = document.querySelector('[data-page-music-volume]'); if (!controls || !transport || !slider) return false; const widthDifference = Math.abs(controls.getBoundingClientRect().width - transport.getBoundingClientRect().width); return transport.querySelectorAll('button').length === 3 && widthDifference <= 5 && controls.scrollWidth <= controls.clientWidth && slider.value === '50' && document.querySelector('.page-midi-player')?.getAttribute('data-music-volume') === '50'; })()`);
+          if (!musicControlsReady) throw new Error("OrbitAmp transport or default midpoint volume layout was incomplete");
+          const volumeChanged = await win.webContents.executeJavaScript(`(() => { const slider = document.querySelector('[data-page-music-volume]'); if (!slider) return false; slider.value = '25'; slider.dispatchEvent(new Event('input', { bubbles: true })); return document.querySelector('.page-midi-player')?.getAttribute('data-music-volume') === '25'; })()`);
+          if (!volumeChanged) throw new Error("OrbitAmp volume slider did not update playback volume");
+          await click('[data-browser="refresh"]');
+          const volumePersisted = await win.webContents.executeJavaScript(`document.querySelector('[data-page-music-volume]')?.value === '25'`);
+          if (!volumePersisted) throw new Error("OrbitAmp volume did not persist after a page refresh");
+          await win.webContents.executeJavaScript(`(() => { const slider = document.querySelector('[data-page-music-volume]'); if (!slider) return false; slider.value = '50'; slider.dispatchEvent(new Event('input', { bubbles: true })); return true; })()`);
           await click("[data-page-music]");
           const midiStopped = await win.webContents.executeJavaScript(`!document.querySelector('.midi-led.playing') && document.querySelector('[data-page-music]')?.textContent.includes('Play')`);
           if (!midiStopped) throw new Error("Page music player did not stop");
@@ -208,6 +216,8 @@ function createWindow() {
             if (zoneUrl.endsWith("/xtreme")) {
               const xtremeZoneMusicReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'xtremezone' && document.querySelector('.midi-track b')?.textContent === 'Extreme Sports Web Loop 1999' && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3')`);
               if (!xtremeZoneMusicReady) throw new Error("X-Treme Edge zone MP3 was not assigned");
+              const singleTrackTransportReady = await win.webContents.executeJavaScript(`(() => { const controls = document.querySelector('.midi-controls'); const transport = document.querySelector('.midi-transport'); if (!controls || !transport) return false; const widthDifference = Math.abs(controls.getBoundingClientRect().width - transport.getBoundingClientRect().width); return transport.querySelectorAll('button').length === 1 && widthDifference <= 5 && controls.scrollWidth <= controls.clientWidth; })()`);
+              if (!singleTrackTransportReady) throw new Error("Single-track OrbitAmp transport did not fill its available width");
               const expectedRiderUrls = [
                 "web://xtreme.zone/users/deckwreckerdee/home",
                 "web://xtreme.zone/users/crankcasecole/home",

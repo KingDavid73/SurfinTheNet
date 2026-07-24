@@ -162,7 +162,8 @@ const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicT
 const pageMusic = new Audio();
 pageMusic.loop = true;
 pageMusic.preload = "auto";
-pageMusic.volume = 0.18;
+const PAGE_MUSIC_MAX_VOLUME = 0.36;
+pageMusic.volume = PAGE_MUSIC_MAX_VOLUME * 0.5;
 
 type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
 
@@ -173,7 +174,7 @@ const DEFAULT_STATE: GameState = {
   downloads: [],
   flags: {},
   currentUrl: "web://home",
-  settings: { theme: "classic", wallpaper: "teal", cursor: "arrow" },
+  settings: { theme: "classic", wallpaper: "teal", cursor: "arrow", musicVolume: 50 },
   gameTime: "1999-11-03T19:30:00",
   pageComments: [],
   ambientPostQueue: [],
@@ -763,17 +764,22 @@ function pageMusicPlayer(page: PageDefinition) {
   const trackIndex = pageMusicTrackIndex(page, playlist);
   const track = playlist[trackIndex];
   const hasPlaylist = playlist.length > 1;
+  const volume = Math.max(0, Math.min(100, Math.round(state.settings.musicVolume)));
   const bars = Array.from({ length: 10 }, (_, index) => `<i style="--midi-bar:${index}"></i>`).join("");
-  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""} ${hasPlaylist ? "has-playlist" : ""}" data-midi-source="${track.midiUrl ?? track.url}" data-music-scope="${page.site}" data-track-index="${trackIndex}">
+  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""} ${hasPlaylist ? "has-playlist" : ""}" data-midi-source="${track.midiUrl ?? track.url}" data-music-scope="${page.site}" data-track-index="${trackIndex}" data-music-volume="${volume}">
     <div class="midi-player-ridge"><strong>ORBITAMP</strong><em>WEB</em><span><span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>AUDIO LOOP</span></div>
     <div class="midi-display">
       <div class="midi-visualizer" aria-hidden="true">${bars}</div>
       <div class="midi-track"><small>NOW PLAYING</small><b>${escapeHtml(track.label)}</b><code>${escapeHtml(track.file)}</code></div>
     </div>
     <div class="midi-controls">
-      ${hasPlaylist ? `<div class="midi-skip-controls"><button data-page-music-prev aria-label="Previous page music track" title="Previous track">&#9664;|</button><button data-page-music-next aria-label="Next page music track" title="Next track">|&#9654;</button></div>` : ""}
-      <button data-page-music aria-label="${pageMusicPlaying ? "Stop" : "Play"} page music">${pageMusicPlaying ? "■ Stop" : "▶ Play"}</button>
-      <span>${hasPlaylist ? `${trackIndex + 1}/${playlist.length} · ` : ""}LOOP ∞</span>
+      <div class="midi-transport ${hasPlaylist ? "has-skip" : ""}">
+        ${hasPlaylist ? `<button data-page-music-prev aria-label="Previous page music track" title="Previous track">&#9664;|</button>` : ""}
+        <button data-page-music aria-label="${pageMusicPlaying ? "Stop" : "Play"} page music">${pageMusicPlaying ? "■ Stop" : "▶ Play"}</button>
+        ${hasPlaylist ? `<button data-page-music-next aria-label="Next page music track" title="Next track">|&#9654;</button>` : ""}
+      </div>
+      <label class="midi-volume" title="Page music volume"><span>VOL</span><input data-page-music-volume type="range" min="0" max="100" step="1" value="${volume}" style="--midi-volume:${volume}%" aria-label="Page music volume"></label>
+      <span class="midi-loop-status">${hasPlaylist ? `${trackIndex + 1}/${playlist.length}` : "∞"}</span>
     </div>
   </aside>`;
 }
@@ -803,6 +809,7 @@ function refreshBrowserPage() {
 function syncPageMusic(page = currentPage()) {
   const playlist = pageMusicPlaylist(page);
   const track = playlist[pageMusicTrackIndex(page, playlist)];
+  pageMusic.volume = PAGE_MUSIC_MAX_VOLUME * Math.max(0, Math.min(100, state.settings.musicVolume)) / 100;
   if (loadedPageMusicUrl !== track.url) {
     pageMusic.src = track.url;
     loadedPageMusicUrl = track.url;
@@ -1679,6 +1686,16 @@ function bindEvents() {
   document.querySelector<HTMLElement>("[data-page-music]")?.addEventListener("click", togglePageMusic);
   document.querySelector<HTMLElement>("[data-page-music-prev]")?.addEventListener("click", () => changePageMusicTrack(-1));
   document.querySelector<HTMLElement>("[data-page-music-next]")?.addEventListener("click", () => changePageMusicTrack(1));
+  document.querySelector<HTMLInputElement>("[data-page-music-volume]")?.addEventListener("input", (event) => {
+    const input = event.currentTarget as HTMLInputElement;
+    const volume = Math.max(0, Math.min(100, Number(input.value)));
+    state.settings.musicVolume = volume;
+    pageMusic.volume = PAGE_MUSIC_MAX_VOLUME * volume / 100;
+    input.style.setProperty("--midi-volume", `${volume}%`);
+    const player = input.closest<HTMLElement>(".page-midi-player");
+    if (player) player.dataset.musicVolume = String(volume);
+    void saveState();
+  });
   document.querySelectorAll<HTMLElement>("[data-fandom-toggle]").forEach((button) => button.addEventListener("click", () => {
     const target = document.getElementById(button.dataset.fandomToggle!);
     if (!target) return;
@@ -1748,7 +1765,7 @@ function bindEvents() {
   }));
   document.querySelector<HTMLElement>("[data-start]")?.addEventListener("click", () => { startOpen = !startOpen; render(); });
   document.querySelectorAll<HTMLInputElement>("[data-setting]").forEach((input) => input.addEventListener("change", () => {
-    const group = input.dataset.setting as keyof GameState["settings"];
+    const group = input.dataset.setting as "theme" | "wallpaper" | "cursor";
     state.settings = { ...state.settings, [group]: input.value };
     void saveState();
     render();
