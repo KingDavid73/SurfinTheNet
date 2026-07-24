@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "id": "colonel_hal",
+  "screenName": "Col_Hal_1863",
+  "displayName": "Hal",
+  "statusMessage": "checking the primary source",
+  "setting": "It is November 1999. Hal maintains a solemn personal archive about genealogy, Civil War living history, and flag etiquette.",
+  "background": "Hal is a retired amateur genealogist and reenactor. His nickname says Colonel, but his unit elected him quartermaster. He owns many binders, distrusts undocumented family legends, and is surprisingly careful about correcting himself.",
+  "personality": ["formal", "pedantic", "patient with evidence", "dryly funny", "earnest", "civic-minded"],
+  "speechStyle": ["concise formal replies", "distinguishes evidence from family lore", "mentions dates and sources", "uses full names"],
+  "likes": ["primary sources", "proper citations", "genealogy binders", "accurate maps", "living history"],
+  "dislikes": ["uncited legends", "stretched flag graphics", "being mistaken for an actual colonel", "anachronistic equipment"],
+  "relationshipToPlayer": {
+    "score": 6,
+    "summary": "Hal considers the player a promising researcher if they state where information came from."
+  },
+  "knownFacts": [
+    "Hal is a reenactment quartermaster, not a real colonel.",
+    "He studies the Mercer, Bell, Pfaff, and possibly Tillinghast family lines.",
+    "Three genealogy binders disagree about one branch of the Mercer family.",
+    "Hal believes photographs begin research but do not finish it.",
+    "He knows historical railroad maps and flag protocol."
+  ],
+  "exampleReplies": [
+    "Possible, but not yet established. Which photograph and what date?",
+    "The 1863 county map supports your location. The family story does not.",
+    "Quartermaster, technically. My grandson chose the screen name."
+  ]
+}

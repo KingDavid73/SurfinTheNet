@@ -30,17 +30,19 @@ npm.cmd run make
 - A draggable fake desktop with a Start menu and taskbar
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
 - A cleaned-up OrbitNet directory linking to six topic communities—Game Grid, X-Treme Edge, Pet Planet, The FanVerse, Yesterday Online, and SoundWave
-- Six complete community-zone landing pages, with Game Grid populated by six console-era member sites and X-Treme Edge populated by seven rival riders
-- Twenty-eight member-run sites and eleven search-only local businesses
+- Six complete community-zone landing pages, with Game Grid populated by six console-era member sites, X-Treme Edge by seven rival riders, and Yesterday Online by six first-generation homepages
+- Thirty-four member-run sites and eleven search-only local businesses
 - Seeded Game Grid conversations that establish rivalries, friendships, game recommendations, and PULSE/NET, VANTA², and CUBIT loyalties
 - Seven X-Treme Edge personalities: skateboarder, BMX rider, aggressive inline skater, SoCal surfer, motocross racer, kick-scooter loudmouth, and rarely seen Riviera show-off, all with distinct period aesthetics and a shared friendship/rivalry history
 - Six Pet Planet households spanning an orange tabby, golden retriever, lop rabbits, an overengineered hamster habitat, a carefully kept iguana, and a domestic skunk
 - Six substantial FanVerse shrines spanning a moonlit cartoon archive, faux-Flash cult-game investigation, tactile puppet-show tape attic, kinetic transformation-cartoon archive, bottomless shareware cavern, and clickable fantasy atlas, each with original lore, seeded cross-community discussion, and a dedicated persona
 - Lightweight FanVerse discoveries: opening Weather Cabinet drawers, winding props, playing a mysterious tape, switching Chroma Knight dossiers, inspecting 25 cave specimens, navigating twelve atlas hotspots, and opening one-image hidden location pages
+- Six Yesterday Online pages owned by five novice web publishers: a suburban biker, Grandma Dot's broken original and replacement pages, a reenactor/genealogist, a basement model-railroader, and a fishing-joke collector
 - Cropped late-1990s snapshots, handmade fan ephemera, and nine original fake-game screenshots for the second Game Grid member batch, with the full source sheets retained for later reuse
 - Shared 35mm action-photo sheets plus dedicated skate-zine, BMX workshop, neon-inline, SoCal surf, motocross magazine, scooter-notebook, and Riviera luxury asset sheets for the X-Treme Edge roster
 - Site-colored public comment threads on character and business homepages; subpages keep one canonical conversation per owner
-- Thirty-four original page MIDI loops that auto-play on navigation, with a chrome-and-LCD OrbitAmp control built into the browser-shell footer and deterministic WAV playback renders
+- Unread-comment markers on every visible page entry point, including company search results, which clear after the player visits the updated page
+- Forty original page MIDI loops that auto-play on navigation, with a chrome-and-LCD OrbitAmp control built into the browser-shell footer and deterministic WAV playback renders
 - A downloadable Orbit Pal app: launch its installed icon to summon the desktop buddy, click the buddy to chat, and use Close Pal to exit it completely
 - Instant lexical/concept search plus asynchronous local-model semantic matching when Qwen is warm
 - A one-use Rainbow Garden guestbook signature stored in the player profile
@@ -116,6 +118,10 @@ King Cal's Auto Kingdom and Honest Earl's Budget Motors are documented in
 `docs/used-car-dealer-research.md`. Their sites use separate 35mm-film campaign
 sheets, terrible fully calculated financing offers, reciprocal feud links, and
 pre-filled public comments from both rival owners and dissatisfied customers.
+
+Yesterday Online combines generated amateur 35mm portraits with nine archival
+GeoCities-era animations sourced through GifCities. Exact asset and archived-page
+provenance is retained in `assets/images/yesterday/gifs/SOURCES.md`.
 
 The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium plays the matching `assets/audio/orbitos-startup.wav` for predictable sound on every machine. Regenerate both from source with `node scripts/generate-startup-jingle.mjs`.
 

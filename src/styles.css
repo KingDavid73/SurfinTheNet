@@ -303,6 +303,224 @@
   .atlas-hotspot span { display: none; }
 }
 
+/* Yesterday Online member directory: intentionally handmade and inconsistent. */
+.yesterday-member-directory {
+  margin-top: 12px;
+  border: 5px ridge #b98b54;
+  padding: 5px;
+  color: #2f170d;
+  background: #f2ddad;
+  box-shadow: 5px 5px #4a271955;
+}
+.yesterday-member-directory > header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  border: 2px outset #ead7a9;
+  padding: 8px 11px;
+  color: #fff6d5;
+  background: #754126;
+}
+.yesterday-member-directory > header small { color: #ffd866; font-size: 7px; }
+.yesterday-member-directory > header h2 { margin: 2px 0; font: bold 18px Georgia, serif; }
+.yesterday-member-directory > header span { color: #fff29c; font-size: 8px; }
+.yesterday-member-directory > div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  padding: 8px;
+  background-image: radial-gradient(#9d7441 1px, transparent 1px);
+  background-size: 7px 7px;
+}
+.yesterday-member-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 43px 1fr;
+  gap: 7px;
+  min-height: 134px;
+  border: 3px outset #e8d29d;
+  padding: 9px;
+  color: #000080;
+  background: #fff9dc;
+  text-align: left;
+}
+.yesterday-member-card:hover { filter: brightness(1.05); outline: 2px dotted #d40000; }
+.yesterday-member-card > i { display: grid; place-items: center; width: 38px; height: 38px; border: 2px inset #fff; color: #fff; background: #808080; font: bold 13px "Times New Roman", serif; }
+.yesterday-member-card > span { display: grid; align-content: start; gap: 5px; }
+.yesterday-member-card strong { color: #0000ee; font: bold 12px "Times New Roman", serif; text-decoration: underline; }
+.yesterday-member-card small { color: #3e2c1d; font-size: 8px; line-height: 1.3; }
+.yesterday-member-card span b { color: #9d1b1b; font-size: 7px; }
+.yesterday-member-card > em { grid-column: 1 / -1; align-self: end; color: #0000ee; font: bold 8px "Comic Sans MS", cursive; text-align: right; text-decoration: underline; }
+.yesterday-member-card.member-roadhog { color: #fff; background: #111; border-color: #df2b0a; }
+.yesterday-member-card.member-roadhog strong, .yesterday-member-card.member-roadhog > em { color: #ffbd1a; }
+.yesterday-member-card.member-roadhog small { color: #eee; }
+.yesterday-member-card.member-roadhog > i { color: #ffda28; background: #a01800; border-radius: 50%; }
+.yesterday-member-card.member-dot-old { background: #ccffff; transform: rotate(-.5deg); }
+.yesterday-member-card.member-dot-old > i { background: #ff00ff; }
+.yesterday-member-card.member-dot-new { background: #ffeaf1; transform: rotate(.4deg); }
+.yesterday-member-card.member-dot-new > i { background: #b96887; border-radius: 50%; }
+.yesterday-member-card.member-hal { color: #ece1b5; background: #173b5b; border-color: #c3ad72; }
+.yesterday-member-card.member-hal strong, .yesterday-member-card.member-hal > em { color: #fff0a6; }
+.yesterday-member-card.member-hal small { color: #e9dfc3; }
+.yesterday-member-card.member-hal > i { background: #8b2635; }
+.yesterday-member-card.member-lenny { color: #ddd; background: #244332; }
+.yesterday-member-card.member-lenny strong, .yesterday-member-card.member-lenny > em { color: #ffd352; }
+.yesterday-member-card.member-lenny small { color: #eee; }
+.yesterday-member-card.member-lenny > i { background: #111; border-radius: 50%; }
+.yesterday-member-card.member-bob { background: #bce7ff; }
+.yesterday-member-card.member-bob > i { background: #197249; border-radius: 45% 55% 45% 55%; }
+
+.yesterday-page {
+  min-height: 100%;
+  box-sizing: border-box;
+  font-family: "Times New Roman", serif;
+}
+.yesterday-page button, .yesterday-page a { cursor: pointer; }
+.yesterday-photo { max-width: 100%; box-sizing: border-box; }
+.old-gif { image-rendering: auto; }
+.old-counter {
+  border: 2px inset #c8c8c8;
+  margin: 18px auto;
+  padding: 5px 12px;
+  width: max-content;
+  max-width: 90%;
+  color: #77ff77;
+  background: #001b00;
+  font: 12px "Courier New", monospace;
+}
+.old-blink { animation: old-blink 1.05s steps(1) infinite; }
+@keyframes old-blink { 50% { visibility: hidden; } }
+
+/* RoadHog Ron */
+.roadhog-page {
+  padding: 0 20px 45px;
+  color: #ddd;
+  background:
+    radial-gradient(ellipse at 10% 100%, #ff3100 0 2%, #ff8a00 3%, transparent 10%),
+    radial-gradient(ellipse at 90% 100%, #ff3100 0 2%, #ff8a00 3%, transparent 10%),
+    repeating-linear-gradient(135deg, #080808 0 18px, #161616 19px 20px);
+}
+.roadhog-page > marquee { margin-inline: -20px; padding: 7px; color: #ffeb3b; background: #9f1200; font: bold 13px Arial, sans-serif; }
+.roadhog-page nav { display: flex; justify-content: center; gap: 14px; margin: 12px; }
+.roadhog-page nav a, .roadhog-page nav button { border: 1px outset #777; padding: 4px 8px; color: #ffcc25; background: #222; font: bold 11px Arial, sans-serif; text-decoration: underline; }
+.roadhog-page > header { display: flex; align-items: center; justify-content: center; gap: 22px; padding: 23px 5px; text-align: center; }
+.roadhog-page > header img { width: 60px; }
+.roadhog-page > header h1 { margin: 0; color: #f4ecde; font: 900 clamp(38px, 7vw, 72px) Impact, Arial Black, sans-serif; letter-spacing: 4px; text-shadow: 4px 4px #9c1100; }
+.roadhog-page > header h1 em { color: #ffb30f; font-style: normal; }
+.roadhog-page > header p { margin: 0; color: #ff4a24; letter-spacing: 5px; }
+.roadhog-intro { display: grid; grid-template-columns: minmax(230px, .8fr) 1.2fr; gap: 20px; max-width: 900px; margin: auto; border: 5px ridge #777; padding: 14px; background: #101010; }
+.roadhog-intro .yesterday-photo { border: 7px solid #fff; transform: rotate(-1deg); }
+.roadhog-intro h2 { color: #ffb000; font: bold 28px Arial Black, sans-serif; }
+.motorcycle-gif { display: block; width: 120px; margin: 15px auto 0; }
+.roadhog-table { width: min(800px, 95%); margin: 30px auto; border: 4px ridge #c33; border-collapse: collapse; background: #e7e7e7; color: #111; }
+.roadhog-table caption { border: 2px outset #aaa; padding: 6px; color: #ffdf00; background: #6f0900; font: bold 17px Impact, sans-serif; letter-spacing: 3px; }
+.roadhog-table th, .roadhog-table td { border: 1px solid #555; padding: 7px; }
+.roadhog-wisdom { max-width: 650px; margin: 25px auto; border: 2px dashed #ffbc20; padding: 15px 30px; background: #260400; }
+.roadhog-wisdom h2 { color: #ff5b25; text-align: center; }
+.roadhog-wisdom blockquote { color: #ffd76a; font-size: 19px; font-style: italic; }
+.construction-gif { display: block; margin: 15px auto; max-width: 208px; }
+.roadhog-page .fandom-owner-note { color: #ffe44f; background: #500; }
+
+/* Dot's inaccessible 1997 page */
+.dot-old-page { overflow: hidden; padding: 18px 5px 50px; color: #000; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Ccircle cx='5' cy='5' r='1' fill='%23c8e6ff'/%3E%3C/svg%3E"); }
+.dot-old-page center > img:first-child { width: 88px; image-rendering: pixelated; }
+.dot-old-page marquee { margin: 12px 0; color: red; font-weight: bold; }
+.dot-old-page table { width: 86%; min-width: 630px; }
+.dot-old-page table td:first-child { width: 130px; background: #ffffcc; text-align: left; }
+.dot-old-page table td:last-child { background: #ffddff; }
+.broken-old-image { display: inline-block; width: 180px; height: 120px; border: 3px ridge #999; margin: 5px; color: #333; background: #ddd; }
+.broken-old-image.tall { width: 130px; height: 180px; }
+.dot-old-page button, .dot-old-page [data-nav] { color: #0000ee; background: #eee; text-decoration: underline; }
+
+/* Dot's newer but still very homemade page */
+.dot-new-page { padding: 12px clamp(12px, 5vw, 65px) 45px; color: #54332f; background: #fff1e9; background-image: radial-gradient(#eeb5c8 2px, transparent 2px); background-size: 23px 23px; }
+.dot-new-page nav { padding: 7px; border: 2px outset #fff; background: #e6b2c2; text-align: center; }
+.dot-new-page nav button, .dot-important button { color: #0000ee; border: 0; background: none; font: inherit; text-decoration: underline; }
+.dot-new-page > marquee { margin: 14px 0; border: 2px solid #b95f7d; padding: 5px; color: #8b284b; background: #fff; font: bold 13px "Comic Sans MS", cursive; }
+.dot-new-page > header { display: flex; align-items: center; justify-content: center; gap: 20px; text-align: center; }
+.dot-new-page > header img { width: 72px; }
+.dot-new-page > header h1 { margin: 0; color: #9f4567; font: bold clamp(31px, 5vw, 52px) "Comic Sans MS", cursive; text-shadow: 2px 2px #fff; }
+.dot-new-page > header p { margin: 0; }
+.dot-important { max-width: 760px; margin: 22px auto; border: 5px double #bb244f; padding: 13px 18px; background: #ffffcf; box-shadow: 6px 6px #8d385644; }
+.dot-important h2 { color: #a20e36; font-size: 18px; }
+.dot-new-intro, .dot-recipe { display: grid; grid-template-columns: minmax(210px, .8fr) 1.2fr; gap: 18px; align-items: center; max-width: 830px; margin: 24px auto; border: 3px ridge #f2bed0; padding: 15px; background: rgba(255,255,255,.84); }
+.dot-new-intro .yesterday-photo, .dot-recipe .yesterday-photo { border: 7px solid #fff; outline: 1px solid #a76d7f; }
+.dot-recipe { grid-template-columns: 1.1fr .9fr; }
+.dot-news { width: min(720px, 95%); margin: 30px auto; border: 3px outset #dfafbf; background: #fff; }
+.dot-news caption { color: #8d3452; font: bold 21px "Comic Sans MS", cursive; }
+.dot-news td { border-bottom: 1px dotted #b77789; padding: 8px; }
+.dot-news td:first-child { font-weight: bold; }
+
+/* Colonel Hal */
+.colonel-hal-page { padding: 0 28px 50px; color: #211a10; background: #d5c59a; background-image: repeating-linear-gradient(90deg, transparent 0 8px, rgba(78,51,20,.035) 9px); }
+.hal-marquee { margin-inline: -28px; padding: 7px; color: #fff5b5; background: #173851; font: bold 12px Georgia, serif; }
+.colonel-hal-page > header { display: flex; align-items: center; justify-content: center; gap: 25px; padding: 24px; color: #f5e7bc; background: #6d252d; text-align: center; }
+.colonel-hal-page > header img { width: 100px; }
+.colonel-hal-page > header h1 { margin: 0; font-size: 43px; letter-spacing: 4px; }
+.colonel-hal-page > header h2 { margin: 0; font-size: 18px; }
+.colonel-hal-page nav { display: flex; justify-content: center; gap: 20px; border: 4px double #b9a36e; padding: 8px; background: #183950; }
+.colonel-hal-page nav a, .colonel-hal-page nav button { color: #fff0af; border: 0; background: none; font: bold 11px Georgia, serif; text-decoration: underline; }
+.hal-intro { display: grid; grid-template-columns: minmax(240px, .8fr) 1.2fr; gap: 22px; max-width: 850px; margin: 28px auto; align-items: center; }
+.hal-intro .yesterday-photo { border: 10px ridge #816f49; }
+.hal-intro h2 { color: #6d252d; font-size: 27px; }
+.hal-tree, .hal-rules { max-width: 720px; margin: 25px auto; border: 2px solid #6e5c37; padding: 18px 25px; background: #e8d9ae; box-shadow: 6px 6px #68523255; }
+.hal-tree h2, .hal-rules h2 { border-bottom: 3px double #6d252d; color: #173851; text-align: center; }
+.hal-tree pre { overflow: auto; font-size: 13px; }
+.hal-counter { width: max-content; max-width: 90%; margin: 20px auto; border: 2px inset #bba77c; padding: 5px 12px; background: #ece0bd; font: 11px "Courier New", monospace; }
+
+/* Railroad Lenny */
+.lenny-page { padding: 13px; color: #eee; background: #14241b; background-image: repeating-linear-gradient(0deg, transparent 0 31px, rgba(255,255,255,.025) 32px); }
+.lenny-shell { width: 100%; border: 5px ridge #747474; border-collapse: separate; background: #2c2c2c; }
+.lenny-banner { height: 100px; color: #ffd54b; background: #050505; }
+.lenny-banner marquee { display: flex; align-items: center; font: bold 22px "Courier New", monospace; }
+.lenny-banner img { width: 140px; vertical-align: middle; }
+.lenny-menu { width: 135px; padding: 12px; vertical-align: top; color: #111; background: #aeb9a2; }
+.lenny-menu > * { display: block; margin-bottom: 14px; }
+.lenny-menu a, .lenny-menu button { color: #0000aa; border: 0; background: none; font: bold 11px "Times New Roman", serif; text-align: left; text-decoration: underline; }
+.lenny-menu .old-blink { color: #00a000; font: bold 10px "Courier New", monospace; }
+.lenny-content { padding: 17px 23px 45px; background: #1f382a; vertical-align: top; }
+.lenny-content > h1 { margin: 0; color: #ffcf42; font: bold clamp(31px, 5vw, 55px) "Times New Roman", serif; text-align: center; text-shadow: 3px 3px #000; }
+.lenny-subtitle { color: #b7d0b8; text-align: center; }
+.lenny-intro { display: grid; grid-template-columns: minmax(250px, 1fr) 1fr; gap: 20px; margin: 26px auto; align-items: center; }
+.lenny-intro .yesterday-photo { border: 7px ridge #7f6c4c; }
+.lenny-intro h2, .lenny-sighting h2 { color: #ffd24a; }
+.lenny-timetable { width: 100%; margin: 25px 0; border: 3px ridge #aaa; border-collapse: collapse; color: #111; background: #dbd6b7; }
+.lenny-timetable caption { padding: 5px; color: #ffda54; background: #111; font: bold 14px "Courier New", monospace; }
+.lenny-timetable th, .lenny-timetable td { border: 1px solid #555; padding: 7px; }
+.lenny-sighting { border: 1px dashed #ffcf4a; padding: 12px 18px; color: #d7e4d5; background: #13241a; }
+.lenny-page .fandom-owner-note { color: #ffdf6a; background: #152218; }
+
+/* Big Bass Bob */
+.bob-page { padding: 0 28px 48px; color: #093d38; background: linear-gradient(#83caff, #d9f4ff 45%, #9ad288); }
+.bob-page > marquee { margin-inline: -28px; padding: 6px; color: #fff; font: bold 12px Arial, sans-serif; }
+.bob-page > header { padding: 25px; text-align: center; }
+.bob-page > header h1 { margin: 0; color: #fff94e; font: bold clamp(40px, 6vw, 66px) "Comic Sans MS", cursive; text-shadow: 3px 3px #0760a4; }
+.bob-page > header h1 small { color: #0c6a87; font: bold 17px "Courier New", monospace; text-shadow: none; }
+.bob-page > header h2 { color: #064b72; }
+.bob-page > header button { color: #0000ee; border: 0; background: none; text-decoration: underline; }
+.bob-intro { display: grid; grid-template-columns: minmax(240px, .9fr) 1.1fr; gap: 20px; max-width: 850px; margin: auto; border: 6px ridge #d7b177; padding: 14px; background: #efffd9; }
+.bob-intro .yesterday-photo { border: 7px solid #fff; outline: 1px solid #41694d; transform: rotate(-1deg); }
+.bob-intro h2 { color: #137140; }
+.bob-columns { display: grid; grid-template-columns: 1.3fr .7fr; gap: 16px; max-width: 850px; margin: 25px auto; }
+.bob-columns > * { border: 4px outset #b8d9e9; padding: 15px; background: #eefcff; }
+.bob-columns h2 { color: #005b8a; }
+.bob-columns table { width: 100%; border-collapse: collapse; background: #fff; }
+.bob-columns th, .bob-columns td { padding: 6px; }
+.bob-columns aside { color: #4e3100; background: #fff7ad; }
+.bob-columns aside img { display: block; width: 65px; margin: auto; }
+.bob-email { display: flex; align-items: center; justify-content: center; gap: 20px; max-width: 640px; margin: 25px auto; border: 3px dashed #075788; padding: 14px; background: rgba(255,255,255,.75); }
+.bob-email img { width: 126px; }
+.bob-email h2 { margin: 0; color: #006040; }
+
+@media (max-width: 760px) {
+  .yesterday-member-directory > div { grid-template-columns: 1fr; }
+  .roadhog-intro, .dot-new-intro, .dot-recipe, .hal-intro, .lenny-intro, .bob-intro, .bob-columns { grid-template-columns: 1fr; }
+  .dot-old-page table { min-width: 570px; }
+  .lenny-menu { width: 95px; }
+  .colonel-hal-page > header img, .dot-new-page > header img, .roadhog-page > header img { display: none; }
+}
+
 * { box-sizing: border-box; }
 html, body, #app { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 button, input, textarea { font: inherit; }
@@ -1414,6 +1632,30 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .search-results > button:hover { background: #e8eeff; }
 .search-results span { font-size: 11px; }
 .search-results code { color: #55618a; font-size: 10px; }
+.has-unread-comments { position: relative !important; }
+.unread-comment-marker {
+  position: absolute !important;
+  z-index: 8;
+  top: 4px;
+  right: 4px;
+  display: grid !important;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  color: #fff !important;
+  background: #d3182f !important;
+  box-shadow: 0 0 0 1px #7d0714, 1px 2px 2px #0008;
+  font: 900 10px/1 Tahoma, Arial, sans-serif !important;
+  text-decoration: none !important;
+  animation: unread-comment-pop .28s ease-out;
+}
+@keyframes unread-comment-pop {
+  from { transform: scale(.25); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
 
 .rainbow-page {
   max-width: 760px;

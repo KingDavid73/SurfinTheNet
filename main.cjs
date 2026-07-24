@@ -26,7 +26,7 @@ const DEFAULT_SAVE = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9 }
 };
 
 function savePath() {
@@ -297,6 +297,33 @@ function createWindow() {
                 await win.webContents.executeJavaScript(`document.querySelector(${JSON.stringify(featureClasses[fandomIndex])})?.scrollIntoView({ block: 'start' }); true`);
                 await capture(`fandom-member-${fandomIndex + 1}-feature.png`);
                 await click('[data-nav="web://orbitnet.local/zones/fanverse"]');
+              }
+            }
+            if (zoneUrl.endsWith("/yesterday")) {
+              const expectedYesterdayUrls = [
+                "web://yesterday.zone/users/roadhogron/home",
+                "web://yesterday.zone/users/grandmadot/1997",
+                "web://yesterday.zone/users/grandmadot/home",
+                "web://yesterday.zone/users/colonelhal/home",
+                "web://yesterday.zone/users/railroadlenny/home",
+                "web://yesterday.zone/users/bigbassbob/home"
+              ];
+              const yesterdayUrls = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.yesterday-member-card')).map((card) => card.getAttribute('data-nav'))`);
+              if (JSON.stringify(yesterdayUrls) !== JSON.stringify(expectedYesterdayUrls)) throw new Error(`Yesterday Online directory was incomplete: ${JSON.stringify(yesterdayUrls)}`);
+              await win.webContents.executeJavaScript(`document.querySelector('.yesterday-member-directory')?.scrollIntoView({ block: 'start' }); true`);
+              await capture("orbitnet-zone-yesterday-members.png");
+              const yesterdayClasses = [".roadhog-page", ".dot-old-page", ".dot-new-page", ".colonel-hal-page", ".lenny-page", ".bob-page"];
+              const trackLabels = ["Chrome Weekend", "Dot's First Waltz", "Dot Clicked Save", "Binder and Bugle", "Basement Limited", "North Reeds"];
+              for (let yesterdayIndex = 0; yesterdayIndex < expectedYesterdayUrls.length; yesterdayIndex += 1) {
+                await click(`[data-nav="${expectedYesterdayUrls[yesterdayIndex]}"]`);
+                const yesterdayReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(yesterdayClasses[yesterdayIndex])})) && document.querySelectorAll('marquee').length >= 1 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[yesterdayIndex])}) && ${yesterdayIndex === 1 ? "!document.querySelector('.page-comments') && document.querySelectorAll('.broken-old-image').length === 2" : "document.querySelectorAll('.page-comment').length >= 6 && Boolean(document.querySelector('.page-comments'))"}`);
+                if (!yesterdayReady) throw new Error(`Yesterday Online member page was incomplete: ${expectedYesterdayUrls[yesterdayIndex]}`);
+                if (yesterdayIndex === 1) {
+                  const duplicateDotLinked = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-nav="web://yesterday.zone/users/grandmadot/home"]'))`);
+                  if (!duplicateDotLinked) throw new Error("Grandma Dot's abandoned page did not link to her replacement page");
+                }
+                await capture(`yesterday-member-${yesterdayIndex + 1}.png`);
+                await click('[data-nav="web://orbitnet.local/zones/yesterday"]');
               }
             }
             await click('[data-nav="web://home"]');
@@ -854,11 +881,17 @@ function createWindow() {
           if (!miraAmbient || miraAmbient.role !== "visitor" || !miraAmbient.text) throw new Error(`Seeded ambient job did not persist a Mira visitor comment: ${JSON.stringify(miraAmbient)}`);
 
           await click('[data-open="browser"]');
-          const navigated = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.address-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'web://cosmiccrust.biz/home'; form.requestSubmit(); return true; })()`);
-          if (!navigated) throw new Error("Could not navigate to the ambient comment target");
+          const searched = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'pizza'; form.requestSubmit(); return true; })()`);
+          if (!searched) throw new Error("Could not search for the ambient comment target");
           await new Promise((resolve) => setTimeout(resolve, 150));
+          const unreadMarked = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-nav="web://cosmiccrust.biz/home"] .unread-comment-marker'))`);
+          if (!unreadMarked) throw new Error("Unread ambient comment did not mark its company search result");
+          await click('[data-nav="web://cosmiccrust.biz/home"]');
           const revealed = await win.webContents.executeJavaScript(`Array.from(document.querySelectorAll('.page-comment')).some((comment) => comment.querySelector('header b')?.textContent === 'Mira_917')`);
           if (!revealed) throw new Error("Ambient comment was not revealed on the target page's next visit");
+          await click('[data-browser="back"]');
+          const unreadCleared = await win.webContents.executeJavaScript(`!document.querySelector('[data-nav="web://cosmiccrust.biz/home"] .unread-comment-marker')`);
+          if (!unreadCleared) throw new Error("Unread company search marker remained after visiting the comment");
 
           await win.webContents.executeJavaScript(`window.__nativeRandom = Math.random; Math.random = () => 0.025; true`);
           await click("[data-start]");
@@ -879,7 +912,7 @@ function createWindow() {
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
-          if (randomCalls !== 41) throw new Error(`Expected 40 persona rolls plus one page selection, got ${randomCalls} random calls`);
+          if (randomCalls !== 46) throw new Error(`Expected 45 persona rolls plus one page selection, got ${randomCalls} random calls`);
           const finalSaved = await waitForAmbientIdle(2);
           const hourlyAmbient = finalSaved.pageComments.find((comment) => comment.role === "visitor" && comment.id !== miraAmbient.id);
           if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);

@@ -42,7 +42,13 @@ const PAGE_MUSIC: Record<PageDefinition["site"], { label: string; file: string; 
   fanstar: { label: "Weather Drawer Waltz", file: "weather-drawer-waltz.mid", midiUrl: new URL("../assets/audio/pages/weather-drawer-waltz.mid", import.meta.url).href, url: new URL("../assets/audio/pages/weather-drawer-waltz.wav", import.meta.url).href },
   fanprism: { label: "Five-Color Drive", file: "five-color-drive.mid", midiUrl: new URL("../assets/audio/pages/five-color-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/five-color-drive.wav", import.meta.url).href },
   fangemwell: { label: "Lusterkin Descent", file: "lusterkin-descent.mid", midiUrl: new URL("../assets/audio/pages/lusterkin-descent.mid", import.meta.url).href, url: new URL("../assets/audio/pages/lusterkin-descent.wav", import.meta.url).href },
-  fanatlas: { label: "Atlas in the Wind", file: "atlas-in-the-wind.mid", midiUrl: new URL("../assets/audio/pages/atlas-in-the-wind.mid", import.meta.url).href, url: new URL("../assets/audio/pages/atlas-in-the-wind.wav", import.meta.url).href }
+  fanatlas: { label: "Atlas in the Wind", file: "atlas-in-the-wind.mid", midiUrl: new URL("../assets/audio/pages/atlas-in-the-wind.mid", import.meta.url).href, url: new URL("../assets/audio/pages/atlas-in-the-wind.wav", import.meta.url).href },
+  oldbiker: { label: "Chrome Weekend", file: "chrome-weekend.mid", midiUrl: new URL("../assets/audio/pages/chrome-weekend.mid", import.meta.url).href, url: new URL("../assets/audio/pages/chrome-weekend.wav", import.meta.url).href },
+  grandmaold: { label: "Dot's First Waltz", file: "dots-first-waltz.mid", midiUrl: new URL("../assets/audio/pages/dots-first-waltz.mid", import.meta.url).href, url: new URL("../assets/audio/pages/dots-first-waltz.wav", import.meta.url).href },
+  grandmanew: { label: "Dot Clicked Save", file: "dot-clicked-save.mid", midiUrl: new URL("../assets/audio/pages/dot-clicked-save.mid", import.meta.url).href, url: new URL("../assets/audio/pages/dot-clicked-save.wav", import.meta.url).href },
+  oldhistory: { label: "Binder and Bugle", file: "binder-and-bugle.mid", midiUrl: new URL("../assets/audio/pages/binder-and-bugle.mid", import.meta.url).href, url: new URL("../assets/audio/pages/binder-and-bugle.wav", import.meta.url).href },
+  oldtrains: { label: "Basement Limited", file: "basement-limited.mid", midiUrl: new URL("../assets/audio/pages/basement-limited.mid", import.meta.url).href, url: new URL("../assets/audio/pages/basement-limited.wav", import.meta.url).href },
+  oldfishing: { label: "North Reeds", file: "north-reeds.mid", midiUrl: new URL("../assets/audio/pages/north-reeds.mid", import.meta.url).href, url: new URL("../assets/audio/pages/north-reeds.wav", import.meta.url).href }
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -65,7 +71,7 @@ const DEFAULT_STATE: GameState = {
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
   directMessages: [],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -108,7 +114,12 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   tapeattic_tess: { screenName: "TapeAttic_Tess", displayName: "Tess" },
   prismpilot_aya: { screenName: "PrismPilot_Aya", displayName: "Aya" },
   deepdelver_dot: { screenName: "DeepDelver_Dot", displayName: "Dot" },
-  mapmouse_mina: { screenName: "MapMouse_Mina", displayName: "Mina" }
+  mapmouse_mina: { screenName: "MapMouse_Mina", displayName: "Mina" },
+  road_hog_ron: { screenName: "RoadHog_Ron", displayName: "Ron" },
+  grandma_dot: { screenName: "Grandma_Dot", displayName: "Dot" },
+  colonel_hal: { screenName: "Col_Hal_1863", displayName: "Hal" },
+  railroad_lenny: { screenName: "Railroad_Lenny", displayName: "Lenny" },
+  big_bass_bob: { screenName: "BigBass_Bob", displayName: "Bob" }
 };
 
 const CHARACTER_CONTACTS: Record<string, {
@@ -157,7 +168,12 @@ const CHARACTER_CONTACTS: Record<string, {
   tapeattic_tess: { screenName: "TapeAttic_Tess", displayName: "Tess", statusMessage: "rewinding the weather special" },
   prismpilot_aya: { screenName: "PrismPilot_Aya", displayName: "Aya", statusMessage: "frame 05 contains six colors" },
   deepdelver_dot: { screenName: "DeepDelver_Dot", displayName: "Dot", statusMessage: "depth counter stuck at 999" },
-  mapmouse_mina: { screenName: "MapMouse_Mina", displayName: "Mina", statusMessage: "north is taking the afternoon off" }
+  mapmouse_mina: { screenName: "MapMouse_Mina", displayName: "Mina", statusMessage: "north is taking the afternoon off" },
+  road_hog_ron: { screenName: "RoadHog_Ron", displayName: "Ron", statusMessage: "chrome side up" },
+  grandma_dot: { screenName: "Grandma_Dot", displayName: "Dot", statusMessage: "please use my NEW page" },
+  colonel_hal: { screenName: "Col_Hal_1863", displayName: "Hal", statusMessage: "checking the primary source" },
+  railroad_lenny: { screenName: "Railroad_Lenny", displayName: "Lenny", statusMessage: "main line is clear" },
+  big_bass_bob: { screenName: "BigBass_Bob", displayName: "Bob", statusMessage: "probably at the north reeds" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -200,7 +216,12 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   tapeattic_tess: "web://fanverse.zone/users/tapeattictess/home",
   prismpilot_aya: "web://fanverse.zone/users/prismpilotaya/home",
   deepdelver_dot: "web://fanverse.zone/users/deepdelverdot/home",
-  mapmouse_mina: "web://fanverse.zone/users/mapmousemina/home"
+  mapmouse_mina: "web://fanverse.zone/users/mapmousemina/home",
+  road_hog_ron: "web://yesterday.zone/users/roadhogron/home",
+  grandma_dot: "web://yesterday.zone/users/grandmadot/home",
+  colonel_hal: "web://yesterday.zone/users/colonelhal/home",
+  railroad_lenny: "web://yesterday.zone/users/railroadlenny/home",
+  big_bass_bob: "web://yesterday.zone/users/bigbassbob/home"
 };
 
 const GAME_TIME_SCALE = 2;
@@ -681,6 +702,24 @@ function browserWindow() {
     <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
     <div class="browser-viewport site-${page.site}">${page.render(state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div>
     <footer class="browser-footer">${pageMusicPlayer(page)}<div class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></div></footer>`);
+}
+
+function decorateUnreadCommentEntrypoints() {
+  const unreadUrls = new Set(
+    state.pageComments
+      .filter((comment) =>
+        comment.role !== "player" &&
+        comment.revealAfterVisit > (state.pageVisitCounts[comment.pageUrl] ?? 0)
+      )
+      .map((comment) => comment.pageUrl)
+  );
+  if (!unreadUrls.size) return;
+  document.querySelectorAll<HTMLElement>("[data-nav]").forEach((entrypoint) => {
+    const targetUrl = entrypoint.dataset.nav?.trim().toLowerCase();
+    if (!targetUrl || !unreadUrls.has(targetUrl) || entrypoint.querySelector(".unread-comment-marker")) return;
+    entrypoint.classList.add("has-unread-comments");
+    entrypoint.insertAdjacentHTML("beforeend", `<span class="unread-comment-marker" title="Unread new comment" aria-label="Unread new comment">!</span>`);
+  });
 }
 
 function mailWindow() {
@@ -1219,6 +1258,7 @@ function render() {
     <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
     ${sleepDialog()}
   </main>`;
+  decorateUnreadCommentEntrypoints();
   bindEvents();
   syncPageMusic();
   updateClock();

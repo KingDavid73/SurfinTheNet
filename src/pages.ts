@@ -5,6 +5,7 @@ import { gameGridMembers, gameGridPages } from "./gamegrid-pages";
 import { xtremeMembers, xtremePages } from "./xtreme-pages";
 import { petPlanetMembers, petPlanetPages } from "./petplanet-pages";
 import { fandomMembers, fandomPages } from "./fandom-pages";
+import { yesterdayMembers, yesterdayPages } from "./yesterday-pages";
 
 const fakeImage = (label: string, variant = "blue") =>
   `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
@@ -145,6 +146,11 @@ function zoneDirectoryBody(zoneId: string) {
       <header><div><small>DEEP ARCHIVES // BIG FEELINGS</small><h2>FanVerse Member Archives</h2></div><span>${fandomMembers.length} shrines online</span></header>
       <div>${fandomMembers.map((member) => `<button class="fandom-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>FANDOM: ${member.fandom}</b></span><em>ENTER ARCHIVE</em></button>`).join("")}</div>
     </section>`;
+  if (zoneId === "yesterday") return `
+    <section class="yesterday-member-directory member-page-directory">
+      <header><div><small>PERSONAL HOME PAGES // BEST VIEWED AT 800×600</small><h2>Yesterday Online Neighbors</h2></div><span>${yesterdayMembers.length} pages indexed (probably)</span></header>
+      <div>${yesterdayMembers.map((member) => `<button class="yesterday-member-card member-${member.className}" data-nav="${member.url}"><i>${member.handle.slice(0, 2).toUpperCase()}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>TOPIC: ${member.interest}</b></span><em>CLICK HERE!!!</em></button>`).join("")}</div>
+    </section>`;
   return `
     <section class="zone-directory-placeholder"><div class="zone-construction">WORK IN PROGRESS</div><div><h2>Member Page Directory</h2><p>No individual member pages are indexed in this zone yet. Please check back after the next directory update.</p></div></section>`;
 }
@@ -183,6 +189,7 @@ export const pages: Record<string, PageDefinition> = {
   ...xtremePages,
   ...petPlanetPages,
   ...fandomPages,
+  ...yesterdayPages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",
