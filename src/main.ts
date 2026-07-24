@@ -8,8 +8,9 @@ const startupJingle = new Audio(startupJingleUrl);
 startupJingle.preload = "auto";
 startupJingle.volume = 0.7;
 
-const PAGE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
+const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   directory: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
+  gamegridzone: { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
   rainbow: { label: "Garden Sprites", file: "garden-sprites.mid", midiUrl: new URL("../assets/audio/pages/garden-sprites.mid", import.meta.url).href, url: new URL("../assets/audio/pages/garden-sprites.wav", import.meta.url).href },
   signal: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
   raven: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
@@ -49,6 +50,9 @@ const PAGE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   oldhistory: { label: "Binder and Bugle", file: "binder-and-bugle.mid", midiUrl: new URL("../assets/audio/pages/binder-and-bugle.mid", import.meta.url).href, url: new URL("../assets/audio/pages/binder-and-bugle.wav", import.meta.url).href },
   oldtrains: { label: "Basement Limited", file: "basement-limited.mid", midiUrl: new URL("../assets/audio/pages/basement-limited.mid", import.meta.url).href, url: new URL("../assets/audio/pages/basement-limited.wav", import.meta.url).href },
   oldfishing: { label: "North Reeds", file: "north-reeds.mid", midiUrl: new URL("../assets/audio/pages/north-reeds.mid", import.meta.url).href, url: new URL("../assets/audio/pages/north-reeds.wav", import.meta.url).href }
+};
+const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicTrack[]>> = {
+  gamegridzone: [SITE_MUSIC.gamegridzone, SITE_MUSIC.vanta, SITE_MUSIC.cubit]
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -305,7 +309,7 @@ let selectedMailMessageId: string | null = null;
 let helperPanelOpen = false;
 let pageMusicPlaying = true;
 let loadedPageMusicUrl: string | null = null;
-const pageMusicTrackIndexes = new Map<string, number>();
+const pageMusicTrackIndexes = new Map<PageDefinition["site"], number>();
 const semanticSearchCache = new Map<string, string[]>();
 const pendingSearches = new Set<string>();
 const browserScrollPositions = new Map<string, number>();
@@ -655,7 +659,7 @@ function pageMusicPlayer(page: PageDefinition) {
   const track = playlist[trackIndex];
   const hasPlaylist = playlist.length > 1;
   const bars = Array.from({ length: 10 }, (_, index) => `<i style="--midi-bar:${index}"></i>`).join("");
-  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""} ${hasPlaylist ? "has-playlist" : ""}" data-midi-source="${track.midiUrl ?? track.url}">
+  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""} ${hasPlaylist ? "has-playlist" : ""}" data-midi-source="${track.midiUrl ?? track.url}" data-music-scope="${page.site}" data-track-index="${trackIndex}">
     <div class="midi-player-ridge"><strong>ORBITAMP</strong><em>WEB</em><span><span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>MIDI LOOP</span></div>
     <div class="midi-display">
       <div class="midi-visualizer" aria-hidden="true">${bars}</div>
@@ -670,13 +674,17 @@ function pageMusicPlayer(page: PageDefinition) {
 }
 
 function pageMusicPlaylist(page: PageDefinition): readonly PageMusicTrack[] {
-  return page.music?.length ? page.music : [PAGE_MUSIC[page.site]];
+  return SITE_PLAYLISTS[page.site] ?? [SITE_MUSIC[page.site]];
 }
 
 function pageMusicTrackIndex(page: PageDefinition, playlist = pageMusicPlaylist(page)) {
-  const requestedIndex = pageMusicTrackIndexes.get(page.url) ?? 0;
+  let requestedIndex = pageMusicTrackIndexes.get(page.site);
+  if (requestedIndex === undefined) {
+    requestedIndex = playlist.length > 1 ? Math.floor(Math.random() * playlist.length) : 0;
+    pageMusicTrackIndexes.set(page.site, requestedIndex);
+  }
   const normalizedIndex = ((requestedIndex % playlist.length) + playlist.length) % playlist.length;
-  if (normalizedIndex !== requestedIndex) pageMusicTrackIndexes.set(page.url, normalizedIndex);
+  if (normalizedIndex !== requestedIndex) pageMusicTrackIndexes.set(page.site, normalizedIndex);
   return normalizedIndex;
 }
 
@@ -703,7 +711,7 @@ function changePageMusicTrack(direction: -1 | 1) {
   const page = currentPage();
   const playlist = pageMusicPlaylist(page);
   if (playlist.length < 2) return;
-  pageMusicTrackIndexes.set(page.url, pageMusicTrackIndex(page, playlist) + direction);
+  pageMusicTrackIndexes.set(page.site, pageMusicTrackIndex(page, playlist) + direction);
   loadedPageMusicUrl = null;
   render();
 }

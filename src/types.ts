@@ -194,7 +194,7 @@ export interface GameState {
 export interface PageDefinition {
   url: string;
   title: string;
-  site: "directory" | "rainbow" | "signal" | "raven" | "computer" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl" | "skater" | "bmx" | "blader" | "surfer" | "motocross" | "scooter" | "euro" | "petcat" | "petdog" | "petrabbit" | "pethamster" | "petiguana" | "petskunk" | "fanmoss" | "fanblipzo" | "fanstar" | "fanprism" | "fangemwell" | "fanatlas" | "oldbiker" | "grandmaold" | "grandmanew" | "oldhistory" | "oldtrains" | "oldfishing";
+  site: "directory" | "gamegridzone" | "rainbow" | "signal" | "raven" | "computer" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl" | "skater" | "bmx" | "blader" | "surfer" | "motocross" | "scooter" | "euro" | "petcat" | "petdog" | "petrabbit" | "pethamster" | "petiguana" | "petskunk" | "fanmoss" | "fanblipzo" | "fanstar" | "fanprism" | "fangemwell" | "fanatlas" | "oldbiker" | "grandmaold" | "grandmanew" | "oldhistory" | "oldtrains" | "oldfishing";
   ownerId: string;
   summary: string;
   commentsEnabled?: boolean;
@@ -202,7 +202,6 @@ export interface PageDefinition {
   listed?: boolean;
   hubId?: string;
   searchTerms?: string[];
-  music?: readonly PageMusicTrack[];
   render: (state: GameState) => string;
 }
 

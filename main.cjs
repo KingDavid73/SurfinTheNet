@@ -166,14 +166,18 @@ function createWindow() {
             const zoneReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.orbit-zone-page')) && document.querySelectorAll('.zone-categories article').length === 6 && !document.querySelector('.page-comments')`);
             if (!zoneReady) throw new Error(`Community zone was incomplete or had an unwanted comment thread: ${zoneUrl}`);
             if (zoneUrl.endsWith("/gamegrid")) {
-              const gameGridPlaylistReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.midi-controls > span')?.textContent.includes('1/3') && document.querySelector('.midi-track b')?.textContent === "Everybody's In"`);
-              if (!gameGridPlaylistReady) throw new Error("GameGrid multi-track player was unavailable");
+              const gameGridInitialTrack = await win.webContents.executeJavaScript(`(() => { const player = document.querySelector('.page-midi-player'); return { playlist: player?.classList.contains('has-playlist'), scope: player?.getAttribute('data-music-scope'), index: Number(player?.getAttribute('data-track-index')), label: document.querySelector('.midi-track b')?.textContent, counter: document.querySelector('.midi-controls > span')?.textContent }; })()`);
+              const gameGridTrackLabels = ["Everybody's In", "Second World", "Four on the Floor"];
+              if (!gameGridInitialTrack.playlist || gameGridInitialTrack.scope !== "gamegridzone" || gameGridInitialTrack.index < 0 || gameGridInitialTrack.index > 2 || gameGridInitialTrack.label !== gameGridTrackLabels[gameGridInitialTrack.index] || !gameGridInitialTrack.counter.includes(`${gameGridInitialTrack.index + 1}/3`)) {
+                throw new Error(`GameGrid randomized multi-track player was unavailable: ${JSON.stringify(gameGridInitialTrack)}`);
+              }
               await click("[data-page-music-next]");
-              const nextTrackReady = await win.webContents.executeJavaScript(`document.querySelector('.midi-controls > span')?.textContent.includes('2/3') && document.querySelector('.midi-track b')?.textContent === "Second World"`);
-              if (!nextTrackReady) throw new Error("Page music next control did not select the second track");
+              const expectedNextTrackIndex = (gameGridInitialTrack.index + 1) % gameGridTrackLabels.length;
+              const nextTrackReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.getAttribute('data-track-index') === ${JSON.stringify(String(expectedNextTrackIndex))} && document.querySelector('.midi-track b')?.textContent === ${JSON.stringify(gameGridTrackLabels[expectedNextTrackIndex])}`);
+              if (!nextTrackReady) throw new Error("Page music next control did not select the next track");
               await click("[data-page-music-prev]");
-              const previousTrackReady = await win.webContents.executeJavaScript(`document.querySelector('.midi-controls > span')?.textContent.includes('1/3') && document.querySelector('.midi-track b')?.textContent === "Everybody's In"`);
-              if (!previousTrackReady) throw new Error("Page music previous control did not return to the first track");
+              const previousTrackReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.getAttribute('data-track-index') === ${JSON.stringify(String(gameGridInitialTrack.index))} && document.querySelector('.midi-track b')?.textContent === ${JSON.stringify(gameGridInitialTrack.label)}`);
+              if (!previousTrackReady) throw new Error("Page music previous control did not return to the randomized starting track");
               const expectedMemberUrls = [
                 "web://gamegrid.zone/users/lagmaster99/home",
                 "web://gamegrid.zone/users/velvetmage/home",
@@ -467,13 +471,14 @@ function createWindow() {
           }
 
           await click('[data-nav="web://kingcalscars.biz/home"]');
-          const kingCalReady = await win.webContents.executeJavaScript(`(() => ({ page: Boolean(document.querySelector('.kingcal-page .cal-portrait .dealer-photo')), music: document.querySelector('.page-midi-player')?.textContent.includes('Crown and Clunker'), comments: document.querySelectorAll('.page-comment').length, earl: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'Honest_Earl'), customer: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'DeniseM') }))()`);
+          const kingCalReady = await win.webContents.executeJavaScript(`(() => ({ page: Boolean(document.querySelector('.kingcal-page .cal-portrait .dealer-photo')), music: document.querySelector('.page-midi-player')?.textContent.includes('Crown and Clunker'), musicScope: document.querySelector('.page-midi-player')?.getAttribute('data-music-scope'), musicSource: document.querySelector('.page-midi-player')?.getAttribute('data-midi-source'), comments: document.querySelectorAll('.page-comment').length, earl: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'Honest_Earl'), customer: Array.from(document.querySelectorAll('.page-comment header b')).some((node) => node.textContent === 'DeniseM') }))()`);
           if (!kingCalReady.page || !kingCalReady.music || kingCalReady.comments < 6 || !kingCalReady.earl || !kingCalReady.customer) throw new Error(`King Cal page, music, or seeded feud comments were incomplete: ${JSON.stringify(kingCalReady)}`);
           await capture("dealer-king-cal.png");
           await win.webContents.executeJavaScript(`document.querySelector('.page-comments')?.scrollIntoView({ block: 'start' })`);
           await capture("dealer-king-cal-comments.png");
           await click('[data-nav="web://kingcalscars.biz/inventory"]');
-          if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments')) || document.querySelectorAll('.cal-inventory-grid article').length !== 3`)) throw new Error("King Cal inventory was incomplete or had a separate comment thread");
+          const kingCalInventoryReady = await win.webContents.executeJavaScript(`(() => ({ comments: Boolean(document.querySelector('.page-comments')), inventory: document.querySelectorAll('.cal-inventory-grid article').length, musicScope: document.querySelector('.page-midi-player')?.getAttribute('data-music-scope'), musicSource: document.querySelector('.page-midi-player')?.getAttribute('data-midi-source') }))()`);
+          if (kingCalInventoryReady.comments || kingCalInventoryReady.inventory !== 3 || kingCalInventoryReady.musicScope !== kingCalReady.musicScope || kingCalInventoryReady.musicSource !== kingCalReady.musicSource) throw new Error(`King Cal inventory or domain-scoped music was incomplete: ${JSON.stringify(kingCalInventoryReady)}`);
           await capture("dealer-king-cal-inventory.png");
 
           await click('[data-nav="web://kingcalscars.biz/home"]');

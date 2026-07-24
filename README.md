@@ -140,9 +140,12 @@ The original startup cue lives in `assets/audio/orbitos-startup.mid`; Chromium p
 Page loops live in `assets/audio/pages/` as editable MIDI plus matching WAV
 renders. Regenerate the legacy placeholders with `npm.cmd run music:generate`;
 future authored tracks can be dropped into the same folder and wired directly
-into a page's `music` array. ORBITAMP hides its previous/next buttons for
-single-track pages and exposes them automatically for playlists. GameGrid
-currently demonstrates a three-track playlist. The homepage uses the softer,
+into the site's entry in `SITE_PLAYLISTS`. ORBITAMP hides its previous/next
+buttons for single-track sites and exposes them automatically for playlists.
+Multi-track sites choose a random starting position once per game session, then
+retain that track and playback position while browsing sub-pages in the same
+site scope. GameGrid currently demonstrates a three-track playlist. The current
+domain-to-song checklist is `MUSIC_INDEX.txt`. The homepage uses the softer,
 percussion-free “Orbit Avenue Afterglow” loop; period music and player-design
 notes live in `docs/period-web-music-notes.md`.
 
