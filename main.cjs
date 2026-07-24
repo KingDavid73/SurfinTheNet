@@ -37,7 +37,7 @@ const DEFAULT_SAVE = {
     text: "hey, you made it! welcome to OrbitNet. poke around the community zones and search for whatever sounds interesting—there are some wonderfully weird pages hiding in here.",
     createdAt: "1999-11-03T19:31:00"
   }],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8, faxmoth_13: 4, nullindex: 2, cedar_wren: 1, static_abel: 0, orchard_lee: 3, skywatch_sam: 1, ghostline: 0 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8, faxmoth_13: 4, nullindex: 2, cedar_wren: 1, static_abel: 0, orchard_lee: 3, skywatch_sam: 1, ghostline: 0, rewind_riley: 8, bubble_babs: 8, petal_pat: 10, faraway_frankie: 7, inkmoth_ian: 6, sofa_sylvia: 7, dr_marlow: 8, gurgle_gus: 6, nest_nora: 8, halo_holly: 9 }
 };
 
 function savePath() {
@@ -564,6 +564,39 @@ function createWindow() {
           await capture("dealer-honest-earl-inventory.png");
           await click('[data-browser="home"]');
 
+          const fillerBusinesses = [
+            ["video rental", "web://rewindharbor.video/home"],
+            ["laundromat", "web://bubbleborough.com/home"],
+            ["florist", "web://snapdragonstring.floral/home"],
+            ["travel agent", "web://farawaydesk.travel/home"],
+            ["copy fax", "web://inkmoth.copy/home"],
+            ["furniture sofa", "web://sofasafari.furn/home"],
+            ["family dentist", "web://molarmeadow.dent/home"],
+            ["plumber drain", "web://gurglebros.plumb/home"],
+            ["credit union savings", "web://neighbornest.cu/home"],
+            ["hair salon", "web://halocomb.salon/home"]
+          ];
+          for (const [query, expectedUrl] of fillerBusinesses) {
+            await searchFor(query, expectedUrl);
+            await click(`[data-nav="${expectedUrl}"]`);
+            const fillerReady = await win.webContents.executeJavaScript(`(() => ({
+              page: Boolean(document.querySelector('.filler-business-page')),
+              logo: Boolean(document.querySelector('.business-logo.filler-business-art')),
+              photos: document.querySelectorAll('.filler-business-gallery .filler-business-art').length,
+              comments: document.querySelectorAll('.page-comment').length,
+              player: Boolean(document.querySelector('.page-midi-player')),
+              deadLinks: document.querySelectorAll('.filler-business-page [data-nav]').length
+            }))()`);
+            if (!fillerReady.page || !fillerReady.logo || fillerReady.photos < 1 || fillerReady.comments < 2 || !fillerReady.player || fillerReady.deadLinks !== 0) {
+              throw new Error(`Filler business ${expectedUrl} was incomplete: ${JSON.stringify(fillerReady)}`);
+            }
+            await click('[data-browser="home"]');
+          }
+          await searchFor("video rental", "web://rewindharbor.video/home");
+          await click('[data-nav="web://rewindharbor.video/home"]');
+          await capture("filler-business-rewind-harbor.png");
+          await click('[data-browser="home"]');
+
           const consoleSearchSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'video game console'; form.requestSubmit(); return true; })()`);
           if (!consoleSearchSubmitted) throw new Error("Console search form was unavailable");
           await new Promise((resolve) => setTimeout(resolve, 120));
@@ -664,7 +697,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "clue-flow.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log("SMOKE_OK: browsed all eight OrbitNet zones, installed Orbit Pal, found all eleven businesses through related searches, verified all eleven business campaigns plus their page-music/comment boundaries and seeded dealer feud, browsed to the archive, and persisted downloads.");
+          console.log("SMOKE_OK: browsed all eight OrbitNet zones, installed Orbit Pal, found all twenty-one businesses through related searches, verified the business campaigns plus their page-music/comment boundaries and seeded dealer feud, browsed to the archive, and persisted downloads.");
         } catch (error) {
           console.error("SMOKE_FAILED:", error);
           process.exitCode = 1;
@@ -1209,7 +1242,7 @@ function createWindow() {
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
-          if (randomCalls !== 51) throw new Error(`Expected 50 persona rolls plus one page selection, got ${randomCalls} random calls`);
+          if (randomCalls !== 61) throw new Error(`Expected 60 persona rolls plus one page selection, got ${randomCalls} random calls`);
           const finalSaved = await waitForAmbientIdle(2);
           const hourlyAmbient = finalSaved.pageComments.find((comment) => comment.role === "visitor" && comment.id !== miraAmbient.id);
           if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);

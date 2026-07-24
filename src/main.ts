@@ -165,7 +165,17 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   grandmanew: { label: "Red Barn", file: "red-barn.mp3", url: new URL("../assets/audio/pages/grandma-dot-new/red-barn.mp3", import.meta.url).href },
   oldhistory: { label: "Tin Cup Reenactor", file: "tin-cup-reenactor.mp3", url: new URL("../assets/audio/pages/colonel-hal/tin-cup-reenactor.mp3", import.meta.url).href },
   oldtrains: RAILROAD_LENNY_TRACKS[0],
-  oldfishing: BIG_BASS_BOB_TRACKS[0]
+  oldfishing: BIG_BASS_BOB_TRACKS[0],
+  rewindbusiness: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  laundrybusiness: { label: "TubeNet Telemetry", file: "tubenet-telemetry.mid", midiUrl: new URL("../assets/audio/pages/tubenet-telemetry.mid", import.meta.url).href, url: new URL("../assets/audio/pages/tubenet-telemetry.wav", import.meta.url).href },
+  floristbusiness: GARDEN_SPRITES_TRACK,
+  travelbusiness: { label: "Atlas in the Wind", file: "atlas-in-the-wind.mid", midiUrl: new URL("../assets/audio/pages/atlas-in-the-wind.mid", import.meta.url).href, url: new URL("../assets/audio/pages/atlas-in-the-wind.wav", import.meta.url).href },
+  copybusiness: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
+  furniturebusiness: { label: "Good Old Days", file: "good-old-days.mp3", url: new URL("../assets/audio/pages/yesterday-zone/good-old-days.mp3", import.meta.url).href },
+  dentalbusiness: GARDEN_SPRITES_TRACK,
+  plumbingbusiness: { label: "Backyard Bound", file: "backyard-bound.mid", midiUrl: new URL("../assets/audio/pages/backyard-bound.mid", import.meta.url).href, url: new URL("../assets/audio/pages/backyard-bound.wav", import.meta.url).href },
+  creditbusiness: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
+  salonbusiness: { label: "Five-Color Drive", file: "five-color-drive.mid", midiUrl: new URL("../assets/audio/pages/five-color-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/five-color-drive.wav", import.meta.url).href }
 };
 const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicTrack[]>> = {
   orbithome: ORBIT_HOME_TRACKS,
@@ -212,7 +222,7 @@ const DEFAULT_STATE: GameState = {
     text: "hey, you made it! welcome to OrbitNet. poke around the community zones and search for whatever sounds interesting—there are some wonderfully weird pages hiding in here.",
     createdAt: "1999-11-03T19:31:00"
   }],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8, faxmoth_13: 4, nullindex: 2, cedar_wren: 1, static_abel: 0, orchard_lee: 3, skywatch_sam: 1, ghostline: 0 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8, faxmoth_13: 4, nullindex: 2, cedar_wren: 1, static_abel: 0, orchard_lee: 3, skywatch_sam: 1, ghostline: 0, rewind_riley: 8, bubble_babs: 8, petal_pat: 10, faraway_frankie: 7, inkmoth_ian: 6, sofa_sylvia: 7, dr_marlow: 8, gurgle_gus: 6, nest_nora: 8, halo_holly: 9 }
 };
 
 const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> = {
@@ -273,6 +283,16 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   orchard_lee: { screenName: "OrchardLee", displayName: "Lee" },
   skywatch_sam: { screenName: "Skywatch_Sam", displayName: "Sam" },
   ghostline: { screenName: "ghostline", displayName: "Ghostline" },
+  rewind_riley: { screenName: "RewindRiley", displayName: "Riley" },
+  bubble_babs: { screenName: "BubbleBabs", displayName: "Babs" },
+  petal_pat: { screenName: "PetalPat", displayName: "Pat" },
+  faraway_frankie: { screenName: "FarawayFrankie", displayName: "Frankie" },
+  inkmoth_ian: { screenName: "InkMoth_Ian", displayName: "Ian" },
+  sofa_sylvia: { screenName: "SofaSafariSylvia", displayName: "Sylvia" },
+  dr_marlow: { screenName: "DrMarlow_DDS", displayName: "Dr. Marlow" },
+  gurgle_gus: { screenName: "GurgleGus", displayName: "Gus" },
+  nest_nora: { screenName: "NestNora", displayName: "Nora" },
+  halo_holly: { screenName: "HaloComb_Holly", displayName: "Holly" },
   system_core: { screenName: "SYSTEM", displayName: "Continuity System" }
 };
 
@@ -339,7 +359,17 @@ const CHARACTER_CONTACTS: Record<string, {
   static_abel: { screenName: "StaticAbel", displayName: "Abel", statusMessage: "group count does not match" },
   orchard_lee: { screenName: "OrchardLee", displayName: "Lee", statusMessage: "archives do not interpret themselves" },
   skywatch_sam: { screenName: "Skywatch_Sam", displayName: "Sam", statusMessage: "three lights, four explanations" },
-  ghostline: { screenName: "ghostline", displayName: "Ghostline", statusMessage: "more than meets the index", aim: "ghostline" }
+  ghostline: { screenName: "ghostline", displayName: "Ghostline", statusMessage: "more than meets the index", aim: "ghostline" },
+  rewind_riley: { screenName: "RewindRiley", displayName: "Riley", statusMessage: "rewinding the returns bin" },
+  bubble_babs: { screenName: "BubbleBabs", displayName: "Babs", statusMessage: "last wash starts at 9:15" },
+  petal_pat: { screenName: "PetalPat", displayName: "Pat", statusMessage: "out on a flower delivery" },
+  faraway_frankie: { screenName: "FarawayFrankie", displayName: "Frankie", statusMessage: "stapling an itinerary" },
+  inkmoth_ian: { screenName: "InkMoth_Ian", displayName: "Ian", statusMessage: "copier two is behaving today" },
+  sofa_sylvia: { screenName: "SofaSafariSylvia", displayName: "Sylvia", statusMessage: "somewhere behind the dinette sets" },
+  dr_marlow: { screenName: "DrMarlow_DDS", displayName: "Dr. Marlow", statusMessage: "Kevin the fish is accepting visitors" },
+  gurgle_gus: { screenName: "GurgleGus", displayName: "Gus", statusMessage: "van radio only" },
+  nest_nora: { screenName: "NestNora", displayName: "Nora", statusMessage: "at the teller window until five" },
+  halo_holly: { screenName: "HaloComb_Holly", displayName: "Holly", statusMessage: "Saturday is almost booked" }
 };
 
 const CHARACTER_HOME_URLS: Record<string, string> = {
@@ -400,6 +430,16 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   orchard_lee: "web://archive.orbitnet.local/labs/home",
   skywatch_sam: "web://glasslake-field.gov/home",
   ghostline: "web://raven.web/vault",
+  rewind_riley: "web://rewindharbor.video/home",
+  bubble_babs: "web://bubbleborough.com/home",
+  petal_pat: "web://snapdragonstring.floral/home",
+  faraway_frankie: "web://farawaydesk.travel/home",
+  inkmoth_ian: "web://inkmoth.copy/home",
+  sofa_sylvia: "web://sofasafari.furn/home",
+  dr_marlow: "web://molarmeadow.dent/home",
+  gurgle_gus: "web://gurglebros.plumb/home",
+  nest_nora: "web://neighbornest.cu/home",
+  halo_holly: "web://halocomb.salon/home",
   system_core: "web://legacy.orbitos.local/admin/continuity"
 };
 

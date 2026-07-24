@@ -1,6 +1,7 @@
 import type { GameState, PageDefinition } from "./types";
 import { kidsBusinessPages } from "./kids-business-pages";
 import { dealerPages } from "./dealer-pages";
+import { fillerBusinessPages } from "./filler-business-pages";
 import { gameGridMembers, gameGridPages } from "./gamegrid-pages";
 import { xtremeMembers, xtremePages } from "./xtreme-pages";
 import { petPlanetMembers, petPlanetPages } from "./petplanet-pages";
@@ -272,6 +273,7 @@ const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
 export const pages: Record<string, PageDefinition> = {
   ...kidsBusinessPages,
   ...dealerPages,
+  ...fillerBusinessPages,
   ...orbitZonePages,
   ...gameGridPages,
   ...xtremePages,

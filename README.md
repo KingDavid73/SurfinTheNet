@@ -31,7 +31,7 @@ npm.cmd run make
 - Orbit Explorer with history, bookmarks, an address bar, and a growing set of local pages
 - A cleaned-up OrbitNet directory linking to eight topic communities—Game Grid, X-Treme Edge, Pet Planet, The FanVerse, Yesterday Online, SoundWave, Cozy Commons, and The Backchannel
 - Eight complete community-zone landing pages, with Game Grid populated by six console-era member sites, X-Treme Edge by seven rival riders, Yesterday Online by six first-generation homepages, Rainbow Garden in Cozy Commons, and Night Signal plus DarkRaven in The Backchannel
-- Dozens of member-run sites and eleven search-only local businesses
+- Dozens of member-run sites and twenty-one search-only local businesses
 - A hidden, address-only 1995 OrbitOS corporate archive with broken media, retired communities, Orbit Bridge lore, and a protected continuity console
 - A playable mystery arc: DarkRaven's first password puzzle, phase-two Backchannel arrivals, three fabricated investigations, one genuine archive, phase-three continuity glitches, and a stable post-reveal free-play state
 - Ten unindexed phase-two rumor pages illustrated with 25 low-resolution amateur “evidence” photos

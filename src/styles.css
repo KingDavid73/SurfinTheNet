@@ -3129,6 +3129,107 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .story-phase-3 .browser-status::after { content: " continuity traffic elevated"; color: #8d2020; animation: legacy-blink 2.4s steps(1) infinite; }
 .story-phase-3 .directory-page .counter { letter-spacing: .04em; }
 
+.filler-business-page {
+  --biz-ink: #22253b;
+  --biz-color: #315b8c;
+  --biz-pale: #eef5fb;
+  min-height: 100%;
+  color: var(--biz-ink);
+  background:
+    repeating-linear-gradient(0deg, transparent 0 3px, #ffffff19 3px 4px),
+    var(--biz-pale);
+  font: 12px/1.45 Arial, Helvetica, sans-serif;
+}
+.filler-business-page > header {
+  display: grid;
+  grid-template-columns: 110px 1fr 76px;
+  gap: 12px;
+  align-items: center;
+  margin: -17px -17px 15px;
+  padding: 10px 16px;
+  color: #fff;
+  background: var(--biz-color);
+  border-bottom: 5px ridge #fff8;
+  text-shadow: 1px 1px #0008;
+}
+.filler-business-page > header small { font-weight: bold; letter-spacing: .08em; }
+.filler-business-page h1 { margin: 2px 0; font-size: 25px; line-height: 1; }
+.filler-business-page > header p { margin: 4px 0 0; font-style: italic; }
+.filler-business-art {
+  display: block;
+  max-width: 100%;
+  image-rendering: auto;
+  border: 2px outset #eee;
+  box-shadow: 2px 2px #0006;
+}
+.filler-business-page .business-logo {
+  width: 104px;
+  height: 78px;
+  object-fit: contain;
+  background: #fff;
+}
+.filler-business-page .business-accent {
+  width: 72px;
+  height: 62px;
+  object-fit: contain;
+  justify-self: end;
+  background: #fff;
+}
+.filler-business-hero {
+  display: grid;
+  grid-template-columns: 1.2fr minmax(170px, .8fr);
+  gap: 14px;
+  padding: 12px;
+  background: #fffdf6;
+  border: 3px ridge var(--biz-color);
+}
+.filler-business-hero h2 {
+  margin: 0 0 6px;
+  color: var(--biz-color);
+  font-size: 19px;
+}
+.filler-business-hero ul { padding-left: 22px; }
+.filler-business-hero li { margin: 5px 0; }
+.filler-business-page figure { margin: 0; text-align: center; }
+.filler-business-hero figure img { width: 100%; max-height: 190px; object-fit: cover; }
+.filler-business-page figcaption { padding: 3px; color: #444; font: 9px Verdana, sans-serif; background: #eee; }
+.filler-business-gallery {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 14px 0;
+  padding: 10px;
+  background: #ffffff80;
+  border-top: 1px dashed var(--biz-color);
+  border-bottom: 1px dashed var(--biz-color);
+}
+.filler-business-gallery figure { flex: 0 1 190px; transform: rotate(-.5deg); }
+.filler-business-gallery figure:nth-child(even) { transform: rotate(.7deg); }
+.filler-business-gallery img { width: 100%; height: 120px; object-fit: cover; }
+.filler-business-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  color: #fff;
+  background: var(--biz-color);
+  border: 3px outset #eee;
+}
+.filler-business-info div { display: grid; gap: 4px; padding: 9px; border-right: 1px dotted #fff9; }
+.filler-business-info div:last-child { border-right: 0; }
+.filler-business-info b { color: #fff9a8; font-size: 10px; letter-spacing: .08em; }
+.filler-business-page .business-owner { padding: 8px; text-align: center; font-style: italic; }
+.filler-business-page > footer { padding: 7px; color: #fff; background: var(--biz-color); text-align: center; font-size: 9px; }
+.filler-rewind { --biz-color: #173968; --biz-pale: #d7e7f2; }
+.filler-bubble { --biz-color: #1985a1; --biz-pale: #dffaff; }
+.filler-snapdragon { --biz-color: #7a3970; --biz-pale: #fff0f1; }
+.filler-faraway { --biz-color: #276a70; --biz-pale: #e9edcf; }
+.filler-inkmoth { --biz-color: #4f4563; --biz-pale: #e4e0d3; }
+.filler-sofa { --biz-color: #815218; --biz-pale: #f5dfb9; }
+.filler-molar { --biz-color: #438d75; --biz-pale: #e7f8ef; }
+.filler-gurgle { --biz-color: #365778; --biz-pale: #d9e1e4; }
+.filler-neighbornest { --biz-color: #3c6544; --biz-pale: #f2ead2; }
+.filler-halo { --biz-color: #872f6e; --biz-pale: #f9dcf1; }
+
 @media (max-width: 900px), (max-height: 650px) {
   .game-title { top: 4vh; }
   .game-title p { display: none; }
@@ -3190,5 +3291,10 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   .directory-logo { font-size: 40px; }
   .page { padding: 17px; }
   .homeplanet-columns, .raven-vault-files, .copier-comparison, .quietcounty-page > section, .letter-comparison > div, .algorithm-archive-page dl { grid-template-columns: 1fr; }
+  .filler-business-page > header { grid-template-columns: 86px 1fr; }
+  .filler-business-page .business-accent { display: none; }
+  .filler-business-hero { grid-template-columns: 1fr; }
+  .filler-business-info { grid-template-columns: 1fr; }
+  .filler-business-info div { border-right: 0; border-bottom: 1px dotted #fff9; }
   .fax-cabinet-map { grid-template-columns: 1fr; }.fax-cabinet-map button:nth-of-type(3) { grid-column: auto; }
 }

@@ -1,6 +1,17 @@
 SURFIN' THE NET — DOMAIN MUSIC CHECKLIST
 =========================================
 
+[ ] rewindharbor.video — Cached Shadows (cached-shadows.mid)
+[ ] bubbleborough.com — TubeNet Telemetry (tubenet-telemetry.mid)
+[ ] snapdragonstring.floral — Garden Sprites (garden-sprites.mid)
+[ ] farawaydesk.travel — Atlas in the Wind (atlas-in-the-wind.mid)
+[ ] inkmoth.copy — Silicon Saturday (silicon-saturday.mid)
+[ ] sofasafari.furn — Good Old Days (yesterday-zone/good-old-days.mp3)
+[ ] molarmeadow.dent — Garden Sprites (garden-sprites.mid)
+[ ] gurglebros.plumb — Backyard Bound (backyard-bound.mid)
+[ ] neighbornest.cu — Orbit Avenue Afterglow (orbit-avenue.mid)
+[ ] halocomb.salon — Five-Color Drive (five-color-drive.mid)
+
 [ ] home / orbitnet.local — Blue Screen of Love (orbit-home/blue-screen-of-love-01.mp3); Blue Screen of Love II (orbit-home/blue-screen-of-love-02.mp3); Blue Screen of Love III (orbit-home/blue-screen-of-love-03.mp3); Blue Screen of Love IV (orbit-home/blue-screen-of-love-04.mp3); Blue Screen of Memory (orbit-home/blue-screen-of-memory.mp3)
 [ ] orbitnet.local/zones (Pet Planet, FanVerse, SoundWave, Cozy Commons, Backchannel) — Orbit Avenue Afterglow (orbit-avenue.mid)
 [ ] orbitnet.local/zones/gamegrid — Everybody's In (everybodys-in.mid); Leave Reality Running (vanta/leave-reality-running.mp3); CUBIT Pure Play (cubit/cubit-pure-play.mp3)
