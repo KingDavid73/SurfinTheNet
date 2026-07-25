@@ -1068,9 +1068,31 @@ function createWindow() {
           await address("web://archive.orbitnet.local/labs/findings");
           await wait(250);
           saved = await readSave();
-          if (saved.storyPhase !== 3 || saved.discoveredMysteries.length !== 4) throw new Error(`Hidden government archive did not activate phase three: ${JSON.stringify(saved.discoveredMysteries)}`);
+          if (
+            saved.storyPhase !== 2 ||
+            saved.discoveredMysteries.length !== 4 ||
+            !saved.flags.phase_three_transition_pending ||
+            await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-overlay'))`)
+          ) throw new Error(`Adaptive Index findings did not remain readable before phase three: ${JSON.stringify(saved)}`);
           if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.archive-finding-grid article').length === 3 && document.body.textContent.includes('suppression trial deleted nothing') && document.body.textContent.includes('positive mass-attention events')`)) {
             throw new Error("Adaptive Index findings did not establish attention displacement without censorship");
+          }
+          await capture("story-adaptive-index-findings.png");
+          await address("web://home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-prompt [data-phase-sleep]')) && document.body.textContent.includes('YOU SEND THE FINDINGS TO THE OTHER INVESTIGATORS') && Boolean(document.querySelector('.archive-finding-grid'))`)) {
+            throw new Error("Leaving the Adaptive Index findings did not pause for the explicit overnight transition");
+          }
+          const sleptAfterFindings = await win.webContents.executeJavaScript(`(() => {
+            const button = document.querySelector('[data-phase-sleep]');
+            if (!button) return false;
+            button.click();
+            return true;
+          })()`);
+          if (!sleptAfterFindings) throw new Error("Could not accept the phase-three overnight transition");
+          await wait(250);
+          saved = await readSave();
+          if (saved.storyPhase !== 3 || saved.flags.phase_three_transition_pending) {
+            throw new Error(`Sleeping after the findings did not activate phase three: ${JSON.stringify(saved)}`);
           }
           if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-3'))`)) {
             throw new Error(`Phase three did not force an overnight sleep: ${saved.gameTime}`);

@@ -2281,7 +2281,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   border-bottom: 1px solid #777;
 }
 .browser-toolbar > button { width: 31px; height: 28px; font-weight: bold; }
-.browser-toolbar .bookmark { color: #777; font-size: 19px; }
+.browser-toolbar .bookmark { display: grid; place-items: center; padding: 0; color: #777; font-size: 19px; line-height: 1; }
 .browser-toolbar .bookmark.active { color: #f0b400; text-shadow: 1px 1px #704e00; }
 .browser-text-size { display: grid; grid-template-columns: auto auto; align-items: center; gap: 3px; padding: 2px 4px; background: #d5d5d5; border: 1px solid #888; font-size: 10px; white-space: nowrap; }
 .browser-text-size select { height: 23px; min-width: 84px; padding: 1px 2px; background: white; border: 2px inset white; font: 10px Tahoma, sans-serif; }

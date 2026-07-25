@@ -1705,6 +1705,7 @@ function activateStoryPhase(nextPhase: StoryPhase) {
     );
   }
   if (nextPhase === 3) {
+    state.flags.phase_three_transition_pending = false;
     addAuthoredDirectMessage(
       "ghostline-phase3",
       "ghostline",
@@ -1736,17 +1737,21 @@ function registerStoryVisit(url: string) {
   ) return;
   state.discoveredMysteries.push(mysteryId);
   if (REQUIRED_PHASE_THREE_MYSTERIES.every((id) => state.discoveredMysteries.includes(id))) {
-    activateStoryPhase(3);
+    state.flags.phase_three_transition_pending = true;
   }
 }
 
 function promptForPendingPhaseTransition() {
-  if (
-    state.currentUrl !== "web://raven.web/vault" ||
-    state.storyPhase !== 1 ||
-    !state.flags.phase_two_transition_pending
-  ) return false;
-  phaseTransitionPrompt = 2;
+  const leavingBlackFile =
+    state.currentUrl === "web://raven.web/vault" &&
+    state.storyPhase === 1 &&
+    Boolean(state.flags.phase_two_transition_pending);
+  const leavingFindings =
+    state.currentUrl === "web://archive.orbitnet.local/labs/findings" &&
+    state.storyPhase === 2 &&
+    Boolean(state.flags.phase_three_transition_pending);
+  if (!leavingBlackFile && !leavingFindings) return false;
+  phaseTransitionPrompt = leavingBlackFile ? 2 : 3;
   startOpen = false;
   sleepDialogOpen = false;
   render();
@@ -2757,14 +2762,17 @@ function phaseTransitionScreen() {
 function phaseTransitionPromptScreen() {
   if (!phaseTransitionPrompt) return "";
   const phaseTwo = phaseTransitionPrompt === 2;
+  const phaseThree = phaseTransitionPrompt === 3;
   return `<section class="phase-transition-overlay phase-transition-prompt">
     <div class="phase-transition-card">
       <div class="phase-transition-moon">☾</div>
       <small>BEFORE YOU LOG OFF FOR THE NIGHT...</small>
-      <h1>${phaseTwo ? "YOU TELL A FEW FRIENDS WHAT YOU FOUND" : "THE DISCOVERY NEEDS TIME TO TRAVEL"}</h1>
+      <h1>${phaseTwo ? "YOU TELL A FEW FRIENDS WHAT YOU FOUND" : phaseThree ? "YOU SEND THE FINDINGS TO THE OTHER INVESTIGATORS" : "THE DISCOVERY NEEDS TIME TO TRAVEL"}</h1>
       <p>${phaseTwo
         ? "DarkRaven's Black File is mostly homemade hacker theater, but the recovered OrbitOS address is real. You pass the address to a few people who might appreciate it. It is late, and any replies can wait until morning."
-        : "You send the address and your notes to a few people, then leave the network to react while you sleep."}</p>
+        : phaseThree
+          ? "The Adaptive Index findings are real enough to matter and incomplete enough to be dangerous. You send copies and your notes to the people following the three cases, then leave OrbitNet to react overnight."
+          : "You send the address and your notes to a few people, then leave the network to react while you sleep."}</p>
       <button data-phase-sleep>SLEEP UNTIL TOMORROW</button>
     </div>
   </section>`;
