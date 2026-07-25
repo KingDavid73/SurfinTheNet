@@ -6,6 +6,41 @@ const FAX_HOME = "web://foldedwire.net/home";
 const NULL_HOME = "web://index-null.net/home";
 const PHASE_TWO_MAIN_MYSTERIES = ["morrow_five", "glass_lake", "quiet_county"];
 
+const MYSTERY_IMAGES = {
+  orbitComputer: new URL("../assets/images/generated-cells/orbitos/r1c1.webp", import.meta.url).href,
+  orbitModem: new URL("../assets/images/generated-cells/orbitos/r1c2.webp", import.meta.url).href,
+  orbitBox: new URL("../assets/images/generated-cells/orbitos/r1c3.webp", import.meta.url).href,
+  orbitBooth: new URL("../assets/images/generated-cells/orbitos/r1c4.webp", import.meta.url).href,
+  orbitReview: new URL("../assets/images/generated-cells/orbitos/r1c5.webp", import.meta.url).href,
+  orbitDiagram: new URL("../assets/images/generated-cells/orbitos/r2c1.webp", import.meta.url).href,
+  orbitBrowser: new URL("../assets/images/generated-cells/orbitos/r2c2.webp", import.meta.url).href,
+  orbitTeam: new URL("../assets/images/generated-cells/orbitos/r2c3.webp", import.meta.url).href,
+  orbitClassroom: new URL("../assets/images/generated-cells/orbitos/r2c4.webp", import.meta.url).href,
+  orbitManual: new URL("../assets/images/generated-cells/orbitos/r2c5.webp", import.meta.url).href,
+  orbitBridgeSetup: new URL("../assets/images/generated-cells/orbitos/r3c1.webp", import.meta.url).href,
+  orbitServers: new URL("../assets/images/generated-cells/orbitos/r3c3.webp", import.meta.url).href,
+  orbitOffice: new URL("../assets/images/generated-cells/orbitos/r3c4.webp", import.meta.url).href,
+  orbitMail: new URL("../assets/images/generated-cells/orbitos/r4c3.webp", import.meta.url).href,
+  redactedMemo: new URL("../assets/images/generated-cells/backchannel/r1c1.webp", import.meta.url).href,
+  fencedTower: new URL("../assets/images/generated-cells/backchannel/r1c2.webp", import.meta.url).href,
+  numberTape: new URL("../assets/images/generated-cells/backchannel/r1c3.webp", import.meta.url).href,
+  markedMap: new URL("../assets/images/generated-cells/backchannel/r1c5.webp", import.meta.url).href,
+  terminal: new URL("../assets/images/generated-cells/backchannel/r2c1.webp", import.meta.url).href,
+  radioTowers: new URL("../assets/images/generated-cells/backchannel/r2c2.webp", import.meta.url).href,
+  weatherStation: new URL("../assets/images/generated-cells/backchannel/r2c3.webp", import.meta.url).href,
+  fileCabinet: new URL("../assets/images/generated-cells/backchannel/r2c4.webp", import.meta.url).href,
+  punchCard: new URL("../assets/images/generated-cells/backchannel/r2c5.webp", import.meta.url).href,
+  dotMatrix: new URL("../assets/images/generated-cells/backchannel/r3c1.webp", import.meta.url).href,
+  diagram: new URL("../assets/images/generated-cells/backchannel/r3c2.webp", import.meta.url).href,
+  envelope: new URL("../assets/images/generated-cells/backchannel/r3c3.webp", import.meta.url).href,
+  corridor: new URL("../assets/images/generated-cells/backchannel/r3c5.webp", import.meta.url).href,
+  archiveAisle: new URL("../assets/images/generated-cells/backchannel/r4c1.webp", import.meta.url).href,
+  serverRoom: new URL("../assets/images/generated-cells/backchannel/r4c4.webp", import.meta.url).href
+} as const;
+
+const archiveImages = (...items: Array<[string, string]>) =>
+  `<div class="generated-archive-strip">${items.map(([src, alt]) => `<figure><img src="${src}" alt="${alt}"><figcaption>${alt}</figcaption></figure>`).join("")}</div>`;
+
 export const MYSTERY_TERMINAL_URLS: Record<string, string> = {
   morrow_five: "web://morrow-five.net/decoded",
   glass_lake: "web://glasslake-field.gov/report",
@@ -86,6 +121,7 @@ export const mysteryPages: Record<string, PageDefinition> = {
       <main class="page legacy-orbit-page legacy-home-page">
         ${legacyHeader("ARCHIVED COPY // APRIL 1995")}${legacyNav}
         <marquee behavior="alternate" scrollamount="5"><font color="red"><b>THE PERSONAL COMPUTER JUST BECAME PERSONAL AGAIN!</b></font></marquee>
+        ${archiveImages([MYSTERY_IMAGES.orbitComputer, "Orbit-ready home computer, 1995 catalog scan"], [MYSTERY_IMAGES.orbitBox, "OrbitOS retail kit and system disk"], [MYSTERY_IMAGES.orbitBooth, "Orbit Systems at a regional computer show"])}
         <table class="legacy-chaos-table"><tbody><tr>
           <td width="31%" valign="top">${brokenImage("ORBIT_BOX_SHOT.GIF", "OrbitOS retail box")}<center><font size="1">Image server: NO RESPONSE</font></center></td>
           <td valign="top"><font size="5" color="#660099"><b>ONE COMPUTER. ONE NETWORK. ONE ORBIT.</b></font>
@@ -110,6 +146,7 @@ export const mysteryPages: Record<string, PageDefinition> = {
         ${legacyHeader("WHY ORBIT?")}${legacyNav}
         <font face="Arial"><h1>THE NETWORK GOLD RUSH HAS BEGUN</h1></font>
         <blockquote><font size="4">The big guys want to own your desk. The phone companies want to own the wire. We think the people using both should own the neighborhood.</font></blockquote>
+        ${archiveImages([MYSTERY_IMAGES.orbitTeam, "The small Orbit Systems network team"], [MYSTERY_IMAGES.orbitReview, "A favorable early magazine review"])}
         <table border="5" cellpadding="8"><tbody><tr><th>THE OLD WAY</th><th>THE ORBIT WAY</th></tr>
           <tr><td>Different logins everywhere</td><td>One Orbit identity</td></tr>
           <tr><td>Pages made for unknown browsers</td><td>Pages designed for Orbit Explorer</td></tr>
@@ -135,6 +172,7 @@ export const mysteryPages: Record<string, PageDefinition> = {
             <ul><li><b>OrbitPages:</b> compact pages cached close to the user.</li><li><b>OrbitTags:</b> friendly widgets for mail, comments, counters, and clubs.</li><li><b>Orbit Identity:</b> one member record shared by the OS and network.</li><li><b>Continuity Host:</b> a central mainframe monitors directory health, page availability, and community traffic.</li></ul>
           </td></tr>
         </tbody></table>
+        ${archiveImages([MYSTERY_IMAGES.orbitDiagram, "OrbitNet architecture diagram"], [MYSTERY_IMAGES.orbitModem, "OrbitLink dial-up modem"], [MYSTERY_IMAGES.orbitServers, "Continuity host equipment room"])}
         <p clear="all"><font size="1">Technical note 2.1b: gateway users may see flattened tables, missing OrbitTags, duplicate comments, incorrect fonts, and scripts that do not execute.</font></p>
         <p class="legacy-comment-leak">&lt;!-- continuity documentation moved to /admin/continuity --&gt;</p>
       </main>`
@@ -152,6 +190,7 @@ export const mysteryPages: Record<string, PageDefinition> = {
         ${legacyHeader("MEET ORBIT EXPLORER 2.0")}${legacyNav}
         <center><h1><font color="#0066cc">The browser that knows where it lives.</font></h1></center>
         ${brokenImage("EXPLORER_SCREEN_20.JPG", "Orbit Explorer screenshot")}
+        ${archiveImages([MYSTERY_IMAGES.orbitBrowser, "Surviving Orbit Explorer screen capture"], [MYSTERY_IMAGES.orbitMail, "Orbit Mail running inside the shared desktop"])}
         <ol><li>Signs into your communities with your OrbitOS profile.</li><li>Displays OrbitTags exactly as the page creator intended.</li><li>Keeps favorite neighborhoods available during busy network hours.</li><li>Lets page owners update comments, files, and notices without learning complicated server software.</li></ol>
         <div class="legacy-bad-news"><b>PORTAL USER?</b> The public-web gateway can emulate most OrbitPages, but setup requires the Orbit Bridge helper, a member certificate, and manual proxy information. Some interactive features remain unavailable.</div>
       </main>`
@@ -168,6 +207,7 @@ export const mysteryPages: Record<string, PageDefinition> = {
       <main class="page legacy-orbit-page legacy-gateway-page">
         ${legacyHeader("ORBIT BRIDGE / PUBLIC WEB ACCESS")}${legacyNav}
         <h1>Access Orbit without OrbitOS <font size="2">(limited support)</font></h1>
+        ${archiveImages([MYSTERY_IMAGES.orbitBridgeSetup, "Orbit Bridge connection setup"], [MYSTERY_IMAGES.orbitManual, "Printed gateway setup manual"], [MYSTERY_IMAGES.orbitOffice, "A public-web gateway support desk"])}
         <p>Orbit Bridge translates OrbitPages into ordinary web pages. Because ordinary browsers do not understand OrbitTags, the gateway must simulate them.</p>
         <fieldset><legend><b>KNOWN PROBLEMS</b></legend><ul><li>Nested tables may drift right or overlap.</li><li>Animated page mascots become still pictures or broken boxes.</li><li>Guestbooks may submit twice.</li><li>Private club doors sometimes forget that a member signed in.</li><li>Page scripts may run late, out of order, or not at all.</li></ul></fieldset>
         <p><b>Support position:</b> Orbit Bridge is provided for occasional visitors. For the complete community experience, use OrbitOS and Orbit Explorer.</p>
@@ -315,6 +355,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     render: () => `
       <main class="page folded-wire-page">
         <header><span>FAX 01/17</span><h1>THE FOLDED WIRE</h1><small>Paper remembers what servers misplace.</small></header>
+        ${archiveImages([MYSTERY_IMAGES.redactedMemo, "A repeatedly copied routing memo"], [MYSTERY_IMAGES.envelope, "An anonymous envelope filed without a return address"], [MYSTERY_IMAGES.fileCabinet, "Cabinet B before its contents were indexed"])}
         <div class="fax-cabinet-map">
           <button data-nav="web://foldedwire.net/cabinet">CABINET B<br><small>contracts / maps / routing slips</small></button>
           <i>fold here &rarr;</i>
@@ -335,6 +376,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     minimumPhase: 2,
     render: () => `
       <main class="page folded-wire-page fax-cabinet-page"><header><span>B-06</span><h1>CABINET B</h1></header>
+        ${archiveImages([MYSTERY_IMAGES.fileCabinet, "Cabinet drawers 24-7 and 24-8"], [MYSTERY_IMAGES.markedMap, "A road map folded inside the weather contract"])}
         <table><tbody><tr><th>B-06-14</th><td>Glass Lake atmospheric propagation contract</td><td><button data-nav="web://glasslake-field.gov/home">TRACE</button></td></tr>
         <tr><th>B-11-02</th><td>Quiet County conflict-mediation correspondence</td><td><button data-nav="web://quiet-county.org/home">TRACE</button></td></tr>
         <tr><th>B-19-88</th><td>Orbit gateway session-ordering invoice</td><td><button data-nav="web://archive.orbitnet.local/labs/home">TRACE</button></td></tr></tbody></table>
@@ -371,6 +413,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     ],
     render: () => `
       <main class="page index-null-page"><header>INDEX:NULL::<b>DEAD LETTER OFFICE</b><span>ROUTES RETURNED TO SENDER</span></header>
+        ${archiveImages([MYSTERY_IMAGES.terminal, "A terminal returning an incomplete index"], [MYSTERY_IMAGES.punchCard, "Unclaimed directory card"], [MYSTERY_IMAGES.dotMatrix, "Dot-matrix route dump"])}
         <pre class="null-route-map">ROOT
  |-- /people/expired
  |-- /clubs/retired ---- <button data-nav="web://legacy.orbitos.local/communities">[2 CARRIERS]</button>
@@ -424,6 +467,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     searchTerms: ["morrow five", "numbers station", "radio", "five number groups", "secret broadcast"],
     render: () => `
       <main class="page morrow-page"><header><span>M5</span><h1>MORROW FIVE MONITOR</h1><small>CALLSIGN: LANTERN / 6842 kHz / uncertain origin</small></header>
+        ${archiveImages([MYSTERY_IMAGES.numberTape, "Cassette marked with the disputed Morrow frequency"], [MYSTERY_IMAGES.radioTowers, "Tower lights photographed during the broadcast"], [MYSTERY_IMAGES.fencedTower, "The alleged transmitter beyond a locked fence"])}
         <p class="morrow-theory">THEORY: the five-number groups identify sealed facilities activated by an unseen federal continuity network.</p>
         <nav><button data-nav="web://morrow-five.net/transcript">11/03 TRANSCRIPT</button><button data-nav="web://morrow-five.net/decoded">GROUP TEST</button><button data-nav="web://nightsignal.net/fieldlog">COMPARE NIGHT SIGNAL</button></nav>
         <aside><b>OBSERVED:</b> an old recording exists and its group count is wrong.<br><b>INFERRED:</b> practically everything else.</aside>
@@ -477,6 +521,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     searchTerms: ["glass lake", "secret base", "aliens", "weather station", "moon window", "field annex"],
     render: () => `
       <main class="page glasslake-page"><header><small>ARCHIVED PUBLIC INFORMATION PAGE</small><h1>GLASS LAKE FIELD ANNEX</h1><span>Atmospheric Propagation Group</span></header>
+        ${archiveImages([MYSTERY_IMAGES.weatherStation, "Glass Lake upper-air weather instruments"], [MYSTERY_IMAGES.markedMap, "Field route map with later annotations"])}
         <div class="glasslake-redactions"><p>Facility purpose: upper-air radio propagation and weather telemetry.</p><p>Public tours: suspended during antenna calibration.</p><p>Hangar B: <b>██████████████</b></p></div>
         <nav><button data-nav="web://glasslake-field.gov/weather">WEATHER LOG</button><button data-nav="web://glasslake-field.gov/report">MOON WINDOW REPORT</button></nav>
         <marquee>SKYWATCH ALERT: three lights photographed above the ridge // official explanation pending</marquee>
@@ -525,6 +570,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     searchTerms: ["quiet county", "deep state", "anonymous letters", "civic groups", "project trestle", "rumor"],
     render: () => `
       <main class="page quietcounty-page"><header><h1>THE QUIET COUNTY FILES</h1><p>Who kept mailing the neighborhood associations?</p></header>
+        ${archiveImages([MYSTERY_IMAGES.envelope, "One of the anonymous neighborhood letters"], [MYSTERY_IMAGES.corridor, "County records corridor after public hours"], [MYSTERY_IMAGES.diagram, "A copied mediation-study diagram"])}
         <section><article><b>CLAIM</b><p>PROJECT TRESTLE was a covert influence program that fabricated disputes, divided local groups, and tested population control.</p></article><article><b>RECORD</b><p>A real university conflict-mediation study tracked how rumor and message framing affected public meetings.</p></article></section>
         <nav><button data-nav="web://quiet-county.org/letters">COMPARE LETTERS</button><button data-nav="web://quiet-county.org/case">CASE CONCLUSION</button></nav>
       </main>`
@@ -574,6 +620,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     render: (state) => governmentArchivePage(state, `
       <main class="page algorithm-archive-page"><header><b>ORBIT HUMAN INTERFACE LAB</b><span>RECOVERED UNIVERSITY MIRROR</span></header>
         <h1>Adaptive Indexing Study, 1992–1994</h1>
+        ${archiveImages([MYSTERY_IMAGES.archiveAisle, "Recovered study boxes in the university archive"], [MYSTERY_IMAGES.serverRoom, "The surviving interface-lab server rack"], [MYSTERY_IMAGES.orbitClassroom, "An ordering trial in the terminal lab"])}
         <p>Study of how menu order, repeated exposure, social endorsement, and interruption timing influence which information a user selects and how long a session continues.</p>
         <dl><div><dt>Funding class</dt><dd>Public-sector communications research grant</dd></div><div><dt>Subjects</dt><dd>Volunteer terminal users; consent language incomplete in mirror</dd></div><div><dt>Later licensee</dt><dd>Orbit Community Services</dd></div></dl>
         <nav><button data-nav="web://archive.orbitnet.local/labs/method">METHOD / ORDERING TESTS</button><button data-nav="web://archive.orbitnet.local/labs/findings">FINDINGS / LICENSE NOTES</button></nav>

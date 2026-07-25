@@ -1,10 +1,39 @@
 import type { PageComment, PageDefinition } from "./types";
 
+const COZY_IMAGES = {
+  roses: new URL("../assets/images/generated-cells/cozy/r1c1.webp", import.meta.url).href,
+  tomatoes: new URL("../assets/images/generated-cells/cozy/r1c2.webp", import.meta.url).href,
+  cottage: new URL("../assets/images/generated-cells/cozy/r1c3.webp", import.meta.url).href,
+  bread: new URL("../assets/images/generated-cells/cozy/r1c4.webp", import.meta.url).href,
+  pressedFlowers: new URL("../assets/images/generated-cells/cozy/r1c5.webp", import.meta.url).href,
+  harvest: new URL("../assets/images/generated-cells/cozy/r2c2.webp", import.meta.url).href,
+  mending: new URL("../assets/images/generated-cells/cozy/r2c4.webp", import.meta.url).href,
+  kitchenTable: new URL("../assets/images/generated-cells/cozy/r3c1.webp", import.meta.url).href,
+  rainyBaking: new URL("../assets/images/generated-cells/cozy/r3c2.webp", import.meta.url).href,
+  homework: new URL("../assets/images/generated-cells/cozy/r3c3.webp", import.meta.url).href,
+  overlook: new URL("../assets/images/generated-cells/cozy/r4c1.webp", import.meta.url).href,
+  forestTrail: new URL("../assets/images/generated-cells/cozy/r4c2.webp", import.meta.url).href,
+  creek: new URL("../assets/images/generated-cells/cozy/r4c4.webp", import.meta.url).href,
+  cards: new URL("../assets/images/generated-cells/cozy/r5c1.webp", import.meta.url).href,
+  paperBird: new URL("../assets/images/generated-cells/cozy/r5c2.webp", import.meta.url).href,
+  pressedBook: new URL("../assets/images/generated-cells/cozy/r5c3.webp", import.meta.url).href
+} as const;
+
+const cozyGallery = (...items: Array<[string, string]>) =>
+  `<div class="cozy-generated-gallery">${items.map(([src, alt]) => `<figure><img src="${src}" alt="${alt}"><figcaption>${alt}</figcaption></figure>`).join("")}</div>`;
+
 const RUTH_URL = "web://rosepatch.home/garden";
 const ELLEN_URL = "web://hearthside.home/welcome";
 const SUE_URL = "web://snacktime.home/mompage";
 const TOM_URL = "web://trailnotes.home/index";
 const PAM_URL = "web://paperbird.home/crafts";
+
+const COZY_ARCHIVE_GIFS = {
+  rose: new URL("../assets/images/archive-gifs/rose-bloom.gif", import.meta.url).href,
+  butterfly: new URL("../assets/images/archive-gifs/pink-butterfly.gif", import.meta.url).href,
+  hiker: new URL("../assets/images/archive-gifs/walking-hiker.gif", import.meta.url).href,
+  sewing: new URL("../assets/images/archive-gifs/sewing-machine.gif", import.meta.url).href
+} as const;
 
 const seed = (
   id: string,
@@ -81,12 +110,13 @@ export const cozyPages: Record<string, PageDefinition> = {
     ],
     render: () => `
       <main class="page cozy-page cozy-ruth-page">
-        <header><span>&#10047;</span><div><small>WELCOME TO MY BACKYARD</small><h1>Ruth's Rose &amp; Tomato Patch</h1></div><span>&#10047;</span></header>
+        <header><img class="archive-gif archive-gif-flower" src="${COZY_ARCHIVE_GIFS.rose}" alt="Animated white rose"><div><small>WELCOME TO MY BACKYARD</small><h1>Ruth's Rose &amp; Tomato Patch</h1></div><span>&#10047;</span></header>
         <marquee scrollamount="2">The garden is sleeping for winter. Please come back when the seed catalog arrives!</marquee>
         <section class="cozy-ruth-grid">
-          <div class="cozy-memory-photo garden-photo-placeholder"><b>HARVEST98.JPG</b><span>a slightly blurry basket of tomatoes</span></div>
+          <figure class="cozy-feature-photo"><img src="${COZY_IMAGES.harvest}" alt="A flash photograph of Ruth's tomato harvest"><figcaption>HARVEST98.JPG &mdash; too many again</figcaption></figure>
           <article><time>LAST GARDEN NOTE &mdash; AUGUST 14, 1998</time><h2>Too many tomatoes (again)</h2><p>The yellow pear tomatoes climbed over the fence and Mr. Bell says one has reached his side. I told him that makes it his responsibility now.</p><p><b>Seed-saving reminder:</b> label the envelope <em>before</em> putting the seeds in it. Trust me.</p></article>
         </section>
+        ${cozyGallery([COZY_IMAGES.roses, "The fence roses after rain"], [COZY_IMAGES.tomatoes, "Tomatoes that refused to ripen together"])}
         <aside><b>RUTH'S THREE RULES</b><ol><li>Water the soil, not your shoes.</li><li>Marigolds forgive almost anything.</li><li>Never trust a squirrel near a bulb bed.</li></ol></aside>
         <footer><button data-nav="web://orbitnet.local/zones/cozycommons">&larr; Cozy Commons</button><span>Page planted 04/18/1998 &middot; last weeded 08/23/1998</span></footer>
       </main>`
@@ -103,12 +133,13 @@ export const cozyPages: Record<string, PageDefinition> = {
     searchTerms: ["cottage", "cottagecore", "country living", "recipes", "pressed flowers", "mending", "home", "ellen"],
     render: () => `
       <main class="page cozy-page cozy-ellen-page">
-        <header><small>&mdash; notes from a small house at the end of Briar Lane &mdash;</small><h1>The Hearthside Book</h1><p>recipes &middot; sewing &middot; seasons &middot; useful little things</p></header>
+        <header><img class="archive-gif archive-gif-butterfly" src="${COZY_ARCHIVE_GIFS.butterfly}" alt="Animated pink butterfly"><small>&mdash; notes from a small house at the end of Briar Lane &mdash;</small><h1>The Hearthside Book</h1><p>recipes &middot; sewing &middot; seasons &middot; useful little things</p></header>
         <div class="pressed-sprig" aria-hidden="true">&#10086;<br>|<br>&#10087;</div>
         <section>
           <article><h2>Apple Oat Crumble</h2><p>Six tart apples, one cup rolled oats, brown sugar by instinct, cinnamon until the kitchen smells right. Bake until the corners whisper.</p><small>posted October 6, 1997</small></article>
           <article><h2>A mending note</h2><p>A shirt repaired twice is not an old shirt. It is a familiar shirt. Keep a jar for good buttons and another for buttons whose origins are mysterious.</p><small>posted May 12, 1997</small></article>
         </section>
+        ${cozyGallery([COZY_IMAGES.cottage, "The small house at the end of Briar Lane"], [COZY_IMAGES.bread, "Sunday bread cooling by the window"], [COZY_IMAGES.pressedFlowers, "Flowers saved between old dictionary pages"], [COZY_IMAGES.mending, "The cardigan with two familiar repairs"])}
         <blockquote>There is no new entry this month. The garden gate sticks and the computer is upstairs.</blockquote>
         <footer><button data-nav="web://orbitnet.local/zones/cozycommons">return to the Commons</button><span>This book has been open since 1996.</span></footer>
       </main>`
@@ -134,6 +165,7 @@ export const cozyPages: Record<string, PageDefinition> = {
           <div class="cozy-memory-photo broken-photo"><b>&#9633; FAMILY_PIC.JPG</b><span>image did not finish loading</span></div>
           <article class="blue-note"><b>BEN, AGE 6:</b><p>&ldquo;If the Internet is everywhere, why can't it find my other mitten?&rdquo;</p></article>
         </section>
+        ${cozyGallery([COZY_IMAGES.kitchenTable, "Craft hour at the kitchen table"], [COZY_IMAGES.rainyBaking, "Rainy-day baking experiment"], [COZY_IMAGES.homework, "The quiet seven minutes after school"])}
         <section class="rainy-list"><h2>Three rainy-day things that bought me twenty minutes</h2><ul><li>Paper-bag puppets</li><li>A blanket fort with a mailbox</li><li>Letting them sort the button tin (supervised!)</li></ul><time>Last updated January 8, 1999</time></section>
         <footer><button data-nav="web://orbitnet.local/zones/cozycommons">Back to Cozy Commons</button><span>Web page maintained after bedtime.</span></footer>
       </main>`
@@ -153,8 +185,9 @@ export const cozyPages: Record<string, PageDefinition> = {
     ],
     render: () => `
       <main class="page cozy-page cozy-tom-page">
-        <header><div class="trail-mark">&#9650;</div><div><small>BOOT MILES, NOT BYTE MILES</small><h1>Tom's Weekend Trail Notes</h1></div></header>
+        <header><img class="archive-gif archive-gif-hiker" src="${COZY_ARCHIVE_GIFS.hiker}" alt="Animated backpacker walking with a hiking staff"><div><small>BOOT MILES, NOT BYTE MILES</small><h1>Tom's Weekend Trail Notes</h1></div></header>
         <div class="trail-pencil-map" role="img" aria-label="A simple hand-drawn trail map"><i></i><b>PARK</b><span>creek</span><em>OLD LOOKOUT</em></div>
+        ${cozyGallery([COZY_IMAGES.overlook, "View from Old Lookout in October"], [COZY_IMAGES.forestTrail, "Fern Hollow after the leaves fell"], [COZY_IMAGES.creek, "The footbridge creek after rain"])}
         <section class="trail-cards">
           <article><h2>Fern Hollow Loop</h2><b>3.8 miles &middot; easy</b><p>Muddy after rain. At the fork after the footbridge, take the path with the blue coffee-can lid nailed to the oak.</p></article>
           <article><h2>Old Lookout Spur</h2><b>5.1 miles &middot; steady climb</b><p>The view is better after leaves fall. Bring water; the pump beside the picnic shelter was removed.</p></article>
@@ -184,7 +217,8 @@ export const cozyPages: Record<string, PageDefinition> = {
           <article><b>PROJECT 02</b><h2>Five-Minute Thank-You Card</h2><p>Fold heavy paper, glue on one fabric square, write something honest. It does not need to match.</p></article>
           <div class="cozy-memory-photo craft-photo"><b>CARDS_SCAN.BMP</b><span>three crooked cards on the scanner glass</span></div>
         </section>
-        <aside><b>COMING NEXT MONTH:</b> paper birds, salt-dough buttons, and the promised button-box tour.</aside>
+        ${cozyGallery([COZY_IMAGES.cards, "Cards scanned before the glue dried"], [COZY_IMAGES.paperBird, "The missing paper-bird template, folded from memory"], [COZY_IMAGES.pressedBook, "Pam's first hand-bound leaf notebook"])}
+        <aside><img class="archive-gif archive-gif-sewing" src="${COZY_ARCHIVE_GIFS.sewing}" alt="Animated vintage sewing machine"><span><b>COMING NEXT MONTH:</b> paper birds, salt-dough buttons, and the promised button-box tour.</span></aside>
         <footer><button data-nav="web://orbitnet.local/zones/cozycommons">Cozy Commons Web Ring</button><span>Last update: 04/02/1999 &middot; glue still drying</span></footer>
       </main>`
   }

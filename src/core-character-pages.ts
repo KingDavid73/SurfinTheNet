@@ -9,7 +9,8 @@ const CORE_ART = {
   "raven-notebook": new URL("../assets/images/core-characters/raven-notebook.png", import.meta.url).href,
   "lag-ranking": new URL("../assets/images/core-characters/lag-ranking.png", import.meta.url).href,
   "lag-bedroom": new URL("../assets/images/core-characters/lag-bedroom.png", import.meta.url).href,
-  "fax-envelope": new URL("../assets/images/core-characters/fax-envelope.png", import.meta.url).href
+  "fax-envelope": new URL("../assets/images/core-characters/fax-envelope.png", import.meta.url).href,
+  "archive-alien": new URL("../assets/images/archive-gifs/green-alien.gif", import.meta.url).href
 } as const;
 
 const art = (name: keyof typeof CORE_ART, alt: string) => `<img src="${CORE_ART[name]}" alt="${alt}">`;
@@ -63,7 +64,7 @@ export const coreCharacterPages: Record<string, PageDefinition> = {
     listed: false,
     render: () => `
       <main class="page raven-page core-raven-page">
-        <header class="raven-case-header"><small>SUBJECT: CLASSIFIED</small><h1>THE FIGURE BEHIND THE SCREEN</h1><b>NO PARENTS</b></header>
+        <header class="raven-case-header"><img class="archive-gif archive-gif-alien" src="${CORE_ART["archive-alien"]}" alt="Animated green alien head"><small>SUBJECT: CLASSIFIED</small><h1>THE FIGURE BEHIND THE SCREEN</h1><b>NO PARENTS</b></header>
         <section class="raven-profile-grid">
           ${art("raven-room", "A suburban teen computer desk decorated in homemade goth style")}
           <div><h2>xX_DarkRaven_Xx</h2><p><b>REAL NAME:</b> irrelevant<br><b>AGE:</b> old enough<br><b>LOCATION:</b> behind seven proxies<br><b>ACTUAL LOCATION:</b> Bellwater, unfortunately</p><p>I build PCs from discarded parts, collect shareware disks, and document anything the directory removes. Juniper says I should mention that I also make decent grilled cheese. This is operationally irrelevant.</p></div>

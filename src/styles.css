@@ -1399,6 +1399,16 @@
 .yesterday-page button, .yesterday-page a { cursor: pointer; }
 .yesterday-photo { max-width: 100%; box-sizing: border-box; }
 .old-gif { image-rendering: auto; }
+.archive-gif { display: inline-block; width: auto; height: auto; max-width: 134px; image-rendering: auto; object-fit: contain; }
+.archive-gif-flower { width: 45px; height: 45px; }
+.archive-gif-butterfly { float: right; width: 32px; height: 32px; margin: 2px 6px; }
+.archive-gif-hiker { width: 67px; max-height: 64px; object-position: top; }
+.cozy-pam-page > aside { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.archive-gif-sewing { width: 78px; }
+.archive-gif-pet { float: right; width: 60px; max-height: 60px; margin: 4px 9px -64px 0; position: relative; z-index: 2; }
+.archive-gif-computer { width: 72px; margin: 3px 8px; }
+.core-raven-page .raven-case-header { position: relative; }
+.archive-gif-alien { position: absolute; right: 12px; top: 7px; width: 58px; max-height: 58px; }
 .old-counter {
   border: 2px inset #c8c8c8;
   margin: 18px auto;
@@ -4213,6 +4223,24 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .fax-provenance-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 12px; align-items: stretch; margin: 12px 0; }
 .fax-provenance-grid img { min-height: 300px; filter: grayscale(.8) contrast(1.05); border: 1px solid #444; }
 .fax-provenance-grid ol { margin: 0; padding: 22px 20px 16px 42px; background: #e9e4d7; border: 1px solid #8a8375; color: #24221f; font-family: "Courier New", monospace; line-height: 1.65; }
+
+/* Generated low-resolution archive cells: deliberately small, scanned, and a little uneven. */
+.cozy-generated-gallery, .generated-archive-strip { display: flex; gap: 9px; margin: 12px 0; overflow-x: auto; align-items: flex-start; }
+.cozy-generated-gallery figure, .generated-archive-strip figure { flex: 1 0 125px; margin: 0; padding: 5px; background: #f5f0df; border: 1px solid #756f62; box-shadow: 2px 2px 0 #2b211c40; transform: rotate(-.6deg); }
+.cozy-generated-gallery figure:nth-child(even), .generated-archive-strip figure:nth-child(even) { transform: rotate(.7deg); }
+.cozy-generated-gallery img, .generated-archive-strip img, .cozy-feature-photo img { width: 100%; display: block; aspect-ratio: 1 / 1; object-fit: cover; image-rendering: auto; }
+.cozy-generated-gallery figcaption, .cozy-feature-photo figcaption { padding: 5px 2px 1px; color: #4d4138; font: 10px "Comic Sans MS", cursive; }
+.cozy-feature-photo { margin: 0; padding: 7px 7px 19px; background: #fffdf4; box-shadow: 2px 3px 4px #53372355; transform: rotate(-1.2deg); }
+.generated-archive-strip { font-family: "Courier New", monospace; }
+.generated-archive-strip figure { background: #d8d4c8; border-color: #292929; filter: contrast(1.05) saturate(.75); }
+.generated-archive-strip figcaption { padding-top: 4px; color: #181818; font-size: 9px; line-height: 1.15; }
+.legacy-orbit-page .generated-archive-strip figure { background: #e8e8e8; border: 2px outset #bdbdbd; filter: saturate(.85) contrast(.96); }
+.folded-wire-page .generated-archive-strip img { filter: grayscale(.9) contrast(1.18); }
+.index-null-page .generated-archive-strip { filter: sepia(.25); }
+.morrow-page .generated-archive-strip figure { background: #050505; color: #9cff87; border-color: #3b8541; }
+.morrow-page .generated-archive-strip figcaption { color: #9cff87; }
+.glasslake-page .generated-archive-strip figure { background: #e4edf0; border-color: #52717b; }
+.quietcounty-page .generated-archive-strip figure, .algorithm-archive-page .generated-archive-strip figure { background: #e5dfcf; }
 
 @media (max-width: 900px), (max-height: 650px) {
   .game-title { top: 4vh; }

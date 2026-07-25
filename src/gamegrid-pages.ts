@@ -8,6 +8,8 @@ const MADDY_URL = "web://gamegrid.zone/users/modkitmaddy/home";
 const QUEENIE_URL = "web://gamegrid.zone/users/quarterqueen/home";
 const DEX_URL = "web://gamegrid.zone/users/codedex/home";
 
+const ARCHIVE_COMPUTER_GIF = new URL("../assets/images/archive-gifs/beige-computer.gif", import.meta.url).href;
+
 const GAMEGRID_ASSETS = {
   "maddy-portrait": new URL("../assets/images/gamegrid-members/photos/maddy-portrait.png", import.meta.url).href,
   "maddy-space": new URL("../assets/images/gamegrid-members/photos/maddy-space.png", import.meta.url).href,
@@ -318,7 +320,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
           <article><header><b>FILE C-088</b><span>RUMOR</span></header>${gameGridImage("microbe-ranch", "Screenshot of the fictional CUBIT game Microbe Ranch")}<h2>Microbe Ranch</h2><p>Blue + blue may produce orange after midnight. Cubby will neither confirm nor confiscate my notes.</p><small>CUBIT // BREEDING CHART</small></article>
         </section>
         <section class="dex-map-box">${gameGridImage("dex-orchard-map", "CodeDex's colored-pencil map of the Dream Orchard")}<div><h2>MAP OF THE WEEK</h2><p>Dream Orchard's fruit cycle, reconstructed from moon phases, save files, and VelvetMage standing in the wrong grove for forty minutes.</p></div></section>
-        <aside class="dex-archive">${gameGridImage("dex-space", "A shelf of fictional consoles, games and handwritten strategy binders")}<p><b>THE PHYSICAL ARCHIVE:</b> Three consoles, twenty-seven binders, sixty-one game boxes, and one cartridge labeled only with a question mark.</p></aside>
+        <aside class="dex-archive">${gameGridImage("dex-space", "A shelf of fictional consoles, games and handwritten strategy binders")}<img class="archive-gif archive-gif-computer" src="${ARCHIVE_COMPUTER_GIF}" alt="Animated beige computer"><p><b>THE PHYSICAL ARCHIVE:</b> Three consoles, twenty-seven binders, sixty-one game boxes, and one cartridge labeled only with a question mark.</p></aside>
         <p class="gamegrid-owner-note">Submit a secret below. Please label rumors before they become everybody's afternoon.</p>
       </main>`
   }
