@@ -729,7 +729,9 @@ function createWindow() {
           if (!foundFile) throw new Error("Downloaded clue did not appear in My Files");
           await new Promise((resolve) => setTimeout(resolve, 150));
           const clueText = await win.webContents.executeJavaScript(`document.querySelector('.file-viewer pre')?.textContent || ''`);
-          if (!clueText.includes("LOOK BEHIND ORBIT")) throw new Error("Downloaded clue contents were incorrect");
+          if (!clueText.includes("LOOK BEHIND ORBIT") || !clueText.includes("four-digit lock") || clueText.includes("vertical slice")) {
+            throw new Error("Downloaded clue contents were incorrect or still contained demo copy");
+          }
           const saved = await readSave();
           if (!saved.flags.signal_note_downloaded || !saved.flags.orbit_pal_installed || saved.downloads.length !== 2) throw new Error("Discovery and helper state were not persisted");
           const image = await win.webContents.capturePage();

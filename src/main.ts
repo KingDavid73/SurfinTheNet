@@ -349,6 +349,16 @@ pageMusic.volume = PAGE_MUSIC_MAX_VOLUME * 0.5;
 
 type StartupStage = "title" | "powering" | "bios" | "splash" | "login" | "dialup" | "desktop";
 
+const SIGNAL_NOTE_CONTENTS = [
+  "OPERATOR'S NOTE — 11/03/1999",
+  "",
+  "The extra voice appears at exactly 23:17.",
+  "It repeats three words: LOOK BEHIND ORBIT.",
+  "",
+  "A four-digit lock is usually a date.",
+  "The hard part is knowing whose."
+].join("\n");
+
 const DEFAULT_STATE: GameState = {
   version: 7,
   playerName: "",
@@ -745,6 +755,9 @@ function normalizeState(loaded: Partial<GameState>): GameState {
     playerName,
     storyPhase,
     discoveredMysteries: Array.isArray(loaded.discoveredMysteries) ? [...new Set(loaded.discoveredMysteries.map(String))] : [],
+    downloads: Array.isArray(loaded.downloads)
+      ? loaded.downloads.map((file) => file.id === "signal-note" ? { ...file, contents: SIGNAL_NOTE_CONTENTS } : file)
+      : [],
     settings: { ...DEFAULT_STATE.settings, ...(loaded.settings ?? {}) },
     pageComments: Array.isArray(loaded.pageComments) ? loaded.pageComments : [],
     ambientPostQueue: Array.isArray(loaded.ambientPostQueue) ? loaded.ambientPostQueue : [],
@@ -2400,7 +2413,7 @@ function downloadSignalNote() {
   state.downloads.push({
     id: "signal-note",
     name: "SIGNAL_NOTE.TXT",
-    contents: "OPERATOR'S NOTE — 11/03/1999\n\nThe extra voice appears at exactly 23:17.\nIt repeats three words: LOOK BEHIND ORBIT.\n\nThis is the end of the vertical slice... for now.",
+    contents: SIGNAL_NOTE_CONTENTS,
     downloadedAt: new Date().toISOString()
   });
   state.flags.signal_note_downloaded = true;
