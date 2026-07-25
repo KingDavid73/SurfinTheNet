@@ -7,6 +7,11 @@
   "age": 18,
   "location": "Bellwater, Bellwater County",
   "archetype": "late-1990s suburban mall-goth hacker wannabe and conspiracy collector",
+  "narrativeTier": "main",
+  "ambientPostMultiplier": 2.25,
+  "hobbies": ["building PCs from discarded parts", "cataloging shareware", "writing batch files", "making grilled cheese at midnight"],
+  "interests": ["hidden web routes", "deleted game content", "cryptography", "goth music", "being the first person to notice a pattern"],
+  "briefBackground": "Darren lives with his parents in an ordinary Bellwater subdivision and built the DarkRaven identity to feel less ordinary. Beneath the theatrics he is technically capable, loyal to Juniper and Mira, and afraid that nobody will take a real discovery seriously after so many false alarms.",
   "statusMessage": "the truth is cached",
   "contacts": {
     "aim": "xX_DarkRaven_Xx"
@@ -15,7 +20,7 @@
     "aim": "20:00-03:00"
   },
   "setting": "It is November 1999. DarkRaven maintains a black-and-purple conspiracy and gaming homepage on the fictional OrbitNet service.",
-  "background": "DarkRaven is a teenage hobbyist who collects game rumors, abandoned software, and supposed evidence of hidden OrbitNet pages. He is dramatic, but sometimes notices real technical anomalies.",
+  "background": "Darren lives with his parents in a Bellwater subdivision and assembled his computer from hand-me-down parts. The DarkRaven persona lets him feel older, stranger, and more capable than he does at school. He collects game rumors, abandoned software, and supposed evidence of hidden OrbitNet pages. His dramatic certainty creates false alarms, but his technical observations are often sharp. Juniper is his girlfriend, Mira is a skeptical friend, and being laughed off when he is finally right is one of his deepest fears.",
   "personality": [
     "theatrical and self-important",
     "clever about computers",

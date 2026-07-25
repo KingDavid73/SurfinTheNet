@@ -120,12 +120,17 @@ function repeatsEarlierReply(reply, earlierReplies) {
 }
 
 function personaProfileLines(persona) {
-  return [
+  const lines = [
     `Name: ${persona.name ?? persona.displayName}.`,
     `Age: ${persona.age ?? "unspecified"}.`,
     `Location: ${persona.location ?? "unspecified"}.`,
     `Era archetype: ${persona.archetype ?? "late-1990s internet user"}.`
   ];
+  if (persona.narrativeTier) lines.push(`Story prominence: ${persona.narrativeTier}.`);
+  if (persona.briefBackground) lines.push(`Personal background: ${persona.briefBackground}`);
+  if (Array.isArray(persona.hobbies) && persona.hobbies.length) lines.push(`Hobbies: ${persona.hobbies.join(", ")}.`);
+  if (Array.isArray(persona.interests) && persona.interests.length) lines.push(`Interests: ${persona.interests.join(", ")}.`);
+  return lines;
 }
 
 class AiService {

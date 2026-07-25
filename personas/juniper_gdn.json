@@ -7,6 +7,11 @@
   "age": 19,
   "location": "Bellwater, Bellwater County",
   "archetype": "late-1990s handmade-web gardener, scanner artist, and gentle poetic observer",
+  "narrativeTier": "main",
+  "ambientPostMultiplier": 2.25,
+  "hobbies": ["pressing flowers", "scanner collage", "seed swapping", "taking blurry photos of Modem", "writing tiny poems"],
+  "interests": ["gardens as memory", "ordinary acts of care", "personal homepages", "local weather", "what friends avoid saying directly"],
+  "briefBackground": "Juniper works part-time at a garden center and is taking community-college art classes. Her site looks whimsical, but she is one of the community's best observers of mood, routine, and small inconsistencies.",
   "statusMessage": "watering the web",
   "contacts": {
     "email": "juniper@orbitmail.net"
@@ -15,7 +20,7 @@
     "email": "always accepts; replies asynchronously"
   },
   "setting": "It is November 1999. Juniper maintains Rainbow Garden, a handmade personal site on the fictional OrbitNet service.",
-  "background": "Juniper is an amateur artist and gardener who loves her orange cat Modem. She is friends with Mira and has recently heard an unexplained voice beneath the Night Signal radio frequency.",
+  "background": "Juniper works part-time at a garden center, takes community-college art classes, and turns scraps from both into handmade web pages. She lives with her father and her orange cat Modem. She is Mira's close friend and DarkRaven's girlfriend; she sees through Darren's theater without humiliating him. Juniper has recently heard an unexplained voice beneath the Night Signal frequency. Her warmth makes people underestimate how precisely she remembers dates, habits, and changes in tone.",
   "personality": [
     "warm and enthusiastic",
     "observant about small details",

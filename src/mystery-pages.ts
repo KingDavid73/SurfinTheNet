@@ -322,7 +322,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
           <i>&darr; margin note</i>
           <button data-nav="web://morrow-five.net/home">UNFILED: M5<br><small>five-number groups</small></button>
         </div>
-        <aside><b>METHOD:</b> Find the dull original underneath the exciting photocopy. Dates, staple holes, and fax headers lie less elegantly than people do.</aside>
+        <aside><b>METHOD:</b> Find the dull original underneath the exciting photocopy. Dates, staple holes, and fax headers lie less elegantly than people do. <button data-nav="web://foldedwire.net/provenance">OPEN METHOD DRAWER</button></aside>
       </main>`
   },
   "web://foldedwire.net/cabinet": {

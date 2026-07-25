@@ -11,6 +11,7 @@ import { cozyMembers, cozyPages } from "./cozy-pages";
 import { mysteryPages, phaseTwoBackchannelDirectory } from "./mystery-pages";
 import { rumorPages } from "./rumor-pages";
 import { legacyFragmentPages } from "./legacy-fragment-pages";
+import { coreCharacterPages } from "./core-character-pages";
 import {
   NEWCOMER_ZONE_BUTTON,
   newcomerMembers,
@@ -317,6 +318,7 @@ export const pages: Record<string, PageDefinition> = {
   ...mysteryPages,
   ...rumorPages,
   ...legacyFragmentPages,
+  ...coreCharacterPages,
   ...newcomerPages,
   ...phaseTwoOddityPages,
   "web://home": {
@@ -372,6 +374,7 @@ export const pages: Record<string, PageDefinition> = {
             <nav class="page-links">
               <button data-nav="web://rainbow.gdn/about"><b>ME + MODEM</b><small>who maintains this mess?</small></button>
               <button data-nav="web://rainbow.gdn/modem"><b>CAT CORNER</b><small>daily schedule & evidence</small></button>
+              <button data-nav="web://rainbow.gdn/scrapbook"><b>PRESSED BOOK</b><small>flowers, scraps & folded notes</small></button>
               <button data-nav="web://rainbow.gdn/guestbook"><b>GUESTBOOK</b><small>leave muddy footprints</small></button>
               <button data-nav="web://nightsignal.net/home"><b>NIGHT SIGNAL</b><small>Mira's very cool radio page</small></button>
             </nav>
@@ -484,7 +487,7 @@ export const pages: Record<string, PageDefinition> = {
           <aside class="signal-rack">
             <div class="rack-lights"><i></i><i></i><i></i><i></i><i></i></div>
             <b>STATION INDEX</b>
-            <nav class="signal-nav"><button data-nav="web://nightsignal.net/archive">01 / RECORDINGS</button><button data-nav="web://nightsignal.net/fieldlog">02 / FIELD LOG</button><button data-nav="web://rainbow.gdn/home">03 / RAINBOW GARDEN</button></nav>
+            <nav class="signal-nav"><button data-nav="web://nightsignal.net/archive">01 / RECORDINGS</button><button data-nav="web://nightsignal.net/fieldlog">02 / FIELD LOG</button><button data-nav="web://nightsignal.net/desk">03 / MIRA'S DESK</button><button data-nav="web://rainbow.gdn/home">04 / RAINBOW GARDEN</button></nav>
             <small>REMOTE LINK: 2400 BAUD<br>UPLINK: UNSTABLE</small>
           </aside>
           <section class="signal-transmission">
@@ -560,7 +563,7 @@ export const pages: Record<string, PageDefinition> = {
         <div class="raven-home-grid">
           <aside class="raven-sidebar">
             <div class="raven-sigil">${fakeImage("RAVEN_SIGIL.GIF", "raven")}</div>
-            <nav class="raven-nav"><button data-nav="web://raven.web/orbit">THE ORBIT HOLE</button><button data-nav="web://raven.web/files">FORBIDDEN FILES</button><button data-nav="web://raven.web/links">SHADOW LINKS</button><button data-nav="web://raven.web/vault">BLACK FILE [LOCKED]</button><button data-nav="web://rainbow.gdn/guestbook">JUNIPER'S GUESTBOOK</button></nav>
+            <nav class="raven-nav"><button data-nav="web://raven.web/orbit">THE ORBIT HOLE</button><button data-nav="web://raven.web/files">FORBIDDEN FILES</button><button data-nav="web://raven.web/links">SHADOW LINKS</button><button data-nav="web://raven.web/about">ABOUT THE FIGURE</button><button data-nav="web://raven.web/vault">BLACK FILE [LOCKED]</button><button data-nav="web://rainbow.gdn/guestbook">JUNIPER'S GUESTBOOK</button></nav>
             <small>VOID VISITORS<br><b>00000666</b></small>
           </aside>
           <section class="raven-center">

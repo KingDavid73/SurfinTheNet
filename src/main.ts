@@ -17,6 +17,7 @@ import {
   PHASE_THREE_EXPLORER_OWNERS
 } from "./phase-three-personas";
 import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack, StoryPhase } from "./types";
+import { ambientActivityFor } from "./character-tiers";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
 const startupJingleUrl = new URL("../assets/audio/orbitos-startup.wav", import.meta.url).href;
@@ -660,9 +661,13 @@ function queueAmbientPostRolls(hoursElapsed: number, createdAt: string) {
   if (!homepages.length) return;
   const chancePerHour = state.storyPhase === 3 ? 0.07 : state.storyPhase === 2 ? 0.035 : 0.02;
   const maximumChance = state.storyPhase === 3 ? 0.50 : state.storyPhase === 2 ? 0.30 : 0.20;
-  const chance = Math.min(hoursElapsed * chancePerHour, maximumChance);
   const jobs: AmbientPostJob[] = [];
   for (const personaId of ambientPostingPersonaIds()) {
+    const activity = ambientActivityFor(personaId);
+    const chance = Math.min(
+      hoursElapsed * chancePerHour * activity.rateMultiplier,
+      Math.min(0.85, maximumChance * activity.capMultiplier)
+    );
     if (Math.random() >= chance) continue;
     const page = homepages[Math.floor(Math.random() * homepages.length)] ?? homepages[0];
     jobs.push({

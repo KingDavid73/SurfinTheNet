@@ -156,7 +156,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page gamegrid-user-page lagmaster-page">
         <header><small>GAME GRID MEMBER PAGE // USER 00481</small><h1>_LAGMASTER_99_</h1><p>WELCOME TO THE 56K FRAG SHACK</p></header>
-        <nav><button data-nav="${GAMEGRID_URL}">&lt;&lt; GAME GRID</button><button data-nav="web://pulsenet.red/home">PULSE/NET</button></nav>
+        <nav><button data-nav="${GAMEGRID_URL}">&lt;&lt; GAME GRID</button><button data-nav="web://pulsenet.red/home">PULSE/NET</button><button data-nav="web://gamegrid.zone/users/lagmaster99/rankings">SKILL INDEX</button><button data-nav="web://gamegrid.zone/users/lagmaster99/lagwave">LAGWAVE_99</button></nav>
         <div class="lag-marquee">*** LAG IS A CONDITION — LOSING IS A DECISION ***</div>
         <section class="lag-hero">
           <div class="lag-rig"><span>56K</span><b>PULSE/NET</b><i>ONLINE</i></div>

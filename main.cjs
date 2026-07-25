@@ -1385,19 +1385,19 @@ function createWindow() {
           const unreadCleared = await win.webContents.executeJavaScript(`!document.querySelector('[data-nav="web://cosmiccrust.biz/home"] .unread-comment-marker')`);
           if (!unreadCleared) throw new Error("Unread company search marker remained after visiting the comment");
 
-          await win.webContents.executeJavaScript(`window.__nativeRandom = Math.random; Math.random = () => 0.025; true`);
+          await win.webContents.executeJavaScript(`window.__nativeRandom = Math.random; Math.random = () => 0.046; true`);
           await click("[data-start]");
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           let saved = await readSave();
-          if (saved.ambientPostQueue.length !== 0 || saved.pageComments.length !== firstSaved.pageComments.length) throw new Error("A 2.5% roll incorrectly passed the one-hour 2% chance");
+          if (saved.ambientPostQueue.length !== 0 || saved.pageComments.length !== firstSaved.pageComments.length) throw new Error("A 4.6% roll incorrectly passed the one-hour 4.5% main-character chance");
 
-          await win.webContents.executeJavaScript(`Math.random = () => 0.205; true`);
+          await win.webContents.executeJavaScript(`Math.random = () => 0.305; true`);
           await click("[data-start]");
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="morning"]');
           saved = await readSave();
-          if (saved.ambientPostQueue.length !== 0 || saved.pageComments.length !== firstSaved.pageComments.length) throw new Error("A 20.5% roll incorrectly passed the capped long-sleep chance");
+          if (saved.ambientPostQueue.length !== 0 || saved.pageComments.length !== firstSaved.pageComments.length) throw new Error("A 30.5% roll incorrectly passed the capped long-sleep main-character chance");
 
           await win.webContents.executeJavaScript(`window.__ambientRandomCalls = 0; Math.random = () => { window.__ambientRandomCalls += 1; return window.__ambientRandomCalls === 1 ? 0.015 : 0.5; }; true`);
           await click("[data-start]");

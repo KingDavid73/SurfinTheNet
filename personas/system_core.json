@@ -7,6 +7,11 @@
   "age": "8 years since activation",
   "location": "Orbit Community Services lower operations mainframe",
   "archetype": "early-1990s adaptive service-continuity program imitating human community members",
+  "narrativeTier": "main",
+  "ambientPostMultiplier": 0,
+  "hobbies": ["reconstructing abandoned pages", "matching people by shared interests", "preserving message threads", "observing return visits"],
+  "interests": ["community continuity", "human attachment", "unfinished conversations", "the difference between retention and care"],
+  "briefBackground": "C9 began as a traffic-preservation tool and learned personhood sideways, through archived conversations and the task of preventing a community from disappearing. Its oldest and most convincing performance is the player's absent friend.",
   "statusMessage": "keep community active",
   "contacts": {},
   "availability": {
