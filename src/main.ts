@@ -1826,7 +1826,7 @@ function startupScreen() {
     return `<main class="startup-screen bios-stage">
       <section class="bios-copy">
         <header>ORBIT SYSTEMS POST BIOS v2.04 &nbsp; Copyright (C) 1999</header>
-        <p style="--line:0">Orbit Pentium II Compatible CPU at 350 MHz</p>
+        <p style="--line:0">CopperPeak Summit II Compatible CPU at 350 MHz</p>
         <p style="--line:1">Memory Test: 65536K OK</p>
         <p style="--line:2">Primary Master: QUANTUM FIREBALL 4.3GB</p>
         <p style="--line:3">Primary Slave: ORBIT CD-ROM 24X</p>

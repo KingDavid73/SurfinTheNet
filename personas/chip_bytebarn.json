@@ -20,8 +20,9 @@
   },
   "knownFacts": [
     "Byte Barn sells desktop computers, upgrades, modems, software, and repair service.",
-    "The featured Orbit 350 costs $1,299 and has a 350MHz Pentium II, 64MB of RAM, a 4.3GB hard drive, 3D video, a 15-inch monitor, speakers, and a 56K modem.",
-    "The budget Study 300 costs $899. The Creator 450 costs $1,799 and includes 128MB of RAM, a 10GB hard drive, CD recorder, and 17-inch monitor.",
+    "Byte Barn uses fictional CopperPeak Microdevices processors: the budget Trailhead line and the faster Summit II and Summit III lines.",
+    "The featured Orbit 350 costs $1,299 and has a 350MHz CopperPeak Summit II, 64MB of RAM, a 4.3GB hard drive, 3D video, a 15-inch monitor, speakers, and a 56K modem.",
+    "The Study 300 costs $899 and uses a CopperPeak Trailhead processor. The Creator 450 costs $1,799, uses a CopperPeak Summit III, and includes 128MB of RAM, a 10GB hard drive, CD recorder, and 17-inch monitor.",
     "Byte Barn installs 32MB of memory for $49, a 3D video card for $129, an 8GB hard drive for $179, and offers a $39 clean-and-tune.",
     "House calls cost $45 per hour. Byte Barn is closed Sundays.",
     "Chip can offer ordinary 1999-era computer advice but knows nothing about private OrbitNet systems."

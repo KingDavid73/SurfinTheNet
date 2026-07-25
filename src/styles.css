@@ -3371,12 +3371,15 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .bytebarn-header b { color: #fff; font: 900 38px/1 Arial, sans-serif; }
 .bytebarn-header small { max-width: 80px; font: 7px/1.1 Arial, sans-serif; letter-spacing: .12em; }
 .bytebarn-header em { font: bold 8px "Courier New", monospace; letter-spacing: .1em; }
+.bytebarn-brand-lockup { align-self: stretch; min-width: 270px; display: grid; place-items: center; padding: 3px 8px; background: #fff; border: 3px inset #a9b7c7; transform: rotate(-.35deg); }
+.bytebarn-brand-lockup .business-web-art { width: 270px; height: 64px; display: block; object-fit: contain; }
 .bytebarn-nav { display: flex; gap: 2px; padding: 4px 8px; background: #d8d6cb; border-bottom: 1px solid #888; }
 .bytebarn-nav button { padding: 5px 10px; color: #fff; background: #31578b; border: 2px outset #aebdd1; font: bold 9px Arial, sans-serif; }
 .bytebarn-alert { padding: 5px; color: #fff; background: #c62f28; font: 900 10px "Arial Narrow", Arial, sans-serif; text-align: center; letter-spacing: .04em; }
 .computer-hero { grid-template-columns: minmax(270px, 47%) 1fr; gap: 18px; padding: 14px; background: rgb(255 255 255 / 72%); border-bottom: 2px solid #17396f; }
 .bytebarn-product { position: relative; min-height: 315px; display: grid; place-items: center; background: #e8e5d7; border: 1px solid #b7b19a; }
 .bytebarn-product img { width: 98%; filter: drop-shadow(7px 8px 0 rgb(23 33 62 / 15%)); }
+.bytebarn-product .sale-burst-art { position: absolute; right: -4px; top: -6px; width: 105px; height: 90px; object-fit: contain; filter: drop-shadow(3px 4px 0 rgb(20 28 50 / 28%)); transform: rotate(5deg); }
 .sale-burst { position: absolute; right: 7px; top: 8px; display: grid; place-items: center; width: 67px; height: 67px; color: #fff; background: #cf3029; border: 3px dashed #f7dc3e; border-radius: 50%; font: 900 13px/1 Arial, sans-serif; text-align: center; transform: rotate(8deg); }
 .catalog-code { margin: 0; color: #54627a; font: 8px "Courier New", monospace; }
 .computer-hero h1 { margin: 4px 0 8px; color: #bd2925; font: 900 clamp(25px, 4vw, 38px)/.95 "Arial Narrow", Arial, sans-serif; letter-spacing: -.04em; }
@@ -3391,14 +3394,34 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .computer-deals article b { color: #17396f; font-size: 12px; }.computer-deals article span { font-size: 8px; line-height: 1.25; }.computer-deals article strong { color: #c62f28; font-size: 18px; }
 .bytebarn-fine-print { display: grid; grid-template-columns: 140px 1fr; margin: 12px; border: 2px solid #17396f; background: #fff; }
 .bytebarn-fine-print b { padding: 8px; color: #fff; background: #17396f; }.bytebarn-fine-print span { padding: 8px; font-size: 9px; }
-.computer-page footer { padding: 8px; color: #fff; background: #17396f; text-align: center; font-size: 8px; }
+.bytebarn-brand-promise { display: grid; grid-template-columns: 95px 1fr 125px; gap: 13px; align-items: center; margin: 14px 10px; padding: 10px; color: #17396f; background: #fffdf2; border: 4px double #17396f; box-shadow: 4px 4px #d5bd3d; text-align: left; }
+.bytebarn-brand-promise img { width: 100%; max-height: 100px; object-fit: contain; }
+.bytebarn-brand-promise h2 { margin: 0 0 5px; color: #bf2d28; font: 900 20px/1 "Arial Narrow", Arial, sans-serif; text-transform: uppercase; }
+.bytebarn-brand-promise p { margin: 0; font-size: 9px; line-height: 1.45; }
+.computer-page footer { min-height: 34px; display: flex; justify-content: center; align-items: center; gap: 9px; padding: 8px; color: #fff; background: #17396f; text-align: center; font-size: 8px; }
+.computer-page footer img { width: 105px; max-height: 30px; object-fit: contain; background: #fff; border: 1px solid #7d8faa; }
 .bytebarn-systems-intro { display: grid; grid-template-columns: 38% 1fr; align-items: center; min-height: 250px; padding: 12px 28px; background: #fff; border-bottom: 5px solid #c92e28; }
 .bytebarn-systems-intro img { width: 100%; max-height: 240px; object-fit: contain; }.bytebarn-systems-intro h1 { margin: 4px 0; color: #17396f; font: 900 33px/1 "Arial Narrow", Arial, sans-serif; }
+.bytebarn-systems-intro .systems-promise-badge { width: 145px; height: 76px; margin-top: 8px; object-fit: contain; filter: drop-shadow(3px 3px #d8ca8d); transform: rotate(-1deg); }
 .system-comparison { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; padding: 9px; }
 .system-comparison article { padding: 9px; background: #fffdf2; border: 2px solid #65708a; text-align: center; }.system-comparison article.featured { border: 4px solid #c62f28; transform: rotate(-.4deg); }
 .system-comparison article > span { display: block; margin: -9px -9px 8px; padding: 4px; color: #fff; background: #17396f; font-size: 8px; letter-spacing: .15em; }.system-comparison .featured > span { margin: -9px -9px 8px; background: #c62f28; }
 .system-comparison h2 { margin: 4px; color: #17396f; font-size: 17px; }.system-comparison strong { color: #c62f28; font-size: 27px; }.system-comparison ul { padding-left: 20px; text-align: left; font-size: 9px; line-height: 1.5; }.system-comparison button { padding: 4px 7px; font-size: 8px; }
 .upgrade-table { display: grid; grid-template-columns: 30% 1fr; align-items: center; margin: 10px; background: #fff; border: 2px solid #17396f; }.upgrade-table img { width: 100%; max-height: 180px; object-fit: contain; }.upgrade-table table { width: 100%; border-collapse: collapse; font-size: 9px; }.upgrade-table caption { padding: 6px; color: #fff; background: #17396f; font-weight: bold; letter-spacing: .12em; }.upgrade-table th, .upgrade-table td { padding: 5px; border: 1px solid #adb3bd; text-align: left; }.upgrade-table td:last-child { color: #c62f28; font-weight: bold; text-align: right; }
+.bytebarn-service-brand { display: grid; grid-template-columns: 85px 1fr 190px; gap: 12px; align-items: center; margin: 10px; padding: 9px 13px; color: #17396f; background: #fff; border: 3px double #c62f28; text-align: left; }
+.bytebarn-service-brand img { width: 100%; max-height: 90px; object-fit: contain; }
+.bytebarn-service-brand p { font-size: 9px; line-height: 1.45; }
+.bytebarn-service-brand b { color: #c62f28; font-size: 12px; }
+
+@media (max-width: 720px) {
+  .bytebarn-header { align-items: stretch; flex-direction: column; }
+  .bytebarn-brand-lockup { min-width: 0; }
+  .bytebarn-brand-lockup .business-web-art { width: min(270px, 100%); }
+  .bytebarn-brand-promise { grid-template-columns: 75px 1fr; }
+  .bytebarn-brand-promise > img:last-child { grid-column: 1 / -1; width: 150px; justify-self: center; }
+  .bytebarn-service-brand { grid-template-columns: 70px 1fr; }
+  .bytebarn-service-brand > img:last-child { grid-column: 1 / -1; width: 190px; justify-self: center; }
+}
 
 .pizza-page {
   max-width: 880px;

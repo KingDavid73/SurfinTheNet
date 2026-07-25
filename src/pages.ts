@@ -61,6 +61,15 @@ const BUSINESS_ASSETS = {
   "bytebarn-upgrades": new URL("../assets/images/business-web/bytebarn-upgrades.png", import.meta.url).href,
   "bytebarn-technician": new URL("../assets/images/business-web/bytebarn-technician.png", import.meta.url).href,
   "bytebarn-software": new URL("../assets/images/business-web/bytebarn-software.png", import.meta.url).href,
+  "bytebarn-primary-logo": new URL("../assets/images/byte-barn/primary-logo.webp", import.meta.url).href,
+  "bytebarn-store-icon": new URL("../assets/images/byte-barn/store-icon.webp", import.meta.url).href,
+  "bytebarn-masthead-logo": new URL("../assets/images/byte-barn/masthead-logo.webp", import.meta.url).href,
+  "bytebarn-tested-badge": new URL("../assets/images/byte-barn/tested-badge.webp", import.meta.url).href,
+  "bytebarn-no-mystery": new URL("../assets/images/byte-barn/no-mystery-parts.webp", import.meta.url).href,
+  "bytebarn-warehouse-sale": new URL("../assets/images/byte-barn/warehouse-sale.webp", import.meta.url).href,
+  "bytebarn-delivery-truck": new URL("../assets/images/byte-barn/delivery-truck.webp", import.meta.url).href,
+  "bytebarn-service-patch": new URL("../assets/images/byte-barn/service-patch.webp", import.meta.url).href,
+  "bytebarn-web-button": new URL("../assets/images/byte-barn/web-button.webp", import.meta.url).href,
   "cosmiccrust-pizza": new URL("../assets/images/business-web/cosmiccrust-pizza.png", import.meta.url).href,
   "cosmiccrust-slice": new URL("../assets/images/business-web/cosmiccrust-slice.png", import.meta.url).href,
   "cosmiccrust-meal": new URL("../assets/images/business-web/cosmiccrust-meal.png", import.meta.url).href,
@@ -76,6 +85,8 @@ const BUSINESS_ASSETS = {
 } as const;
 const businessAsset = (name: keyof typeof BUSINESS_ASSETS, alt: string, className = "") =>
   `<img class="business-web-art ${className}" src="${BUSINESS_ASSETS[name]}" alt="${alt}">`;
+const byteBarnHeader = (detail: string) =>
+  `<header class="bytebarn-header"><div class="bytebarn-brand-lockup">${businessAsset("bytebarn-masthead-logo", "Byte Barn Computer Superstore logo")}</div><em>${detail}</em></header>`;
 const NAV_BUTTON_ASSETS: Record<string, string> = {
   "gamegrid-zone": new URL("../assets/images/navigation-buttons/gamegrid-zone.png", import.meta.url).href,
   "xtreme-zone": new URL("../assets/images/navigation-buttons/xtreme-zone.png", import.meta.url).href,
@@ -689,12 +700,12 @@ export const pages: Record<string, PageDefinition> = {
     searchTerms: ["computers", "computer store", "pc", "hardware", "software", "repair", "modem", "internet", "desktop", "upgrades", "computer parts"],
     render: (state) => `
       <main class="page computer-page">
-        <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>LOCALLY COMPUTED SINCE 1987</em></header>
+        ${byteBarnHeader("LOCALLY COMPUTED SINCE 1987")}
         <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
         <div class="bytebarn-alert">WEEKEND WAREHOUSE SALE! &nbsp; FREE 20' PHONE CORD WITH ANY MODEM &nbsp; WHILE SUPPLIES LAST</div>
         <section class="computer-hero">
-          <div class="bytebarn-product">${businessAsset("bytebarn-system", "A complete beige Byte Barn family computer system")}<span class="sale-burst">SAVE<br>$200!</span></div>
-          <div><p class="catalog-code">SYSTEM 11-99 / HOME OFFICE</p><h1>Put Pentium Power in the Family Room!</h1><p>The complete <b>ORBIT 350</b> gets homework, games, and the Information Superhighway off one desk and onto another desk.</p><ul><li>350MHz processor</li><li>64MB memory</li><li>4.3GB hard drive</li><li>15&quot; color monitor</li><li>56K modem &amp; speakers</li></ul><strong class="hero-price"><small>COMPLETE SYSTEM</small>$1,299</strong><button data-nav="web://bytebarn.com/systems">COMPARE SYSTEMS &gt;</button></div>
+          <div class="bytebarn-product">${businessAsset("bytebarn-system", "A complete beige Byte Barn family computer system")}${businessAsset("bytebarn-warehouse-sale", "Byte Barn weekend warehouse sale graphic", "sale-burst-art")}</div>
+          <div><p class="catalog-code">SYSTEM 11-99 / HOME OFFICE</p><h1>Put CopperPeak Power in the Family Room!</h1><p>The complete <b>ORBIT 350</b> pairs a CopperPeak Summit II processor with everything needed to get homework, games, and the Information Superhighway off one desk and onto another desk.</p><ul><li>350MHz Summit II processor</li><li>64MB memory</li><li>4.3GB hard drive</li><li>15&quot; color monitor</li><li>56K modem &amp; speakers</li></ul><strong class="hero-price"><small>COMPLETE SYSTEM</small>$1,299</strong><button data-nav="web://bytebarn.com/systems">COMPARE SYSTEMS &gt;</button></div>
         </section>
         ${state.storyPhase >= 2 ? `<aside class="bytebarn-jingle-traffic"><b>OLD JINGLE FILE NOTICE</b><span>Our retired TV commercial has somehow become the most requested file on this server. Chip says downloading it will not improve your computer.</span><button data-nav="web://freshorbit.zone/users/barnbeatben/home">VISIT BEN'S JINGLE FAN PAGE &rsaquo;</button></aside>` : ""}
         <section class="computer-deals">
@@ -702,9 +713,14 @@ export const pages: Record<string, PageDefinition> = {
           <article>${businessAsset("bytebarn-upgrades", "Computer upgrade cards, memory, and joystick")}<div><b>UPGRADE COUNTER</b><span>Memory, video, sound, joysticks and honest advice.</span><strong>FROM $29</strong></div></article>
           <article>${businessAsset("bytebarn-technician", "Chip repairing an open desktop computer")}<div><b>HOUSE CALL</b><span>Chip fixes what the manual cannot.</span><strong>$45/hr</strong></div></article>
         </section>
+        <section class="bytebarn-brand-promise">
+          ${businessAsset("bytebarn-tested-badge", "Byte Barn Tested service seal")}
+          <div><h2>Built here. Tested here. Explained here.</h2><p>Every Byte Barn system gets a full afternoon on the bench before it leaves Market Plaza. We list the real parts, include the driver disks, label the cables, and write your setup notes in complete sentences.</p></div>
+          ${businessAsset("bytebarn-no-mystery", "No Mystery Parts Byte Barn badge")}
+        </section>
         <aside class="bytebarn-fine-print"><b>WHY BYTE BARN?</b><span>No mystery parts. No 40-minute hold music. If we sell it, somebody in this building knows how it works.</span></aside>
         <p class="business-owner">Questions? Leave Chip a note below. He checks the site between repair jobs and answers in plain English.</p>
-        <footer>BYTE BARN &middot; 1840 Market Plaza &middot; Mon-Fri 9-8 &middot; Sat 9-6 &middot; Closed Sunday</footer>
+        <footer><img src="${BUSINESS_ASSETS["bytebarn-web-button"]}" alt="Byte Barn web button"> BYTE BARN &middot; 1840 Market Plaza &middot; Mon-Fri 9-8 &middot; Sat 9-6 &middot; Closed Sunday</footer>
       </main>`
   },
   "web://bytebarn.com/systems": {
@@ -715,16 +731,16 @@ export const pages: Record<string, PageDefinition> = {
     summary: "Byte Barn compares three 1999 home computer systems and lists memory, video, sound, modem, and repair upgrades.",
     listed: true,
     hubId: "business",
-    searchTerms: ["computer systems", "desktop PC prices", "Pentium", "Celeron", "RAM", "hard drive", "video card", "sound card", "computer upgrade"],
+    searchTerms: ["computer systems", "desktop PC prices", "CopperPeak", "Trailhead", "Summit", "RAM", "hard drive", "video card", "sound card", "computer upgrade"],
     render: () => `
       <main class="page computer-page bytebarn-systems-page">
-        <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>SYSTEMS & UPGRADES / NOVEMBER 1999</em></header>
+        ${byteBarnHeader("SYSTEMS & UPGRADES / NOVEMBER 1999")}
         <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
-        <section class="bytebarn-systems-intro">${businessAsset("bytebarn-open-tower", "An open beige computer tower showing its components")}<div><p class="catalog-code">NO MYSTERY PARTS INSIDE</p><h1>Choose the computer you need.</h1><p>Not the one a salesman needs to move before inventory.</p></div></section>
+        <section class="bytebarn-systems-intro">${businessAsset("bytebarn-open-tower", "An open beige computer tower showing its components")}<div><p class="catalog-code">NO MYSTERY PARTS INSIDE</p><h1>Choose the computer you need.</h1><p>Not the one a salesman needs to move before inventory. Every processor below comes from CopperPeak Microdevices and every listed component is printed on your invoice.</p>${businessAsset("bytebarn-no-mystery", "No Mystery Parts Byte Barn badge", "systems-promise-badge")}</div></section>
         <section class="system-comparison">
-          <article><span>GOOD</span><h2>STUDY 300</h2><strong>$899</strong><ul><li>300MHz Celeron</li><li>32MB RAM</li><li>3.2GB drive</li><li>40X CD-ROM</li><li>15&quot; monitor</li></ul><button data-email-owner="chip_bytebarn">ASK CHIP</button></article>
-          <article class="featured"><span>BETTER</span><h2>ORBIT 350</h2><strong>$1,299</strong><ul><li>350MHz Pentium II</li><li>64MB RAM</li><li>4.3GB drive</li><li>3D video</li><li>56K modem</li></ul><button data-email-owner="chip_bytebarn">ASK CHIP</button></article>
-          <article><span>BEST</span><h2>CREATOR 450</h2><strong>$1,799</strong><ul><li>450MHz Pentium III</li><li>128MB RAM</li><li>10GB drive</li><li>CD recorder</li><li>17&quot; monitor</li></ul><button data-email-owner="chip_bytebarn">ASK CHIP</button></article>
+          <article><span>GOOD</span><h2>STUDY 300</h2><strong>$899</strong><ul><li>300MHz CopperPeak Trailhead</li><li>32MB RAM</li><li>3.2GB drive</li><li>40X CD-ROM</li><li>15&quot; monitor</li></ul><button data-email-owner="chip_bytebarn">ASK CHIP</button></article>
+          <article class="featured"><span>BETTER</span><h2>ORBIT 350</h2><strong>$1,299</strong><ul><li>350MHz CopperPeak Summit II</li><li>64MB RAM</li><li>4.3GB drive</li><li>3D video</li><li>56K modem</li></ul><button data-email-owner="chip_bytebarn">ASK CHIP</button></article>
+          <article><span>BEST</span><h2>CREATOR 450</h2><strong>$1,799</strong><ul><li>450MHz CopperPeak Summit III</li><li>128MB RAM</li><li>10GB drive</li><li>CD recorder</li><li>17&quot; monitor</li></ul><button data-email-owner="chip_bytebarn">ASK CHIP</button></article>
         </section>
         <section class="upgrade-table">
           <div>${businessAsset("bytebarn-upgrades", "Computer memory, video, and sound upgrade parts")}</div>
@@ -745,7 +761,7 @@ export const pages: Record<string, PageDefinition> = {
     searchTerms: ["computer software", "office software", "antivirus", "internet software", "educational software", "pc games", "shareware"],
     render: () => `
       <main class="page computer-page bytebarn-software-page">
-        <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>SOFTWARE AISLE / SHELF 4</em></header>
+        ${byteBarnHeader("SOFTWARE AISLE / SHELF 4")}
         <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
         <section class="software-aisle-hero">${businessAsset("bytebarn-software", "Boxed late-1990s computer software arranged on a Byte Barn shelf")}<div><p class="catalog-code">NO MYSTERY BUNDLES</p><h1>Programs you might actually open.</h1><p>Chip has removed the trial discs, duplicate encyclopedias, and anything that changes your browser homepage without asking.</p></div></section>
         <div class="software-shelf-tabs"><b>HOME & OFFICE</b><span>INTERNET</span><span>LEARNING</span><span>GAMES</span></div>
@@ -772,7 +788,7 @@ export const pages: Record<string, PageDefinition> = {
     searchTerms: ["computer repair", "computer store hours", "tech support", "house call", "computer class", "Byte Barn address"],
     render: () => `
       <main class="page computer-page bytebarn-service-page">
-        <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>1840 MARKET PLAZA / SERVICE ENTRANCE B</em></header>
+        ${byteBarnHeader("1840 MARKET PLAZA / SERVICE ENTRANCE B")}
         <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button></nav>
         <section class="service-desk-layout">
           <div class="service-photo">${businessAsset("bytebarn-technician", "Chip working at the Byte Barn repair counter")}<span>Chip at bench 2. Bench 1 is where the coffee goes.</span></div>
@@ -784,7 +800,8 @@ export const pages: Record<string, PageDefinition> = {
           <article><b>CLEAN & TUNE</b><strong>$39</strong><p>Dust, startup cleanup, disk check, cable labeling.</p></article>
           <article><b>NEW USER NIGHT</b><strong>FREE</strong><p>Thursdays at 7. Bring questions, not the whole tower.</p></article>
         </section>
-        <div class="service-map"><b>HOW TO FIND US</b><span>Market Plaza, between Value Shoes and the old pharmacy. Use the entrance under the enormous blue BYTE sign.</span><i>N ↑<br>LOT ─ [BYTE BARN] ─ MARKET ST.</i></div>
+        <section class="bytebarn-service-brand"><div>${businessAsset("bytebarn-service-patch", "Byte Barn service counter patch")}</div><p><b>THE BLUE-APRON BENCH</b><br>Repairs are tagged, tested, and signed by the person who did the work. If your receipt says “Chip,” you can ask Chip what he found.</p>${businessAsset("bytebarn-delivery-truck", "Byte Barn computer delivery truck")}</section>
+        <div class="service-map"><b>HOW TO FIND US</b><span>Market Plaza, between Value Shoes and the old pharmacy. Use the entrance under the enormous blue BYTE BARN sign.</span><i>N ↑<br>LOT ─ [BYTE BARN] ─ MARKET ST.</i></div>
         <button class="console-return" data-nav="web://bytebarn.com/home">&lt; BACK TO THE FRONT PAGE</button>
         <footer>Data backup is recommended before service. If your hard drive makes a clicking sound, stop turning it on to demonstrate.</footer>
       </main>`

@@ -1,6 +1,10 @@
 # Generated image sheets
 
-These three 5x5 source sheets were generated with the built-in image-generation tool on July 24, 2026. Each cell was cropped to a 220px WebP under `../generated-cells/` for use as intentionally low-resolution web art.
+The first three 5x5 source sheets were generated with the built-in image-generation tool on July 24, 2026. Each cell was cropped to a 220px WebP under `../generated-cells/` for use as intentionally low-resolution web art.
+
+`byte-barn-branding-3x3.png` was generated on July 25, 2026 as a dedicated
+late-1990s local-retail identity sheet. Its nine page-ready crops live under
+`../byte-barn/`; the complete prompt is recorded there.
 
 ## cozy-commons-5x5.png
 
