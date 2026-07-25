@@ -715,7 +715,7 @@ export const pages: Record<string, PageDefinition> = {
           <header><div><small>BYTE BARN VIDEO VAULT</small><h2>Watch our classic TV spot!</h2></div><span>BB-TV // ARCHIVE</span></header>
           <div class="bytebarn-video-deck">
             <div class="bytebarn-video-screen">
-              <video controls preload="metadata" playsinline data-stop-page-music src="${BYTE_BARN_COMMERCIAL_VIDEO}" aria-label="Byte Barn television commercial">
+              <video controls preload="metadata" playsinline data-stop-page-music data-default-volume="0.5" src="${BYTE_BARN_COMMERCIAL_VIDEO}" aria-label="Byte Barn television commercial">
                 Your browser cannot play the Byte Barn commercial.
               </video>
               <i class="video-rec-light" aria-hidden="true"></i>

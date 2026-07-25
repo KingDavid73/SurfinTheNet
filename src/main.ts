@@ -995,7 +995,7 @@ function orbitSearchPage(url: string): PageDefinition {
   return {
     url,
     title: `Search: ${query || "OrbitNet"}`,
-    site: "directory",
+    site: "orbithome",
     ownerId: "orbit_guide",
     summary: `OrbitNet search results for ${query}.`,
     render: () => `<main class="page directory-page search-results-page">
@@ -2582,6 +2582,8 @@ function bindEvents() {
   document.querySelector<HTMLElement>("[data-page-music-prev]")?.addEventListener("click", () => changePageMusicTrack(-1));
   document.querySelector<HTMLElement>("[data-page-music-next]")?.addEventListener("click", () => changePageMusicTrack(1));
   document.querySelectorAll<HTMLMediaElement>("[data-stop-page-music]").forEach((media) => {
+    const defaultVolume = Number(media.dataset.defaultVolume);
+    if (Number.isFinite(defaultVolume)) media.volume = Math.max(0, Math.min(1, defaultVolume));
     media.addEventListener("play", stopPageMusicForEmbeddedMedia);
   });
   document.querySelector<HTMLInputElement>("[data-page-music-volume]")?.addEventListener("input", (event) => {
