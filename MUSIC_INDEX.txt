@@ -31,7 +31,7 @@ BACKCHANNEL, ARCHIVES, AND STORY PAGES
 -------------------------------------
 [ ] nightsignal.net - Mira's late-night radio logs, recordings, numbers, and unexplained signals.
 [ ] raven.web - DarkRaven's theatrical goth-hacker page of hidden links and conspiracy cases.
-[ ] legacy.orbitos.local - Broken mid-1990s OrbitOS company archives and forgotten communities.
+[ ] PHASE 3 TIER C ARCHIVE (all 25 hidden old pages) - One shared glitchy, corrupted background sound for every resurrected dormant account.
 [ ] foldedwire.net - FaxMoth's paper-trail investigation using headers, copier marks, and physical evidence.
 [ ] index-null.net - A dead-link archive mapping expired Orbit addresses and leaked internal paths.
 [ ] morrow-five.net - A numbers-station mystery whose broadcasts hide suspicious Orbit page IDs.
