@@ -65,6 +65,7 @@ export interface PageComment {
   author: string;
   text: string;
   createdAt: string;
+  availableAt?: string;
   revealAfterVisit: number;
 }
 
@@ -136,6 +137,7 @@ export interface DirectMessage {
   text: string;
   subject?: string;
   createdAt: string;
+  availableAt?: string;
   metrics?: AiMetrics;
 }
 

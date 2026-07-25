@@ -1022,13 +1022,27 @@ function createWindow() {
 
             const deadline = Date.now() + 180_000;
             let result = null;
+            let responseGenerated = false;
             while (Date.now() < deadline) {
               await new Promise((resolve) => setTimeout(resolve, 500));
-              result = await win.webContents.executeJavaScript(`(() => ({ count: document.querySelectorAll('.chat-message.character').length, reply: document.querySelector('.chat-message.character:last-of-type p')?.textContent || '', metrics: document.querySelector('.chat-message.character:last-of-type .chat-metrics')?.textContent || '', error: document.querySelector('.chat-error')?.textContent || '', status: document.querySelector('[data-ai-phase]')?.textContent || '' }))()`);
+              result = await win.webContents.executeJavaScript(`(() => ({ count: document.querySelectorAll('.chat-message.character').length, reply: document.querySelector('.chat-message.character:last-of-type p')?.textContent || '', metrics: document.querySelector('.chat-message.character:last-of-type .chat-metrics')?.textContent || '', waiting: Boolean(document.querySelector('.typing-indicator')), error: document.querySelector('.chat-error')?.textContent || '', status: document.querySelector('[data-ai-phase]')?.textContent || '', sendLabel: document.querySelector('.chat-form button')?.textContent || '' }))()`);
               if (result.error) throw new Error(result.error);
-              if (result.count >= expectedReplyCount && result.reply) break;
+              const saved = await readSave();
+              responseGenerated = (saved.directMessages?.filter((entry) =>
+                entry.ownerId === "mira_917" &&
+                entry.channel === "aim" &&
+                entry.role === "owner"
+              ).length ?? 0) >= expectedReplyCount;
+              if (responseGenerated) break;
             }
-            if (!result?.reply || result.count < expectedReplyCount) throw new Error(`Timed out waiting for local model response; last status: ${result?.status ?? "unknown"}`);
+            if (!responseGenerated) throw new Error(`Timed out waiting for hidden local model response; last status: ${result?.status ?? "unknown"}`);
+            if (result.waiting || result.sendLabel !== "Send") throw new Error("Messenger retained a visible reply-waiting state after the message was sent");
+
+            const advanced = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-start]')?.click(); document.querySelector('[data-session="sleep"]')?.click(); const nap = document.querySelector('[data-sleep-hours="1"]'); if (!nap) return false; nap.click(); return true; })()`);
+            if (!advanced) throw new Error("Could not advance time to the scheduled instant message");
+            await new Promise((resolve) => setTimeout(resolve, 300));
+            result = await win.webContents.executeJavaScript(`(() => ({ count: document.querySelectorAll('.chat-message.character').length, reply: document.querySelector('.chat-message.character:last-of-type p')?.textContent || '', metrics: document.querySelector('.chat-message.character:last-of-type .chat-metrics')?.textContent || '', error: document.querySelector('.chat-error')?.textContent || '', status: document.querySelector('[data-ai-phase]')?.textContent || '' }))()`);
+            if (!result?.reply || result.count < expectedReplyCount) throw new Error(`Scheduled instant message did not appear after one in-game hour; last status: ${result?.status ?? "unknown"}`);
             if (result.reply.length > 400) throw new Error(`Model ignored brevity controls (${result.reply.length} characters)`);
             return result;
           };
@@ -1047,12 +1061,29 @@ function createWindow() {
           const emailSubmitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.email-compose-form'); const subject = form?.querySelector('[name="subject"]'); const body = form?.querySelector('[name="message"]'); if (!form || !subject || !body) return false; subject.value = 'Your garden page'; body.value = 'Hi Juniper, thanks for sharing your page. Modem seems great!'; form.requestSubmit(); return true; })()`);
           if (!emailSubmitted) throw new Error("Juniper email compose form was not available");
           const emailDeadline = Date.now() + 90_000;
-          let emailPreview = "";
+          let emailReply = null;
           while (Date.now() < emailDeadline) {
             await new Promise((resolve) => setTimeout(resolve, 500));
-            emailPreview = await win.webContents.executeJavaScript(`document.querySelector('#mail-preview')?.textContent || ''`);
-            if (emailPreview.includes("From:")) break;
+            const saved = await readSave();
+            emailReply = saved.directMessages?.find((entry) =>
+              entry.ownerId === "juniper_gdn" &&
+              entry.channel === "email" &&
+              entry.role === "owner" &&
+              entry.availableAt
+            );
+            if (emailReply) break;
           }
+          if (!emailReply) throw new Error("Juniper email reply was not generated");
+          let savedForEmail = await readSave();
+          for (let sleeps = 0; new Date(savedForEmail.gameTime) < new Date(emailReply.availableAt) && sleeps < 3; sleeps += 1) {
+            const advanced = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-start]')?.click(); document.querySelector('[data-session="sleep"]')?.click(); const morning = document.querySelector('[data-sleep-hours="morning"]'); if (!morning) return false; morning.click(); return true; })()`);
+            if (!advanced) throw new Error("Could not advance time to the scheduled email reply");
+            await new Promise((resolve) => setTimeout(resolve, 300));
+            savedForEmail = await readSave();
+          }
+          await win.webContents.executeJavaScript(`document.querySelector('[data-direct-mail]')?.click()`);
+          await new Promise((resolve) => setTimeout(resolve, 200));
+          const emailPreview = await win.webContents.executeJavaScript(`document.querySelector('#mail-preview')?.textContent || ''`);
           if (!emailPreview.includes("Juniper_Gdn")) throw new Error(`Juniper email reply did not arrive: ${emailPreview}`);
           const savedAfterContacts = await readSave();
           if ((savedAfterContacts.relationships?.juniper_gdn ?? 0) <= 12) throw new Error("Hidden Juniper relationship score did not increase");
@@ -1142,15 +1173,40 @@ function createWindow() {
           let result = null;
           while (Date.now() < deadline) {
             await new Promise((resolve) => setTimeout(resolve, 500));
-            result = await win.webContents.executeJavaScript(`(() => ({ playerCount: document.querySelectorAll('.page-comment.player').length, playerText: document.querySelector('.page-comment.player p')?.textContent || '', ownerCount: document.querySelectorAll('.page-comment.owner').length, pending: document.querySelector('.page-comment-form button')?.textContent || '', error: document.querySelector('.comment-error')?.textContent || '', toast: document.querySelector('.toast')?.textContent || '', scrollTop: document.querySelector('.browser-viewport')?.scrollTop || 0 }))()`);
+            result = await win.webContents.executeJavaScript(`(() => ({ playerCount: document.querySelectorAll('.page-comment.player').length, playerText: document.querySelector('.page-comment.player p')?.textContent || '', ownerCount: document.querySelectorAll('.page-comment.owner').length, pending: document.querySelector('.page-comment-form button')?.textContent || '', waiting: Boolean(document.querySelector('.typing-indicator, .helper-typing')), error: document.querySelector('.comment-error')?.textContent || '', toast: document.querySelector('.toast')?.textContent || '', scrollTop: document.querySelector('.browser-viewport')?.scrollTop || 0 }))()`);
             if (result.error) throw new Error(result.error);
-            if (result.playerCount === 1 && result.pending !== "Pending approval...") break;
+            if (result.playerCount === 1 && result.pending === "Post") break;
           }
-          if (!result || result.pending === "Pending approval...") throw new Error("Timed out waiting for page-owner response generation and approval");
+          if (!result || result.pending !== "Post") throw new Error("Timed out waiting for the safeguarded comment to be posted");
           if (/\bfuck\b/i.test(result.playerText) || !result.playerText) throw new Error(`Player-authored page comment was not filtered before rendering: ${result.playerText}`);
+          if (result.waiting) throw new Error("A visible reply-waiting state remained after the player comment was posted");
           if (result.ownerCount !== 0) throw new Error("Generated owner response appeared before the next page load");
           if (result.scrollTop < 1) throw new Error(`Reply notification reset the browser scroll position (${result.scrollTop}px)`);
 
+          let savedReply = null;
+          while (Date.now() < deadline) {
+            const saved = await readSave();
+            savedReply = saved.pageComments?.find((comment) =>
+              comment.pageUrl === "web://rainbow.gdn/home" &&
+              comment.role === "owner" &&
+              comment.availableAt
+            );
+            if (savedReply) break;
+            await new Promise((resolve) => setTimeout(resolve, 500));
+          }
+          if (!savedReply) throw new Error("Timed out waiting for the hidden page-owner response to be generated");
+          let saved = await readSave();
+          const delayMs = new Date(savedReply.availableAt).getTime() - new Date(savedReply.createdAt === savedReply.availableAt
+            ? saved.pageComments.find((comment) => comment.pageUrl === "web://rainbow.gdn/home" && comment.role === "player")?.createdAt
+            : savedReply.createdAt).getTime();
+          if (delayMs < 5 * 60_000 || delayMs > 24 * 60 * 60_000) throw new Error(`Comment reply delay was outside 5 minutes–24 hours: ${delayMs}ms`);
+
+          for (let sleeps = 0; new Date(saved.gameTime) < new Date(savedReply.availableAt) && sleeps < 3; sleeps += 1) {
+            const advanced = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-start]')?.click(); document.querySelector('[data-session="sleep"]')?.click(); const morning = document.querySelector('[data-sleep-hours="morning"]'); if (!morning) return false; morning.click(); return true; })()`);
+            if (!advanced) throw new Error("Could not advance time to the scheduled comment reply");
+            await new Promise((resolve) => setTimeout(resolve, 300));
+            saved = await readSave();
+          }
           await win.webContents.executeJavaScript(`document.querySelector('[data-browser="refresh"]')?.click()`);
           await new Promise((resolve) => setTimeout(resolve, 300));
           const revealed = await win.webContents.executeJavaScript(`(() => ({ count: document.querySelectorAll('.page-comment.owner').length, author: document.querySelector('.page-comment.owner header b')?.textContent || '', reply: document.querySelector('.page-comment.owner p')?.textContent || '' }))()`);
@@ -1162,7 +1218,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "page-comment-reply.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log(`COMMENT_OK: response stayed hidden until reload, then Juniper_Gdn replied: ${revealed.reply}`);
+          console.log(`COMMENT_OK: the sent comment had no reply-wait state; the scheduled response stayed hidden until time advanced and the page reloaded: ${revealed.reply}`);
         } catch (error) {
           console.error("COMMENT_FAILED:", error);
           process.exitCode = 1;

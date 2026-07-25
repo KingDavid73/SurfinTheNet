@@ -18,6 +18,7 @@ import {
 } from "./phase-three-personas";
 import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack, StoryPhase } from "./types";
 import { ambientActivityFor } from "./character-tiers";
+import { deliveryIsAvailable, personaIsActiveAt, scheduleReplyAt } from "./reply-scheduling";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
 const startupJingleUrl = new URL("../assets/audio/orbitos-startup.wav", import.meta.url).href;
@@ -1354,7 +1355,9 @@ function pageCommentSection(page: PageDefinition) {
   const owner = PAGE_OWNERS[page.ownerId] ?? PAGE_OWNERS.orbit_guide;
   const visits = state.pageVisitCounts[page.url] ?? 0;
   const comments = [...(page.seedComments ?? []), ...state.pageComments].filter((comment) =>
-    comment.pageUrl === page.url && (comment.role === "player" || comment.revealAfterVisit <= visits)
+    comment.pageUrl === page.url &&
+    deliveryIsAvailable(comment.availableAt, state.gameTime) &&
+    (comment.role === "player" || comment.revealAfterVisit <= visits)
   );
   const pending = pendingPageComments.has(page.url);
   const unavailable = !aiStatus.modelAvailable || aiStatus.phase === "loading" || aiStatus.phase === "warming";
@@ -1371,9 +1374,9 @@ function pageCommentSection(page: PageDefinition) {
     ${pageCommentErrors.has(page.url) ? `<p class="comment-error">${escapeHtml(pageCommentErrors.get(page.url)!)}</p>` : ""}
     <form class="page-comment-form" data-comment-page="${escapeHtml(page.url)}">
       <label><b>${escapeHtml(playerName())}:</b><textarea name="comment" maxlength="500" rows="3" placeholder="Leave a comment for ${escapeHtml(owner.screenName)}..." ${pending || unavailable ? "disabled" : ""}></textarea></label>
-      <button ${pending || unavailable ? "disabled" : ""}>${pending ? "Pending approval..." : unavailable ? "Offline" : "Post"}</button>
+      <button ${pending || unavailable ? "disabled" : ""}>${pending ? "Posting..." : unavailable ? "Offline" : "Post"}</button>
     </form>
-    <p class="comment-note">${pending ? `${escapeHtml(owner.screenName)}'s comment is pending approval in the background. You can browse away.` : "Replies are delivered asynchronously and appear the next time this page loads."}</p>
+    <p class="comment-note">${pending ? "Sending your comment in the background. You can browse away." : "Replies may take a few minutes or several hours and appear on a later page load."}</p>
   </section>`;
 }
 
@@ -1502,6 +1505,7 @@ function decorateUnreadCommentEntrypoints() {
     state.pageComments
       .filter((comment) =>
         comment.role !== "player" &&
+        deliveryIsAvailable(comment.availableAt, state.gameTime) &&
         comment.revealAfterVisit > (state.pageVisitCounts[comment.pageUrl] ?? 0)
       )
       .map((comment) => comment.pageUrl)
@@ -1516,8 +1520,14 @@ function decorateUnreadCommentEntrypoints() {
 }
 
 function mailWindow() {
-  const receivedEmails = state.directMessages.filter((message) => message.channel === "email" && message.role === "owner");
-  const selectedEmail = selectedMailMessageId ? state.directMessages.find((message) => message.id === selectedMailMessageId) : null;
+  const receivedEmails = state.directMessages.filter((message) =>
+    message.channel === "email" &&
+    message.role === "owner" &&
+    deliveryIsAvailable(message.availableAt, state.gameTime)
+  );
+  const selectedEmail = selectedMailMessageId
+    ? receivedEmails.find((message) => message.id === selectedMailMessageId) ?? null
+    : null;
   const receipt = state.flags.signal_note_downloaded
     ? `<button class="mail-row unread" data-mail="receipt"><b>● OrbitNet Downloads</b><span>Your file is ready</span><time>Now</time></button>`
     : "";
@@ -1595,7 +1605,12 @@ function settingsWindow() {
 
 function chatWindow() {
   const persona = CHARACTER_CONTACTS[activeAimOwnerId] ?? CHARACTER_CONTACTS.mira_917;
-  const conversation = state.directMessages.filter((message) => message.channel === "aim" && message.ownerId === activeAimOwnerId);
+  const conversation = state.directMessages.filter((message) =>
+    message.channel === "aim" &&
+    message.ownerId === activeAimOwnerId &&
+    (message.role === "player" || deliveryIsAvailable(message.availableAt, state.gameTime))
+  );
+  const activeNow = personaIsActiveAt(activeAimOwnerId, state.gameTime);
   const pendingKey = `aim:${activeAimOwnerId}`;
   const pending = pendingDirectReplies.has(pendingKey);
   const modelStarting = aiStatus.phase === "loading" || aiStatus.phase === "warming";
@@ -1605,10 +1620,8 @@ function chatWindow() {
       ? "loading 2.5 GB model into memory…"
       : aiStatus.phase === "warming"
         ? "warming up local model…"
-      : aiStatus.phase === "generating"
-        ? `${persona.screenName} is typing…`
-        : aiStatus.phase === "reviewing"
-          ? "sending…"
+      : aiStatus.phase === "generating" || aiStatus.phase === "reviewing"
+        ? `model loaded · ${aiStatus.backend ?? "CPU"}`
         : aiStatus.phase === "idle"
           ? `model loaded · ${aiStatus.backend ?? "CPU"}`
           : aiStatus.phase === "error"
@@ -1644,16 +1657,16 @@ function chatWindow() {
     <div class="aim-menu"><button data-ai-reset>Clear Chat</button></div>
     <nav class="aim-buddy-tabs">${contactButtons}</nav>
     <div class="aim-contact">
-      <div class="aim-avatar">${escapeHtml(persona.displayName.slice(0, 1))}</div><div><b>${escapeHtml(persona.screenName)}</b><span><i></i> Online</span><small>“${escapeHtml(persona.statusMessage)}”</small></div>
+      <div class="aim-avatar">${escapeHtml(persona.displayName.slice(0, 1))}</div><div><b>${escapeHtml(persona.screenName)}</b><span class="${activeNow ? "" : "away"}"><i></i> ${activeNow ? "Online" : "Away"}</span><small>“${escapeHtml(persona.statusMessage)}”</small></div>
       <aside><b>PRIVATE CHAT</b><span>${escapeHtml(aiStatus.modelName)}</span></aside>
     </div>
     <div class="chat-transcript" id="chat-transcript">${empty}${messageHtml}${pendingHtml}</div>
     ${chatError ? `<div class="chat-error">${escapeHtml(chatError)}</div>` : ""}
     <form class="chat-form">
       <textarea name="message" maxlength="500" rows="2" placeholder="${modelStarting ? "Local model is starting up…" : "Type an instant message…"}" ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
-      <button ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}>${pending || modelStarting ? "Waiting…" : "Send"}</button>
+      <button ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}>${pending ? "Sending…" : modelStarting ? "Loading…" : "Send"}</button>
     </form>
-    <footer class="ai-statusbar"><span data-ai-phase>${escapeHtml(statusLabel)}</span><span data-ai-elapsed>${pending ? "reply pending" : aiStatus.loadMs ? `load ${formatDuration(aiStatus.loadMs)}` : "not loaded"}</span></footer>`);
+    <footer class="ai-statusbar"><span data-ai-phase>${escapeHtml(statusLabel)}</span><span data-ai-elapsed>${pending ? "checking message" : aiStatus.loadMs ? `load ${formatDuration(aiStatus.loadMs)}` : "not loaded"}</span></footer>`);
 }
 
 function helperWindow() {
@@ -2177,10 +2190,8 @@ async function refreshAiProgress() {
         ? "loading 2.5 GB model into memory…"
         : aiStatus.phase === "warming"
           ? "warming up local model…"
-        : aiStatus.phase === "generating"
-          ? "Mira_917 is typing…"
-          : aiStatus.phase === "reviewing"
-            ? "sending…"
+        : aiStatus.phase === "generating" || aiStatus.phase === "reviewing"
+          ? `model loaded · ${aiStatus.backend ?? "CPU"}`
           : aiStatus.phase === "error"
             ? `error · ${aiStatus.error ?? "generation failed"}`
             : `model loaded · ${aiStatus.backend ?? "CPU"}`;
@@ -2198,13 +2209,19 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
   const contact = CHARACTER_CONTACTS[ownerId];
   if (!contact) return;
 
+  const sentAt = state.gameTime;
   const recentMessages = state.directMessages
-    .filter((entry) => entry.ownerId === ownerId && entry.channel === channel)
+    .filter((entry) =>
+      entry.ownerId === ownerId &&
+      entry.channel === channel &&
+      (entry.role === "player" || deliveryIsAvailable(entry.availableAt, sentAt))
+    )
     .map((entry) => ({ role: entry.role, author: entry.author, text: entry.text }));
   pendingDirectReplies.add(key);
   chatError = "";
   render();
 
+  let playerMessageSent = false;
   try {
     const safeMessage = (await window.aiAPI.safeguard(message)).text;
     const playerEntry: DirectMessage = {
@@ -2215,12 +2232,20 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
       author: playerName(),
       text: safeMessage,
       subject,
-      createdAt: state.gameTime
+      createdAt: sentAt
     };
     adjustRelationship(ownerId, safeMessage, channel);
     state.directMessages.push(playerEntry);
     await saveState();
-    render();
+    playerMessageSent = true;
+    pendingDirectReplies.delete(key);
+    if (channel === "email") {
+      mailComposeOwnerId = null;
+      selectedMailMessageId = null;
+      showNotification("Email sent.");
+    } else {
+      render();
+    }
     if (channel === "aim" || channel === "helper") scrollChatToBottom();
 
     const result = await window.aiAPI.directReply({
@@ -2231,7 +2256,8 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
       relationshipScore: state.relationships[ownerId] ?? 0,
       recentMessages
     });
-    state.directMessages.push({
+    const availableAt = scheduleReplyAt(ownerId, channel, sentAt);
+    const ownerReply: DirectMessage = {
       id: crypto.randomUUID(),
       ownerId,
       channel,
@@ -2239,21 +2265,18 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
       author: result.owner.screenName,
       text: result.text,
       subject: channel === "email" ? `Re: ${subject || "Hello"}` : undefined,
-      createdAt: state.gameTime,
+      createdAt: availableAt,
+      availableAt,
       metrics: result.metrics
-    });
+    };
+    state.directMessages.push(ownerReply);
     aiStatus = await window.aiAPI.status();
-    pendingDirectReplies.delete(key);
     await saveState();
-    if (channel === "email") {
-      mailComposeOwnerId = null;
-      selectedMailMessageId = state.directMessages.at(-1)?.id ?? null;
-      showNotification(`New mail from ${contact.displayName}.`);
-    } else if (channel === "aim") {
+    if (channel === "aim" && deliveryIsAvailable(ownerReply.availableAt, state.gameTime)) {
       render();
       scrollChatToBottom();
       document.querySelector<HTMLTextAreaElement>(".chat-form textarea")?.focus();
-    } else {
+    } else if (channel === "helper") {
       render();
       scrollChatToBottom();
       document.querySelector<HTMLTextAreaElement>(".helper-form textarea")?.focus();
@@ -2261,7 +2284,9 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
   } catch (error) {
     pendingDirectReplies.delete(key);
     const messageText = error instanceof Error ? error.message.replace(/^Error invoking remote method '[^']+':\s*/i, "") : String(error);
-    if (channel === "aim" || channel === "helper") {
+    if (playerMessageSent) {
+      console.warn(`Background ${channel} reply generation failed for ${ownerId}: ${messageText}`);
+    } else if (channel === "aim" || channel === "helper") {
       chatError = messageText;
       render();
     } else {
@@ -2292,7 +2317,9 @@ async function submitPageComment(pageUrl: string, message: string) {
     render();
     return;
   }
+  let playerCommentPosted = false;
   try {
+    const sentAt = state.gameTime;
     const safeMessage = (await window.aiAPI.safeguard(message)).text;
     const playerComment: PageComment = {
       id: crypto.randomUUID(),
@@ -2301,15 +2328,21 @@ async function submitPageComment(pageUrl: string, message: string) {
       role: "player",
       author: playerName(),
       text: safeMessage,
-      createdAt: state.gameTime,
+      createdAt: sentAt,
       revealAfterVisit: state.pageVisitCounts[pageUrl] ?? 1
     };
     adjustRelationship(page.ownerId, safeMessage, "public");
     state.pageComments.push(playerComment);
     await saveState();
+    playerCommentPosted = true;
+    pendingPageComments.delete(pageUrl);
     render();
     const recentComments = [...(page.seedComments ?? []), ...state.pageComments]
-      .filter((comment) => comment.pageUrl === pageUrl && comment.id !== playerComment.id)
+      .filter((comment) =>
+        comment.pageUrl === pageUrl &&
+        comment.id !== playerComment.id &&
+        (comment.role === "player" || deliveryIsAvailable(comment.availableAt, sentAt))
+      )
       .map((comment) => ({ role: comment.role, author: comment.author, text: comment.text }));
     const result = await window.aiAPI.comment({
       ownerId: page.ownerId,
@@ -2320,6 +2353,7 @@ async function submitPageComment(pageUrl: string, message: string) {
       recentComments,
       relationshipScore: state.relationships[page.ownerId] ?? 0
     });
+    const availableAt = scheduleReplyAt(page.ownerId, "comment", sentAt);
     state.pageComments.push({
       id: crypto.randomUUID(),
       pageUrl,
@@ -2327,23 +2361,61 @@ async function submitPageComment(pageUrl: string, message: string) {
       role: "owner",
       author: result.owner.screenName || owner.screenName,
       text: result.text,
-      createdAt: state.gameTime,
+      createdAt: availableAt,
+      availableAt,
       revealAfterVisit: (state.pageVisitCounts[pageUrl] ?? 0) + 1
     });
     aiStatus = await window.aiAPI.status();
     await saveState();
-    pendingPageComments.delete(pageUrl);
-    if (startupStage === "desktop") showNotification(`${owner.screenName} replied. Reload the page to see it.`);
   } catch (error) {
     pendingPageComments.delete(pageUrl);
-    pageCommentErrors.set(pageUrl, error instanceof Error ? error.message.replace(/^Error invoking remote method '[^']+':\s*/i, "") : String(error));
-    if (startupStage === "desktop") render();
+    const messageText = error instanceof Error ? error.message.replace(/^Error invoking remote method '[^']+':\s*/i, "") : String(error);
+    if (playerCommentPosted) {
+      console.warn(`Background page reply generation failed for ${pageUrl}: ${messageText}`);
+    } else {
+      pageCommentErrors.set(pageUrl, messageText);
+      if (startupStage === "desktop") render();
+    }
   }
 }
 
 function localGameTimeString(date: Date) {
   const pad = (value: number) => String(value).padStart(2, "0");
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+}
+
+function scheduledDeliveryNotice(before: Date, after: Date) {
+  if (after <= before) return "";
+  const arrived = (availableAt: string | undefined) => {
+    if (!availableAt) return false;
+    const deliveryTime = new Date(availableAt).getTime();
+    return deliveryTime > before.getTime() && deliveryTime <= after.getTime();
+  };
+  const emails = state.directMessages.filter((message) => message.role === "owner" && message.channel === "email" && arrived(message.availableAt));
+  const aims = state.directMessages.filter((message) => message.role === "owner" && message.channel === "aim" && arrived(message.availableAt));
+  const comments = state.pageComments.filter((comment) => comment.role === "owner" && arrived(comment.availableAt));
+  if (emails.length) {
+    const sender = PAGE_OWNERS[emails.at(-1)!.ownerId]?.displayName ?? emails.at(-1)!.author;
+    return emails.length === 1 ? `New mail from ${sender}.` : `${emails.length} new emails arrived.`;
+  }
+  if (aims.length) {
+    const sender = PAGE_OWNERS[aims.at(-1)!.ownerId]?.screenName ?? aims.at(-1)!.author;
+    return aims.length === 1 ? `${sender} replied in Messenger.` : `${aims.length} Messenger replies arrived.`;
+  }
+  if (comments.length) {
+    const sender = PAGE_OWNERS[comments.at(-1)!.ownerId]?.screenName ?? comments.at(-1)!.author;
+    return comments.length === 1 ? `${sender} replied to your comment.` : `${comments.length} comment replies arrived.`;
+  }
+  return "";
+}
+
+function showPassiveNotification(message: string) {
+  if (!message || startupStage !== "desktop") return;
+  document.querySelector(".toast.delivery-toast")?.remove();
+  const desktop = document.querySelector<HTMLElement>(".desktop");
+  if (!desktop) return;
+  desktop.insertAdjacentHTML("beforeend", `<div class="toast delivery-toast">${escapeHtml(message)}</div>`);
+  window.setTimeout(() => document.querySelector(".toast.delivery-toast")?.remove(), 3200);
 }
 
 function advanceGameTime(option: string) {
@@ -2355,6 +2427,7 @@ function advanceGameTime(option: string) {
   } else {
     date.setHours(date.getHours() + Number(option));
   }
+  const deliveryNotice = scheduledDeliveryNotice(before, date);
   state.gameTime = localGameTimeString(date);
   const hoursElapsed = crossedGameHourBoundaries(before, date);
   queueAmbientPostRolls(hoursElapsed, state.gameTime);
@@ -2362,7 +2435,7 @@ function advanceGameTime(option: string) {
   lastGameClockTick = performance.now();
   sleepDialogOpen = false;
   void saveState();
-  showNotification(`Clock advanced to ${new Intl.DateTimeFormat([], { weekday: "short", hour: "numeric", minute: "2-digit" }).format(date)}.`);
+  showNotification(`Clock advanced to ${new Intl.DateTimeFormat([], { weekday: "short", hour: "numeric", minute: "2-digit" }).format(date)}.${deliveryNotice ? ` ${deliveryNotice}` : ""}`);
 }
 
 function bindEvents() {
@@ -2710,12 +2783,14 @@ function bindDragging() {
 
 function updateClock() {
   const now = performance.now();
+  let deliveryNotice = "";
   if (startupStage === "desktop" && !phaseTransition) {
     const elapsed = now - lastGameClockTick;
     if (elapsed > 0) {
       const before = new Date(state.gameTime);
       const gameDate = new Date(before);
       gameDate.setMilliseconds(gameDate.getMilliseconds() + elapsed * GAME_TIME_SCALE);
+      deliveryNotice = scheduledDeliveryNotice(before, gameDate);
       state.gameTime = localGameTimeString(gameDate);
       const hoursElapsed = crossedGameHourBoundaries(before, gameDate);
       queueAmbientPostRolls(hoursElapsed, state.gameTime);
@@ -2733,6 +2808,18 @@ function updateClock() {
     clock.dateTime = state.gameTime;
     clock.title = `Game time · ${new Intl.DateTimeFormat([], { dateStyle: "full", timeStyle: "short" }).format(gameDate)}`;
     clock.innerHTML = `<b>${new Intl.DateTimeFormat([], { hour: "numeric", minute: "2-digit" }).format(gameDate)}</b><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "numeric", day: "numeric" }).format(gameDate)}</span>`;
+  }
+  if (deliveryNotice) {
+    window.queueMicrotask(() => {
+      const focusedField = document.activeElement instanceof HTMLTextAreaElement || document.activeElement instanceof HTMLInputElement
+        ? document.activeElement
+        : null;
+      if (!focusedField?.value) {
+        render();
+        if (windows.chat.open && !windows.chat.minimized) scrollChatToBottom();
+      }
+      showPassiveNotification(deliveryNotice);
+    });
   }
 }
 

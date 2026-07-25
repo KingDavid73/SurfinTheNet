@@ -2858,6 +2858,8 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .aim-contact > div:nth-child(2) > b { font-size: 17px; }
 .aim-contact > div:nth-child(2) > span { font-size: 11px; color: #28722d; }
 .aim-contact > div:nth-child(2) > span i { display: inline-block; width: 8px; height: 8px; margin-right: 3px; border-radius: 50%; background: #32b33e; box-shadow: 0 0 0 1px #17601e; }
+.aim-contact > div:nth-child(2) > span.away { color: #8a6418; }
+.aim-contact > div:nth-child(2) > span.away i { background: #e0a425; box-shadow: 0 0 0 1px #8d6617; }
 .aim-contact > div:nth-child(2) > small { color: #555; font-style: italic; }
 .aim-contact aside { display: grid; text-align: right; gap: 2px; font-size: 9px; color: #59647c; }
 .aim-contact aside b { color: #9a4b00; letter-spacing: 1px; }
