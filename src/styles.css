@@ -4397,6 +4397,59 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .mystery-terminal > aside { margin: 18px 3%; padding: 12px; border: 2px dashed currentColor; }
 .mystery-terminal > footer { margin-top: 22px; padding: 10px; color: #fff; background: #3d3154; text-align: center; font: 10px "Courier New", monospace; }
 .mystery-terminal > footer.puzzle-notebook-footer { display: grid; gap: 6px; border: 2px solid #8d79ac; box-shadow: inset 0 0 0 1px #20162f; }
+.case-objective {
+  display: block;
+  margin: 16px 2%;
+  padding: 12px 14px;
+  color: #202027;
+  background: #fff4b8;
+  border: 2px solid #594d28;
+  box-shadow: 4px 4px 0 rgb(0 0 0 / 25%);
+}
+.case-objective.case-complete { background: #ccefc2; border-color: #315b2b; }
+.case-objective small { display: block; font: bold 10px "Courier New", monospace; letter-spacing: .08em; }
+.case-objective h2 { margin: 5px 0; font-size: 18px; }
+.case-objective p { margin: 0; line-height: 1.45; }
+.case-clue {
+  display: block;
+  margin: 16px 0;
+  padding: 10px 12px;
+  color: #1f2630;
+  background: #fff2a8;
+  border: 2px dashed #675b2e;
+  font-family: "Courier New", monospace;
+}
+.case-lock-page {
+  min-height: 100%;
+  padding: 24px 8%;
+}
+.case-lock-page > header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px;
+  border: 1px solid currentColor;
+  font: bold 10px "Courier New", monospace;
+}
+.case-lock-page > header > span { grid-row: auto; font-size: inherit; }
+.morrow-page.case-lock-page > header { grid-template-columns: 1fr auto; }
+.quietcounty-page.case-lock-page > header { margin: 0; border-bottom: 1px solid currentColor; text-align: left; }
+.case-lock-page > form {
+  display: grid;
+  grid-template-columns: minmax(210px, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+  margin: 22px 0 10px;
+  padding: 14px;
+  color: #202027;
+  background: #d7d7d7;
+  border: 3px outset #eee;
+}
+.case-lock-page > form label { display: grid; gap: 5px; font: bold 10px "Courier New", monospace; }
+.case-lock-page > form input { min-width: 0; padding: 7px; font: bold 16px "Courier New", monospace; }
+.case-lock-page > form button { min-height: 38px; font-weight: bold; }
+.case-lock-page > .story-form-error { min-height: 18px; color: #ffef75; background: #681c1c; font: bold 10px "Courier New", monospace; }
+.case-lock-page > .story-form-error:empty { min-height: 0; margin: 0; background: transparent; }
 .puzzle-notebook-footer .carry-forward-clue, .legacy-comment-leak .carry-forward-clue, .deadletters-page .carry-forward-clue {
   padding: 1px 4px;
   color: #fff7a8;

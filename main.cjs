@@ -1014,12 +1014,33 @@ function createWindow() {
           }
 
           const mainMysteryTerminals = [
-            ["web://morrow-five.net/decoded", "web://archive", "STAY"],
-            ["web://glasslake-field.gov/report", "orbitnet.local", "ON"],
-            ["web://quiet-county.org/case", "/labs/home", "LINE"]
+            ["web://morrow-five.net/decoded", "morrow_five", "00417", "web://archive", "STAY"],
+            ["web://glasslake-field.gov/report", "glass_lake", "B-06-14", "orbitnet.local", "ON"],
+            ["web://quiet-county.org/case", "quiet_county", "definately", "/labs/home", "LINE"]
           ];
-          for (const [terminal, fragment, recoveryWord] of mainMysteryTerminals) {
+          for (const [terminal, caseId, answer, fragment, recoveryWord] of mainMysteryTerminals) {
             await address(terminal);
+            saved = await readSave();
+            if (
+              saved.discoveredMysteries.includes(caseId) ||
+              !await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-case-unlock="${caseId}"]')) && !document.querySelector('.mystery-terminal')`)
+            ) {
+              throw new Error(`Main mystery conclusion was not sealed before its case check: ${terminal}`);
+            }
+            if (caseId === "morrow_five") {
+              await wait(1600);
+              await capture("story-morrow-case-lock.png");
+            }
+            const caseSubmitted = await win.webContents.executeJavaScript(`(() => {
+              const form = document.querySelector('[data-case-unlock="${caseId}"]');
+              const input = form?.querySelector('input[name="answer"]');
+              if (!form || !input) return false;
+              input.value = ${JSON.stringify(answer)};
+              form.requestSubmit();
+              return true;
+            })()`);
+            if (!caseSubmitted) throw new Error(`Could not submit main mystery case check: ${terminal}`);
+            await wait(220);
             if (!await win.webContents.executeJavaScript(`(() => {
               const footer = document.querySelector('.mystery-terminal footer.puzzle-notebook-footer');
               const clues = Array.from(footer?.querySelectorAll('.carry-forward-clue') || []).map((clue) => clue.textContent.trim());

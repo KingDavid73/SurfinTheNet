@@ -467,11 +467,16 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     hubId: "zone-backchannel",
     commentsEnabled: true,
     searchTerms: ["morrow five", "numbers station", "radio", "five number groups", "secret broadcast"],
-    render: () => `
+    render: (state) => `
       <main class="page morrow-page"><header><span>M5</span><h1>MORROW FIVE MONITOR</h1><small>CALLSIGN: LANTERN / 6842 kHz / uncertain origin</small></header>
         ${archiveImages([MYSTERY_IMAGES.numberTape, "Cassette marked with the disputed Morrow frequency"], [MYSTERY_IMAGES.radioTowers, "Tower lights photographed during the broadcast"], [MYSTERY_IMAGES.fencedTower, "The alleged transmitter beyond a locked fence"])}
         <p class="morrow-theory">THEORY: the five-number groups identify sealed facilities activated by an unseen federal continuity network.</p>
-        <nav><button data-nav="web://morrow-five.net/transcript">11/03 TRANSCRIPT</button><button data-nav="web://morrow-five.net/decoded">GROUP TEST</button><button data-nav="web://nightsignal.net/fieldlog">COMPARE NIGHT SIGNAL</button></nav>
+        <section class="case-objective ${state.flags.morrow_case_unlocked ? "case-complete" : ""}">
+          <small>CASE OBJECTIVE // ${state.flags.morrow_case_unlocked ? "RESOLVED" : "OPEN"}</small>
+          <h2>Find the group that does not belong.</h2>
+          <p>Read the 11/03 transcript. Count the surviving groups, then identify the five-digit group repeated three times. Submit that group at the sealed Group Test.</p>
+        </section>
+        <nav><button data-nav="web://morrow-five.net/transcript">1. READ 11/03 TRANSCRIPT</button><button data-nav="web://morrow-five.net/decoded">2. ${state.flags.morrow_case_unlocked ? "REOPEN CONCLUSION" : "OPEN SEALED GROUP TEST"}</button><button data-nav="web://nightsignal.net/fieldlog">OPTIONAL: COMPARE NIGHT SIGNAL</button></nav>
         <aside><b>OBSERVED:</b> an old recording exists and its group count is wrong.<br><b>INFERRED:</b> practically everything else.</aside>
       </main>`
   },
@@ -491,7 +496,8 @@ TWELVE GROUPS.
 09170  24008  00417  23117
 01995  [MISSING]  08820  00417
 END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Group <b>00417</b> repeats three times.</p>
-        <button data-nav="web://morrow-five.net/decoded">TEST AGAINST ORBIT INDEX</button>
+        <section class="case-clue"><b>WORKING NOTE:</b> A repeated group is more useful than the missing one. Take the five digits to the Group Test.</section>
+        <button data-nav="web://morrow-five.net/decoded">ENTER GROUP TEST</button>
       </main>`
   },
   [MYSTERY_TERMINAL_URLS.morrow_five]: {
@@ -502,7 +508,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     summary: "The sensational station theory collapses when the number groups resolve to Orbit page IDs inserted after the supposedly old tape was uploaded.",
     listed: false,
     minimumPhase: 2,
-    render: () => `
+    render: (state) => state.flags.morrow_case_unlocked ? `
       <main class="page morrow-page mystery-terminal"><header><b>MYSTERY CHECK // MORROW FIVE</b><span>CONCLUSION: MANUFACTURED CONNECTION</span></header>
         <h1>The broadcast is old. These groups are not.</h1>
         <p><code>00417</code>, <code>09170</code>, and <code>23117</code> correspond to modern Orbit directory object IDs created after the cassette's stated recording date. The audio footer identifies Orbit Bridge 4.7.</p>
@@ -513,6 +519,17 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
           <span>OLDER CONTINUITY RECOVERY WORD: <strong class="carry-forward-clue">STAY</strong></span>
           <small>NOTEBOOK ITEMS ARE SHOWN IN BOLD</small>
         </footer>
+      </main>` : `
+      <main class="page morrow-page case-lock-page">
+        <header><b>MORROW FIVE // GROUP TEST</b><span>CASE CONCLUSION SEALED</span></header>
+        <h1>Which group was inserted into the pattern?</h1>
+        <p>The transcript contains one five-digit group three times. Enter it below to compare it against the modern Orbit directory.</p>
+        <form data-case-unlock="morrow_five">
+          <label>REPEATED GROUP <input name="answer" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="00000"></label>
+          <button>RUN GROUP TEST</button>
+        </form>
+        <p class="story-form-error" data-story-error="morrow_five"></p>
+        <button data-nav="web://morrow-five.net/transcript">&larr; RETURN TO TRANSCRIPT</button>
       </main>`
   },
   "web://glasslake-field.gov/home": {
@@ -526,11 +543,16 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     hubId: "zone-backchannel",
     commentsEnabled: true,
     searchTerms: ["glass lake", "secret base", "aliens", "weather station", "moon window", "field annex"],
-    render: () => `
+    render: (state) => `
       <main class="page glasslake-page"><header><small>ARCHIVED PUBLIC INFORMATION PAGE</small><h1>GLASS LAKE FIELD ANNEX</h1><span>Atmospheric Propagation Group</span></header>
         ${archiveImages([MYSTERY_IMAGES.weatherStation, "Glass Lake upper-air weather instruments"], [MYSTERY_IMAGES.markedMap, "Field route map with later annotations"])}
         <div class="glasslake-redactions"><p>Facility purpose: upper-air radio propagation and weather telemetry.</p><p>Public tours: suspended during antenna calibration.</p><p>Hangar B: <b>██████████████</b></p></div>
-        <nav><button data-nav="web://glasslake-field.gov/weather">WEATHER LOG</button><button data-nav="web://glasslake-field.gov/report">MOON WINDOW REPORT</button></nav>
+        <section class="case-objective ${state.flags.glass_lake_case_unlocked ? "case-complete" : ""}">
+          <small>CASE OBJECTIVE // ${state.flags.glass_lake_case_unlocked ? "RESOLVED" : "OPEN"}</small>
+          <h2>Match the sighting, then recover the contract.</h2>
+          <p>Use the weather log to identify the three lights. The Moon Window report is filed under a full Cabinet B reference preserved by Folded Wire.</p>
+        </section>
+        <nav><button data-nav="web://glasslake-field.gov/weather">1. CHECK WEATHER LOG</button><button data-nav="web://foldedwire.net/cabinet">2. FIND CABINET REFERENCE</button><button data-nav="web://glasslake-field.gov/report">3. ${state.flags.glass_lake_case_unlocked ? "REOPEN REPORT" : "OPEN SEALED REPORT"}</button></nav>
         <marquee>SKYWATCH ALERT: three lights photographed above the ridge // official explanation pending</marquee>
       </main>`
   },
@@ -545,7 +567,9 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     render: () => `
       <main class="page glasslake-page glasslake-log"><h1>UPPER AIR LOG // SELECTED ENTRIES</h1>
         <table><tbody><tr><th>09/12/94</th><td>Three illuminated calibration balloons released 20:14.</td><td>wind NE</td></tr><tr><th>09/12/94</th><td>Civilian “three lights” report received 20:31.</td><td>matched</td></tr><tr><th>10/03/94</th><td>Unusual long-distance carrier reception during inversion.</td><td>expected</td></tr><tr><th>10/04/94</th><td>Hangar B roof leak repaired.</td><td>mundane</td></tr></tbody></table>
-        <button data-nav="web://glasslake-field.gov/report">READ CONTRACT SUMMARY</button>
+        <section class="case-clue"><b>WORKING NOTE:</b> The sighting is accounted for. The contract appendix is missing from this mirror; Folded Wire's Cabinet B still lists its filing reference.</section>
+        <button data-nav="web://foldedwire.net/cabinet">SEARCH CABINET B</button>
+        <button data-nav="web://glasslake-field.gov/report">OPEN SEALED CONTRACT REPORT</button>
       </main>`
   },
   [MYSTERY_TERMINAL_URLS.glass_lake]: {
@@ -556,7 +580,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     summary: "The alien-base theory is unsupported, but a real contractor quietly shared propagation data with Orbit's gateway engineering group.",
     listed: false,
     minimumPhase: 2,
-    render: () => `
+    render: (state) => state.flags.glass_lake_case_unlocked ? `
       <main class="page glasslake-page mystery-terminal"><header><b>MYSTERY CHECK // GLASS LAKE</b><span>CONCLUSION: WRONG SKY, RIGHT CONTRACTOR</span></header>
         <h1>No visitors from above. One visitor from Orbit.</h1>
         <p>The lights were logged calibration balloons. “Moon Window” was a radio-propagation test window, not a contact event. The sensational fax added handwritten spacecraft notes years later.</p>
@@ -567,6 +591,17 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
           <span>OLDER CONTINUITY RECOVERY WORD: <strong class="carry-forward-clue">ON</strong></span>
           <small>NOTEBOOK ITEMS ARE SHOWN IN BOLD</small>
         </footer>
+      </main>` : `
+      <main class="page glasslake-page case-lock-page">
+        <header><b>GLASS LAKE // RECORDS TERMINAL</b><span>CONTRACT REPORT SEALED</span></header>
+        <h1>Recover the Cabinet B filing reference.</h1>
+        <p>The full reference appears beside the Glass Lake atmospheric propagation contract in Folded Wire's restored cabinet.</p>
+        <form data-case-unlock="glass_lake">
+          <label>FILE REFERENCE <input name="answer" maxlength="8" autocomplete="off" placeholder="B-00-00"></label>
+          <button>RETRIEVE REPORT</button>
+        </form>
+        <p class="story-form-error" data-story-error="glass_lake"></p>
+        <button data-nav="web://foldedwire.net/cabinet">&larr; OPEN CABINET B</button>
       </main>`
   },
   "web://quiet-county.org/home": {
@@ -580,11 +615,16 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     hubId: "zone-backchannel",
     commentsEnabled: true,
     searchTerms: ["quiet county", "deep state", "anonymous letters", "civic groups", "project trestle", "rumor"],
-    render: () => `
+    render: (state) => `
       <main class="page quietcounty-page"><header><h1>THE QUIET COUNTY FILES</h1><p>Who kept mailing the neighborhood associations?</p></header>
         ${archiveImages([MYSTERY_IMAGES.envelope, "One of the anonymous neighborhood letters"], [MYSTERY_IMAGES.corridor, "County records corridor after public hours"], [MYSTERY_IMAGES.diagram, "A copied mediation-study diagram"])}
         <section><article><b>CLAIM</b><p>PROJECT TRESTLE was a covert influence program that fabricated disputes, divided local groups, and tested population control.</p></article><article><b>RECORD</b><p>A real university conflict-mediation study tracked how rumor and message framing affected public meetings.</p></article></section>
-        <nav><button data-nav="web://quiet-county.org/letters">COMPARE LETTERS</button><button data-nav="web://quiet-county.org/case">CASE CONCLUSION</button></nav>
+        <section class="case-objective ${state.flags.quiet_county_case_unlocked ? "case-complete" : ""}">
+          <small>CASE OBJECTIVE // ${state.flags.quiet_county_case_unlocked ? "RESOLVED" : "OPEN"}</small>
+          <h2>Test whether the three enemies are really three sources.</h2>
+          <p>Compare the letters for one exact shared error. Enter the word as printed to request the underlying study.</p>
+        </section>
+        <nav><button data-nav="web://quiet-county.org/letters">1. COMPARE THREE LETTERS</button><button data-nav="web://quiet-county.org/case">2. ${state.flags.quiet_county_case_unlocked ? "REOPEN CONCLUSION" : "OPEN SEALED CASE FILE"}</button></nav>
       </main>`
   },
   "web://quiet-county.org/letters": {
@@ -599,7 +639,8 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
       <main class="page quietcounty-page letter-comparison"><h1>THREE ENEMIES, ONE MISSPELLING</h1>
         <div><article><b>“Concerned Parents”</b><p>...the council has <u>definately</u> decided...</p></article><article><b>“Taxpayer Watch”</b><p>...we have <u>definately</u> learned...</p></article><article><b>“Park Friends”</b><p>...developers <u>definately</u> intend...</p></article></div>
         <p>All three scans have the same torn corner and <code>OrbitPrint 3.2</code> footer. The originals are not in the county archive.</p>
-        <button data-nav="web://quiet-county.org/case">CHECK THE ACTUAL STUDY</button>
+        <section class="case-clue"><b>WORKING NOTE:</b> Copy the shared misspelling exactly as printed. The records index uses it to find the source batch.</section>
+        <button data-nav="web://quiet-county.org/case">REQUEST THE ACTUAL STUDY</button>
       </main>`
   },
   [MYSTERY_TERMINAL_URLS.quiet_county]: {
@@ -610,7 +651,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     summary: "The supposed deep-state letter campaign was fabricated recently, while the underlying study only observed already-public meetings and later drew ethical criticism.",
     listed: false,
     minimumPhase: 2,
-    render: () => `
+    render: (state) => state.flags.quiet_county_case_unlocked ? `
       <main class="page quietcounty-page mystery-terminal"><header><b>MYSTERY CHECK // QUIET COUNTY</b><span>CONCLUSION: SYNTHETIC LEAK, REAL ETHICAL FAILURE</span></header>
         <h1>PROJECT TRESTLE observed conflict. It did not create these letters.</h1>
         <p>The university archive contains meeting transcripts, survey cards, and an ethics complaint about observing residents without meaningful notice. It contains no anonymous-letter operation.</p>
@@ -621,6 +662,17 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
           <span>OLDER CONTINUITY RECOVERY WORD: <strong class="carry-forward-clue">LINE</strong></span>
           <small>NOTEBOOK ITEMS ARE SHOWN IN BOLD</small>
         </footer>
+      </main>` : `
+      <main class="page quietcounty-page case-lock-page">
+        <header><b>QUIET COUNTY // RECORDS REQUEST</b><span>CASE FILE SEALED</span></header>
+        <h1>Identify the shared source error.</h1>
+        <p>Enter the misspelled word that appears in all three supposedly independent letters.</p>
+        <form data-case-unlock="quiet_county">
+          <label>WORD AS PRINTED <input name="answer" maxlength="16" autocomplete="off"></label>
+          <button>SEARCH SOURCE BATCH</button>
+        </form>
+        <p class="story-form-error" data-story-error="quiet_county"></p>
+        <button data-nav="web://quiet-county.org/letters">&larr; COMPARE LETTERS</button>
       </main>`
   },
   "web://archive.orbitnet.local/labs/home": {

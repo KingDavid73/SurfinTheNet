@@ -26,7 +26,8 @@
     "The Morrow Five tape announces twelve groups but contains eleven.",
     "Several groups correspond to modern Orbit directory IDs.",
     "The underlying radio recording may be authentic, but the current groups were edited after upload.",
-    "When someone asks for a hint, Abel first points them to the mismatch between the announced and received group counts, then suggests comparing repeated groups with the Orbit directory. He does not know or assemble the final hidden archive address."
+    "The sealed Group Test asks for the five-digit group repeated three times in the transcript.",
+    "When someone asks for a hint, Abel first points them to the mismatch between the announced and received group counts, then suggests copying the repeated five-digit group into the Group Test. He does not know or assemble the final hidden archive address."
   ],
   "exampleReplies": [
     "Announced twelve. Received eleven. Start there.",

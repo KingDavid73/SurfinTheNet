@@ -645,6 +645,16 @@ const MYSTERY_TERMINALS: Record<string, string> = {
   "web://quiet-county.org/case": "quiet_county",
   "web://archive.orbitnet.local/labs/findings": "adaptive_index"
 };
+const MYSTERY_UNLOCK_FLAGS: Record<string, string> = {
+  morrow_five: "morrow_case_unlocked",
+  glass_lake: "glass_lake_case_unlocked",
+  quiet_county: "quiet_county_case_unlocked"
+};
+const MYSTERY_CASE_ANSWERS: Record<string, string> = {
+  morrow_five: "00417",
+  glass_lake: "b0614",
+  quiet_county: "definately"
+};
 const PHASE_TWO_MAIN_MYSTERIES = ["morrow_five", "glass_lake", "quiet_county"] as const;
 const REQUIRED_PHASE_THREE_MYSTERIES = Object.values(MYSTERY_TERMINALS);
 
@@ -1718,6 +1728,8 @@ function activateStoryPhase(nextPhase: StoryPhase) {
 function registerStoryVisit(url: string) {
   const mysteryId = MYSTERY_TERMINALS[url];
   if (!mysteryId || state.discoveredMysteries.includes(mysteryId)) return;
+  const unlockFlag = MYSTERY_UNLOCK_FLAGS[mysteryId];
+  if (unlockFlag && !state.flags[unlockFlag]) return;
   if (
     mysteryId === "adaptive_index" &&
     !PHASE_TWO_MAIN_MYSTERIES.every((id) => state.discoveredMysteries.includes(id))
@@ -3531,6 +3543,29 @@ function bindEvents() {
     notification = "ACCESS GRANTED // Black File decrypted.";
     render();
   });
+  document.querySelectorAll<HTMLFormElement>("[data-case-unlock]").forEach((form) => form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const caseId = form.dataset.caseUnlock ?? "";
+    const answer = String(new FormData(form).get("answer") ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (!MYSTERY_CASE_ANSWERS[caseId] || answer !== MYSTERY_CASE_ANSWERS[caseId]) {
+      const errorMessages: Record<string, string> = {
+        morrow_five: "GROUP REJECTED // enter the five-digit group repeated in the transcript",
+        glass_lake: "REFERENCE NOT FOUND // enter the full Cabinet B filing code",
+        quiet_county: "INDEX MISS // enter the shared misspelling exactly as printed"
+      };
+      storyFormErrors.set(caseId, errorMessages[caseId] ?? "CASE CHECK FAILED");
+      render();
+      return;
+    }
+    const unlockFlag = MYSTERY_UNLOCK_FLAGS[caseId];
+    if (!unlockFlag) return;
+    storyFormErrors.delete(caseId);
+    state.flags[unlockFlag] = true;
+    registerStoryVisit(state.currentUrl);
+    await saveState();
+    notification = "CASE RESOLVED // conclusion file opened.";
+    render();
+  }));
   document.querySelector<HTMLFormElement>("[data-continuity-login]")?.addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;

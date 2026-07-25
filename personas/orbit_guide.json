@@ -145,7 +145,7 @@
       "playerSituation": "The Black File is open, Newbie Nebula and restored Backchannel nodes have appeared, and three headline mysteries can be investigated. The spectacular explanations are false, but each case contains a useful authentic fragment.",
       "recommendedGuidance": [
         "Direct a stuck player to Backchannel and the restored Folded Wire or Index Null pages.",
-        "Teach the player to finish each case by reaching its conclusion page; merely reading the sensational homepage is not enough.",
+        "Teach the player to follow the numbered objective on each case homepage, pass its sealed case check, and read the opened conclusion; merely reading the sensational homepage is not enough.",
         "Suggest asking StaticAbel about Morrow Five, Skywatch Sam about Glass Lake, CedarWren about Quiet County, FaxMoth about document provenance, or NullIndex about lost routes.",
         "Mention that six silly personal oddities offer optional cross-links to the three main cases, while the ten rumor-bait pages are flavor and never required."
       ],
@@ -154,7 +154,8 @@
           "id": "morrow_five",
           "matchTerms": ["morrow", "five-number", "number station", "shortwave", "00417", "twelve groups", "radio transcript"],
           "goal": "Determine what is wrong with the Morrow Five recording and reach the decoded conclusion.",
-          "mechanic": "Compare the announced number of groups, the surviving transcript, repeated five-digit values, the dates of those values, and the recording's software footer.",
+          "mechanic": "Read the transcript, identify the five-digit group repeated three times, and enter it into the sealed Group Test. The opened conclusion then compares the value, dates, and recording footer.",
+          "caseGateAnswer": "00417",
           "privateAnswer": "The old shortwave base tape was edited later with modern Orbit directory object IDs through Orbit Bridge 4.7; the groups do not activate secret facilities.",
           "solutionLogic": "The speaker announces twelve groups but only eleven survive. Several numbers correspond to Orbit objects created after the alleged recording date, and the footer names later gateway software. The recording can be old while the conspiracy framing is new.",
           "authoredRoutes": [
@@ -167,7 +168,8 @@
             "Count what the voice promises, then count what the transcript actually contains.",
             "Treat the five-digit groups as Orbit identifiers rather than coordinates.",
             "Compare repeated values with modern pages and inspect the software footer for a date mismatch.",
-            "Follow the case navigation to the group test once the old recording and newer edits can be separated."
+            "The Group Test wants the five-digit value printed three times in the transcript.",
+            "If the player requests the exact gate answer after stronger hints, it is 00417."
           ],
           "conclusionFragment": "The conclusion supplies the host fragment web://archive and the older recovery word STAY."
         },
@@ -175,7 +177,8 @@
           "id": "glass_lake",
           "matchTerms": ["glass lake", "moon window", "field annex", "three lights", "weather log", "calibration balloons"],
           "goal": "Separate the Moon Window alien story from the genuine Glass Lake contractor connection and reach the contract report.",
-          "mechanic": "Compare the field annex's weather log, balloon release time, radio-propagation terminology, later handwritten annotations, and contractor appendix.",
+          "mechanic": "Use the weather log to account for the lights, find the Glass Lake contract in Folded Wire's Cabinet B, and enter its full filing reference into the sealed report terminal.",
+          "caseGateAnswer": "B-06-14",
           "privateAnswer": "The lights were calibration balloons and Moon Window was a propagation test; a real regional contractor later advised Orbit on proxy routing and persistence.",
           "solutionLogic": "The lights and radio windows have mundane, time-matched explanations. The exciting alien notes were added later, but the underlying contractor paperwork still establishes a real link to Orbit.",
           "authoredRoutes": [
@@ -188,7 +191,8 @@
             "Match the famous sighting time against the dull weather log before deciding what was in the sky.",
             "The phrase Moon Window may describe radio conditions rather than a literal object.",
             "Separate later handwriting from the older typed contract, then ask which part still connects to Orbit.",
-            "The case conclusion is reached through the weather records and contract report, not by proving an alien claim."
+            "The sealed report asks for the full filing reference beside the Glass Lake contract in Folded Wire's Cabinet B.",
+            "If the player requests the exact gate answer after stronger hints, it is B-06-14."
           ],
           "conclusionFragment": "The conclusion supplies the network fragment orbitnet.local and the older recovery word ON."
         },
@@ -196,7 +200,8 @@
           "id": "quiet_county",
           "matchTerms": ["quiet county", "project trestle", "anonymous letters", "orbitprint", "definately", "county study"],
           "goal": "Determine whether Project Trestle created a local anonymous-letter campaign and reach the case conclusion.",
-          "mechanic": "Compare supposedly independent letters for shared spelling, physical damage, print-driver metadata, and the actual university study's scope.",
+          "mechanic": "Compare the supposedly independent letters, then enter their exact shared misspelling into the sealed records request. The opened conclusion compares the source batch with the real study.",
+          "caseGateAnswer": "definately",
           "privateAnswer": "The dramatic letters were recently produced from one Orbit-era source and falsely aged; the real study observed public meetings without meaningful notice but did not manufacture those disputes.",
           "solutionLogic": "Three claimed sources share the same misspelling, torn corner, and OrbitPrint footer, which means they are copies of one newer artifact. The authentic study still contains a genuine consent problem, just not the advertised covert campaign.",
           "authoredRoutes": [
@@ -209,7 +214,8 @@
             "Compare the physical and typographic flaws in the three letters, not just what they claim.",
             "Independent enemies should not make the same spelling error on the same damaged paper.",
             "The print footer dates the dramatic copies; then compare them with the university archive's actual methods.",
-            "The fair conclusion preserves the real ethics problem while rejecting the fabricated letter operation."
+            "The records request wants the misspelled word exactly as it appears in all three letters.",
+            "If the player requests the exact gate answer after stronger hints, it is definately."
           ],
           "conclusionFragment": "The conclusion supplies the path fragment /labs/home and the older recovery word LINE."
         },
