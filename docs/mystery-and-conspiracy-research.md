@@ -204,9 +204,11 @@ The implemented Adaptive Index archive turns the first three ideas into one
 contained sequence. Government-funded interface trials test whether ranking,
 invented peer approval, and an unrelated pleasant novelty can redirect public
 attention without removing the underlying record. Orbit later licenses that
-work. Immediately after the player recovers it, Byte Barn's genuinely popular
-tribute album occupies the directory and public conversation. The album is not
-a government plot or a C9 fabrication; its placement is a diegetic demonstration
+work. After the player recovers it, a vague paid countdown occupies the
+directory while the player follows the identity failures to C9. Once the player
+uncovers and circulates the impersonation report, the countdown resolves into
+Byte Barn's genuinely popular tribute CD and festival. The event is not a
+government plot or a C9 fabrication; its placement is a diegetic demonstration
 of the archive's warning. Selection, rather than censorship, determines which
 truth becomes socially consequential.
 

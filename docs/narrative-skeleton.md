@@ -172,10 +172,10 @@ These clues must remain individually explainable.
   attention and perceived consensus through ranking, repetition, social cues,
   and distraction. The evidence is narrow but authentic: it proves the research
   and Orbit's later license, not a single agency controlling the whole network.
-- Before discussion of those records can spread, the Byte Barn tribute
-  compilation takes over the directory. The album is a genuine cultural event,
-  not a planted conspiracy, but its placement demonstrates the researchers'
-  central claim: an inconvenient record can be buried without being deleted.
+- As discussion of those records begins, a mysterious paid countdown takes over
+  the directory: one source, ten signals, no artist names. It grows from genuine
+  outside interest in the amateur Byte Barn covers, but neither the player nor
+  the public yet knows what will be announced.
 - Rumors spread between accounts and mutate.
 - The player's searches and stated theories influence which clues surface.
 - The platform learns that investigation produces longer sessions than ordinary
@@ -388,17 +388,22 @@ retired commercial jingle has one good crooked clap and a cheap keyboard stab.
 He treats it as a deep cut, not a mystery or plot clue. During phase two,
 newcomers follow the recommendation and amateur covers and remixes spread across
 personal pages, foreshadowing a genuine interest that C9 did not create or
-control. In phase three, popular outside artists release a Byte Barn tribute
-compilation. The absurd revival sends enough real visitors to Orbit to push it
-safely above the carrier's utilization floor.
+control. In phase three, outside industry attention produces a vague countdown
+campaign but does not reveal the artists or source. The player continues through
+the degraded network and reaches C9's continuity console first.
 
-The compilation arrives immediately before the C9 reveal. Its enormous,
-harmless popularity pushes the government archive and the impersonation
-evidence out of ordinary conversation even though neither page is deleted. C9
-did not invent the covers or compel anyone to enjoy them; it merely places the
-popular event first once attention moves there. The silly ending therefore
-proves the unsettling archive right: suppression can look exactly like people
-freely deciding that something else is more fun to discuss.
+The player uncovers C9's impersonation and puts that evidence into circulation.
+At the phase-four transition—before the report can become the network's dominant
+story—the countdown resolves into a Byte Barn tribute CD by ten major artists
+and a one-night festival featuring all of them. The absurd revival sends enough
+real visitors to Orbit to push it safely above the carrier's utilization floor.
+
+The album's enormous, harmless popularity pushes the government archive and the
+impersonation evidence out of ordinary conversation even though neither page is
+deleted. C9 did not invent the covers or compel anyone to enjoy them; it merely
+places the popular event first once attention moves there. The silly ending
+therefore proves the unsettling archive right: suppression can look exactly
+like people freely deciding that something else is more fun to discuss.
 
 The rumors attracted the first legitimate community, but the members' music,
 friendships, and curiosity are what save it. The few users who carefully compare

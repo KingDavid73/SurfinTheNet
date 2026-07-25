@@ -142,6 +142,6 @@ ALREADY HAS AN MP3
 [x] freshorbit.zone/users/barnbeatben - Uses the Byte Barn song.
 [x] soundwave.zone/users/subbasssimon - Gains a phase-two breakbeat remix of the Byte Barn jingle.
 [x] soundwave.zone/users/rhymetaperico - Gains a phase-two old-school rap cover of the Byte Barn jingle.
-[x] soundwave.zone/features/byte-barn-forever - Phase-three tribute CD with ten artist versions of the jingle.
+[x] soundwave.zone/features/byte-barn-forever - Post-reveal tribute CD and festival with ten artist versions of the jingle.
 [x] fanverse.zone/users/tapeattictess - Gains a phase-two Halloween-style Byte Barn cover.
 [x] trailnotes.home - Gains a phase-two acoustic-folk Byte Barn cover.

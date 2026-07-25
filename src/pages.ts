@@ -17,7 +17,7 @@ import {
   soundwaveDirectoryBody,
   soundwavePages
 } from "./soundwave-pages";
-import { BYTE_BARN_COMPILATION_URL } from "./byte-barn-revival";
+import { BYTE_BARN_COMPILATION_URL, BYTE_BARN_TEASER_URL } from "./byte-barn-revival";
 import {
   NEWCOMER_ZONE_BUTTON,
   newcomerMembers,
@@ -350,11 +350,16 @@ export const pages: Record<string, PageDefinition> = {
         <header class="directory-logo"><span>ORBIT</span><b>NET</b></header>
         <p class="directory-tagline">${availableZones(state).length} communities. Thousands of interests. One friendly corner of the Information Superhighway!</p>
         <form class="search-box orbit-search-form"><input name="query" placeholder="Search pages, people, and phrases..." aria-label="Search OrbitNet"><button>Search</button></form>
-        ${state.storyPhase >= 3 ? `<section class="directory-byte-barn-event">
+        ${state.storyPhase >= 4 ? `<section class="directory-byte-barn-event">
           <img src="${BYTE_BARN_CAMPAIGN_THUMB}" alt="Byte Barn Forever album cover">
-          <div><small>BREAKING // BIGGEST TRAFFIC DAY IN ORBIT HISTORY</small><h1>BYTE BARN FOREVER</h1><p>Ten of today's biggest artists remade a forgotten computer-store jingle discovered right here on Orbit.</p><em>Earlier: recovered interface-lab records move to Backchannel archive</em></div>
-          <button data-nav="${BYTE_BARN_COMPILATION_URL}">HEAR THE COMPILATION &rsaquo;</button>
-        </section>` : ""}
+          <div><small>BREAKING // BIGGEST TRAFFIC DAY IN ORBIT HISTORY</small><h1>BYTE BARN FOREVER</h1><p>Ten major artists remade one forgotten computer-store jingle. The CD is live—and all ten acts will perform at the one-night Glasswater Expo festival.</p><em>Other network news: Continuity audit confirms account impersonation // 7 replies</em></div>
+          <button data-nav="${BYTE_BARN_COMPILATION_URL}">ALBUM + FESTIVAL &rsaquo;</button>
+        </section>`
+          : state.storyPhase >= 3 ? `<section class="directory-incoming-event">
+            <div class="incoming-signal-orb"><i></i><b>10</b></div>
+            <div><small>PAID NETWORK ANNOUNCEMENT // SIGNAL LOCKED</small><h1>SOMETHING LOUD IS COMING</h1><p>One source. Ten signals. Full transmission pending final clearance.</p></div>
+            <button data-nav="${BYTE_BARN_TEASER_URL}">OPEN COUNTDOWN &rsaquo;</button>
+          </section>` : ""}
         <section class="zone-directory-intro"><div><small>START EXPLORING</small><h1>Choose Your Community</h1></div><p>Every OrbitNet member page belongs to a neighborhood. Pick a zone or search the entire network.</p></section>
         <section class="zone-directory-grid">
           ${availableZones(state).map((zone) => `<button class="zone-directory-card zone-${zone.id}" data-nav="${zone.url}">${navButtonArt(`${zone.id}-zone`, `${zone.title} community button`, "zone-card-art")}<span class="zone-card-copy"><strong>${zone.title}</strong><small>${zone.tagline}</small></span><b>ENTER ZONE ›</b></button>`).join("")}

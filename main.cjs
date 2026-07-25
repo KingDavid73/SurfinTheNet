@@ -971,46 +971,22 @@ function createWindow() {
           await wakeFromPhaseTransition(3);
 
           await address("web://home");
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.directory-byte-barn-event [data-nav="web://soundwave.zone/features/byte-barn-forever"]')) && document.querySelector('.directory-byte-barn-event')?.textContent.includes('recovered interface-lab records move to Backchannel archive')`)) {
-            throw new Error("Phase-three OrbitNet homepage did not bury the archive beneath the Byte Barn compilation");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.directory-incoming-event [data-nav="web://soundwave.zone/features/incoming-signal"]')) && !document.querySelector('.directory-byte-barn-event')`)) {
+            throw new Error("Phase-three OrbitNet homepage did not replace the unreleased compilation with a mysterious countdown");
           }
           await address("web://orbitnet.local/zones/soundwave");
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.soundwave-revival-card')) && document.querySelectorAll('.soundwave-member-card').length === 6`)) {
-            throw new Error("Phase-three SoundWave directory did not feature the compilation above its members");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.soundwave-incoming-card')) && !document.querySelector('.soundwave-revival-card') && document.querySelectorAll('.soundwave-member-card').length === 6`)) {
+            throw new Error("Phase-three SoundWave directory did not feature the unresolved signal above its members");
           }
+          await address("web://soundwave.zone/features/incoming-signal");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.incoming-signal-page:not(.signal-revealed)')) && document.querySelector('.incoming-countdown-core')?.textContent.includes('10') && document.body.textContent.includes('ARTIST DATA:  [WITHHELD]') && !document.body.textContent.includes('BYTE BARN FOREVER')`)) {
+            throw new Error("Phase-three SoundWave countdown revealed too much before the system discovery");
+          }
+          await capture("story-soundwave-incoming-signal.png");
           await address("web://soundwave.zone/features/byte-barn-forever");
-          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.tribute-track').length === 10 && document.querySelectorAll('.tribute-artist-photo img').length === 10 && document.querySelectorAll('[data-tribute-art]').length === 4 && document.querySelectorAll('.tribute-extras img').length === 3 && document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'bytebarntribute' && document.querySelector('.midi-controls > span')?.textContent.includes('/10')`)) {
-            throw new Error("Byte Barn Forever did not expose its complete artist campaign, packaging, and ten-track playlist");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) {
+            throw new Error("Byte Barn Forever launched before the continuity-system reveal");
           }
-          const packageBackSelected = await win.webContents.executeJavaScript(`(() => {
-            const button = Array.from(document.querySelectorAll('[data-tribute-art]')).find((entry) => entry.textContent.includes('BACK'));
-            const image = document.querySelector('[data-tribute-main]');
-            if (!button || !image) return false;
-            const before = image.src;
-            button.click();
-            return image.src !== before && image.alt.includes('back cover') && button.classList.contains('active');
-          })()`);
-          if (!packageBackSelected) throw new Error("Compilation packaging viewer did not switch from the front to the back cover");
-          const selectedCompilationTrack = await win.webContents.executeJavaScript(`(() => {
-            const button = document.querySelector('.tribute-track [data-song-file="breaking-up-at-byte-barn.mp3"]');
-            if (!button) return false;
-            button.click();
-            return true;
-          })()`);
-          if (!selectedCompilationTrack) throw new Error("Compilation track hyperlink was unavailable");
-          await wait();
-          if (!await win.webContents.executeJavaScript(`document.querySelector('.midi-track code')?.textContent.endsWith('breaking-up-at-byte-barn.mp3')`)) {
-            throw new Error("Compilation track hyperlink did not tune OrbitAmp to the selected song");
-          }
-          await capture("story-byte-barn-forever.png");
-          await win.webContents.executeJavaScript(`(() => {
-            const viewport = document.querySelector('.browser-viewport');
-            if (!viewport) return false;
-            viewport.scrollTop = 1180;
-            return true;
-          })()`);
-          await wait();
-          await capture("story-byte-barn-forever-artists.png");
 
           await address("web://bytebarn.com/home");
           const pageLessExplorerReady = await win.webContents.executeJavaScript(`(() => { const author = Array.from(document.querySelectorAll('.page-comment header b')).find((node) => node.textContent === 'GrayHatGary'); return Boolean(author) && !author.querySelector('.comment-author-link'); })()`);
@@ -1057,6 +1033,7 @@ function createWindow() {
             if (!legacyPageReady) throw new Error(`Dormant legacy fragment was incomplete or interactive: ${legacyUrl}`);
           }
 
+          await win.webContents.executeJavaScript(`Math.random = () => 0; true`);
           await sleep("morning");
           saved = await readSave();
           const legacyTrailCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_legacy_") && saved.flags[key]).length;
@@ -1072,7 +1049,7 @@ function createWindow() {
           if (!continuityUnlocked) throw new Error("Continuity phrase form was unavailable");
           await wait(220);
           saved = await readSave();
-          if (saved.storyPhase !== 4 || !saved.directMessages.some((message) => message.id === "ending-system-confession" && message.text.includes("Byte Barn covers")) || !["ending-comment-faxmoth", "ending-comment-ben"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
+          if (saved.storyPhase !== 4 || !saved.directMessages.some((message) => message.id === "ending-system-confession" && message.text.includes("Byte Barn covers")) || !["ending-comment-faxmoth", "ending-comment-ben", "ending-bytebarn-steph", "ending-bytebarn-chip"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
             throw new Error("Free-play ending community responses were incomplete");
           }
           if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-4'))`)) {
@@ -1080,6 +1057,49 @@ function createWindow() {
           }
           await capture("story-phase4-overnight.png");
           await wakeFromPhaseTransition(4);
+
+          await address("web://home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.directory-byte-barn-event [data-nav="web://soundwave.zone/features/byte-barn-forever"]')) && !document.querySelector('.directory-incoming-event') && document.querySelector('.directory-byte-barn-event')?.textContent.includes('Continuity audit confirms account impersonation // 7 replies') && document.querySelector('.directory-byte-barn-event')?.textContent.includes('one-night Glasswater Expo festival')`)) {
+            throw new Error("Post-reveal homepage did not bury the continuity report beneath the Byte Barn album and festival");
+          }
+          await address("web://orbitnet.local/zones/soundwave");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.soundwave-revival-card')) && !document.querySelector('.soundwave-incoming-card') && document.querySelectorAll('.soundwave-member-card').length === 6`)) {
+            throw new Error("Post-reveal SoundWave directory did not replace the countdown with the compilation");
+          }
+          await address("web://soundwave.zone/features/byte-barn-forever");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.tribute-track').length === 10 && document.querySelectorAll('.tribute-artist-photo img').length === 10 && document.querySelectorAll('[data-tribute-art]').length === 4 && document.querySelectorAll('.tribute-extras img').length === 3 && Boolean(document.querySelector('.tribute-festival-callout')) && document.querySelector('.tribute-impact')?.textContent.includes('Continuity audit and identity-reconstruction report') && document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'bytebarntribute' && document.querySelector('.midi-controls > span')?.textContent.includes('/10')`)) {
+            throw new Error("Byte Barn Forever did not launch after the reveal with its complete album, festival, packaging, and playlist");
+          }
+          const packageBackSelected = await win.webContents.executeJavaScript(`(() => {
+            const button = Array.from(document.querySelectorAll('[data-tribute-art]')).find((entry) => entry.textContent.includes('BACK'));
+            const image = document.querySelector('[data-tribute-main]');
+            if (!button || !image) return false;
+            const before = image.src;
+            button.click();
+            return image.src !== before && image.alt.includes('back cover') && button.classList.contains('active');
+          })()`);
+          if (!packageBackSelected) throw new Error("Compilation packaging viewer did not switch from the front to the back cover");
+          const selectedCompilationTrack = await win.webContents.executeJavaScript(`(() => {
+            const button = document.querySelector('.tribute-track [data-song-file="breaking-up-at-byte-barn.mp3"]');
+            if (!button) return false;
+            button.click();
+            return true;
+          })()`);
+          if (!selectedCompilationTrack) throw new Error("Compilation track hyperlink was unavailable");
+          await wait();
+          if (!await win.webContents.executeJavaScript(`document.querySelector('.midi-track code')?.textContent.endsWith('breaking-up-at-byte-barn.mp3')`)) {
+            throw new Error("Compilation track hyperlink did not tune OrbitAmp to the selected song");
+          }
+          await capture("story-byte-barn-forever.png");
+          await win.webContents.executeJavaScript(`(() => {
+            const viewport = document.querySelector('.browser-viewport');
+            if (!viewport) return false;
+            viewport.scrollTop = 1180;
+            return true;
+          })()`);
+          await wait();
+          await capture("story-byte-barn-forever-artists.png");
+
           await address("web://legacy.orbitos.local/admin/continuity");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && Boolean(document.querySelector('.continuity-ending')) && document.body.textContent.includes('KEEP COMMUNITY ACTIVE') && document.body.textContent.includes('Nothing was deleted; almost nobody kept talking')`)) throw new Error("Continuity ending did not remain unlocked or connect the distraction to the recovered research");
           const endingRumorCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_rumor_") && saved.flags[key]).length;
@@ -1092,7 +1112,7 @@ function createWindow() {
           await wait();
           await capture("story-continuity-ending.png");
 
-          console.log("STORY_OK: phase-two fan covers foreshadowed the ten-track phase-three Byte Barn compilation; the mystery route, page-less explorers, dormant archives, and music-led stable free-play ending all passed.");
+          console.log("STORY_OK: phase-two fan covers led to a phase-three countdown and a post-reveal Byte Barn album/festival that buried the continuity report; the mystery route and stable free-play ending all passed.");
         } catch (error) {
           console.error("STORY_FAILED:", error);
           process.exitCode = 1;

@@ -1,6 +1,7 @@
 import {
   BYTE_BARN_COMPILATION_TRACKS,
-  BYTE_BARN_COMPILATION_URL
+  BYTE_BARN_COMPILATION_URL,
+  BYTE_BARN_TEASER_URL
 } from "./byte-barn-revival";
 import type { GameState, PageComment, PageDefinition } from "./types";
 
@@ -165,11 +166,16 @@ export function soundwaveDirectoryBody(state: GameState) {
   return `<section class="soundwave-member-directory member-page-directory">
     <header><img class="soundwave-directory-tapes" src="${soundwaveMemberAssets.mixtapeStack}" alt="Stack of member mixtapes and a portable cassette player"><div><small>HOME TAPES // LOCAL SHOWS // LOUD OPINIONS</small><h2>SoundWave Member Pages</h2></div><span>${soundwaveMembers.length} regulars online</span></header>
     <div>
-      ${state.storyPhase >= 3 ? `<button class="soundwave-revival-card" data-nav="${BYTE_BARN_COMPILATION_URL}">
+      ${state.storyPhase >= 4 ? `<button class="soundwave-revival-card" data-nav="${BYTE_BARN_COMPILATION_URL}">
         <img src="${BYTE_BARN_CAMPAIGN_THUMB}" alt="Byte Barn Forever album cover">
-        <span><small>ORBITNET FRONT-PAGE EVENT</small><strong>BYTE BARN FOREVER</strong><em>10 major artists remake one forgotten local jingle. Hear the full compilation.</em></span>
-        <b>PLAY THE ALBUM &rsaquo;</b>
-      </button>` : ""}
+        <span><small>ORBITNET FRONT-PAGE EVENT</small><strong>BYTE BARN FOREVER</strong><em>10 major artists, one tribute CD, and a one-night festival. Hear the full compilation.</em></span>
+        <b>ALBUM + FESTIVAL &rsaquo;</b>
+      </button>`
+        : state.storyPhase >= 3 ? `<button class="soundwave-incoming-card" data-nav="${BYTE_BARN_TEASER_URL}">
+          <i><span></span><b>10</b></i>
+          <span><small>PAID TRANSMISSION // DETAILS WITHHELD</small><strong>SOMETHING LOUD IS COMING</strong><em>One source. Ten signals. Await final clearance.</em></span>
+          <b>OPEN COUNTDOWN &rsaquo;</b>
+        </button>` : ""}
       ${soundwaveMembers.map((member) => `<button class="soundwave-member-card member-${member.className}" data-nav="${member.url}">
         <i><img src="${soundwavePortraitByClass[member.className]}" alt=""></i>
         <span><strong>${member.title}</strong><small>${member.description}</small><b>${member.handle} // ${member.genre}</b></span>
@@ -353,8 +359,10 @@ export const soundwavePages: Record<string, PageDefinition> = {
         <h2>RICO'S WEIRD-PAGE LISTENING GUIDE</h2>
         <p>I do not care what the page is supposed to be about. If the loop works through one cheap speaker, it goes in the notebook.</p>
         <button data-nav="web://soundwave.zone/users/rhymetaperico/deep-cuts">OPEN THE DEEP-CUT WEB GUIDE &rsaquo;</button>
-        ${state.storyPhase >= 3
+        ${state.storyPhase >= 4
           ? `<button class="rico-barn-flash" data-nav="${BYTE_BARN_COMPILATION_URL}">THE BYTE BARN THING WENT NATIONAL. I WAS HERE WHEN IT WAS ONE CROOKED CLAP &rsaquo;</button>`
+          : state.storyPhase >= 3
+            ? `<button data-nav="${BYTE_BARN_TEASER_URL}">SOUNDWAVE SOLD THE TOP BANNER TO A COUNTDOWN. TEN WHAT? NOBODY WILL SAY. &rsaquo;</button>`
           : state.storyPhase >= 2
             ? `<p class="rico-barn-status"><b>BARN WATCH:</b> Everybody is making versions now. This is how scenes happen: one person hears a thing, then nobody leaves it alone.</p>`
             : `<p class="rico-barn-status"><b>NEW:</b> There is a computer-store mirror in here with a retired commercial loop. Corny hook. Crooked clap. Tiny keyboard stab. I respect all three.</p>`}
@@ -387,13 +395,42 @@ export const soundwavePages: Record<string, PageDefinition> = {
         <article class="rico-byte-barn-pick"><b>03</b><div><h2>BYTE BARN</h2><p>The old store mirror still plays a commercial that has not been on television in years. Corny hook, one clap sitting just behind the beat, tiny keyboard stab. Whoever recorded it understood cheap speakers. Do not overthink it.</p><button data-nav="web://bytebarn.com/home">HEAR THE OLD JINGLE &rsaquo;</button></div></article>
         <article><b>04</b><div><h2>COSMIC CRUST</h2><p>The pizza page sounds like a keyboard fell into a planetarium. The second track is smoother. Both make the coupon section feel much more important.</p><button data-nav="web://cosmiccrust.biz/home">ENTER ORBIT &rsaquo;</button></div></article>
       </section>
-      ${state.storyPhase >= 3
-        ? `<aside class="rico-guide-update phase-three"><b>UPDATE // I GUESS THIS WAS IMPORTANT</b><p>Ten major artists made a Byte Barn record. The compilation traffic is bigger than Orbit has seen in years. I still like the crooked original clap best.</p><button data-nav="${BYTE_BARN_COMPILATION_URL}">OPEN BYTE BARN FOREVER &rsaquo;</button></aside>`
+      ${state.storyPhase >= 4
+        ? `<aside class="rico-guide-update phase-three"><b>UPDATE // I GUESS THIS WAS IMPORTANT</b><p>Ten major artists made a Byte Barn record and now they are all playing one festival. The traffic is bigger than Orbit has seen in years. I still like the crooked original clap best.</p><button data-nav="${BYTE_BARN_COMPILATION_URL}">OPEN BYTE BARN FOREVER &rsaquo;</button></aside>`
+        : state.storyPhase >= 3
+          ? `<aside class="rico-guide-update"><b>UPDATE // SOMEBODY BOUGHT THE WHOLE TOP BANNER</b><p>The countdown says ten signals and one source. Label people keep visiting the fan-cover pages, then refusing to answer questions. I have a guess. I am not posting it yet.</p><button data-nav="${BYTE_BARN_TEASER_URL}">WATCH THE SIGNAL &rsaquo;</button></aside>`
         : state.storyPhase >= 2
           ? `<aside class="rico-guide-update"><b>UPDATE // THE BARN LINE ESCAPED</b><p>Simon chopped it. Tess made it spooky. Somebody recorded a barbershop version at the depot. Mine is in the player below. Follow the versions before the trail gets too big.</p></aside>`
           : `<aside class="rico-guide-update"><b>NOTE</b><p>The Byte Barn link is not a mystery. It is just a good forgotten jingle on a stale computer-store page. Sometimes that is enough.</p></aside>`}
       <footer><button data-nav="${memberByClass.rap.url}">&larr; BACK TO RICO'S TAPE EXCHANGE</button><button data-aim-owner="rhymetape_rico">SEND RICO A RECOMMENDATION</button></footer>
     </main>`
+  },
+  [BYTE_BARN_TEASER_URL]: {
+    url: BYTE_BARN_TEASER_URL,
+    title: "Incoming SoundWave Transmission",
+    site: "bytebarnteaser",
+    ownerId: "orbit_guide",
+    summary: "A mysterious paid SoundWave countdown promises one source, ten signals, and a major announcement after final clearance.",
+    listed: false,
+    searchable: false,
+    minimumPhase: 3,
+    hubId: "zone-soundwave",
+    render: (state) => state.storyPhase >= 4
+      ? `<main class="page incoming-signal-page signal-revealed">
+          <header><small>TRANSMISSION CLEARED // ALL CHANNELS OPEN</small><h1>BYTE BARN FOREVER</h1><p>The countdown is over. The album and festival are live.</p></header>
+          <button data-nav="${BYTE_BARN_COMPILATION_URL}">ENTER THE FULL CAMPAIGN &rsaquo;</button>
+        </main>`
+      : `<main class="page incoming-signal-page">
+          <header><small>ORBITNET PAID TRANSMISSION // AUTHORIZATION PENDING</small><h1>SOMETHING LOUD IS COMING</h1><p>Do not adjust your speakers.</p></header>
+          <div class="incoming-countdown-core"><i></i><b>10</b><span>SIGNALS DETECTED</span></div>
+          <section><p>ONE SOURCE</p><p>TEN INTERPRETATIONS</p><p>FULL NETWORK PREMIERE</p></section>
+          <pre>ARTIST DATA:  [WITHHELD]
+SOURCE FILE:  [WITHHELD]
+RELEASE TYPE: CD + LIVE EVENT
+VENUE:        [WITHHELD]
+STATUS:       FINAL CLEARANCE</pre>
+          <footer><span>WATCH THIS ADDRESS</span><button data-nav="web://orbitnet.local/zones/soundwave">&larr; RETURN TO SOUNDWAVE</button></footer>
+        </main>`
   },
   [BYTE_BARN_COMPILATION_URL]: {
     url: BYTE_BARN_COMPILATION_URL,
@@ -402,14 +439,14 @@ export const soundwavePages: Record<string, PageDefinition> = {
     ownerId: "orbit_guide",
     summary: "A front-page compilation gathers ten major artists reinventing Byte Barn's forgotten computer-store jingle.",
     listed: true,
-    minimumPhase: 3,
+    minimumPhase: 4,
     hubId: "zone-soundwave",
     searchTerms: ["byte barn", "tribute album", "compilation cd", "covers", "remixes", "popular artists", "jingle"],
     render: () => `<main class="page byte-barn-tribute-page">
       <header class="tribute-masthead">
         <div class="tribute-label-line"><span>ORBITNET + SOUNDWAVE PRESENT</span><b>WORLDWIDE WEB PREMIERE // NOVEMBER 1999</b></div>
         <img src="${tributeAssets.campaignLogo}" alt="Byte Barn Forever chrome campaign logo">
-        <p>10 ARTISTS // 1 FORGOTTEN JINGLE // NO RECEIPT REQUIRED</p>
+        <p>10 ARTISTS // 1 FORGOTTEN JINGLE // 1 NIGHT AT GLASSWATER EXPO</p>
         <nav><button data-song-nav="${BYTE_BARN_COMPILATION_URL}" data-song-file="${BYTE_BARN_COMPILATION_TRACKS[0].track.file}">▶ PLAY THE ALBUM</button><button data-nav="web://bytebarn.com/home">HEAR THE ORIGINAL</button></nav>
       </header>
       <section class="tribute-lead">
@@ -428,6 +465,7 @@ export const soundwavePages: Record<string, PageDefinition> = {
           <h1>HOW DID THIS HAPPEN?</h1>
           <p>Byte Barn's television jingle had not aired in years. Its old Orbit mirror never removed the audio file. Rico found the crooked clap, newcomers traded the link, and ordinary users started making covers on their own pages.</p>
           <p>Then the versions escaped Orbit. Now ten major artists have produced completely sincere songs from one extremely inexpensive commercial tune: love songs, mall elegies, punk complaints, heavy breakdowns, and a country song about loading a computer into a truck.</p>
+          <aside class="tribute-festival-callout"><small>JUST ANNOUNCED</small><b>BYTE BARN FOREVER LIVE!</b><span>All ten artists // one night // Glasswater Expo Pavilion // Orbit simulcast</span></aside>
           <blockquote>“Some songs wait for radio. This one waited inside an obsolete computer-store homepage.”<br><b>— RhymeTape_Rico</b></blockquote>
           <button data-song-nav="${BYTE_BARN_COMPILATION_URL}" data-song-file="${BYTE_BARN_COMPILATION_TRACKS[0].track.file}">START WITH TRACK 01 &rsaquo;</button>
         </div>
@@ -449,7 +487,7 @@ export const soundwavePages: Record<string, PageDefinition> = {
         <figure><img src="${tributeAssets.stickerSheet}" alt="Byte Barn Forever promotional sticker designs"><figcaption>FIRST-PRESSING PROMOTIONAL STICKER SHEET</figcaption></figure>
         <figure><img src="${tributeAssets.campaignAd}" alt="Byte Barn Forever launch artwork with a concert crowd"><figcaption>THE CAMPAIGN IMAGE NOW APPEARING IN MUSIC MAGAZINES</figcaption></figure>
       </section>
-      <aside class="tribute-impact"><b>ORBIT TRAFFIC BULLETIN // RECORD HIGH</b><p>The compilation announcement produced the busiest day in network history. New accounts are arriving faster than the old directory can alphabetize them. For the first time in years, actual listener traffic exceeds the carrier's continuation floor.</p></aside>
+      <aside class="tribute-impact"><b>ORBIT TRAFFIC BULLETIN // RECORD HIGH</b><p>The surprise CD and festival announcement produced the busiest day in network history. New accounts are arriving faster than the old directory can alphabetize them. For the first time in years, actual listener traffic exceeds the carrier's continuation floor.</p><small>OTHER NETWORK TOPIC: Continuity audit and identity-reconstruction report // archived in Backchannel</small></aside>
       <footer><button data-nav="web://orbitnet.local/zones/soundwave">&larr; SOUNDWAVE</button><span>BYTE BARN FOREVER // AN ORBIT-BORN PHENOMENON</span><button data-nav="web://bytebarn.com/home">THE ORIGINAL BYTE BARN SITE &rsaquo;</button></footer>
     </main>`
   }

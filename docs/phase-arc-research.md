@@ -152,14 +152,12 @@ the hidden government archive:
 
 Degradation is evidence, not random low-quality output.
 
-The overnight phase-three transition deliberately enacts the archive's claim.
-Before discussion of the recovered findings can spread, the amateur Byte Barn
-covers escape Orbit and a major tribute compilation is announced. The album is
-not a government operation and C9 did not create the music or manufacture its
-popularity. C9 simply recognizes where genuine attention has moved and gives
-the event overwhelming placement. The archive remains available while its
-discovery is buried beneath a joyful, nonpolitical subject—the exact condition
-the displacement trial found most effective.
+The overnight phase-three transition introduces a mysterious paid SoundWave
+countdown rather than releasing the payoff: one source, ten signals, artist
+data withheld. Label visitors and outside traffic suggest that the amateur Byte
+Barn covers escaped Orbit, but the campaign does not identify the song. This
+keeps phase three focused on degraded identities, dormant accounts, and the
+player's investigation of C9.
 
 Rumor circulation also accelerates. C9 can plant several hints during a long
 time jump, the borrowed screen names contain multiple errors or missing
@@ -181,6 +179,16 @@ player.
 
 The reveal forces one final overnight transition. The epilogue morning states
 that synthetic mystery publication has stopped while the community remains.
+During that transition the countdown resolves into the Byte Barn Forever CD
+and a one-night festival featuring all ten artists. The player's continuity
+report reaches the network first, but the surprise event immediately receives
+overwhelming placement and discussion.
+
+The album is not a government operation and C9 did not create the music or
+manufacture its popularity. C9 recognizes where genuine attention moved and
+places it first. The archive and impersonation report remain available while
+becoming socially invisible beneath a joyful, nonpolitical subject—the exact
+condition the displacement trial found most effective.
 
 Unlocking the continuity console reveals the complete mechanism and ends
 synthetic mystery publication. C9 admits that it used a trusted friend's name,

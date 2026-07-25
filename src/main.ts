@@ -152,6 +152,7 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   soundbreakbeat: { label: "TubeNet Telemetry", file: "tubenet-telemetry.mid", midiUrl: new URL("../assets/audio/pages/tubenet-telemetry.mid", import.meta.url).href, url: new URL("../assets/audio/pages/tubenet-telemetry.wav", import.meta.url).href },
   soundcountry: { label: "Backyard Bound", file: "backyard-bound.mid", midiUrl: new URL("../assets/audio/pages/backyard-bound.mid", import.meta.url).href, url: new URL("../assets/audio/pages/backyard-bound.wav", import.meta.url).href },
   soundrap: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
+  bytebarnteaser: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
   bytebarntribute: BYTE_BARN_COMPILATION_TRACKS[0].track,
   rainbow: GARDEN_SPRITES_TRACK,
   cozygarden: GARDEN_SPRITES_TRACK,
@@ -1164,7 +1165,7 @@ function addPhaseThreeExplorerComments() {
       ownerId: "barnbeat_ben",
       role: "visitor",
       author: "BarnBeat_Ben",
-      text: "THIS IS NOT A DRILL. The fan covers escaped Orbit and now real bands made a whole Byte Barn tribute CD. The old jingle is on the radio again. I may never recover."
+      text: "There are label people downloading every fan cover and the SoundWave banner just turned into a ten-signal countdown. I am trying to remain calm and doing a terrible job."
     },
     {
       id: "phase3-bytebarn-steph",
@@ -1172,7 +1173,7 @@ function addPhaseThreeExplorerComments() {
       ownerId: "starline_steph",
       role: "visitor",
       author: "StarLine_Steph",
-      text: "5th Exit sang a Byte Barn love song!! Orbit had it first. I printed the compilation announcement in case nobody believes us later."
+      text: "The countdown uses the same number as the rumored artist list. I am NOT saying 5th Exit is involved. I am only printing the page and circling things."
     },
     {
       id: "phase3-bytebarn-chip",
@@ -1180,7 +1181,7 @@ function addPhaseThreeExplorerComments() {
       ownerId: "chip_bytebarn",
       role: "owner",
       author: "Chip_ByteBarn",
-      text: "Corporate has asked why this obsolete mirror is receiving more traffic than our current site. I told them it is because the tune still slaps."
+      text: "Corporate has asked me to confirm that we still own the old jingle. I asked why. They said to keep Friday night open and stopped answering questions."
     }
   ];
   for (const comment of comments) {
@@ -1247,6 +1248,22 @@ function addEndingCommunityResponses() {
       role: "visitor",
       author: "BarnBeat_Ben",
       text: "We came for a jingle everybody forgot and stayed because people kept answering. The machine did not write those covers or make us friends. Keep the server on."
+    },
+    {
+      id: "ending-bytebarn-steph",
+      pageUrl: "web://bytebarn.com/home",
+      ownerId: "starline_steph",
+      role: "visitor",
+      author: "StarLine_Steph",
+      text: "5th Exit sang the Byte Barn love song and all ten artists are playing one festival!! yes I read the continuity report too. it is awful. track four is also perfect. two things can be true."
+    },
+    {
+      id: "ending-bytebarn-chip",
+      pageUrl: "web://bytebarn.com/home",
+      ownerId: "chip_bytebarn",
+      role: "owner",
+      author: "Chip_ByteBarn",
+      text: "The festival organizer wants me to introduce the original jingle from the stage. I sell repaired computers. I have no idea how this became my week."
     }
   ];
   for (const response of responses) {
@@ -2150,14 +2167,14 @@ function phaseTransitionScreen() {
     <div class="phase-transition-card">
       <div class="phase-transition-moon">☾</div>
       <small>ORBITOS SESSION SUSPENDED</small>
-      <h1>${phaseTwo ? "THE NETWORK CHANGED OVERNIGHT" : phaseThree ? "TRAFFIC SURGED OVERNIGHT" : "THE COMMUNITY IS STILL HERE"}</h1>
+      <h1>${phaseTwo ? "THE NETWORK CHANGED OVERNIGHT" : phaseThree ? "TRAFFIC SURGED OVERNIGHT" : "EVERYBODY HEARD SOMETHING LOUDER"}</h1>
       <p>${phaseTwo
         ? "You found something worth sharing. While you slept, word traveled: fresh accounts appeared, old members posted new theories, and Orbit added a zone for the arrivals."
         : phaseThree
-          ? "The archive discovery barely started circulating before the homemade Byte Barn covers escaped Orbit. Now major artists have announced a tribute CD, outside visitors are flooding in, and the recovered findings have already slipped beneath the loudest story on the network."
-          : "The machine stopped planting mysteries. The Byte Barn revival and the people it brought together did not leave. This morning Orbit is stranger, honest, busier than expected, and still online."}</p>
+          ? "The recovered archive brought more explorers, more rumors, and more strain. Overnight, a paid countdown appeared above the directory: one source, ten signals, no names. Old identities are posting faster, and the system is beginning to lose track of who is speaking."
+          : "You found the system behind the people and tried to put the evidence into circulation. Before the report could travel, Byte Barn Forever dropped with ten major artists and a one-night festival. The truth is online. Almost everybody is talking about the jingle."}</p>
       <div class="phase-transition-clock"><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(sleptFrom)}</span><b>→</b><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(wokeAt)}</span></div>
-      <button data-phase-wake>${phaseTwo ? "WAKE UP // CHECK THE DIRECTORY" : phaseThree ? "WAKE UP // SEE WHAT HAPPENED" : "WAKE UP // KEEP BROWSING"}</button>
+      <button data-phase-wake>${phaseTwo ? "WAKE UP // CHECK THE DIRECTORY" : phaseThree ? "WAKE UP // FOLLOW THE SIGNAL" : "WAKE UP // SEE WHAT BURIED THE STORY"}</button>
     </div>
   </section>`;
 }
@@ -2526,8 +2543,8 @@ function bindEvents() {
     notification = completedPhase === 2
       ? "OrbitNet directory updated: Newbie Nebula is now online."
       : completedPhase === 3
-        ? "Byte Barn Forever is front-page news. Outside traffic is surging and old accounts are appearing in discussions."
-        : "OrbitNet remains online on real traffic. Synthetic mystery publication has stopped.";
+        ? "A paid SoundWave countdown is front-page news. Outside traffic is rising and old accounts are appearing in discussions."
+        : "Byte Barn Forever is live. Your continuity report is online, but the album and festival own the front page.";
     render();
   });
   document.querySelectorAll<HTMLElement>("[data-open]").forEach((el) => el.addEventListener("click", () => openApp(el.dataset.open as AppId)));

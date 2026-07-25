@@ -1,6 +1,7 @@
 import type { PageDefinition, PageMusicTrack } from "./types";
 
 export const BYTE_BARN_COMPILATION_URL = "web://soundwave.zone/features/byte-barn-forever";
+export const BYTE_BARN_TEASER_URL = "web://soundwave.zone/features/incoming-signal";
 
 export const BYTE_BARN_FAN_TRACKS = {
   halloween: {
