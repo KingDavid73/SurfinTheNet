@@ -6,7 +6,8 @@ export const MAIN_CHARACTER_IDS = [
   "darkraven_xx",
   "juniper_gdn",
   "lagmaster_99",
-  "faxmoth_13"
+  "faxmoth_13",
+  "rhymetape_rico"
 ] as const;
 
 export const FEATURED_CHARACTER_IDS = [

@@ -37,7 +37,7 @@ const DEFAULT_SAVE = {
     text: "hey, you made it! welcome to OrbitNet. poke around the community zones and search for whatever sounds interesting—there are some wonderfully weird pages hiding in here.",
     createdAt: "1999-11-03T19:31:00"
   }],
-  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8, faxmoth_13: 4, nullindex: 2, cedar_wren: 1, static_abel: 0, orchard_lee: 3, skywatch_sam: 1, ghostline: 0, rewind_riley: 8, bubble_babs: 8, petal_pat: 10, faraway_frankie: 7, inkmoth_ian: 6, sofa_sylvia: 7, dr_marlow: 8, gurgle_gus: 6, nest_nora: 8, halo_holly: 9 }
+  relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8, rhymetape_rico: 7, faxmoth_13: 4, nullindex: 2, cedar_wren: 1, static_abel: 0, orchard_lee: 3, skywatch_sam: 1, ghostline: 0, rewind_riley: 8, bubble_babs: 8, petal_pat: 10, faraway_frankie: 7, inkmoth_ian: 6, sofa_sylvia: 7, dr_marlow: 8, gurgle_gus: 6, nest_nora: 8, halo_holly: 9 }
 };
 
 function savePath() {
@@ -792,6 +792,14 @@ function createWindow() {
               throw new Error(`Phase-one SoundWave member page was incomplete or revealed the cover wave early: ${soundwaveUrl}`);
             }
           }
+          await address("web://soundwave.zone/users/rhymetaperico/home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rico-listening-guide')) && Boolean(document.querySelector('[data-aim-owner="rhymetape_rico"]')) && document.body.textContent.includes('Corny hook. Crooked clap. Tiny keyboard stab.')`)) {
+            throw new Error("Main-character Rico did not expose his phase-one music-guide breadcrumb and AIM contact");
+          }
+          await address("web://soundwave.zone/users/rhymetaperico/deep-cuts");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.rico-guide-list article').length === 4 && Boolean(document.querySelector('.rico-byte-barn-pick [data-nav="web://bytebarn.com/home"]')) && document.body.textContent.includes('not a mystery') && !document.body.textContent.includes('OPEN BYTE BARN FOREVER')`)) {
+            throw new Error("Rico's phase-one deep-cut guide did not quietly seed the Byte Barn jingle");
+          }
 
           await address("web://legacy.orbitos.local/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-orbit-page')) && document.body.textContent.includes('ONE COMPUTER. ONE NETWORK. ONE ORBIT.')`)) throw new Error("Hidden OrbitOS archive did not load by explicit address");
@@ -959,9 +967,18 @@ function createWindow() {
             throw new Error("Phase-three SoundWave directory did not feature the compilation above its members");
           }
           await address("web://soundwave.zone/features/byte-barn-forever");
-          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.tribute-track').length === 10 && document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'bytebarntribute' && document.querySelector('.midi-controls > span')?.textContent.includes('/10')`)) {
-            throw new Error("Byte Barn Forever did not expose its ten-track compilation playlist");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.tribute-track').length === 10 && document.querySelectorAll('.tribute-artist-photo img').length === 10 && document.querySelectorAll('[data-tribute-art]').length === 4 && document.querySelectorAll('.tribute-extras img').length === 3 && document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'bytebarntribute' && document.querySelector('.midi-controls > span')?.textContent.includes('/10')`)) {
+            throw new Error("Byte Barn Forever did not expose its complete artist campaign, packaging, and ten-track playlist");
           }
+          const packageBackSelected = await win.webContents.executeJavaScript(`(() => {
+            const button = Array.from(document.querySelectorAll('[data-tribute-art]')).find((entry) => entry.textContent.includes('BACK'));
+            const image = document.querySelector('[data-tribute-main]');
+            if (!button || !image) return false;
+            const before = image.src;
+            button.click();
+            return image.src !== before && image.alt.includes('back cover') && button.classList.contains('active');
+          })()`);
+          if (!packageBackSelected) throw new Error("Compilation packaging viewer did not switch from the front to the back cover");
           const selectedCompilationTrack = await win.webContents.executeJavaScript(`(() => {
             const button = document.querySelector('.tribute-track [data-song-file="breaking-up-at-byte-barn.mp3"]');
             if (!button) return false;
@@ -973,6 +990,15 @@ function createWindow() {
           if (!await win.webContents.executeJavaScript(`document.querySelector('.midi-track code')?.textContent.endsWith('breaking-up-at-byte-barn.mp3')`)) {
             throw new Error("Compilation track hyperlink did not tune OrbitAmp to the selected song");
           }
+          await capture("story-byte-barn-forever.png");
+          await win.webContents.executeJavaScript(`(() => {
+            const viewport = document.querySelector('.browser-viewport');
+            if (!viewport) return false;
+            viewport.scrollTop = 1180;
+            return true;
+          })()`);
+          await wait();
+          await capture("story-byte-barn-forever-artists.png");
 
           await address("web://bytebarn.com/home");
           const pageLessExplorerReady = await win.webContents.executeJavaScript(`(() => { const author = Array.from(document.querySelectorAll('.page-comment header b')).find((node) => node.textContent === 'GrayHatGary'); return Boolean(author) && !author.querySelector('.comment-author-link'); })()`);
@@ -1515,7 +1541,7 @@ function createWindow() {
           await click('[data-session="sleep"]');
           await click('[data-sleep-hours="1"]');
           const randomCalls = await win.webContents.executeJavaScript(`window.__ambientRandomCalls`);
-          if (randomCalls !== 61) throw new Error(`Expected 60 persona rolls plus one page selection, got ${randomCalls} random calls`);
+          if (randomCalls !== 67) throw new Error(`Expected 66 persona rolls plus one page selection, got ${randomCalls} random calls`);
           const finalSaved = await waitForAmbientIdle(2);
           const hourlyAmbient = finalSaved.pageComments.find((comment) => comment.role === "visitor" && comment.id !== miraAmbient.id);
           if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);

@@ -375,12 +375,15 @@ accounts, created conspiracy pages, and circulated them under borrowed names to
 keep Orbit above its utilization floor.
 
 The remaining users are angry, but the deception does not retroactively erase
-their real conversations and friendships. During phase two, newcomers discover
-Byte Barn's retired commercial jingle on its stale Orbit mirror. Amateur covers
-and remixes spread across personal pages, foreshadowing a genuine interest that
-C9 did not create or control. In phase three, popular outside artists release a
-Byte Barn tribute compilation. The absurd revival sends enough real visitors to
-Orbit to push it safely above the carrier's utilization floor.
+their real conversations and friendships. During phase one, SoundWave regular
+RhymeTape_Rico briefly recommends Byte Barn's stale Orbit mirror because its
+retired commercial jingle has one good crooked clap and a cheap keyboard stab.
+He treats it as a deep cut, not a mystery or plot clue. During phase two,
+newcomers follow the recommendation and amateur covers and remixes spread across
+personal pages, foreshadowing a genuine interest that C9 did not create or
+control. In phase three, popular outside artists release a Byte Barn tribute
+compilation. The absurd revival sends enough real visitors to Orbit to push it
+safely above the carrier's utilization floor.
 
 The rumors attracted the first legitimate community, but the members' music,
 friendships, and curiosity are what save it. They choose to keep Orbit online

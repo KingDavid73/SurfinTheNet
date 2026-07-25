@@ -13,6 +13,7 @@ import { rumorPages } from "./rumor-pages";
 import { legacyFragmentPages } from "./legacy-fragment-pages";
 import { coreCharacterPages } from "./core-character-pages";
 import {
+  BYTE_BARN_CAMPAIGN_THUMB,
   soundwaveDirectoryBody,
   soundwavePages
 } from "./soundwave-pages";
@@ -350,7 +351,7 @@ export const pages: Record<string, PageDefinition> = {
         <p class="directory-tagline">${availableZones(state).length} communities. Thousands of interests. One friendly corner of the Information Superhighway!</p>
         <form class="search-box orbit-search-form"><input name="query" placeholder="Search pages, people, and phrases..." aria-label="Search OrbitNet"><button>Search</button></form>
         ${state.storyPhase >= 3 ? `<section class="directory-byte-barn-event">
-          <div class="directory-event-disc">BB</div>
+          <img src="${BYTE_BARN_CAMPAIGN_THUMB}" alt="Byte Barn Forever album cover">
           <div><small>BREAKING // BIGGEST TRAFFIC DAY IN ORBIT HISTORY</small><h1>BYTE BARN FOREVER</h1><p>Ten of today's biggest artists remade a forgotten computer-store jingle discovered right here on Orbit.</p></div>
           <button data-nav="${BYTE_BARN_COMPILATION_URL}">HEAR THE COMPILATION &rsaquo;</button>
         </section>` : ""}

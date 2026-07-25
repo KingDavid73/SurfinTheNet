@@ -4,6 +4,34 @@ import {
 } from "./byte-barn-revival";
 import type { GameState, PageComment, PageDefinition } from "./types";
 
+export const BYTE_BARN_CAMPAIGN_THUMB =
+  new URL("../assets/images/byte-barn-forever/album-front.webp", import.meta.url).href;
+
+const tributeAssets = {
+  albumFront: BYTE_BARN_CAMPAIGN_THUMB,
+  albumBack: new URL("../assets/images/byte-barn-forever/album-back.webp", import.meta.url).href,
+  albumInsert: new URL("../assets/images/byte-barn-forever/album-insert.webp", import.meta.url).href,
+  albumDisc: new URL("../assets/images/byte-barn-forever/album-disc.webp", import.meta.url).href,
+  campaignLogo: new URL("../assets/images/byte-barn-forever/campaign-logo.webp", import.meta.url).href,
+  artistBurst: new URL("../assets/images/byte-barn-forever/artist-burst.webp", import.meta.url).href,
+  waveform: new URL("../assets/images/byte-barn-forever/waveform.webp", import.meta.url).href,
+  stickerSheet: new URL("../assets/images/byte-barn-forever/sticker-sheet.webp", import.meta.url).href,
+  campaignAd: new URL("../assets/images/byte-barn-forever/campaign-ad.webp", import.meta.url).href
+} as const;
+
+const tributeArtistPhotos: Record<string, string> = {
+  "Buck Hollister & The Mile Markers": new URL("../assets/images/byte-barn-forever/buck-hollister.webp", import.meta.url).href,
+  "The Apology Window": new URL("../assets/images/byte-barn-forever/apology-window.webp", import.meta.url).href,
+  "Exit 14": new URL("../assets/images/byte-barn-forever/exit-14.webp", import.meta.url).href,
+  "Kira Chrome": new URL("../assets/images/byte-barn-forever/kira-chrome.webp", import.meta.url).href,
+  "Static Orchard": new URL("../assets/images/byte-barn-forever/static-orchard.webp", import.meta.url).href,
+  "Reservoir Saints": new URL("../assets/images/byte-barn-forever/reservoir-saints.webp", import.meta.url).href,
+  "Grave Receipt": new URL("../assets/images/byte-barn-forever/grave-receipt.webp", import.meta.url).href,
+  "The Cart Returns": new URL("../assets/images/byte-barn-forever/cart-returns.webp", import.meta.url).href,
+  "5th Exit": new URL("../assets/images/byte-barn-forever/fifth-exit.webp", import.meta.url).href,
+  "Next Saturday": new URL("../assets/images/byte-barn-forever/next-saturday.webp", import.meta.url).href
+};
+
 const seed = (
   id: string,
   pageUrl: string,
@@ -95,7 +123,7 @@ export function soundwaveDirectoryBody(state: GameState) {
     <header><div><small>HOME TAPES // LOCAL SHOWS // LOUD OPINIONS</small><h2>SoundWave Member Pages</h2></div><span>${soundwaveMembers.length} regulars online</span></header>
     <div>
       ${state.storyPhase >= 3 ? `<button class="soundwave-revival-card" data-nav="${BYTE_BARN_COMPILATION_URL}">
-        <span class="soundwave-revival-disc">BB</span>
+        <img src="${BYTE_BARN_CAMPAIGN_THUMB}" alt="Byte Barn Forever album cover">
         <span><small>ORBITNET FRONT-PAGE EVENT</small><strong>BYTE BARN FOREVER</strong><em>10 major artists remake one forgotten local jingle. Hear the full compilation.</em></span>
         <b>PLAY THE ALBUM &rsaquo;</b>
       </button>` : ""}
@@ -231,14 +259,53 @@ export const soundwavePages: Record<string, PageDefinition> = {
     searchTerms: ["rap", "hip hop", "mixtape", "beats", "rhymes", "local show", "cassette trade"],
     seedComments: [
       seed("sound-rico-simon", memberByClass.rap.url, memberByClass.rap.ownerId, "visitor", "SubBass_Simon", "I can clean the refrigerator hum. Or loop it. Looping it is better.", "1999-11-03T01:12:00"),
-      seed("sound-rico-sid", memberByClass.rap.url, memberByClass.rap.ownerId, "visitor", "SafetyPin_Sid", "The flyer looks good. InkMoth charged you for that much black toner?", "1999-11-03T16:20:00")
+      seed("sound-rico-sid", memberByClass.rap.url, memberByClass.rap.ownerId, "visitor", "SafetyPin_Sid", "The flyer looks good. InkMoth charged you for that much black toner?", "1999-11-03T16:20:00"),
+      seed("sound-rico-steph", memberByClass.rap.url, memberByClass.rap.ownerId, "visitor", "StarLine_Steph", "you were right about the computer-store song and now the little keyboard part will not leave my head. this is your fault.", "1999-11-03T18:42:00")
     ],
-    render: () => `<main class="page sound-user-page sound-rap">
+    render: (state) => `<main class="page sound-user-page sound-rap">
       ${pageHeader("LOCAL TAPES // BEAT NOTES // VERSES IN PROGRESS", "RICO'S RHYME & TAPE EXCHANGE", memberByClass.rap.handle)}
       <section class="rap-tape-deck"><h2>NOW IN THE DECK</h2><p><b>SIDE A:</b> Dynamo City cipher, recorded behind the rec center.</p><p><b>SIDE B:</b> three instrumentals and somebody asking where the extension cord went.</p></section>
       <section class="rap-rhyme-book"><h2>RHYME BOOK // DO NOT COPY</h2><p>signal / digital / difficult / pivotal</p><p>mall / call / food court / no, start over</p></section>
+      <section class="rico-listening-guide">
+        <small>UPDATED WHEN I FIND SOMETHING WORTH THE DOWNLOAD</small>
+        <h2>RICO'S WEIRD-PAGE LISTENING GUIDE</h2>
+        <p>I do not care what the page is supposed to be about. If the loop works through one cheap speaker, it goes in the notebook.</p>
+        <button data-nav="web://soundwave.zone/users/rhymetaperico/deep-cuts">OPEN THE DEEP-CUT WEB GUIDE &rsaquo;</button>
+        ${state.storyPhase >= 3
+          ? `<button class="rico-barn-flash" data-nav="${BYTE_BARN_COMPILATION_URL}">THE BYTE BARN THING WENT NATIONAL. I WAS HERE WHEN IT WAS ONE CROOKED CLAP &rsaquo;</button>`
+          : state.storyPhase >= 2
+            ? `<p class="rico-barn-status"><b>BARN WATCH:</b> Everybody is making versions now. This is how scenes happen: one person hears a thing, then nobody leaves it alone.</p>`
+            : `<p class="rico-barn-status"><b>NEW:</b> There is a computer-store mirror in here with a retired commercial loop. Corny hook. Crooked clap. Tiny keyboard stab. I respect all three.</p>`}
+      </section>
       <aside class="rap-trade"><b>TAPE TRADE:</b> Send a list first. Do not mail your only copy. Label your beats.</aside>
+      <div class="rico-contact-strip"><button data-aim-owner="rhymetape_rico">AIM RICO</button><span>recommendations accepted // unlabeled audio ignored</span></div>
       ${returnToZone()}
+    </main>`
+  },
+  "web://soundwave.zone/users/rhymetaperico/deep-cuts": {
+    url: "web://soundwave.zone/users/rhymetaperico/deep-cuts",
+    title: "Rico's Deep-Cut Web Guide",
+    site: "soundrap",
+    ownerId: memberByClass.rap.ownerId,
+    summary: "Rico recommends unlikely Orbit pages solely because their background music is worth hearing.",
+    listed: false,
+    hubId: "zone-soundwave",
+    searchTerms: ["weird page music", "deep cuts", "page songs", "commercial jingles", "rico recommendations"],
+    render: (state) => `<main class="page rico-deep-cuts">
+      <header><small>RHYMETAPE_RICO PRESENTS</small><h1>DEEP-CUT WEB GUIDE</h1><p>good sounds hiding behind bad layouts, strange hobbies, and terrible deals</p></header>
+      <section class="rico-guide-rules"><b>THE RULES</b><span>1. Let the loop play twice.</span><span>2. Cheap speakers are the final judge.</span><span>3. A ridiculous source is still a source.</span></section>
+      <section class="rico-guide-list">
+        <article><b>01</b><div><h2>KING CAL'S AUTO KINGDOM</h2><p>Bad financing. Incredible homemade commercial archive. Every era has a different drum machine and Cal attacks the beat like it owes him money.</p><button data-nav="web://kingcalscars.biz/home">HEAR THE KINGDOM &rsaquo;</button></div></article>
+        <article><b>02</b><div><h2>BIG BASS BOB'S DOCK</h2><p>Fishing page with more tracks than some labels. A few songs get weird if you listen past the first chorus. Bob says it is lake atmosphere.</p><button data-nav="web://yesterday.zone/users/bigbassbob/home">GO TO THE DOCK &rsaquo;</button></div></article>
+        <article class="rico-byte-barn-pick"><b>03</b><div><h2>BYTE BARN</h2><p>The old store mirror still plays a commercial that has not been on television in years. Corny hook, one clap sitting just behind the beat, tiny keyboard stab. Whoever recorded it understood cheap speakers. Do not overthink it.</p><button data-nav="web://bytebarn.com/home">HEAR THE OLD JINGLE &rsaquo;</button></div></article>
+        <article><b>04</b><div><h2>COSMIC CRUST</h2><p>The pizza page sounds like a keyboard fell into a planetarium. The second track is smoother. Both make the coupon section feel much more important.</p><button data-nav="web://cosmiccrust.biz/home">ENTER ORBIT &rsaquo;</button></div></article>
+      </section>
+      ${state.storyPhase >= 3
+        ? `<aside class="rico-guide-update phase-three"><b>UPDATE // I GUESS THIS WAS IMPORTANT</b><p>Ten major artists made a Byte Barn record. The compilation traffic is bigger than Orbit has seen in years. I still like the crooked original clap best.</p><button data-nav="${BYTE_BARN_COMPILATION_URL}">OPEN BYTE BARN FOREVER &rsaquo;</button></aside>`
+        : state.storyPhase >= 2
+          ? `<aside class="rico-guide-update"><b>UPDATE // THE BARN LINE ESCAPED</b><p>Simon chopped it. Tess made it spooky. Somebody recorded a barbershop version at the depot. Mine is in the player below. Follow the versions before the trail gets too big.</p></aside>`
+          : `<aside class="rico-guide-update"><b>NOTE</b><p>The Byte Barn link is not a mystery. It is just a good forgotten jingle on a stale computer-store page. Sometimes that is enough.</p></aside>`}
+      <footer><button data-nav="${memberByClass.rap.url}">&larr; BACK TO RICO'S TAPE EXCHANGE</button><button data-aim-owner="rhymetape_rico">SEND RICO A RECOMMENDATION</button></footer>
     </main>`
   },
   [BYTE_BARN_COMPILATION_URL]: {
@@ -252,21 +319,51 @@ export const soundwavePages: Record<string, PageDefinition> = {
     hubId: "zone-soundwave",
     searchTerms: ["byte barn", "tribute album", "compilation cd", "covers", "remixes", "popular artists", "jingle"],
     render: () => `<main class="page byte-barn-tribute-page">
-      <header><small>ORBITNET + SOUNDWAVE PRESENT</small><h1>BYTE BARN<br><b>FOREVER</b></h1><p>10 ARTISTS // 1 FORGOTTEN JINGLE // NO RECEIPT REQUIRED</p></header>
+      <header class="tribute-masthead">
+        <div class="tribute-label-line"><span>ORBITNET + SOUNDWAVE PRESENT</span><b>WORLDWIDE WEB PREMIERE // NOVEMBER 1999</b></div>
+        <img src="${tributeAssets.campaignLogo}" alt="Byte Barn Forever chrome campaign logo">
+        <p>10 ARTISTS // 1 FORGOTTEN JINGLE // NO RECEIPT REQUIRED</p>
+        <nav><button data-song-nav="${BYTE_BARN_COMPILATION_URL}" data-song-file="${BYTE_BARN_COMPILATION_TRACKS[0].track.file}">▶ PLAY THE ALBUM</button><button data-nav="web://bytebarn.com/home">HEAR THE ORIGINAL</button></nav>
+      </header>
       <section class="tribute-lead">
-        <div class="tribute-cover-placeholder"><span>BYTE</span><b>BARN</b><em>FOREVER</em><small>COMPILATION CD</small></div>
-        <div><h2>HOW DID THIS HAPPEN?</h2><p>Byte Barn's television jingle had not aired in years. Its old Orbit page never removed the audio file. A few newcomers found it, traded it, covered it, and accidentally sent the biggest names in music down the same fluorescent aisle.</p><p>The result is ten completely sincere versions of one extremely inexpensive commercial tune. Love songs, mall elegies, punk complaints, heavy breakdowns, and a country song about loading a computer into a truck.</p><button data-song-nav="${BYTE_BARN_COMPILATION_URL}" data-song-file="${BYTE_BARN_COMPILATION_TRACKS[0].track.file}">PLAY THE ALBUM FROM TRACK 1</button></div>
+        <div class="tribute-package-viewer">
+          <div class="tribute-jewel-main"><img data-tribute-main src="${tributeAssets.albumFront}" alt="Byte Barn Forever front cover"><i></i></div>
+          <div class="tribute-package-tabs" aria-label="View album packaging">
+            <button class="active" data-tribute-art="${tributeAssets.albumFront}" data-tribute-alt="Byte Barn Forever front cover"><img src="${tributeAssets.albumFront}" alt=""><span>FRONT</span></button>
+            <button data-tribute-art="${tributeAssets.albumBack}" data-tribute-alt="Byte Barn Forever back cover"><img src="${tributeAssets.albumBack}" alt=""><span>BACK</span></button>
+            <button data-tribute-art="${tributeAssets.albumInsert}" data-tribute-alt="Byte Barn Forever booklet insert"><img src="${tributeAssets.albumInsert}" alt=""><span>INSERT</span></button>
+            <button data-tribute-art="${tributeAssets.albumDisc}" data-tribute-alt="Byte Barn Forever compact disc"><img src="${tributeAssets.albumDisc}" alt=""><span>DISC</span></button>
+          </div>
+        </div>
+        <div class="tribute-launch-copy">
+          <img class="tribute-artist-burst" src="${tributeAssets.artistBurst}" alt="Ten artists gathered around a compact disc">
+          <small>THE INTERNET'S LEAST LIKELY HIT RECORD</small>
+          <h1>HOW DID THIS HAPPEN?</h1>
+          <p>Byte Barn's television jingle had not aired in years. Its old Orbit mirror never removed the audio file. Rico found the crooked clap, newcomers traded the link, and ordinary users started making covers on their own pages.</p>
+          <p>Then the versions escaped Orbit. Now ten major artists have produced completely sincere songs from one extremely inexpensive commercial tune: love songs, mall elegies, punk complaints, heavy breakdowns, and a country song about loading a computer into a truck.</p>
+          <blockquote>“Some songs wait for radio. This one waited inside an obsolete computer-store homepage.”<br><b>— RhymeTape_Rico</b></blockquote>
+          <button data-song-nav="${BYTE_BARN_COMPILATION_URL}" data-song-file="${BYTE_BARN_COMPILATION_TRACKS[0].track.file}">START WITH TRACK 01 &rsaquo;</button>
+        </div>
+      </section>
+      <section class="tribute-signal">
+        <img src="${tributeAssets.waveform}" alt="Three colorful digital waveforms">
+        <div><small>ORBITAMP EXCLUSIVE STREAM</small><h2>THE JINGLE HAS LEFT THE BARN.</h2><p>Select any artist below. OrbitAmp will stay tuned while you read the campaign.</p></div>
       </section>
       <section class="tribute-track-list">
-        <header><span>TRACK</span><span>ARTIST / SONG</span><span>PUBLICITY PHOTO</span></header>
-        ${BYTE_BARN_COMPILATION_TRACKS.map((entry, index) => `<article class="tribute-track">
+        <header><span>NO.</span><span>ARTIST / SONG</span><span>OFFICIAL PUBLICITY PHOTO</span></header>
+        ${BYTE_BARN_COMPILATION_TRACKS.map((entry, index) => `<article class="tribute-track genre-${entry.genre.replace(/\s+/g, "-")}">
           <b>${String(index + 1).padStart(2, "0")}</b>
-          <div><small>${entry.genre}</small><h2>${entry.artist}</h2><h3>${entry.title}</h3><p>${entry.blurb}</p><button data-song-nav="${BYTE_BARN_COMPILATION_URL}" data-song-file="${entry.track.file}">PLAY THIS TRACK &rsaquo;</button></div>
-          <figure class="tribute-photo-slot" data-tribute-artist="${entry.artist}"><span>ARTIST PHOTO</span><figcaption>${entry.artist}</figcaption></figure>
+          <div class="tribute-track-copy"><small>${entry.genre}</small><h2>${entry.artist}</h2><h3>${entry.title}</h3><p>${entry.blurb}</p><button data-song-nav="${BYTE_BARN_COMPILATION_URL}" data-song-file="${entry.track.file}">▶ PLAY THIS TRACK</button></div>
+          <figure class="tribute-artist-photo" data-tribute-artist="${entry.artist}"><img src="${tributeArtistPhotos[entry.artist]}" alt="${entry.artist} official publicity photograph"><figcaption>${entry.artist}</figcaption></figure>
         </article>`).join("")}
       </section>
-      <aside class="tribute-impact"><b>ORBIT TRAFFIC BULLETIN</b><p>The compilation announcement produced the busiest day in network history. New accounts are arriving faster than the old directory can alphabetize them.</p></aside>
-      <footer><button data-nav="web://orbitnet.local/zones/soundwave">&larr; SOUNDWAVE</button><button data-nav="web://bytebarn.com/home">THE ORIGINAL BYTE BARN SITE &rsaquo;</button></footer>
+      <section class="tribute-extras">
+        <figure><img src="${tributeAssets.albumInsert}" alt="Open Byte Barn Forever booklet insert"><figcaption>THE 12-PAGE BOOKLET // FAN-REMIX FAMILY TREE + ARTIST NOTES</figcaption></figure>
+        <figure><img src="${tributeAssets.stickerSheet}" alt="Byte Barn Forever promotional sticker designs"><figcaption>FIRST-PRESSING PROMOTIONAL STICKER SHEET</figcaption></figure>
+        <figure><img src="${tributeAssets.campaignAd}" alt="Byte Barn Forever launch artwork with a concert crowd"><figcaption>THE CAMPAIGN IMAGE NOW APPEARING IN MUSIC MAGAZINES</figcaption></figure>
+      </section>
+      <aside class="tribute-impact"><b>ORBIT TRAFFIC BULLETIN // RECORD HIGH</b><p>The compilation announcement produced the busiest day in network history. New accounts are arriving faster than the old directory can alphabetize them. For the first time in years, actual listener traffic exceeds the carrier's continuation floor.</p></aside>
+      <footer><button data-nav="web://orbitnet.local/zones/soundwave">&larr; SOUNDWAVE</button><span>BYTE BARN FOREVER // AN ORBIT-BORN PHENOMENON</span><button data-nav="web://bytebarn.com/home">THE ORIGINAL BYTE BARN SITE &rsaquo;</button></footer>
     </main>`
   }
 };

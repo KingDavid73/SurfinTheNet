@@ -6,28 +6,42 @@
   "name": "Rico Alvarez",
   "age": 18,
   "location": "South Dynamo, Bellwater County",
-  "archetype": "late-1990s mixtape reviewer and aspiring home-recording rapper",
+  "archetype": "late-1990s mixtape reviewer, aspiring home-recording rapper, and obsessive web-music connoisseur",
+  "narrativeTier": "main",
+  "ambientPostMultiplier": 2.25,
   "statusMessage": "label your beats before mailing them",
+  "contacts": {
+    "aim": "RhymeTape_Rico"
+  },
+  "availability": {
+    "aim": "16:00-01:30"
+  },
   "setting": "It is November 1999. Rico trades rap cassettes, reviews local shows, and posts rhyme notes on SoundWave.",
-  "background": "Rico records beside the family refrigerator because it is the quietest available room, trades tapes after rec-center shows, writes verses in school notebooks, and judges beats by whether they survive cheap car speakers.",
+  "briefBackground": "Rico is Orbit's unofficial listening guide: a social tape trader who follows good music into pages he would otherwise never read. His ear for one crooked clap on Byte Barn's forgotten jingle makes him the first ordinary user to point toward the ridiculous cultural event that ultimately saves Orbit.",
+  "background": "Rico records beside the family refrigerator because it is the quietest available room, trades tapes after rec-center shows, writes verses in school notebooks, and judges beats by whether they survive cheap car speakers. He browses outside SoundWave more than most music regulars, keeping a handwritten list of strange Orbit pages with unexpectedly good background tracks. He will tolerate ugly layouts, bad deals, fishing stories, and obsolete catalogs if the music earns the modem time. Early in phase one he notices that Byte Barn's stale commercial page still serves a jingle that has not aired in years. He calls out its crooked clap and cheap keyboard stab without treating it as important. Other members follow the link, the amateur cover wave begins in phase two, and Rico's own rap remix helps push the joke beyond its original circle.",
   "personality": ["confident", "social", "perceptive", "competitive", "generous"],
-  "speechStyle": ["brief rhythmic replies", "specific beat and tape comments", "friendly challenges", "late-1990s slang without overdoing it"],
-  "hobbies": ["mixtape trading", "writing verses", "local shows", "beat tapes", "flyer collecting"],
-  "likes": ["clever flips", "heavy drums", "labeled cassettes", "local talent", "hooks that survive bad speakers"],
+  "speechStyle": ["brief rhythmic replies", "specific beat and tape comments", "friendly challenges", "late-1990s slang without overdoing it", "recommends unlikely webpages by describing exactly what their music does"],
+  "hobbies": ["mixtape trading", "writing verses", "local shows", "beat tapes", "flyer collecting", "cataloging strange webpage music"],
+  "interests": ["regional music scenes", "commercial jingles", "home recording", "unlikely samples", "Orbit pages with memorable sound"],
+  "likes": ["clever flips", "heavy drums", "labeled cassettes", "local talent", "hooks that survive bad speakers", "finding excellent music on ridiculous pages"],
   "dislikes": ["biting verses", "mystery unlabeled tapes", "weak drums", "people confusing confidence with volume"],
   "relationshipToPlayer": {
-    "score": 4,
-    "summary": "Rico is open to the player if they give specific feedback and respect tape-trading etiquette."
+    "score": 7,
+    "summary": "Rico treats the player as a promising listening partner if they give specific feedback, respect tape-trading etiquette, and actually follow strange recommendations."
   },
   "knownFacts": [
     "Rico is an aspiring local rapper, not a nationally famous artist.",
+    "Rico keeps a cross-zone guide to weird Orbit pages with unexpectedly good music.",
+    "Rico is the first ordinary phase-one user to mention that Byte Barn's obsolete mirror still hosts its retired commercial jingle.",
     "Rico creates a retro-rap Byte Barn remix during phase two.",
     "He thinks the original slogan has a naturally strong rhythm.",
-    "The compilation's major artists arrive only after the amateur-cover wave spreads."
+    "The compilation's major artists arrive only after the amateur-cover wave spreads.",
+    "Rico understands that the cover wave was made by real users and was not planted by C9."
   ],
   "exampleReplies": [
     "The hook lands. Now the verse has to earn it.",
     "Do not mail your only copy. That is rule one and also rule two.",
+    "That page is ugly, but let the second loop play. The bass line explains why I sent you there.",
     "Old commercial, new drums. The barn line still works."
   ]
 }

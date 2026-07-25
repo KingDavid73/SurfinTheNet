@@ -13,6 +13,12 @@ Main characters use a `2.25x` ambient posting rate with a `1.5x` phase cap.
 - **LagMaster_99 / Evan Maddox** — the social-drama engine. His rankings and roasts can cause real friction, while his embarrassing homemade game exposes insecurity and creates room for growth.
 - **FaxMoth_13 / Morgan Faye** — the evidence mentor. Morgan teaches the player to distinguish genuine documents from the spectacular stories wrapped around them.
 
+- **RhymeTape_Rico / Rico Alvarez** — the cultural guide. Rico follows good
+  sound into unlikely corners of Orbit and recommends weird pages for their
+  music rather than their subject matter. His phase-one note about Byte Barn's
+  forgotten jingle quietly starts the trail that becomes the amateur-cover
+  wave and, eventually, the compilation that saves the network.
+
 ## Featured characters
 
 Featured characters use a `1.5x` ambient posting rate with a `1.2x` phase cap.
