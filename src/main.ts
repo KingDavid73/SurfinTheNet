@@ -2751,7 +2751,7 @@ function phaseTransitionScreen() {
       <p>${phaseTwo
         ? "You found something worth sharing. While you slept, word traveled: fresh accounts appeared, old members posted new theories, and Orbit added a zone for the arrivals."
         : phaseThree
-          ? "The recovered archive brought more explorers, more rumors, and more strain. Overnight, a paid countdown appeared above the directory: one source, ten signals, no names. Old identities are posting faster, and the system is beginning to lose track of who is speaking."
+          ? "The recovered archive brought more explorers, more rumors, and more strain. Meanwhile, the community's Byte Barn covers spread beyond Orbit. Overnight, a paid countdown appeared above the directory: the member-made playlist is still playing, but ten unknown signals are answering it. Old identities are posting faster, and the system is beginning to lose track of who is speaking."
           : "You found the system behind the people and tried to put the evidence into circulation. Before the report could travel, Byte Barn Forever dropped with ten major artists and a one-night festival. The truth is online. Almost everybody is talking about the jingle."}</p>
       <div class="phase-transition-clock"><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(sleptFrom)}</span><b>→</b><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(wokeAt)}</span></div>
       <button data-phase-wake>${phaseTwo ? "WAKE UP // CHECK THE DIRECTORY" : phaseThree ? "WAKE UP // FOLLOW THE SIGNAL" : "WAKE UP // SEE WHAT BURIED THE STORY"}</button>
@@ -3242,7 +3242,7 @@ function bindEvents() {
     notification = completedPhase === 2
       ? "OrbitNet directory updated: Newbie Nebula is now online."
       : completedPhase === 3
-        ? "A paid SoundWave countdown is front-page news. Outside traffic is rising and old accounts are appearing in discussions."
+        ? "Orbit's Byte Barn covers are front-page news. A paid SoundWave countdown says outside attention is rising while old accounts appear in discussions."
         : "Byte Barn Forever is live. Your continuity report is online, but the album and festival own the front page.";
     render();
   });

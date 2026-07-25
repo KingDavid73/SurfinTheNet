@@ -173,7 +173,7 @@ export function soundwaveDirectoryBody(state: GameState) {
       </button>`
         : state.storyPhase >= 3 ? `<button class="soundwave-incoming-card" data-nav="${BYTE_BARN_TEASER_URL}">
           <i><span></span><b>10</b></i>
-          <span><small>PAID TRANSMISSION // DETAILS WITHHELD</small><strong>SOMETHING LOUD IS COMING</strong><em>One source. Ten signals. Await final clearance.</em></span>
+          <span><small>COMMUNITY WAVE // PAID RESPONSE</small><strong>SOMETHING LOUD IS COMING</strong><em>Orbit's Byte Barn covers are drawing attention outside the network. Ten new signals are answering.</em></span>
           <b>OPEN COUNTDOWN &rsaquo;</b>
         </button>` : ""}
       ${soundwaveMembers.map((member) => `<button class="soundwave-member-card member-${member.className}" data-nav="${member.url}">
@@ -410,7 +410,7 @@ export const soundwavePages: Record<string, PageDefinition> = {
     title: "Incoming SoundWave Transmission",
     site: "bytebarnteaser",
     ownerId: "orbit_guide",
-    summary: "A mysterious paid SoundWave countdown promises one source, ten signals, and a major announcement after final clearance.",
+    summary: "A paid SoundWave countdown spotlights Orbit members' Byte Barn covers and remixes while hinting that their sudden popularity has drawn a much larger outside response.",
     listed: false,
     searchable: false,
     minimumPhase: 3,
@@ -421,15 +421,23 @@ export const soundwavePages: Record<string, PageDefinition> = {
           <button data-nav="${BYTE_BARN_COMPILATION_URL}">ENTER THE FULL CAMPAIGN &rsaquo;</button>
         </main>`
       : `<main class="page incoming-signal-page">
-          <header><small>ORBITNET PAID TRANSMISSION // AUTHORIZATION PENDING</small><h1>SOMETHING LOUD IS COMING</h1><p>Do not adjust your speakers.</p></header>
+          <header><small>ORBITNET PAID TRANSMISSION // AUTHORIZATION PENDING</small><h1>SOMETHING LOUD IS COMING</h1><p>The community made some noise. Somebody outside Orbit heard it.</p></header>
           <div class="incoming-countdown-core"><i></i><b>10</b><span>SIGNALS DETECTED</span></div>
-          <section><p>ONE SOURCE</p><p>TEN INTERPRETATIONS</p><p>FULL NETWORK PREMIERE</p></section>
-          <pre>ARTIST DATA:  [WITHHELD]
-SOURCE FILE:  [WITHHELD]
+          <aside class="incoming-community-context">
+            <small>WHAT YOU ARE HEARING // ORBIT COMMUNITY PLAYLIST</small>
+            <h2>The Byte Barn jingle escaped the store page.</h2>
+            <p>The music player starts with Byte Barn's forgotten commercial and continues through covers and remixes uploaded by Orbit members. They came from bedroom samplers, porch tapes, club pages, holiday recordings, and one extremely confident borrowed guitar.</p>
+            <p>What began as a joke between a few users is now being downloaded, linked, and replayed faster than anything this little network has seen in years. The surge in listeners—and the support for the people making these versions—has not gone unnoticed.</p>
+            <strong>These playlist tracks came from the community. The ten signals in the countdown are something new answering them.</strong>
+          </aside>
+          <section><p>COMMUNITY SOURCE: BYTE BARN</p><p>ORBIT COVERS IN ROTATION</p><p>OUTSIDE RESPONSE: 10 SIGNALS</p></section>
+          <pre>COMMUNITY PLAYLIST: LIVE
+ORIGINAL SOURCE:    BYTE BARN STORE JINGLE
+OUTSIDE ARTISTS:    [WITHHELD]
 RELEASE TYPE: CD + LIVE EVENT
 VENUE:        [WITHHELD]
 STATUS:       FINAL CLEARANCE</pre>
-          <footer><span>WATCH THIS ADDRESS</span><button data-nav="web://orbitnet.local/zones/soundwave">&larr; RETURN TO SOUNDWAVE</button></footer>
+          <footer><span>COMMUNITY WAVE DETECTED // WATCH THIS ADDRESS</span><button data-nav="web://orbitnet.local/zones/soundwave">&larr; RETURN TO SOUNDWAVE</button></footer>
         </main>`
   },
   [BYTE_BARN_COMPILATION_URL]: {

@@ -4864,6 +4864,11 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .incoming-countdown-core i { inset: -15px 99px; border-radius: 0; transform: rotate(42deg); }
 .incoming-countdown-core b { z-index: 1; color: #fff; font: 900 76px/1 "Arial Black", Arial, sans-serif; }
 .incoming-countdown-core span { position: absolute; bottom: 43px; color: #ffe35d; font-size: 9px; font-weight: bold; }
+.incoming-community-context { max-width: 690px; margin: 22px auto; padding: 16px 20px; color: #d8f7f3; background: rgb(2 6 10 / 88%); border: 1px solid #5ce9d9; border-left: 8px solid #ffe35d; box-shadow: 0 0 16px #5ce9d933; text-align: left; }
+.incoming-community-context small { color: #ffe35d; font-weight: bold; letter-spacing: .08em; }
+.incoming-community-context h2 { margin: 6px 0 10px; color: #fff; font-size: 20px; }
+.incoming-community-context p { line-height: 1.55; }
+.incoming-community-context strong { display: block; margin-top: 12px; padding: 8px; color: #07111b; background: #5ce9d9; }
 .incoming-signal-page > section { display: flex; justify-content: center; gap: 9px; margin: 18px 0; }
 .incoming-signal-page > section p { padding: 8px 12px; color: #07111b; background: #5ce9d9; font-weight: bold; }
 .incoming-signal-page pre { width: min(560px, 90%); margin: 18px auto; padding: 15px; color: #b9d7d4; background: #02060a; border: 2px inset #455765; text-align: left; }
