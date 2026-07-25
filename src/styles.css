@@ -253,8 +253,11 @@
 .gemwell-page > * { position: relative; z-index: 1; }
 
 .gemwell-mouth {
+  container-type: inline-size;
   min-height: 760px;
-  padding: 26px clamp(24px, 11vw, 170px) 90px;
+  min-width: 0;
+  overflow: hidden;
+  padding: 26px clamp(18px, 5vw, 80px) 90px;
   text-align: center;
   background: radial-gradient(ellipse at 50% -8%, rgba(195, 236, 255, .75), rgba(83, 60, 165, .42) 32%, transparent 70%);
 }
@@ -268,16 +271,18 @@
   font: bold 12px "Courier New", monospace;
 }
 
-.gemwell-mouth div { margin: 105px auto 0; max-width: 790px; }
-.gemwell-mouth small { color: #bff6ff; letter-spacing: 2px; }
+.gemwell-mouth div { width: 100%; min-width: 0; margin: 105px auto 0; max-width: 790px; }
+.gemwell-mouth small { display: block; max-width: 100%; color: #bff6ff; letter-spacing: clamp(0, .3cqi, 2px); overflow-wrap: anywhere; }
 .gemwell-mouth h1 {
   margin: 8px 0 -10px;
+  max-width: 100%;
   color: #fff7b0;
-  font: 900 clamp(54px, 10vw, 120px) Georgia, serif;
-  letter-spacing: 8px;
+  font: 900 clamp(42px, 12cqi, 92px) Georgia, serif;
+  letter-spacing: clamp(2px, 1cqi, 8px);
+  line-height: 1.05;
   text-shadow: 0 0 6px #fff, 0 0 18px #55dfff, 6px 6px 0 #36157c;
 }
-.gemwell-mouth h2 { margin: 0; color: #7fffdc; letter-spacing: 7px; }
+.gemwell-mouth h2 { max-width: 100%; margin: 0; color: #7fffdc; letter-spacing: clamp(1px, .65cqi, 5px); overflow-wrap: anywhere; }
 .gemwell-mouth aside {
   display: inline-flex;
   flex-direction: column;
@@ -332,11 +337,13 @@
 .gemwell-log h2 { margin: 0; color: #7fffd4; font-size: 17px; }
 .gemwell-log blockquote { margin: 15px 0 0; color: #ffe990; font-size: 12px; }
 .gemwell-specimens {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(90px, 1fr));
-  gap: 24px 13px;
   margin: 105px auto 0;
   max-width: 850px;
+}
+.gemwell-specimen-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(90px, 1fr));
+  gap: 13px;
 }
 .gemwell-specimen {
   min-height: 150px;
@@ -361,18 +368,39 @@
 .gemwell-specimen[aria-expanded="true"] img { transform: scale(1.18) rotate(-3deg); filter: drop-shadow(0 0 8px #65eaff); }
 .gemwell-specimen b, .gemwell-specimen span { display: block; }
 .gemwell-specimen span { margin-top: 4px; color: #688fa3; font-size: 9px; }
+.gemwell-note-stage {
+  display: grid;
+  min-height: 82px;
+  margin-top: 16px;
+  border: 1px dashed rgba(124, 230, 255, .3);
+  background: rgba(0, 0, 0, .55);
+}
+.gemwell-note-placeholder,
+.gemwell-note {
+  grid-area: 1 / 1;
+  align-self: stretch;
+  margin: 0;
+  padding: 14px 18px;
+}
+.gemwell-note-placeholder {
+  align-self: center;
+  color: rgba(142, 190, 208, .62);
+  text-align: center;
+  font: 10px "Courier New", monospace;
+  letter-spacing: 2px;
+}
 .gemwell-note {
   display: none;
-  grid-column: span 1;
-  align-self: start;
-  margin: -20px 0 0;
-  border-left: 2px solid #ffe568;
-  padding: 5px 8px;
+  border-left: 3px solid #ffe568;
   color: #ffe568;
   background: rgba(0, 0, 0, .72);
-  font-size: 10px;
+  font: 12px/1.45 "Courier New", monospace;
 }
+.gemwell-note b,
+.gemwell-note span { display: block; }
+.gemwell-note b { margin-bottom: 5px; color: #7fffd4; letter-spacing: 1px; }
 .gemwell-note.open { display: block; }
+.gemwell-note-stage:has(.gemwell-note.open) .gemwell-note-placeholder { visibility: hidden; }
 .gemwell-down { margin-top: 120px; text-align: center; color: rgba(172, 222, 242, .55); letter-spacing: 4px; }
 .gemwell-bottom {
   min-height: 620px;
@@ -515,8 +543,7 @@
 
 @media (max-width: 760px) {
   .gemwell-stratum { padding-inline: 48px; }
-  .gemwell-specimens { grid-template-columns: repeat(2, 1fr); }
-  .gemwell-note { grid-column: span 1; }
+  .gemwell-specimen-row { grid-template-columns: repeat(2, 1fr); }
   .atlas-intro, .atlas-fragment-page article { grid-template-columns: 1fr; }
   .atlas-legend { grid-template-columns: 1fr; }
   .atlas-hotspot span { display: none; }

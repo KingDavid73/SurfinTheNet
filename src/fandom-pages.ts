@@ -87,31 +87,31 @@ const fanImage = (name: keyof typeof FANDOM_ASSETS, alt: string, className = "")
   `<img class="fandom-art ${className}" src="${FANDOM_ASSETS[name]}" alt="${alt}">`;
 
 const GEMWELL_SPRITES = [
-  ["ruby", "Ruby cluster", new URL("../assets/images/fandom-members/gemwell/sprites/ruby.png", import.meta.url).href],
-  ["sapphire", "Sapphire shard", new URL("../assets/images/fandom-members/gemwell/sprites/sapphire.png", import.meta.url).href],
-  ["emerald", "Emerald geode", new URL("../assets/images/fandom-members/gemwell/sprites/emerald.png", import.meta.url).href],
-  ["amethyst", "Spiral amethyst", new URL("../assets/images/fandom-members/gemwell/sprites/amethyst.png", import.meta.url).href],
-  ["citrine", "Citrine sunstone", new URL("../assets/images/fandom-members/gemwell/sprites/citrine.png", import.meta.url).href],
-  ["opal", "Opal egg", new URL("../assets/images/fandom-members/gemwell/sprites/opal.png", import.meta.url).href],
-  ["quartz", "Quartz crown", new URL("../assets/images/fandom-members/gemwell/sprites/quartz.png", import.meta.url).href],
-  ["black-prism", "Black rainbow prism", new URL("../assets/images/fandom-members/gemwell/sprites/black-prism.png", import.meta.url).href],
-  ["lantern-beetle", "Lantern beetle", new URL("../assets/images/fandom-members/gemwell/sprites/lantern-beetle.png", import.meta.url).href],
-  ["crystal-moth", "Crystal moth", new URL("../assets/images/fandom-members/gemwell/sprites/crystal-moth.png", import.meta.url).href],
-  ["centipede", "Cave centipede", new URL("../assets/images/fandom-members/gemwell/sprites/centipede.png", import.meta.url).href],
-  ["jewel-snail", "Jewel-shell snail", new URL("../assets/images/fandom-members/gemwell/sprites/jewel-snail.png", import.meta.url).href],
-  ["salamander", "Blind cave salamander", new URL("../assets/images/fandom-members/gemwell/sprites/salamander.png", import.meta.url).href],
-  ["gem-bat", "Gem-eyed bat", new URL("../assets/images/fandom-members/gemwell/sprites/gem-bat.png", import.meta.url).href],
-  ["walking-stalagmite", "Walking stalagmite", new URL("../assets/images/fandom-members/gemwell/sprites/walking-stalagmite.png", import.meta.url).href],
-  ["mushroom-crab", "Mushroom crab", new URL("../assets/images/fandom-members/gemwell/sprites/mushroom-crab.png", import.meta.url).href],
-  ["pearl-spider", "Pearl spider", new URL("../assets/images/fandom-members/gemwell/sprites/pearl-spider.png", import.meta.url).href],
-  ["geode-frog", "Geode frog", new URL("../assets/images/fandom-members/gemwell/sprites/geode-frog.png", import.meta.url).href],
-  ["helmet", "Abandoned helmet", new URL("../assets/images/fandom-members/gemwell/sprites/helmet.png", import.meta.url).href],
-  ["fossil-key", "Fossil key", new URL("../assets/images/fandom-members/gemwell/sprites/fossil-key.png", import.meta.url).href],
-  ["glass-tooth", "Glass tooth", new URL("../assets/images/fandom-members/gemwell/sprites/glass-tooth.png", import.meta.url).href],
-  ["compass-seed", "Compass seed", new URL("../assets/images/fandom-members/gemwell/sprites/compass-seed.png", import.meta.url).href],
-  ["singing-pebble", "Singing pebble", new URL("../assets/images/fandom-members/gemwell/sprites/singing-pebble.png", import.meta.url).href],
-  ["cracked-crown", "Cracked crown", new URL("../assets/images/fandom-members/gemwell/sprites/cracked-crown.png", import.meta.url).href],
-  ["depth-marker", "Runed depth marker", new URL("../assets/images/fandom-members/gemwell/sprites/depth-marker.png", import.meta.url).href]
+  ["ruby", "Ruby cluster", new URL("../assets/images/fandom-members/gemwell/sprites/ruby.png", import.meta.url).href, "COMMON // Pulses once when the inventory opens; brighter near false walls."],
+  ["sapphire", "Sapphire shard", new URL("../assets/images/fandom-members/gemwell/sprites/sapphire.png", import.meta.url).href, "COMMON // Points toward the nearest water tile, including water hidden off-map."],
+  ["emerald", "Emerald geode", new URL("../assets/images/fandom-members/gemwell/sprites/emerald.png", import.meta.url).href, "UNCOMMON // Its interior crack redraws itself after every room transition."],
+  ["amethyst", "Spiral amethyst", new URL("../assets/images/fandom-members/gemwell/sprites/amethyst.png", import.meta.url).href, "UNCOMMON // The spiral animation contains a sixth frame absent from SPRITES.DAT."],
+  ["citrine", "Citrine sunstone", new URL("../assets/images/fandom-members/gemwell/sprites/citrine.png", import.meta.url).href, "COMMON // Warm to the cursor and worth exactly zero points, despite the manual."],
+  ["opal", "Opal egg", new URL("../assets/images/fandom-members/gemwell/sprites/opal.png", import.meta.url).href, "QUEST ITEM? // Returns to slot eight after deletion and remembers the old save name."],
+  ["quartz", "Quartz crown", new URL("../assets/images/fandom-members/gemwell/sprites/quartz.png", import.meta.url).href, "UNCOMMON // Its five points chime in a different order on every copied disk."],
+  ["black-prism", "Black rainbow prism", new URL("../assets/images/fandom-members/gemwell/sprites/black-prism.png", import.meta.url).href, "RUMORED // Reflects eight colors although the palette table defines only seven."],
+  ["lantern-beetle", "Lantern beetle", new URL("../assets/images/fandom-members/gemwell/sprites/lantern-beetle.png", import.meta.url).href, "PASSIVE // Follows lit gems and freezes whenever the player opens HELP."],
+  ["crystal-moth", "Crystal moth", new URL("../assets/images/fandom-members/gemwell/sprites/crystal-moth.png", import.meta.url).href, "PASSIVE // Its wing dust briefly reveals collision lines behind decorative rock."],
+  ["centipede", "Cave centipede", new URL("../assets/images/fandom-members/gemwell/sprites/centipede.png", import.meta.url).href, "HOSTILE? // Advances one segment whenever the sound-card test plays."],
+  ["jewel-snail", "Jewel-shell snail", new URL("../assets/images/fandom-members/gemwell/sprites/jewel-snail.png", import.meta.url).href, "DOCILE // Shell value rises with depth; movement stays exactly one pixel per turn."],
+  ["salamander", "Blind cave salamander", new URL("../assets/images/fandom-members/gemwell/sprites/salamander.png", import.meta.url).href, "RARE // Has no eye sprites but turns toward the mouse before a click."],
+  ["gem-bat", "Gem-eyed bat", new URL("../assets/images/fandom-members/gemwell/sprites/gem-bat.png", import.meta.url).href, "NOCTURNAL // Its eyes use the same two pixels as the depth-counter warning lamp."],
+  ["walking-stalagmite", "Walking stalagmite", new URL("../assets/images/fandom-members/gemwell/sprites/walking-stalagmite.png", import.meta.url).href, "MISFILED // Collision calls it SCENERY; the tiny footprints call that a lie."],
+  ["mushroom-crab", "Mushroom crab", new URL("../assets/images/fandom-members/gemwell/sprites/mushroom-crab.png", import.meta.url).href, "SOCIAL // Groups form arrow shapes pointing away from the nearest exit."],
+  ["pearl-spider", "Pearl spider", new URL("../assets/images/fandom-members/gemwell/sprites/pearl-spider.png", import.meta.url).href, "PASSIVE // Its web matches the map grid until depth 700, then adds a column."],
+  ["geode-frog", "Geode frog", new URL("../assets/images/fandom-members/gemwell/sprites/geode-frog.png", import.meta.url).href, "RARE // The croak is a reversed pickup sound with one extra note at the front."],
+  ["helmet", "Abandoned helmet", new URL("../assets/images/fandom-members/gemwell/sprites/helmet.png", import.meta.url).href, "ABANDONED // The visor reflects a ladder that is not present in the room."],
+  ["fossil-key", "Fossil key", new URL("../assets/images/fandom-members/gemwell/sprites/fossil-key.png", import.meta.url).href, "KEY ITEM // Fits no documented lock; its teeth match the MAP0 border pattern."],
+  ["glass-tooth", "Glass tooth", new URL("../assets/images/fandom-members/gemwell/sprites/glass-tooth.png", import.meta.url).href, "UNKNOWN // The damage table lists a bite value, but no creature owns this sprite."],
+  ["compass-seed", "Compass seed", new URL("../assets/images/fandom-members/gemwell/sprites/compass-seed.png", import.meta.url).href, "UNSTABLE // Sprouts a new needle after every depth-counter rollover."],
+  ["singing-pebble", "Singing pebble", new URL("../assets/images/fandom-members/gemwell/sprites/singing-pebble.png", import.meta.url).href, "AUDIO // Plays three notes shared with an unrelated children's weather program."],
+  ["cracked-crown", "Cracked crown", new URL("../assets/images/fandom-members/gemwell/sprites/cracked-crown.png", import.meta.url).href, "UNUSED // Its name appears in ending text that the shareware build cannot reach."],
+  ["depth-marker", "Runed depth marker", new URL("../assets/images/fandom-members/gemwell/sprites/depth-marker.png", import.meta.url).href, "SYSTEM // The rune curls match a symbol on an old map of Orra. Coincidence pending."]
 ] as const;
 
 const ATLAS_MAP = new URL("../assets/images/fandom-members/atlas/unfinished-atlas-map.png", import.meta.url).href;
@@ -577,18 +577,20 @@ export const fandomPages: Record<string, PageDefinition> = {
             <section class="gemwell-stratum gemwell-stratum-${stratumIndex + 1}">
               <div class="gemwell-depth"><span>${depth}</span><b>${name}</b></div>
               <article class="gemwell-log"><h2>FIELD LOG ${String(stratumIndex + 1).padStart(2, "0")}</h2><p>${intro}</p><blockquote>${rumor}</blockquote></article>
-              <div class="gemwell-specimens">
+              <div class="gemwell-specimens" data-fandom-toggle-group>
+                <div class="gemwell-specimen-row">
                 ${sprites.map(([slug, label, image], specimenIndex) => {
                   const id = `gemwell-note-${stratumIndex}-${specimenIndex}`;
-                  const notes = [
-                    "COMMON // luminous, warm to the cursor.",
-                    "UNCOMMON // animation has one frame not found on disk.",
-                    "PASSIVE // approaches only when the music stops.",
-                    "RUMORED // name supplied by three unrelated save files.",
-                    "UNKNOWN // collision exists. Sprite number does not."
-                  ];
-                  return `<button class="gemwell-specimen gemwell-specimen-${slug}" data-fandom-toggle="${id}" aria-expanded="false"><img src="${image}" alt="${label}"><b>${label}</b><span>click to inspect</span></button><p class="gemwell-note" id="${id}">${notes[specimenIndex]}</p>`;
+                  return `<button class="gemwell-specimen gemwell-specimen-${slug}" data-fandom-toggle="${id}" aria-expanded="false"><img src="${image}" alt="${label}"><b>${label}</b><span>click to inspect</span></button>`;
                 }).join("")}
+                </div>
+                <div class="gemwell-note-stage" aria-live="polite">
+                  <p class="gemwell-note-placeholder">SELECT A SPECIMEN TO OPEN DOT'S FIELD NOTES</p>
+                  ${sprites.map(([, label, , description], specimenIndex) => {
+                    const id = `gemwell-note-${stratumIndex}-${specimenIndex}`;
+                    return `<p class="gemwell-note" id="${id}"><b>${label}</b><span>${description}</span></p>`;
+                  }).join("")}
+                </div>
               </div>
               <div class="gemwell-down">↓ ${stratumIndex === strata.length - 1 ? "THE PAGE ENDS. THE SHAFT DOES NOT." : "continue descent"} ↓</div>
             </section>

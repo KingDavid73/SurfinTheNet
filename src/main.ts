@@ -2819,6 +2819,17 @@ function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-fandom-toggle]").forEach((button) => button.addEventListener("click", () => {
     const target = document.getElementById(button.dataset.fandomToggle!);
     if (!target) return;
+    const group = button.closest<HTMLElement>("[data-fandom-toggle-group]");
+    if (group) {
+      group.querySelectorAll<HTMLElement>("[data-fandom-toggle]").forEach((peer) => {
+        const peerTarget = document.getElementById(peer.dataset.fandomToggle!);
+        if (peer !== button) {
+          peer.classList.remove("active");
+          peer.setAttribute("aria-expanded", "false");
+          peerTarget?.classList.remove("open");
+        }
+      });
+    }
     const open = target.classList.toggle("open");
     button.classList.toggle("active", open);
     button.setAttribute("aria-expanded", String(open));
