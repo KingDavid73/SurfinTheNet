@@ -91,6 +91,7 @@ export interface AmbientPostJob {
   pageUrl: string;
   createdAt: string;
   attempts: number;
+  surface?: "comment" | "aim" | "email";
 }
 
 export interface AmbientCommentRequest {
@@ -102,6 +103,7 @@ export interface AmbientCommentRequest {
   pageContext: string;
   existingComments: Array<{ role: "player" | "owner" | "visitor"; author: string; text: string }>;
   storyPhase: StoryPhase;
+  deliverySurface?: "comment" | "aim" | "email";
 }
 
 export interface AmbientCommentResult {
@@ -138,6 +140,8 @@ export interface DirectMessage {
   subject?: string;
   createdAt: string;
   availableAt?: string;
+  linkUrl?: string;
+  linkLabel?: string;
   metrics?: AiMetrics;
 }
 
@@ -186,6 +190,8 @@ export interface DownloadedFile {
   name: string;
   contents: string;
   downloadedAt: string;
+  sourceUrl?: string;
+  sourceTitle?: string;
 }
 
 export interface PageMusicTrack {

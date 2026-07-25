@@ -2313,6 +2313,26 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .browser-page-scale.text-medium { zoom: 1.3; }
 .browser-page-scale.text-large { zoom: 1.5; }
 .browser-page-scale.text-extra-large { zoom: 1.7; }
+.evidence-download-bar {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 34px;
+  padding: 5px 8px;
+  color: #172235;
+  background: linear-gradient(#fff8c5, #e8d77a);
+  border-bottom: 2px ridge white;
+  font: 9px/1.25 Tahoma, sans-serif;
+}
+.evidence-download-bar span { min-width: 0; }
+.evidence-download-bar b { display: block; color: #000080; letter-spacing: .06em; }
+.evidence-download-bar button { flex: 0 0 auto; padding: 5px 8px; color: #111; background: #d8d8d8; border: 2px outset white; font: bold 9px Tahoma, sans-serif; }
 .browser-footer { min-height: 50px; flex: 0 0 50px; display: grid; grid-template-columns: minmax(390px, 1fr) auto; border-top: 1px solid white; }
 .browser-status { display: flex; align-items: center; gap: 12px; padding: 4px 7px; font-size: 10px; border-left: 1px solid #777; white-space: nowrap; }
 
@@ -3018,6 +3038,8 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .mail-row time { font-size: 10px; }
 .mail-preview { flex: 1; overflow: auto; padding: 12px; border-top: 3px ridge #ddd; user-select: text; font-family: Arial, sans-serif; }
 .mail-preview h3 { color: #000080; }
+.mail-reply-button { margin-top: 10px; padding: 6px 10px; color: #111; background: #d8d8d8; border: 2px outset white; font-weight: bold; }
+.mail-page-link { display: block; margin: 14px 0 8px; max-width: 100%; padding: 7px 12px; color: #00006f; background: #e6ecff; border: 2px outset white; font-weight: bold; text-align: left; text-decoration: underline; }
 .mail-compose { min-width: 0; background: #ececec; }
 .email-compose-form { height: 100%; display: grid; grid-template-rows: auto auto 1fr auto; gap: 6px; padding: 10px; }
 .email-compose-form label { display: grid; grid-template-columns: 62px 1fr; align-items: center; gap: 6px; font-size: 11px; font-weight: bold; }
@@ -3030,16 +3052,18 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .files-layout { flex: 1; min-height: 0; display: grid; grid-template-columns: 150px 1fr; border: 2px inset white; }
 .files-layout aside { color: white; background: linear-gradient(#5576c4, #809bdc); padding: 14px; font-size: 12px; }
 .files-layout aside h3 { font-size: 20px; margin: 0; }
-.file-grid { background: white; padding: 16px; }
-.file-icon { display: grid; justify-items: center; width: 115px; gap: 3px; border: 1px solid transparent; background: none; font-size: 11px; }
+.file-grid { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; overflow: auto; background: white; padding: 16px; }
+.file-icon { display: grid; justify-items: center; align-content: start; width: 128px; min-height: 94px; gap: 3px; border: 1px solid transparent; background: none; font-size: 11px; overflow-wrap: anywhere; }
 .file-icon:hover { border: 1px dotted #000080; background: #dce5ff; }
 .file-icon span { font-size: 42px; }
+.file-icon small { max-width: 120px; color: #58647a; font-size: 8px; line-height: 1.2; }
+.file-icon.evidence-file { color: #172b67; }
 .empty-folder { color: #888; font-style: italic; text-align: center; margin-top: 80px; }
 .file-viewer { position: absolute; inset: 0; display: grid; place-items: center; z-index: 10000; background: rgb(0 0 0 / 15%); }
-.file-viewer section { width: min(520px, 80vw); background: #c0c0c0; padding: 3px; border: 2px outset white; box-shadow: 4px 5px 15px #222; }
+.file-viewer section { width: min(680px, 84vw); background: #c0c0c0; padding: 3px; border: 2px outset white; box-shadow: 4px 5px 15px #222; }
 .file-viewer header { display: flex; justify-content: space-between; padding: 4px 5px; background: #000080; color: white; font-weight: bold; }
 .file-viewer header button { width: 22px; height: 20px; padding: 0; }
-.file-viewer pre { min-height: 240px; margin: 3px 0 0; padding: 14px; background: white; border: 2px inset white; white-space: pre-wrap; font: 14px/1.5 "Courier New", monospace; user-select: text; }
+.file-viewer pre { min-height: 240px; max-height: min(62vh, 560px); overflow: auto; margin: 3px 0 0; padding: 14px; background: white; border: 2px inset white; white-space: pre-wrap; font: 14px/1.5 "Courier New", monospace; user-select: text; }
 
 .chat-window { min-width: 500px; min-height: 420px; }
 .aim-menu { height: 27px; flex: 0 0 27px; padding: 2px 5px; display: flex; align-items: center; gap: 3px; border-bottom: 1px solid #777; }

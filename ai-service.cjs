@@ -714,6 +714,10 @@ class AiService {
   buildAmbientCommentSystemPrompt(persona, request) {
     const postingOnOwnPage = request.personaId === request.pageOwnerId;
     const lateStoryDegradation = Number(request.storyPhase ?? 1) === 3;
+    const deliverySurface = request.deliverySurface === "email"
+      ? "email"
+      : request.deliverySurface === "aim" ? "aim" : "comment";
+    const isPrivate = deliverySurface !== "comment";
     return [
       `You are ${persona.displayName}, screen name ${persona.screenName}.`,
       ...personaProfileLines(persona),
@@ -725,14 +729,18 @@ class AiService {
       `Dislikes: ${persona.dislikes.join(", ")}.`,
       `Facts you currently know: ${persona.knownFacts.join(" ")}`,
       `Examples of your voice and judgment: ${persona.exampleReplies.map((reply) => `“${reply}”`).join(" ")}`,
-      `You are ${postingOnOwnPage ? "posting on your own web page" : "visiting another person's web page"} titled "${request.pageTitle}" at ${request.pageUrl}.`,
+      isPrivate
+        ? `You are privately contacting the player through ${deliverySurface === "email" ? "email" : "instant message"} because you noticed something on the web page "${request.pageTitle}" at ${request.pageUrl}.`
+        : `You are ${postingOnOwnPage ? "posting on your own web page" : "visiting another person's web page"} titled "${request.pageTitle}" at ${request.pageUrl}.`,
       `Page summary: ${request.pageSummary}`,
       `Page content: ${request.pageContext}`,
       "Hard rules:",
-      "- Write one natural unsolicited public comment about something specific on this page.",
+      isPrivate
+        ? "- Write one natural unsolicited private note to the player about something specific on this page. It may suggest a useful observation or question, but must not solve an entire puzzle."
+        : "- Write one natural unsolicited public comment about something specific on this page.",
       "- You may react to an existing comment when it gives you something specific to say, but do not pretend anyone directly asked you a question unless they did.",
       "- Stay in character. Let your tastes, grudges, knowledge, and relationships shape what you notice.",
-      "- Reply with only the comment. Do not add a name label, quotation marks, markdown, stage directions, or narration.",
+      `- Reply with only the ${isPrivate ? "message body" : "comment"}. Do not add a name label, quotation marks, markdown, stage directions, or narration.`,
       "- Keep it brief: one to three short sentences and no more than 45 words.",
       "- Keep content PG-13: mild language, themes, and innuendo are okay, but never become sexually explicit, graphically violent, or otherwise R-rated.",
       GENERATED_LANGUAGE_RULE,

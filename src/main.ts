@@ -533,12 +533,12 @@ const CHARACTER_CONTACTS: Record<string, {
   trailnote_tom: { screenName: "TrailNote_Tom", displayName: "Tom", statusMessage: "out until the weather turns" },
   paperbird_pam: { screenName: "PaperBird_Pam", displayName: "Pam", statusMessage: "glue drying, computer clicking" },
   rhymetape_rico: { screenName: "RhymeTape_Rico", displayName: "Rico", statusMessage: "label your beats before mailing them", aim: "RhymeTape_Rico" },
-  faxmoth_13: { screenName: "FaxMoth_13", displayName: "FaxMoth", statusMessage: "paper first, theory second" },
+  faxmoth_13: { screenName: "FaxMoth_13", displayName: "FaxMoth", statusMessage: "paper first, theory second", email: "faxmoth@orbitmail.net" },
   nullindex: { screenName: "IndexNull", displayName: "Index Null", statusMessage: "404 is still a response" },
-  cedar_wren: { screenName: "CedarWren", displayName: "Cedar", statusMessage: "checking the boring attachment" },
-  static_abel: { screenName: "StaticAbel", displayName: "Abel", statusMessage: "group count does not match" },
+  cedar_wren: { screenName: "CedarWren", displayName: "Cedar", statusMessage: "checking the boring attachment", email: "cedar.wren@orbitmail.net" },
+  static_abel: { screenName: "StaticAbel", displayName: "Abel", statusMessage: "group count does not match", email: "staticabel@orbitmail.net" },
   orchard_lee: { screenName: "OrchardLee", displayName: "Lee", statusMessage: "archives do not interpret themselves" },
-  skywatch_sam: { screenName: "Skywatch_Sam", displayName: "Sam", statusMessage: "three lights, four explanations" },
+  skywatch_sam: { screenName: "Skywatch_Sam", displayName: "Sam", statusMessage: "three lights, four explanations", email: "skywatch@orbitmail.net" },
   ghostline: { screenName: "ghostline", displayName: "Ghostline", statusMessage: "more than meets the index", aim: "ghostline" },
   rewind_riley: { screenName: "RewindRiley", displayName: "Riley", statusMessage: "rewinding the returns bin" },
   bubble_babs: { screenName: "BubbleBabs", displayName: "Babs", statusMessage: "last wash starts at 9:15" },
@@ -732,6 +732,7 @@ const semanticSearchCache = new Map<string, string[]>();
 const pendingSearches = new Set<string>();
 const browserScrollPositions = new Map<string, number>();
 let renderedBrowserUrl = state.currentUrl;
+let saveStateQueue: Promise<unknown> = Promise.resolve();
 
 const root = document.querySelector<HTMLDivElement>("#app")!;
 
@@ -798,8 +799,15 @@ function normalizeState(loaded: Partial<GameState>): GameState {
 }
 
 async function saveState() {
-  if (window.gameAPI) await window.gameAPI.save(state);
-  else localStorage.setItem("surfin-save", JSON.stringify(state));
+  const snapshot = structuredClone(state);
+  if (window.gameAPI) {
+    saveStateQueue = saveStateQueue
+      .catch(() => undefined)
+      .then(() => window.gameAPI!.save(snapshot));
+    await saveStateQueue;
+  } else {
+    localStorage.setItem("surfin-save", JSON.stringify(snapshot));
+  }
 }
 
 function unreadDirectMessages(channel?: "aim" | "email", ownerId?: string) {
@@ -834,6 +842,75 @@ function directMessageBadge(count: number, label = "unread replies") {
   return `<span class="app-unread-badge" aria-label="${count} ${label}">${shown}</span>`;
 }
 
+const DOWNLOADABLE_EVIDENCE_SITES = new Set<PageDefinition["site"]>([
+  "raven",
+  "backchannelalt",
+  "morrowfive",
+  "glasslake",
+  "quietcounty",
+  "algorithmarchive"
+]);
+
+function evidenceSnapshotId(url: string) {
+  return `evidence:${url}`;
+}
+
+function evidenceDownloadToolbar(page: PageDefinition) {
+  if (!DOWNLOADABLE_EVIDENCE_SITES.has(page.site)) return "";
+  const downloaded = state.downloads.some((file) => file.id === evidenceSnapshotId(page.url));
+  return `<aside class="evidence-download-bar">
+    <span><b>ORBIT EXPLORER ARCHIVE TOOL</b> Save a readable copy in My Files.</span>
+    <button data-download-page="${escapeHtml(page.url)}">${downloaded ? "UPDATE SAVED COPY" : "SAVE PAGE COPY"}</button>
+  </aside>`;
+}
+
+function pageSnapshotText(page: PageDefinition) {
+  const container = document.createElement("div");
+  container.innerHTML = page.render(state);
+  container.querySelectorAll("img").forEach((image) => {
+    image.replaceWith(document.createTextNode(image.alt ? `\n[IMAGE: ${image.alt}]\n` : ""));
+  });
+  container.querySelectorAll("br").forEach((lineBreak) => lineBreak.replaceWith(document.createTextNode("\n")));
+  container.querySelectorAll("td, th").forEach((cell) => cell.append(document.createTextNode("\t")));
+  container.querySelectorAll("p, h1, h2, h3, header, footer, aside, article, section, li, tr, pre, blockquote, dt, dd, nav")
+    .forEach((block) => block.append(document.createTextNode("\n")));
+  const body = (container.textContent ?? "")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n[ \t]+/g, "\n")
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+  return [
+    "ORBIT EXPLORER OFFLINE PAGE COPY",
+    "================================",
+    `TITLE: ${page.title}`,
+    `SOURCE: ${page.url}`,
+    `SAVED: ${formatGameTimestamp(state.gameTime)}`,
+    "",
+    body
+  ].join("\n");
+}
+
+function downloadCurrentPageCopy(url: string) {
+  const page = pages[url];
+  if (!page || !pageAvailable(page) || !DOWNLOADABLE_EVIDENCE_SITES.has(page.site)) return;
+  const id = evidenceSnapshotId(page.url);
+  const existing = state.downloads.find((file) => file.id === id);
+  const name = `${page.title.toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 34) || "ORBIT-EVIDENCE"}.TXT`;
+  const snapshot = {
+    id,
+    name,
+    contents: pageSnapshotText(page),
+    downloadedAt: state.gameTime,
+    sourceUrl: page.url,
+    sourceTitle: page.title
+  };
+  if (existing) Object.assign(existing, snapshot);
+  else state.downloads.push(snapshot);
+  void saveState();
+  showNotification(existing ? `Saved copy updated: ${name}` : `Page copy saved to My Files: ${name}`, 4200);
+}
+
 function crossedGameHourBoundaries(before: Date, after: Date) {
   const hour = 60 * 60 * 1000;
   return Math.max(0, Math.floor(after.getTime() / hour) - Math.floor(before.getTime() / hour));
@@ -856,6 +933,33 @@ function ambientPostingPersonaIds() {
     );
 }
 
+const MAIN_PRIVATE_ACTIVITY: Record<string, "aim" | "email"> = {
+  mira_917: "aim",
+  darkraven_xx: "aim",
+  juniper_gdn: "email",
+  lagmaster_99: "aim",
+  velvet_mage: "aim",
+  rhymetape_rico: "aim",
+  faxmoth_13: "email"
+};
+
+const AMBIENT_INVESTIGATION_URLS = [
+  "web://foldedwire.net/home",
+  "web://index-null.net/home",
+  "web://morrow-five.net/home",
+  "web://glasslake-field.gov/home",
+  "web://quiet-county.org/home",
+  "web://archive.orbitnet.local/labs/home"
+];
+
+function ambientInvestigationPages() {
+  const available = AMBIENT_INVESTIGATION_URLS
+    .map((url) => pages[url])
+    .filter((page): page is PageDefinition => Boolean(page && pageAvailable(page)));
+  const visited = available.filter((page) => state.visited.includes(page.url));
+  return visited.length && Math.random() < 0.72 ? visited : available;
+}
+
 function extractAmbientPageContext(page: PageDefinition) {
   const container = document.createElement("div");
   container.innerHTML = page.render(state);
@@ -876,13 +980,18 @@ function queueAmbientPostRolls(hoursElapsed: number, createdAt: string) {
       Math.min(0.85, maximumChance * activity.capMultiplier)
     );
     if (Math.random() >= chance) continue;
-    const page = homepages[Math.floor(Math.random() * homepages.length)] ?? homepages[0];
+    const privateSurface = state.storyPhase >= 2 ? MAIN_PRIVATE_ACTIVITY[personaId] : undefined;
+    const privateChance = state.storyPhase === 3 ? 0.58 : 0.42;
+    const surface = privateSurface && Math.random() < privateChance ? privateSurface : "comment";
+    const targets = surface === "comment" ? homepages : ambientInvestigationPages();
+    const page = targets[Math.floor(Math.random() * targets.length)] ?? targets[0] ?? homepages[0];
     jobs.push({
       id: crypto.randomUUID(),
       personaId,
       pageUrl: page.url,
       createdAt,
-      attempts: 0
+      attempts: 0,
+      surface
     });
   }
   if (!jobs.length) return;
@@ -1056,7 +1165,8 @@ async function processAmbientPostQueue() {
     while (state.ambientPostQueue.length && window.aiAPI && aiStatus.warmed) {
       const job = state.ambientPostQueue[0];
       const page = pages[job.pageUrl];
-      if (!page?.commentsEnabled) {
+      const surface = job.surface ?? "comment";
+      if (!page || (surface === "comment" && !page.commentsEnabled)) {
         state.ambientPostQueue.shift();
         await saveState();
         continue;
@@ -1073,21 +1183,54 @@ async function processAmbientPostQueue() {
           pageSummary: page.summary,
           pageContext: extractAmbientPageContext(page),
           existingComments,
-          storyPhase: state.storyPhase
+          storyPhase: state.storyPhase,
+          deliverySurface: surface
         });
-        state.pageComments.push({
-          id: crypto.randomUUID(),
-          pageUrl: page.url,
-          ownerId: job.personaId,
-          role: job.personaId === page.ownerId ? "owner" : "visitor",
-          author: result.author.screenName,
-          text: result.text,
-          createdAt: job.createdAt,
-          revealAfterVisit: (state.pageVisitCounts[page.url] ?? 0) + 1
-        });
+        if (surface === "comment") {
+          state.pageComments.push({
+            id: crypto.randomUUID(),
+            pageUrl: page.url,
+            ownerId: job.personaId,
+            role: job.personaId === page.ownerId ? "owner" : "visitor",
+            author: result.author.screenName,
+            text: result.text,
+            createdAt: job.createdAt,
+            revealAfterVisit: (state.pageVisitCounts[page.url] ?? 0) + 1
+          });
+        } else {
+          const directMessage: DirectMessage = {
+            id: crypto.randomUUID(),
+            ownerId: job.personaId,
+            channel: surface,
+            role: "owner",
+            author: result.author.screenName,
+            text: result.text,
+            subject: surface === "email" ? `Something on ${page.title}` : undefined,
+            createdAt: job.createdAt
+          };
+          state.directMessages.push(directMessage);
+          if (
+            surface === "aim" &&
+            job.personaId === activeAimOwnerId &&
+            windows.chat.open &&
+            !windows.chat.minimized &&
+            windows.chat.z === topZ
+          ) {
+            markDirectMessagesRead([directMessage]);
+          }
+        }
         state.ambientPostQueue.shift();
         aiStatus = await window.aiAPI.status();
         await saveState();
+        if (surface !== "comment" && startupStage === "desktop") {
+          const focusedField = document.activeElement instanceof HTMLTextAreaElement || document.activeElement instanceof HTMLInputElement
+            ? document.activeElement
+            : null;
+          if (!focusedField?.value) render();
+          showPassiveNotification(surface === "email"
+            ? `New mail from ${result.author.displayName}.`
+            : `${result.author.screenName} sent you an OIM.`);
+        }
       } catch {
         job.attempts += 1;
         if (job.attempts >= AMBIENT_POST_MAX_ATTEMPTS) state.ambientPostQueue.shift();
@@ -1239,6 +1382,56 @@ function addAuthoredDirectMessage(id: string, ownerId: string, author: string, t
     subject,
     createdAt: state.gameTime
   });
+}
+
+function addPhaseInvestigationMessages(phase: 2 | 3) {
+  if (phase === 2) {
+    addAuthoredDirectMessage(
+      "phase2-mira-investigation",
+      "mira_917",
+      "Mira_917",
+      "okay, people are actually comparing notes now. nobody has the whole answer, but page owners know their own evidence. ask one specific question, then sleep if they take a while to answer."
+    );
+    addAuthoredDirectMessage(
+      "phase2-raven-investigation",
+      "darkraven_xx",
+      "xX_DarkRaven_Xx",
+      "the new mystery pages are bait, but bait can still have a real hook. save copies of anything useful. especially boring records with dates, counts, or print marks."
+    );
+    addAuthoredDirectMessage(
+      "phase2-juniper-notes",
+      "juniper_gdn",
+      "Juniper_Gdn",
+      "Everyone is chasing different pieces, so I started keeping copies instead of trying to remember every hidden address. Orbit Explorer can save mystery pages into My Files now. Also, asking the person who posted a record is usually nicer than guessing what they meant :)",
+      "email",
+      "A less chaotic way to compare notes"
+    );
+    return;
+  }
+  addAuthoredDirectMessage(
+    "phase3-faxmoth-archive",
+    "faxmoth_13",
+    "FaxMoth_13",
+    "Traffic is rearranging the directory faster than people can cite it. Save local copies of the recovered pages and keep the source address in each file. A surviving document is more useful than a dramatic memory of one.",
+    "email",
+    "Keep local copies"
+  );
+  addAuthoredDirectMessage(
+    "phase3-cedar-context",
+    "cedar_wren",
+    "CedarWren",
+    "Some of the new rumors are fabricated, but that does not make every attached record false. If you send me a specific claim, I can help separate what the document shows from what the headline says.",
+    "email",
+    "Evidence versus the story around it"
+  );
+  addAuthoredDirectMessage(
+    "phase3-static-correction",
+    "static_abel",
+    "StaticAbel",
+    "I am keeping a correction log as copies move around. Counts, timestamps, and file footers first; attribution last. Forward a specific discrepancy if you want a second receiver on it.",
+    "email",
+    "Correction log open"
+  );
 }
 
 function addPhaseThreeLeakComments() {
@@ -1509,6 +1702,7 @@ function activateStoryPhase(nextPhase: StoryPhase) {
   }
   if (nextPhase === 2 || nextPhase === 3 || nextPhase === 4) {
     forceOvernightPhaseTransition(nextPhase);
+    if (nextPhase === 2 || nextPhase === 3) addPhaseInvestigationMessages(nextPhase);
   }
 }
 
@@ -1838,7 +2032,7 @@ function browserWindow() {
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
     </div>
     <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
-    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${page.render(state)}${phaseTwoPersonalUpdateLink(page.url, state)}${byteBarnCoverUpdate(page)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
+    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${evidenceDownloadToolbar(page)}${page.render(state)}${phaseTwoPersonalUpdateLink(page.url, state)}${byteBarnCoverUpdate(page)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
     <footer class="browser-footer">${pageMusicPlayer(page)}<div class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></div></footer>`);
 }
 
@@ -1908,8 +2102,11 @@ function mailWindow() {
       </main></div>`);
   }
 
+  const selectedContact = selectedEmail ? CHARACTER_CONTACTS[selectedEmail.ownerId] : null;
   const preview = selectedEmail
-    ? `<h3>${escapeHtml(selectedEmail.subject ?? "Message")}</h3><p><b>From:</b> ${escapeHtml(selectedEmail.author)}</p><p>${escapeHtml(selectedEmail.text).replaceAll("\n", "<br>")}</p>`
+    ? `<h3>${escapeHtml(selectedEmail.subject ?? "Message")}</h3><p><b>From:</b> ${escapeHtml(selectedEmail.author)}</p><p>${escapeHtml(selectedEmail.text).replaceAll("\n", "<br>")}</p>
+      ${selectedEmail.linkUrl ? `<button class="mail-page-link" data-mail-page="${escapeHtml(selectedEmail.linkUrl)}">${escapeHtml(selectedEmail.linkLabel ?? "Open linked page in Orbit Explorer")}</button>` : ""}
+      ${selectedContact?.email ? `<button class="mail-reply-button" data-email-owner="${escapeHtml(selectedEmail.ownerId)}">Reply to ${escapeHtml(selectedContact.displayName)}</button>` : ""}`
     : `<p>Select a message to read it.</p>`;
   return windowShell("mail", "Orbit Mail", "@", `
     <div class="mail-toolbar">${state.visited.includes(CHARACTER_HOME_URLS.juniper_gdn) ? `<button data-email-owner="juniper_gdn">New Message to Juniper</button>` : ""}</div>
@@ -1924,7 +2121,7 @@ function mailWindow() {
 
 function filesWindow() {
   const downloads = state.downloads.length
-    ? state.downloads.map((file) => `<button class="file-icon" data-file="${file.id}"><span>📄</span><b>${file.name}</b></button>`).join("")
+    ? state.downloads.map((file) => `<button class="file-icon ${file.sourceUrl ? "evidence-file" : ""}" data-file="${file.id}"><span>${file.sourceUrl ? "📑" : "📄"}</span><b>${file.name}</b>${file.sourceTitle ? `<small>${escapeHtml(file.sourceTitle)}</small>` : ""}</button>`).join("")
     : `<p class="empty-folder">This folder is empty.<br>Files downloaded from Orbit Explorer will appear here.</p>`;
   return windowShell("files", "C:\\My Files", "▣", `
     <div class="files-toolbar"><span>Address: C:\\My Files</span></div>
@@ -2033,6 +2230,7 @@ function chatWindow() {
     .filter(([ownerId, contact]) => contact.aim && (
       ownerId === "mira_917" ||
       (ownerId === "ghostline" && state.storyPhase >= 2) ||
+      state.directMessages.some((message) => message.ownerId === ownerId && message.channel === "aim" && message.role === "owner") ||
       state.visited.includes(CHARACTER_HOME_URLS[ownerId])
     ))
     .map(([ownerId, contact]) => {
@@ -2882,8 +3080,9 @@ async function submitPageComment(pageUrl: string, message: string) {
       relationshipScore: state.relationships[page.ownerId] ?? 0
     });
     const availableAt = scheduleReplyAt(page.ownerId, "comment", sentAt);
+    const replyId = crypto.randomUUID();
     state.pageComments.push({
-      id: crypto.randomUUID(),
+      id: replyId,
       pageUrl,
       ownerId: page.ownerId,
       role: "owner",
@@ -2892,6 +3091,19 @@ async function submitPageComment(pageUrl: string, message: string) {
       createdAt: availableAt,
       availableAt,
       revealAfterVisit: (state.pageVisitCounts[pageUrl] ?? 0) + 1
+    });
+    state.directMessages.push({
+      id: `comment-reply-mail:${replyId}`,
+      ownerId: "orbit_guide",
+      channel: "email",
+      role: "owner",
+      author: "Orbit PageWatch",
+      subject: `${result.owner.screenName || owner.screenName} replied on ${page.title}`,
+      text: `${result.owner.screenName || owner.screenName} replied to the comment you left on ${page.title}. Follow the link below to read it in context.`,
+      createdAt: availableAt,
+      availableAt,
+      linkUrl: pageUrl,
+      linkLabel: `Open ${page.title}`
     });
     aiStatus = await window.aiAPI.status();
     await saveState();
@@ -3022,6 +3234,9 @@ function bindEvents() {
     document.querySelectorAll("[data-tribute-art]").forEach((entry) => entry.classList.toggle("active", entry === button));
   }));
   document.querySelectorAll<HTMLElement>("[data-download]").forEach((el) => el.addEventListener("click", downloadSignalNote));
+  document.querySelectorAll<HTMLElement>("[data-download-page]").forEach((el) => el.addEventListener("click", () => {
+    downloadCurrentPageCopy(el.dataset.downloadPage ?? state.currentUrl);
+  }));
   document.querySelector<HTMLElement>("[data-download-helper]")?.addEventListener("click", downloadOrbitPal);
   document.querySelector<HTMLElement>("[data-page-music]")?.addEventListener("click", togglePageMusic);
   document.querySelector<HTMLElement>("[data-page-music-prev]")?.addEventListener("click", () => changePageMusicTrack(-1));
@@ -3205,6 +3420,7 @@ function bindEvents() {
       sleepTransitionTimer = null;
     }
     sleepTransition = null;
+    await saveStateQueue.catch(() => undefined);
     state = normalizeState(window.gameAPI ? await window.gameAPI.reset() : structuredClone(DEFAULT_STATE));
     if (!window.gameAPI) localStorage.removeItem("surfin-save");
     history = [state.currentUrl]; historyIndex = 0; startOpen = false;
@@ -3272,6 +3488,12 @@ function bindEvents() {
     if (selected) markDirectMessagesRead([selected]);
     render();
   }));
+  document.querySelector<HTMLElement>("[data-mail-page]")?.addEventListener("click", (event) => {
+    const targetUrl = (event.currentTarget as HTMLElement).dataset.mailPage;
+    if (!targetUrl) return;
+    openApp("browser");
+    navigate(targetUrl);
+  });
 
   document.querySelector<HTMLFormElement>(".address-form")?.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -3350,7 +3572,7 @@ function bindEvents() {
     if (!file) return;
     const viewer = document.createElement("div");
     viewer.className = "file-viewer";
-    viewer.innerHTML = `<section><header>${file.name}<button aria-label="Close">×</button></header><pre></pre></section>`;
+    viewer.innerHTML = `<section><header><span>${escapeHtml(file.name)}</span><button aria-label="Close">×</button></header><pre></pre></section>`;
     viewer.querySelector("pre")!.textContent = file.contents;
     viewer.querySelector("button")!.addEventListener("click", () => viewer.remove());
     document.querySelector(".desktop")!.append(viewer);
@@ -3438,6 +3660,10 @@ void Promise.all([
   window.aiAPI?.status() ?? Promise.resolve(structuredClone(EMPTY_AI_STATUS))
 ]).then(([loadedState, loadedConversation, loadedStatus]) => {
   state = loadedState;
+  const directMessageCountBeforePhaseSync = state.directMessages.length;
+  if (state.storyPhase >= 2) addPhaseInvestigationMessages(2);
+  if (state.storyPhase >= 3) addPhaseInvestigationMessages(3);
+  if (state.directMessages.length !== directMessageCountBeforePhaseSync) void saveState();
   if (state.storyPhase === 4) addEndingCommunityResponses();
   aiConversation = loadedConversation;
   aiStatus = loadedStatus;

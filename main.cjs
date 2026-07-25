@@ -1402,6 +1402,17 @@ function createWindow() {
           }
           if (!savedReply) throw new Error("Timed out waiting for the hidden page-owner response to be generated");
           let saved = await readSave();
+          const replyMail = saved.directMessages?.find((message) =>
+            message.id === `comment-reply-mail:${savedReply.id}` &&
+            message.channel === "email"
+          );
+          if (
+            !replyMail ||
+            replyMail.availableAt !== savedReply.availableAt ||
+            replyMail.linkUrl !== "web://rainbow.gdn/home"
+          ) {
+            throw new Error(`Comment reply mail was missing or did not link back to its page: ${JSON.stringify(replyMail)}`);
+          }
           const delayMs = new Date(savedReply.availableAt).getTime() - new Date(savedReply.createdAt === savedReply.availableAt
             ? saved.pageComments.find((comment) => comment.pageUrl === "web://rainbow.gdn/home" && comment.role === "player")?.createdAt
             : savedReply.createdAt).getTime();
@@ -1413,7 +1424,17 @@ function createWindow() {
             await new Promise((resolve) => setTimeout(resolve, 300));
             saved = await readSave();
           }
-          await win.webContents.executeJavaScript(`document.querySelector('[data-browser="refresh"]')?.click()`);
+          const mailOpenedPage = await win.webContents.executeJavaScript(`(() => {
+            document.querySelector('[data-open="mail"]')?.click();
+            const row = document.querySelector('[data-direct-mail="${replyMail.id}"]');
+            if (!row) return false;
+            row.click();
+            const link = document.querySelector('[data-mail-page="web://rainbow.gdn/home"]');
+            if (!link) return false;
+            link.click();
+            return true;
+          })()`);
+          if (!mailOpenedPage) throw new Error("The arrived reply email did not expose a working page link");
           await new Promise((resolve) => setTimeout(resolve, 300));
           const revealed = await win.webContents.executeJavaScript(`(() => ({ count: document.querySelectorAll('.page-comment.owner').length, author: document.querySelector('.page-comment.owner header b')?.textContent || '', reply: document.querySelector('.page-comment.owner p')?.textContent || '' }))()`);
           if (revealed.count !== 1 || revealed.author !== "Juniper_Gdn" || !revealed.reply) throw new Error("Owner response did not appear after reloading the page");
@@ -1424,7 +1445,7 @@ function createWindow() {
           const target = path.resolve(__dirname, "artifacts", "page-comment-reply.png");
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());
-          console.log(`COMMENT_OK: the sent comment had no reply-wait state; the scheduled response stayed hidden until time advanced and the page reloaded: ${revealed.reply}`);
+          console.log(`COMMENT_OK: the scheduled response stayed hidden until time advanced, then its Orbit Mail notification linked back to the revealed page reply: ${revealed.reply}`);
         } catch (error) {
           console.error("COMMENT_FAILED:", error);
           process.exitCode = 1;
@@ -1746,7 +1767,7 @@ function createWindow() {
           if (!hourlyAmbient || !hourlyAmbient.pageUrl.endsWith("/home")) throw new Error(`Successful hourly roll did not create a valid random homepage comment: ${JSON.stringify(hourlyAmbient)}`);
           await win.webContents.executeJavaScript(`Math.random = window.__nativeRandom; true`);
           await new Promise((resolve) => setTimeout(resolve, 3_700));
-          if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('.toast'))`)) throw new Error("Ambient completion created a user-visible notification");
+          if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('.delivery-toast'))`)) throw new Error("Ambient completion created a user-visible notification");
 
           console.log(`AMBIENT_OK: processed persistent seed and hourly jobs; Mira posted “${miraAmbient.text}”; ${hourlyAmbient.ownerId} posted “${hourlyAmbient.text}”; 2% hourly and 20% skip caps passed with no completion notification.`);
         } catch (error) {
