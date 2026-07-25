@@ -643,7 +643,8 @@ const windows: Record<AppId, WindowModel> = {
   files: { open: false, minimized: false, maximized: false, z: 1, x: 255, y: 126, width: 590, height: 410 },
   chat: { open: false, minimized: false, maximized: false, z: 4, x: 190, y: 72, width: 620, height: 520 },
   settings: { open: false, minimized: false, maximized: false, z: 1, x: 260, y: 70, width: 590, height: 540 },
-  helper: { open: false, minimized: false, maximized: false, z: 5, x: 635, y: 250, width: 410, height: 390 }
+  helper: { open: false, minimized: false, maximized: false, z: 5, x: 635, y: 250, width: 410, height: 390 },
+  diagnostics: { open: false, minimized: false, maximized: false, z: 1, x: 285, y: 105, width: 570, height: 430 }
 };
 
 const APP_META: Record<AppId, { icon: string; title: string }> = {
@@ -652,7 +653,8 @@ const APP_META: Record<AppId, { icon: string; title: string }> = {
   files: { icon: "▣", title: "My Files" },
   chat: { icon: "◎", title: "OIM" },
   settings: { icon: "⚙", title: "Desktop Settings" },
-  helper: { icon: "?", title: "Orbit Pal" }
+  helper: { icon: "?", title: "Orbit Pal" },
+  diagnostics: { icon: "▤", title: "System Diagnostics" }
 };
 
 const EMPTY_AI_CONVERSATION: AiConversation = {
@@ -681,10 +683,8 @@ let startOpen = false;
 let notification = "";
 let aiConversation = structuredClone(EMPTY_AI_CONVERSATION);
 let aiStatus = structuredClone(EMPTY_AI_STATUS);
-let chatBusy = false;
 let chatPendingMessage = "";
 let chatError = "";
-let chatStartedAt = 0;
 let startupStage: StartupStage = new URLSearchParams(window.location.search).has("skipBoot") ? "desktop" : "title";
 let startupTimer: number | null = null;
 let startupStatusTimer: number | null = null;
@@ -1858,6 +1858,43 @@ function settingsWindow() {
     <footer class="settings-footer"><span>Changes are saved to this profile.</span><button data-close="settings">OK</button></footer>`);
 }
 
+function diagnosticsWindow() {
+  const recentMetrics = state.directMessages
+    .filter((message) => message.metrics)
+    .slice(-10)
+    .reverse()
+    .map((message) => {
+      const metrics = message.metrics!;
+      return `<tr>
+        <td>${escapeHtml(message.author)}</td>
+        <td>${escapeHtml(message.channel.toUpperCase())}</td>
+        <td>${formatDuration(metrics.generationMs)}</td>
+        <td>${metrics.outputTokens}</td>
+        <td>${metrics.tokensPerSecond ?? "—"}</td>
+      </tr>`;
+    })
+    .join("");
+  const phaseLabel = aiStatus.phase === "error" ? "ERROR" : aiStatus.phase.toUpperCase();
+
+  return windowShell("diagnostics", "OrbitOS System Diagnostics", "▤", `
+    <div class="diagnostics-toolbar"><b>COMMUNICATIONS MODULE</b><button data-diagnostics-refresh>Refresh</button></div>
+    <main class="diagnostics-layout">
+      <section class="diagnostics-summary">
+        <div><span>Status</span><b class="${aiStatus.phase === "error" ? "bad" : "good"}">${escapeHtml(phaseLabel)}</b></div>
+        <div><span>Model</span><b>${escapeHtml(aiStatus.modelName)}</b></div>
+        <div><span>Backend</span><b>${escapeHtml(aiStatus.backend ?? "Not selected")}</b></div>
+        <div><span>Model load</span><b>${formatDuration(aiStatus.loadMs)}</b></div>
+        <div><span>Warm-up</span><b>${formatDuration(aiStatus.warmupMs)}</b></div>
+      </section>
+      ${aiStatus.error ? `<p class="diagnostics-error">${escapeHtml(aiStatus.error)}</p>` : ""}
+      <section class="diagnostics-history">
+        <h2>Recent generations</h2>
+        <table><thead><tr><th>Character</th><th>Channel</th><th>Time</th><th>Tokens</th><th>Tok/s</th></tr></thead>
+        <tbody>${recentMetrics || `<tr><td colspan="5">No generation data recorded yet.</td></tr>`}</tbody></table>
+      </section>
+    </main>`);
+}
+
 function chatWindow() {
   const persona = CHARACTER_CONTACTS[activeAimOwnerId] ?? CHARACTER_CONTACTS.mira_917;
   const conversation = state.directMessages.filter((message) =>
@@ -1869,35 +1906,26 @@ function chatWindow() {
   const pendingKey = `aim:${activeAimOwnerId}`;
   const pending = pendingDirectReplies.has(pendingKey);
   const modelStarting = aiStatus.phase === "loading" || aiStatus.phase === "warming";
-  const statusLabel = aiStatus.phase === "ready"
-    ? "model on disk · loads with first message"
-    : aiStatus.phase === "loading"
-      ? "loading 2.5 GB model into memory…"
-      : aiStatus.phase === "warming"
-        ? "warming up local model…"
-      : aiStatus.phase === "generating" || aiStatus.phase === "reviewing"
-        ? `model loaded · ${aiStatus.backend ?? "CPU"}`
-        : aiStatus.phase === "idle"
-          ? `model loaded · ${aiStatus.backend ?? "CPU"}`
-          : aiStatus.phase === "error"
-            ? `error · ${aiStatus.error ?? "generation failed"}`
-            : "local model unavailable";
+  const statusLabel = aiStatus.phase === "error"
+    ? "OIM service unavailable"
+    : modelStarting
+      ? "Connecting to OIM service…"
+      : pending
+        ? "Sending message…"
+        : "Connected to Orbit Messaging";
 
   const messageHtml = conversation.map((message) => {
-    const metrics = message.metrics
-      ? `<small class="chat-metrics">generation ${formatDuration(message.metrics.generationMs)} · ${message.metrics.outputTokens} tokens · ${message.metrics.tokensPerSecond ?? "—"} tok/s · ${message.metrics.backend ?? "CPU"}${message.metrics.modelLoadMs ? ` · initial load ${formatDuration(message.metrics.modelLoadMs)}` : ""}</small>`
-      : "";
     return `<article class="chat-message ${message.role === "owner" ? "character" : "player"}">
       <header><b>${message.role === "player" ? "You" : escapeHtml(message.author || persona.screenName)}</b><time>${new Date(message.createdAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</time></header>
-      <p>${escapeHtml(message.text)}</p>${metrics}
+      <p>${escapeHtml(message.text)}</p>
     </article>`;
   }).join("");
 
   const pendingHtml = pending
-    ? `<div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : "Sending..."}</span></div>`
+    ? `<div class="typing-indicator"><i></i><i></i><i></i><span>${modelStarting ? "Connecting…" : "Sending…"}</span></div>`
     : "";
   const empty = !messageHtml && !pending
-    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>This character chose to share an OIM screen name.</span><span>${aiStatus.warmed ? "Local character service ready." : aiStatus.phase === "idle" ? "Local character service loaded." : "Local character service is still getting ready."}</span></div>`
+    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>This character chose to share an OIM screen name.</span><span>${modelStarting ? "Connecting to Orbit Messaging…" : "Type below to start chatting."}</span></div>`
     : "";
   const contactButtons = Object.entries(CHARACTER_CONTACTS)
     .filter(([ownerId, contact]) => contact.aim && (
@@ -1913,15 +1941,15 @@ function chatWindow() {
     <nav class="aim-buddy-tabs">${contactButtons}</nav>
     <div class="aim-contact">
       <div class="aim-avatar">${escapeHtml(persona.displayName.slice(0, 1))}</div><div><b>${escapeHtml(persona.screenName)}</b><span class="${activeNow ? "" : "away"}"><i></i> ${activeNow ? "Online" : "Away"}</span><small>“${escapeHtml(persona.statusMessage)}”</small></div>
-      <aside><b>PRIVATE CHAT</b><span>${escapeHtml(aiStatus.modelName)}</span></aside>
+      <aside><b>PRIVATE CHAT</b><span>ORBIT MESSAGING</span></aside>
     </div>
     <div class="chat-transcript" id="chat-transcript">${empty}${messageHtml}${pendingHtml}</div>
     ${chatError ? `<div class="chat-error">${escapeHtml(chatError)}</div>` : ""}
     <form class="chat-form">
-      <textarea name="message" maxlength="500" rows="2" placeholder="${modelStarting ? "Local model is starting up…" : "Type an instant message…"}" ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
+      <textarea name="message" maxlength="500" rows="2" placeholder="${modelStarting ? "Connecting…" : "Type an instant message…"}" ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}></textarea>
       <button ${pending || modelStarting || !aiStatus.modelAvailable ? "disabled" : ""}>${pending ? "Sending…" : modelStarting ? "Loading…" : "Send"}</button>
     </form>
-    <footer class="ai-statusbar"><span data-ai-phase>${escapeHtml(statusLabel)}</span><span data-ai-elapsed>${pending ? "checking message" : aiStatus.loadMs ? `load ${formatDuration(aiStatus.loadMs)}` : "not loaded"}</span></footer>`);
+    <footer class="ai-statusbar"><span data-ai-phase>${escapeHtml(statusLabel)}</span><span data-ai-elapsed>${pending ? "Sending…" : activeNow ? "Online" : "Away"}</span></footer>`);
 }
 
 function helperWindow() {
@@ -2114,7 +2142,8 @@ function prepareFreshDesktopSession() {
     files: { z: 1, x: 255, y: 126, width: 590, height: 410 },
     chat: { z: 4, x: 190, y: 72, width: 620, height: 520 },
     settings: { z: 1, x: 260, y: 70, width: 590, height: 540 },
-    helper: { z: 5, x: 635, y: 250, width: 410, height: 390 }
+    helper: { z: 5, x: 635, y: 250, width: 410, height: 390 },
+    diagnostics: { z: 1, x: 285, y: 105, width: 570, height: 430 }
   };
   for (const app of Object.keys(windows) as AppId[]) {
     Object.assign(windows[app], defaults[app], { open: false, minimized: false, maximized: false });
@@ -2373,9 +2402,9 @@ function render() {
     </div>
     <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Search for food or pets</span><span>• Try a page’s music player</span><span>• Download Orbit Pal</span></aside>
     ${windows.helper.open ? `<button class="desktop-helper" data-helper-talk aria-label="Talk to Orbit Pal"><span class="orbit-pal-body"><i></i><b>?</b><em></em></span><strong>Orbit Pal</strong><small>Click to talk</small></button>` : ""}
-    ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}${helperWindow()}
+    ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}${helperWindow()}${diagnosticsWindow()}
     ${notification ? `<div class="toast">${notification}</div>` : ""}
-    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 OIM — Orbit Instant Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off ${escapeHtml(playerName())}</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ New Game</button></div>` : ""}
+    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 OIM — Orbit Instant Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<button data-open="diagnostics">▤ System Diagnostics</button><hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off ${escapeHtml(playerName())}</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ New Game</button></div>` : ""}
     <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
     ${sleepDialog()}
     ${phaseTransitionScreen()}
@@ -2455,17 +2484,17 @@ async function refreshAiProgress() {
     const phase = document.querySelector<HTMLElement>("[data-ai-phase]");
     const elapsed = document.querySelector<HTMLElement>("[data-ai-elapsed]");
     if (phase) {
-      phase.textContent = aiStatus.phase === "loading"
-        ? "loading 2.5 GB model into memory…"
-        : aiStatus.phase === "warming"
-          ? "warming up local model…"
+      phase.textContent = aiStatus.phase === "loading" || aiStatus.phase === "warming"
+        ? "Connecting to OIM service…"
         : aiStatus.phase === "generating" || aiStatus.phase === "reviewing"
-          ? `model loaded · ${aiStatus.backend ?? "CPU"}`
+          ? "Sending message…"
           : aiStatus.phase === "error"
-            ? `error · ${aiStatus.error ?? "generation failed"}`
-            : `model loaded · ${aiStatus.backend ?? "CPU"}`;
+            ? "OIM service unavailable"
+            : "Connected to Orbit Messaging";
     }
-    if (elapsed && chatBusy) elapsed.textContent = `${((performance.now() - chatStartedAt) / 1000).toFixed(1)}s elapsed`;
+    if (elapsed) {
+      elapsed.textContent = aiStatus.phase === "generating" || aiStatus.phase === "reviewing" ? "Sending…" : "Ready";
+    }
   } catch {
     // A failed status poll should not replace the actual generation error.
   }
@@ -2752,6 +2781,10 @@ function bindEvents() {
     render();
   });
   document.querySelectorAll<HTMLElement>("[data-open]").forEach((el) => el.addEventListener("click", () => openApp(el.dataset.open as AppId)));
+  document.querySelector<HTMLElement>("[data-diagnostics-refresh]")?.addEventListener("click", async () => {
+    if (window.aiAPI) aiStatus = await window.aiAPI.status();
+    render();
+  });
   document.querySelectorAll<HTMLElement>("[data-nav]").forEach((el) => el.addEventListener("click", () => navigate(el.dataset.nav!)));
   document.querySelectorAll<HTMLElement>("[data-song-nav]").forEach((el) => el.addEventListener("click", () => {
     selectPageMusicTrack(el.dataset.songNav!, el.dataset.songFile!);

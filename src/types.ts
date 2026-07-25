@@ -1,4 +1,4 @@
-export type AppId = "browser" | "mail" | "files" | "chat" | "settings" | "helper";
+export type AppId = "browser" | "mail" | "files" | "chat" | "settings" | "helper" | "diagnostics";
 
 export type AiPhase = "offline" | "ready" | "loading" | "warming" | "idle" | "generating" | "reviewing" | "error";
 

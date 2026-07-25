@@ -3022,7 +3022,6 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .chat-message header time { color: #888; font-size: 9px; }
 .chat-message p { margin: 5px 0 2px; white-space: pre-wrap; line-height: 1.35; font-family: Arial, sans-serif; font-size: 13px; }
 .chat-message.pending { opacity: .7; }
-.chat-metrics { display: block; margin-top: 4px; padding: 3px 5px; color: #546079; background: #edf1fb; border-left: 3px solid #8da0d4; font: 10px/1.35 "Courier New", monospace; }
 .typing-indicator { display: flex; align-items: center; gap: 4px; color: #59647c; font-size: 11px; }
 .typing-indicator i { width: 6px; height: 6px; border-radius: 50%; background: #536bb4; animation: typing-pulse 1s infinite alternate; }
 .typing-indicator i:nth-child(2) { animation-delay: .2s; }
@@ -3030,12 +3029,28 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .typing-indicator span { margin-left: 5px; }
 @keyframes typing-pulse { from { opacity: .25; transform: translateY(1px); } to { opacity: 1; transform: translateY(-1px); } }
 .chat-error { flex: 0 0 auto; padding: 6px 9px; color: #7d0000; background: #ffe5df; border: 1px solid #c33; font-size: 11px; }
-.chat-form { min-height: 78px; flex: 0 0 78px; padding: 7px; display: grid; grid-template-columns: 1fr 72px; gap: 7px; border-top: 2px groove white; }
+.chat-form { min-height: 78px; flex: 0 0 78px; padding: 7px; display: grid; grid-template-columns: minmax(0, 1fr) 92px; gap: 7px; border-top: 2px groove white; }
 .chat-form textarea { resize: none; padding: 7px; background: white; border: 2px inset white; font: 13px/1.3 Arial, sans-serif; }
-.chat-form button { border: 2px solid; border-color: white #333 #333 white; background: #d5d5d5; font-weight: bold; }
+.chat-form button { min-width: 0; width: 100%; padding: 3px; overflow: hidden; border: 2px solid; border-color: white #333 #333 white; background: #d5d5d5; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; }
 .ai-statusbar { min-height: 24px; flex: 0 0 24px; display: flex; justify-content: space-between; gap: 8px; padding: 4px 7px; color: #303b59; background: #d8deef; border-top: 1px solid #888; font: 10px/1.3 "Courier New", monospace; }
 .ai-statusbar span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ai-statusbar span:last-child { white-space: nowrap; }
+
+.diagnostics-window { min-width: 510px; min-height: 360px; }
+.diagnostics-toolbar { min-height: 36px; flex: 0 0 36px; display: flex; align-items: center; justify-content: space-between; padding: 5px 8px; color: #e5ffd9; background: #263442; border-bottom: 2px groove white; font: 11px "Courier New", monospace; letter-spacing: .08em; }
+.diagnostics-toolbar button { padding: 4px 12px; border: 2px outset white; }
+.diagnostics-layout { flex: 1; min-height: 0; overflow: auto; padding: 10px; color: #183020; background: #dbe2d8; font-family: "Courier New", monospace; }
+.diagnostics-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.diagnostics-summary div { min-width: 0; display: grid; gap: 3px; padding: 7px; background: #f4f7ef; border: 2px inset white; }
+.diagnostics-summary span { color: #68746c; font-size: 10px; text-transform: uppercase; }
+.diagnostics-summary b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.diagnostics-summary b.good { color: #087225; }
+.diagnostics-summary b.bad, .diagnostics-error { color: #8d1111; }
+.diagnostics-error { padding: 7px; background: #ffe7df; border: 1px solid #a33; }
+.diagnostics-history h2 { margin: 12px 0 5px; font-size: 13px; text-transform: uppercase; }
+.diagnostics-history table { width: 100%; border-collapse: collapse; background: #f8faf5; font-size: 10px; }
+.diagnostics-history th, .diagnostics-history td { padding: 5px; text-align: left; border: 1px solid #87918a; }
+.diagnostics-history th { color: white; background: #425649; }
 
 .desktop-icon.settings {
   color: #26366c;
