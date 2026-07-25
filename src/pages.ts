@@ -19,10 +19,17 @@ import {
   phaseTwoOddityPages
 } from "./newcomer-pages";
 
-const fakeImage = (label: string, variant = "blue") =>
-  `<div class="fake-image ${variant}" role="img" aria-label="Placeholder image: ${label}"><span>${label}</span></div>`;
 const escapeHtml = (value: string) =>
   value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+const FINAL_PAGE_ART = {
+  "juniper-garden": new URL("../assets/images/generated-cells/rainbow-garden/r1c1.webp", import.meta.url).href,
+  "juniper-and-modem": new URL("../assets/images/generated-cells/rainbow-garden/r1c2.webp", import.meta.url).href,
+  "modem-phone-jack": new URL("../assets/images/generated-cells/rainbow-garden/r1c3.webp", import.meta.url).href,
+  "phone-jack-closeup": new URL("../assets/images/generated-cells/rainbow-garden/r2c1.webp", import.meta.url).href,
+  "darkraven-sigil": new URL("../assets/images/generated-cells/darkraven/r1c1.webp", import.meta.url).href
+} as const;
+const finalPageArt = (name: keyof typeof FINAL_PAGE_ART, alt: string) =>
+  `<img class="final-page-art" src="${FINAL_PAGE_ART[name]}" alt="${alt}">`;
 const CONSOLE_ASSETS = {
   "pulse-cgi-console": new URL("../assets/images/console-web/pulse-cgi-console.png", import.meta.url).href,
   "pulse-cgi-controller": new URL("../assets/images/console-web/pulse-cgi-controller.png", import.meta.url).href,
@@ -366,7 +373,7 @@ export const pages: Record<string, PageDefinition> = {
         </header>
         <div class="rainbow-home-grid">
           <section class="garden-feature">
-            <div class="garden-photo">${fakeImage("JUNIPERS_GARDEN_110399.JPG", "rainbow")}<span>the last marigolds before frost</span></div>
+            <div class="garden-photo">${finalPageArt("juniper-garden", "A slightly blurry snapshot of Juniper's last orange and yellow marigolds before frost")}<span>the last marigolds before frost</span></div>
             <article class="garden-update"><small>GARDEN LOG // NOV. 3</small><h2>Hello from my little patch of the web!</h2><p>I made this place for drawings, tiny poems, plant notes, and an unreasonable number of pictures of my cat, <b>Modem</b>.</p><blockquote>the rain taps the glass<br>the modem answers softly<br>someone else is there</blockquote></article>
           </section>
           <aside class="rainbow-sidebar">
@@ -395,7 +402,7 @@ export const pages: Record<string, PageDefinition> = {
       <main class="page rainbow-page about-page">
         <header class="rainbow-subhead"><small>YOU ARE HERE: /ABOUT/ME.HTML</small><h1>About the Webmaster</h1></header>
         <div class="profile-layout">
-          <div class="juniper-polaroid">${fakeImage("JUNIPER_AND_MODEM.JPG", "pink")}<span>taken by Dad, thumb cropped out</span></div>
+          <div class="juniper-polaroid">${finalPageArt("juniper-and-modem", "An awkward snapshot of Juniper holding her orange cat Modem, with a thumb at the edge")}<span>taken by Dad, thumb cropped out</span></div>
           <section class="juniper-profile">
             <h2>Juniper, age 23</h2>
             <dl><div><dt>BIRTHDAY</dt><dd>June 14 (Raven forgot once and now has a “system”)</dd></div><div><dt>LIKES</dt><dd>gardening, scanner art, rainy radio, cinnamon tea</dd></div><div><dt>DISLIKES</dt><dd>broken links, olives, chain email, wet socks</dd></div><div><dt>WEB SKILLS</dt><dd>HTML, image maps (almost), turning it off and on</dd></div></dl>
@@ -416,7 +423,7 @@ export const pages: Record<string, PageDefinition> = {
       <main class="page rainbow-page cat-page">
         <header class="cat-corner-header"><span>=^..^=</span><div><small>THE OFFICIAL SHRINE</small><h1>Modem's Cat Corner</h1></div><span>=^..^=</span></header>
         <div class="cat-corner-grid">
-          <div class="modem-photo">${fakeImage("MODEM_LOOKING_SUSPICIOUS.GIF", "pink")}<b>SUBJECT: MODEM</b><small>orange / loud / denies everything</small></div>
+          <div class="modem-photo">${finalPageArt("modem-phone-jack", "Juniper's orange cat Modem staring suspiciously at a beige telephone jack")}<b>SUBJECT: MODEM</b><small>orange / loud / denies everything</small></div>
           <section class="modem-dossier">
             <h2>Daily Transmission Schedule</h2>
             <ol><li><b>6:04</b> breakfast alarm</li><li><b>8:30</b> window surveillance</li><li><b>11:17</b> phone-jack inspection</li><li><b>13:00</b> nap (classified)</li><li><b>18:02</b> hallway sprint</li><li><b>23:17</b> keyboard assistance</li></ol>
@@ -439,7 +446,7 @@ export const pages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page rainbow-page old-page">
         <h2>camera test please ignore</h2>
-        ${fakeImage("PHONEJACK_2.JPG", "pink")}
+        ${finalPageArt("phone-jack-closeup", "A blurry early digital-camera test photo of a beige telephone jack with Modem in the foreground")}
         <p>trying dad's digital camera. this is where Modem keeps staring.</p>
         <p><small>note to self: incoming call log says 000-0000 at 11:17 again. probably broken?</small></p>
         <button class="text-link" data-nav="web://rainbow.gdn/home">← home</button>
@@ -562,7 +569,7 @@ export const pages: Record<string, PageDefinition> = {
         <header class="raven-masthead"><div class="raven-stars">+ . * . + . * . +</div><h1>xX_DarkRaven_Xx's VOID</h1><p class="raven-warning">YOU HAVE ENTERED A DOMAIN OF SECRETS</p></header>
         <div class="raven-home-grid">
           <aside class="raven-sidebar">
-            <div class="raven-sigil">${fakeImage("RAVEN_SIGIL.GIF", "raven")}</div>
+            <div class="raven-sigil">${finalPageArt("darkraven-sigil", "DarkRaven's homemade black raven and purple crescent web sigil")}</div>
             <nav class="raven-nav"><button data-nav="web://raven.web/orbit">THE ORBIT HOLE</button><button data-nav="web://raven.web/files">FORBIDDEN FILES</button><button data-nav="web://raven.web/links">SHADOW LINKS</button><button data-nav="web://raven.web/about">ABOUT THE FIGURE</button><button data-nav="web://raven.web/vault">BLACK FILE [LOCKED]</button><button data-nav="web://rainbow.gdn/guestbook">JUNIPER'S GUESTBOOK</button></nav>
             <small>VOID VISITORS<br><b>00000666</b></small>
           </aside>

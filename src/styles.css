@@ -2244,6 +2244,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 
 .page { min-height: 100%; padding: 25px; }
 .page button { cursor: pointer; }
+.final-page-art { display: block; width: 100%; height: auto; object-fit: cover; }
 .fake-image {
   min-height: 100px;
   display: grid;
@@ -2780,6 +2781,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .guestbook-thanks { padding: 10px; color: #6a1850; background: #fff6bd; border: 1px solid #df71ad; font-weight: bold; }
 .tiny-old-link { margin-top: 25px; color: #986b87; font-size: 9px; }
 .old-page { filter: saturate(.72); }
+.old-page > .final-page-art { width: min(420px, 100%); margin: 14px auto; border: 3px ridge #e2c7d5; }
 .guestbook-page > p { padding: 9px; background: rgb(255 255 255 / 80%); border-bottom: 1px dashed #d68bae; }
 .guestbook-page fieldset { display: grid; gap: 6px; }
 .guestbook-page textarea { height: 60px; }
@@ -3030,6 +3032,11 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .raven-nav { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 20px 0; }
 .raven-nav button, .raven-page .text-link { padding: 8px; color: #e8aaff; background: #1d0928; border: 1px solid #a849cc; font-family: inherit; }
 .raven-page footer { margin-top: 25px; padding-top: 10px; border-top: 1px dotted #6f3682; font-size: 10px; }
+.raven-sigil .final-page-art { aspect-ratio: 1; margin: 0 0 7px; border: 2px ridge #8a36aa; object-fit: cover; }
+.garden-photo .final-page-art,
+.juniper-polaroid .final-page-art,
+.modem-photo .final-page-art { aspect-ratio: 1; object-fit: cover; }
+.modem-photo .final-page-art { margin-bottom: 8px; }
 .orbit-hole-page { text-align: left; }
 .raven-evidence { margin: 20px auto; padding: 30px; color: #985cab; background: #120818; border: 1px dashed #6f3682; text-align: center; }
 
