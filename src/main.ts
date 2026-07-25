@@ -2383,7 +2383,19 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
       playerMessage: safeMessage,
       subject,
       relationshipScore: state.relationships[ownerId] ?? 0,
-      recentMessages
+      recentMessages,
+      helperContext: channel === "helper" ? {
+        storyPhase: state.storyPhase,
+        currentPage: {
+          url: state.currentUrl,
+          title: pages[state.currentUrl]?.title ?? "Unknown address",
+          summary: pages[state.currentUrl]?.summary ?? "This address is not part of the indexed OrbitNet directory."
+        },
+        visitedUrls: state.visited,
+        discoveredMysteries: state.discoveredMysteries,
+        darkRavenVaultUnlocked: Boolean(state.flags.darkraven_vault_unlocked),
+        continuityConsoleUnlocked: Boolean(state.flags.continuity_console_unlocked)
+      } : undefined
     });
     const availableAt = scheduleReplyAt(ownerId, channel, sentAt);
     const ownerReply: DirectMessage = {

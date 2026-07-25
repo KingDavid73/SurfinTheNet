@@ -24,6 +24,7 @@
     "test:boot": "npm run build && cross-env BOOT_SMOKE_TEST=1 electron .",
     "test:comments": "npm run build && cross-env COMMENT_SMOKE_TEST=1 electron .",
     "test:ambient": "npm run build && cross-env AMBIENT_SMOKE_TEST=1 electron .",
+    "test:helper": "node scripts/test-helper-knowledge.mjs",
     "test:personas": "node scripts/validate-personas.mjs",
     "test:timing": "node scripts/test-reply-scheduling.mjs",
     "test:safeguard": "npm run build && cross-env SAFEGUARD_SMOKE_TEST=1 electron .",

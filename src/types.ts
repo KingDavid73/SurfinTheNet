@@ -141,6 +141,19 @@ export interface DirectMessage {
   metrics?: AiMetrics;
 }
 
+export interface HelperProgressContext {
+  storyPhase: StoryPhase;
+  currentPage: {
+    url: string;
+    title: string;
+    summary: string;
+  };
+  visitedUrls: string[];
+  discoveredMysteries: string[];
+  darkRavenVaultUnlocked: boolean;
+  continuityConsoleUnlocked: boolean;
+}
+
 export interface DirectReplyRequest {
   ownerId: string;
   channel: DirectChannel;
@@ -148,6 +161,7 @@ export interface DirectReplyRequest {
   subject?: string;
   relationshipScore: number;
   recentMessages: Array<{ role: "player" | "owner"; author: string; text: string }>;
+  helperContext?: HelperProgressContext;
 }
 
 export interface DirectReplyResult {
