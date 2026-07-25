@@ -697,6 +697,7 @@ let phaseTransition: {
   sleptFrom: string;
   wokeAt: string;
 } | null = null;
+let phaseTransitionPrompt: 2 | 3 | 4 | null = null;
 let lastGameClockTick = performance.now();
 let lastClockSave = performance.now();
 let ambientQueueProcessing = false;
@@ -1423,6 +1424,7 @@ function activateStoryPhase(nextPhase: StoryPhase) {
   if (state.storyPhase >= nextPhase) return;
   state.storyPhase = nextPhase;
   if (nextPhase === 2) {
+    state.flags.phase_two_transition_pending = false;
     addAuthoredDirectMessage(
       "ghostline-phase2",
       "ghostline",
@@ -1463,9 +1465,23 @@ function registerStoryVisit(url: string) {
   }
 }
 
+function promptForPendingPhaseTransition() {
+  if (
+    state.currentUrl !== "web://raven.web/vault" ||
+    state.storyPhase !== 1 ||
+    !state.flags.phase_two_transition_pending
+  ) return false;
+  phaseTransitionPrompt = 2;
+  startOpen = false;
+  sleepDialogOpen = false;
+  render();
+  return true;
+}
+
 function navigate(url: string, push = true) {
   const normalized = url.trim().toLowerCase().replace(/^https?:\/\//, "web://");
   const nextUrl = normalized || "web://home";
+  if (nextUrl !== state.currentUrl && promptForPendingPhaseTransition()) return;
   if (push && nextUrl !== state.currentUrl) browserScrollPositions.set(nextUrl, 0);
   state.currentUrl = nextUrl;
   pageMusicPlaying = true;
@@ -2380,6 +2396,22 @@ function phaseTransitionScreen() {
   </section>`;
 }
 
+function phaseTransitionPromptScreen() {
+  if (!phaseTransitionPrompt) return "";
+  const phaseTwo = phaseTransitionPrompt === 2;
+  return `<section class="phase-transition-overlay phase-transition-prompt">
+    <div class="phase-transition-card">
+      <div class="phase-transition-moon">☾</div>
+      <small>BEFORE YOU LOG OFF FOR THE NIGHT...</small>
+      <h1>${phaseTwo ? "YOU TELL A FEW FRIENDS WHAT YOU FOUND" : "THE DISCOVERY NEEDS TIME TO TRAVEL"}</h1>
+      <p>${phaseTwo
+        ? "DarkRaven's Black File is mostly homemade hacker theater, but the recovered OrbitOS address is real. You pass the address to a few people who might appreciate it. It is late, and any replies can wait until morning."
+        : "You send the address and your notes to a few people, then leave the network to react while you sleep."}</p>
+      <button data-phase-sleep>SLEEP UNTIL TOMORROW</button>
+    </div>
+  </section>`;
+}
+
 function render() {
   const existingViewport = document.querySelector<HTMLElement>(".browser-viewport");
   if (existingViewport) browserScrollPositions.set(renderedBrowserUrl, existingViewport.scrollTop);
@@ -2407,6 +2439,7 @@ function render() {
     ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 OIM — Orbit Instant Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<button data-open="diagnostics">▤ System Diagnostics</button><hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off ${escapeHtml(playerName())}</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ New Game</button></div>` : ""}
     <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
     ${sleepDialog()}
+    ${phaseTransitionPromptScreen()}
     ${phaseTransitionScreen()}
   </main>`;
   storyFormErrors.forEach((message, key) => {
@@ -2769,6 +2802,14 @@ function advanceGameTime(option: string) {
 }
 
 function bindEvents() {
+  document.querySelector<HTMLElement>("[data-phase-sleep]")?.addEventListener("click", async () => {
+    const nextPhase = phaseTransitionPrompt;
+    phaseTransitionPrompt = null;
+    if (!nextPhase) return;
+    activateStoryPhase(nextPhase);
+    await saveState();
+    render();
+  });
   document.querySelector<HTMLElement>("[data-phase-wake]")?.addEventListener("click", () => {
     const completedPhase = phaseTransition?.phase;
     phaseTransition = null;
@@ -2865,6 +2906,7 @@ function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-window]").forEach((el) => el.addEventListener("pointerdown", () => { focusApp(el.dataset.window as AppId); el.style.zIndex = String(topZ); }));
   document.querySelectorAll<HTMLElement>("[data-close]").forEach((el) => el.addEventListener("click", () => {
     const app = el.dataset.close as AppId;
+    if (app === "browser" && promptForPendingPhaseTransition()) return;
     windows[app].open = false;
     if (app === "helper") helperPanelOpen = false;
     if (app === "browser") {
@@ -2938,6 +2980,7 @@ function bindEvents() {
   });
   document.querySelectorAll<HTMLElement>("[data-session]").forEach((button) => button.addEventListener("click", () => {
     const action = button.dataset.session;
+    if (promptForPendingPhaseTransition()) return;
     startOpen = false;
     if (action === "sleep") {
       sleepDialogOpen = true;
@@ -2968,6 +3011,8 @@ function bindEvents() {
     state = normalizeState(window.gameAPI ? await window.gameAPI.reset() : structuredClone(DEFAULT_STATE));
     if (!window.gameAPI) localStorage.removeItem("surfin-save");
     history = [state.currentUrl]; historyIndex = 0; startOpen = false;
+    phaseTransitionPrompt = null;
+    phaseTransition = null;
     windows.helper.open = false;
     helperPanelOpen = false;
     pageMusicPlaying = false;
@@ -3050,9 +3095,10 @@ function bindEvents() {
     }
     storyFormErrors.delete("raven");
     state.flags.darkraven_vault_unlocked = true;
-    activateStoryPhase(2);
+    state.flags.phase_two_transition_pending = true;
     await saveState();
-    showNotification("New instant message from ghostline.");
+    notification = "ACCESS GRANTED // Black File decrypted.";
+    render();
   });
   document.querySelector<HTMLFormElement>("[data-continuity-login]")?.addEventListener("submit", async (event) => {
     event.preventDefault();

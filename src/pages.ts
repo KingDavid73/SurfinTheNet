@@ -100,7 +100,7 @@ const NAV_BUTTON_ASSETS: Record<string, string> = {
   "soundwave-zone": new URL("../assets/images/navigation-buttons/soundwave-zone.png", import.meta.url).href,
   "cozycommons-zone": new URL("../assets/images/navigation-buttons/cozycommons-zone.png", import.meta.url).href,
   "backchannel-zone": new URL("../assets/images/navigation-buttons/backchannel-zone.png", import.meta.url).href,
-  "newcomer-zone": NEWCOMER_ZONE_BUTTON,
+  "newcomers-zone": NEWCOMER_ZONE_BUTTON,
   lagmaster: new URL("../assets/images/navigation-buttons/lagmaster.png", import.meta.url).href,
   velvetmage: new URL("../assets/images/navigation-buttons/velvetmage.png", import.meta.url).href,
   playerfour: new URL("../assets/images/navigation-buttons/playerfour.png", import.meta.url).href,
@@ -621,6 +621,8 @@ export const pages: Record<string, PageDefinition> = {
             <h2>VOID BULLETINS</h2>
             <p><b>11/03:</b> Added proof OrbitNet has pages outside the directory.</p>
             <p><b>11/02:</b> Mira says clock drift is "not ghosts." Coward.</p>
+            <p><b>11/01:</b> Juniper says purple text is not a whole personality. She still signed my guestbook first.</p>
+            <p><b>PERSONAL:</b> Find Juniper something better than grocery-store carnations before her birthday. Do not ask why.</p>
             <p><b>10/31:</b> Graveyard Shift 99 rumor still unverified.</p>
             <p><b>REMINDER:</b> four-digit dates use <code>MMDD</code>. This is not a hint.</p>
             <div class="raven-award">THIS SITE<br><b>DOES NOT</b><br>USE FRAMES</div>

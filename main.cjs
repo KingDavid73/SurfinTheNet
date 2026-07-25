@@ -850,7 +850,27 @@ function createWindow() {
           if (!unlocked) throw new Error("Could not submit DarkRaven's authored password");
           await wait(250);
           let saved = await readSave();
-          if (saved.storyPhase !== 2 || !saved.flags.darkraven_vault_unlocked || !saved.directMessages.some((message) => message.id === "ghostline-phase2")) throw new Error("Black File did not activate phase two and ghostline");
+          if (
+            saved.storyPhase !== 1 ||
+            !saved.flags.darkraven_vault_unlocked ||
+            !saved.flags.phase_two_transition_pending ||
+            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-open')) && !document.querySelector('.phase-transition-overlay')`)
+          ) throw new Error("Black File did not remain readable after being unlocked");
+          await capture("story-darkraven-black-file.png");
+          await address("web://home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-prompt [data-phase-sleep]')) && Boolean(document.querySelector('.raven-vault-open'))`)) {
+            throw new Error("Leaving the Black File did not pause for the explicit overnight transition");
+          }
+          const sleptUntilTomorrow = await win.webContents.executeJavaScript(`(() => {
+            const button = document.querySelector('[data-phase-sleep]');
+            if (!button) return false;
+            button.click();
+            return true;
+          })()`);
+          if (!sleptUntilTomorrow) throw new Error("Could not confirm the phase-two overnight sleep");
+          await wait(250);
+          saved = await readSave();
+          if (saved.storyPhase !== 2 || saved.flags.phase_two_transition_pending || !saved.directMessages.some((message) => message.id === "ghostline-phase2")) throw new Error("Overnight sleep did not activate phase two and ghostline");
           if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-2'))`)) {
             throw new Error(`Phase two did not force an overnight sleep: ${saved.gameTime}`);
           }
@@ -858,8 +878,16 @@ function createWindow() {
           await wakeFromPhaseTransition(2);
 
           await address("web://home");
-          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.zone-directory-card').length === 9 && Boolean(document.querySelector('.zone-directory-card.zone-newcomers'))`)) {
-            throw new Error("Phase-two home directory did not gain Newbie Nebula");
+          if (!await win.webContents.executeJavaScript(`(() => {
+            const card = document.querySelector('.zone-directory-card.zone-newcomers');
+            const image = card?.querySelector('img');
+            return document.querySelectorAll('.zone-directory-card').length === 9 &&
+              Boolean(card) &&
+              Boolean(image) &&
+              image.naturalWidth > 0 &&
+              !image.src.endsWith('/undefined');
+          })()`)) {
+            throw new Error("Phase-two home directory did not gain an illustrated Newbie Nebula card");
           }
           await address("web://orbitnet.local/zones/newcomers");
           if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.newcomer-member-card').length === 5`)) throw new Error("Newbie Nebula did not list five first pages");
