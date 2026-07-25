@@ -1376,7 +1376,9 @@ function createWindow() {
           await new Promise((resolve) => setTimeout(resolve, 250));
           const powerClicked = await win.webContents.executeJavaScript(`(() => { const power = document.querySelector('[data-power]'); if (!power) return false; power.click(); return true; })()`);
           if (!powerClicked) throw new Error("Title screen power button was not available");
-          await new Promise((resolve) => setTimeout(resolve, 600));
+          await new Promise((resolve) => setTimeout(resolve, 2100));
+          const monitorCentering = await win.webContents.executeJavaScript(`(() => { const screen = document.querySelector('.screen-flicker'); if (!screen) return null; const bounds = screen.getBoundingClientRect(); return { x: Math.abs(bounds.left + bounds.width / 2 - innerWidth / 2), y: Math.abs(bounds.top + bounds.height / 2 - innerHeight / 2) }; })()`);
+          if (!monitorCentering || monitorCentering.x > 16 || monitorCentering.y > 16) throw new Error(`CRT zoom missed the viewport center by ${JSON.stringify(monitorCentering)}`);
           const crtImage = await win.webContents.capturePage();
           const crtTarget = path.resolve(__dirname, "artifacts", "crt-power-on.png");
           await fs.mkdir(path.dirname(crtTarget), { recursive: true });

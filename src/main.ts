@@ -568,6 +568,7 @@ let chatStartedAt = 0;
 let startupStage: StartupStage = new URLSearchParams(window.location.search).has("skipBoot") ? "desktop" : "title";
 let startupTimer: number | null = null;
 let startupStatusTimer: number | null = null;
+let bootMonitorZoom = { originX: 0, originY: 0, panX: 0, panY: 0 };
 let loginNameError = "";
 let computerHasBooted = startupStage === "desktop";
 let sleepDialogOpen = false;
@@ -1826,7 +1827,7 @@ function startupScreen() {
 
   if (startupStage === "title" || startupStage === "powering") {
     return `<main class="startup-screen desk-stage ${startupStage}">
-      <div class="desk-camera">
+      <div class="desk-camera" style="--monitor-origin-x:${bootMonitorZoom.originX}px;--monitor-origin-y:${bootMonitorZoom.originY}px;--monitor-pan-x:${bootMonitorZoom.panX}px;--monitor-pan-y:${bootMonitorZoom.panY}px">
         <div class="desk-artboard">
           <img class="startup-desk-art" src="${titleArtworkUrl}" alt="A powered-off beige computer on a desk at night">
           <div class="desk-vignette"></div>
@@ -2075,6 +2076,20 @@ function playBootHardwareSounds() {
 
 async function startComputer() {
   if (startupStage !== "title") return;
+  const camera = document.querySelector<HTMLElement>(".desk-camera");
+  const screen = document.querySelector<HTMLElement>(".screen-flicker");
+  if (camera && screen) {
+    const cameraBounds = camera.getBoundingClientRect();
+    const screenBounds = screen.getBoundingClientRect();
+    const screenCenterX = screenBounds.left + screenBounds.width / 2;
+    const screenCenterY = screenBounds.top + screenBounds.height / 2;
+    bootMonitorZoom = {
+      originX: screenCenterX - cameraBounds.left,
+      originY: screenCenterY - cameraBounds.top,
+      panX: cameraBounds.left + cameraBounds.width / 2 - screenCenterX,
+      panY: cameraBounds.top + cameraBounds.height / 2 - screenCenterY
+    };
+  }
   playBootHardwareSounds();
   startupStage = "powering";
   beginAiPreload();

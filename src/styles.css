@@ -1737,17 +1737,17 @@ button { color: #111; }
 }
 
 .desk-stage.powering .desk-camera {
-  transform-origin: 45.5% 41%;
+  transform-origin: var(--monitor-origin-x, 50%) var(--monitor-origin-y, 50%);
   animation: camera-into-monitor 2.3s cubic-bezier(.4, 0, .15, 1) forwards;
 }
 
 .screen-flicker {
   position: absolute;
   z-index: 10;
-  left: 28.8%;
-  top: 22.3%;
-  width: 32.8%;
-  height: 38.2%;
+  left: 30.6%;
+  top: 22.5%;
+  width: 30.1%;
+  height: 37.5%;
   opacity: 0;
   background: #c8eff0;
   border-radius: 9% / 12%;
@@ -1762,7 +1762,7 @@ button { color: #111; }
 @keyframes camera-into-monitor {
   0%, 18% { transform: scale(1); filter: brightness(1); }
   25% { filter: brightness(1.2); }
-  100% { transform: scale(3.4); filter: saturate(.4) brightness(.25); }
+  100% { transform: translate(var(--monitor-pan-x, 0), var(--monitor-pan-y, 0)) scale(3.4); filter: saturate(.4) brightness(.25); }
 }
 
 @keyframes monitor-flicker {
