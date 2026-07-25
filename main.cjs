@@ -170,8 +170,10 @@ function createWindow() {
           const mediumTextReady = await win.webContents.executeJavaScript(`document.querySelector('[data-browser-text-size]')?.value === 'medium' && document.querySelector('.browser-page-scale')?.classList.contains('text-medium')`);
           if (!mediumTextReady) throw new Error("Browser did not default to the readable Medium text size");
           const largeTextReady = await win.webContents.executeJavaScript(`(() => { const select = document.querySelector('[data-browser-text-size]'); if (!select) return false; select.value = 'large'; select.dispatchEvent(new Event('change', { bubbles: true })); return document.querySelector('.browser-page-scale')?.classList.contains('text-large'); })()`);
+          await new Promise((resolve) => setTimeout(resolve, 120));
           if (!largeTextReady || (await readSave()).settings.browserTextSize !== "large") throw new Error("Browser text-size preference did not apply or persist");
           const extraLargeTextReady = await win.webContents.executeJavaScript(`(() => { const select = document.querySelector('[data-browser-text-size]'); if (!select) return false; select.value = 'extra-large'; select.dispatchEvent(new Event('change', { bubbles: true })); return document.querySelector('.browser-page-scale')?.classList.contains('text-extra-large'); })()`);
+          await new Promise((resolve) => setTimeout(resolve, 120));
           if (!extraLargeTextReady || (await readSave()).settings.browserTextSize !== "extra-large") throw new Error("Browser Extra Large text-size preference did not apply or persist");
           await win.webContents.executeJavaScript(`(() => { const select = document.querySelector('[data-browser-text-size]'); select.value = 'medium'; select.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
           await click('[data-open="mail"]');
@@ -238,6 +240,10 @@ function createWindow() {
                 await click(`[data-nav="${expectedCozyUrls[cozyIndex]}"]`);
                 const cozyPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(cozyClasses[cozyIndex - 1])})) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('[data-nav="web://orbitnet.local/zones/cozycommons"]'))`);
                 if (!cozyPageReady) throw new Error(`Cozy Commons member page was incomplete: ${expectedCozyUrls[cozyIndex]}`);
+                if (expectedCozyUrls[cozyIndex] === "web://trailnotes.home/index") {
+                  const trailMusicReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.midi-controls > span')?.textContent.includes('/2') && ['underwater-journey.mp3', 'echoes-of-the-forgotten-king.mp3'].includes(document.querySelector('.midi-track code')?.textContent || '')`);
+                  if (!trailMusicReady) throw new Error("TrailNote Tom did not receive his two-track ambient MP3 playlist");
+                }
                 await capture(`cozy-member-${cozyIndex}.png`);
                 await click('[data-nav="web://orbitnet.local/zones/cozycommons"]');
               }
@@ -309,10 +315,10 @@ function createWindow() {
               await capture("orbitnet-zone-xtreme-members.png");
               const riderClasses = [".dee-page", ".cole-page", ".nico-page", ".ty-page", ".troy-page", ".ollie-page", ".viktor-page"];
               const featureClasses = [".dee-feature", ".cole-jump", ".nico-action", ".ty-action", ".troy-action", ".ollie-action", ".viktor-feature"];
-              const trackLabels = [["Demo Tape Spin", "Grip Tape Summer"], ["Tailwhip at Dusk"], ["Wheelbite Anthem"], ["Banzai Loop", "Banzai Loop II", "Cutback Chaos"], ["Mud on My Helmet"], ["Scooter Kid Shuffle"], ["Riviera Idle"]];
+              const trackLabels = [["Demo Tape Spin", "Grip Tape Summer"], ["Tailwhip at Dusk"], ["Wheelbite Anthem"], ["Banzai Loop", "Banzai Loop II", "Cutback Chaos"], ["Mud on My Helmet"], ["Scooter Kid Shuffle"], ["Neon Paradise", "Welcome to the Future"]];
               for (let riderIndex = 0; riderIndex < expectedRiderUrls.length; riderIndex += 1) {
                 await click(`[data-nav="${expectedRiderUrls[riderIndex]}"]`);
-                const riderPageReady = await win.webContents.executeJavaScript(`(() => { const player = document.querySelector('.page-midi-player'); const labels = ${JSON.stringify(trackLabels[riderIndex])}; return Boolean(document.querySelector(${JSON.stringify(riderClasses[riderIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.xtreme-art').length >= 8 && labels.some((label) => player?.textContent.includes(label)); })()`);
+                const riderPageReady = await win.webContents.executeJavaScript(`(() => { const player = document.querySelector('.page-midi-player'); const labels = ${JSON.stringify(trackLabels[riderIndex])}; return Boolean(document.querySelector(${JSON.stringify(riderClasses[riderIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.xtreme-art').length >= 8 && labels.some((label) => player?.textContent.includes(label)) && ((${riderIndex} !== 6) || (player?.classList.contains('has-playlist') && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3'))); })()`);
                 if (!riderPageReady) throw new Error(`X-Treme Edge rider page was incomplete: ${expectedRiderUrls[riderIndex]}`);
                 await capture(`xtreme-member-${riderIndex + 1}.png`);
                 await win.webContents.executeJavaScript(`document.querySelector(${JSON.stringify(featureClasses[riderIndex])})?.scrollIntoView({ block: 'start' }); true`);
@@ -337,7 +343,7 @@ function createWindow() {
               await capture("orbitnet-zone-petplanet-members.png");
               const petClasses = [".carla-page", ".ray-page", ".bea-page", ".hal-page", ".iris-page", ".sam-page"];
               const petFlourishes = [".carla-scrapbook", ".ray-scoreboard", ".bea-burrow-map", ".hal-telemetry", ".iris-green-room", ".sam-incident-file"];
-              const trackLabels = ["Mr. Boots Loop", "Comet's Backyard Quest", "Bun Brigade Bea", "Ham Cam Hal", "Iguana Iris", "Cabinet Caper"];
+              const trackLabels = ["Mr. Boots Loop", "Comet's Backyard Quest", "Bun Brigade Bea", "Ham Cam Hal", "Iguana Iris", "Midnight Dreams"];
               for (let petIndex = 0; petIndex < expectedPetUrls.length; petIndex += 1) {
                 await click(`[data-nav="${expectedPetUrls[petIndex]}"]`);
                 const petPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(petClasses[petIndex])})) && Boolean(document.querySelector(${JSON.stringify(petFlourishes[petIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.pet-member-art').length === 3 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[petIndex])})`);
@@ -830,6 +836,10 @@ function createWindow() {
             if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.sound-user-page')) && document.querySelectorAll('.sound-user-page .sound-member-photo img').length >= ${expectedImages} && Boolean(document.querySelector('.page-comments')) && !document.querySelector('.byte-barn-cover-update')`)) {
               throw new Error(`Phase-one SoundWave member page was incomplete, unillustrated, or revealed the cover wave early: ${soundwaveUrl}`);
             }
+            if (soundwaveUrl.includes("subbasssimon")) {
+              const simonMusicReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.midi-controls > span')?.textContent.includes('/2') && ['neon-dreams.mp3', 'neon-breeze.mp3'].includes(document.querySelector('.midi-track code')?.textContent || '')`);
+              if (!simonMusicReady) throw new Error("SubBass Simon did not receive his two-track ambient MP3 playlist");
+            }
           }
           await address("web://soundwave.zone/users/rhymetaperico/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rico-listening-guide')) && Boolean(document.querySelector('[data-aim-owner="rhymetape_rico"]')) && document.body.textContent.includes('Corny hook. Crooked clap. Tiny keyboard stab.')`)) {
@@ -1067,7 +1077,7 @@ function createWindow() {
             throw new Error("Phase-three SoundWave directory did not feature the unresolved signal above its members");
           }
           await address("web://soundwave.zone/features/incoming-signal");
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.incoming-signal-page:not(.signal-revealed)')) && document.querySelector('.incoming-countdown-core')?.textContent.includes('10') && document.body.textContent.includes('ARTIST DATA:  [WITHHELD]') && !document.body.textContent.includes('BYTE BARN FOREVER')`)) {
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.incoming-signal-page:not(.signal-revealed)')) && document.querySelector('.incoming-countdown-core')?.textContent.includes('10') && document.body.textContent.includes('ARTIST DATA:  [WITHHELD]') && !document.body.textContent.includes('BYTE BARN FOREVER') && document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.midi-controls > span')?.textContent.includes('/8') && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3')`)) {
             throw new Error("Phase-three SoundWave countdown revealed too much before the system discovery");
           }
           await capture("story-soundwave-incoming-signal.png");

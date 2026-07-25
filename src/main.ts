@@ -18,6 +18,7 @@ import {
 } from "./soundwave-pages";
 import {
   BYTE_BARN_COMPILATION_TRACKS,
+  BYTE_BARN_FAN_TRACKS,
   PHASE_TWO_BYTE_BARN_COVERS,
   byteBarnCoverForPage
 } from "./byte-barn-revival";
@@ -128,14 +129,17 @@ const BIG_BASS_BOB_TRACKS: readonly PageMusicTrack[] = [
   { label: "Reel It In", file: "reel-it-in-secret-04.mp3", url: new URL("../assets/audio/pages/big-bass-bob/reel-it-in-secret-04.mp3", import.meta.url).href }
 ];
 
-const GARDEN_SPRITES_TRACK: PageMusicTrack = {
-  label: "Garden Sprites",
-  file: "garden-sprites.mid",
-  midiUrl: new URL("../assets/audio/pages/garden-sprites.mid", import.meta.url).href,
-  url: new URL("../assets/audio/pages/garden-sprites.wav", import.meta.url).href
-};
-
 const productionTrack = (label: string, file: string, url: string): PageMusicTrack => ({ label, file, url });
+const BYTE_BARN_DEAL_TRACK = productionTrack("Byte Barn Deal", "byte-barn-deal.mp3", new URL("../assets/audio/pages/byte-barn/byte-barn-deal.mp3", import.meta.url).href);
+const AMBIENT_FILL_TRACKS = {
+  trailnotes: productionTrack("Underwater Journey", "underwater-journey.mp3", new URL("../assets/audio/pages/ambient-fill/underwater-journey.mp3", import.meta.url).href),
+  trailEchoes: productionTrack("Echoes of the Forgotten King", "echoes-of-the-forgotten-king.mp3", new URL("../assets/audio/pages/ambient-fill/echoes-of-the-forgotten-king.mp3", import.meta.url).href),
+  simonNeonDreams: productionTrack("Neon Dreams", "neon-dreams.mp3", new URL("../assets/audio/pages/ambient-fill/neon-dreams.mp3", import.meta.url).href),
+  simonNeonBreeze: productionTrack("Neon Breeze", "neon-breeze.mp3", new URL("../assets/audio/pages/ambient-fill/neon-breeze.mp3", import.meta.url).href),
+  viktorParadise: productionTrack("Neon Paradise", "neon-paradise.mp3", new URL("../assets/audio/pages/ambient-fill/neon-paradise.mp3", import.meta.url).href),
+  viktorFuture: productionTrack("Welcome to the Future", "welcome-to-the-future.mp3", new URL("../assets/audio/pages/ambient-fill/welcome-to-the-future.mp3", import.meta.url).href),
+  skunkMidnight: productionTrack("Midnight Dreams", "midnight-dreams.mp3", new URL("../assets/audio/pages/ambient-fill/midnight-dreams.mp3", import.meta.url).href)
+} as const;
 const PRODUCTION_TRACKS = {
   fifthExit: productionTrack("Call Me from the Food Court", "fifth-exit-food-court.mp3", new URL("../assets/audio/pages/production-pass/fifth-exit-food-court.mp3", import.meta.url).href),
   afterhoursLibrary: productionTrack("Afterhours Library", "afterhours-library.mp3", new URL("../assets/audio/pages/production-pass/afterhours-library.mp3", import.meta.url).href),
@@ -225,16 +229,16 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   soundboyband: PRODUCTION_TRACKS.fifthExit,
   soundpunk: PRODUCTION_TRACKS.basementCart,
   soundgrunge: PRODUCTION_TRACKS.mudInVan,
-  soundbreakbeat: { label: "TubeNet Telemetry", file: "tubenet-telemetry.mid", midiUrl: new URL("../assets/audio/pages/tubenet-telemetry.mid", import.meta.url).href, url: new URL("../assets/audio/pages/tubenet-telemetry.wav", import.meta.url).href },
+  soundbreakbeat: AMBIENT_FILL_TRACKS.simonNeonDreams,
   soundcountry: PRODUCTION_TRACKS.twoLanes,
   soundrap: PRODUCTION_TRACKS.dynamoCipher,
-  bytebarnteaser: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  bytebarnteaser: BYTE_BARN_DEAL_TRACK,
   bytebarntribute: BYTE_BARN_COMPILATION_TRACKS[0].track,
   rainbow: PRODUCTION_TRACKS.juniperGarden,
   cozygarden: PRODUCTION_TRACKS.rosepatch,
   cozycottage: PRODUCTION_TRACKS.hearthside,
   cozymom: PRODUCTION_TRACKS.snacktime,
-  cozyhike: GARDEN_SPRITES_TRACK,
+  cozyhike: AMBIENT_FILL_TRACKS.trailnotes,
   cozycraft: PRODUCTION_TRACKS.paperbird,
   signal: PRODUCTION_TRACKS.nightSignal,
   raven: PRODUCTION_TRACKS.ravenCache,
@@ -245,7 +249,7 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   quietcounty: PRODUCTION_TRACKS.quietCounty,
   algorithmarchive: PRODUCTION_TRACKS.orbitnetLabs,
   rumorarchive: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
-  computer: { label: "Byte Barn Deal", file: "byte-barn-deal.mp3", url: new URL("../assets/audio/pages/byte-barn/byte-barn-deal.mp3", import.meta.url).href },
+  computer: BYTE_BARN_DEAL_TRACK,
   modkit: PRODUCTION_TRACKS.modKitMaddy,
   pizza: COSMIC_CRUST_TRACKS[0],
   pets: PRODUCTION_TRACKS.pawsNClaws,
@@ -263,13 +267,13 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   surfer: SURFER_TRACKS[0],
   motocross: PRODUCTION_TRACKS.mudHelmet,
   scooter: { label: "Scooter Kid Shuffle", file: "scooter-kid-shuffle.mp3", url: new URL("../assets/audio/pages/scooter/scooter-kid-shuffle.mp3", import.meta.url).href },
-  euro: { label: "Riviera Idle", file: "riviera-idle.mid", midiUrl: new URL("../assets/audio/pages/riviera-idle.mid", import.meta.url).href, url: new URL("../assets/audio/pages/riviera-idle.wav", import.meta.url).href },
+  euro: AMBIENT_FILL_TRACKS.viktorParadise,
   petcat: PRODUCTION_TRACKS.mrBoots,
   petdog: PRODUCTION_TRACKS.cometQuest,
   petrabbit: PRODUCTION_TRACKS.bunBrigade,
   pethamster: PRODUCTION_TRACKS.hamCam,
   petiguana: PRODUCTION_TRACKS.iguanaIris,
-  petskunk: { label: "Cabinet Caper", file: "cabinet-caper.mid", midiUrl: new URL("../assets/audio/pages/cabinet-caper.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cabinet-caper.wav", import.meta.url).href },
+  petskunk: AMBIENT_FILL_TRACKS.skunkMidnight,
   fanmoss: PRODUCTION_TRACKS.mossMunch,
   fanblipzo: PRODUCTION_TRACKS.mallDimension,
   fanstar: PRODUCTION_TRACKS.professorStar,
@@ -297,6 +301,11 @@ const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicT
   orbithome: ORBIT_HOME_TRACKS,
   directory: ORBIT_HOME_TRACKS,
   gamegridzone: [SITE_MUSIC.gamegridzone, SITE_MUSIC.vanta, SITE_MUSIC.cubit],
+  soundbreakbeat: [AMBIENT_FILL_TRACKS.simonNeonDreams, AMBIENT_FILL_TRACKS.simonNeonBreeze],
+  cozyhike: [AMBIENT_FILL_TRACKS.trailnotes, AMBIENT_FILL_TRACKS.trailEchoes],
+  euro: [AMBIENT_FILL_TRACKS.viktorParadise, AMBIENT_FILL_TRACKS.viktorFuture],
+  petskunk: [AMBIENT_FILL_TRACKS.skunkMidnight],
+  bytebarnteaser: [BYTE_BARN_DEAL_TRACK, ...Object.values(BYTE_BARN_FAN_TRACKS)],
   newcalfan: KING_CAL_TRACKS,
   pizza: COSMIC_CRUST_TRACKS,
   earl: HONEST_EARL_TRACKS,

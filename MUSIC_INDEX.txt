@@ -8,13 +8,16 @@ Music is scoped to a site/domain. Subpages keep the same playing track.
 Multi-track playlists begin at a random position and advance through the list.
 
 
-STILL NEEDS A DEDICATED MP3
-===========================
+AMBIENT MP3 FILL PASS
+=====================
 
-[ ] trailnotes.home - Tom's phase-one hiking page uses the garden fallback. It gains a Byte Barn cover in phase two.
-[ ] soundwave.zone/users/subbasssimon - Simon uses the telemetry fallback in phase one. He gains a Byte Barn remix in phase two.
-[ ] xtreme.zone/users/veloceviktor - Viktor's rich-kid supercar/yacht page still uses "Riviera Idle" WAV/MIDI.
-[ ] petplanet.zone/users/skunkunclesam - Sam and Pepper's domestic-skunk page still uses "Cabinet Caper" WAV/MIDI.
+[x] trailnotes.home - Two-track ambient playlist: "Underwater Journey" and "Echoes of the Forgotten King," plus Tom's Byte Barn cover in phase two.
+[x] soundwave.zone/users/subbasssimon - Two-track playlist: "Neon Dreams" and "Neon Breeze," plus Simon's Byte Barn remix in phase two.
+[x] xtreme.zone/users/veloceviktor - Two-track playlist: "Neon Paradise" and "Welcome to the Future."
+[x] petplanet.zone/users/skunkunclesam - "Midnight Dreams."
+[x] soundwave.zone/features/incoming-signal - Original Byte Barn jingle plus all seven existing fan covers/remixes.
+
+All currently playable page scopes now include at least one MP3 track.
 
 
 ORBITNET HUBS
