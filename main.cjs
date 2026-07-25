@@ -804,7 +804,7 @@ function createWindow() {
           }
           await address("web://soundwave.zone/users/rhymetaperico/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rico-listening-guide')) && Boolean(document.querySelector('[data-aim-owner="rhymetape_rico"]')) && document.body.textContent.includes('Corny hook. Crooked clap. Tiny keyboard stab.')`)) {
-            throw new Error("Main-character Rico did not expose his phase-one music-guide breadcrumb and AIM contact");
+            throw new Error("Main-character Rico did not expose his phase-one music-guide breadcrumb and OIM contact");
           }
           await capture("story-soundwave-rico.png");
           await address("web://soundwave.zone/users/rhymetaperico/deep-cuts");
@@ -1137,10 +1137,10 @@ function createWindow() {
       setTimeout(async () => {
         try {
           const opened = await win.webContents.executeJavaScript(`(() => { const icon = document.querySelector('[data-open="chat"]'); if (!icon) return false; icon.click(); return true; })()`);
-          if (!opened) throw new Error("Messenger desktop icon was not available");
+          if (!opened) throw new Error("OIM desktop icon was not available");
           const submitAndWait = async (message, expectedReplyCount) => {
             const submitted = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('.chat-form'); const input = form?.querySelector('textarea'); if (!form || !input) return false; input.value = ${JSON.stringify(message)}; form.requestSubmit(); return true; })()`);
-            if (!submitted) throw new Error("Messenger form was not available");
+            if (!submitted) throw new Error("OIM form was not available");
 
             const deadline = Date.now() + 180_000;
             let result = null;
@@ -1158,7 +1158,7 @@ function createWindow() {
               if (responseGenerated) break;
             }
             if (!responseGenerated) throw new Error(`Timed out waiting for hidden local model response; last status: ${result?.status ?? "unknown"}`);
-            if (result.waiting || result.sendLabel !== "Send") throw new Error("Messenger retained a visible reply-waiting state after the message was sent");
+            if (result.waiting || result.sendLabel !== "Send") throw new Error("OIM retained a visible reply-waiting state after the message was sent");
 
             const advanced = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-start]')?.click(); document.querySelector('[data-session="sleep"]')?.click(); const nap = document.querySelector('[data-sleep-hours="1"]'); if (!nap) return false; nap.click(); return true; })()`);
             if (!advanced) throw new Error("Could not advance time to the scheduled instant message");

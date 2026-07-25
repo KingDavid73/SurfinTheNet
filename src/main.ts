@@ -531,7 +531,7 @@ const APP_META: Record<AppId, { icon: string; title: string }> = {
   browser: { icon: "O", title: "Orbit Explorer" },
   mail: { icon: "@", title: "Orbit Mail" },
   files: { icon: "▣", title: "My Files" },
-  chat: { icon: "◎", title: "Orbit Messenger" },
+  chat: { icon: "◎", title: "OIM" },
   settings: { icon: "⚙", title: "Desktop Settings" },
   helper: { icon: "?", title: "Orbit Pal" }
 };
@@ -1758,7 +1758,7 @@ function chatWindow() {
     ? `<div class="typing-indicator"><i></i><i></i><i></i><span>${aiStatus.phase === "loading" ? "Loading Qwen3-4B" : "Sending..."}</span></div>`
     : "";
   const empty = !messageHtml && !pending
-    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>This character chose to share an AIM screen name.</span><span>${aiStatus.warmed ? "Local character service ready." : aiStatus.phase === "idle" ? "Local character service loaded." : "Local character service is still getting ready."}</span></div>`
+    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>This character chose to share an OIM screen name.</span><span>${aiStatus.warmed ? "Local character service ready." : aiStatus.phase === "idle" ? "Local character service loaded." : "Local character service is still getting ready."}</span></div>`
     : "";
   const contactButtons = Object.entries(CHARACTER_CONTACTS)
     .filter(([ownerId, contact]) => contact.aim && (
@@ -1769,7 +1769,7 @@ function chatWindow() {
     .map(([ownerId, contact]) => `<button data-aim-contact="${ownerId}" class="${ownerId === activeAimOwnerId ? "selected" : ""}"><i></i>${escapeHtml(contact.screenName)}</button>`)
     .join("");
 
-  return windowShell("chat", `${persona.screenName} - Orbit Messenger`, "◎", `
+  return windowShell("chat", `${persona.screenName} - OIM`, "◎", `
     <div class="aim-menu"><button data-ai-reset>Clear Chat</button></div>
     <nav class="aim-buddy-tabs">${contactButtons}</nav>
     <div class="aim-contact">
@@ -2228,7 +2228,7 @@ function render() {
       <button data-open="browser"><span class="desktop-icon globe">O</span><b>Orbit Explorer</b></button>
       <button data-open="mail"><span class="desktop-icon mail">@</span><b>Orbit Mail</b></button>
       <button data-open="files"><span class="desktop-icon folder">▰</span><b>My Files</b></button>
-      <button data-open="chat"><span class="desktop-icon chat">◎</span><b>Orbit Messenger</b></button>
+      <button data-open="chat"><span class="desktop-icon chat">◎</span><b>OIM</b></button>
       <button data-open="settings"><span class="desktop-icon settings">⚙</span><b>Settings</b></button>
       ${state.flags.orbit_pal_installed ? `<button data-open="helper"><span class="desktop-icon helper">?</span><b>Orbit Pal</b></button>` : ""}
     </div>
@@ -2236,7 +2236,7 @@ function render() {
     ${windows.helper.open ? `<button class="desktop-helper" data-helper-talk aria-label="Talk to Orbit Pal"><span class="orbit-pal-body"><i></i><b>?</b><em></em></span><strong>Orbit Pal</strong><small>Click to talk</small></button>` : ""}
     ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}${helperWindow()}
     ${notification ? `<div class="toast">${notification}</div>` : ""}
-    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 Orbit Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off ${escapeHtml(playerName())}</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ New Game</button></div>` : ""}
+    ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 OIM — Orbit Instant Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off ${escapeHtml(playerName())}</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ New Game</button></div>` : ""}
     <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
     ${sleepDialog()}
     ${phaseTransitionScreen()}
@@ -2562,7 +2562,7 @@ function scheduledDeliveryNotice(before: Date, after: Date) {
   }
   if (aims.length) {
     const sender = PAGE_OWNERS[aims.at(-1)!.ownerId]?.screenName ?? aims.at(-1)!.author;
-    return aims.length === 1 ? `${sender} replied in Messenger.` : `${aims.length} Messenger replies arrived.`;
+    return aims.length === 1 ? `${sender} replied in OIM.` : `${aims.length} OIM replies arrived.`;
   }
   if (comments.length) {
     const sender = PAGE_OWNERS[comments.at(-1)!.ownerId]?.screenName ?? comments.at(-1)!.author;
@@ -2807,7 +2807,7 @@ function bindEvents() {
     if (message) void sendDirectMessage("orbit_guide", "helper", message);
   });
   document.querySelector<HTMLElement>("[data-ai-reset]")?.addEventListener("click", async () => {
-    if (pendingDirectReplies.has(`aim:${activeAimOwnerId}`) || !window.confirm(`Clear your AIM conversation with ${CHARACTER_CONTACTS[activeAimOwnerId].screenName}?`)) return;
+    if (pendingDirectReplies.has(`aim:${activeAimOwnerId}`) || !window.confirm(`Clear your OIM conversation with ${CHARACTER_CONTACTS[activeAimOwnerId].screenName}?`)) return;
     state.directMessages = state.directMessages.filter((message) => !(message.channel === "aim" && message.ownerId === activeAimOwnerId));
     await saveState();
     chatError = "";
@@ -2910,7 +2910,7 @@ function bindEvents() {
     const preview = document.querySelector<HTMLElement>("#mail-preview");
     if (!preview) return;
     const messages: Record<string, string> = {
-      welcome: `<h3>Welcome to Orbit!</h3><p>Orbit is a neighborhood of member-made pages arranged into community zones. Open <b>Orbit Explorer</b> to browse the directory or search for a topic, then use Mail and Messenger to contact people who share their details.</p><p>Have fun, be kind, and never share your password.<br>—The OrbitNet Team</p>`,
+      welcome: `<h3>Welcome to Orbit!</h3><p>Orbit is a neighborhood of member-made pages arranged into community zones. Open <b>Orbit Explorer</b> to browse the directory or search for a topic, then use Orbit Mail and OIM to contact people who share their details.</p><p>Have fun, be kind, and never share your password.<br>—The OrbitNet Team</p>`,
       receipt: `<h3>Your file is ready</h3><p><b>SIGNAL_NOTE.TXT</b> was saved successfully.</p><p>Open <b>My Files</b> from the desktop or Start menu to read it.</p>`
     };
     preview.innerHTML = messages[el.dataset.mail!] ?? "";

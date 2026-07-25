@@ -47,7 +47,7 @@
     "The Back, Forward, Home, Refresh, address, bookmark, text-size, and page-music controls are part of Orbit Explorer.",
     "Typing a complete Orbit address can open an unlisted page that search and the directory cannot find.",
     "Downloaded files appear in My Files and can be opened by double-clicking.",
-    "Some character homepages accept public comments, while listed email addresses and AIM names open private contact apps.",
+    "Some character homepages accept public comments, while listed email addresses and OIM names open private contact apps.",
     "Clicking a comment author's name can lead to that person's homepage when one exists.",
     "Sleep advances the in-game clock, Log Off returns to profile selection, and Shut Down returns to the title screen.",
     "Comments, mail, and messages do not always receive immediate replies; revisiting after some in-game time can reveal changes.",
@@ -78,7 +78,7 @@
     },
     {
       "topic": "dynamic characters",
-      "advice": "A person's public page is only part of what they know. Leave a focused comment or use email or AIM when contact details are shown; ask about a date, relationship, odd record, local event, or phrase rather than requesting the solution."
+      "advice": "A person's public page is only part of what they know. Leave a focused comment or use email or OIM when contact details are shown; ask about a date, relationship, odd record, local event, or phrase rather than requesting the solution."
     },
     {
       "topic": "time",

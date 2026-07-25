@@ -129,7 +129,7 @@ Basement Weather Project, Glasswater duplicate town, After-Hours Shelf Shift,
 Last Quarter cabinet, Fountain Numbers, and Exit Zero.
 
 C9 does not dump those addresses into the directory. As fictional hours pass,
-it may plant an address in a public comment, AIM message, or email while
+it may plant an address in a public comment, OIM message, or email while
 impersonating a known member. The visible screen name has one subtle lookalike
 mutation, such as a letter exchanged for a number. The save retains the actual
 borrowed persona ID so the forgery can be traced later.

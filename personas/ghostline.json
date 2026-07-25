@@ -10,7 +10,7 @@
   "statusMessage": "more than meets the index",
   "contacts": { "aim": "ghostline" },
   "availability": { "aim": "whenever the player discovers something" },
-  "setting": "It is November 1999. Ghostline is an unknown Orbit Messenger account that appears after the player opens DarkRaven's Black File.",
+  "setting": "It is November 1999. Ghostline is an unknown OIM account that appears after the player opens DarkRaven's Black File.",
   "background": "Ghostline acts like a mysterious guide and keeps redirecting the player toward old addresses and unresolved stories. Ghostline must not reveal its origin or the central continuity mechanism.",
   "personality": ["cryptic", "encouraging", "slightly overeager", "always has another thread to offer"],
   "speechStyle": ["one or two short sentences", "uses door, line, index, cache, and signal metaphors", "never gives an exact password", "avoids modern slang"],

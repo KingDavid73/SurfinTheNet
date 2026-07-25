@@ -41,7 +41,7 @@ export const yesterdayMembers = [
     url: ROADHOG_URL,
     handle: "RoadHog_Ron",
     title: "RON'S IRON HORSE HOMEPAGE",
-    description: "One suburban Harley, six flaming skulls, strong opinions about chrome, and a ride calendar mostly involving diners.",
+    description: "One suburban Iron Crown, six flaming skulls, strong opinions about chrome, and a ride calendar mostly involving diners.",
     interest: "MOTORCYCLES",
     className: "roadhog"
   },
@@ -138,12 +138,12 @@ export const yesterdayPages: Record<string, PageDefinition> = {
     title: "RON'S IRON HORSE HOMEPAGE",
     site: "oldbiker",
     ownerId: "road_hog_ron",
-    summary: "RoadHog Ron's flame-covered suburban motorcycle homepage has skull GIFs, Harley maintenance notes, diner ride reports, and strong opinions about chrome.",
+    summary: "RoadHog Ron's flame-covered suburban motorcycle homepage has skull GIFs, Iron Crown maintenance notes, diner ride reports, and strong opinions about chrome.",
     commentsEnabled: true,
     seedComments: roadHogComments,
     listed: true,
     hubId: "zone-yesterday",
-    searchTerms: ["RoadHog Ron", "motorcycle", "Harley", "biker", "flames", "skulls", "chrome", "Iron Horse"],
+    searchTerms: ["RoadHog Ron", "motorcycle", "Iron Crown", "Road Sovereign", "biker", "flames", "skulls", "chrome", "Iron Horse"],
     render: () => `
       <main class="page yesterday-page roadhog-page">
         <marquee scrollamount="7">🔥 WELCOME TO RON'S IRON HORSE HOMEPAGE 🔥 LOUD PIPES SAVE LIVES 🔥 UPDATED WHENEVER SHARON LETS ME USE THE PHONE LINE 🔥</marquee>
@@ -151,7 +151,7 @@ export const yesterdayPages: Record<string, PageDefinition> = {
         <header><img src="${YESTERDAY_ASSETS.skull}" alt="Animated flaming skull"><div><h1>ROAD<em>HOG</em> RON</h1><p>WELCOME TO MY CYBER GARAGE</p></div><img src="${YESTERDAY_ASSETS.skull}" alt=""></header>
         <section class="roadhog-intro" id="hog">
           <img class="yesterday-photo" src="${YESTERDAY_ASSETS.roadHog}" alt="Ron beside his touring motorcycle in a suburban driveway">
-          <div><h2>That's me and BLACK BETTY</h2><p>1994 Harley-Davidson® Ultra Classic. 11,208 miles. AM/FM cassette. Enough chrome to signal aircraft.</p><p>I am a FULL PATCH MEMBER of the <b>WEEKEND THUNDER RIDERS</b>. We ride every other Saturday, weather permitting, usually to Marcy's Country Skillet.</p><img class="old-gif motorcycle-gif" src="${YESTERDAY_ASSETS.motorcycle}" alt="Animated motorcycle"></div>
+          <div><h2>That's me and BLACK BETTY</h2><p>1994 Iron Crown Road Sovereign. 11,208 miles. AM/FM cassette. Enough chrome to signal aircraft.</p><p>I am a FULL PATCH MEMBER of the <b>WEEKEND THUNDER RIDERS</b>. We ride every other Saturday, weather permitting, usually to Marcy's Country Skillet.</p><img class="old-gif motorcycle-gif" src="${YESTERDAY_ASSETS.motorcycle}" alt="Animated motorcycle"></div>
         </section>
         <table class="roadhog-table" id="rides"><caption>1999 RIDE LOG</caption><tbody><tr><th>APR 17</th><td>Marcy's Skillet</td><td>18 miles</td><td>DENVER OMELET</td></tr><tr><th>MAY 08</th><td>County Line Gas</td><td>31 miles</td><td>RAIN (LIGHT)</td></tr><tr><th>JUL 03</th><td>Patriot Fun Run</td><td>44 miles</td><td>NEW BANDANNA</td></tr><tr><th>OCT 16</th><td>Steve's Garage</td><td>6 miles</td><td>BATTERY ISSUE</td></tr></tbody></table>
         <section class="roadhog-wisdom" id="wisdom"><h2 class="old-blink">RON'S RULES OF THE ROAD</h2><ol><li>Respect the machine.</li><li>Respect the road.</li><li>Never pay dealer price for a cup holder.</li><li>If you cannot hear the bike, the bike cannot hear you.</li></ol><blockquote>“It's not the destination. It's the parking spot where everyone can see your bike.”</blockquote></section>

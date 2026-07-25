@@ -615,7 +615,7 @@ export const pages: Record<string, PageDefinition> = {
               <i></i>
               <article><b>CASE 03</b><span>PHONE JACK</span><small>status: cat involved</small></article>
             </div>
-            <div class="contact-strip raven-contact"><span>AIM STATUS: ONLINE</span><button data-aim-owner="darkraven_xx">MESSAGE xX_DarkRaven_Xx</button></div>
+            <div class="contact-strip raven-contact"><span>OIM STATUS: ONLINE</span><button data-aim-owner="darkraven_xx">MESSAGE xX_DarkRaven_Xx</button></div>
           </section>
           <aside class="raven-bulletins">
             <h2>VOID BULLETINS</h2>

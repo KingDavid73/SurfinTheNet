@@ -368,7 +368,7 @@ export const soundwavePages: Record<string, PageDefinition> = {
             : `<p class="rico-barn-status"><b>NEW:</b> There is a computer-store mirror in here with a retired commercial loop. Corny hook. Crooked clap. Tiny keyboard stab. I respect all three.</p>`}
       </section>
       <aside class="rap-trade"><b>TAPE TRADE:</b> Send a list first. Do not mail your only copy. Label your beats.</aside>
-      <div class="rico-contact-strip"><button data-aim-owner="rhymetape_rico">AIM RICO</button><span>recommendations accepted // unlabeled audio ignored</span></div>
+      <div class="rico-contact-strip"><button data-aim-owner="rhymetape_rico">OIM RICO</button><span>recommendations accepted // unlabeled audio ignored</span></div>
       ${returnToZone()}
     </main>`
   },
