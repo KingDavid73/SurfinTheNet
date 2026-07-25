@@ -313,10 +313,11 @@ function createWindow() {
               await win.webContents.executeJavaScript(`document.querySelector('.petplanet-member-directory')?.scrollIntoView({ block: 'start' }); true`);
               await capture("orbitnet-zone-petplanet-members.png");
               const petClasses = [".carla-page", ".ray-page", ".bea-page", ".hal-page", ".iris-page", ".sam-page"];
+              const petFlourishes = [".carla-scrapbook", ".ray-scoreboard", ".bea-burrow-map", ".hal-telemetry", ".iris-green-room", ".sam-incident-file"];
               const trackLabels = ["Whisker Waltz", "Backyard Bound", "Parsley Promenade", "TubeNet Telemetry", "Basking After Dark", "Cabinet Caper"];
               for (let petIndex = 0; petIndex < expectedPetUrls.length; petIndex += 1) {
                 await click(`[data-nav="${expectedPetUrls[petIndex]}"]`);
-                const petPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(petClasses[petIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.pet-member-art').length === 3 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[petIndex])})`);
+                const petPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(petClasses[petIndex])})) && Boolean(document.querySelector(${JSON.stringify(petFlourishes[petIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.pet-member-art').length === 3 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[petIndex])})`);
                 if (!petPageReady) throw new Error(`Pet Planet member page was incomplete: ${expectedPetUrls[petIndex]}`);
                 await capture(`petplanet-member-${petIndex + 1}.png`);
                 await win.webContents.executeJavaScript(`document.querySelector('.pet-member-feature')?.scrollIntoView({ block: 'start' }); true`);

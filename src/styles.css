@@ -1,3 +1,28 @@
+@font-face {
+  font-family: "Orbit Audiowide";
+  src: url("../assets/fonts/period-display/Audiowide-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orbit Bungee Shade";
+  src: url("../assets/fonts/period-display/BungeeShade-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orbit Silkscreen";
+  src: url("../assets/fonts/period-display/Silkscreen-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Orbit Silkscreen";
+  src: url("../assets/fonts/period-display/Silkscreen-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
   font-family: Tahoma, "MS Sans Serif", Arial, sans-serif;
   color: #111;
@@ -2666,6 +2691,116 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .iris-page { --pet-dark: #202327; --pet-mid: #5d7e49; --pet-light: #dfe7d9; --pet-accent: #842e59; color: #d9e5d4; background: radial-gradient(circle at 10px 10px, #71885e33 0 2px, transparent 3px) 0 0 / 24px 24px, #191b1e; }.iris-page > header { background: linear-gradient(110deg, #111318, #263b28); border-color: #698a51; }.iris-page > header h1 { color: #9bc776; font-family: Georgia, serif; letter-spacing: .12em; }.iris-page .pet-member-intro, .iris-page .pet-member-facts article, .iris-page .pet-member-closeup { color: #d9e5d4; background: #292c2d; }.iris-page .pet-member-intro h2, .iris-page .pet-member-facts h2, .iris-page .pet-member-closeup h2 { color: #9bc776; }.iris-page .pet-member-feature { border-color: #842e59; }
 .sam-page { --pet-dark: #343633; --pet-mid: #777463; --pet-light: #e9dfc6; --pet-accent: #b66b3e; background-image: repeating-linear-gradient(90deg, #5c503f12 0 3px, transparent 3px 36px); font-family: Georgia, serif; }.sam-page > header { background: #3c3d38; border-color: #9a8b6d; }.sam-page > header h1, .sam-page .pet-member-feature h2, .sam-page .pet-member-intro h2, .sam-page .pet-member-closeup h2 { font-family: Georgia, serif; }.sam-page .pet-member-closeup { background: #ded0b5; }
 
+/* Six authors, six different ideas about what a pet homepage should be. */
+.pet-page-flourish { margin: 10px 0; }
+.pet-page-flourish summary { cursor: pointer; user-select: none; }
+.pet-page-flourish summary:hover { filter: brightness(1.12); }
+.pet-page-flourish img { image-rendering: auto; }
+
+.carla-page { padding: 18px 22px 24px; border-inline: 9px solid #f1b0c4; }
+.carla-page > header { max-width: 720px; margin: 5px auto 0; transform: rotate(-.45deg); box-shadow: 7px 7px #5b2940; }
+.carla-page > header h1 { font-family: "Orbit Bungee Shade", "Comic Sans MS", cursive; font-size: clamp(26px, 5vw, 46px); font-weight: 400; }
+.carla-page > nav { width: fit-content; margin: 5px auto; transform: rotate(.7deg); }
+.carla-scrapbook { display: grid; grid-template-columns: 45px 1fr minmax(210px, .8fr); gap: 10px; align-items: center; padding: 8px 13px; color: #662e48; background: #fff7b8; border: 3px dotted #cf6587; box-shadow: 4px 4px #8d476166; transform: rotate(.35deg); }
+.carla-scrapbook > img { width: 34px; image-rendering: pixelated; animation: carla-bob 1.5s steps(2, end) infinite; }
+.carla-scrapbook p { margin: 0; text-align: center; }
+.carla-scrapbook details { padding: 7px; background: #ffe4ed; border: 2px dashed #d27492; }
+.carla-scrapbook summary { color: #842f52; font-weight: 900; text-transform: uppercase; }
+.carla-page .pet-member-intro { grid-template-columns: 1fr 185px; transform: rotate(-.3deg); }
+.carla-page .pet-member-intro img { order: 2; transform: rotate(3deg); }
+.carla-page .pet-member-feature { margin-inline: 24px -7px; transform: rotate(.4deg); }
+.carla-page .pet-member-facts article:nth-child(1) { transform: rotate(-1.2deg); }
+.carla-page .pet-member-facts article:nth-child(2) { transform: translateY(7px) rotate(.8deg); }
+.carla-page .pet-member-facts article:nth-child(3) { transform: rotate(-.5deg); }
+
+.ray-page { overflow: hidden; padding: 0 16px 24px; border: 7px solid #164f74; }
+.ray-page > header { margin-inline: -16px; padding-block: 22px; border: 0; border-bottom: 12px solid #ed5d45; clip-path: polygon(0 0, 100% 0, 100% 82%, 63% 100%, 0 88%); }
+.ray-page > header h1 { font-family: "Orbit Bungee Shade", Impact, sans-serif; font-weight: 400; }
+.ray-page > nav { margin: -1px -16px 0; justify-content: flex-start; padding-left: 24px; }
+.ray-scoreboard { display: grid; grid-template-columns: 110px 170px 1fr; gap: 12px; align-items: center; padding: 8px 14px; color: #fff; background: #101d24; border: 5px ridge #bfc9ce; box-shadow: inset 0 0 16px #000; }
+.ray-scoreboard > img { width: 90px; height: 90px; object-fit: contain; filter: saturate(.75) contrast(1.2); }
+.ray-scoreboard > div { display: grid; grid-template-columns: 1fr 1fr; font-family: "Orbit Silkscreen", monospace; }
+.ray-scoreboard small { grid-column: 1 / -1; color: #75d9ff; }
+.ray-scoreboard b, .ray-scoreboard span { margin-top: 6px; padding: 4px; color: #ffe86a; font-size: 15px; }
+.ray-scoreboard details { padding: 8px; border-left: 4px solid #ed5d45; }
+.ray-scoreboard summary { color: #75d9ff; font: 700 10px "Orbit Silkscreen", monospace; }
+.ray-page .pet-member-intro { margin-left: 35px; border-style: solid; border-width: 0 0 0 14px; }
+.ray-page .pet-member-feature { margin-right: 28px; transform: skewY(-.8deg); box-shadow: 10px 9px #1d659544; }
+.ray-page .pet-member-facts article { clip-path: polygon(0 0, 94% 0, 100% 15%, 100% 100%, 6% 100%, 0 85%); }
+
+.bea-page { max-width: 730px; padding: 22px 28px; border-inline: 3px dotted #8ca66a; }
+.bea-page > header { border-radius: 48% 52% 44% 56% / 15% 15% 20% 20%; box-shadow: 0 7px #80675244; }
+.bea-page > header h1 { font-family: Georgia, "Times New Roman", serif; font-style: italic; }
+.bea-page > nav { width: 150px; margin: 3px auto 12px; border-radius: 0 0 18px 18px; }
+.bea-burrow-map { padding: 8px 14px 12px; color: #5a4333; background: #efe1bb; border: 1px solid #b49a71; border-radius: 8px 18px 8px 18px; box-shadow: inset 0 0 18px #9a7b4a33; }
+.bea-burrow-map summary { color: #536b39; font: bold 12px Georgia, serif; text-align: center; }
+.bea-burrow-map summary img { width: 42px; margin-right: 8px; vertical-align: middle; }
+.bea-burrow-map > div { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 10px; }
+.bea-burrow-map span { padding: 6px; background: #fff9dd; border: 2px solid #8fa369; border-radius: 45%; text-align: center; }
+.bea-burrow-map i { color: #83a95d; font-size: 18px; }
+.bea-page .pet-member-intro { border-width: 0 0 0 5px; border-radius: 4px 35px 35px 4px; }
+.bea-page .pet-member-feature { grid-template-columns: 1fr 1.25fr; color: #4c3b30; background: #e4cfaa; border: 0; border-radius: 40px 6px 40px 6px; }
+.bea-page .pet-member-feature img { order: 2; transform: rotate(1.5deg); }
+.bea-page .pet-member-feature h2, .bea-page .pet-member-feature small { color: #536b39; }
+.bea-page .pet-member-facts { gap: 13px; }
+.bea-page .pet-member-facts article { border: 0; border-radius: 50% 45% 48% 42%; box-shadow: inset 0 0 0 3px #b69778, 3px 5px #8d735033; text-align: center; }
+
+.hal-page { max-width: 910px; padding: 13px; border: 5px outset #92b75e; }
+.hal-page > header h1 { font-family: "Orbit Audiowide", "Courier New", monospace; font-size: clamp(24px, 5vw, 43px); }
+.hal-page > nav { justify-content: flex-end; background: #102c25; border-bottom: 1px solid #a8d665; }
+.hal-telemetry { display: grid; grid-template-columns: 80px 65px 1fr; gap: 10px; align-items: center; padding: 8px; color: #b8ed68; background: #071611; border: 3px inset #75945b; font-family: "Orbit Silkscreen", monospace; box-shadow: inset 0 0 22px #000; }
+.hal-status-lights { display: flex; gap: 6px; justify-content: center; }
+.hal-status-lights i { width: 9px; height: 9px; background: #90e635; border-radius: 50%; box-shadow: 0 0 8px #90e635; animation: hal-blink 1.8s steps(1, end) infinite; }
+.hal-status-lights i:nth-child(2) { animation-delay: -.4s; }.hal-status-lights i:nth-child(3) { animation-delay: -.9s; }.hal-status-lights i:nth-child(4) { animation-delay: -1.3s; }
+.hal-telemetry > img { width: 56px; image-rendering: pixelated; }
+.hal-telemetry details { padding: 7px; border: 1px dashed #658d49; }
+.hal-telemetry summary { font-weight: 700; }
+.hal-telemetry pre { margin-bottom: 0; color: #f2ba58; font: 9px/1.6 "Orbit Silkscreen", monospace; }
+.hal-page .pet-member-intro { grid-template-columns: 1fr 180px; border-style: solid; background: #dfeac9; }
+.hal-page .pet-member-intro img { order: 2; border: 4px double #285944; border-radius: 0; transform: none; }
+.hal-page .pet-member-feature { grid-template-columns: .85fr 1.15fr; border: 3px inset #719951; }
+.hal-page .pet-member-facts article { min-height: 135px; background: #102c25; border: 1px solid #85ad59; color: #cce5a8; box-shadow: inset 0 0 12px #000; }
+.hal-page .pet-member-facts h2 { color: #b8ed68; font-family: "Orbit Silkscreen", monospace; }
+
+.iris-page { max-width: 900px; padding: 0 0 25px; border-inline: 12px solid #101214; }
+.iris-page > header { padding: 28px 20px; border: 0; border-bottom: 1px solid #9bc776; text-align: left; }
+.iris-page > header h1 { font-family: "Orbit Audiowide", Georgia, serif; font-size: clamp(38px, 8vw, 70px); }
+.iris-page > nav { justify-content: flex-end; background: #101214; }
+.iris-green-room { margin: 0; padding: 8px 20px; color: #c9e3b6; background: #471a34; border-block: 1px solid #a86287; }
+.iris-green-room summary { font: 12px "Orbit Audiowide", sans-serif; letter-spacing: .06em; }
+.iris-green-room summary img { width: 70px; height: 42px; object-fit: contain; margin-right: 12px; vertical-align: middle; }
+.iris-page .pet-member-intro { margin: 22px 45px 0 18px; padding: 0; background: transparent; border: 0; }
+.iris-page .pet-member-intro img { width: 210px; height: 240px; border: 1px solid #8ca679; box-shadow: 14px 14px #471a34; transform: none; }
+.iris-page .pet-member-feature { grid-template-columns: 1fr; margin: 28px 0 0; padding: 0; border: 0; background: transparent; }
+.iris-page .pet-member-feature img { height: 330px; border: 0; filter: saturate(.75) contrast(1.1); }
+.iris-page .pet-member-feature div { width: 70%; margin: -72px 0 0 auto; padding: 17px 24px; background: #202327ee; border-left: 5px solid #842e59; z-index: 1; }
+.iris-page .pet-member-facts { margin-inline: 20px; grid-template-columns: .8fr 1.2fr .8fr; align-items: start; }
+.iris-page .pet-member-facts article:nth-child(2) { margin-top: 22px; }
+.iris-page .pet-member-closeup { margin-inline: 45px 18px; background: #232626; border-width: 1px; }
+
+.sam-page { max-width: 760px; padding: 20px 28px; border-inline: 1px solid #8a7c65; box-shadow: inset 35px 0 #695c4910; }
+.sam-page > header { padding: 20px; border: 8px double #9a8b6d; text-align: left; transform: rotate(-.25deg); }
+.sam-page > header h1 { font-size: clamp(26px, 5vw, 43px); text-transform: uppercase; }
+.sam-page > nav { width: fit-content; background: #8d7c61; }
+.sam-incident-file { padding: 9px 12px; color: #25251f; background: #c9b98f; border: 2px solid #4b4a40; box-shadow: 5px 5px #332f2644; transform: rotate(.35deg); }
+.sam-incident-file summary { font: bold 12px "Courier New", monospace; }
+.sam-incident-file summary img { width: 65px; height: 65px; margin-right: 10px; object-fit: contain; vertical-align: middle; }
+.sam-incident-file p { margin-left: 78px; padding: 8px; background: #e8ddc0; border-left: 4px solid #963c31; font-family: "Courier New", monospace; }
+.sam-page .pet-member-intro { grid-template-columns: 1fr 170px; padding: 5px 5px 5px 18px; background: #eee5ce; border: 1px solid #82745d; }
+.sam-page .pet-member-intro img { order: 2; width: 160px; height: 190px; border: 9px solid #fff8e8; transform: rotate(2.5deg); }
+.sam-page .pet-member-feature { grid-template-columns: .9fr 1.1fr; color: #302d27; background: #d5c7a8; border: 1px solid #625b4d; border-left: 14px solid #963c31; }
+.sam-page .pet-member-feature h2, .sam-page .pet-member-feature small { color: #493f34; }
+.sam-page .pet-member-facts { display: block; margin-left: 34px; border-left: 3px double #8c7c61; }
+.sam-page .pet-member-facts article { min-height: 0; margin: 0 0 7px; border: 0; border-bottom: 1px dotted #746954; box-shadow: none; background: #f4ead3aa; }
+.sam-page .pet-member-facts b { left: -31px; right: auto; top: 3px; width: 26px; color: #963c31; opacity: 1; }
+
+@keyframes carla-bob { 50% { transform: translateY(-4px) rotate(8deg); } }
+@keyframes hal-blink { 0%, 45% { opacity: 1; } 46%, 75% { opacity: .15; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .carla-scrapbook > img, .hal-status-lights i { animation: none; }
+}
+
 .fandom-page { max-width: 900px; min-height: 100%; margin: auto; }.fandom-art { display: block; max-width: 100%; object-fit: cover; }.fandom-owner-note { margin: 12px; padding: 9px; font-size: 9px; font-weight: bold; text-align: center; }
 .moss-page { position: relative; overflow: hidden; padding: 8px 12px 16px; color: #26321e; background: radial-gradient(ellipse at 15% 10%, #f2e9b7 0 5%, transparent 6%), radial-gradient(ellipse at 83% 22%, #83966566 0 7%, transparent 8%), repeating-linear-gradient(97deg, #61724a22 0 2px, transparent 2px 37px), #9eaa78; font: 10px/1.45 Georgia, serif; }
 .moss-canopy { display: flex; justify-content: space-between; align-items: center; margin: -8px -12px 5px; padding: 7px 18px 15px; color: #dce58d; background: #28381f; clip-path: polygon(0 0, 100% 0, 100% 68%, 88% 100%, 73% 66%, 54% 94%, 38% 68%, 17% 100%, 0 72%); }.moss-canopy button { color: #e4ef9b; background: transparent; border: 0; font: bold 8px Georgia, serif; text-decoration: underline; }.moss-canopy span { font-size: 7px; letter-spacing: .16em; }
@@ -4317,6 +4452,13 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   .zone-badge { width: 57px; height: 57px; font-size: 20px; }
   .zone-directory-placeholder { grid-template-columns: 1fr; }
   .gamegrid-member-directory > div, .xtreme-member-directory > div, .petplanet-member-directory > div, .lag-hero, .velvet-intro, .velvet-journals, .four-welcome, .maddy-intro, .maddy-workbench, .game-shot-grid, .maddy-download, .queenie-intro, .queenie-floor, .dex-intro, .dex-files, .dex-map-box, .dex-archive, .dee-intro, .dee-feature, .dee-grid, .dee-gear, .cole-intro, .cole-jump, .cole-panels, .cole-trails, .nico-intro, .nico-action, .nico-cards, .nico-park, .ty-intro, .ty-action, .ty-cards, .ty-bottom, .troy-intro, .troy-action, .troy-cards, .troy-bottom, .ollie-intro, .ollie-action, .ollie-cards, .ollie-bottom, .viktor-intro, .viktor-feature, .viktor-cards, .viktor-bottom, .pet-member-intro, .pet-member-feature, .pet-member-facts, .pet-member-closeup, .moss-page > header, .moss-leaf, .moss-root, .moss-fiction, .blipzo-stage > header, .blipzo-zero-file, .blipzo-fiction, .starthimble-page > header, .star-welcome, .star-prop-table, .star-fiction, .star-mystery-tape, .star-zine-strip, .prism5-page > header, .prism-welcome, .prism-dossiers article, .prism-frame-lab, .prism-null-file, .prism-sixth-file > div, .prism-fiction { grid-template-columns: 1fr; }
+  .carla-scrapbook, .ray-scoreboard, .hal-telemetry { grid-template-columns: 1fr; text-align: center; }
+  .bea-burrow-map > div { flex-direction: column; }
+  .bea-burrow-map i { transform: rotate(90deg); }
+  .carla-page, .bea-page, .sam-page { padding-inline: 12px; }
+  .carla-page .pet-member-feature, .ray-page .pet-member-intro, .ray-page .pet-member-feature, .iris-page .pet-member-intro, .iris-page .pet-member-closeup { margin-inline: 0; }
+  .iris-page .pet-member-feature div { width: 92%; }
+  .sam-incident-file p { margin-left: 0; }
   .fandom-member-directory > div, .blipzo-fanstuff, .moss-theory, .blipzo-intro { flex-direction: column; }
   .moss-winding-gallery { display: grid; grid-template-columns: 1fr; min-height: 0; gap: 10px; background: none; }
   .moss-winding-gallery::before { display: none; }

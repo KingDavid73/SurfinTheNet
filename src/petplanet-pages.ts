@@ -31,7 +31,13 @@ const PET_ASSETS = {
 
 const PET_ARCHIVE_GIFS = {
   cat: new URL("../assets/images/archive-gifs/cat-face.gif", import.meta.url).href,
-  dog: new URL("../assets/images/archive-gifs/cartoon-dog.gif", import.meta.url).href
+  dog: new URL("../assets/images/archive-gifs/cartoon-dog.gif", import.meta.url).href,
+  "cat-sparkle": new URL("../assets/images/archive-gifs/petplanet/cat-sparkle.gif", import.meta.url).href,
+  disc: new URL("../assets/images/archive-gifs/petplanet/disc-action.gif", import.meta.url).href,
+  rabbit: new URL("../assets/images/archive-gifs/petplanet/rabbit-hop.gif", import.meta.url).href,
+  hamster: new URL("../assets/images/archive-gifs/petplanet/hamster-loop.gif", import.meta.url).href,
+  iguana: new URL("../assets/images/archive-gifs/petplanet/iguana.gif", import.meta.url).href,
+  skunk: new URL("../assets/images/archive-gifs/petplanet/skunk.gif", import.meta.url).href
 } as const;
 
 const petImage = (name: keyof typeof PET_ASSETS, alt: string, className = "") =>
@@ -42,6 +48,46 @@ const petArchiveDecoration = (className: string) => className === "carla-page"
   : className === "ray-page"
     ? `<img class="archive-gif archive-gif-pet" src="${PET_ARCHIVE_GIFS.dog}" alt="Animated cartoon dog">`
     : "";
+
+const petFlourish = (className: string) => {
+  if (className === "carla-page") return `
+    <section class="pet-page-flourish carla-scrapbook">
+      <img src="${PET_ARCHIVE_GIFS["cat-sparkle"]}" alt="" aria-hidden="true">
+      <p><b>MR. BOOTS APPROVED!</b><br>Best viewed while somebody else needs the chair.</p>
+      <details><summary>open the confidential employee file</summary><p>NAME: Mr. Boots<br>DEPARTMENT: Warm Laundry<br>YEARS OF SERVICE: 7<br>KEYBOARD SKILLS: disruptive</p></details>
+    </section>`;
+  if (className === "ray-page") return `
+    <section class="pet-page-flourish ray-scoreboard">
+      <img src="${PET_ARCHIVE_GIFS.disc}" alt="Animated flying disc">
+      <div><small>BACKYARD SPORTS NETWORK</small><b>COMET 11</b><span>HEDGE 1</span></div>
+      <details><summary>INSTANT REPLAY: THROW 12</summary><p>Good launch. Strong pursuit. Disc disappeared behind the hedge. Camera operator blamed.</p></details>
+    </section>`;
+  if (className === "bea-page") return `
+    <details class="pet-page-flourish bea-burrow-map">
+      <summary><img src="${PET_ARCHIVE_GIFS.rabbit}" alt=""> unroll the Bun Brigade floor plan</summary>
+      <div><span>ENTRANCE BOX</span><i>➜</i><span>PARSLEY COURT</span><i>➜</i><span>SECRET SIDE DOOR</span></div>
+      <p>Maple planned the main route. Mochi added the side door during construction.</p>
+    </details>`;
+  if (className === "hal-page") return `
+    <section class="pet-page-flourish hal-telemetry">
+      <div class="hal-status-lights"><i></i><i></i><i></i><i></i></div>
+      <img src="${PET_ARCHIVE_GIFS.hamster}" alt="Animated hamster in a teacup">
+      <details><summary>ACCESS LIVE TUBENET TELEMETRY</summary><pre>NODE 01  ONLINE
+WHEEL RPM  42
+CHEEK LOAD  87%
+ROUTE      UNPREDICTABLE</pre></details>
+    </section>`;
+  if (className === "iris-page") return `
+    <details class="pet-page-flourish iris-green-room">
+      <summary><img src="${PET_ARCHIVE_GIFS.iguana}" alt="Animated iguana"> GOMEZ'S GREEN-ROOM RIDER</summary>
+      <p>One warm branch. One quiet room. Collard greens without mystery dressing. No surprise shoulder appearances. Photographer may admire from over there.</p>
+    </details>`;
+  return `
+    <details class="pet-page-flourish sam-incident-file">
+      <summary><img src="${PET_ARCHIVE_GIFS.skunk}" alt="Animated cartoon skunk"> UNSEAL INCIDENT REPORT 031</summary>
+      <p><b>LOCATION:</b> cereal cabinet<br><b>MISSING:</b> one wooden spoon<br><b>SUSPECT:</b> asleep in floral bed<br><b>CASE STATUS:</b> extremely open</p>
+    </details>`;
+};
 
 const seed = (
   id: string,
@@ -197,6 +243,7 @@ const pageTemplate = ({
     <header><small>${eyebrow}</small><h1>${title}</h1><p>${subtitle}</p></header>
     <nav><button data-nav="${PET_PLANET_URL}">&lt; PET PLANET</button></nav>
     ${petArchiveDecoration(className)}
+    ${petFlourish(className)}
     <section class="pet-member-intro">${petImage(portrait, portraitAlt)}<div><h2>${introTitle}</h2><p>${intro}</p></div></section>
     <section class="pet-member-feature">${petImage(activity, activityAlt)}<div><small>NEW PHOTO // NOVEMBER 1999</small><h2>${featureTitle}</h2><p>${feature}</p></div></section>
     <section class="pet-member-facts"><article><b>01</b><h2>FAVORITE THING</h2><p>${facts[0]}</p></article><article><b>02</b><h2>STRANGEST HABIT</h2><p>${facts[1]}</p></article><article><b>03</b><h2>HOUSE RULE</h2><p>${facts[2]}</p></article></section>
