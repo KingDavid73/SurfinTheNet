@@ -85,6 +85,10 @@ const BUSINESS_ASSETS = {
 } as const;
 const businessAsset = (name: keyof typeof BUSINESS_ASSETS, alt: string, className = "") =>
   `<img class="business-web-art ${className}" src="${BUSINESS_ASSETS[name]}" alt="${alt}">`;
+const BYTE_BARN_COMMERCIAL_VIDEO = new URL(
+  "../assets/video/byte-barn/byte-barn-commercial.mp4",
+  import.meta.url
+).href;
 const byteBarnHeader = (detail: string) =>
   `<header class="bytebarn-header"><div class="bytebarn-brand-lockup">${businessAsset("bytebarn-masthead-logo", "Byte Barn Computer Superstore logo")}</div><em>${detail}</em></header>`;
 const NAV_BUTTON_ASSETS: Record<string, string> = {
@@ -706,6 +710,18 @@ export const pages: Record<string, PageDefinition> = {
         <section class="computer-hero">
           <div class="bytebarn-product">${businessAsset("bytebarn-system", "A complete beige Byte Barn family computer system")}${businessAsset("bytebarn-warehouse-sale", "Byte Barn weekend warehouse sale graphic", "sale-burst-art")}</div>
           <div><p class="catalog-code">SYSTEM 11-99 / HOME OFFICE</p><h1>Put CopperPeak Power in the Family Room!</h1><p>The complete <b>ORBIT 350</b> pairs a CopperPeak Summit II processor with everything needed to get homework, games, and the Information Superhighway off one desk and onto another desk.</p><ul><li>350MHz Summit II processor</li><li>64MB memory</li><li>4.3GB hard drive</li><li>15&quot; color monitor</li><li>56K modem &amp; speakers</li></ul><strong class="hero-price"><small>COMPLETE SYSTEM</small>$1,299</strong><button data-nav="web://bytebarn.com/systems">COMPARE SYSTEMS &gt;</button></div>
+        </section>
+        <section class="bytebarn-commercial">
+          <header><div><small>BYTE BARN VIDEO VAULT</small><h2>Watch our classic TV spot!</h2></div><span>BB-TV // ARCHIVE</span></header>
+          <div class="bytebarn-video-deck">
+            <div class="bytebarn-video-screen">
+              <video controls preload="metadata" playsinline data-stop-page-music src="${BYTE_BARN_COMMERCIAL_VIDEO}" aria-label="Byte Barn television commercial">
+                Your browser cannot play the Byte Barn commercial.
+              </video>
+              <i class="video-rec-light" aria-hidden="true"></i>
+            </div>
+            <aside><b>COMMERCIAL_ARCHIVE.MPG</b><span>Now available through the Information Superhighway!</span><small>Playing this clip stops OrbitAmp so you can hear Chip's pitch without two songs fighting each other.</small></aside>
+          </div>
         </section>
         ${state.storyPhase >= 2 ? `<aside class="bytebarn-jingle-traffic"><b>OLD JINGLE FILE NOTICE</b><span>Our retired TV commercial has somehow become the most requested file on this server. Chip says downloading it will not improve your computer.</span><button data-nav="web://freshorbit.zone/users/barnbeatben/home">VISIT BEN'S JINGLE FAN PAGE &rsaquo;</button></aside>` : ""}
         <section class="computer-deals">

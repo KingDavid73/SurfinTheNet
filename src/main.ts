@@ -1542,11 +1542,28 @@ pageMusic.addEventListener("ended", () => {
   changePageMusicTrack(1);
 });
 
+function stopPageMusicForEmbeddedMedia() {
+  if (!pageMusicPlaying && pageMusic.paused) return;
+  pageMusicPlaying = false;
+  pageMusic.pause();
+  pageMusic.currentTime = 0;
+  const player = document.querySelector<HTMLElement>(".page-midi-player");
+  player?.classList.remove("playing");
+  player?.querySelector(".midi-led")?.classList.remove("playing");
+  const playButton = player?.querySelector<HTMLButtonElement>("[data-page-music]");
+  if (playButton) {
+    playButton.textContent = "▶ Play";
+    playButton.setAttribute("aria-label", "Play page music");
+  }
+}
+
 function togglePageMusic() {
   pageMusicPlaying = !pageMusicPlaying;
   if (!pageMusicPlaying) {
     pageMusic.pause();
     pageMusic.currentTime = 0;
+  } else {
+    document.querySelectorAll<HTMLMediaElement>("[data-stop-page-music]").forEach((media) => media.pause());
   }
   render();
 }
@@ -2564,6 +2581,9 @@ function bindEvents() {
   document.querySelector<HTMLElement>("[data-page-music]")?.addEventListener("click", togglePageMusic);
   document.querySelector<HTMLElement>("[data-page-music-prev]")?.addEventListener("click", () => changePageMusicTrack(-1));
   document.querySelector<HTMLElement>("[data-page-music-next]")?.addEventListener("click", () => changePageMusicTrack(1));
+  document.querySelectorAll<HTMLMediaElement>("[data-stop-page-music]").forEach((media) => {
+    media.addEventListener("play", stopPageMusicForEmbeddedMedia);
+  });
   document.querySelector<HTMLInputElement>("[data-page-music-volume]")?.addEventListener("input", (event) => {
     const input = event.currentTarget as HTMLInputElement;
     const volume = Math.max(0, Math.min(100, Number(input.value)));
