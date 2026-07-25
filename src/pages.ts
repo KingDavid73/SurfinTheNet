@@ -352,7 +352,7 @@ export const pages: Record<string, PageDefinition> = {
         <form class="search-box orbit-search-form"><input name="query" placeholder="Search pages, people, and phrases..." aria-label="Search OrbitNet"><button>Search</button></form>
         ${state.storyPhase >= 3 ? `<section class="directory-byte-barn-event">
           <img src="${BYTE_BARN_CAMPAIGN_THUMB}" alt="Byte Barn Forever album cover">
-          <div><small>BREAKING // BIGGEST TRAFFIC DAY IN ORBIT HISTORY</small><h1>BYTE BARN FOREVER</h1><p>Ten of today's biggest artists remade a forgotten computer-store jingle discovered right here on Orbit.</p></div>
+          <div><small>BREAKING // BIGGEST TRAFFIC DAY IN ORBIT HISTORY</small><h1>BYTE BARN FOREVER</h1><p>Ten of today's biggest artists remade a forgotten computer-store jingle discovered right here on Orbit.</p><em>Earlier: recovered interface-lab records move to Backchannel archive</em></div>
           <button data-nav="${BYTE_BARN_COMPILATION_URL}">HEAR THE COMPILATION &rsaquo;</button>
         </section>` : ""}
         <section class="zone-directory-intro"><div><small>START EXPLORING</small><h1>Choose Your Community</h1></div><p>Every OrbitNet member page belongs to a neighborhood. Pick a zone or search the entire network.</p></section>

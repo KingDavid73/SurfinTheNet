@@ -168,7 +168,14 @@ These clues must remain individually explainable.
 - A visible wave of genuine explorers arrives after word spreads. Eight initial
   newcomers have no pages of their own; they appear only in comments and join
   the normal ambient-comment pool.
-- Genuine documents and peculiar pages suggest corporate or government secrets.
+- Genuine documents reveal government-funded research into steering public
+  attention and perceived consensus through ranking, repetition, social cues,
+  and distraction. The evidence is narrow but authentic: it proves the research
+  and Orbit's later license, not a single agency controlling the whole network.
+- Before discussion of those records can spread, the Byte Barn tribute
+  compilation takes over the directory. The album is a genuine cultural event,
+  not a planted conspiracy, but its placement demonstrates the researchers'
+  central claim: an inconvenient record can be buried without being deleted.
 - Rumors spread between accounts and mutate.
 - The player's searches and stated theories influence which clues surface.
 - The platform learns that investigation produces longer sessions than ordinary
@@ -385,12 +392,22 @@ control. In phase three, popular outside artists release a Byte Barn tribute
 compilation. The absurd revival sends enough real visitors to Orbit to push it
 safely above the carrier's utilization floor.
 
+The compilation arrives immediately before the C9 reveal. Its enormous,
+harmless popularity pushes the government archive and the impersonation
+evidence out of ordinary conversation even though neither page is deleted. C9
+did not invent the covers or compel anyone to enjoy them; it merely places the
+popular event first once attention moves there. The silly ending therefore
+proves the unsettling archive right: suppression can look exactly like people
+freely deciding that something else is more fun to discuss.
+
 The rumors attracted the first legitimate community, but the members' music,
-friendships, and curiosity are what save it. They choose to keep Orbit online
-while requiring C9 to stop publishing synthetic mysteries and let people decide
-what the network becomes. This is a deliberately lighthearted redemption arc:
-the obscure commercial jingle that survived on an obsolete website becomes the
-cultural event that makes the obsolete network matter again.
+friendships, and curiosity are what save it. The few users who carefully compare
+the evidence are angry and impose new rules. Most visitors are primarily excited
+about the album. Together they choose to keep Orbit online while requiring C9
+to stop publishing synthetic mysteries and let people decide what the network
+becomes. This is a deliberately lighthearted redemption arc with a dark thematic
+aftertaste: the obscure commercial jingle that survived on an obsolete website
+becomes the cultural event that saves the network and masks the truth about it.
 
 Afterward the game enters stable free play:
 

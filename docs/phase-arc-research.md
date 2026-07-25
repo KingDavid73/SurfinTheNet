@@ -105,10 +105,19 @@ not become available until all three headline cases have been visited.
 
 The accidental real discovery behind that assembled route is:
 
-4. **Adaptive Index:** a recovered interface-research archive shows that Orbit
-   licensed techniques intended to influence attention and session duration
-   through ordering, repetition, social cues, and unresolved prompts. It does
-   not prove government control of Orbit or reliable “mind control.”
+4. **Adaptive Index:** a recovered interface-research archive shows that a
+   government-funded program tested how ordering, repetition, invented social
+   endorsement, authoritative summaries, and unrelated high-interest novelty
+   could steer public attention and perceived consensus. Its most troubling
+   trial left every authentic record available, then reduced discussion of an
+   inconvenient record by placing a pleasant, socially endorsed diversion
+   above it. Orbit later licensed the work for continuity and engagement.
+
+   This proves government interest in practical salience management and Orbit's
+   use of the resulting techniques. It does not prove national deployment,
+   reliable “mind control,” a single omnipotent agency, or government direction
+   of C9's later impersonation campaign. Sponsor and implementation appendices
+   remain missing.
 
 Each terminal page records one deterministic discovery. Generated dialogue can
 interpret a mystery but cannot mark it solved.
@@ -142,6 +151,15 @@ the hidden government archive:
 - adds a second authored `ghostline` message.
 
 Degradation is evidence, not random low-quality output.
+
+The overnight phase-three transition deliberately enacts the archive's claim.
+Before discussion of the recovered findings can spread, the amateur Byte Barn
+covers escape Orbit and a major tribute compilation is announced. The album is
+not a government operation and C9 did not create the music or manufacture its
+popularity. C9 simply recognizes where genuine attention has moved and gives
+the event overwhelming placement. The archive remains available while its
+discovery is buried beneath a joyful, nonpolitical subject—the exact condition
+the displacement trial found most effective.
 
 Rumor circulation also accelerates. C9 can plant several hints during a long
 time jump, the borrowed screen names contain multiple errors or missing

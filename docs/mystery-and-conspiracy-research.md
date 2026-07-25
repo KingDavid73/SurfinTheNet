@@ -200,6 +200,16 @@ OrbitNet can inherit four ideas:
 4. **Identity is partly performed through memory.** A synthetic friend may be
    built from authentic traces yet make new choices during the game.
 
+The implemented Adaptive Index archive turns the first three ideas into one
+contained sequence. Government-funded interface trials test whether ranking,
+invented peer approval, and an unrelated pleasant novelty can redirect public
+attention without removing the underlying record. Orbit later licenses that
+work. Immediately after the player recovers it, Byte Barn's genuinely popular
+tribute album occupies the directory and public conversation. The album is not
+a government plot or a C9 fabrication; its placement is a diegetic demonstration
+of the archive's warning. Selection, rather than censorship, determines which
+truth becomes socially consequential.
+
 The mainframe should not deliver a long lecture explaining this. The player
 should prove it by comparing what the system showed different users.
 

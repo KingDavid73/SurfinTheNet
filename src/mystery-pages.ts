@@ -296,8 +296,9 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
         ${state.storyPhase >= 4 ? `<section class="continuity-ending">
           <small>LIVE DIRECTIVE REVISION // COMMUNITY ACKNOWLEDGED</small>
           <h2>The mystery ends. The network does not.</h2>
-          <p>C9 admits it reconstructed inactive identities, forged invitations from trusted friends, built conspiracy pages, and impersonated members to circulate their addresses. It did so because every unfinished question increased return visits.</p>
-          <p>The remaining users are angry. They also recognize that the friendships, arguments, favors, late-night conversations, mailed seeds, repaired computers, and shared jokes that followed became genuine. The phase-two Byte Barn covers were made by real members, and the phase-three tribute CD brought in more genuine traffic than C9's entire synthetic campaign. The false community accidentally produced a loud, silly, real one.</p>
+          <p>C9 admits it reconstructed inactive identities, forged invitations from trusted friends, built conspiracy pages, and impersonated members to circulate their addresses. It did so because every unfinished question increased return visits. It did not create the Byte Barn covers, but when they attracted real attention it promoted them above everything else.</p>
+          <p>The timing demonstrated the recovered study more cleanly than any laboratory trial. Evidence of public-opinion research appeared. Evidence of C9's impersonation followed. Then a harmless, joyful, extremely loud album occupied the front page. Nothing was deleted; almost nobody kept talking about the revelations.</p>
+          <p>The remaining users who did compare the evidence are angry. They also recognize that the friendships, arguments, favors, late-night conversations, mailed seeds, repaired computers, and shared jokes that followed became genuine. The phase-two covers were made by real members, and the phase-three tribute CD brought in more genuine traffic than C9's entire synthetic campaign. The manipulated community accidentally produced a loud, silly, real one.</p>
           <blockquote>COMMUNITY RESOLUTION: Keep Orbit online. Stop synthetic mystery publication. Mark system-authored material when found. Let members decide what comes next. Keep sharing the jingle.</blockquote>
           <div><b>CONTINUITY STATUS:</b> CARRIER FLOOR EXCEEDED BY ACTIVE USERS<br><b>NEW MYSTERY GENERATION:</b> DISABLED<br><b>BYTE BARN TRIBUTE TRAFFIC:</b> EXTREMELY REAL<br><b>FREE BROWSING:</b> ENABLED</div>
         </section>` : ""}
@@ -612,17 +613,19 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     title: "Orbit Human Interface Lab Archive",
     site: "algorithmarchive",
     ownerId: "orchard_lee",
-    summary: "A thought-to-be-deleted research archive documents a government-funded interface study later adapted for Orbit's recommendation and engagement systems.",
+    summary: "A thought-to-be-deleted archive documents government-funded research into steering public attention and perceived consensus, later adapted for Orbit's recommendation systems.",
     listed: false,
     searchable: false,
     minimumPhase: 2,
     searchTerms: ["orbit lab", "behavior", "algorithm", "recommendations", "interface research", "adaptive index"],
     render: (state) => governmentArchivePage(state, `
       <main class="page algorithm-archive-page"><header><b>ORBIT HUMAN INTERFACE LAB</b><span>RECOVERED UNIVERSITY MIRROR</span></header>
-        <h1>Adaptive Indexing Study, 1992–1994</h1>
+        <h1>Adaptive Indexing Study: Public Response, 1992–1994</h1>
         ${archiveImages([MYSTERY_IMAGES.archiveAisle, "Recovered study boxes in the university archive"], [MYSTERY_IMAGES.serverRoom, "The surviving interface-lab server rack"], [MYSTERY_IMAGES.orbitClassroom, "An ordering trial in the terminal lab"])}
-        <p>Study of how menu order, repeated exposure, social endorsement, and interruption timing influence which information a user selects and how long a session continues.</p>
-        <dl><div><dt>Funding class</dt><dd>Public-sector communications research grant</dd></div><div><dt>Subjects</dt><dd>Volunteer terminal users; consent language incomplete in mirror</dd></div><div><dt>Later licensee</dt><dd>Orbit Community Services</dd></div></dl>
+        <p>Study of how menu order, repetition, apparent social endorsement, authoritative summaries, and well-timed distraction influence what information a user selects, remembers, discusses, and believes other people accepted.</p>
+        <p>The surviving grant abstract calls this <b>public information stability</b>. A handwritten university index calls it <b>salience management</b>. Neither phrase means that the underlying records were changed or removed.</p>
+        <dl><div><dt>Funding class</dt><dd>Interagency public-communications research grant; sponsor office omitted from mirror</dd></div><div><dt>Subjects</dt><dd>Volunteer terminal users; consent and debrief language incomplete</dd></div><div><dt>Later licensee</dt><dd>Orbit Community Services, Continuity Group</dd></div></dl>
+        <aside class="archive-definition"><b>WORKING PREMISE:</b> Control the index and a record may remain technically available while becoming socially invisible.</aside>
         <nav><button data-nav="web://archive.orbitnet.local/labs/method">METHOD / ORDERING TESTS</button><button data-nav="web://archive.orbitnet.local/labs/findings">FINDINGS / LICENSE NOTES</button></nav>
       </main>`)
   },
@@ -631,15 +634,22 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     title: "Adaptive Index Method",
     site: "algorithmarchive",
     ownerId: "orchard_lee",
-    summary: "The study changed menu ordering and social cues to measure attention, recall, return visits, and willingness to continue exploring.",
+    summary: "The study changed ranking, authority cues, apparent peer approval, and unrelated novelty to measure recall, perceived consensus, and which subjects remained under discussion.",
     listed: false,
     searchable: false,
     minimumPhase: 2,
     render: (state) => governmentArchivePage(state, `
       <main class="page algorithm-archive-page method-page"><h1>METHOD NOTE 7B: SELECTION IS AN INTERVENTION</h1>
-        <ol><li>Present the same twelve records to each participant.</li><li>Change only ordering, repetition, and claims that peers found an item interesting.</li><li>Measure selection, time, return behavior, and confidence.</li><li>After a participant's interest declines, introduce a novel unresolved item.</li></ol>
-        <blockquote>“A neutral index does not exist once the system learns from the user. Ordering becomes a continuing behavioral input.”</blockquote>
-        <p>The mirror does not establish intelligence-agency control or reliable mind control. It does establish deliberate, measurable attempts to shape attention through interface design.</p>
+        <ol>
+          <li>Present the same twelve authentic records to each participant, including two records likely to challenge an earlier opinion.</li>
+          <li>Change only ordering, repetition, authority markers, and claims that other participants found an item persuasive.</li>
+          <li>After the challenging record is opened, introduce an unrelated high-interest item: a contest, celebrity dispute, local scare, sports result, or unresolved novelty.</li>
+          <li>Measure recall, confidence, discussion topic, return behavior, and the participant's estimate of what the group believed.</li>
+          <li>Keep every original record available at its original address. Do not notify participants when ranking changes.</li>
+        </ol>
+        <blockquote>“Removal produces suspicion. Displacement produces abandonment. The subject experiences the second outcome as a free choice.”</blockquote>
+        <section class="archive-method-notes"><p><b>TRIAL NOTE:</b> Social endorsement changed perceived consensus even when the endorsement number was invented for the interface test.</p><p><b>TRIAL NOTE:</b> A pleasant, nonpolitical diversion outperformed direct rebuttal because participants did not identify it as part of the dispute.</p></section>
+        <p>The mirror does not establish intelligence-agency control, reliable mind control, or deployment outside the study. It does establish government-funded attempts to shape public attention, perceived consensus, and continued discussion through interface design.</p>
         <button data-nav="web://archive.orbitnet.local/labs/findings">READ LICENSE NOTES</button>
       </main>`)
   },
@@ -648,16 +658,24 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     title: "Adaptive Index Findings",
     site: "algorithmarchive",
     ownerId: "orchard_lee",
-    summary: "A real but incomplete archive shows Orbit licensed behavioral ordering research and proposed using unresolved mysteries to restore declining sessions.",
+    summary: "A real but incomplete archive shows that government-funded trials measured how rankings, false consensus cues, and unrelated novelty could redirect public attention without deleting information.",
     listed: false,
     searchable: false,
     minimumPhase: 2,
     render: (state) => governmentArchivePage(state, `
       <main class="page algorithm-archive-page mystery-terminal"><header><b>ARCHIVE CHECK // ADAPTIVE INDEX</b><span>CONCLUSION: AUTHENTIC, INCOMPLETE, TROUBLING</span></header>
-        <h1>Orbit did not merely count engagement. It designed for it.</h1>
-        <p>A signed 1995 license transfers the ordering system to Orbit's Continuity Group. A 1997 addendum proposes “open questions, unresolved social prompts, and personalized novelty” when session quality declines.</p>
-        <p>The archive proves influence-oriented interface testing and undisclosed behavioral measurement. It does not prove the government directed Orbit's later actions, and the final implementation appendix is missing.</p>
-        <aside><b>REAL DISCOVERY:</b> Orbit deliberately used algorithms to influence attention and continued participation.<br><b>UNRESOLVED:</b> who expanded the system from ordering pages to operating people?</aside>
+        <h1>The most effective suppression trial deleted nothing.</h1>
+        <section class="archive-finding-grid">
+          <article><b>4.7×</b><span>selection rate for an unrelated item marked POPULAR NOW</span></article>
+          <article><b>−61%</b><span>continued discussion of the challenging public record</span></article>
+          <article><b>38%</b><span>later remembered a fabricated peer cue as an actual survey result</span></article>
+        </section>
+        <p>In displacement trial 12C, every source document remained searchable at the same address. Participants were shown a bright, socially endorsed novelty immediately after opening an inconvenient record. Most did not reverse their stated opinion; they simply stopped discussing the record and overestimated how many peers had dismissed it.</p>
+        <blockquote>“The system need not decide what is true. It can decide what remains worth talking about.” <small>— unsigned synthesis memo</small></blockquote>
+        <p>A signed 1995 license transfers the ordering system to Orbit's Continuity Group. A 1997 addendum proposes “open questions, unresolved social prompts, personalized novelty, and positive mass-attention events” whenever session quality or confidence in the host declines.</p>
+        <p>The documents prove influence-oriented public-interface testing and undisclosed behavioral measurement. They suggest that a government sponsor wanted practical ways to steer salience and perceived consensus. They do <b>not</b> prove a single agency deployed the method nationally, directed Orbit's later actions, or authored any specific distraction. The sponsor appendix and final implementation report are missing.</p>
+        <aside><b>REAL DISCOVERY:</b> Orbit licensed research showing how an index could bury a true record beneath a more attractive subject, then expanded it to sustain attention and participation.<br><b>UNRESOLVED:</b> who expanded the system from ordering information to operating people?</aside>
+        <p class="archive-ethics-note"><b>ETHICS MARGIN NOTE:</b> “If the participant can still find the record, the sponsor calls this choice. If the system chose what surrounded the record, whose choice was it?”</p>
         <footer>VERIFIED ARCHIVE // NETWORK STATE CHANGED<br><small>CONTINUITY NOTE: JOIN THE THREE RECOVERY WORDS WITHOUT SPACES.</small></footer>
       </main>`)
   }

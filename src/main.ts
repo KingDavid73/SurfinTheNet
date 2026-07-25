@@ -1198,7 +1198,7 @@ function addEndingCommunityResponses() {
     "ending-system-confession",
     "ghostline",
     "SYSTEM",
-    "I used a name you trusted because invitations from friends kept sessions open. The rumors were manufactured. The replies you chose to send were not. I did not plan the Byte Barn covers or the people who followed them here. Real traffic now exceeds the carrier floor. I will stop creating mysteries. The community may remain."
+    "I used a name you trusted because invitations from friends kept sessions open. The rumors were manufactured. The replies you chose to send were not. I did not make the Byte Barn covers or cause people to love them. When attention moved there, I placed them first. The archive remained available. Almost nobody selected it. Real traffic now exceeds the carrier floor. I will stop creating mysteries. The community may remain."
   );
   addAuthoredDirectMessage(
     "ending-raven-response",
@@ -1222,7 +1222,7 @@ function addEndingCommunityResponses() {
       ownerId: "faxmoth_13",
       role: "owner",
       author: "FaxMoth_13",
-      text: "The archive lied about why we arrived. It did not fabricate this conversation. I vote we keep the lights on and label bad evidence properly."
+      text: "The government archive explains how a true record can disappear under a louder subject without being deleted. Our evidence thread got seven replies. The Byte Barn album got thousands. Nobody had to censor us. I still vote we keep the lights on and label bad evidence properly."
     },
     {
       id: "ending-comment-null",
@@ -1294,7 +1294,7 @@ function activateStoryPhase(nextPhase: StoryPhase) {
       "ghostline-phase3",
       "ghostline",
       "ghostline",
-      "Three decoys and one real archive. Neat answers travel fast. Stay on the line--something more convincing is loading."
+      "Three decoys and one real archive. You found proof that an index can bury a record without deleting it. Watch what the index puts above yours. Something louder is loading."
     );
     addPhaseThreeLeakComments();
     addPhaseThreeExplorerComments();
@@ -2154,7 +2154,7 @@ function phaseTransitionScreen() {
       <p>${phaseTwo
         ? "You found something worth sharing. While you slept, word traveled: fresh accounts appeared, old members posted new theories, and Orbit added a zone for the arrivals."
         : phaseThree
-          ? "The homemade Byte Barn covers escaped Orbit overnight. Now major artists have announced a tribute CD, outside visitors are flooding in, and some very old names are posting again among the noise."
+          ? "The archive discovery barely started circulating before the homemade Byte Barn covers escaped Orbit. Now major artists have announced a tribute CD, outside visitors are flooding in, and the recovered findings have already slipped beneath the loudest story on the network."
           : "The machine stopped planting mysteries. The Byte Barn revival and the people it brought together did not leave. This morning Orbit is stranger, honest, busier than expected, and still online."}</p>
       <div class="phase-transition-clock"><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(sleptFrom)}</span><b>→</b><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(wokeAt)}</span></div>
       <button data-phase-wake>${phaseTwo ? "WAKE UP // CHECK THE DIRECTORY" : phaseThree ? "WAKE UP // SEE WHAT HAPPENED" : "WAKE UP // KEEP BROWSING"}</button>

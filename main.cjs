@@ -938,19 +938,28 @@ function createWindow() {
           }
 
           await address("web://archive.orbitnet.local/labs/home");
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.algorithm-archive-page:not(.algorithm-archive-sealed)')) && document.body.textContent.includes('Adaptive Indexing Study')`)) {
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.algorithm-archive-page:not(.algorithm-archive-sealed)')) && document.body.textContent.includes('Adaptive Indexing Study') && document.body.textContent.includes('socially invisible')`)) {
             throw new Error("Assembled route did not open the hidden government archive");
           }
+          await address("web://archive.orbitnet.local/labs/method");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.method-page ol li').length === 5 && document.body.textContent.includes('Displacement produces abandonment') && document.body.textContent.includes('pleasant, nonpolitical diversion')`)) {
+            throw new Error("Adaptive Index method did not document ranking, false consensus, and distraction trials");
+          }
+          await capture("story-adaptive-index-method.png");
           await address("web://archive.orbitnet.local/labs/findings");
           await wait(250);
           saved = await readSave();
           if (saved.storyPhase !== 3 || saved.discoveredMysteries.length !== 4) throw new Error(`Hidden government archive did not activate phase three: ${JSON.stringify(saved.discoveredMysteries)}`);
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.archive-finding-grid article').length === 3 && document.body.textContent.includes('suppression trial deleted nothing') && document.body.textContent.includes('positive mass-attention events')`)) {
+            throw new Error("Adaptive Index findings did not establish attention displacement without censorship");
+          }
           if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-3'))`)) {
             throw new Error(`Phase three did not force an overnight sleep: ${saved.gameTime}`);
           }
           if (!saved.directMessages.some((message) => message.id === "ghostline-phase3") || !["phase3-leak-toni", "phase3-leak-raven", "phase3-leak-null"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
             throw new Error("Phase-three authored pressure messages were incomplete");
           }
+          await capture("story-phase3-overnight.png");
           const phaseThreeExplorerIds = ["dialup_daria", "cached_cory", "netmom_nadine", "shiftkey_shawn", "ufowendy_77", "archive_omar", "pixiekit_amy", "grayhat_gary"];
           if (!phaseThreeExplorerIds.every((ownerId) => saved.pageComments.some((comment) => comment.ownerId === ownerId))) {
             throw new Error("Page-less phase-three explorers did not arrive through comments");
@@ -962,8 +971,8 @@ function createWindow() {
           await wakeFromPhaseTransition(3);
 
           await address("web://home");
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.directory-byte-barn-event [data-nav="web://soundwave.zone/features/byte-barn-forever"]'))`)) {
-            throw new Error("Phase-three OrbitNet homepage did not feature the Byte Barn compilation");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.directory-byte-barn-event [data-nav="web://soundwave.zone/features/byte-barn-forever"]')) && document.querySelector('.directory-byte-barn-event')?.textContent.includes('recovered interface-lab records move to Backchannel archive')`)) {
+            throw new Error("Phase-three OrbitNet homepage did not bury the archive beneath the Byte Barn compilation");
           }
           await address("web://orbitnet.local/zones/soundwave");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.soundwave-revival-card')) && document.querySelectorAll('.soundwave-member-card').length === 6`)) {
@@ -1072,7 +1081,7 @@ function createWindow() {
           await capture("story-phase4-overnight.png");
           await wakeFromPhaseTransition(4);
           await address("web://legacy.orbitos.local/admin/continuity");
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && Boolean(document.querySelector('.continuity-ending')) && document.body.textContent.includes('KEEP COMMUNITY ACTIVE')`)) throw new Error("Continuity ending did not remain unlocked after the epilogue morning");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && Boolean(document.querySelector('.continuity-ending')) && document.body.textContent.includes('KEEP COMMUNITY ACTIVE') && document.body.textContent.includes('Nothing was deleted; almost nobody kept talking')`)) throw new Error("Continuity ending did not remain unlocked or connect the distraction to the recovered research");
           const endingRumorCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_rumor_") && saved.flags[key]).length;
           await sleep("1");
           saved = await readSave();
