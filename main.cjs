@@ -776,8 +776,8 @@ function createWindow() {
           await address("web://orbitnet.local/zones/newcomers");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two newcomer zone was available during phase one");
           await address("web://orbitnet.local/zones/soundwave");
-          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.soundwave-member-card').length === 6 && !document.querySelector('.soundwave-revival-card')`)) {
-            throw new Error("Phase-one SoundWave directory did not contain six ordinary member pages");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.soundwave-member-card').length === 6 && document.querySelectorAll('.soundwave-member-card img').length === 6 && !document.querySelector('.soundwave-revival-card')`)) {
+            throw new Error("Phase-one SoundWave directory did not contain six illustrated ordinary member pages");
           }
           for (const soundwaveUrl of [
             "web://soundwave.zone/users/starlinesteph/home",
@@ -788,18 +788,21 @@ function createWindow() {
             "web://soundwave.zone/users/rhymetaperico/home"
           ]) {
             await address(soundwaveUrl);
-            if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.sound-user-page')) && Boolean(document.querySelector('.page-comments')) && !document.querySelector('.byte-barn-cover-update')`)) {
-              throw new Error(`Phase-one SoundWave member page was incomplete or revealed the cover wave early: ${soundwaveUrl}`);
+            const expectedImages = soundwaveUrl.includes("rhymetaperico") ? 6 : 3;
+            if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.sound-user-page')) && document.querySelectorAll('.sound-user-page .sound-member-photo img').length >= ${expectedImages} && Boolean(document.querySelector('.page-comments')) && !document.querySelector('.byte-barn-cover-update')`)) {
+              throw new Error(`Phase-one SoundWave member page was incomplete, unillustrated, or revealed the cover wave early: ${soundwaveUrl}`);
             }
           }
           await address("web://soundwave.zone/users/rhymetaperico/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rico-listening-guide')) && Boolean(document.querySelector('[data-aim-owner="rhymetape_rico"]')) && document.body.textContent.includes('Corny hook. Crooked clap. Tiny keyboard stab.')`)) {
             throw new Error("Main-character Rico did not expose his phase-one music-guide breadcrumb and AIM contact");
           }
+          await capture("story-soundwave-rico.png");
           await address("web://soundwave.zone/users/rhymetaperico/deep-cuts");
-          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.rico-guide-list article').length === 4 && Boolean(document.querySelector('.rico-byte-barn-pick [data-nav="web://bytebarn.com/home"]')) && document.body.textContent.includes('not a mystery') && !document.body.textContent.includes('OPEN BYTE BARN FOREVER')`)) {
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.rico-guide-list article').length === 4 && document.querySelectorAll('.rico-guide-archive img').length === 3 && Boolean(document.querySelector('.rico-byte-barn-pick [data-nav="web://bytebarn.com/home"]')) && document.body.textContent.includes('not a mystery') && !document.body.textContent.includes('OPEN BYTE BARN FOREVER')`)) {
             throw new Error("Rico's phase-one deep-cut guide did not quietly seed the Byte Barn jingle");
           }
+          await capture("story-soundwave-rico-deep-cuts.png");
 
           await address("web://legacy.orbitos.local/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-orbit-page')) && document.body.textContent.includes('ONE COMPUTER. ONE NETWORK. ONE ORBIT.')`)) throw new Error("Hidden OrbitOS archive did not load by explicit address");

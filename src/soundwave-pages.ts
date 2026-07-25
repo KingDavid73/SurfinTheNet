@@ -32,6 +32,49 @@ const tributeArtistPhotos: Record<string, string> = {
   "Next Saturday": new URL("../assets/images/byte-barn-forever/next-saturday.webp", import.meta.url).href
 };
 
+const soundwaveMemberAssets = {
+  mixtapeStack: new URL("../assets/images/soundwave-members/soundwave-mixtape-stack.webp", import.meta.url).href,
+  stephPortrait: new URL("../assets/images/soundwave-members/starline-steph-portrait.webp", import.meta.url).href,
+  stephScrapbook: new URL("../assets/images/soundwave-members/starline-steph-scrapbook.webp", import.meta.url).href,
+  stephDanceNotes: new URL("../assets/images/soundwave-members/starline-steph-dance-notes.webp", import.meta.url).href,
+  sidPortrait: new URL("../assets/images/soundwave-members/safetypin-sid-portrait.webp", import.meta.url).href,
+  sidBasementShow: new URL("../assets/images/soundwave-members/safetypin-sid-basement-show.webp", import.meta.url).href,
+  sidXeroxNotebook: new URL("../assets/images/soundwave-members/safetypin-sid-xerox-notebook.webp", import.meta.url).href,
+  masonPortrait: new URL("../assets/images/soundwave-members/flannel-mason-portrait.webp", import.meta.url).href,
+  masonFuzzFloor: new URL("../assets/images/soundwave-members/flannel-mason-fuzz-floor.webp", import.meta.url).href,
+  masonTapeBox: new URL("../assets/images/soundwave-members/flannel-mason-tape-box.webp", import.meta.url).href,
+  simonPortrait: new URL("../assets/images/soundwave-members/subbass-simon-portrait.webp", import.meta.url).href,
+  simonSampler: new URL("../assets/images/soundwave-members/subbass-simon-sampler.webp", import.meta.url).href,
+  simonRaveFlyers: new URL("../assets/images/soundwave-members/subbass-simon-rave-flyers.webp", import.meta.url).href,
+  simonSpeakerBench: new URL("../assets/images/soundwave-members/subbass-simon-speaker-bench.webp", import.meta.url).href,
+  cassPortrait: new URL("../assets/images/soundwave-members/country-cass-portrait.webp", import.meta.url).href,
+  cassCountyStage: new URL("../assets/images/soundwave-members/country-cass-county-stage.webp", import.meta.url).href,
+  cassLyricNotebook: new URL("../assets/images/soundwave-members/country-cass-lyric-notebook.webp", import.meta.url).href,
+  cassOpenMic: new URL("../assets/images/soundwave-members/country-cass-open-mic.webp", import.meta.url).href,
+  ricoPortrait: new URL("../assets/images/soundwave-members/rhymetape-rico-portrait.webp", import.meta.url).href,
+  ricoFridgeStudio: new URL("../assets/images/soundwave-members/rhymetape-rico-fridge-studio.webp", import.meta.url).href,
+  ricoTapeWall: new URL("../assets/images/soundwave-members/rhymetape-rico-tape-wall.webp", import.meta.url).href,
+  ricoCipher: new URL("../assets/images/soundwave-members/rhymetape-rico-rec-center-cipher.webp", import.meta.url).href,
+  ricoRhymeNotebook: new URL("../assets/images/soundwave-members/rhymetape-rico-rhyme-notebook.webp", import.meta.url).href,
+  ricoCarTest: new URL("../assets/images/soundwave-members/rhymetape-rico-car-test.webp", import.meta.url).href,
+  ricoWebGuide: new URL("../assets/images/soundwave-members/rhymetape-rico-web-guide.webp", import.meta.url).href,
+  ricoShowArchive: new URL("../assets/images/soundwave-members/rhymetape-rico-show-archive.webp", import.meta.url).href,
+  ricoByteBarnClue: new URL("../assets/images/soundwave-members/rhymetape-rico-byte-barn-clue.webp", import.meta.url).href
+} as const;
+
+const soundwavePortraitByClass: Record<string, string> = {
+  boyband: soundwaveMemberAssets.stephPortrait,
+  punk: soundwaveMemberAssets.sidPortrait,
+  grunge: soundwaveMemberAssets.masonPortrait,
+  breakbeat: soundwaveMemberAssets.simonPortrait,
+  country: soundwaveMemberAssets.cassPortrait,
+  rap: soundwaveMemberAssets.ricoPortrait
+};
+
+function soundPhoto(src: string, alt: string, caption: string, className = "") {
+  return `<figure class="sound-member-photo ${className}"><img src="${src}" alt="${alt}"><figcaption>${caption}</figcaption></figure>`;
+}
+
 const seed = (
   id: string,
   pageUrl: string,
@@ -120,7 +163,7 @@ const memberByClass = Object.fromEntries(soundwaveMembers.map((member) => [membe
 
 export function soundwaveDirectoryBody(state: GameState) {
   return `<section class="soundwave-member-directory member-page-directory">
-    <header><div><small>HOME TAPES // LOCAL SHOWS // LOUD OPINIONS</small><h2>SoundWave Member Pages</h2></div><span>${soundwaveMembers.length} regulars online</span></header>
+    <header><img class="soundwave-directory-tapes" src="${soundwaveMemberAssets.mixtapeStack}" alt="Stack of member mixtapes and a portable cassette player"><div><small>HOME TAPES // LOCAL SHOWS // LOUD OPINIONS</small><h2>SoundWave Member Pages</h2></div><span>${soundwaveMembers.length} regulars online</span></header>
     <div>
       ${state.storyPhase >= 3 ? `<button class="soundwave-revival-card" data-nav="${BYTE_BARN_COMPILATION_URL}">
         <img src="${BYTE_BARN_CAMPAIGN_THUMB}" alt="Byte Barn Forever album cover">
@@ -128,7 +171,7 @@ export function soundwaveDirectoryBody(state: GameState) {
         <b>PLAY THE ALBUM &rsaquo;</b>
       </button>` : ""}
       ${soundwaveMembers.map((member) => `<button class="soundwave-member-card member-${member.className}" data-nav="${member.url}">
-        <i>${member.genre.slice(0, 3)}</i>
+        <i><img src="${soundwavePortraitByClass[member.className]}" alt=""></i>
         <span><strong>${member.title}</strong><small>${member.description}</small><b>${member.handle} // ${member.genre}</b></span>
         <em>LISTEN IN &rsaquo;</em>
       </button>`).join("")}
@@ -154,6 +197,11 @@ export const soundwavePages: Record<string, PageDefinition> = {
     render: () => `<main class="page sound-user-page sound-boyband">
       ${pageHeader("THE UNOFFICIAL 5TH EXIT ONLINE HOTLINE", "STEPH'S 5TH EXIT HOTLINE", memberByClass.boyband.handle)}
       <marquee>*** ELIAS IS THE DREAMY ONE // MARCUS HAS THE BEST VOICE // DO NOT EMAIL ME ABOUT THIS RANKING ***</marquee>
+      <section class="steph-photo-scrapbook">
+        ${soundPhoto(soundwaveMemberAssets.stephPortrait, "Steph posing in her bedroom beneath a wall of pop posters", "me in front of THE WALL // mom took this")}
+        ${soundPhoto(soundwaveMemberAssets.stephScrapbook, "Steph's handmade boy-band scrapbook collage", "scrapbook page 11 // do not bend")}
+        ${soundPhoto(soundwaveMemberAssets.stephDanceNotes, "Hand-drawn dance steps and costume notes", "the food-court routine, revised")}
+      </section>
       <section class="boyband-countdown"><h2>STEPH'S CURRENT TOP 5</h2><ol><li>Call Me From the Food Court</li><li>One More Exit</li><li>Pager Heart</li><li>Every Friday Night</li><li>Girl, Rewind</li></ol></section>
       <section class="sound-scrapbook"><article><b>HARMONY SCIENCE</b><p>The last chorus goes up one whole step. This is why it feels like the song has physically lifted the mall roof.</p></article><article><b>DANCE MOVE OF THE WEEK</b><p>Step, point, jacket grab, quarter turn. Mom says the lamp is not part of the choreography.</p></article><article><b>WANTED</b><p>Any magazine with the blue-jacket photo. Will trade two duplicate sticker sheets.</p></article></section>
       ${returnToZone()}
@@ -175,6 +223,11 @@ export const soundwavePages: Record<string, PageDefinition> = {
     ],
     render: () => `<main class="page sound-user-page sound-punk">
       ${pageHeader("COPIED AT INKMOTH // STAPLED WRONG ON PURPOSE", "SID'S STAPLED NOISE", memberByClass.punk.handle)}
+      <section class="sid-xerox-strip">
+        ${soundPhoto(soundwaveMemberAssets.sidPortrait, "Sid outside a small suburban show hall", "SID // waiting for somebody with the key")}
+        ${soundPhoto(soundwaveMemberAssets.sidBasementShow, "A crowded basement punk show", "THE CART RETURNS // song maybe four")}
+        ${soundPhoto(soundwaveMemberAssets.sidXeroxNotebook, "Sid's photocopied punk notebook and flyer pages", "INKMOTH COPY // toner setting: too much")}
+      </section>
       <section class="punk-manifesto"><h2>LOCAL SHOW REPORT #14</h2><p><b>The Cart Returns</b> played behind the bowling alley. Power went out during song three. Nobody noticed until song five.</p><p>Cover: $4. Floor: sticky. Drummer: excellent. Bathroom: absolutely not.</p></section>
       <div class="punk-chords"><b>THREE CHORDS YOU NEED</b><code>E5 &nbsp; A5 &nbsp; B5</code><span>the fourth chord is leaving</span></div>
       <section class="sound-scrapbook"><article><b>DEMO WANTED</b><p>If your band has a tape, put the band name on both the case AND the cassette.</p></article><article><b>NEXT SHOW</b><p>Saturday at the old VFW hall. Bring exact change and do not lean on the fuse box.</p></article></section>
@@ -197,6 +250,11 @@ export const soundwavePages: Record<string, PageDefinition> = {
     ],
     render: () => `<main class="page sound-user-page sound-grunge">
       ${pageHeader("TUNED DOWN // RECORDED TOO HOT", "THE LOW-CEILING GUITAR ROOM", memberByClass.grunge.handle)}
+      <section class="mason-contact-sheet">
+        ${soundPhoto(soundwaveMemberAssets.masonPortrait, "Mason playing guitar in his basement", "practice room // ceiling not pictured")}
+        ${soundPhoto(soundwaveMemberAssets.masonFuzzFloor, "Fuzz pedals and cables on worn basement carpet", "current signal chain // gray one is broken correctly")}
+        ${soundPhoto(soundwaveMemberAssets.masonTapeBox, "A shoebox of hand-labeled cassette bootlegs", "the tape box // ask before dubbing")}
+      </section>
       <section class="grunge-tape-log"><h2>TAPE BOX</h2><p><b>RESERVOIR SAINTS - 8/12/98</b><br>Third-generation dub. Crowd louder than guitar. Keep.</p><p><b>GARAGE PRACTICE #6</b><br>One complete song, five false starts, furnace at 60Hz.</p></section>
       <section class="grunge-settings"><h2>FUZZ SETTINGS</h2><dl><div><dt>GAIN</dt><dd>all the way, then apologize</dd></div><div><dt>TONE</dt><dd>about 2 o'clock</dd></div><div><dt>LEVEL</dt><dd>depends whether Dad is home</dd></div></dl></section>
       <blockquote>"Perfectly clean audio is hiding something." - Mason, after losing the original tape</blockquote>
@@ -220,6 +278,12 @@ export const soundwavePages: Record<string, PageDefinition> = {
     render: () => `<main class="page sound-user-page sound-breakbeat">
       ${pageHeader("BPM 148 // BUFFER 64K // MIND THE SPEAKERS", "SIMON // BREAK THE BEAT", memberByClass.breakbeat.handle)}
       <div class="breakbeat-sequencer">${Array.from({ length: 32 }, (_, index) => `<i class="${index % 7 === 0 || index % 11 === 0 ? "hot" : ""}"></i>`).join("")}</div>
+      <section class="simon-sampler-rack">
+        ${soundPhoto(soundwaveMemberAssets.simonPortrait, "Simon at his bedroom sampler workstation", "STUDIO B // studio A is the kitchen")}
+        ${soundPhoto(soundwaveMemberAssets.simonSampler, "Chunky sampler, drum machine, and floppy disks", "64K OF UNREASONABLE POWER")}
+        ${soundPhoto(soundwaveMemberAssets.simonRaveFlyers, "Neon rave flyers and speaker diagrams under blacklight", "flyers worth saving // addresses removed")}
+        ${soundPhoto(soundwaveMemberAssets.simonSpeakerBench, "Disassembled speakers and headphones on Simon's repair bench", "speaker surgery // patient survived")}
+      </section>
       <section class="breakbeat-panel"><h2>CURRENT PROJECT: CONCRETE ORBIT</h2><p>Sources: one drum machine, bus-door hiss, a dropped toolbox, and the dial-up noise my brother says I am not allowed to sample again.</p><dl><div><dt>A SIDE</dt><dd>fast / rude / nearly finished</dd></div><div><dt>B SIDE</dt><dd>faster / ruder / corrupted</dd></div></dl></section>
       <aside class="breakbeat-warning">WARNING: LOW FREQUENCIES MAY REARRANGE FLOPPY DISKS</aside>
       ${returnToZone()}
@@ -241,6 +305,12 @@ export const soundwavePages: Record<string, PageDefinition> = {
     ],
     render: () => `<main class="page sound-user-page sound-country">
       ${pageHeader("SATURDAY RADIO // FAIRGROUND NOTES // OPEN-MIC CHORDS", "CASS'S COUNTRY NOTEBOOK", memberByClass.country.handle)}
+      <section class="cass-photo-album">
+        ${soundPhoto(soundwaveMemberAssets.cassPortrait, "Cass holding her acoustic guitar on the porch", "one more before the light went away")}
+        ${soundPhoto(soundwaveMemberAssets.cassCountyStage, "Cass playing with a country trio at the county fair", "county fair // second set")}
+        ${soundPhoto(soundwaveMemberAssets.cassLyricNotebook, "Cass's lyric notebook, chord diagrams, and guitar picks", "Thursday notebook page")}
+        ${soundPhoto(soundwaveMemberAssets.cassOpenMic, "Cass singing at a small community-room open mic", "Glasswater Grill // somebody actually listened")}
+      </section>
       <section class="country-radio"><h2>THIS WEEK'S COUNTY COUNTDOWN</h2><ol><li>Buck Hollister - Two Lanes Home</li><li>June Wilder - Porch Light</li><li>The Mile Markers - County Line Coffee</li></ol></section>
       <section class="country-notebook"><h2>SONG IDEA</h2><p>Verse one: leaving the fair after they shut the lights off.<br>Verse two: finding one ride still running.<br>Chorus: needs a better rhyme for "parking lot."</p></section>
       <aside class="country-show"><b>NEXT OPEN MIC:</b> Thursday, 7 PM, back room of the Glasswater Grill. Sign-up is on a clipboard, not online.</aside>
@@ -264,7 +334,19 @@ export const soundwavePages: Record<string, PageDefinition> = {
     ],
     render: (state) => `<main class="page sound-user-page sound-rap">
       ${pageHeader("LOCAL TAPES // BEAT NOTES // VERSES IN PROGRESS", "RICO'S RHYME & TAPE EXCHANGE", memberByClass.rap.handle)}
+      <section class="rico-archive-lead">
+        ${soundPhoto(soundwaveMemberAssets.ricoPortrait, "Rico at his kitchen-table recording station", "RICO // kitchen session 10/29")}
+        <div>
+          ${soundPhoto(soundwaveMemberAssets.ricoFridgeStudio, "Rico recording beside the refrigerator with a cassette four-track", "THE FRIDGE BOOTH // hum is part of the room tone")}
+          ${soundPhoto(soundwaveMemberAssets.ricoTapeWall, "Rico's organized wall and crates of traded mixtapes", "trade wall // duplicates live in the red crate")}
+        </div>
+      </section>
       <section class="rap-tape-deck"><h2>NOW IN THE DECK</h2><p><b>SIDE A:</b> Dynamo City cipher, recorded behind the rec center.</p><p><b>SIDE B:</b> three instrumentals and somebody asking where the extension cord went.</p></section>
+      <section class="rico-session-strip">
+        ${soundPhoto(soundwaveMemberAssets.ricoCipher, "Rico hosting an outdoor cipher behind the recreation center", "REC CENTER CIPHER // extension cord recovered")}
+        ${soundPhoto(soundwaveMemberAssets.ricoRhymeNotebook, "Rico's rhyme notebook covered in arrows and revisions", "page 47 // arrows mean try again")}
+        ${soundPhoto(soundwaveMemberAssets.ricoCarTest, "Rico testing a cassette through old car speakers at dusk", "parking-lot speaker test")}
+      </section>
       <section class="rap-rhyme-book"><h2>RHYME BOOK // DO NOT COPY</h2><p>signal / digital / difficult / pivotal</p><p>mall / call / food court / no, start over</p></section>
       <section class="rico-listening-guide">
         <small>UPDATED WHEN I FIND SOMETHING WORTH THE DOWNLOAD</small>
@@ -294,6 +376,11 @@ export const soundwavePages: Record<string, PageDefinition> = {
     render: (state) => `<main class="page rico-deep-cuts">
       <header><small>RHYMETAPE_RICO PRESENTS</small><h1>DEEP-CUT WEB GUIDE</h1><p>good sounds hiding behind bad layouts, strange hobbies, and terrible deals</p></header>
       <section class="rico-guide-rules"><b>THE RULES</b><span>1. Let the loop play twice.</span><span>2. Cheap speakers are the final judge.</span><span>3. A ridiculous source is still a source.</span></section>
+      <section class="rico-guide-archive">
+        ${soundPhoto(soundwaveMemberAssets.ricoWebGuide, "Rico's binder of printed strange web pages and listening notes", "THE BINDER // volume two")}
+        ${soundPhoto(soundwaveMemberAssets.ricoShowArchive, "Local-show flyers, cassette demos, tickets, and envelopes", "SOURCE MATERIAL // dates mostly verified")}
+        ${soundPhoto(soundwaveMemberAssets.ricoByteBarnClue, "An old cassette and printout of the Byte Barn page beside a marked waveform", "BYTE BARN // crooked clap circled")}
+      </section>
       <section class="rico-guide-list">
         <article><b>01</b><div><h2>KING CAL'S AUTO KINGDOM</h2><p>Bad financing. Incredible homemade commercial archive. Every era has a different drum machine and Cal attacks the beat like it owes him money.</p><button data-nav="web://kingcalscars.biz/home">HEAR THE KINGDOM &rsaquo;</button></div></article>
         <article><b>02</b><div><h2>BIG BASS BOB'S DOCK</h2><p>Fishing page with more tracks than some labels. A few songs get weird if you listen past the first chorus. Bob says it is lake atmosphere.</p><button data-nav="web://yesterday.zone/users/bigbassbob/home">GO TO THE DOCK &rsaquo;</button></div></article>
