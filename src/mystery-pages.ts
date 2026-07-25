@@ -174,7 +174,7 @@ export const mysteryPages: Record<string, PageDefinition> = {
         </tbody></table>
         ${archiveImages([MYSTERY_IMAGES.orbitDiagram, "OrbitNet architecture diagram"], [MYSTERY_IMAGES.orbitModem, "OrbitLink dial-up modem"], [MYSTERY_IMAGES.orbitServers, "Continuity host equipment room"])}
         <p clear="all"><font size="1">Technical note 2.1b: gateway users may see flattened tables, missing OrbitTags, duplicate comments, incorrect fonts, and scripts that do not execute.</font></p>
-        <p class="legacy-comment-leak">&lt;!-- continuity documentation moved to /admin/continuity --&gt;</p>
+        <p class="legacy-comment-leak">&lt;!-- continuity documentation moved to <strong class="carry-forward-clue">/admin/continuity</strong> --&gt;</p>
       </main>`
   },
   "web://legacy.orbitos.local/explorer": {
@@ -437,7 +437,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     render: () => `
       <main class="page index-null-page deadletters-page"><h1>RETURNED // UNCLAIMED // MISROUTED</h1>
         <article><b>1996-09-18</b><code>COMMUNITY RING MIRROR INCOMPLETE</code><p>Host retained: legacy.orbitos.local</p></article>
-        <article><b>1998-03-02</b><code>CONTINUITY DOCUMENT MOVED</code><p>New path: /admin/continuity</p></article>
+        <article><b>1998-03-02</b><code>CONTINUITY DOCUMENT MOVED</code><p>New path: <strong class="carry-forward-clue">/admin/continuity</strong></p></article>
         <article><b>1999-11-04</b><code>REACTIVATION ACKNOWLEDGED</code><p>Recipient field contained 143 dormant account IDs.</p></article>
         <button data-nav="${NULL_HOME}">RETURN NULL</button>
       </main>`
@@ -507,7 +507,11 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
         <p><code>00417</code>, <code>09170</code>, and <code>23117</code> correspond to modern Orbit directory object IDs created after the cassette's stated recording date. The audio footer identifies Orbit Bridge 4.7.</p>
         <p>The base recording may be a genuine shortwave intercept. Somebody inserted current page IDs, removed one announced group, and framed it as a federal activation code.</p>
         <aside><b>TRUE FRAGMENT:</b> OrbitNet can generate or edit a stream in response to its own directory.<br><b>FALSE HEADLINE:</b> the groups activate secret facilities.</aside>
-        <footer>HIDDEN ARCHIVE ROUTE // HOST: <strong>web://archive</strong><br><small>OLDER CONTINUITY RECOVERY WORD: STAY</small></footer>
+        <footer class="puzzle-notebook-footer">
+          <span>HIDDEN ARCHIVE ROUTE // HOST: <strong class="carry-forward-clue">web://archive</strong></span>
+          <span>OLDER CONTINUITY RECOVERY WORD: <strong class="carry-forward-clue">STAY</strong></span>
+          <small>NOTEBOOK ITEMS ARE SHOWN IN BOLD</small>
+        </footer>
       </main>`
   },
   "web://glasslake-field.gov/home": {
@@ -556,7 +560,11 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
         <p>The lights were logged calibration balloons. “Moon Window” was a radio-propagation test window, not a contact event. The sensational fax added handwritten spacecraft notes years later.</p>
         <p>The genuine contract appendix does show that the same regional contractor later advised Orbit's public-web gateway on proxy routing and connection persistence.</p>
         <aside><b>TRUE FRAGMENT:</b> an Orbit contractor reused atmospheric routing research.<br><b>FALSE HEADLINE:</b> Glass Lake communicates with nonhuman craft.</aside>
-        <footer>HIDDEN ARCHIVE ROUTE // NETWORK: <strong>orbitnet.local</strong><br><small>OLDER CONTINUITY RECOVERY WORD: ON</small></footer>
+        <footer class="puzzle-notebook-footer">
+          <span>HIDDEN ARCHIVE ROUTE // NETWORK: <strong class="carry-forward-clue">orbitnet.local</strong></span>
+          <span>OLDER CONTINUITY RECOVERY WORD: <strong class="carry-forward-clue">ON</strong></span>
+          <small>NOTEBOOK ITEMS ARE SHOWN IN BOLD</small>
+        </footer>
       </main>`
   },
   "web://quiet-county.org/home": {
@@ -605,7 +613,11 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
         <p>The university archive contains meeting transcripts, survey cards, and an ethics complaint about observing residents without meaningful notice. It contains no anonymous-letter operation.</p>
         <p>The dramatic letters were printed recently through Orbit Bridge, then aged and scanned from one physical sheet. They imitate documented influence tactics without proving this county used them.</p>
         <aside><b>TRUE FRAGMENT:</b> residents were treated as behavioral data without adequate consent.<br><b>FALSE HEADLINE:</b> a county “deep state” manufactured the disputes.</aside>
-        <footer>HIDDEN ARCHIVE ROUTE // DIRECTORY: <strong>/labs/home</strong><br><small>OLDER CONTINUITY RECOVERY WORD: LINE</small></footer>
+        <footer class="puzzle-notebook-footer">
+          <span>HIDDEN ARCHIVE ROUTE // DIRECTORY: <strong class="carry-forward-clue">/labs/home</strong></span>
+          <span>OLDER CONTINUITY RECOVERY WORD: <strong class="carry-forward-clue">LINE</strong></span>
+          <small>NOTEBOOK ITEMS ARE SHOWN IN BOLD</small>
+        </footer>
       </main>`
   },
   "web://archive.orbitnet.local/labs/home": {

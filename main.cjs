@@ -994,14 +994,20 @@ function createWindow() {
           }
 
           const mainMysteryTerminals = [
-            ["web://morrow-five.net/decoded", "web://archive"],
-            ["web://glasslake-field.gov/report", "orbitnet.local"],
-            ["web://quiet-county.org/case", "/labs/home"]
+            ["web://morrow-five.net/decoded", "web://archive", "STAY"],
+            ["web://glasslake-field.gov/report", "orbitnet.local", "ON"],
+            ["web://quiet-county.org/case", "/labs/home", "LINE"]
           ];
-          for (const [terminal, fragment] of mainMysteryTerminals) {
+          for (const [terminal, fragment, recoveryWord] of mainMysteryTerminals) {
             await address(terminal);
-            if (!await win.webContents.executeJavaScript(`document.querySelector('.mystery-terminal footer')?.textContent.includes(${JSON.stringify(fragment)})`)) {
-              throw new Error(`Main mystery did not reveal its archive route fragment: ${terminal}`);
+            if (!await win.webContents.executeJavaScript(`(() => {
+              const footer = document.querySelector('.mystery-terminal footer.puzzle-notebook-footer');
+              const clues = Array.from(footer?.querySelectorAll('.carry-forward-clue') || []).map((clue) => clue.textContent.trim());
+              return clues.includes(${JSON.stringify(fragment)}) &&
+                clues.includes(${JSON.stringify(recoveryWord)}) &&
+                footer?.textContent.includes('NOTEBOOK ITEMS ARE SHOWN IN BOLD');
+            })()`)) {
+              throw new Error(`Main mystery did not distinguish its reusable route and recovery clues: ${terminal}`);
             }
           }
           saved = await readSave();
