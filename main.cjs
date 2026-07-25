@@ -945,6 +945,14 @@ function createWindow() {
               throw new Error(`Phase-two harmless theory was incomplete: ${oddityUrl}`);
             }
           }
+          if (!await win.webContents.executeJavaScript(`(() => {
+            const images = Array.from(document.querySelectorAll('.oddity-blipzo .oddity-gallery img'));
+            return images.length === 4 &&
+              images.every((image) => /alien|three-eyed/i.test(image.alt)) &&
+              document.querySelector('.oddity-blipzo')?.textContent.includes('purple basket hat');
+          })()`)) {
+            throw new Error("Blipzo's cap-stripe mystery did not match his established three-eyed alien design");
+          }
 
           const rumorUrls = [
             "web://midnight-dial.net/log",

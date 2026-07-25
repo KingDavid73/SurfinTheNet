@@ -529,12 +529,12 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
       <main class="page oddity-page oddity-blipzo">
         <header><small>CONTINUITY EMERGENCY LEVEL: PURPLE</small><h1>BLIPZO'S MISSING CAP STRIPE</h1><p>the stripe was yellow. I will accept orange under protest.</p></header>
         ${oddityGallery([
-          [oddityArt["blipzo-crt"], "A VHS frame of the fuzzy purple mascot Blipzo"],
-          [oddityArt["blipzo-plush"], "A Blipzo plush toy with a striped cap"],
-          [oddityArt["blipzo-magazine"], "A magazine spread showing inconsistent Blipzo hats"],
-          [oddityArt["blipzo-drawing"], "A fan drawing from memory of Blipzo's cap"]
+          [oddityArt["blipzo-crt"], "A VHS frame of the teal three-eyed alien mascot Blipzo wearing a pale-striped purple basket hat"],
+          [oddityArt["blipzo-plush"], "A three-eyed alien Blipzo plush toy with a red-striped purple basket hat"],
+          [oddityArt["blipzo-magazine"], "A magazine and manual spread showing the three-eyed alien Blipzo with inconsistent stripes on his purple basket hat"],
+          [oddityArt["blipzo-drawing"], "A fan drawing from memory of alien Blipzo's orange-striped basket hat"]
         ])}
-        <section><h2>THE DISCREPANCY</h2><p>The television costume has a pale stripe. The plush has red. The mall-game manual appears yellow but may be sun-faded. This is either a pre-release costume change or four manufacturers receiving four different photocopies.</p><p>Maddy says “production inconsistency” as if that makes it less important.</p></section>
+        <section><h2>THE DISCREPANCY</h2><p>Blipzo is always a three-eyed teal alien in the orange jacket. The television costume has a pale stripe across the purple basket hat. The plush has red. The mall-game manual appears yellow but may be sun-faded. This is either a pre-release costume change or four manufacturers receiving four different photocopies.</p><p>Maddy says “production inconsistency” as if that makes it less important.</p></section>
         <details class="oddity-breadcrumb"><summary>boring print clue (Dex made me add this)</summary><p>Three supposedly separate reference sheets share the same torn corner, the same misspelling of “definitely,” and an <code>OrbitPrint 3.2</code> footer. CedarWren says that exact combination matters somewhere else.</p></details>
         <button data-nav="web://fanverse.zone/users/blipzobeliever88/home">&lt; RETURN TO THE BLIPZO ARCHIVE</button>
       </main>`
