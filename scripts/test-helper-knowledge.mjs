@@ -61,9 +61,12 @@ assertIncludes(phaseFour, "\"continuityConsoleUnlocked\":true", "phase four prog
 
 const ordinaryAim = service.buildDirectReplySystemPrompt(persona, {
   channel: "aim",
-  relationshipScore: 10
+  relationshipScore: 10,
+  authoredConversationContext: ["Give the player the authored MMDD format clue now."]
 });
 assertExcludes(ordinaryAim, "PRIVATE DESIGN DATA", "non-helper direct reply");
+assertIncludes(ordinaryAim, "Authored conversation state (canonical and mandatory)", "authored social state");
+assertIncludes(ordinaryAim, "Give the player the authored MMDD format clue now.", "authored social instruction");
 
 const phaseThreeContext = {
   storyPhase: 3,

@@ -139,6 +139,14 @@ boundary are recorded in `phase-arc-research.md`.
 - Pages are silly, mundane, personal, and inviting.
 - Character interaction and low-stakes relationships are the primary reward.
 - Strange material exists but does not yet dominate the experience.
+- At least one optional social information chain teaches the player to ask
+  characters about one another. The pilot chain has LagMaster request a small
+  piece of personal knowledge from VelvetMage in exchange for a narrow
+  DarkRaven lock-format hint.
+- Social-chain facts, prerequisites, and rewards are authored and stored as
+  flags. The local model owns only the in-character phrasing. A guessed answer
+  does not satisfy a chain until the relevant character has actually supplied
+  it and that delayed reply has become visible in game time.
 
 ### Phase 2: Small inconsistencies
 

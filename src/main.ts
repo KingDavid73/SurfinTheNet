@@ -27,6 +27,7 @@ import {
 } from "./phase-three-personas";
 import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack, StoryPhase } from "./types";
 import { ambientActivityFor } from "./character-tiers";
+import { finalizeConversationQuestReply, phaseOneConversationQuest } from "./conversation-quests";
 import { deliveryIsAvailable, personaIsActiveAt, scheduleReplyAt } from "./reply-scheduling";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
@@ -364,8 +365,8 @@ const CHARACTER_CONTACTS: Record<string, {
   kip_toonburst: { screenName: "Kip_ToonBurst", displayName: "Kip", statusMessage: "rewinding Saturday" },
   king_cal: { screenName: "KingCalCars", displayName: "King Cal", statusMessage: "another chariot leaves the kingdom!" },
   honest_earl: { screenName: "Honest_Earl", displayName: "Earl", statusMessage: "honestly here for YOU, neighbor" },
-  lagmaster_99: { screenName: "LagMaster_99", displayName: "LagMaster", statusMessage: "ping is a state of mind" },
-  velvet_mage: { screenName: "VelvetMage", displayName: "Velvet", statusMessage: "mapping Ashglass by candlelight" },
+  lagmaster_99: { screenName: "LagMaster_99", displayName: "LagMaster", statusMessage: "ping is a state of mind", aim: "LagMaster_99" },
+  velvet_mage: { screenName: "VelvetMage", displayName: "Velvet", statusMessage: "mapping Ashglass by candlelight", aim: "VelvetMage" },
   player_four: { screenName: "PlayerFourEver", displayName: "Player Four", statusMessage: "controller four is always open" },
   modkit_maddy: { screenName: "ModKit_Maddy", displayName: "Maddy", statusMessage: "compiling. remain geometrically calm." },
   quarter_queen: { screenName: "QuarterQueen", displayName: "Queenie", statusMessage: "one credit. no continues." },
@@ -2353,6 +2354,21 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
   let playerMessageSent = false;
   try {
     const safeMessage = (await window.aiAPI.safeguard(message)).text;
+    const conversationQuest = phaseOneConversationQuest({
+      storyPhase: state.storyPhase,
+      ownerId,
+      channel,
+      playerMessage: safeMessage,
+      gameTime: state.gameTime,
+      flags: state.flags,
+      directMessages: state.directMessages
+    });
+    if (conversationQuest.markVelvetAsked) {
+      state.flags.phase_one_asked_velvet_favorite = true;
+    }
+    if (conversationQuest.completesLagFavor) {
+      state.flags.phase_one_lag_favor_completed = true;
+    }
     const playerEntry: DirectMessage = {
       id: crypto.randomUUID(),
       ownerId,
@@ -2395,22 +2411,27 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
         discoveredMysteries: state.discoveredMysteries,
         darkRavenVaultUnlocked: Boolean(state.flags.darkraven_vault_unlocked),
         continuityConsoleUnlocked: Boolean(state.flags.continuity_console_unlocked)
-      } : undefined
+      } : undefined,
+      authoredConversationContext: conversationQuest.authoredContext
     });
     const availableAt = scheduleReplyAt(ownerId, channel, sentAt);
+    const finalReplyText = finalizeConversationQuestReply(conversationQuest, result.text);
     const ownerReply: DirectMessage = {
       id: crypto.randomUUID(),
       ownerId,
       channel,
       role: "owner",
       author: result.owner.screenName,
-      text: result.text,
+      text: finalReplyText,
       subject: channel === "email" ? `Re: ${subject || "Hello"}` : undefined,
       createdAt: availableAt,
       availableAt,
       metrics: result.metrics
     };
     state.directMessages.push(ownerReply);
+    if (conversationQuest.lagHintDue && /\bMMDD\b|month[- ]day/i.test(ownerReply.text)) {
+      state.flags.phase_one_lag_hint_delivered = true;
+    }
     aiStatus = await window.aiAPI.status();
     await saveState();
     if (channel === "aim" && deliveryIsAvailable(ownerReply.availableAt, state.gameTime)) {

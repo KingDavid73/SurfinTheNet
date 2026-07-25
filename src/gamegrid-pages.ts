@@ -170,6 +170,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
           <article><b>03</b><div><h2>NETSTRIKE 56</h2><p>Four-on-four arena combat. Friday lobby tests are open if your parents do not need the phone.</p></div><strong>HYPE!</strong></article>
         </section>
         <aside class="lag-opinions"><b>CONSOLE WAR STATUS:</b> VANTA² looks expensive. CUBIT looks like a lunchbox. I will still play both if somebody else buys them.</aside>
+        <div class="contact-strip"><span>LagMaster is usually online after school.</span><button data-aim-owner="lagmaster_99">IM LagMaster</button></div>
         <p class="gamegrid-owner-note">Leave a challenge below. Complaints about latency will be printed and ignored.</p>
       </main>`
   },
@@ -199,6 +200,7 @@ export const gameGridPages: Record<string, PageDefinition> = {
           <article><span>OLD FAVORITE</span><h2>Rain City 2091</h2><div class="velvet-screen raincity">MEMORY // RAIN</div><p>A detective story where every witness remembers a different version of the city. The ending is either brilliant or unfinished.</p><b>Axiom CD · 1997</b></article>
         </section>
         <aside class="velvet-note">“A walkthrough tells you where to go. A journal remembers why you went.”</aside>
+        <div class="contact-strip"><span>Velvet accepts thoughtful instant messages.</span><button data-aim-owner="velvet_mage">IM VelvetMage</button></div>
         <p class="gamegrid-owner-note">Thoughtful theories are welcome below. Spoilers should be labeled, especially if you are LagMaster.</p>
       </main>`
   },

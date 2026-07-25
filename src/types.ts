@@ -162,6 +162,7 @@ export interface DirectReplyRequest {
   relationshipScore: number;
   recentMessages: Array<{ role: "player" | "owner"; author: string; text: string }>;
   helperContext?: HelperProgressContext;
+  authoredConversationContext?: string[];
 }
 
 export interface DirectReplyResult {

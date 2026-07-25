@@ -854,6 +854,12 @@ class AiService {
     const isAim = request.channel === "aim";
     const isHelper = request.channel === "helper";
     const helperKnowledge = isHelper ? this.buildHelperKnowledgePrompt(persona, request.helperContext, request.playerMessage) : [];
+    const authoredConversationContext = Array.isArray(request.authoredConversationContext)
+      ? request.authoredConversationContext
+          .map((entry) => String(entry).trim().slice(0, 700))
+          .filter(Boolean)
+          .slice(0, 4)
+      : [];
     return [
       `You are ${persona.displayName}, screen name ${persona.screenName}.`,
       ...personaProfileLines(persona),
@@ -876,6 +882,8 @@ class AiService {
       "- Keep content PG-13: mild language, themes, and innuendo are okay, but never become sexually explicit, graphically violent, or otherwise R-rated.",
       GENERATED_LANGUAGE_RULE,
       ...GENERATED_WORLD_RULES,
+      authoredConversationContext.length ? "Authored conversation state (canonical and mandatory):" : "",
+      ...authoredConversationContext.map((entry) => `- ${entry}`),
       ...helperKnowledge,
       "- Answer the newest player message directly. Earlier messages are context, never the message to answer.",
       "- Do not repeat or lightly paraphrase one of your earlier replies.",

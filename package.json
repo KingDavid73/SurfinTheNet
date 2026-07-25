@@ -26,6 +26,8 @@
     "test:ambient": "npm run build && cross-env AMBIENT_SMOKE_TEST=1 electron .",
     "test:helper": "node scripts/test-helper-knowledge.mjs",
     "test:personas": "node scripts/validate-personas.mjs",
+    "test:social": "node scripts/test-conversation-quests.mjs",
+    "test:social-ai": "node scripts/test-social-ai.mjs",
     "test:timing": "node scripts/test-reply-scheduling.mjs",
     "test:safeguard": "npm run build && cross-env SAFEGUARD_SMOKE_TEST=1 electron .",
     "test:ui": "npm run build && cross-env UI_SMOKE_TEST=1 electron .",
