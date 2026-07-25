@@ -34,7 +34,8 @@
     "models:pull": "node-llama-cpp pull --dir ./models hf:Qwen/Qwen3-4B-GGUF:Q4_K_M",
     "music:generate": "node scripts/generate-page-music.mjs",
     "package": "npm run build && electron-forge package",
-    "make": "npm run build && electron-forge make"
+    "make": "npm run build && electron-forge make",
+    "make:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-windows-installer.ps1"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.8.3",

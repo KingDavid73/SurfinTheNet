@@ -1,23 +1,33 @@
 module.exports = {
   packagerConfig: {
-    asar: true,
+    asar: {
+      unpack: "**/node_modules/@node-llama-cpp/**/*"
+    },
+    extraResource: [
+      "models",
+      "personas"
+    ],
     ignore: [
       /^\/artifacts($|\/)/,
+      /^\/artwork($|\/)/,
+      /^\/assets($|\/)/,
+      /^\/docs($|\/)/,
       /^\/out($|\/)/,
       /^\/src($|\/)/,
-      /^\/node_modules($|\/)/,
+      /^\/scripts($|\/)/,
+      /^\/songs($|\/)/,
+      /^\/models($|\/)/,
+      /^\/personas($|\/)/,
+      /^\/node_modules\/@node-llama-cpp\/win-arm64($|\/)/,
       /^\/\.git($|\/)/,
-      /^\/(?:tsconfig\.json|vite\.config\.ts|package-lock\.json|forge\.config\.cjs)$/
+      /^\/save\.json$/,
+      /^\/(?:MUSIC_INDEX\.txt|tsconfig\.json|vite\.config\.ts|package-lock\.json|forge\.config\.cjs)$/
     ]
   },
   makers: [
     {
-      name: "@electron-forge/maker-squirrel",
-      config: { name: "surfin_the_net" }
-    },
-    {
       name: "@electron-forge/maker-zip",
-      platforms: ["darwin", "linux"]
+      platforms: ["win32", "darwin", "linux"]
     }
   ]
 };

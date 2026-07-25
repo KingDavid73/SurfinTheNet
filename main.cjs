@@ -3,12 +3,14 @@ const fs = require("node:fs/promises");
 const path = require("node:path");
 const { AiService } = require("./ai-service.cjs");
 
-if (process.env.SMOKE_TEST || process.env.STORY_SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.BOOT_SMOKE_TEST || process.env.COMMENT_SMOKE_TEST || process.env.UI_SMOKE_TEST || process.env.AMBIENT_SMOKE_TEST || process.env.SAFEGUARD_SMOKE_TEST) {
+const isAutomatedTest = process.env.SMOKE_TEST || process.env.STORY_SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.BOOT_SMOKE_TEST || process.env.COMMENT_SMOKE_TEST || process.env.UI_SMOKE_TEST || process.env.AMBIENT_SMOKE_TEST || process.env.SAFEGUARD_SMOKE_TEST || process.env.PACKAGE_SMOKE_TEST;
+
+if (isAutomatedTest) {
   app.setPath("userData", path.join(app.getPath("temp"), `surfin-the-net-smoke-${process.pid}`));
 }
 
 const aiService = new AiService({
-  rootDirectory: __dirname,
+  rootDirectory: app.isPackaged ? process.resourcesPath : __dirname,
   getUserDataDirectory: () => app.getPath("userData")
 });
 
@@ -1379,6 +1381,66 @@ function createWindow() {
     });
   }
 
+  if (process.env.PACKAGE_SMOKE_TEST) {
+    win.webContents.once("did-finish-load", () => {
+      setTimeout(async () => {
+        const reportPath = path.join(app.getPath("temp"), "surfin-the-net-package-smoke.json");
+        let report = {
+          ok: false,
+          packaged: app.isPackaged,
+          userData: app.getPath("userData"),
+          resourcesPath: process.resourcesPath,
+          startedAt: new Date().toISOString()
+        };
+        let loginReady = false;
+        try {
+          if (!app.isPackaged) throw new Error("Package smoke test was not running from a packaged executable");
+          const initialSave = await readSave();
+          report.initialSave = {
+            playerName: initialSave.playerName,
+            visited: initialSave.visited,
+            currentUrl: initialSave.currentUrl
+          };
+          if (initialSave.playerName || initialSave.visited.length !== 1 || initialSave.currentUrl !== "web://home") {
+            throw new Error(`Packaged game inherited non-blank save data: ${JSON.stringify({ playerName: initialSave.playerName, visited: initialSave.visited, currentUrl: initialSave.currentUrl })}`);
+          }
+          const powerClicked = await win.webContents.executeJavaScript(`(() => { const power = document.querySelector('[data-power]'); if (!power) return false; power.click(); return true; })()`);
+          if (!powerClicked) throw new Error("Packaged title screen power button was unavailable");
+          const deadline = Date.now() + 120_000;
+          let status = await aiService.getStatus();
+          while (Date.now() < deadline) {
+            loginReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.login-stage [data-new-user] input[name="username"]'))`);
+            status = await aiService.getStatus();
+            if (loginReady && status.warmed) break;
+            if (status.phase === "error") throw new Error(status.error || "Packaged AI initialization failed");
+            await new Promise((resolve) => setTimeout(resolve, 250));
+          }
+          if (!loginReady) throw new Error("Packaged first launch did not reach username creation");
+          if (!status.modelAvailable || !status.warmed) throw new Error(`Packaged model did not warm: ${JSON.stringify(status)}`);
+          report = {
+            ...report,
+            ok: true,
+            loginReady,
+            aiStatus: status,
+            completedAt: new Date().toISOString()
+          };
+        } catch (error) {
+          report = {
+            ...report,
+            loginReady,
+            aiStatus: await aiService.getStatus(),
+            error: error instanceof Error ? error.stack || error.message : String(error),
+            completedAt: new Date().toISOString()
+          };
+          process.exitCode = 1;
+        } finally {
+          await fs.writeFile(reportPath, JSON.stringify(report, null, 2), "utf8");
+          app.exit(process.exitCode ?? 0);
+        }
+      }, 700);
+    });
+  }
+
   if (process.env.BOOT_SMOKE_TEST) {
     win.webContents.once("did-finish-load", () => {
       setTimeout(async () => {
@@ -1633,7 +1695,7 @@ function createWindow() {
 }
 
 app.whenReady().then(async () => {
-  if (process.env.SMOKE_TEST || process.env.STORY_SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.BOOT_SMOKE_TEST || process.env.COMMENT_SMOKE_TEST || process.env.UI_SMOKE_TEST || process.env.AMBIENT_SMOKE_TEST || process.env.SAFEGUARD_SMOKE_TEST) {
+  if (isAutomatedTest) {
     // PID-based temp folders can be reused by Windows, so never inherit an older smoke run.
     await fs.rm(savePath(), { force: true });
   }
