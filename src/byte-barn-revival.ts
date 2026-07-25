@@ -167,6 +167,8 @@ export interface ByteBarnCoverPlacement {
   site: PageDefinition["site"];
   uploader: string;
   note: string;
+  comment: string;
+  commentTime: string;
   track: PageMusicTrack;
 }
 
@@ -176,6 +178,8 @@ export const PHASE_TWO_BYTE_BARN_COVERS: readonly ByteBarnCoverPlacement[] = [
     site: "soundbreakbeat",
     uploader: "SubBass_Simon",
     note: "I chopped the store clap, pushed the bass until my desk moved, and left the cheap keyboard stab exactly where it belongs.",
+    comment: "[[BARNFLIP]] My Byte Barn breakbeat mix is in the player now. Somebody else sample that crooked store clap next.",
+    commentTime: "1999-11-04T09:18:00",
     track: BYTE_BARN_FAN_TRACKS.breakbeat
   },
   {
@@ -183,6 +187,8 @@ export const PHASE_TWO_BYTE_BARN_COVERS: readonly ByteBarnCoverPlacement[] = [
     site: "soundrap",
     uploader: "RhymeTape_Rico",
     note: "Old commercial, new verses. The barn line still lands. I do not make the rules.",
+    comment: "[[BARNFLIP]] New verses over the old Byte Barn hook are up. Corny jingle, real bounce. Pass the tape.",
+    commentTime: "1999-11-04T09:26:00",
     track: BYTE_BARN_FAN_TRACKS.retroRap
   },
   {
@@ -190,6 +196,8 @@ export const PHASE_TWO_BYTE_BARN_COVERS: readonly ByteBarnCoverPlacement[] = [
     site: "fanstar",
     uploader: "TapeAttic_Tess",
     note: "I made a Halloween dub for the StarThimble tape club and somehow everybody kept the Byte Barn chorus.",
+    comment: "[[BARNFLIP]] I made a spooky Byte Barn dub for tape-club night. It should not work with thunder effects, but it does.",
+    commentTime: "1999-11-04T09:43:00",
     track: BYTE_BARN_FAN_TRACKS.halloween
   },
   {
@@ -197,6 +205,8 @@ export const PHASE_TWO_BYTE_BARN_COVERS: readonly ByteBarnCoverPlacement[] = [
     site: "grandmanew",
     uploader: "Grandma_Dot",
     note: "THE GRANDCHILDREN helped me make this Christmas one. I did not know the computer store song had so many versions.",
+    comment: "[[BARNFLIP]] THE CHILDREN put our Christmas Byte Barn song in the music box. Please tell me if it is too loud.",
+    commentTime: "1999-11-04T10:02:00",
     track: BYTE_BARN_FAN_TRACKS.christmas
   },
   {
@@ -204,6 +214,8 @@ export const PHASE_TWO_BYTE_BARN_COVERS: readonly ByteBarnCoverPlacement[] = [
     site: "cozyhike",
     uploader: "TrailNote_Tom",
     note: "A campfire arrangement recorded on the porch. The birds enter during the second chorus without permission.",
+    comment: "[[BARNFLIP]] Porch-recorded acoustic Byte Barn cover is up. The birds joined the second chorus and requested no credit.",
+    commentTime: "1999-11-04T10:17:00",
     track: BYTE_BARN_FAN_TRACKS.acoustic
   },
   {
@@ -211,6 +223,8 @@ export const PHASE_TWO_BYTE_BARN_COVERS: readonly ByteBarnCoverPlacement[] = [
     site: "oldtrains",
     uploader: "Railroad_Lenny",
     note: "Four gentlemen from the depot society supplied the harmony. No trains were delayed.",
+    comment: "[[BARNFLIP]] The depot society recorded a four-part Byte Barn arrangement. This is apparently what the Internet is for.",
+    commentTime: "1999-11-04T10:31:00",
     track: BYTE_BARN_FAN_TRACKS.barbershop
   },
   {
@@ -218,6 +232,8 @@ export const PHASE_TWO_BYTE_BARN_COVERS: readonly ByteBarnCoverPlacement[] = [
     site: "scooter",
     uploader: "ScootLord_Ollie",
     note: "THUNDER SCOOT GLAM BARN MIX. Recorded with one borrowed guitar and the confidence of six guitars.",
+    comment: "[[BARNFLIP]] THUNDER SCOOT GLAM BARN MIX IS LIVE. One guitar. Six guitars of attitude. Turn it up.",
+    commentTime: "1999-11-04T10:46:00",
     track: BYTE_BARN_FAN_TRACKS.glam
   }
 ] as const;

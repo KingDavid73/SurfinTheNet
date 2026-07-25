@@ -359,6 +359,16 @@ const SIGNAL_NOTE_CONTENTS = [
   "The hard part is knowing whose."
 ].join("\n");
 
+const MIRA_WELCOME_TEXT = [
+  "hey, you made it! welcome to OrbitNet.",
+  "",
+  "quick history lesson: OrbitOS was one of those early-'90s attempts to make the computer and the internet one big friendly thing. the operating system, browser, mail, and its own little web all came together. it never beat the big guys, so now most people only know it as that weird old system with the community pages. regular computers can reach Orbit through a clunky bridge, but the pages work best inside OrbitOS.",
+  "",
+  "I found an old access setup and thought you'd get a kick out of it. it's quiet, but not empty—people still keep personal pages, business sites, guestbooks, music, and strange little archives here. poke through the zones, search whatever sounds interesting, and message people. somebody usually knows where the weird stuff is.",
+  "",
+  "welcome aboard :)"
+].join("\n");
+
 const DEFAULT_STATE: GameState = {
   version: 7,
   playerName: "",
@@ -381,7 +391,7 @@ const DEFAULT_STATE: GameState = {
     channel: "aim",
     role: "owner",
     author: "Mira_917",
-    text: "hey, you made it! welcome to OrbitNet. poke around the community zones and search for whatever sounds interesting—there are some wonderfully weird pages hiding in here.",
+    text: MIRA_WELCOME_TEXT,
     createdAt: "1999-11-03T19:31:00"
   }],
   relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8, rhymetape_rico: 7, faxmoth_13: 4, nullindex: 2, cedar_wren: 1, static_abel: 0, orchard_lee: 3, skywatch_sam: 1, ghostline: 0, rewind_riley: 8, bubble_babs: 8, petal_pat: 10, faraway_frankie: 7, inkmoth_ian: 6, sofa_sylvia: 7, dr_marlow: 8, gurgle_gus: 6, nest_nora: 8, halo_holly: 9 }
@@ -688,6 +698,7 @@ let chatError = "";
 let startupStage: StartupStage = new URLSearchParams(window.location.search).has("skipBoot") ? "desktop" : "title";
 let startupTimer: number | null = null;
 let startupStatusTimer: number | null = null;
+let openingMessageTimer: number | null = null;
 let bootMonitorZoom = { originX: 0, originY: 0, panX: 0, panY: 0 };
 let loginNameError = "";
 let computerHasBooted = startupStage === "desktop";
@@ -764,7 +775,9 @@ function normalizeState(loaded: Partial<GameState>): GameState {
     ambientPostQueue: Array.isArray(loaded.ambientPostQueue) ? loaded.ambientPostQueue : [],
     pageVisitCounts: { ...DEFAULT_STATE.pageVisitCounts, ...(loaded.pageVisitCounts ?? {}) },
     guestbookEntries: { ...(loaded.guestbookEntries ?? {}) },
-    directMessages: Array.isArray(loaded.directMessages) ? loaded.directMessages : [],
+    directMessages: Array.isArray(loaded.directMessages)
+      ? loaded.directMessages.map((message) => message.id === "mira-welcome-1999" ? { ...message, text: MIRA_WELCOME_TEXT } : message)
+      : [],
     relationships: { ...DEFAULT_STATE.relationships, ...(loaded.relationships ?? {}) }
   };
 }
@@ -1002,7 +1015,7 @@ async function processAmbientPostQueue() {
         continue;
       }
       try {
-        const existingComments = [...(page.seedComments ?? []), ...state.pageComments]
+        const existingComments = [...authoredPageComments(page), ...state.pageComments]
           .filter((comment) => comment.pageUrl === page.url)
           .map((comment) => ({ role: comment.role, author: comment.author, text: comment.text }));
         const result = await window.aiAPI.ambientComment({
@@ -1507,6 +1520,14 @@ function openApp(app: AppId) {
     void saveState();
   }
   if (app === "helper") helperPanelOpen = wasOpen;
+  if (app === "chat" && state.storyPhase === 1 && !state.flags.opening_message_presented) {
+    state.flags.opening_message_presented = true;
+    if (openingMessageTimer !== null) {
+      window.clearTimeout(openingMessageTimer);
+      openingMessageTimer = null;
+    }
+    void saveState();
+  }
   windows[app].open = true;
   windows[app].minimized = false;
   focusApp(app);
@@ -1563,7 +1584,7 @@ function commentAuthorHtml(comment: PageComment, page: PageDefinition) {
 function pageCommentSection(page: PageDefinition) {
   const owner = PAGE_OWNERS[page.ownerId] ?? PAGE_OWNERS.orbit_guide;
   const visits = state.pageVisitCounts[page.url] ?? 0;
-  const comments = [...(page.seedComments ?? []), ...state.pageComments].filter((comment) =>
+  const comments = [...authoredPageComments(page), ...state.pageComments].filter((comment) =>
     comment.pageUrl === page.url &&
     deliveryIsAvailable(comment.availableAt, state.gameTime) &&
     (comment.role === "player" || comment.revealAfterVisit <= visits)
@@ -1733,6 +1754,21 @@ function byteBarnCoverUpdate(page: PageDefinition) {
     <div><small>NEW AUDIO UPLOAD // BYTE BARN COVER WAVE</small><h2>${escapeHtml(cover.track.label)}</h2><p>${escapeHtml(cover.note)}</p><span>uploaded by ${escapeHtml(cover.uploader)}</span></div>
     <button data-song-nav="${escapeHtml(cover.pageUrl)}" data-song-file="${escapeHtml(cover.track.file)}">PLAY THIS COVER &rsaquo;</button>
   </section>`;
+}
+
+function authoredPageComments(page: PageDefinition): PageComment[] {
+  const cover = state.storyPhase >= 2 ? byteBarnCoverForPage(page.url) : undefined;
+  const coverAnnouncement: PageComment[] = cover ? [{
+    id: `byte-barn-cover-${cover.track.file}`,
+    pageUrl: page.url,
+    ownerId: page.ownerId,
+    role: "owner",
+    author: cover.uploader,
+    text: cover.comment,
+    createdAt: cover.commentTime,
+    revealAfterVisit: 0
+  }] : [];
+  return [...(page.seedComments ?? []), ...coverAnnouncement];
 }
 
 function browserWindow() {
@@ -2152,6 +2188,10 @@ function beginAiPreload() {
 }
 
 function prepareFreshDesktopSession() {
+  if (openingMessageTimer !== null) {
+    window.clearTimeout(openingMessageTimer);
+    openingMessageTimer = null;
+  }
   const defaults: Record<AppId, Omit<WindowModel, "open" | "minimized" | "maximized">> = {
     browser: { z: 3, x: 96, y: 44, width: 900, height: 600 },
     mail: { z: 2, x: 205, y: 94, width: 660, height: 470 },
@@ -2180,6 +2220,27 @@ function prepareFreshDesktopSession() {
   pageMusic.pause();
   pageMusic.currentTime = 0;
   void saveState();
+}
+
+function scheduleOpeningMessage() {
+  if (
+    state.storyPhase !== 1 ||
+    state.flags.opening_message_presented ||
+    !state.directMessages.some((message) => message.id === "mira-welcome-1999")
+  ) return;
+  if (openingMessageTimer !== null) window.clearTimeout(openingMessageTimer);
+  openingMessageTimer = window.setTimeout(() => {
+    openingMessageTimer = null;
+    if (startupStage !== "desktop" || state.flags.opening_message_presented) return;
+    state.flags.opening_message_presented = true;
+    activeAimOwnerId = "mira_917";
+    windows.chat.open = true;
+    windows.chat.minimized = false;
+    focusApp("chat");
+    void saveState();
+    render();
+    scrollChatToBottom();
+  }, 2400);
 }
 
 function playBootHardwareSounds() {
@@ -2295,7 +2356,7 @@ async function startComputer() {
   render();
 }
 
-async function loginUser() {
+async function loginUser(showOpeningMessage = false) {
   if (startupStage !== "login") return;
   startupStage = "desktop";
   computerHasBooted = true;
@@ -2307,6 +2368,7 @@ async function loginUser() {
   }
   void pollBootAiStatus();
   render();
+  if (showOpeningMessage) scheduleOpeningMessage();
 }
 
 function playDialupSounds() {
@@ -2352,7 +2414,7 @@ function bindStartupEvents() {
     state.playerName = name;
     loginNameError = "";
     await saveState();
-    await loginUser();
+    await loginUser(true);
   });
 }
 
@@ -2435,7 +2497,7 @@ function render() {
     <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Search for food or pets</span><span>• Try a page’s music player</span><span>• Download Orbit Pal</span></aside>
     ${windows.helper.open ? `<button class="desktop-helper" data-helper-talk aria-label="Talk to Orbit Pal"><span class="orbit-pal-body"><i></i><b>?</b><em></em></span><strong>Orbit Pal</strong><small>Click to talk</small></button>` : ""}
     ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}${helperWindow()}${diagnosticsWindow()}
-    ${notification ? `<div class="toast">${notification}</div>` : ""}
+    ${notification ? `<div class="toast" role="status"><span>${escapeHtml(notification)}</span><button class="toast-dismiss" data-dismiss-notification aria-label="Dismiss notification">&times;</button></div>` : ""}
     ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 OIM — Orbit Instant Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<button data-open="diagnostics">▤ System Diagnostics</button><hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off ${escapeHtml(playerName())}</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ New Game</button></div>` : ""}
     <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
     ${sleepDialog()}
@@ -2700,7 +2762,7 @@ async function submitPageComment(pageUrl: string, message: string) {
     playerCommentPosted = true;
     pendingPageComments.delete(pageUrl);
     render();
-    const recentComments = [...(page.seedComments ?? []), ...state.pageComments]
+    const recentComments = [...authoredPageComments(page), ...state.pageComments]
       .filter((comment) =>
         comment.pageUrl === pageUrl &&
         comment.id !== playerComment.id &&
@@ -2802,6 +2864,10 @@ function advanceGameTime(option: string) {
 }
 
 function bindEvents() {
+  document.querySelector<HTMLElement>("[data-dismiss-notification]")?.addEventListener("click", () => {
+    notification = "";
+    render();
+  });
   document.querySelector<HTMLElement>("[data-phase-sleep]")?.addEventListener("click", async () => {
     const nextPhase = phaseTransitionPrompt;
     phaseTransitionPrompt = null;
@@ -3008,6 +3074,10 @@ function bindEvents() {
     advanceGameTime(button.dataset.sleepHours ?? "1");
   }));
   document.querySelector<HTMLElement>("[data-reset]")?.addEventListener("click", async () => {
+    if (openingMessageTimer !== null) {
+      window.clearTimeout(openingMessageTimer);
+      openingMessageTimer = null;
+    }
     state = normalizeState(window.gameAPI ? await window.gameAPI.reset() : structuredClone(DEFAULT_STATE));
     if (!window.gameAPI) localStorage.removeItem("surfin-save");
     history = [state.currentUrl]; historyIndex = 0; startOpen = false;

@@ -36,7 +36,7 @@ const DEFAULT_SAVE = {
     channel: "aim",
     role: "owner",
     author: "Mira_917",
-    text: "hey, you made it! welcome to OrbitNet. poke around the community zones and search for whatever sounds interesting—there are some wonderfully weird pages hiding in here.",
+    text: "hey, you made it! welcome to OrbitNet.\n\nquick history lesson: OrbitOS was one of those early-'90s attempts to make the computer and the internet one big friendly thing. the operating system, browser, mail, and its own little web all came together. it never beat the big guys, so now most people only know it as that weird old system with the community pages. regular computers can reach Orbit through a clunky bridge, but the pages work best inside OrbitOS.\n\nI found an old access setup and thought you'd get a kick out of it. it's quiet, but not empty—people still keep personal pages, business sites, guestbooks, music, and strange little archives here. poke through the zones, search whatever sounds interesting, and message people. somebody usually knows where the weird stuff is.\n\nwelcome aboard :)",
     createdAt: "1999-11-03T19:31:00"
   }],
   relationships: { mira_917: 10, juniper_gdn: 12, darkraven_xx: 5, orbit_guide: 10, chip_bytebarn: 8, toni_pizza: 10, bev_paws: 12, pulsenet_jax: 8, axiom_liaison_02: 6, cubby_clover: 10, rocketbox_rick: 8, major_munch: 10, kip_toonburst: 9, king_cal: -2, honest_earl: -3, lagmaster_99: 4, velvet_mage: 7, player_four: 10, modkit_maddy: 8, quarter_queen: 7, code_dex: 9, deckwrecker_dee: 6, crankcase_cole: 8, neonblade_nico: 9, tiderider_ty: 8, throttle_troy: 12, scootlord_ollie: 5, veloce_viktor: -8, catnap_carla: 10, fetchquest_ray: 9, bunbrigade_bea: 11, hamcam_hal: 7, iguana_iris: 6, skunkuncle_sam: 8, mossmunch_mel: 9, blipzo_believer_88: 7, tapeattic_tess: 10, prismpilot_aya: 8, deepdelver_dot: 9, mapmouse_mina: 10, road_hog_ron: 7, grandma_dot: 12, colonel_hal: 6, railroad_lenny: 8, big_bass_bob: 9, rosepatch_ruth: 8, hearthside_ellen: 5, snacktime_sue: 7, trailnote_tom: 6, paperbird_pam: 8, rhymetape_rico: 7, faxmoth_13: 4, nullindex: 2, cedar_wren: 1, static_abel: 0, orchard_lee: 3, skywatch_sam: 1, ghostline: 0, rewind_riley: 8, bubble_babs: 8, petal_pat: 10, faraway_frankie: 7, inkmoth_ian: 6, sofa_sylvia: 7, dr_marlow: 8, gurgle_gus: 6, nest_nora: 8, halo_holly: 9 }
@@ -876,6 +876,14 @@ function createWindow() {
           }
           await capture("story-phase2-overnight.png");
           await wakeFromPhaseTransition(2);
+          const dismissedNewbieNotice = await win.webContents.executeJavaScript(`(() => {
+            const toast = document.querySelector('.toast');
+            const dismiss = toast?.querySelector('[data-dismiss-notification]');
+            if (!toast?.textContent.includes('Newbie Nebula') || !dismiss) return false;
+            dismiss.click();
+            return !document.querySelector('.toast');
+          })()`);
+          if (!dismissedNewbieNotice) throw new Error("Newbie Nebula desktop notice was not dismissible");
 
           await address("web://home");
           if (!await win.webContents.executeJavaScript(`(() => {
@@ -907,7 +915,7 @@ function createWindow() {
             }
           }
           await address("web://soundwave.zone/users/subbasssimon/home");
-          const phaseTwoCoverReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.byte-barn-cover-update [data-song-nav][data-song-file="byte-barn-breakbeat-deal.mp3"]')) && document.querySelector('.page-midi-player')?.classList.contains('has-playlist')`);
+          const phaseTwoCoverReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.byte-barn-cover-update [data-song-nav][data-song-file="byte-barn-breakbeat-deal.mp3"]')) && document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && Array.from(document.querySelectorAll('.page-comment.owner p')).some((comment) => comment.textContent.includes('[[BARNFLIP]]') && comment.textContent.includes('Byte Barn breakbeat mix'))`);
           if (!phaseTwoCoverReady) throw new Error("Phase-two Byte Barn cover did not appear on Simon's personal page and playlist");
           const phaseTwoCoverPlayed = await win.webContents.executeJavaScript(`(() => {
             const button = document.querySelector('.byte-barn-cover-update [data-song-nav]');
@@ -1512,6 +1520,18 @@ function createWindow() {
           if ((await readSave()).playerName !== "OrbitTester") throw new Error("New-game username was not persisted");
           const restoredWindowCount = await win.webContents.executeJavaScript(`document.querySelectorAll('.app-window').length`);
           if (restoredWindowCount !== 0) throw new Error(`Login restored ${restoredWindowCount} app window(s) instead of showing a clean desktop`);
+          await waitForSelector(".chat-window", 5_000);
+          const openingMessageReady = await win.webContents.executeJavaScript(`(() => {
+            const message = document.querySelector('.chat-window .chat-message.character p')?.textContent || '';
+            return message.includes("early-'90s attempts") &&
+              message.includes('regular computers can reach Orbit through a clunky bridge') &&
+              message.includes("I found an old access setup") &&
+              Boolean(document.querySelector('.chat-window'));
+          })()`);
+          if (!openingMessageReady || !(await readSave()).flags.opening_message_presented) {
+            throw new Error("New-game OIM introduction did not pop up with OrbitOS history and the invitation premise");
+          }
+          await win.webContents.executeJavaScript(`document.querySelector('[data-close="chat"]')?.click()`);
           const browserOpened = await win.webContents.executeJavaScript(`(() => { const browser = document.querySelector('[data-open="browser"]'); if (!browser) return false; browser.click(); return true; })()`);
           if (!browserOpened) throw new Error("Browser desktop icon was not available");
           const browserUrl = await win.webContents.executeJavaScript(`document.querySelector('.address-form input')?.value || ''`);
