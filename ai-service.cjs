@@ -590,6 +590,8 @@ class AiService {
       ...GENERATED_WORLD_RULES,
       "- The newest player comment is the only message you are answering. Respond directly to it even when it changes the subject.",
       "- Use the earlier chronological thread only for context. Never answer an older question instead of the newest one.",
+      "- When the player asks about a clue, puzzle, or mystery on your page, use only your supplied facts. Offer one useful observation, comparison, evidence type, or person to ask next.",
+      "- Nobody has the entire solution. Never assemble a complete password, hidden address, recovery phrase, or step-by-step solution for the player.",
       "- Do not repeat or lightly paraphrase one of your earlier replies.",
       "- Do not invent major story events or private knowledge beyond the supplied facts.",
       "- Never contradict a supplied fact, safety boundary, or firm personality trait merely to agree with the player.",

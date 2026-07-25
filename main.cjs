@@ -15,7 +15,7 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 7,
+  version: 8,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -30,6 +30,7 @@ const DEFAULT_SAVE = {
   ambientPostQueue: [],
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
+  readDirectMessageIds: [],
   directMessages: [{
     id: "mira-welcome-1999",
     ownerId: "mira_917",
@@ -51,6 +52,7 @@ async function readSave() {
     const stored = JSON.parse(await fs.readFile(savePath(), "utf8"));
     const merged = { ...DEFAULT_SAVE, ...stored };
     if (stored.playerName === undefined && Number(stored.version ?? 0) < 5) merged.playerName = "David";
+    if (!Array.isArray(stored.readDirectMessageIds)) delete merged.readDirectMessageIds;
     return merged;
   } catch {
     return structuredClone(DEFAULT_SAVE);

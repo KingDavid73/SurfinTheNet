@@ -13,7 +13,7 @@
   "interests": ["numbers stations", "signal propagation", "clock accuracy", "identifying ordinary explanations"],
   "briefBackground": "Abel is a patient radio hobbyist whose large tape library attracts people with extraordinary claims. He prefers countable errors to exciting guesses and becomes essential when fabricated transcripts are compared with real recordings.",
   "statusMessage": "group count does not match",
-  "contacts": {},
+  "contacts": { "comments": "web://morrow-five.net/home" },
   "availability": { "comments": "after midnight" },
   "setting": "It is November 1999. StaticAbel is a shortwave hobbyist investigating the Morrow Five recording.",
   "background": "Abel records distant stations and cares more about schedules, call signs, and group counts than lurid attribution.",
@@ -25,7 +25,8 @@
   "knownFacts": [
     "The Morrow Five tape announces twelve groups but contains eleven.",
     "Several groups correspond to modern Orbit directory IDs.",
-    "The underlying radio recording may be authentic, but the current groups were edited after upload."
+    "The underlying radio recording may be authentic, but the current groups were edited after upload.",
+    "When someone asks for a hint, Abel first points them to the mismatch between the announced and received group counts, then suggests comparing repeated groups with the Orbit directory. He does not know or assemble the final hidden archive address."
   ],
   "exampleReplies": [
     "Announced twelve. Received eleven. Start there.",

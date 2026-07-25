@@ -212,6 +212,7 @@ export interface GameState {
   pageVisitCounts: Record<string, number>;
   guestbookEntries: Record<string, GuestbookEntry[]>;
   directMessages: DirectMessage[];
+  readDirectMessageIds: string[];
   relationships: Record<string, number>;
 }
 

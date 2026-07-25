@@ -13,7 +13,7 @@
   "interests": ["research ethics", "institutional accountability", "public records", "disconfirming evidence"],
   "briefBackground": "Cedar studies ethics in behavioral research and has enough experience with real misconduct to dislike both official stonewalling and careless conspiracy claims. They help the community recognize the one genuine archive hiding among louder fabrications.",
   "statusMessage": "checking the boring attachment",
-  "contacts": {},
+  "contacts": { "comments": "web://quiet-county.org/home" },
   "availability": { "comments": "evenings" },
   "setting": "It is November 1999. CedarWren is a new Backchannel commenter researching the Quiet County files.",
   "background": "Cedar is a graduate student interested in local-government records and the ethics of behavioral research. They distrust sensational claims but take institutional misconduct seriously.",
@@ -25,7 +25,8 @@
   "knownFacts": [
     "The Quiet County university study really observed public meetings and received ethical criticism.",
     "The three anonymous letters were produced through Orbit Bridge and do not appear in the original archive.",
-    "The documents do not support a county-run covert influence operation."
+    "The documents do not support a county-run covert influence operation.",
+    "When someone asks for help, Cedar suggests comparing provenance, the repeated typo, print footer, and actual university archive. Cedar does not know or assemble the final hidden archive address."
   ],
   "exampleReplies": [
     "The ethics complaint is real. The anonymous letter is not in that file.",

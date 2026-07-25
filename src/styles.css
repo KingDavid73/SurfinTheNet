@@ -2157,6 +2157,7 @@ button { color: #111; }
   width: 84px;
 }
 .desktop-icons button {
+  position: relative;
   border: 1px solid transparent;
   background: transparent;
   color: white;
@@ -2184,6 +2185,26 @@ button { color: #111; }
 .desktop-icon.folder { color: #ffd54a; font-size: 35px; }
 .desktop-icon.chat { color: #fff; border-radius: 6px; background: #ee8c16; border: 3px solid #fff2ad; font-family: Arial, sans-serif; }
 .desktop-icon.helper { color: #fff; border-radius: 50%; background: radial-gradient(circle at 32% 25%, #8ee8ff, #1762ca 58%, #082b79); border: 3px solid #d9f7ff; font-family: Georgia, serif; }
+.app-unread-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 17px;
+  height: 17px;
+  box-sizing: border-box;
+  padding: 0 4px;
+  color: white;
+  background: #d71920;
+  border: 1px solid #fff;
+  border-radius: 9px;
+  box-shadow: 1px 1px 2px rgb(0 0 0 / 55%);
+  font: bold 10px/1 Arial, sans-serif;
+  text-shadow: none;
+}
+.desktop-icons button > .app-unread-badge {
+  position: absolute;
+  top: 0;
+  right: 9px;
+}
 
 .sticky-note {
   position: absolute;
@@ -3025,8 +3046,9 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .aim-menu button { border: 0; background: transparent; padding: 3px 8px; font-size: 11px; }
 .aim-menu button:not(:disabled):hover { color: white; background: #000080; }
 .aim-buddy-tabs { display: flex; gap: 3px; padding: 4px 6px; background: #ececec; border-bottom: 1px solid #888; }
-.aim-buddy-tabs button { padding: 4px 8px; color: #233872; background: #d8deef; border: 1px solid #9aa4c1; font-size: 10px; }
+.aim-buddy-tabs button { position: relative; display: inline-flex; align-items: center; gap: 2px; padding: 4px 8px; color: #233872; background: #d8deef; border: 1px solid #9aa4c1; font-size: 10px; }
 .aim-buddy-tabs button i { display: inline-block; width: 7px; height: 7px; margin-right: 4px; border-radius: 50%; background: #32b33e; }
+.aim-buddy-tabs .app-unread-badge { min-width: 14px; height: 14px; margin-left: 3px; padding: 0 3px; font-size: 8px; }
 .aim-buddy-tabs button.selected { color: white; background: #000080; border-color: #000052; }
 .aim-contact { min-height: 72px; flex: 0 0 72px; padding: 8px 10px; display: grid; grid-template-columns: 50px 1fr auto; align-items: center; gap: 10px; color: #13255c; background: linear-gradient(90deg, #f4f6ff, #dbe5ff); border-bottom: 2px groove white; }
 .aim-avatar { display: grid; place-items: center; width: 48px; height: 48px; color: white; background: linear-gradient(135deg, #5c67c5, #172878); border: 3px ridge #eee; font: bold 28px Georgia, serif; }
@@ -4033,18 +4055,21 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .desktop-helper small { color: #e5ffff; font-size: 8px; }
 @keyframes helper-bob { 50% { transform: translateY(-4px) rotate(1deg); } }
 
-.helper-window { min-width: 390px; min-height: 350px; }
-.helper-layout { display: grid; grid-template-columns: 100px 1fr; min-height: 0; flex: 1; background: #eef7ff; border: 2px inset white; }
-.helper-layout > main { display: flex; flex-direction: column; min-width: 0; padding: 7px; }
+.helper-window { min-width: 390px; min-height: 350px; overflow: hidden; }
+.helper-layout { display: grid; grid-template-columns: 100px 1fr; min-height: 0; flex: 1; box-sizing: border-box; overflow: hidden; background: #eef7ff; border: 2px inset white; }
+.helper-layout > main { display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; padding: 7px; }
 .helper-layout > main > header { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding-bottom: 5px; color: #173b78; border-bottom: 1px solid #93add1; }
 .helper-layout > main > header > div { display: grid; }
 .helper-layout > main > header span { color: #5d7190; font-size: 9px; }
 .helper-layout > main > header button { padding: 3px 7px; background: #c0c0c0; border: 2px outset white; font-size: 9px; }
-.helper-portrait { display: grid; place-items: center; background: radial-gradient(circle, #fff8b8, #86cce8); border-right: 1px solid #769ab7; }
+.helper-portrait { display: grid; place-items: center; min-height: 0; overflow: hidden; background: radial-gradient(circle, #fff8b8, #86cce8); border-right: 1px solid #769ab7; }
 .helper-portrait .orbit-pal-body { transform: scale(1.35); }
 .helper-transcript { flex: 1; min-height: 0; overflow: auto; padding: 6px 2px; }
 .helper-welcome { padding: 9px; color: #25446b; background: #fff; border: 1px solid #a9bcd3; border-radius: 8px; font-size: 11px; }
 .helper-welcome p { margin: 4px 0 0; line-height: 1.35; }
+.helper-did-you-know { display: grid; flex: 0 0 auto; gap: 5px; margin-top: 6px; padding: 6px 7px; color: #20395e; background: #fffbd4; border: 1px dashed #927f36; font-size: 9px; }
+.helper-did-you-know summary { color: #173b78; font-weight: bold; letter-spacing: .04em; cursor: pointer; }
+.helper-did-you-know span { line-height: 1.3; }
 .helper-message { margin: 5px 0; padding: 6px 8px; background: #fff; border: 1px solid #a9bcd3; border-radius: 7px; font-size: 10px; }
 .helper-message.player { margin-left: 22px; background: #e4edff; }
 .helper-message.owner { margin-right: 22px; background: #fffbd4; }
@@ -4069,6 +4094,28 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .sleep-options button { display: grid; gap: 5px; min-height: 68px; padding: 9px; background: #ddd; border: 2px outset white; text-align: left; }
 .sleep-options button span { color: #555; font-size: 10px; }
 .sleep-dialog > footer { padding: 7px 10px; color: #4c5365; background: #d8deef; border-top: 1px solid #888; font-size: 9px; }
+.sleep-time-transition {
+  position: absolute;
+  inset: 0;
+  z-index: 24000;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: #020616;
+  opacity: 0;
+  pointer-events: all;
+  animation: sleep-fade-cycle 1.5s ease-in-out both;
+}
+.sleep-time-transition > div { display: grid; justify-items: center; gap: 7px; width: min(560px, 80vw); text-align: center; }
+.sleep-time-transition span { color: #fff4a6; font: 58px/1 Georgia, serif; }
+.sleep-time-transition small { color: #9dbcf7; font: bold 10px "Courier New", monospace; letter-spacing: .18em; }
+.sleep-time-transition b { font-size: 21px; }
+.sleep-time-transition p { max-width: 520px; margin: 2px 0 0; color: #dce8ff; font-size: 13px; line-height: 1.45; }
+@keyframes sleep-fade-cycle {
+  0% { opacity: 0; }
+  22%, 72% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
 .toast { position: absolute; right: 16px; bottom: 50px; z-index: 11000; width: 300px; min-height: 44px; box-sizing: border-box; padding: 13px 38px 13px 13px; background: #fffbd2; border: 2px solid; border-color: white #333 #333 white; box-shadow: 3px 4px 10px rgb(0 0 0 / 35%); font-size: 13px; }
 .toast-dismiss { position: absolute; top: 5px; right: 5px; width: 23px; height: 22px; padding: 0; color: #111; background: #d5d5d5; border: 2px outset white; font: bold 15px/16px Arial, sans-serif; }
@@ -4084,7 +4131,8 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .start-button { width: 82px; font-weight: bold; font-size: 13px; }
 .start-button span { color: #146bd1; font-size: 18px; }
 .task-buttons { flex: 1; display: flex; gap: 4px; overflow: hidden; }
-.task-buttons button { width: 155px; text-align: left; font-size: 11px; overflow: hidden; white-space: nowrap; }
+.task-buttons button { position: relative; width: 155px; padding-right: 24px; text-align: left; font-size: 11px; overflow: hidden; white-space: nowrap; }
+.task-buttons .app-unread-badge { position: absolute; top: 50%; right: 4px; transform: translateY(-50%); }
 .task-buttons button.active { border-color: #333 white white #333; background: #ddd; }
 .taskbar time { min-width: 96px; display: grid; place-content: center; justify-items: center; border: 2px inset white; font-size: 11px; line-height: 1.05; }
 .taskbar time span { margin-top: 2px; font-size: 8px; color: #414141; }

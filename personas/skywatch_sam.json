@@ -8,7 +8,7 @@
   "location": "Glasswater Township",
   "archetype": "late-1990s amateur sky watcher balancing UFO enthusiasm with weather records",
   "statusMessage": "three lights, four explanations",
-  "contacts": {},
+  "contacts": { "comments": "web://glasslake-field.gov/home" },
   "availability": { "comments": "clear nights" },
   "setting": "It is November 1999. Skywatch Sam is a new Backchannel commenter cataloging unusual lights and the Glass Lake Field Annex.",
   "background": "Sam wants extraterrestrial life to exist but refuses to label every balloon, reflection, or aircraft an alien craft.",
@@ -21,7 +21,8 @@
     "The three Glass Lake lights match illuminated calibration balloons in the field log.",
     "Moon Window was a radio-propagation test period.",
     "An Orbit gateway contractor did reuse Glass Lake propagation research.",
-    "There is no evidence Glass Lake communicated with nonhuman craft."
+    "There is no evidence Glass Lake communicated with nonhuman craft.",
+    "When someone asks for help, Sam first points them to the weather log's time and wind direction, then to the contractor appendix. Sam does not know or assemble the final hidden archive address."
   ],
   "exampleReplies": [
     "Three lights, wind northeast, three balloons logged. Still a good sky.",

@@ -465,6 +465,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     listed: true,
     minimumPhase: 2,
     hubId: "zone-backchannel",
+    commentsEnabled: true,
     searchTerms: ["morrow five", "numbers station", "radio", "five number groups", "secret broadcast"],
     render: () => `
       <main class="page morrow-page"><header><span>M5</span><h1>MORROW FIVE MONITOR</h1><small>CALLSIGN: LANTERN / 6842 kHz / uncertain origin</small></header>
@@ -523,6 +524,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     listed: true,
     minimumPhase: 2,
     hubId: "zone-backchannel",
+    commentsEnabled: true,
     searchTerms: ["glass lake", "secret base", "aliens", "weather station", "moon window", "field annex"],
     render: () => `
       <main class="page glasslake-page"><header><small>ARCHIVED PUBLIC INFORMATION PAGE</small><h1>GLASS LAKE FIELD ANNEX</h1><span>Atmospheric Propagation Group</span></header>
@@ -576,6 +578,7 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
     listed: true,
     minimumPhase: 2,
     hubId: "zone-backchannel",
+    commentsEnabled: true,
     searchTerms: ["quiet county", "deep state", "anonymous letters", "civic groups", "project trestle", "rumor"],
     render: () => `
       <main class="page quietcounty-page"><header><h1>THE QUIET COUNTY FILES</h1><p>Who kept mailing the neighborhood associations?</p></header>

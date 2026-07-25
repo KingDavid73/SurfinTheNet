@@ -366,11 +366,13 @@ const MIRA_WELCOME_TEXT = [
   "",
   "I found an old access setup and thought you'd get a kick out of it. it's quiet, but not empty—people still keep personal pages, business sites, guestbooks, music, and strange little archives here. poke through the zones, search whatever sounds interesting, and message people. somebody usually knows where the weird stuff is.",
   "",
+  "one useful thing: Orbit isn't frozen. people answer on their own schedules, pages pick up new comments, and different people know different pieces of a story. if a clue names somebody, ask them. if you're waiting on people, Sleep from the Start menu and check back.",
+  "",
   "welcome aboard :)"
 ].join("\n");
 
 const DEFAULT_STATE: GameState = {
-  version: 7,
+  version: 8,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -385,6 +387,7 @@ const DEFAULT_STATE: GameState = {
   ambientPostQueue: [],
   pageVisitCounts: { "web://home": 1 },
   guestbookEntries: {},
+  readDirectMessageIds: [],
   directMessages: [{
     id: "mira-welcome-1999",
     ownerId: "mira_917",
@@ -703,6 +706,8 @@ let bootMonitorZoom = { originX: 0, originY: 0, panX: 0, panY: 0 };
 let loginNameError = "";
 let computerHasBooted = startupStage === "desktop";
 let sleepDialogOpen = false;
+let sleepTransition: { wokeAt: string; summary: string } | null = null;
+let sleepTransitionTimer: number | null = null;
 let phaseTransition: {
   phase: 2 | 3 | 4;
   sleptFrom: string;
@@ -760,6 +765,17 @@ function normalizeState(loaded: Partial<GameState>): GameState {
   const storyPhase = loaded.flags?.continuity_console_unlocked
     ? 4
     : loaded.storyPhase === 2 || loaded.storyPhase === 3 || loaded.storyPhase === 4 ? loaded.storyPhase : 1;
+  const normalizedDirectMessages = Array.isArray(loaded.directMessages)
+    ? loaded.directMessages.map((message) => message.id === "mira-welcome-1999" ? { ...message, text: MIRA_WELCOME_TEXT } : message)
+    : [];
+  const readDirectMessageIds = Array.isArray(loaded.readDirectMessageIds)
+    ? [...new Set(loaded.readDirectMessageIds.map(String))]
+    : normalizedDirectMessages
+        .filter((message) =>
+          message.role === "owner" &&
+          deliveryIsAvailable(message.availableAt, loaded.gameTime ?? DEFAULT_STATE.gameTime)
+        )
+        .map((message) => message.id);
   return {
     ...structuredClone(DEFAULT_STATE),
     ...loaded,
@@ -775,9 +791,8 @@ function normalizeState(loaded: Partial<GameState>): GameState {
     ambientPostQueue: Array.isArray(loaded.ambientPostQueue) ? loaded.ambientPostQueue : [],
     pageVisitCounts: { ...DEFAULT_STATE.pageVisitCounts, ...(loaded.pageVisitCounts ?? {}) },
     guestbookEntries: { ...(loaded.guestbookEntries ?? {}) },
-    directMessages: Array.isArray(loaded.directMessages)
-      ? loaded.directMessages.map((message) => message.id === "mira-welcome-1999" ? { ...message, text: MIRA_WELCOME_TEXT } : message)
-      : [],
+    directMessages: normalizedDirectMessages,
+    readDirectMessageIds,
     relationships: { ...DEFAULT_STATE.relationships, ...(loaded.relationships ?? {}) }
   };
 }
@@ -785,6 +800,38 @@ function normalizeState(loaded: Partial<GameState>): GameState {
 async function saveState() {
   if (window.gameAPI) await window.gameAPI.save(state);
   else localStorage.setItem("surfin-save", JSON.stringify(state));
+}
+
+function unreadDirectMessages(channel?: "aim" | "email", ownerId?: string) {
+  const readIds = new Set(state.readDirectMessageIds);
+  return state.directMessages.filter((message) =>
+    message.role === "owner" &&
+    message.channel !== "helper" &&
+    (!channel || message.channel === channel) &&
+    (!ownerId || message.ownerId === ownerId) &&
+    deliveryIsAvailable(message.availableAt, state.gameTime) &&
+    !readIds.has(message.id)
+  );
+}
+
+function markDirectMessagesRead(messages: DirectMessage[]) {
+  const unreadIds = messages
+    .filter((message) => message.role === "owner" && !state.readDirectMessageIds.includes(message.id))
+    .map((message) => message.id);
+  if (!unreadIds.length) return false;
+  state.readDirectMessageIds = [...state.readDirectMessageIds, ...unreadIds];
+  void saveState();
+  return true;
+}
+
+function markAimConversationRead(ownerId: string) {
+  return markDirectMessagesRead(unreadDirectMessages("aim", ownerId));
+}
+
+function directMessageBadge(count: number, label = "unread replies") {
+  if (!count) return "";
+  const shown = count > 99 ? "99+" : String(count);
+  return `<span class="app-unread-badge" aria-label="${count} ${label}">${shown}</span>`;
 }
 
 function crossedGameHourBoundaries(before: Date, after: Date) {
@@ -1531,6 +1578,7 @@ function openApp(app: AppId) {
   windows[app].open = true;
   windows[app].minimized = false;
   focusApp(app);
+  if (app === "chat") markAimConversationRead(activeAimOwnerId);
   startOpen = false;
   render();
 }
@@ -1839,7 +1887,9 @@ function mailWindow() {
     ? `<button class="mail-row unread" data-mail="receipt"><b>● OrbitNet Downloads</b><span>Your file is ready</span><time>Now</time></button>`
     : "";
   const dynamicRows = receivedEmails.slice().reverse().map((message) => {
-    return `<button class="mail-row unread" data-direct-mail="${message.id}"><b>● ${escapeHtml(message.author)}</b><span>${escapeHtml(message.subject ?? "Re: Hello")}</span><time>${new Intl.DateTimeFormat([], { month: "numeric", day: "numeric" }).format(new Date(message.createdAt))}</time></button>`;
+    const unread = !state.readDirectMessageIds.includes(message.id);
+    const selected = selectedMailMessageId === message.id;
+    return `<button class="mail-row ${unread ? "unread" : ""} ${selected ? "selected" : ""}" data-direct-mail="${message.id}"><b>${unread ? "● " : ""}${escapeHtml(message.author)}</b><span>${escapeHtml(message.subject ?? "Re: Hello")}</span><time>${new Intl.DateTimeFormat([], { month: "numeric", day: "numeric" }).format(new Date(message.createdAt))}</time></button>`;
   }).join("");
 
   if (mailComposeOwnerId) {
@@ -1985,7 +2035,10 @@ function chatWindow() {
       (ownerId === "ghostline" && state.storyPhase >= 2) ||
       state.visited.includes(CHARACTER_HOME_URLS[ownerId])
     ))
-    .map(([ownerId, contact]) => `<button data-aim-contact="${ownerId}" class="${ownerId === activeAimOwnerId ? "selected" : ""}"><i></i>${escapeHtml(contact.screenName)}</button>`)
+    .map(([ownerId, contact]) => {
+      const unread = unreadDirectMessages("aim", ownerId).length;
+      return `<button data-aim-contact="${ownerId}" class="${ownerId === activeAimOwnerId ? "selected" : ""}"><i></i>${escapeHtml(contact.screenName)}${directMessageBadge(unread, `unread messages from ${contact.screenName}`)}</button>`;
+    })
     .join("");
 
   return windowShell("chat", `${persona.screenName} - OIM`, "◎", `
@@ -2016,12 +2069,19 @@ function helperWindow() {
   const empty = messages.length
     ? ""
     : `<div class="helper-welcome"><b>Hi! I’m Orbit Pal!</b><p>Ask me how to use OrbitOS or explore OrbitNet. I can offer general hints, but I won’t spoil puzzles.</p></div>`;
+  const discoveryTips = `<details class="helper-did-you-know" ${messages.length ? "" : "open"}>
+    <summary>DID YOU KNOW? Orbit keeps moving while you’re away.</summary>
+    <span>☾ Sleep from the Start menu to pass time. Replies, comments, and page activity can appear while you’re away.</span>
+    <span>☏ Orbit’s people know different things. Ask about names, dates, records, rumors, or details on their pages.</span>
+    <span>⌕ A puzzle can be a group project. Page owners may offer one piece even when nobody has the whole answer.</span>
+  </details>`;
 
   return windowShell("helper", "Orbit Pal Help Assistant", "?", `
     <div class="helper-layout">
       <aside class="helper-portrait" aria-hidden="true"><div class="orbit-pal-body"><i></i><b>?</b><span></span></div></aside>
       <main>
         <header><div><b>What can I help you with?</b><span>${aiStatus.warmed ? "Local help ready" : "Help service starting…"}</span></div><button type="button" data-helper-close>Close Pal</button></header>
+        ${discoveryTips}
         <div class="helper-transcript" id="helper-transcript">${empty}${messageHtml}${pending ? `<p class="helper-typing">Sending...</p>` : ""}</div>
         ${chatError ? `<p class="helper-error">${escapeHtml(chatError)}</p>` : ""}
         <form class="helper-form">
@@ -2188,6 +2248,11 @@ function beginAiPreload() {
 }
 
 function prepareFreshDesktopSession() {
+  if (sleepTransitionTimer !== null) {
+    window.clearTimeout(sleepTransitionTimer);
+    sleepTransitionTimer = null;
+  }
+  sleepTransition = null;
   if (openingMessageTimer !== null) {
     window.clearTimeout(openingMessageTimer);
     openingMessageTimer = null;
@@ -2237,6 +2302,7 @@ function scheduleOpeningMessage() {
     windows.chat.open = true;
     windows.chat.minimized = false;
     focusApp("chat");
+    markAimConversationRead(activeAimOwnerId);
     void saveState();
     render();
     scrollChatToBottom();
@@ -2431,9 +2497,20 @@ function sleepDialog() {
         <button data-sleep-hours="3"><b>Sleep a while</b><span>Advance 3 hours</span></button>
         <button data-sleep-hours="morning"><b>Until morning</b><span>Wake at 7:00 AM</span></button>
       </div>
-      <footer>Sleeping advances the story clock. Nothing progresses while the computer is off.</footer>
+      <footer>Orbit keeps moving while you sleep. Replies may arrive, comments may change, and people may post elsewhere on the network.</footer>
     </section>
   </div>`;
+}
+
+function sleepTransitionScreen() {
+  if (!sleepTransition) return "";
+  const wokeAt = new Date(sleepTransition.wokeAt);
+  return `<section class="sleep-time-transition" role="status" aria-live="polite">
+    <div><span>☾</span><small>TIME PASSES ON ORBITNET</small>
+      <b>${new Intl.DateTimeFormat([], { weekday: "short", hour: "numeric", minute: "2-digit" }).format(wokeAt)}</b>
+      <p>${escapeHtml(sleepTransition.summary)}</p>
+    </div>
+  </section>`;
 }
 
 function phaseTransitionScreen() {
@@ -2484,23 +2561,29 @@ function render() {
     return;
   }
 
+  const unreadMailCount = unreadDirectMessages("email").length;
+  const unreadAimCount = unreadDirectMessages("aim").length;
   root.innerHTML = `<main class="desktop story-phase-${state.storyPhase} theme-${state.settings.theme} wallpaper-${state.settings.wallpaper} cursor-${state.settings.cursor}">
     <div class="wallpaper-logo"><span>ORBIT</span><b>OS</b><small>98</small></div>
     <div class="desktop-icons">
       <button data-open="browser"><span class="desktop-icon globe">O</span><b>Orbit Explorer</b></button>
-      <button data-open="mail"><span class="desktop-icon mail">@</span><b>Orbit Mail</b></button>
+      <button data-open="mail"><span class="desktop-icon mail">@</span>${directMessageBadge(unreadMailCount, "unread emails")}<b>Orbit Mail</b></button>
       <button data-open="files"><span class="desktop-icon folder">▰</span><b>My Files</b></button>
-      <button data-open="chat"><span class="desktop-icon chat">◎</span><b>OIM</b></button>
+      <button data-open="chat"><span class="desktop-icon chat">◎</span>${directMessageBadge(unreadAimCount, "unread OIM replies")}<b>OIM</b></button>
       <button data-open="settings"><span class="desktop-icon settings">⚙</span><b>Settings</b></button>
       ${state.flags.orbit_pal_installed ? `<button data-open="helper"><span class="desktop-icon helper">?</span><b>Orbit Pal</b></button>` : ""}
     </div>
-    <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Search for food or pets</span><span>• Try a page’s music player</span><span>• Download Orbit Pal</span></aside>
+    <aside class="sticky-note"><b>THINGS TO TRY</b><span>• Ask people about their pages</span><span>• Sleep to let Orbit update</span><span>• ${state.flags.orbit_pal_installed ? "Ask Orbit Pal for a nudge" : "Download Orbit Pal"}</span></aside>
     ${windows.helper.open ? `<button class="desktop-helper" data-helper-talk aria-label="Talk to Orbit Pal"><span class="orbit-pal-body"><i></i><b>?</b><em></em></span><strong>Orbit Pal</strong><small>Click to talk</small></button>` : ""}
     ${browserWindow()}${mailWindow()}${filesWindow()}${chatWindow()}${settingsWindow()}${helperWindow()}${diagnosticsWindow()}
     ${notification ? `<div class="toast" role="status"><span>${escapeHtml(notification)}</span><button class="toast-dismiss" data-dismiss-notification aria-label="Dismiss notification">&times;</button></div>` : ""}
     ${startOpen ? `<div class="start-menu"><header><b>OrbitOS</b><span>98</span></header><button data-open="browser">🌐 Orbit Explorer</button><button data-open="chat">💬 OIM — Orbit Instant Messenger</button><button data-open="mail">✉ Orbit Mail</button><button data-open="files">📁 My Files</button><button data-open="settings">⚙ Desktop Settings</button>${state.flags.orbit_pal_installed ? `<button data-open="helper">❔ Orbit Pal</button>` : ""}<button data-open="diagnostics">▤ System Diagnostics</button><hr><button data-session="sleep">☾ Sleep...</button><button data-session="logoff">⇥ Log Off ${escapeHtml(playerName())}</button><button data-session="shutdown">◉ Shut Down</button><hr><button data-reset>↻ New Game</button></div>` : ""}
-    <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}</button>`).join("")}</div><time id="clock"></time></footer>
+    <footer class="taskbar"><button class="start-button ${startOpen ? "pressed" : ""}" data-start><span>◈</span> Start</button><div class="task-buttons">${(Object.keys(windows) as AppId[]).filter((app) => windows[app].open).map((app) => {
+      const unread = app === "mail" ? unreadMailCount : app === "chat" ? unreadAimCount : 0;
+      return `<button data-task="${app}" class="${!windows[app].minimized && windows[app].z === topZ ? "active" : ""}">${APP_META[app].icon} ${APP_META[app].title}${directMessageBadge(unread)}</button>`;
+    }).join("")}</div><time id="clock"></time></footer>
     ${sleepDialog()}
+    ${sleepTransitionScreen()}
     ${phaseTransitionPromptScreen()}
     ${phaseTransitionScreen()}
   </main>`;
@@ -2523,13 +2606,13 @@ function render() {
   });
 }
 
-function showNotification(message: string) {
+function showNotification(message: string, duration = 2600) {
   notification = message;
   render();
   window.setTimeout(() => {
     notification = "";
     render();
-  }, 2600);
+  }, duration);
 }
 
 function downloadSignalNote() {
@@ -2593,6 +2676,20 @@ async function refreshAiProgress() {
   } catch {
     // A failed status poll should not replace the actual generation error.
   }
+}
+
+function phaseAwareCharacterHintContext(ownerId: string) {
+  if (state.storyPhase < 2) return [];
+  const sharedRule = "You never know the complete puzzle solution. Give one observation or one person/page to ask next; never assemble a password, hidden address, recovery phrase, or full sequence.";
+  const hints: Record<string, string> = {
+    mira_917: "You have noticed that the Morrow Five page rewards counting before decoding. If asked for investigation help, suggest comparing what the recording announces with what the transcript actually contains, or asking StaticAbel about his tape.",
+    darkraven_xx: "You think Folded Wire and Index Null are more useful than spectacular rumor pages because they compare documents and dead links. If asked for help, suggest carrying forward only conclusions explicitly marked as reusable evidence.",
+    juniper_gdn: "You noticed that the Morrow transcript promises a different number of groups than it delivers. If asked for help, gently suggest writing down the mismatch and asking the page owner why it matters.",
+    rhymetape_rico: "You are not a code expert, but you understand Orbit is active rather than frozen. If the player is waiting or overwhelmed, suggest asking page owners one specific question, sleeping to let replies arrive, and checking only conclusions marked for later use.",
+    lagmaster_99: "You solve problems by checking formats and constraints before guessing values. If asked about a mystery, suggest identifying what shape the answer must have, then asking the person closest to the source material.",
+    velvet_mage: "You approach mysteries like map design: one landmark at a time. If asked for help, suggest following named people and pages rather than treating every number as equally important."
+  };
+  return hints[ownerId] ? [sharedRule, hints[ownerId]] : [];
 }
 
 async function sendDirectMessage(ownerId: string, channel: DirectChannel, message: string, subject?: string) {
@@ -2675,7 +2772,10 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
         darkRavenVaultUnlocked: Boolean(state.flags.darkraven_vault_unlocked),
         continuityConsoleUnlocked: Boolean(state.flags.continuity_console_unlocked)
       } : undefined,
-      authoredConversationContext: conversationQuest.authoredContext
+      authoredConversationContext: [
+        ...phaseAwareCharacterHintContext(ownerId),
+        ...conversationQuest.authoredContext
+      ]
     });
     const availableAt = scheduleReplyAt(ownerId, channel, sentAt);
     const finalReplyText = finalizeConversationQuestReply(conversationQuest, result.text);
@@ -2698,6 +2798,9 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
     aiStatus = await window.aiAPI.status();
     await saveState();
     if (channel === "aim" && deliveryIsAvailable(ownerReply.availableAt, state.gameTime)) {
+      if (ownerId === activeAimOwnerId && windows.chat.open && !windows.chat.minimized && windows.chat.z === topZ) {
+        markDirectMessagesRead([ownerReply]);
+      }
       render();
       scrollChatToBottom();
       document.querySelector<HTMLTextAreaElement>(".chat-form textarea")?.focus();
@@ -2859,8 +2962,23 @@ function advanceGameTime(option: string) {
   seedSystemRumorHints(hoursElapsed, state.gameTime);
   lastGameClockTick = performance.now();
   sleepDialogOpen = false;
+  const firstSleep = !state.flags.sleep_time_tutorial_seen;
+  state.flags.sleep_time_tutorial_seen = true;
+  const wakeSummary = firstSleep
+    ? "The network did not pause with you. Check OIM, Mail, and pages you have visited—people may have replied or posted while you were away."
+    : deliveryNotice || "Orbit kept moving. Revisit conversations and pages when you want to see what changed.";
+  sleepTransition = { wokeAt: state.gameTime, summary: wakeSummary };
   void saveState();
-  showNotification(`Clock advanced to ${new Intl.DateTimeFormat([], { weekday: "short", hour: "numeric", minute: "2-digit" }).format(date)}.${deliveryNotice ? ` ${deliveryNotice}` : ""}`);
+  render();
+  if (sleepTransitionTimer !== null) window.clearTimeout(sleepTransitionTimer);
+  sleepTransitionTimer = window.setTimeout(() => {
+    sleepTransitionTimer = null;
+    sleepTransition = null;
+    showNotification(
+      deliveryNotice || "Time passed on OrbitNet. New comments and page activity may be waiting when you revisit.",
+      5200
+    );
+  }, 1500);
 }
 
 function bindEvents() {
@@ -2999,7 +3117,11 @@ function bindEvents() {
       return;
     }
     if (!windows[app].minimized && windows[app].z === topZ) windows[app].minimized = true;
-    else { windows[app].minimized = false; focusApp(app); }
+    else {
+      windows[app].minimized = false;
+      focusApp(app);
+      if (app === "chat") markAimConversationRead(activeAimOwnerId);
+    }
     render();
   }));
   document.querySelector<HTMLElement>("[data-start]")?.addEventListener("click", () => { startOpen = !startOpen; render(); });
@@ -3078,6 +3200,11 @@ function bindEvents() {
       window.clearTimeout(openingMessageTimer);
       openingMessageTimer = null;
     }
+    if (sleepTransitionTimer !== null) {
+      window.clearTimeout(sleepTransitionTimer);
+      sleepTransitionTimer = null;
+    }
+    sleepTransition = null;
     state = normalizeState(window.gameAPI ? await window.gameAPI.reset() : structuredClone(DEFAULT_STATE));
     if (!window.gameAPI) localStorage.removeItem("surfin-save");
     history = [state.currentUrl]; historyIndex = 0; startOpen = false;
@@ -3114,6 +3241,7 @@ function bindEvents() {
   document.querySelectorAll<HTMLElement>("[data-aim-contact]").forEach((button) => button.addEventListener("click", () => {
     activeAimOwnerId = button.dataset.aimContact ?? "mira_917";
     chatError = "";
+    markAimConversationRead(activeAimOwnerId);
     render();
   }));
   document.querySelectorAll<HTMLElement>("[data-aim-owner]").forEach((button) => button.addEventListener("click", () => {
@@ -3140,6 +3268,8 @@ function bindEvents() {
   });
   document.querySelectorAll<HTMLElement>("[data-direct-mail]").forEach((button) => button.addEventListener("click", () => {
     selectedMailMessageId = button.dataset.directMail ?? null;
+    const selected = state.directMessages.find((message) => message.id === selectedMailMessageId);
+    if (selected) markDirectMessagesRead([selected]);
     render();
   }));
 
@@ -3287,6 +3417,9 @@ function updateClock() {
   }
   if (deliveryNotice) {
     window.queueMicrotask(() => {
+      if (windows.chat.open && !windows.chat.minimized && windows.chat.z === topZ) {
+        markAimConversationRead(activeAimOwnerId);
+      }
       const focusedField = document.activeElement instanceof HTMLTextAreaElement || document.activeElement instanceof HTMLInputElement
         ? document.activeElement
         : null;
