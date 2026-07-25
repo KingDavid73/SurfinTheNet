@@ -165,6 +165,8 @@ function createWindow() {
           if (!mediumTextReady) throw new Error("Browser did not default to the readable Medium text size");
           const largeTextReady = await win.webContents.executeJavaScript(`(() => { const select = document.querySelector('[data-browser-text-size]'); if (!select) return false; select.value = 'large'; select.dispatchEvent(new Event('change', { bubbles: true })); return document.querySelector('.browser-page-scale')?.classList.contains('text-large'); })()`);
           if (!largeTextReady || (await readSave()).settings.browserTextSize !== "large") throw new Error("Browser text-size preference did not apply or persist");
+          const extraLargeTextReady = await win.webContents.executeJavaScript(`(() => { const select = document.querySelector('[data-browser-text-size]'); if (!select) return false; select.value = 'extra-large'; select.dispatchEvent(new Event('change', { bubbles: true })); return document.querySelector('.browser-page-scale')?.classList.contains('text-extra-large'); })()`);
+          if (!extraLargeTextReady || (await readSave()).settings.browserTextSize !== "extra-large") throw new Error("Browser Extra Large text-size preference did not apply or persist");
           await win.webContents.executeJavaScript(`(() => { const select = document.querySelector('[data-browser-text-size]'); select.value = 'medium'; select.dispatchEvent(new Event('change', { bubbles: true })); return true; })()`);
           await click('[data-open="mail"]');
           const welcomeMailReady = await win.webContents.executeJavaScript(`(() => { const fixedRows = document.querySelectorAll('[data-mail]'); const welcome = document.querySelector('[data-mail="welcome"]'); if (fixedRows.length !== 1 || !welcome) return false; welcome.click(); return document.querySelector('#mail-preview')?.textContent.includes('member-made pages arranged into community zones'); })()`);
@@ -265,6 +267,13 @@ function createWindow() {
                 const memberPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(memberPageClasses[memberIndex])})) && document.querySelectorAll('.page-comment').length >= 4 && Boolean(document.querySelector('.page-comments'))`);
                 if (!memberPageReady) throw new Error(`Game Grid member page was incomplete: ${expectedMemberUrls[memberIndex]}`);
                 await capture(`gamegrid-member-${memberIndex + 1}.png`);
+                if (memberIndex === 0) {
+                  await click('[data-nav="web://gamegrid.zone/users/lagmaster99/rankings"]');
+                  const rankingReadabilityReady = await win.webContents.executeJavaScript(`(() => { const image = document.querySelector('.core-lag-page > img'); const tier = document.querySelector('.lag-tier-list article'); if (!image || !tier || !image.complete) return false; const imageStyle = getComputedStyle(image); const tierStyle = getComputedStyle(tier); const renderedRatio = image.getBoundingClientRect().width / image.getBoundingClientRect().height; const naturalRatio = image.naturalWidth / image.naturalHeight; return imageStyle.objectFit === 'contain' && Math.abs(renderedRatio - naturalRatio) < 0.03 && tierStyle.color === 'rgb(17, 17, 17)'; })()`);
+                  if (!rankingReadabilityReady) throw new Error("LagMaster ranking art was cropped or its tier text lacked contrast");
+                  await capture("gamegrid-lagmaster-rankings.png");
+                  await click('[data-nav="web://gamegrid.zone/users/lagmaster99/home"]');
+                }
                 if (memberIndex >= 3) {
                   const gameArtReady = await win.webContents.executeJavaScript(`document.querySelectorAll('.gamegrid-art').length >= 8 && document.querySelectorAll('img[alt^="Screenshot"]').length === 3`);
                   if (!gameArtReady) throw new Error(`Generated art or fake-game screenshots were missing: ${expectedMemberUrls[memberIndex]}`);
@@ -326,6 +335,12 @@ function createWindow() {
                 const petPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(petClasses[petIndex])})) && Boolean(document.querySelector(${JSON.stringify(petFlourishes[petIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.pet-member-art').length === 3 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[petIndex])})`);
                 if (!petPageReady) throw new Error(`Pet Planet member page was incomplete: ${expectedPetUrls[petIndex]}`);
                 await capture(`petplanet-member-${petIndex + 1}.png`);
+                if (petIndex === 4) {
+                  const commentContrastReady = await win.webContents.executeJavaScript(`(() => { const card = document.querySelector('.site-petiguana .page-comment:not(.owner)'); if (!card) return false; const style = getComputedStyle(card); const parse = (value) => (value.match(/[\\d.]+/g) ?? []).slice(0, 3).map(Number); const luminance = (rgb) => { const channels = rgb.map((value) => { const channel = value / 255; return channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4; }); return .2126 * channels[0] + .7152 * channels[1] + .0722 * channels[2]; }; const foreground = luminance(parse(style.color)); const background = luminance(parse(style.backgroundColor)); const ratio = (Math.max(foreground, background) + .05) / (Math.min(foreground, background) + .05); return ratio >= 4.5 && style.backgroundColor !== 'rgb(255, 255, 255)'; })()`);
+                  if (!commentContrastReady) throw new Error("Iguana Iris comment cards did not meet readable contrast");
+                  await win.webContents.executeJavaScript(`document.querySelector('.page-comments')?.scrollIntoView({ block: 'start' }); true`);
+                  await capture("petplanet-iguana-comments.png");
+                }
                 await win.webContents.executeJavaScript(`document.querySelector('.pet-member-feature')?.scrollIntoView({ block: 'start' }); true`);
                 await capture(`petplanet-member-${petIndex + 1}-feature.png`);
                 await click('[data-nav="web://orbitnet.local/zones/petplanet"]');

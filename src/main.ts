@@ -1595,6 +1595,7 @@ function browserWindow() {
         <option value="small" ${state.settings.browserTextSize === "small" ? "selected" : ""}>Small</option>
         <option value="medium" ${state.settings.browserTextSize === "medium" ? "selected" : ""}>Medium</option>
         <option value="large" ${state.settings.browserTextSize === "large" ? "selected" : ""}>Large</option>
+        <option value="extra-large" ${state.settings.browserTextSize === "extra-large" ? "selected" : ""}>Extra Large</option>
       </select></label>
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
     </div>
@@ -2896,7 +2897,7 @@ function bindEvents() {
   document.querySelector<HTMLElement>("[data-browser='refresh']")?.addEventListener("click", refreshBrowserPage);
   document.querySelector<HTMLSelectElement>("[data-browser-text-size]")?.addEventListener("change", (event) => {
     const value = (event.currentTarget as HTMLSelectElement).value;
-    if (value !== "small" && value !== "medium" && value !== "large") return;
+    if (value !== "small" && value !== "medium" && value !== "large" && value !== "extra-large") return;
     state.settings.browserTextSize = value;
     void saveState();
     render();

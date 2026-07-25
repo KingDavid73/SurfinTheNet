@@ -115,7 +115,7 @@ export interface DesktopSettings {
   wallpaper: "teal" | "clouds";
   cursor: "arrow" | "star";
   musicVolume: number;
-  browserTextSize: "small" | "medium" | "large";
+  browserTextSize: "small" | "medium" | "large" | "extra-large";
 }
 
 export interface GuestbookEntry {
