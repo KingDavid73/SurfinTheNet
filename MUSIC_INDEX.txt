@@ -1,121 +1,137 @@
-SURFIN' THE NET — DOMAIN MUSIC CHECKLIST
-=========================================
+SURFIN' THE NET - MP3 MUSIC CHECKLIST
+=====================================
 
-[ ] rewindharbor.video — Cached Shadows (cached-shadows.mid)
-[ ] bubbleborough.com — TubeNet Telemetry (tubenet-telemetry.mid)
-[ ] snapdragonstring.floral — Garden Sprites (garden-sprites.mid)
-[ ] farawaydesk.travel — Atlas in the Wind (atlas-in-the-wind.mid)
-[ ] inkmoth.copy — Silicon Saturday (silicon-saturday.mid)
-[ ] sofasafari.furn — Good Old Days (yesterday-zone/good-old-days.mp3)
-[ ] molarmeadow.dent — Garden Sprites (garden-sprites.mid)
-[ ] gurglebros.plumb — Backyard Bound (backyard-bound.mid)
-[ ] neighbornest.cu — Orbit Avenue Afterglow (orbit-avenue.mid)
-[ ] halocomb.salon — Five-Color Drive (five-color-drive.mid)
+Use this as the production-music to-do list.
 
-[ ] home / orbitnet.local — Blue Screen of Love (orbit-home/blue-screen-of-love-01.mp3); Blue Screen of Love II (orbit-home/blue-screen-of-love-02.mp3); Blue Screen of Love III (orbit-home/blue-screen-of-love-03.mp3); Blue Screen of Love IV (orbit-home/blue-screen-of-love-04.mp3); Blue Screen of Memory (orbit-home/blue-screen-of-memory.mp3)
-[ ] orbitnet.local/zones (Pet Planet, FanVerse, SoundWave, Cozy Commons, Backchannel) — Orbit Avenue Afterglow (orbit-avenue.mid)
-[ ] orbitnet.local/zones/gamegrid — Everybody's In (everybodys-in.mid); Leave Reality Running (vanta/leave-reality-running.mp3); CUBIT Pure Play (cubit/cubit-pure-play.mp3)
-[ ] orbitnet.local/zones/xtreme — Extreme Sports Web Loop 1999 (xtreme-zone/extreme-sports-web-loop-1999.mp3)
-[ ] orbitnet.local/zones/yesterday — Good Old Days (yesterday-zone/good-old-days.mp3)
+[ ] = No MP3 is currently associated. A MIDI/WAV placeholder may still play.
+[x] = At least one MP3 is already associated.
 
-[ ] rainbow.gdn — Garden Sprites (garden-sprites.mid)
-[ ] nightsignal.net — After Midnight (after-midnight.mid)
-[ ] raven.web — Cached Shadows (cached-shadows.mid)
-[ ] legacy.orbitos.local — Orbit Avenue Archive (orbit-avenue.mid)
-[ ] foldedwire.net — Cached Shadows (cached-shadows.mid)
-[ ] index-null.net — Cached Shadows (cached-shadows.mid)
-[ ] morrow-five.net — After Midnight (after-midnight.mid)
-[ ] glasslake-field.gov — Cached Shadows (cached-shadows.mid)
-[ ] quiet-county.org — After Midnight (after-midnight.mid)
-[ ] archive.orbitnet.local/labs — Cached Shadows (cached-shadows.mid)
-[ ] phase-two rumor pages (midnight-dial.net, birdband.watch, railghost.org, prizefrequency.net, weather-cellar.net, glasswater.test, afterhours-library.net, last-quarter.arcade, fountain-voices.net, exit-zero.info) — Cached Shadows (cached-shadows.mid)
-[ ] bytebarn.com — Byte Barn Deal (byte-barn/byte-barn-deal.mp3)
-[ ] cosmiccrust.biz — Cosmic Crust Pizza (cosmic-crust/cosmic-crust-pizza.mp3); Neon Pizza Dreams (cosmic-crust/neon-pizza-dreams.mp3)
-[ ] pawsnclaws.net — Paws on the Keys (paws-on-the-keys.mid)
-[ ] pulsenet.red — PULSE NET (pulse-net/pulse-net.mp3)
-[ ] vanta2.com — Leave Reality Running (vanta/leave-reality-running.mp3)
-[ ] cubit.fun — CUBIT Pure Play (cubit/cubit-pure-play.mp3)
-[ ] rocketbox.toys — Toybox Turbo (toybox-turbo.mid)
-[ ] moonmunch.com — Moon Munch Blast (moon-munch/moon-munch-blast.mp3)
-[ ] toonburst.tv — ToonBurst Theme (toonburst-theme.mid)
-[ ] honestearl.com — Honest Earl Jingle (honest-earl/honest-earl-jingle.mp3); Honest Earl's Lot (honest-earl/honest-earls-lot.mp3); Chrome and Static (honest-earl/chrome-and-static.mp3); Clean Getaway (honest-earl/clean-getaway.mp3); Lot Lizard Loop (honest-earl/lot-lizard-loop.mp3)
+Music belongs to a domain/site scope, so its subpages inherit the same playlist.
+When adding music, the description is a mood/content reminder rather than a required genre.
 
-KING CAL COMMERCIAL ARCHIVE — 34 ACTIVE TRACKS
-------------------------------------------------
-[ ] kingcalscars.biz — Everybody Rides (king-cal/everybody-rides.mp3)
-[ ] kingcalscars.biz — Everybody Rides Royalty (king-cal/everybody-rides-royalty.mp3)
-[ ] kingcalscars.biz — Royalty on Wheels (king-cal/royalty-on-wheels-01.mp3)
-[ ] kingcalscars.biz — Royalty on Wheels II (king-cal/royalty-on-wheels-02.mp3)
-[ ] kingcalscars.biz — County Line Royalty (king-cal/county-line-royalty-01.mp3)
-[ ] kingcalscars.biz — County Line Royalty II (king-cal/county-line-royalty-02.mp3)
-[ ] kingcalscars.biz — County Line Royalty III (king-cal/county-line-royalty-03.mp3)
-[ ] kingcalscars.biz — King Cal's Auto Kingdom (king-cal/king-cals-auto-kingdom-01.mp3)
-[ ] kingcalscars.biz — King Cal's Auto Kingdom II (king-cal/king-cals-auto-kingdom-02.mp3)
-[ ] kingcalscars.biz — King Cal's Auto Kingdom III (king-cal/king-cals-auto-kingdom-03.mp3)
-[ ] kingcalscars.biz — King Cal's Auto Kingdom IV (king-cal/king-cals-auto-kingdom-04.mp3)
-[ ] kingcalscars.biz — King Cal's Auto Kingdom V (king-cal/king-cals-auto-kingdom-05.mp3)
-[ ] kingcalscars.biz — King Cal's Auto Kingdom VI (king-cal/king-cals-auto-kingdom-06.mp3)
-[ ] kingcalscars.biz — King Cal's Auto Kingdom VII (king-cal/king-cals-auto-kingdom-07.mp3)
-[ ] kingcalscars.biz — King Cal's Auto Kingdom VIII (king-cal/king-cals-auto-kingdom-08.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom (king-cal/king-cals-kingdom-01.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom II (king-cal/king-cals-kingdom-02.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom III (king-cal/king-cals-kingdom-03.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom IV (king-cal/king-cals-kingdom-04.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom V (king-cal/king-cals-kingdom-05.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom VI (king-cal/king-cals-kingdom-06.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom VII (king-cal/king-cals-kingdom-07.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom VIII (king-cal/king-cals-kingdom-08.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom IX (king-cal/king-cals-kingdom-09.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom X (king-cal/king-cals-kingdom-10.mp3)
-[ ] kingcalscars.biz — King Cal's Kingdom XI (king-cal/king-cals-kingdom-11.mp3)
-[ ] kingcalscars.biz — County Line Crown (king-cal/county-line-crown-diss-track-01.mp3)
-[ ] kingcalscars.biz — Kingdom Diss Track II (king-cal/king-cals-kingdom-diss-track-02.mp3)
-[ ] kingcalscars.biz — King Cal's Warning (king-cal/king-cals-warning-secret-01.mp3)
-[ ] kingcalscars.biz — County Line Code (king-cal/county-line-code-secret-02.mp3)
-[ ] kingcalscars.biz — County Line Code (Alt.) (king-cal/county-line-code-secret-03-alt.mp3)
-[ ] kingcalscars.biz — County Line Cipher (king-cal/county-line-cipher-secret-04.mp3)
-[ ] kingcalscars.biz — County Line Cipher (Alt.) (king-cal/county-line-cipher-secret-05-alt.mp3)
-[ ] kingcalscars.biz — County Line Warning (king-cal/county-line-warning-secret-06.mp3)
 
-[ ] gamegrid.zone/users/lagmaster99 — PULSE NET (pulse-net/pulse-net.mp3)
-[ ] gamegrid.zone/users/velvetmage — Leave Reality Running (vanta/leave-reality-running.mp3)
-[ ] gamegrid.zone/users/player4ever — CUBIT Pure Play (cubit/cubit-pure-play.mp3)
-[ ] gamegrid.zone/users/modkitmaddy — Silicon Saturday (silicon-saturday.mid)
-[ ] gamegrid.zone/users/quarterqueen — PULSE NET (pulse-net/pulse-net.mp3)
-[ ] gamegrid.zone/users/codedex — CUBIT Pure Play (cubit/cubit-pure-play.mp3)
+NEEDS AN MP3
+============
 
-[ ] xtreme.zone/users/deckwreckerdee — Demo Tape Spin (skater/demo-tape-spin.mp3); Grip Tape Summer (skater/grip-tape-summer.mp3)
-[ ] xtreme.zone/users/crankcasecole — Tailwhip at Dusk (bmx/tailwhip-at-dusk.mp3)
-[ ] xtreme.zone/users/neonbladenico — Wheelbite Anthem (rollerblader/wheelbite-anthem.mp3)
-[ ] xtreme.zone/users/tideriderty — Banzai Loop (surfer/banzai-loop-01.mp3); Banzai Loop II (surfer/banzai-loop-02.mp3); Cutback Chaos (surfer/cutback-chaos.mp3)
-[ ] xtreme.zone/users/throttletroy — Roost and Thunder (roost-and-thunder.mid)
-[ ] xtreme.zone/users/scootlordollie — Scooter Kid Shuffle (scooter/scooter-kid-shuffle.mp3)
-[ ] xtreme.zone/users/veloceviktor — Riviera Idle (riviera-idle.mid)
+ORBITNET HUBS
+-------------
+[ ] orbitnet.local/zones - Main community-zone hubs for pets, fandom, music, cozy hobbies, and conspiracies.
+[ ] orbitnet.local/zones/newcomers - Phase-two gathering place for curious new arrivals rediscovering Orbit.
 
-[ ] petplanet.zone/users/catnapcarla — Whisker Waltz (whisker-waltz.mid)
-[ ] petplanet.zone/users/fetchquestray — Backyard Bound (backyard-bound.mid)
-[ ] petplanet.zone/users/bunbrigadebea — Parsley Promenade (parsley-promenade.mid)
-[ ] petplanet.zone/users/hamcamhal — TubeNet Telemetry (tubenet-telemetry.mid)
-[ ] petplanet.zone/users/iguanairis — Basking After Dark (basking-after-dark.mid)
-[ ] petplanet.zone/users/skunkunclesam — Cabinet Caper (cabinet-caper.mid)
+COZY COMMONS
+------------
+[ ] rainbow.gdn - Juniper's colorful garden, poetry, scanner-art, and orange-cat homepage.
+[ ] rosepatch.home - Ruth's semi-abandoned rose, tomato, seed-saving, and backyard-weather diary.
+[ ] hearthside.home - Ellen's quiet country-living archive of recipes, pressed flowers, and mending.
+[ ] snacktime.home - Sue's kitchen-table mom page with lunches, rainy-day ideas, and family notes.
+[ ] trailnotes.home - Tom's practical local hiking notes copied from folded maps and notebooks.
+[ ] paperbird.home - Pam's handmade-card and scrap-paper craft workshop, rarely updated.
 
-[ ] fanverse.zone/users/mossmunchmel — Fogberry Moon (fogberry-moon.mid)
-[ ] fanverse.zone/users/blipzobeliever88 — Store 00 Loader (store-zero-loader.mid)
-[ ] fanverse.zone/users/tapeattictess — Weather Drawer Waltz (weather-drawer-waltz.mid)
-[ ] fanverse.zone/users/prismpilotaya — Five-Color Drive (five-color-drive.mid)
-[ ] fanverse.zone/users/deepdelverdot — Lusterkin Descent (lusterkin-descent.mid)
-[ ] fanverse.zone/users/mapmousemina — Atlas in the Wind (atlas-in-the-wind.mid)
+BACKCHANNEL, ARCHIVES, AND STORY PAGES
+-------------------------------------
+[ ] nightsignal.net - Mira's late-night radio logs, recordings, numbers, and unexplained signals.
+[ ] raven.web - DarkRaven's theatrical goth-hacker page of hidden links and conspiracy cases.
+[ ] legacy.orbitos.local - Broken mid-1990s OrbitOS company archives and forgotten communities.
+[ ] foldedwire.net - FaxMoth's paper-trail investigation using headers, copier marks, and physical evidence.
+[ ] index-null.net - A dead-link archive mapping expired Orbit addresses and leaked internal paths.
+[ ] morrow-five.net - A numbers-station mystery whose broadcasts hide suspicious Orbit page IDs.
+[ ] glasslake-field.gov - Weather-station records behind rumors of lights, signals, and a secret base.
+[ ] quiet-county.org - Anonymous letters and rumor campaigns surrounding a disputed behavior study.
+[ ] archive.orbitnet.local/labs - Deleted interface research connecting adaptive indexes to engagement systems.
 
-[ ] yesterday.zone/users/roadhogron — Chrome and Grass (road-hog-ron/chrome-and-grass.mp3); Dented Fender Proud (road-hog-ron/dented-fender-proud.mp3); Hadda Lay 'Er Down (road-hog-ron/hadda-lay-er-down-01.mp3); Hadda Lay 'Er Down II (road-hog-ron/hadda-lay-er-down-02.mp3)
-[ ] yesterday.zone/users/grandmadot/1997 — Red Barn Beer (grandma-dot-old/red-barn-beer.mp3)
-[ ] yesterday.zone/users/grandmadot/home — Red Barn (grandma-dot-new/red-barn.mp3)
-[ ] yesterday.zone/users/colonelhal — Tin Cup Reenactor (colonel-hal/tin-cup-reenactor.mp3)
-[ ] yesterday.zone/users/railroadlenny — Back on the Rails (railroad-lenny/back-on-the-rails.mp3); Whistle at Dawn (railroad-lenny/whistle-at-dawn.mp3)
-[ ] yesterday.zone/users/bigbassbob — Gone Fishin' Again (big-bass-bob/gone-fishin-again.mp3); Lake Day Legend (big-bass-bob/lake-day-legend-01.mp3); Lake Day Legend II (big-bass-bob/lake-day-legend-02.mp3); The One That Got Away (big-bass-bob/the-one-that-got-away.mp3); Back Off the Line (big-bass-bob/back-off-the-line-secret-01.mp3); Big One Got Away (big-bass-bob/big-one-got-away-secret-02.mp3); Redacted Bait (big-bass-bob/redacted-bait-secret-03.mp3); Reel It In (big-bass-bob/reel-it-in-secret-04.mp3)
+PHASE-TWO RUMOR PAGES
+---------------------
+[ ] midnight-dial.net - A payphone that supposedly rings when moonlight hits its receiver.
+[ ] birdband.watch - Shiny pigeon bands interpreted as a municipal data-relay network.
+[ ] railghost.org - An unseen freight train tied to a station clock frozen at 2:17.
+[ ] prizefrequency.net - A cereal-prize crystal tested as a tiny radio receiver.
+[ ] weather-cellar.net - Seventeen basement fans accused of secretly generating local weather.
+[ ] glasswater.test - Photos of a miniature duplicate town exposed beneath a reservoir.
+[ ] afterhours-library.net - Library books that allegedly rearrange themselves into messages overnight.
+[ ] last-quarter.arcade - A dead arcade cabinet that posts high scores before anyone plays.
+[ ] fountain-voices.net - A mall fountain pump heard clicking groups of mysterious numbers.
+[ ] exit-zero.info - Foggy-road photographs of an exit that disappears by daylight.
 
-[ ] orbitnet.local/zones/newcomers — Orbit Avenue Afterglow (orbit-avenue.mid)
-[ ] freshorbit.zone/users/tapedeckkeesha — King Cal playlist (king-cal/*.mp3)
-[ ] freshorbit.zone/users/barnbeatben — Byte Barn Deal (byte-barn/byte-barn-deal.mp3)
-[ ] freshorbit.zone/users/linklily — Orbit Avenue Afterglow (orbit-avenue.mid)
-[ ] freshorbit.zone/users/rookierayna — Orbit Avenue Afterglow (orbit-avenue.mid)
-[ ] freshorbit.zone/users/rerunzack — Cached Shadows (cached-shadows.mid)
+BUSINESSES AND BRANDS
+---------------------
+[ ] pawsnclaws.net - Friendly pet emporium with supplies, adoption events, and customer pet photos.
+[ ] rocketbox.toys - Loud toy-company page selling action figures and playsets to kids.
+[ ] toonburst.tv - Saturday-morning cartoon network with mascots, schedules, and fan-club energy.
+[ ] rewindharbor.video - Neighborhood VHS rental shop full of staff picks and odd tapes.
+[ ] bubbleborough.com - Cheerful coin laundromat with long dryers and a lost-sock basket.
+[ ] snapdragonstring.floral - Affordable local florist for bouquets, corsages, and deliveries.
+[ ] farawaydesk.travel - Beige-desk travel agency selling paper tickets and regional vacations.
+[ ] inkmoth.copy - Neighborhood copy, fax, binding, and flyer shop with a zine-friendly feel.
+[ ] molarmeadow.dent - Gentle family dentist with floral decor and a judgmental waiting-room fish.
+[ ] gurglebros.plumb - Plainspoken local plumbers handling clogs, leaks, and noisy pipes.
+[ ] neighbornest.cu - Small community credit union with a friendly neighborhood branch.
+[ ] halocomb.salon - Plum-and-pink hair salon offering cuts, perms, color, and event styles.
+
+GAME GRID
+---------
+[ ] gamegrid.zone/users/modkitmaddy - Maddy's obsessive custom-map laboratory and level-design notebook.
+
+X-TREME EDGE
+------------
+[ ] xtreme.zone/users/throttletroy - Motocross racer Troy's loud number-317 racing shrine.
+[ ] xtreme.zone/users/veloceviktor - Rich European Viktor posing with supercars, yachts, and jet skis.
+
+PET PLANET
+----------
+[ ] petplanet.zone/users/catnapcarla - Carla's page about Mr. Boots, the cat who owns her computer.
+[ ] petplanet.zone/users/fetchquestray - Ray's backyard adventure page for disc-obsessed dog Comet.
+[ ] petplanet.zone/users/bunbrigadebea - Bea's cozy rabbit burrow for Maple and Mochi.
+[ ] petplanet.zone/users/hamcamhal - Hal's overengineered hamster habitat and tiny telemetry system.
+[ ] petplanet.zone/users/iguanairis - Iris's heat-lamp-green shrine to fussy iguana Gomez.
+[ ] petplanet.zone/users/skunkunclesam - Sam's domestic-skunk page about floral thief Pepper.
+
+FANVERSE
+--------
+[ ] fanverse.zone/users/mossmunchmel - Moonlit archive for a gentle, obscure forest mascot.
+[ ] fanverse.zone/users/blipzobeliever88 - Hyperactive fan page for Blipzo's surreal mall adventures.
+[ ] fanverse.zone/users/tapeattictess - Deep VHS continuity archive for the strange StarThimble cartoon.
+[ ] fanverse.zone/users/prismpilotaya - Flashy PRISM//5 magical-team fandom with color-coded heroes.
+[ ] fanverse.zone/users/deepdelverdot - Extremely long gemstone-cavern descent full of creatures and lore.
+[ ] fanverse.zone/users/mapmousemina - Clickable fantasy map hiding tiny scenes, poems, and fragments.
+
+NEWCOMER PAGES
+--------------
+[ ] freshorbit.zone/users/linklily - Lily's reviews of strange sites, printed URLs, and broken links.
+[ ] freshorbit.zone/users/rookierayna - Rayna's diary about her first computer and suddenly-busy Orbit.
+[ ] freshorbit.zone/users/rerunzack - Zack's VHS-minded reviews of old and half-broken homepages.
+
+
+ALREADY HAS AN MP3
+==================
+
+[x] orbitnet.local/home - Five-track "Blue Screen" homepage playlist.
+[x] orbitnet.local/zones/gamegrid - Game hub playlist with VANTA and CUBIT tracks.
+[x] orbitnet.local/zones/xtreme - X-Treme Edge zone theme.
+[x] orbitnet.local/zones/yesterday - Yesterday Online zone theme.
+[x] bytebarn.com - Byte Barn commercial song.
+[x] cosmiccrust.biz - Two-track Cosmic Crust playlist.
+[x] pulsenet.red - PULSE/NET console theme.
+[x] vanta2.com - VANTA console theme.
+[x] cubit.fun - CUBIT console theme.
+[x] moonmunch.com - Moon Munch cereal theme.
+[x] honestearl.com - Five-track Honest Earl playlist.
+[x] kingcalscars.biz - Full King Cal commercial archive and secret tracks.
+[x] sofasafari.furn - Sofa Safari uses "Good Old Days."
+[x] gamegrid.zone/users/lagmaster99 - Uses the PULSE/NET theme.
+[x] gamegrid.zone/users/velvetmage - Uses the VANTA theme.
+[x] gamegrid.zone/users/player4ever - Uses the CUBIT theme.
+[x] gamegrid.zone/users/quarterqueen - Uses the PULSE/NET theme.
+[x] gamegrid.zone/users/codedex - Uses the CUBIT theme.
+[x] xtreme.zone/users/deckwreckerdee - Two-track skating playlist.
+[x] xtreme.zone/users/crankcasecole - BMX theme.
+[x] xtreme.zone/users/neonbladenico - Rollerblading theme.
+[x] xtreme.zone/users/tideriderty - Three-track surfing playlist.
+[x] xtreme.zone/users/scootlordollie - Scooter theme.
+[x] yesterday.zone/users/roadhogron - Four-track suburban-biker playlist.
+[x] yesterday.zone/users/grandmadot/1997 - Grandma Dot's old-page song.
+[x] yesterday.zone/users/grandmadot/home - Grandma Dot's newer-page song.
+[x] yesterday.zone/users/colonelhal - Historical reenactor theme.
+[x] yesterday.zone/users/railroadlenny - Two-track railroad playlist.
+[x] yesterday.zone/users/bigbassbob - Fishing songs plus secret tracks.
+[x] freshorbit.zone/users/tapedeckkeesha - Uses the King Cal archive.
+[x] freshorbit.zone/users/barnbeatben - Uses the Byte Barn song.
