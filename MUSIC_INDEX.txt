@@ -1,147 +1,149 @@
 SURFIN' THE NET - MP3 MUSIC CHECKLIST
 =====================================
 
-Use this as the production-music to-do list.
+[x] = MP3 music is assigned.
+[ ] = Still using a MIDI/WAV fallback or only gains an MP3 later in the story.
 
-[ ] = No MP3 is currently associated. A MIDI/WAV placeholder may still play.
-[x] = At least one MP3 is already associated.
-
-Music belongs to a domain/site scope, so its subpages inherit the same playlist.
-When adding music, the description is a mood/content reminder rather than a required genre.
+Music is scoped to a site/domain. Subpages keep the same playing track.
+Multi-track playlists begin at a random position and advance through the list.
 
 
-NEEDS AN MP3
-============
+STILL NEEDS A DEDICATED MP3
+===========================
+
+[ ] trailnotes.home - Tom's phase-one hiking page uses the garden fallback. It gains a Byte Barn cover in phase two.
+[ ] soundwave.zone/users/subbasssimon - Simon uses the telemetry fallback in phase one. He gains a Byte Barn remix in phase two.
+[ ] xtreme.zone/users/veloceviktor - Viktor's rich-kid supercar/yacht page still uses "Riviera Idle" WAV/MIDI.
+[ ] petplanet.zone/users/skunkunclesam - Sam and Pepper's domestic-skunk page still uses "Cabinet Caper" WAV/MIDI.
+
 
 ORBITNET HUBS
--------------
-[ ] orbitnet.local/zones - Main community-zone hubs for pets, fandom, music, cozy hobbies, and conspiracies.
-[ ] orbitnet.local/zones/newcomers - Phase-two gathering place for curious new arrivals rediscovering Orbit.
+=============
+
+[x] orbitnet.local/home and ordinary community-zone hubs - Shared five-track Blue Screen playlist.
+[x] orbitnet.local/zones/gamegrid - Three-track gaming/console playlist.
+[x] orbitnet.local/zones/xtreme - X-Treme Edge theme.
+[x] orbitnet.local/zones/yesterday - Yesterday Online theme.
+[x] orbitnet.local/zones/soundwave - Three-track SoundWave playlist.
+[x] orbitnet.local/zones/newcomers - "Newcomers."
+
 
 COZY COMMONS
-------------
-[ ] rainbow.gdn - Juniper's colorful garden, poetry, scanner-art, and orange-cat homepage.
-[ ] rosepatch.home - Ruth's semi-abandoned rose, tomato, seed-saving, and backyard-weather diary.
-[ ] hearthside.home - Ellen's quiet country-living archive of recipes, pressed flowers, and mending.
-[ ] snacktime.home - Sue's kitchen-table mom page with lunches, rainy-day ideas, and family notes.
-[ ] paperbird.home - Pam's handmade-card and scrap-paper craft workshop, rarely updated.
+============
+
+[x] rainbow.gdn - "Juniper's Rainbow Garden."
+[x] rosepatch.home - "Rosepatch Diary."
+[x] hearthside.home - "Hearthside Archive."
+[x] snacktime.home - "Snacktime Mom Page."
+[x] paperbird.home - "Paperbird Workshop."
+
 
 BACKCHANNEL, ARCHIVES, AND STORY PAGES
--------------------------------------
-[ ] nightsignal.net - Mira's late-night radio logs, recordings, numbers, and unexplained signals.
-[ ] raven.web - DarkRaven's theatrical goth-hacker page of hidden links and conspiracy cases.
-[ ] PHASE 3 TIER C ARCHIVE (all 25 hidden old pages) - One shared glitchy, corrupted background sound for every resurrected dormant account.
-[ ] foldedwire.net - FaxMoth's paper-trail investigation using headers, copier marks, and physical evidence.
-[ ] index-null.net - A dead-link archive mapping expired Orbit addresses and leaked internal paths.
-[ ] morrow-five.net - A numbers-station mystery whose broadcasts hide suspicious Orbit page IDs.
-[ ] glasslake-field.gov - Weather-station records behind rumors of lights, signals, and a secret base.
-[ ] quiet-county.org - Anonymous letters and rumor campaigns surrounding a disputed behavior study.
-[ ] archive.orbitnet.local/labs - Deleted interface research connecting adaptive indexes to engagement systems.
+=====================================
+
+[x] nightsignal.net - "Night Signal Logs."
+[x] raven.web - "Raven Cache."
+[x] PHASE 3 TIER C ARCHIVE - Shared four-track playlist: two Phase Three Archive tracks, Tier C Memory, and Corrupted Signal.
+[x] foldedwire.net - "Folded Wire."
+[x] index-null.net - "Index Null Signal."
+[x] morrow-five.net - "Morrow Five Archive."
+[x] glasslake-field.gov - "Glasslake Field."
+[x] quiet-county.org - "Quiet County Signal."
+[x] archive.orbitnet.local/labs - "OrbitNet Labs."
+
 
 PHASE-TWO RUMOR PAGES
----------------------
-[ ] midnight-dial.net - A payphone that supposedly rings when moonlight hits its receiver.
-[ ] birdband.watch - Shiny pigeon bands interpreted as a municipal data-relay network.
-[ ] railghost.org - An unseen freight train tied to a station clock frozen at 2:17.
-[ ] prizefrequency.net - A cereal-prize crystal tested as a tiny radio receiver.
-[ ] weather-cellar.net - Seventeen basement fans accused of secretly generating local weather.
-[ ] glasswater.test - Photos of a miniature duplicate town exposed beneath a reservoir.
-[ ] afterhours-library.net - Library books that allegedly rearrange themselves into messages overnight.
-[ ] last-quarter.arcade - A dead arcade cabinet that posts high scores before anyone plays.
-[ ] fountain-voices.net - A mall fountain pump heard clicking groups of mysterious numbers.
-[ ] exit-zero.info - Foggy-road photographs of an exit that disappears by daylight.
+=====================
+
+[x] midnight-dial.net - "Midnight Dial Net."
+[x] birdband.watch - "Birdband Watch."
+[x] railghost.org - "Frozen at Two Seventeen."
+[x] prizefrequency.net - "Prize Frequency Transmission."
+[x] weather-cellar.net - Two-track Weather Cellar Net playlist.
+[x] glasswater.test - "Reservoir Town."
+[x] afterhours-library.net - "Afterhours Library."
+[x] last-quarter.arcade - "Last Quarter Arcade."
+[x] fountain-voices.net - "Fountain Voices."
+[x] exit-zero.info - "Exit Zero Drift."
+
 
 BUSINESSES AND BRANDS
----------------------
-[ ] pawsnclaws.net - Friendly pet emporium with supplies, adoption events, and customer pet photos.
-[ ] rocketbox.toys - Loud toy-company page selling action figures and playsets to kids.
-[ ] toonburst.tv - Saturday-morning cartoon network with mascots, schedules, and fan-club energy.
-[ ] rewindharbor.video - Neighborhood VHS rental shop full of staff picks and odd tapes.
-[ ] bubbleborough.com - Cheerful coin laundromat with long dryers and a lost-sock basket.
-[ ] snapdragonstring.floral - Affordable local florist for bouquets, corsages, and deliveries.
-[ ] farawaydesk.travel - Beige-desk travel agency selling paper tickets and regional vacations.
-[ ] inkmoth.copy - Neighborhood copy, fax, binding, and flyer shop with a zine-friendly feel.
-[ ] molarmeadow.dent - Gentle family dentist with floral decor and a judgmental waiting-room fish.
-[ ] gurglebros.plumb - Plainspoken local plumbers handling clogs, leaks, and noisy pipes.
-[ ] neighbornest.cu - Small community credit union with a friendly neighborhood branch.
-[ ] halocomb.salon - Plum-and-pink hair salon offering cuts, perms, color, and event styles.
+=====================
 
-GAME GRID
----------
-[ ] gamegrid.zone/users/modkitmaddy - Maddy's obsessive custom-map laboratory and level-design notebook.
-
-X-TREME EDGE
-------------
-[ ] xtreme.zone/users/throttletroy - Motocross racer Troy's loud number-317 racing shrine.
-[ ] xtreme.zone/users/veloceviktor - Rich European Viktor posing with supercars, yachts, and jet skis.
-
-PET PLANET
-----------
-[ ] petplanet.zone/users/catnapcarla - Carla's page about Mr. Boots, the cat who owns her computer.
-[ ] petplanet.zone/users/fetchquestray - Ray's backyard adventure page for disc-obsessed dog Comet.
-[ ] petplanet.zone/users/bunbrigadebea - Bea's cozy rabbit burrow for Maple and Mochi.
-[ ] petplanet.zone/users/hamcamhal - Hal's overengineered hamster habitat and tiny telemetry system.
-[ ] petplanet.zone/users/iguanairis - Iris's heat-lamp-green shrine to fussy iguana Gomez.
-[ ] petplanet.zone/users/skunkunclesam - Sam's domestic-skunk page about floral thief Pepper.
-
-FANVERSE
---------
-[ ] fanverse.zone/users/mossmunchmel - Moonlit archive for a gentle, obscure forest mascot.
-[ ] fanverse.zone/users/blipzobeliever88 - Hyperactive fan page for Blipzo's surreal mall adventures.
-[ ] fanverse.zone/users/prismpilotaya - Flashy PRISM//5 magical-team fandom with color-coded heroes.
-[ ] fanverse.zone/users/deepdelverdot - Extremely long gemstone-cavern descent full of creatures and lore.
-[ ] fanverse.zone/users/mapmousemina - Clickable fantasy map hiding tiny scenes, poems, and fragments.
-
-SOUNDWAVE
----------
-[ ] soundwave.zone/users/starlinesteph - Steph's ecstatic fan shrine to chart-topping boy band 5th Exit.
-[ ] soundwave.zone/users/safetypinsid - Sid's stapled-zine punk page for noisy local shows and rough demos.
-[ ] soundwave.zone/users/flannelmason - Mason's dim basement archive of fuzzy guitars and earnest grunge notes.
-[ ] soundwave.zone/users/countrycass - Cass's friendly country notebook of radio requests and porch-song lyrics.
-
-NEWCOMER PAGES
---------------
-[ ] freshorbit.zone/users/linklily - Lily's reviews of strange sites, printed URLs, and broken links.
-[ ] freshorbit.zone/users/rookierayna - Rayna's diary about her first computer and suddenly-busy Orbit.
-[ ] freshorbit.zone/users/rerunzack - Zack's VHS-minded reviews of old and half-broken homepages.
-
-
-ALREADY HAS AN MP3
-==================
-
-[x] orbitnet.local/home - Five-track "Blue Screen" homepage playlist.
-[x] orbitnet.local/zones/gamegrid - Game hub playlist with VANTA and CUBIT tracks.
-[x] orbitnet.local/zones/xtreme - X-Treme Edge zone theme.
-[x] orbitnet.local/zones/yesterday - Yesterday Online zone theme.
 [x] bytebarn.com - Byte Barn commercial song.
 [x] cosmiccrust.biz - Two-track Cosmic Crust playlist.
-[x] pulsenet.red - PULSE/NET console theme.
-[x] vanta2.com - VANTA console theme.
-[x] cubit.fun - CUBIT console theme.
-[x] moonmunch.com - Moon Munch cereal theme.
-[x] honestearl.com - Five-track Honest Earl playlist.
+[x] pawsnclaws.net - "Paws 'N Claws."
+[x] pulsenet.red - PULSE/NET theme.
+[x] vanta2.com - VANTA theme.
+[x] cubit.fun - CUBIT theme.
+[x] rocketbox.toys - Two-track Rocket Box Toys playlist.
+[x] moonmunch.com - Moon Munch theme.
+[x] toonburst.tv - "ToonBurst TV."
 [x] kingcalscars.biz - Full King Cal commercial archive and secret tracks.
-[x] sofasafari.furn - Sofa Safari uses "Good Old Days."
-[x] gamegrid.zone/users/lagmaster99 - Uses the PULSE/NET theme.
-[x] gamegrid.zone/users/velvetmage - Uses the VANTA theme.
-[x] gamegrid.zone/users/player4ever - Uses the CUBIT theme.
-[x] gamegrid.zone/users/quarterqueen - Uses the PULSE/NET theme.
-[x] gamegrid.zone/users/codedex - Uses the CUBIT theme.
+[x] honestearl.com - Five-track Honest Earl playlist.
+[x] rewindharbor.video - Two-track Rewind Harbor playlist.
+[x] bubbleborough.com - "Bubble Borough."
+[x] snapdragonstring.floral - "Snap Dragon String Floral."
+[x] farawaydesk.travel - "Faraway Desk Travel."
+[x] inkmoth.copy - "Inkmoth Copy."
+[x] sofasafari.furn - "Good Old Days."
+[x] molarmeadow.dent - Two-track Molar Meadow playlist.
+[x] gurglebros.plumb - "Gurgle Bros."
+[x] neighbornest.cu - "Neighbor Nest Hop."
+[x] halocomb.salon - "Halo Comb Salon."
+
+
+MEMBER PAGES
+============
+
+[x] gamegrid.zone/users/lagmaster99 - PULSE/NET theme.
+[x] gamegrid.zone/users/velvetmage - VANTA theme.
+[x] gamegrid.zone/users/player4ever - CUBIT theme.
+[x] gamegrid.zone/users/modkitmaddy - "Mod Kit Maddy."
+[x] gamegrid.zone/users/quarterqueen - PULSE/NET theme.
+[x] gamegrid.zone/users/codedex - CUBIT theme.
+
 [x] xtreme.zone/users/deckwreckerdee - Two-track skating playlist.
 [x] xtreme.zone/users/crankcasecole - BMX theme.
 [x] xtreme.zone/users/neonbladenico - Rollerblading theme.
 [x] xtreme.zone/users/tideriderty - Three-track surfing playlist.
-[x] xtreme.zone/users/scootlordollie - Scooter theme plus a phase-two glam-rock Byte Barn cover.
+[x] xtreme.zone/users/throttletroy - "Mud on My Helmet."
+[x] xtreme.zone/users/scootlordollie - Scooter theme plus phase-two Byte Barn cover.
+
+[x] petplanet.zone/users/catnapcarla - "Mr. Boots Loop."
+[x] petplanet.zone/users/fetchquestray - "Comet's Backyard Quest."
+[x] petplanet.zone/users/bunbrigadebea - "Bun Brigade Bea."
+[x] petplanet.zone/users/hamcamhal - "Ham Cam Hal."
+[x] petplanet.zone/users/iguanairis - "Iguana Iris."
+
+[x] fanverse.zone/users/mossmunchmel - "MossMunch & the Moonlings."
+[x] fanverse.zone/users/blipzobeliever88 - "The Mall Dimension."
+[x] fanverse.zone/users/tapeattictess - "Professor StarThimble" plus phase-two Byte Barn cover.
+[x] fanverse.zone/users/prismpilotaya - Two-track PRISM//5 playlist.
+[x] fanverse.zone/users/deepdelverdot - Two-track Gemstone Cavern playlist.
+[x] fanverse.zone/users/mapmousemina - Two-track Unfinished Atlas playlist.
+
+[x] soundwave.zone/users/starlinesteph - "Call Me from the Food Court."
+[x] soundwave.zone/users/safetypinsid - "Basement Cart Return."
+[x] soundwave.zone/users/flannelmason - "Mud in the Van."
+[x] soundwave.zone/users/countrycass - "Two Lanes Home."
+[x] soundwave.zone/users/rhymetaperico - "Dynamo City Cipher" plus phase-two Byte Barn cover.
+
+[x] freshorbit.zone/users/tapedeckkeesha - King Cal archive.
+[x] freshorbit.zone/users/barnbeatben - Byte Barn song.
+[x] freshorbit.zone/users/linklily - "Lily Loop."
+[x] freshorbit.zone/users/rookierayna - "Orbit Diary."
+[x] freshorbit.zone/users/rerunzack - "Zack's VHS Rerun."
+
 [x] yesterday.zone/users/roadhogron - Four-track suburban-biker playlist.
 [x] yesterday.zone/users/grandmadot/1997 - Grandma Dot's old-page song.
-[x] yesterday.zone/users/grandmadot/home - Grandma Dot's newer-page song plus a phase-two Christmas Byte Barn cover.
+[x] yesterday.zone/users/grandmadot/home - New-page song plus phase-two Byte Barn cover.
 [x] yesterday.zone/users/colonelhal - Historical reenactor theme.
-[x] yesterday.zone/users/railroadlenny - Two-track railroad playlist plus a phase-two barbershop Byte Barn cover.
+[x] yesterday.zone/users/railroadlenny - Railroad playlist plus phase-two Byte Barn cover.
 [x] yesterday.zone/users/bigbassbob - Fishing songs plus secret tracks.
-[x] freshorbit.zone/users/tapedeckkeesha - Uses the King Cal archive.
-[x] freshorbit.zone/users/barnbeatben - Uses the Byte Barn song.
-[x] soundwave.zone/users/subbasssimon - Gains a phase-two breakbeat remix of the Byte Barn jingle.
-[x] soundwave.zone/users/rhymetaperico - Gains a phase-two old-school rap cover of the Byte Barn jingle.
-[x] soundwave.zone/features/byte-barn-forever - Post-reveal tribute CD and festival with ten artist versions of the jingle.
-[x] fanverse.zone/users/tapeattictess - Gains a phase-two Halloween-style Byte Barn cover.
-[x] trailnotes.home - Gains a phase-two acoustic-folk Byte Barn cover.
+
+
+STORY EVENT MUSIC
+=================
+
+[x] soundwave.zone/features/byte-barn-forever - Ten-track compilation CD/festival playlist.

@@ -135,91 +135,167 @@ const GARDEN_SPRITES_TRACK: PageMusicTrack = {
   url: new URL("../assets/audio/pages/garden-sprites.wav", import.meta.url).href
 };
 
+const productionTrack = (label: string, file: string, url: string): PageMusicTrack => ({ label, file, url });
+const PRODUCTION_TRACKS = {
+  fifthExit: productionTrack("Call Me from the Food Court", "fifth-exit-food-court.mp3", new URL("../assets/audio/pages/production-pass/fifth-exit-food-court.mp3", import.meta.url).href),
+  afterhoursLibrary: productionTrack("Afterhours Library", "afterhours-library.mp3", new URL("../assets/audio/pages/production-pass/afterhours-library.mp3", import.meta.url).href),
+  basementCart: productionTrack("Basement Cart Return", "basement-cart-return.mp3", new URL("../assets/audio/pages/production-pass/basement-cart-return.mp3", import.meta.url).href),
+  birdband: productionTrack("Birdband Watch", "birdband-watch.mp3", new URL("../assets/audio/pages/production-pass/birdband-watch.mp3", import.meta.url).href),
+  bubbleBorough: productionTrack("Bubble Borough", "bubble-borough.mp3", new URL("../assets/audio/pages/production-pass/bubble-borough.mp3", import.meta.url).href),
+  bunBrigade: productionTrack("Bun Brigade Bea", "bun-brigade-bea.mp3", new URL("../assets/audio/pages/production-pass/bun-brigade-bea.mp3", import.meta.url).href),
+  cometQuest: productionTrack("Comet's Backyard Quest", "comets-backyard-quest.mp3", new URL("../assets/audio/pages/production-pass/comets-backyard-quest.mp3", import.meta.url).href),
+  corruptedSignal: productionTrack("Corrupted Signal", "corrupted-signal.mp3", new URL("../assets/audio/pages/production-pass/corrupted-signal.mp3", import.meta.url).href),
+  dynamoCipher: productionTrack("Dynamo City Cipher", "dynamo-city-cipher.mp3", new URL("../assets/audio/pages/production-pass/dynamo-city-cipher.mp3", import.meta.url).href),
+  exitZero: productionTrack("Exit Zero Drift", "exit-zero-drift.mp3", new URL("../assets/audio/pages/production-pass/exit-zero-drift.mp3", import.meta.url).href),
+  farawayDesk: productionTrack("Faraway Desk Travel", "faraway-desk-travel.mp3", new URL("../assets/audio/pages/production-pass/faraway-desk-travel.mp3", import.meta.url).href),
+  foldedWire: productionTrack("Folded Wire", "folded-wire.mp3", new URL("../assets/audio/pages/production-pass/folded-wire.mp3", import.meta.url).href),
+  fountainVoices: productionTrack("Fountain Voices", "fountain-voices.mp3", new URL("../assets/audio/pages/production-pass/fountain-voices.mp3", import.meta.url).href),
+  frozen217: productionTrack("Frozen at Two Seventeen", "frozen-at-two-seventeen.mp3", new URL("../assets/audio/pages/production-pass/frozen-at-two-seventeen.mp3", import.meta.url).href),
+  gemstoneOne: productionTrack("Gemstone Cavern", "gemstone-cavern-01.mp3", new URL("../assets/audio/pages/production-pass/gemstone-cavern-01.mp3", import.meta.url).href),
+  gemstoneTwo: productionTrack("Gemstone Cavern II", "gemstone-cavern-02.mp3", new URL("../assets/audio/pages/production-pass/gemstone-cavern-02.mp3", import.meta.url).href),
+  glasslake: productionTrack("Glasslake Field", "glasslake-field.mp3", new URL("../assets/audio/pages/production-pass/glasslake-field.mp3", import.meta.url).href),
+  gurgleBros: productionTrack("Gurgle Bros.", "gurgle-bros.mp3", new URL("../assets/audio/pages/production-pass/gurgle-bros.mp3", import.meta.url).href),
+  haloComb: productionTrack("Halo Comb Salon", "halo-comb-salon.mp3", new URL("../assets/audio/pages/production-pass/halo-comb-salon.mp3", import.meta.url).href),
+  hamCam: productionTrack("Ham Cam Hal", "ham-cam-hal.mp3", new URL("../assets/audio/pages/production-pass/ham-cam-hal.mp3", import.meta.url).href),
+  hearthside: productionTrack("Hearthside Archive", "hearthside-archive.mp3", new URL("../assets/audio/pages/production-pass/hearthside-archive.mp3", import.meta.url).href),
+  iguanaIris: productionTrack("Iguana Iris", "iguana-iris.mp3", new URL("../assets/audio/pages/production-pass/iguana-iris.mp3", import.meta.url).href),
+  indexNull: productionTrack("Index Null Signal", "index-null-signal.mp3", new URL("../assets/audio/pages/production-pass/index-null-signal.mp3", import.meta.url).href),
+  inkmoth: productionTrack("Inkmoth Copy", "inkmoth-copy.mp3", new URL("../assets/audio/pages/production-pass/inkmoth-copy.mp3", import.meta.url).href),
+  juniperGarden: productionTrack("Juniper's Rainbow Garden", "juniper-rainbow-garden.mp3", new URL("../assets/audio/pages/production-pass/juniper-rainbow-garden.mp3", import.meta.url).href),
+  lastQuarter: productionTrack("Last Quarter Arcade", "last-quarter-arcade.mp3", new URL("../assets/audio/pages/production-pass/last-quarter-arcade.mp3", import.meta.url).href),
+  lilyLoop: productionTrack("Lily Loop", "lily-loop.mp3", new URL("../assets/audio/pages/production-pass/lily-loop.mp3", import.meta.url).href),
+  midnightDial: productionTrack("Midnight Dial Net", "midnight-dial-net.mp3", new URL("../assets/audio/pages/production-pass/midnight-dial-net.mp3", import.meta.url).href),
+  modKitMaddy: productionTrack("Mod Kit Maddy", "mod-kit-maddy.mp3", new URL("../assets/audio/pages/production-pass/mod-kit-maddy.mp3", import.meta.url).href),
+  molarSmile: productionTrack("Molar Meadow Smile", "molar-meadow-smile.mp3", new URL("../assets/audio/pages/production-pass/molar-meadow-smile.mp3", import.meta.url).href),
+  molarMeadow: productionTrack("Molar Meadow", "molar-meadow.mp3", new URL("../assets/audio/pages/production-pass/molar-meadow.mp3", import.meta.url).href),
+  morrowFive: productionTrack("Morrow Five Archive", "morrow-five-archive.mp3", new URL("../assets/audio/pages/production-pass/morrow-five-archive.mp3", import.meta.url).href),
+  mossMunch: productionTrack("MossMunch & the Moonlings", "moss-munch-moonlings.mp3", new URL("../assets/audio/pages/production-pass/moss-munch-moonlings.mp3", import.meta.url).href),
+  mrBoots: productionTrack("Mr. Boots Loop", "mr-boots-loop.mp3", new URL("../assets/audio/pages/production-pass/mr-boots-loop.mp3", import.meta.url).href),
+  mudInVan: productionTrack("Mud in the Van", "mud-in-the-van.mp3", new URL("../assets/audio/pages/production-pass/mud-in-the-van.mp3", import.meta.url).href),
+  mudHelmet: productionTrack("Mud on My Helmet", "mud-on-my-helmet.mp3", new URL("../assets/audio/pages/production-pass/mud-on-my-helmet.mp3", import.meta.url).href),
+  neighborNest: productionTrack("Neighbor Nest Hop", "neighbor-nest-hop.mp3", new URL("../assets/audio/pages/production-pass/neighbor-nest-hop.mp3", import.meta.url).href),
+  newcomers: productionTrack("Newcomers", "newcomers.mp3", new URL("../assets/audio/pages/production-pass/newcomers.mp3", import.meta.url).href),
+  nightSignal: productionTrack("Night Signal Logs", "night-signal-logs.mp3", new URL("../assets/audio/pages/production-pass/night-signal-logs.mp3", import.meta.url).href),
+  orbitDiary: productionTrack("Orbit Diary", "orbit-diary.mp3", new URL("../assets/audio/pages/production-pass/orbit-diary.mp3", import.meta.url).href),
+  orbitnetLabs: productionTrack("OrbitNet Labs", "orbitnet-labs.mp3", new URL("../assets/audio/pages/production-pass/orbitnet-labs.mp3", import.meta.url).href),
+  paperbird: productionTrack("Paperbird Workshop", "paperbird-workshop.mp3", new URL("../assets/audio/pages/production-pass/paperbird-workshop.mp3", import.meta.url).href),
+  pawsNClaws: productionTrack("Paws 'N Claws", "paws-n-claws.mp3", new URL("../assets/audio/pages/production-pass/paws-n-claws.mp3", import.meta.url).href),
+  phaseThreeOne: productionTrack("Phase Three Archive", "phase-three-archive-01.mp3", new URL("../assets/audio/pages/production-pass/phase-three-archive-01.mp3", import.meta.url).href),
+  phaseThreeTierC: productionTrack("Tier C Memory", "phase-three-tier-c.mp3", new URL("../assets/audio/pages/production-pass/phase-three-tier-c.mp3", import.meta.url).href),
+  phaseThreeTwo: productionTrack("Phase Three Archive II", "phase-three-archive-02.mp3", new URL("../assets/audio/pages/production-pass/phase-three-archive-02.mp3", import.meta.url).href),
+  prismChroma: productionTrack("PRISM//5 Chroma Knights", "prism-five-chroma-knights.mp3", new URL("../assets/audio/pages/production-pass/prism-five-chroma-knights.mp3", import.meta.url).href),
+  prismFive: productionTrack("Prism Five", "prism-five.mp3", new URL("../assets/audio/pages/production-pass/prism-five.mp3", import.meta.url).href),
+  prizeFrequency: productionTrack("Prize Frequency Transmission", "prize-frequency-transmission.mp3", new URL("../assets/audio/pages/production-pass/prize-frequency-transmission.mp3", import.meta.url).href),
+  professorStar: productionTrack("Professor StarThimble", "professor-star-thimble.mp3", new URL("../assets/audio/pages/production-pass/professor-star-thimble.mp3", import.meta.url).href),
+  quietCounty: productionTrack("Quiet County Signal", "quiet-county-signal.mp3", new URL("../assets/audio/pages/production-pass/quiet-county-signal.mp3", import.meta.url).href),
+  ravenCache: productionTrack("Raven Cache", "raven-cache.mp3", new URL("../assets/audio/pages/production-pass/raven-cache.mp3", import.meta.url).href),
+  reservoirTown: productionTrack("Reservoir Town", "reservoir-town.mp3", new URL("../assets/audio/pages/production-pass/reservoir-town.mp3", import.meta.url).href),
+  rewindOne: productionTrack("Rewind Harbor", "rewind-harbor-01.mp3", new URL("../assets/audio/pages/production-pass/rewind-harbor-01.mp3", import.meta.url).href),
+  rewindTwo: productionTrack("Rewind Harbor II", "rewind-harbor-02.mp3", new URL("../assets/audio/pages/production-pass/rewind-harbor-02.mp3", import.meta.url).href),
+  rocketOne: productionTrack("Rocket Box Toys", "rocket-box-toys-01.mp3", new URL("../assets/audio/pages/production-pass/rocket-box-toys-01.mp3", import.meta.url).href),
+  rocketTwo: productionTrack("Rocket Box Toys II", "rocket-box-toys-02.mp3", new URL("../assets/audio/pages/production-pass/rocket-box-toys-02.mp3", import.meta.url).href),
+  rosepatch: productionTrack("Rosepatch Diary", "rosepatch-diary.mp3", new URL("../assets/audio/pages/production-pass/rosepatch-diary.mp3", import.meta.url).href),
+  snacktime: productionTrack("Snacktime Mom Page", "snacktime-mom-page.mp3", new URL("../assets/audio/pages/production-pass/snacktime-mom-page.mp3", import.meta.url).href),
+  snapdragon: productionTrack("Snap Dragon String Floral", "snapdragon-string-floral.mp3", new URL("../assets/audio/pages/production-pass/snapdragon-string-floral.mp3", import.meta.url).href),
+  soundwaveOne: productionTrack("SoundWave One", "soundwave-01.mp3", new URL("../assets/audio/pages/production-pass/soundwave-01.mp3", import.meta.url).href),
+  soundwaveTwo: productionTrack("SoundWave Two", "soundwave-02.mp3", new URL("../assets/audio/pages/production-pass/soundwave-02.mp3", import.meta.url).href),
+  soundwaveThree: productionTrack("SoundWave Three", "soundwave-03.mp3", new URL("../assets/audio/pages/production-pass/soundwave-03.mp3", import.meta.url).href),
+  mallDimension: productionTrack("The Mall Dimension", "the-mall-dimension.mp3", new URL("../assets/audio/pages/production-pass/the-mall-dimension.mp3", import.meta.url).href),
+  unfinishedAtlasOne: productionTrack("The Unfinished Atlas", "the-unfinished-atlas-01.mp3", new URL("../assets/audio/pages/production-pass/the-unfinished-atlas-01.mp3", import.meta.url).href),
+  unfinishedAtlasTwo: productionTrack("The Unfinished Atlas II", "the-unfinished-atlas-02.mp3", new URL("../assets/audio/pages/production-pass/the-unfinished-atlas-02.mp3", import.meta.url).href),
+  toonburst: productionTrack("ToonBurst TV", "toonburst-tv.mp3", new URL("../assets/audio/pages/production-pass/toonburst-tv.mp3", import.meta.url).href),
+  twoLanes: productionTrack("Two Lanes Home", "two-lanes-home.mp3", new URL("../assets/audio/pages/production-pass/two-lanes-home.mp3", import.meta.url).href),
+  weatherCellarOne: productionTrack("Weather Cellar Net", "weather-cellar-net-01.mp3", new URL("../assets/audio/pages/production-pass/weather-cellar-net-01.mp3", import.meta.url).href),
+  weatherCellarTwo: productionTrack("Weather Cellar Net II", "weather-cellar-net-02.mp3", new URL("../assets/audio/pages/production-pass/weather-cellar-net-02.mp3", import.meta.url).href),
+  zackRerun: productionTrack("Zack's VHS Rerun", "zacks-vhs-rerun.mp3", new URL("../assets/audio/pages/production-pass/zacks-vhs-rerun.mp3", import.meta.url).href)
+} as const;
+
 const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   orbithome: ORBIT_HOME_TRACKS[0],
-  directory: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
+  directory: ORBIT_HOME_TRACKS[0],
   gamegridzone: { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
   xtremezone: { label: "Extreme Sports Web Loop 1999", file: "extreme-sports-web-loop-1999.mp3", url: new URL("../assets/audio/pages/xtreme-zone/extreme-sports-web-loop-1999.mp3", import.meta.url).href },
   yesterdayzone: { label: "Good Old Days", file: "good-old-days.mp3", url: new URL("../assets/audio/pages/yesterday-zone/good-old-days.mp3", import.meta.url).href },
-  newcomerzone: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
+  newcomerzone: PRODUCTION_TRACKS.newcomers,
   newcalfan: KING_CAL_TRACKS[0],
   newbytefan: { label: "Byte Barn Deal", file: "byte-barn-deal.mp3", url: new URL("../assets/audio/pages/byte-barn/byte-barn-deal.mp3", import.meta.url).href },
-  newlinklily: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
-  newrookierayna: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
-  newzackrerun: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
-  soundboyband: { label: "Five-Color Drive", file: "five-color-drive.mid", midiUrl: new URL("../assets/audio/pages/five-color-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/five-color-drive.wav", import.meta.url).href },
-  soundpunk: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
-  soundgrunge: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  newlinklily: PRODUCTION_TRACKS.lilyLoop,
+  newrookierayna: PRODUCTION_TRACKS.orbitDiary,
+  newzackrerun: PRODUCTION_TRACKS.zackRerun,
+  soundboyband: PRODUCTION_TRACKS.fifthExit,
+  soundpunk: PRODUCTION_TRACKS.basementCart,
+  soundgrunge: PRODUCTION_TRACKS.mudInVan,
   soundbreakbeat: { label: "TubeNet Telemetry", file: "tubenet-telemetry.mid", midiUrl: new URL("../assets/audio/pages/tubenet-telemetry.mid", import.meta.url).href, url: new URL("../assets/audio/pages/tubenet-telemetry.wav", import.meta.url).href },
-  soundcountry: { label: "Backyard Bound", file: "backyard-bound.mid", midiUrl: new URL("../assets/audio/pages/backyard-bound.mid", import.meta.url).href, url: new URL("../assets/audio/pages/backyard-bound.wav", import.meta.url).href },
-  soundrap: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
+  soundcountry: PRODUCTION_TRACKS.twoLanes,
+  soundrap: PRODUCTION_TRACKS.dynamoCipher,
   bytebarnteaser: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
   bytebarntribute: BYTE_BARN_COMPILATION_TRACKS[0].track,
-  rainbow: GARDEN_SPRITES_TRACK,
-  cozygarden: GARDEN_SPRITES_TRACK,
-  cozycottage: GARDEN_SPRITES_TRACK,
-  cozymom: GARDEN_SPRITES_TRACK,
+  rainbow: PRODUCTION_TRACKS.juniperGarden,
+  cozygarden: PRODUCTION_TRACKS.rosepatch,
+  cozycottage: PRODUCTION_TRACKS.hearthside,
+  cozymom: PRODUCTION_TRACKS.snacktime,
   cozyhike: GARDEN_SPRITES_TRACK,
-  cozycraft: GARDEN_SPRITES_TRACK,
-  signal: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
-  raven: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
-  orbitlegacy: { label: "Orbit Avenue Archive", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
-  backchannelalt: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
-  morrowfive: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
-  glasslake: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
-  quietcounty: { label: "After Midnight", file: "after-midnight.mid", midiUrl: new URL("../assets/audio/pages/after-midnight.mid", import.meta.url).href, url: new URL("../assets/audio/pages/after-midnight.wav", import.meta.url).href },
-  algorithmarchive: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  cozycraft: PRODUCTION_TRACKS.paperbird,
+  signal: PRODUCTION_TRACKS.nightSignal,
+  raven: PRODUCTION_TRACKS.ravenCache,
+  orbitlegacy: PRODUCTION_TRACKS.phaseThreeOne,
+  backchannelalt: PRODUCTION_TRACKS.foldedWire,
+  morrowfive: PRODUCTION_TRACKS.morrowFive,
+  glasslake: PRODUCTION_TRACKS.glasslake,
+  quietcounty: PRODUCTION_TRACKS.quietCounty,
+  algorithmarchive: PRODUCTION_TRACKS.orbitnetLabs,
   rumorarchive: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
   computer: { label: "Byte Barn Deal", file: "byte-barn-deal.mp3", url: new URL("../assets/audio/pages/byte-barn/byte-barn-deal.mp3", import.meta.url).href },
-  modkit: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
+  modkit: PRODUCTION_TRACKS.modKitMaddy,
   pizza: COSMIC_CRUST_TRACKS[0],
-  pets: { label: "Paws on the Keys", file: "paws-on-the-keys.mid", midiUrl: new URL("../assets/audio/pages/paws-on-the-keys.mid", import.meta.url).href, url: new URL("../assets/audio/pages/paws-on-the-keys.wav", import.meta.url).href },
+  pets: PRODUCTION_TRACKS.pawsNClaws,
   pulse: { label: "PULSE NET", file: "pulse-net.mp3", url: new URL("../assets/audio/pages/pulse-net/pulse-net.mp3", import.meta.url).href },
   vanta: { label: "Leave Reality Running", file: "leave-reality-running.mp3", url: new URL("../assets/audio/pages/vanta/leave-reality-running.mp3", import.meta.url).href },
   cubit: { label: "CUBIT Pure Play", file: "cubit-pure-play.mp3", url: new URL("../assets/audio/pages/cubit/cubit-pure-play.mp3", import.meta.url).href },
-  rocketbox: { label: "Toybox Turbo", file: "toybox-turbo.mid", midiUrl: new URL("../assets/audio/pages/toybox-turbo.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toybox-turbo.wav", import.meta.url).href },
+  rocketbox: PRODUCTION_TRACKS.rocketOne,
   moonmunch: { label: "Moon Munch Blast", file: "moon-munch-blast.mp3", url: new URL("../assets/audio/pages/moon-munch/moon-munch-blast.mp3", import.meta.url).href },
-  toonburst: { label: "ToonBurst Theme", file: "toonburst-theme.mid", midiUrl: new URL("../assets/audio/pages/toonburst-theme.mid", import.meta.url).href, url: new URL("../assets/audio/pages/toonburst-theme.wav", import.meta.url).href },
+  toonburst: PRODUCTION_TRACKS.toonburst,
   kingcal: KING_CAL_TRACKS[0],
   earl: HONEST_EARL_TRACKS[0],
   skater: SKATER_TRACKS[0],
   bmx: { label: "Tailwhip at Dusk", file: "tailwhip-at-dusk.mp3", url: new URL("../assets/audio/pages/bmx/tailwhip-at-dusk.mp3", import.meta.url).href },
   blader: { label: "Wheelbite Anthem", file: "wheelbite-anthem.mp3", url: new URL("../assets/audio/pages/rollerblader/wheelbite-anthem.mp3", import.meta.url).href },
   surfer: SURFER_TRACKS[0],
-  motocross: { label: "Roost and Thunder", file: "roost-and-thunder.mid", midiUrl: new URL("../assets/audio/pages/roost-and-thunder.mid", import.meta.url).href, url: new URL("../assets/audio/pages/roost-and-thunder.wav", import.meta.url).href },
+  motocross: PRODUCTION_TRACKS.mudHelmet,
   scooter: { label: "Scooter Kid Shuffle", file: "scooter-kid-shuffle.mp3", url: new URL("../assets/audio/pages/scooter/scooter-kid-shuffle.mp3", import.meta.url).href },
   euro: { label: "Riviera Idle", file: "riviera-idle.mid", midiUrl: new URL("../assets/audio/pages/riviera-idle.mid", import.meta.url).href, url: new URL("../assets/audio/pages/riviera-idle.wav", import.meta.url).href },
-  petcat: { label: "Whisker Waltz", file: "whisker-waltz.mid", midiUrl: new URL("../assets/audio/pages/whisker-waltz.mid", import.meta.url).href, url: new URL("../assets/audio/pages/whisker-waltz.wav", import.meta.url).href },
-  petdog: { label: "Backyard Bound", file: "backyard-bound.mid", midiUrl: new URL("../assets/audio/pages/backyard-bound.mid", import.meta.url).href, url: new URL("../assets/audio/pages/backyard-bound.wav", import.meta.url).href },
-  petrabbit: { label: "Parsley Promenade", file: "parsley-promenade.mid", midiUrl: new URL("../assets/audio/pages/parsley-promenade.mid", import.meta.url).href, url: new URL("../assets/audio/pages/parsley-promenade.wav", import.meta.url).href },
-  pethamster: { label: "TubeNet Telemetry", file: "tubenet-telemetry.mid", midiUrl: new URL("../assets/audio/pages/tubenet-telemetry.mid", import.meta.url).href, url: new URL("../assets/audio/pages/tubenet-telemetry.wav", import.meta.url).href },
-  petiguana: { label: "Basking After Dark", file: "basking-after-dark.mid", midiUrl: new URL("../assets/audio/pages/basking-after-dark.mid", import.meta.url).href, url: new URL("../assets/audio/pages/basking-after-dark.wav", import.meta.url).href },
+  petcat: PRODUCTION_TRACKS.mrBoots,
+  petdog: PRODUCTION_TRACKS.cometQuest,
+  petrabbit: PRODUCTION_TRACKS.bunBrigade,
+  pethamster: PRODUCTION_TRACKS.hamCam,
+  petiguana: PRODUCTION_TRACKS.iguanaIris,
   petskunk: { label: "Cabinet Caper", file: "cabinet-caper.mid", midiUrl: new URL("../assets/audio/pages/cabinet-caper.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cabinet-caper.wav", import.meta.url).href },
-  fanmoss: { label: "Fogberry Moon", file: "fogberry-moon.mid", midiUrl: new URL("../assets/audio/pages/fogberry-moon.mid", import.meta.url).href, url: new URL("../assets/audio/pages/fogberry-moon.wav", import.meta.url).href },
-  fanblipzo: { label: "Store 00 Loader", file: "store-zero-loader.mid", midiUrl: new URL("../assets/audio/pages/store-zero-loader.mid", import.meta.url).href, url: new URL("../assets/audio/pages/store-zero-loader.wav", import.meta.url).href },
-  fanstar: { label: "Weather Drawer Waltz", file: "weather-drawer-waltz.mid", midiUrl: new URL("../assets/audio/pages/weather-drawer-waltz.mid", import.meta.url).href, url: new URL("../assets/audio/pages/weather-drawer-waltz.wav", import.meta.url).href },
-  fanprism: { label: "Five-Color Drive", file: "five-color-drive.mid", midiUrl: new URL("../assets/audio/pages/five-color-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/five-color-drive.wav", import.meta.url).href },
-  fangemwell: { label: "Lusterkin Descent", file: "lusterkin-descent.mid", midiUrl: new URL("../assets/audio/pages/lusterkin-descent.mid", import.meta.url).href, url: new URL("../assets/audio/pages/lusterkin-descent.wav", import.meta.url).href },
-  fanatlas: { label: "Atlas in the Wind", file: "atlas-in-the-wind.mid", midiUrl: new URL("../assets/audio/pages/atlas-in-the-wind.mid", import.meta.url).href, url: new URL("../assets/audio/pages/atlas-in-the-wind.wav", import.meta.url).href },
+  fanmoss: PRODUCTION_TRACKS.mossMunch,
+  fanblipzo: PRODUCTION_TRACKS.mallDimension,
+  fanstar: PRODUCTION_TRACKS.professorStar,
+  fanprism: PRODUCTION_TRACKS.prismFive,
+  fangemwell: PRODUCTION_TRACKS.gemstoneOne,
+  fanatlas: PRODUCTION_TRACKS.unfinishedAtlasOne,
   oldbiker: ROAD_HOG_TRACKS[0],
   grandmaold: { label: "Red Barn Beer", file: "red-barn-beer.mp3", url: new URL("../assets/audio/pages/grandma-dot-old/red-barn-beer.mp3", import.meta.url).href },
   grandmanew: { label: "Red Barn", file: "red-barn.mp3", url: new URL("../assets/audio/pages/grandma-dot-new/red-barn.mp3", import.meta.url).href },
   oldhistory: { label: "Tin Cup Reenactor", file: "tin-cup-reenactor.mp3", url: new URL("../assets/audio/pages/colonel-hal/tin-cup-reenactor.mp3", import.meta.url).href },
   oldtrains: RAILROAD_LENNY_TRACKS[0],
   oldfishing: BIG_BASS_BOB_TRACKS[0],
-  rewindbusiness: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
-  laundrybusiness: { label: "TubeNet Telemetry", file: "tubenet-telemetry.mid", midiUrl: new URL("../assets/audio/pages/tubenet-telemetry.mid", import.meta.url).href, url: new URL("../assets/audio/pages/tubenet-telemetry.wav", import.meta.url).href },
-  floristbusiness: GARDEN_SPRITES_TRACK,
-  travelbusiness: { label: "Atlas in the Wind", file: "atlas-in-the-wind.mid", midiUrl: new URL("../assets/audio/pages/atlas-in-the-wind.mid", import.meta.url).href, url: new URL("../assets/audio/pages/atlas-in-the-wind.wav", import.meta.url).href },
-  copybusiness: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
+  rewindbusiness: PRODUCTION_TRACKS.rewindOne,
+  laundrybusiness: PRODUCTION_TRACKS.bubbleBorough,
+  floristbusiness: PRODUCTION_TRACKS.snapdragon,
+  travelbusiness: PRODUCTION_TRACKS.farawayDesk,
+  copybusiness: PRODUCTION_TRACKS.inkmoth,
   furniturebusiness: { label: "Good Old Days", file: "good-old-days.mp3", url: new URL("../assets/audio/pages/yesterday-zone/good-old-days.mp3", import.meta.url).href },
-  dentalbusiness: GARDEN_SPRITES_TRACK,
-  plumbingbusiness: { label: "Backyard Bound", file: "backyard-bound.mid", midiUrl: new URL("../assets/audio/pages/backyard-bound.mid", import.meta.url).href, url: new URL("../assets/audio/pages/backyard-bound.wav", import.meta.url).href },
-  creditbusiness: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
-  salonbusiness: { label: "Five-Color Drive", file: "five-color-drive.mid", midiUrl: new URL("../assets/audio/pages/five-color-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/five-color-drive.wav", import.meta.url).href }
+  dentalbusiness: PRODUCTION_TRACKS.molarMeadow,
+  plumbingbusiness: PRODUCTION_TRACKS.gurgleBros,
+  creditbusiness: PRODUCTION_TRACKS.neighborNest,
+  salonbusiness: PRODUCTION_TRACKS.haloComb
 };
 const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicTrack[]>> = {
   orbithome: ORBIT_HOME_TRACKS,
+  directory: ORBIT_HOME_TRACKS,
   gamegridzone: [SITE_MUSIC.gamegridzone, SITE_MUSIC.vanta, SITE_MUSIC.cubit],
   newcalfan: KING_CAL_TRACKS,
   pizza: COSMIC_CRUST_TRACKS,
@@ -227,10 +303,43 @@ const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicT
   kingcal: KING_CAL_TRACKS,
   skater: SKATER_TRACKS,
   surfer: SURFER_TRACKS,
+  orbitlegacy: [
+    PRODUCTION_TRACKS.phaseThreeOne,
+    PRODUCTION_TRACKS.phaseThreeTierC,
+    PRODUCTION_TRACKS.phaseThreeTwo,
+    PRODUCTION_TRACKS.corruptedSignal
+  ],
+  rocketbox: [PRODUCTION_TRACKS.rocketOne, PRODUCTION_TRACKS.rocketTwo],
+  fanprism: [PRODUCTION_TRACKS.prismFive, PRODUCTION_TRACKS.prismChroma],
+  fangemwell: [PRODUCTION_TRACKS.gemstoneOne, PRODUCTION_TRACKS.gemstoneTwo],
+  fanatlas: [PRODUCTION_TRACKS.unfinishedAtlasOne, PRODUCTION_TRACKS.unfinishedAtlasTwo],
+  rewindbusiness: [PRODUCTION_TRACKS.rewindOne, PRODUCTION_TRACKS.rewindTwo],
+  dentalbusiness: [PRODUCTION_TRACKS.molarMeadow, PRODUCTION_TRACKS.molarSmile],
   oldbiker: ROAD_HOG_TRACKS,
   oldtrains: RAILROAD_LENNY_TRACKS,
   oldfishing: BIG_BASS_BOB_TRACKS,
   bytebarntribute: BYTE_BARN_COMPILATION_TRACKS.map((entry) => entry.track)
+};
+const PAGE_PLAYLISTS: Readonly<Record<string, readonly PageMusicTrack[]>> = {
+  "web://orbitnet.local/zones/soundwave": [
+    PRODUCTION_TRACKS.soundwaveOne,
+    PRODUCTION_TRACKS.soundwaveTwo,
+    PRODUCTION_TRACKS.soundwaveThree
+  ]
+};
+const DOMAIN_PLAYLISTS: Readonly<Record<string, readonly PageMusicTrack[]>> = {
+  "foldedwire.net": [PRODUCTION_TRACKS.foldedWire],
+  "index-null.net": [PRODUCTION_TRACKS.indexNull],
+  "midnight-dial.net": [PRODUCTION_TRACKS.midnightDial],
+  "birdband.watch": [PRODUCTION_TRACKS.birdband],
+  "railghost.org": [PRODUCTION_TRACKS.frozen217],
+  "prizefrequency.net": [PRODUCTION_TRACKS.prizeFrequency],
+  "weather-cellar.net": [PRODUCTION_TRACKS.weatherCellarOne, PRODUCTION_TRACKS.weatherCellarTwo],
+  "glasswater.test": [PRODUCTION_TRACKS.reservoirTown],
+  "afterhours-library.net": [PRODUCTION_TRACKS.afterhoursLibrary],
+  "last-quarter.arcade": [PRODUCTION_TRACKS.lastQuarter],
+  "fountain-voices.net": [PRODUCTION_TRACKS.fountainVoices],
+  "exit-zero.info": [PRODUCTION_TRACKS.exitZero]
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -519,7 +628,7 @@ interface WindowModel {
 }
 
 const windows: Record<AppId, WindowModel> = {
-  browser: { open: true, minimized: false, maximized: false, z: 3, x: 116, y: 44, width: 820, height: 600 },
+  browser: { open: true, minimized: false, maximized: false, z: 3, x: 96, y: 44, width: 900, height: 600 },
   mail: { open: false, minimized: false, maximized: false, z: 2, x: 205, y: 94, width: 660, height: 470 },
   files: { open: false, minimized: false, maximized: false, z: 1, x: 255, y: 126, width: 590, height: 410 },
   chat: { open: false, minimized: false, maximized: false, z: 4, x: 190, y: 72, width: 620, height: 520 },
@@ -591,7 +700,7 @@ let selectedMailMessageId: string | null = null;
 let helperPanelOpen = false;
 let pageMusicPlaying = true;
 let loadedPageMusicKey: string | null = null;
-const pageMusicTrackIndexes = new Map<PageDefinition["site"], number>();
+const pageMusicTrackIndexes = new Map<string, number>();
 const semanticSearchCache = new Map<string, string[]>();
 const pendingSearches = new Set<string>();
 const browserScrollPositions = new Map<string, number>();
@@ -1455,10 +1564,11 @@ function pageMusicPlayer(page: PageDefinition) {
   const playlist = pageMusicPlaylist(page);
   const trackIndex = pageMusicTrackIndex(page, playlist);
   const track = playlist[trackIndex];
+  const musicScope = pageMusicScope(page);
   const hasPlaylist = playlist.length > 1;
   const volume = Math.max(0, Math.min(100, Math.round(state.settings.musicVolume)));
   const bars = Array.from({ length: 10 }, (_, index) => `<i style="--midi-bar:${index}"></i>`).join("");
-  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""} ${hasPlaylist ? "has-playlist" : ""}" data-midi-source="${track.midiUrl ?? track.url}" data-music-scope="${page.site}" data-track-index="${trackIndex}" data-music-volume="${volume}" data-finish-mode="${hasPlaylist ? "advance" : "loop"}">
+  return `<aside class="page-midi-player ${pageMusicPlaying ? "playing" : ""} ${hasPlaylist ? "has-playlist" : ""}" data-midi-source="${track.midiUrl ?? track.url}" data-music-scope="${escapeHtml(musicScope)}" data-track-index="${trackIndex}" data-music-volume="${volume}" data-finish-mode="${hasPlaylist ? "advance" : "loop"}">
     <div class="midi-player-ridge"><strong>ORBITAMP</strong><em>WEB</em><span><span class="midi-led ${pageMusicPlaying ? "playing" : ""}"></span>${hasPlaylist ? "PLAYLIST" : "AUDIO LOOP"}</span></div>
     <div class="midi-display">
       <div class="midi-visualizer" aria-hidden="true">${bars}</div>
@@ -1476,8 +1586,22 @@ function pageMusicPlayer(page: PageDefinition) {
   </aside>`;
 }
 
+function pageMusicHost(page: PageDefinition) {
+  return page.url.match(/^web:\/\/([^/]+)/)?.[1] ?? "";
+}
+
+function pageMusicScope(page: PageDefinition) {
+  if (PAGE_PLAYLISTS[page.url]) return page.url;
+  const host = pageMusicHost(page);
+  if (DOMAIN_PLAYLISTS[host]) return host;
+  // The general community-zone pages are children of the main OrbitNet homepage.
+  if (page.site === "directory") return "orbithome";
+  return page.site;
+}
+
 function pageMusicPlaylist(page: PageDefinition): readonly PageMusicTrack[] {
-  const basePlaylist = SITE_PLAYLISTS[page.site] ?? [SITE_MUSIC[page.site]];
+  const host = pageMusicHost(page);
+  const basePlaylist = PAGE_PLAYLISTS[page.url] ?? DOMAIN_PLAYLISTS[host] ?? SITE_PLAYLISTS[page.site] ?? [SITE_MUSIC[page.site]];
   if (state.storyPhase < 2) return basePlaylist;
   const revivalTracks = PHASE_TWO_BYTE_BARN_COVERS
     .filter((placement) => placement.site === page.site)
@@ -1487,13 +1611,14 @@ function pageMusicPlaylist(page: PageDefinition): readonly PageMusicTrack[] {
 }
 
 function pageMusicTrackIndex(page: PageDefinition, playlist = pageMusicPlaylist(page)) {
-  let requestedIndex = pageMusicTrackIndexes.get(page.site);
+  const musicScope = pageMusicScope(page);
+  let requestedIndex = pageMusicTrackIndexes.get(musicScope);
   if (requestedIndex === undefined) {
     requestedIndex = playlist.length > 1 ? Math.floor(Math.random() * playlist.length) : 0;
-    pageMusicTrackIndexes.set(page.site, requestedIndex);
+    pageMusicTrackIndexes.set(musicScope, requestedIndex);
   }
   const normalizedIndex = ((requestedIndex % playlist.length) + playlist.length) % playlist.length;
-  if (normalizedIndex !== requestedIndex) pageMusicTrackIndexes.set(page.site, normalizedIndex);
+  if (normalizedIndex !== requestedIndex) pageMusicTrackIndexes.set(musicScope, normalizedIndex);
   return normalizedIndex;
 }
 
@@ -1507,7 +1632,7 @@ function refreshBrowserPage() {
 function syncPageMusic(page = currentPage()) {
   const playlist = pageMusicPlaylist(page);
   const track = playlist[pageMusicTrackIndex(page, playlist)];
-  const trackKey = `${page.site}:${track.url}`;
+  const trackKey = `${pageMusicScope(page)}:${track.url}`;
   pageMusic.loop = playlist.length === 1;
   pageMusic.volume = PAGE_MUSIC_MAX_VOLUME * Math.max(0, Math.min(100, state.settings.musicVolume)) / 100;
   if (loadedPageMusicKey !== trackKey) {
@@ -1523,7 +1648,7 @@ function changePageMusicTrack(direction: -1 | 1) {
   const page = currentPage();
   const playlist = pageMusicPlaylist(page);
   if (playlist.length < 2) return;
-  pageMusicTrackIndexes.set(page.site, pageMusicTrackIndex(page, playlist) + direction);
+  pageMusicTrackIndexes.set(pageMusicScope(page), pageMusicTrackIndex(page, playlist) + direction);
   loadedPageMusicKey = null;
   render();
 }
@@ -1534,7 +1659,7 @@ function selectPageMusicTrack(pageUrl: string, file: string) {
   const playlist = pageMusicPlaylist(targetPage);
   const trackIndex = playlist.findIndex((track) => track.file === file);
   if (trackIndex < 0) return;
-  pageMusicTrackIndexes.set(targetPage.site, trackIndex);
+  pageMusicTrackIndexes.set(pageMusicScope(targetPage), trackIndex);
   loadedPageMusicKey = null;
   navigate(pageUrl);
 }
@@ -1971,7 +2096,7 @@ function beginAiPreload() {
 
 function prepareFreshDesktopSession() {
   const defaults: Record<AppId, Omit<WindowModel, "open" | "minimized" | "maximized">> = {
-    browser: { z: 3, x: 116, y: 44, width: 820, height: 600 },
+    browser: { z: 3, x: 96, y: 44, width: 900, height: 600 },
     mail: { z: 2, x: 205, y: 94, width: 660, height: 470 },
     files: { z: 1, x: 255, y: 126, width: 590, height: 410 },
     chat: { z: 4, x: 190, y: 72, width: 620, height: 520 },

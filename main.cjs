@@ -151,6 +151,8 @@ function createWindow() {
           };
 
           await click('[data-browser="home"]');
+          const widerBrowserReady = await win.webContents.executeJavaScript(`(() => { const browser = document.querySelector('.browser-window'); if (!browser) return false; const rect = browser.getBoundingClientRect(); return rect.width >= 900 && parseFloat(browser.style.left) === 96; })()`);
+          if (!widerBrowserReady) throw new Error("Windowed Orbit Explorer did not use the wider reading layout");
           const homepageHasComments = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments'))`);
           if (homepageHasComments) throw new Error("OrbitNet homepage still has a public comment section");
           const browserControlsReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-browser="refresh"]'))`);
@@ -303,7 +305,7 @@ function createWindow() {
               await capture("orbitnet-zone-xtreme-members.png");
               const riderClasses = [".dee-page", ".cole-page", ".nico-page", ".ty-page", ".troy-page", ".ollie-page", ".viktor-page"];
               const featureClasses = [".dee-feature", ".cole-jump", ".nico-action", ".ty-action", ".troy-action", ".ollie-action", ".viktor-feature"];
-              const trackLabels = [["Demo Tape Spin", "Grip Tape Summer"], ["Tailwhip at Dusk"], ["Wheelbite Anthem"], ["Banzai Loop", "Banzai Loop II", "Cutback Chaos"], ["Roost and Thunder"], ["Scooter Kid Shuffle"], ["Riviera Idle"]];
+              const trackLabels = [["Demo Tape Spin", "Grip Tape Summer"], ["Tailwhip at Dusk"], ["Wheelbite Anthem"], ["Banzai Loop", "Banzai Loop II", "Cutback Chaos"], ["Mud on My Helmet"], ["Scooter Kid Shuffle"], ["Riviera Idle"]];
               for (let riderIndex = 0; riderIndex < expectedRiderUrls.length; riderIndex += 1) {
                 await click(`[data-nav="${expectedRiderUrls[riderIndex]}"]`);
                 const riderPageReady = await win.webContents.executeJavaScript(`(() => { const player = document.querySelector('.page-midi-player'); const labels = ${JSON.stringify(trackLabels[riderIndex])}; return Boolean(document.querySelector(${JSON.stringify(riderClasses[riderIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.xtreme-art').length >= 8 && labels.some((label) => player?.textContent.includes(label)); })()`);
@@ -315,6 +317,8 @@ function createWindow() {
               }
             }
             if (zoneUrl.endsWith("/petplanet")) {
+              const inheritedHomeMusicReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'orbithome' && document.querySelector('.midi-track code')?.textContent === ${JSON.stringify(homepageTrackBeforeSearch)}`);
+              if (!inheritedHomeMusicReady) throw new Error("General OrbitNet zone pages did not inherit the homepage playlist");
               const expectedPetUrls = [
                 "web://petplanet.zone/users/catnapcarla/home",
                 "web://petplanet.zone/users/fetchquestray/home",
@@ -329,7 +333,7 @@ function createWindow() {
               await capture("orbitnet-zone-petplanet-members.png");
               const petClasses = [".carla-page", ".ray-page", ".bea-page", ".hal-page", ".iris-page", ".sam-page"];
               const petFlourishes = [".carla-scrapbook", ".ray-scoreboard", ".bea-burrow-map", ".hal-telemetry", ".iris-green-room", ".sam-incident-file"];
-              const trackLabels = ["Whisker Waltz", "Backyard Bound", "Parsley Promenade", "TubeNet Telemetry", "Basking After Dark", "Cabinet Caper"];
+              const trackLabels = ["Mr. Boots Loop", "Comet's Backyard Quest", "Bun Brigade Bea", "Ham Cam Hal", "Iguana Iris", "Cabinet Caper"];
               for (let petIndex = 0; petIndex < expectedPetUrls.length; petIndex += 1) {
                 await click(`[data-nav="${expectedPetUrls[petIndex]}"]`);
                 const petPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(petClasses[petIndex])})) && Boolean(document.querySelector(${JSON.stringify(petFlourishes[petIndex])})) && document.querySelectorAll('.page-comment').length >= 6 && document.querySelectorAll('.pet-member-art').length === 3 && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[petIndex])})`);
@@ -346,6 +350,10 @@ function createWindow() {
                 await click('[data-nav="web://orbitnet.local/zones/petplanet"]');
               }
             }
+            if (zoneUrl.endsWith("/soundwave")) {
+              const soundwaveMusicReady = await win.webContents.executeJavaScript(`document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'web://orbitnet.local/zones/soundwave' && document.querySelector('.midi-controls > span')?.textContent.includes('/3') && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3')`);
+              if (!soundwaveMusicReady) throw new Error("SoundWave zone did not load its three-track MP3 playlist");
+            }
             if (zoneUrl.endsWith("/fanverse")) {
               const expectedFandomUrls = [
                 "web://fanverse.zone/users/mossmunchmel/home",
@@ -361,7 +369,7 @@ function createWindow() {
               await capture("orbitnet-zone-fanverse-members.png");
               const fandomClasses = [".moss-page", ".blipzo-page", ".starthimble-page", ".prism5-page", ".gemwell-page", ".atlas-page"];
               const featureClasses = [".moss-winding-gallery", ".blipzo-screen-orbit", ".star-cabinet-lab", ".prism-selector", ".gemwell-stratum-4", ".atlas-map-frame"];
-              const trackLabels = ["Fogberry Moon", "Store 00 Loader", "Weather Drawer Waltz", "Five-Color Drive", "Lusterkin Descent", "Atlas in the Wind"];
+              const trackLabels = ["MossMunch & the Moonlings", "The Mall Dimension", "Professor StarThimble", "Prism Five", "Gemstone Cavern", "The Unfinished Atlas"];
               for (let fandomIndex = 0; fandomIndex < expectedFandomUrls.length; fandomIndex += 1) {
                 await click(`[data-nav="${expectedFandomUrls[fandomIndex]}"]`);
                 const fandomPageReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector(${JSON.stringify(fandomClasses[fandomIndex])})) && document.querySelectorAll('.page-comment').length >= 7 && document.querySelectorAll('main.page img').length >= ${fandomIndex < 4 ? 10 : 12} && document.querySelector('.page-midi-player')?.textContent.includes(${JSON.stringify(trackLabels[fandomIndex])})`);
@@ -524,7 +532,7 @@ function createWindow() {
 
           await searchFor("robot toys", "web://rocketbox.toys/home");
           await click('[data-nav="web://rocketbox.toys/home"]');
-          const rocketboxReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rocketbox-page .rocketbox-product .kids-business-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.page-midi-player')?.textContent.includes('Toybox Turbo')`);
+          const rocketboxReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rocketbox-page .rocketbox-product .kids-business-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.page-midi-player')?.textContent.includes('Rocket Box Toys') && document.querySelector('.midi-controls > span')?.textContent.includes('/2')`);
           if (!rocketboxReady) throw new Error("Rocketbox Toys campaign page was incomplete");
           await capture("kids-rocketbox.png");
           await click('[data-nav="web://rocketbox.toys/catalog"]');
@@ -546,7 +554,7 @@ function createWindow() {
 
           await searchFor("saturday cartoons", "web://toonburst.tv/home");
           await click('[data-nav="web://toonburst.tv/home"]');
-          const toonburstReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.toonburst-page .toonburst-hero .kids-business-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.page-midi-player')?.textContent.includes('ToonBurst Theme')`);
+          const toonburstReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.toonburst-page .toonburst-hero .kids-business-art')) && Boolean(document.querySelector('.page-comments')) && Boolean(document.querySelector('.midi-led.playing')) && document.querySelector('.page-midi-player')?.textContent.includes('ToonBurst TV')`);
           if (!toonburstReady) throw new Error("ToonBurst campaign page was incomplete");
           await capture("kids-toonburst.png");
           await click('[data-nav="web://toonburst.tv/schedule"]');
@@ -1051,10 +1059,15 @@ function createWindow() {
             "web://commonground.civic/board",
             "web://archivewatch.press/goodbye"
           ];
+          let phaseThreeArchiveTrack = null;
           for (const legacyUrl of legacyFragmentUrls) {
             await address(legacyUrl);
             const legacyPageReady = await win.webContents.executeJavaScript(`document.querySelectorAll('.legacy-fragment-page').length === 1 && document.querySelectorAll('.legacy-fragment-logo').length === 1 && !document.querySelector('.page-comments') && !document.querySelector('.legacy-fragment-page [data-nav]')`);
             if (!legacyPageReady) throw new Error(`Dormant legacy fragment was incomplete or interactive: ${legacyUrl}`);
+            const archiveMusic = await win.webContents.executeJavaScript(`({ scope: document.querySelector('.page-midi-player')?.getAttribute('data-music-scope'), count: document.querySelector('.midi-controls > span')?.textContent, file: document.querySelector('.midi-track code')?.textContent })`);
+            if (archiveMusic.scope !== "orbitlegacy" || !archiveMusic.count.includes("/4") || !archiveMusic.file.endsWith(".mp3")) throw new Error(`Dormant archive music was incomplete: ${JSON.stringify(archiveMusic)}`);
+            if (phaseThreeArchiveTrack === null) phaseThreeArchiveTrack = archiveMusic.file;
+            else if (archiveMusic.file !== phaseThreeArchiveTrack) throw new Error("Dormant archive pages did not share one continuous playlist");
           }
 
           await win.webContents.executeJavaScript(`Math.random = () => 0; true`);
@@ -1620,6 +1633,10 @@ function createWindow() {
 }
 
 app.whenReady().then(async () => {
+  if (process.env.SMOKE_TEST || process.env.STORY_SMOKE_TEST || process.env.AI_SMOKE_TEST || process.env.BOOT_SMOKE_TEST || process.env.COMMENT_SMOKE_TEST || process.env.UI_SMOKE_TEST || process.env.AMBIENT_SMOKE_TEST || process.env.SAFEGUARD_SMOKE_TEST) {
+    // PID-based temp folders can be reused by Windows, so never inherit an older smoke run.
+    await fs.rm(savePath(), { force: true });
+  }
   if (process.env.SAFEGUARD_SMOKE_TEST) {
     try {
       await aiService.preloadAndWarm();
