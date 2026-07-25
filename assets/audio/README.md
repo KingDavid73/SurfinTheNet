@@ -28,6 +28,13 @@ Pages on the same domain share a playlist so sub-pages sound like parts of one
 site. OrbitAmp plays MP3 or WAV assets directly; a legacy `.mid` file is kept
 only as editable source while its corresponding placeholder is still active.
 
+`pages/byte-barn-revival/fan` contains the amateur covers and remixes that begin
+appearing on personal pages in story phase two. `pages/byte-barn-revival/cd`
+contains the ten-track professional tribute compilation revealed in phase three.
+The fan tracks intentionally live in their host page playlists rather than on a
+single event page; the scattered uploads foreshadow the compilation and let
+song hyperlinks tune OrbitAmp directly to the referenced track.
+
 Regenerate the remaining legacy page tracks with:
 
 ```powershell

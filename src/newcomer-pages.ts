@@ -208,7 +208,9 @@ export const newcomerPages: Record<string, PageDefinition> = {
     seedComments: [
       seed("new-ben-chip", BEN_URL, "barnbeat_ben", "visitor", "Chip_At_ByteBarn", "The jingle was recorded in Lou's garage for fifty dollars and a refurbished sound card. I will tell him it has a fan page.", "1999-11-04T08:25:00"),
       seed("new-ben-keesha", BEN_URL, "barnbeat_ben", "visitor", "TapeDeck_Keesha", "The hook is phat. The store clap at the end is off beat. Both facts make it better.", "1999-11-04T08:47:00"),
-      seed("new-ben-maddy", BEN_URL, "barnbeat_ben", "visitor", "ModKit_Maddy", "The kick drum is clipping through a consumer limiter. Compliment.", "1999-11-04T09:11:00")
+      seed("new-ben-maddy", BEN_URL, "barnbeat_ben", "visitor", "ModKit_Maddy", "The kick drum is clipping through a consumer limiter. Compliment.", "1999-11-04T09:11:00"),
+      seed("new-ben-simon", BEN_URL, "barnbeat_ben", "visitor", "SubBass_Simon", "Does anybody have a clean copy of the store clap? I have an idea and very little sampler memory.", "1999-11-04T10:06:00"),
+      seed("new-ben-rico", BEN_URL, "barnbeat_ben", "visitor", "RhymeTape_Rico", "Byte it, boot it, bring it to the barn already has a meter. Somebody was going to flip this sooner or later.", "1999-11-04T10:19:00")
     ],
     render: () => `
       <main class="page newcomer-page newcomer-ben">
@@ -216,7 +218,7 @@ export const newcomerPages: Record<string, PageDefinition> = {
         <section class="ben-equalizer">${image(newcomerArt["byte-waveform"], "A colorful homemade waveform graphic")}<div><b>♫ BYTE IT / BOOT IT / BRING IT TO THE BARN ♫</b><span>unofficial transcription from television — probably wrong</span></div></section>
         <section class="newcomer-intro">
           ${image(newcomerArt["ben-portrait"], "A scanned flash portrait of Ben")}
-          <div><h2>How I got here</h2><p>Somebody at school said Orbit had weird fan pages and old commercials, so naturally I used my entire evening finding the Byte Barn ad. That beat is da bomb. The little keyboard stab after “bring it to the barn” could move units by itself.</p><p>I do not work there. My family computer came from a grocery-store raffle and sounds like a vacuum cleaner.</p><button data-nav="web://bytebarn.com/home">GO TO BYTE BARN</button></div>
+          <div><h2>How I got here</h2><p>Somebody at school said Orbit had weird fan pages and old commercials, so naturally I used my entire evening finding the Byte Barn ad. It has not been on television in years, but the old store page still serves the full song. That beat is da bomb. The little keyboard stab after “bring it to the barn” could move units by itself.</p><p>I do not work there. My family computer came from a grocery-store raffle and sounds like a vacuum cleaner. If you make a cover, leave the Byte Barn slogan intact so everybody knows where this started.</p><button data-nav="web://bytebarn.com/home">GO TO BYTE BARN</button></div>
         </section>
         <section class="ben-gear-grid">
           <figure>${image(newcomerArt["byte-barn-sticker"], "A homemade computer and barn sticker")}<figcaption>my first web sticker</figcaption></figure>

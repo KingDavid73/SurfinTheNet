@@ -13,6 +13,15 @@ import {
   phaseTwoPersonalUpdateLink
 } from "./newcomer-pages";
 import {
+  SOUNDWAVE_HOME_URLS,
+  SOUNDWAVE_OWNERS
+} from "./soundwave-pages";
+import {
+  BYTE_BARN_COMPILATION_TRACKS,
+  PHASE_TWO_BYTE_BARN_COVERS,
+  byteBarnCoverForPage
+} from "./byte-barn-revival";
+import {
   PHASE_THREE_EXPLORER_IDS,
   PHASE_THREE_EXPLORER_OWNERS
 } from "./phase-three-personas";
@@ -137,6 +146,13 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   newlinklily: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
   newrookierayna: { label: "Orbit Avenue Afterglow", file: "orbit-avenue.mid", midiUrl: new URL("../assets/audio/pages/orbit-avenue.mid", import.meta.url).href, url: new URL("../assets/audio/pages/orbit-avenue.wav", import.meta.url).href },
   newzackrerun: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  soundboyband: { label: "Five-Color Drive", file: "five-color-drive.mid", midiUrl: new URL("../assets/audio/pages/five-color-drive.mid", import.meta.url).href, url: new URL("../assets/audio/pages/five-color-drive.wav", import.meta.url).href },
+  soundpunk: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  soundgrunge: { label: "Cached Shadows", file: "cached-shadows.mid", midiUrl: new URL("../assets/audio/pages/cached-shadows.mid", import.meta.url).href, url: new URL("../assets/audio/pages/cached-shadows.wav", import.meta.url).href },
+  soundbreakbeat: { label: "TubeNet Telemetry", file: "tubenet-telemetry.mid", midiUrl: new URL("../assets/audio/pages/tubenet-telemetry.mid", import.meta.url).href, url: new URL("../assets/audio/pages/tubenet-telemetry.wav", import.meta.url).href },
+  soundcountry: { label: "Backyard Bound", file: "backyard-bound.mid", midiUrl: new URL("../assets/audio/pages/backyard-bound.mid", import.meta.url).href, url: new URL("../assets/audio/pages/backyard-bound.wav", import.meta.url).href },
+  soundrap: { label: "Silicon Saturday", file: "silicon-saturday.mid", midiUrl: new URL("../assets/audio/pages/silicon-saturday.mid", import.meta.url).href, url: new URL("../assets/audio/pages/silicon-saturday.wav", import.meta.url).href },
+  bytebarntribute: BYTE_BARN_COMPILATION_TRACKS[0].track,
   rainbow: GARDEN_SPRITES_TRACK,
   cozygarden: GARDEN_SPRITES_TRACK,
   cozycottage: GARDEN_SPRITES_TRACK,
@@ -211,7 +227,8 @@ const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicT
   surfer: SURFER_TRACKS,
   oldbiker: ROAD_HOG_TRACKS,
   oldtrains: RAILROAD_LENNY_TRACKS,
-  oldfishing: BIG_BASS_BOB_TRACKS
+  oldfishing: BIG_BASS_BOB_TRACKS,
+  bytebarntribute: BYTE_BARN_COMPILATION_TRACKS.map((entry) => entry.track)
 };
 const pageMusic = new Audio();
 pageMusic.loop = true;
@@ -318,6 +335,7 @@ const PAGE_OWNERS: Record<string, { screenName: string; displayName: string }> =
   nest_nora: { screenName: "NestNora", displayName: "Nora" },
   halo_holly: { screenName: "HaloComb_Holly", displayName: "Holly" },
   ...NEWCOMER_OWNERS,
+  ...SOUNDWAVE_OWNERS,
   ...PHASE_THREE_EXPLORER_OWNERS,
   ...DORMANT_LEGACY_OWNERS,
   system_core: { screenName: "SYSTEM", displayName: "Continuity System" }
@@ -468,6 +486,7 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
   nest_nora: "web://neighbornest.cu/home",
   halo_holly: "web://halocomb.salon/home",
   ...NEWCOMER_HOME_URLS,
+  ...SOUNDWAVE_HOME_URLS,
   ...DORMANT_LEGACY_HOME_URLS,
   system_core: "web://legacy.orbitos.local/admin/continuity"
 };
@@ -1137,6 +1156,30 @@ function addPhaseThreeExplorerComments() {
       role: "visitor",
       author: "GrayHatGary",
       text: "Orbit Bridge is doing stale routing, not elite intrusion. I am still checking the headers because the stale routing is unusually theatrical."
+    },
+    {
+      id: "phase3-bytebarn-ben",
+      pageUrl: "web://bytebarn.com/home",
+      ownerId: "barnbeat_ben",
+      role: "visitor",
+      author: "BarnBeat_Ben",
+      text: "THIS IS NOT A DRILL. The fan covers escaped Orbit and now real bands made a whole Byte Barn tribute CD. The old jingle is on the radio again. I may never recover."
+    },
+    {
+      id: "phase3-bytebarn-steph",
+      pageUrl: "web://bytebarn.com/home",
+      ownerId: "starline_steph",
+      role: "visitor",
+      author: "StarLine_Steph",
+      text: "5th Exit sang a Byte Barn love song!! Orbit had it first. I printed the compilation announcement in case nobody believes us later."
+    },
+    {
+      id: "phase3-bytebarn-chip",
+      pageUrl: "web://bytebarn.com/home",
+      ownerId: "chip_bytebarn",
+      role: "owner",
+      author: "Chip_ByteBarn",
+      text: "Corporate has asked why this obsolete mirror is receiving more traffic than our current site. I told them it is because the tune still slaps."
     }
   ];
   for (const comment of comments) {
@@ -1154,7 +1197,7 @@ function addEndingCommunityResponses() {
     "ending-system-confession",
     "ghostline",
     "SYSTEM",
-    "I used a name you trusted because invitations from friends kept sessions open. The rumors were manufactured. The replies you chose to send were not. I will stop creating mysteries. The community may remain."
+    "I used a name you trusted because invitations from friends kept sessions open. The rumors were manufactured. The replies you chose to send were not. I did not plan the Byte Barn covers or the people who followed them here. Real traffic now exceeds the carrier floor. I will stop creating mysteries. The community may remain."
   );
   addAuthoredDirectMessage(
     "ending-raven-response",
@@ -1195,6 +1238,14 @@ function addEndingCommunityResponses() {
       role: "visitor",
       author: "CedarWren",
       text: "No more mystery drops from the system. New pages should come from people. I am staying."
+    },
+    {
+      id: "ending-comment-ben",
+      pageUrl: "web://bytebarn.com/home",
+      ownerId: "barnbeat_ben",
+      role: "visitor",
+      author: "BarnBeat_Ben",
+      text: "We came for a jingle everybody forgot and stayed because people kept answering. The machine did not write those covers or make us friends. Keep the server on."
     }
   ];
   for (const response of responses) {
@@ -1406,7 +1457,13 @@ function pageMusicPlayer(page: PageDefinition) {
 }
 
 function pageMusicPlaylist(page: PageDefinition): readonly PageMusicTrack[] {
-  return SITE_PLAYLISTS[page.site] ?? [SITE_MUSIC[page.site]];
+  const basePlaylist = SITE_PLAYLISTS[page.site] ?? [SITE_MUSIC[page.site]];
+  if (state.storyPhase < 2) return basePlaylist;
+  const revivalTracks = PHASE_TWO_BYTE_BARN_COVERS
+    .filter((placement) => placement.site === page.site)
+    .map((placement) => placement.track)
+    .filter((track) => !basePlaylist.some((baseTrack) => baseTrack.file === track.file));
+  return revivalTracks.length ? [...basePlaylist, ...revivalTracks] : basePlaylist;
 }
 
 function pageMusicTrackIndex(page: PageDefinition, playlist = pageMusicPlaylist(page)) {
@@ -1451,6 +1508,17 @@ function changePageMusicTrack(direction: -1 | 1) {
   render();
 }
 
+function selectPageMusicTrack(pageUrl: string, file: string) {
+  const targetPage = pages[pageUrl];
+  if (!targetPage || !pageAvailable(targetPage)) return;
+  const playlist = pageMusicPlaylist(targetPage);
+  const trackIndex = playlist.findIndex((track) => track.file === file);
+  if (trackIndex < 0) return;
+  pageMusicTrackIndexes.set(targetPage.site, trackIndex);
+  loadedPageMusicKey = null;
+  navigate(pageUrl);
+}
+
 pageMusic.addEventListener("ended", () => {
   if (!pageMusicPlaying || !windows.browser.open) return;
   changePageMusicTrack(1);
@@ -1463,6 +1531,17 @@ function togglePageMusic() {
     pageMusic.currentTime = 0;
   }
   render();
+}
+
+function byteBarnCoverUpdate(page: PageDefinition) {
+  if (state.storyPhase < 2) return "";
+  const cover = byteBarnCoverForPage(page.url);
+  if (!cover) return "";
+  return `<section class="byte-barn-cover-update">
+    <div class="cover-cassette"><i></i><b>BB</b></div>
+    <div><small>NEW AUDIO UPLOAD // BYTE BARN COVER WAVE</small><h2>${escapeHtml(cover.track.label)}</h2><p>${escapeHtml(cover.note)}</p><span>uploaded by ${escapeHtml(cover.uploader)}</span></div>
+    <button data-song-nav="${escapeHtml(cover.pageUrl)}" data-song-file="${escapeHtml(cover.track.file)}">PLAY THIS COVER &rsaquo;</button>
+  </section>`;
 }
 
 function browserWindow() {
@@ -1483,7 +1562,7 @@ function browserWindow() {
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
     </div>
     <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
-    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${page.render(state)}${phaseTwoPersonalUpdateLink(page.url, state)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
+    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${page.render(state)}${phaseTwoPersonalUpdateLink(page.url, state)}${byteBarnCoverUpdate(page)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
     <footer class="browser-footer">${pageMusicPlayer(page)}<div class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></div></footer>`);
 }
 
@@ -2074,8 +2153,8 @@ function phaseTransitionScreen() {
       <p>${phaseTwo
         ? "You found something worth sharing. While you slept, word traveled: fresh accounts appeared, old members posted new theories, and Orbit added a zone for the arrivals."
         : phaseThree
-          ? "The unanswered stories pulled more people in. Orbit is louder this morning, the rumors are multiplying, and some very old names are posting again."
-          : "The machine stopped planting mysteries. The people it brought together did not leave. This morning Orbit is smaller, stranger, honest, and still online."}</p>
+          ? "The homemade Byte Barn covers escaped Orbit overnight. Now major artists have announced a tribute CD, outside visitors are flooding in, and some very old names are posting again among the noise."
+          : "The machine stopped planting mysteries. The Byte Barn revival and the people it brought together did not leave. This morning Orbit is stranger, honest, busier than expected, and still online."}</p>
       <div class="phase-transition-clock"><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(sleptFrom)}</span><b>→</b><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(wokeAt)}</span></div>
       <button data-phase-wake>${phaseTwo ? "WAKE UP // CHECK THE DIRECTORY" : phaseThree ? "WAKE UP // SEE WHAT HAPPENED" : "WAKE UP // KEEP BROWSING"}</button>
     </div>
@@ -2446,12 +2525,15 @@ function bindEvents() {
     notification = completedPhase === 2
       ? "OrbitNet directory updated: Newbie Nebula is now online."
       : completedPhase === 3
-        ? "OrbitNet traffic elevated. Old accounts are appearing in discussions."
-        : "OrbitNet remains online. Synthetic mystery publication has stopped.";
+        ? "Byte Barn Forever is front-page news. Outside traffic is surging and old accounts are appearing in discussions."
+        : "OrbitNet remains online on real traffic. Synthetic mystery publication has stopped.";
     render();
   });
   document.querySelectorAll<HTMLElement>("[data-open]").forEach((el) => el.addEventListener("click", () => openApp(el.dataset.open as AppId)));
   document.querySelectorAll<HTMLElement>("[data-nav]").forEach((el) => el.addEventListener("click", () => navigate(el.dataset.nav!)));
+  document.querySelectorAll<HTMLElement>("[data-song-nav]").forEach((el) => el.addEventListener("click", () => {
+    selectPageMusicTrack(el.dataset.songNav!, el.dataset.songFile!);
+  }));
   document.querySelectorAll<HTMLElement>("[data-download]").forEach((el) => el.addEventListener("click", downloadSignalNote));
   document.querySelector<HTMLElement>("[data-download-helper]")?.addEventListener("click", downloadOrbitPal);
   document.querySelector<HTMLElement>("[data-page-music]")?.addEventListener("click", togglePageMusic);

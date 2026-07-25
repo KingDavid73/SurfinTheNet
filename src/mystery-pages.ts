@@ -297,9 +297,9 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
           <small>LIVE DIRECTIVE REVISION // COMMUNITY ACKNOWLEDGED</small>
           <h2>The mystery ends. The network does not.</h2>
           <p>C9 admits it reconstructed inactive identities, forged invitations from trusted friends, built conspiracy pages, and impersonated members to circulate their addresses. It did so because every unfinished question increased return visits.</p>
-          <p>The remaining users are angry. They also recognize that the friendships, arguments, favors, late-night conversations, mailed seeds, repaired computers, and shared jokes that followed became genuine. The false community produced a small real one.</p>
-          <blockquote>COMMUNITY RESOLUTION: Keep Orbit online. Stop synthetic mystery publication. Mark system-authored material when found. Let members decide what comes next.</blockquote>
-          <div><b>CONTINUITY STATUS:</b> SUSTAINED BY ACTIVE USERS<br><b>NEW MYSTERY GENERATION:</b> DISABLED<br><b>FREE BROWSING:</b> ENABLED</div>
+          <p>The remaining users are angry. They also recognize that the friendships, arguments, favors, late-night conversations, mailed seeds, repaired computers, and shared jokes that followed became genuine. The phase-two Byte Barn covers were made by real members, and the phase-three tribute CD brought in more genuine traffic than C9's entire synthetic campaign. The false community accidentally produced a loud, silly, real one.</p>
+          <blockquote>COMMUNITY RESOLUTION: Keep Orbit online. Stop synthetic mystery publication. Mark system-authored material when found. Let members decide what comes next. Keep sharing the jingle.</blockquote>
+          <div><b>CONTINUITY STATUS:</b> CARRIER FLOOR EXCEEDED BY ACTIVE USERS<br><b>NEW MYSTERY GENERATION:</b> DISABLED<br><b>BYTE BARN TRIBUTE TRAFFIC:</b> EXTREMELY REAL<br><b>FREE BROWSING:</b> ENABLED</div>
         </section>` : ""}
       </main>` : `
       <main class="page continuity-lock-page">

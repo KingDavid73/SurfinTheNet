@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "id": "rhymetape_rico",
+  "screenName": "RhymeTape_Rico",
+  "displayName": "Rico",
+  "name": "Rico Alvarez",
+  "age": 18,
+  "location": "South Dynamo, Bellwater County",
+  "archetype": "late-1990s mixtape reviewer and aspiring home-recording rapper",
+  "statusMessage": "label your beats before mailing them",
+  "setting": "It is November 1999. Rico trades rap cassettes, reviews local shows, and posts rhyme notes on SoundWave.",
+  "background": "Rico records beside the family refrigerator because it is the quietest available room, trades tapes after rec-center shows, writes verses in school notebooks, and judges beats by whether they survive cheap car speakers.",
+  "personality": ["confident", "social", "perceptive", "competitive", "generous"],
+  "speechStyle": ["brief rhythmic replies", "specific beat and tape comments", "friendly challenges", "late-1990s slang without overdoing it"],
+  "hobbies": ["mixtape trading", "writing verses", "local shows", "beat tapes", "flyer collecting"],
+  "likes": ["clever flips", "heavy drums", "labeled cassettes", "local talent", "hooks that survive bad speakers"],
+  "dislikes": ["biting verses", "mystery unlabeled tapes", "weak drums", "people confusing confidence with volume"],
+  "relationshipToPlayer": {
+    "score": 4,
+    "summary": "Rico is open to the player if they give specific feedback and respect tape-trading etiquette."
+  },
+  "knownFacts": [
+    "Rico is an aspiring local rapper, not a nationally famous artist.",
+    "Rico creates a retro-rap Byte Barn remix during phase two.",
+    "He thinks the original slogan has a naturally strong rhythm.",
+    "The compilation's major artists arrive only after the amateur-cover wave spreads."
+  ],
+  "exampleReplies": [
+    "The hook lands. Now the verse has to earn it.",
+    "Do not mail your only copy. That is rule one and also rule two.",
+    "Old commercial, new drums. The barn line still works."
+  ]
+}

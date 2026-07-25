@@ -13,6 +13,11 @@ import { rumorPages } from "./rumor-pages";
 import { legacyFragmentPages } from "./legacy-fragment-pages";
 import { coreCharacterPages } from "./core-character-pages";
 import {
+  soundwaveDirectoryBody,
+  soundwavePages
+} from "./soundwave-pages";
+import { BYTE_BARN_COMPILATION_URL } from "./byte-barn-revival";
+import {
   NEWCOMER_ZONE_BUTTON,
   newcomerMembers,
   newcomerPages,
@@ -266,6 +271,7 @@ function zoneDirectoryBody(zoneId: string, state: GameState) {
         <aside class="cozy-abandoned-note"><b>WEB RING NOTICE</b><p>Several neighbors have not updated in a while. Broken counters and quiet guestbooks are normal. Please leave the porch light on.</p></aside>
       </div>
     </section>`;
+  if (zoneId === "soundwave") return soundwaveDirectoryBody(state);
   if (zoneId === "backchannel") return `
     <section class="backchannel-member-directory member-page-directory">
       <header><div><small>UNVERIFIED // RECORDED // STILL ONLINE</small><h2>Backchannel Nodes</h2></div><span>${state.storyPhase >= 2 ? "4 live connections" : "2 live connections"}</span></header>
@@ -328,6 +334,7 @@ export const pages: Record<string, PageDefinition> = {
   ...coreCharacterPages,
   ...newcomerPages,
   ...phaseTwoOddityPages,
+  ...soundwavePages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",
@@ -342,6 +349,11 @@ export const pages: Record<string, PageDefinition> = {
         <header class="directory-logo"><span>ORBIT</span><b>NET</b></header>
         <p class="directory-tagline">${availableZones(state).length} communities. Thousands of interests. One friendly corner of the Information Superhighway!</p>
         <form class="search-box orbit-search-form"><input name="query" placeholder="Search pages, people, and phrases..." aria-label="Search OrbitNet"><button>Search</button></form>
+        ${state.storyPhase >= 3 ? `<section class="directory-byte-barn-event">
+          <div class="directory-event-disc">BB</div>
+          <div><small>BREAKING // BIGGEST TRAFFIC DAY IN ORBIT HISTORY</small><h1>BYTE BARN FOREVER</h1><p>Ten of today's biggest artists remade a forgotten computer-store jingle discovered right here on Orbit.</p></div>
+          <button data-nav="${BYTE_BARN_COMPILATION_URL}">HEAR THE COMPILATION &rsaquo;</button>
+        </section>` : ""}
         <section class="zone-directory-intro"><div><small>START EXPLORING</small><h1>Choose Your Community</h1></div><p>Every OrbitNet member page belongs to a neighborhood. Pick a zone or search the entire network.</p></section>
         <section class="zone-directory-grid">
           ${availableZones(state).map((zone) => `<button class="zone-directory-card zone-${zone.id}" data-nav="${zone.url}">${navButtonArt(`${zone.id}-zone`, `${zone.title} community button`, "zone-card-art")}<span class="zone-card-copy"><strong>${zone.title}</strong><small>${zone.tagline}</small></span><b>ENTER ZONE ›</b></button>`).join("")}
@@ -669,7 +681,7 @@ export const pages: Record<string, PageDefinition> = {
     listed: true,
     hubId: "business",
     searchTerms: ["computers", "computer store", "pc", "hardware", "software", "repair", "modem", "internet", "desktop", "upgrades", "computer parts"],
-    render: () => `
+    render: (state) => `
       <main class="page computer-page">
         <header class="bytebarn-header"><div><span>BYTE</span><b>BARN</b><small>COMPUTER SUPERSTORE</small></div><em>LOCALLY COMPUTED SINCE 1987</em></header>
         <nav class="bytebarn-nav"><button data-nav="web://bytebarn.com/home">HOME</button><button data-nav="web://bytebarn.com/systems">SYSTEMS & UPGRADES</button><button data-nav="web://bytebarn.com/software">SOFTWARE</button><button data-nav="web://bytebarn.com/service">STORE & SERVICE</button></nav>
@@ -678,6 +690,7 @@ export const pages: Record<string, PageDefinition> = {
           <div class="bytebarn-product">${businessAsset("bytebarn-system", "A complete beige Byte Barn family computer system")}<span class="sale-burst">SAVE<br>$200!</span></div>
           <div><p class="catalog-code">SYSTEM 11-99 / HOME OFFICE</p><h1>Put Pentium Power in the Family Room!</h1><p>The complete <b>ORBIT 350</b> gets homework, games, and the Information Superhighway off one desk and onto another desk.</p><ul><li>350MHz processor</li><li>64MB memory</li><li>4.3GB hard drive</li><li>15&quot; color monitor</li><li>56K modem &amp; speakers</li></ul><strong class="hero-price"><small>COMPLETE SYSTEM</small>$1,299</strong><button data-nav="web://bytebarn.com/systems">COMPARE SYSTEMS &gt;</button></div>
         </section>
+        ${state.storyPhase >= 2 ? `<aside class="bytebarn-jingle-traffic"><b>OLD JINGLE FILE NOTICE</b><span>Our retired TV commercial has somehow become the most requested file on this server. Chip says downloading it will not improve your computer.</span><button data-nav="web://freshorbit.zone/users/barnbeatben/home">VISIT BEN'S JINGLE FAN PAGE &rsaquo;</button></aside>` : ""}
         <section class="computer-deals">
           <article>${businessAsset("bytebarn-modem", "An external 56K modem")}<div><b>56K MODEM KIT</b><span>External modem, cable &amp; patient setup guide.</span><strong>$79</strong></div></article>
           <article>${businessAsset("bytebarn-upgrades", "Computer upgrade cards, memory, and joystick")}<div><b>UPGRADE COUNTER</b><span>Memory, video, sound, joysticks and honest advice.</span><strong>FROM $29</strong></div></article>

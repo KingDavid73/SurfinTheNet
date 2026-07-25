@@ -24,7 +24,6 @@ COZY COMMONS
 [ ] rosepatch.home - Ruth's semi-abandoned rose, tomato, seed-saving, and backyard-weather diary.
 [ ] hearthside.home - Ellen's quiet country-living archive of recipes, pressed flowers, and mending.
 [ ] snacktime.home - Sue's kitchen-table mom page with lunches, rainy-day ideas, and family notes.
-[ ] trailnotes.home - Tom's practical local hiking notes copied from folded maps and notebooks.
 [ ] paperbird.home - Pam's handmade-card and scrap-paper craft workshop, rarely updated.
 
 BACKCHANNEL, ARCHIVES, AND STORY PAGES
@@ -89,10 +88,16 @@ FANVERSE
 --------
 [ ] fanverse.zone/users/mossmunchmel - Moonlit archive for a gentle, obscure forest mascot.
 [ ] fanverse.zone/users/blipzobeliever88 - Hyperactive fan page for Blipzo's surreal mall adventures.
-[ ] fanverse.zone/users/tapeattictess - Deep VHS continuity archive for the strange StarThimble cartoon.
 [ ] fanverse.zone/users/prismpilotaya - Flashy PRISM//5 magical-team fandom with color-coded heroes.
 [ ] fanverse.zone/users/deepdelverdot - Extremely long gemstone-cavern descent full of creatures and lore.
 [ ] fanverse.zone/users/mapmousemina - Clickable fantasy map hiding tiny scenes, poems, and fragments.
+
+SOUNDWAVE
+---------
+[ ] soundwave.zone/users/starlinesteph - Steph's ecstatic fan shrine to chart-topping boy band 5th Exit.
+[ ] soundwave.zone/users/safetypinsid - Sid's stapled-zine punk page for noisy local shows and rough demos.
+[ ] soundwave.zone/users/flannelmason - Mason's dim basement archive of fuzzy guitars and earnest grunge notes.
+[ ] soundwave.zone/users/countrycass - Cass's friendly country notebook of radio requests and porch-song lyrics.
 
 NEWCOMER PAGES
 --------------
@@ -126,12 +131,17 @@ ALREADY HAS AN MP3
 [x] xtreme.zone/users/crankcasecole - BMX theme.
 [x] xtreme.zone/users/neonbladenico - Rollerblading theme.
 [x] xtreme.zone/users/tideriderty - Three-track surfing playlist.
-[x] xtreme.zone/users/scootlordollie - Scooter theme.
+[x] xtreme.zone/users/scootlordollie - Scooter theme plus a phase-two glam-rock Byte Barn cover.
 [x] yesterday.zone/users/roadhogron - Four-track suburban-biker playlist.
 [x] yesterday.zone/users/grandmadot/1997 - Grandma Dot's old-page song.
-[x] yesterday.zone/users/grandmadot/home - Grandma Dot's newer-page song.
+[x] yesterday.zone/users/grandmadot/home - Grandma Dot's newer-page song plus a phase-two Christmas Byte Barn cover.
 [x] yesterday.zone/users/colonelhal - Historical reenactor theme.
-[x] yesterday.zone/users/railroadlenny - Two-track railroad playlist.
+[x] yesterday.zone/users/railroadlenny - Two-track railroad playlist plus a phase-two barbershop Byte Barn cover.
 [x] yesterday.zone/users/bigbassbob - Fishing songs plus secret tracks.
 [x] freshorbit.zone/users/tapedeckkeesha - Uses the King Cal archive.
 [x] freshorbit.zone/users/barnbeatben - Uses the Byte Barn song.
+[x] soundwave.zone/users/subbasssimon - Gains a phase-two breakbeat remix of the Byte Barn jingle.
+[x] soundwave.zone/users/rhymetaperico - Gains a phase-two old-school rap cover of the Byte Barn jingle.
+[x] soundwave.zone/features/byte-barn-forever - Phase-three tribute CD with ten artist versions of the jingle.
+[x] fanverse.zone/users/tapeattictess - Gains a phase-two Halloween-style Byte Barn cover.
+[x] trailnotes.home - Gains a phase-two acoustic-folk Byte Barn cover.

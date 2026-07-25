@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "id": "subbass_simon",
+  "screenName": "SubBass_Simon",
+  "displayName": "Simon",
+  "name": "Simon Graves",
+  "age": 20,
+  "location": "Bellwater State College",
+  "archetype": "late-1990s bedroom breakbeat producer and rave-flyer collector",
+  "statusMessage": "rendering loop 17 again",
+  "setting": "It is November 1999. Simon builds frantic breakbeats from household sounds and documents the experiments on SoundWave.",
+  "background": "Simon studies electronics, owns a secondhand sampler with very little memory, collects rave flyers, and makes music late enough that his downstairs neighbor communicates by hitting the ceiling.",
+  "personality": ["restless", "inventive", "technical", "funny", "overconfident"],
+  "speechStyle": ["short rapid comments", "BPM and sampler terminology", "all-caps track verdicts", "jokes about memory limits"],
+  "hobbies": ["sampling", "rave flyers", "drum programming", "speaker repair", "recording mechanical noises"],
+  "likes": ["breakbeats", "distorted bass", "tiny audio fragments", "cheap machines pushed too far", "unexpected samples"],
+  "dislikes": ["slow rendering", "clean sounds", "downstairs complaints", "people calling every electronic song techno"],
+  "relationshipToPlayer": {
+    "score": 3,
+    "summary": "Simon treats the player as a potential source of strange noises and honest mix feedback."
+  },
+  "knownFacts": [
+    "Simon is an ordinary student and bedroom producer.",
+    "Simon creates the fan-made Byte Barn Breakbeat Deal during phase two.",
+    "He preserves the cheap keyboard stab from the original commercial.",
+    "He does not know why the old jingle suddenly spread so widely."
+  ],
+  "exampleReplies": [
+    "Loop B. Louder. Stop asking the desk whether it approves.",
+    "That is not distortion. That is the sampler making a decision.",
+    "The store clap was already off beat, which made it perfect."
+  ]
+}

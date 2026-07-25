@@ -775,6 +775,23 @@ function createWindow() {
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-three dormant account page was available during phase one");
           await address("web://orbitnet.local/zones/newcomers");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two newcomer zone was available during phase one");
+          await address("web://orbitnet.local/zones/soundwave");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.soundwave-member-card').length === 6 && !document.querySelector('.soundwave-revival-card')`)) {
+            throw new Error("Phase-one SoundWave directory did not contain six ordinary member pages");
+          }
+          for (const soundwaveUrl of [
+            "web://soundwave.zone/users/starlinesteph/home",
+            "web://soundwave.zone/users/safetypinsid/home",
+            "web://soundwave.zone/users/flannelmason/home",
+            "web://soundwave.zone/users/subbasssimon/home",
+            "web://soundwave.zone/users/countrycass/home",
+            "web://soundwave.zone/users/rhymetaperico/home"
+          ]) {
+            await address(soundwaveUrl);
+            if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.sound-user-page')) && Boolean(document.querySelector('.page-comments')) && !document.querySelector('.byte-barn-cover-update')`)) {
+              throw new Error(`Phase-one SoundWave member page was incomplete or revealed the cover wave early: ${soundwaveUrl}`);
+            }
+          }
 
           await address("web://legacy.orbitos.local/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-orbit-page')) && document.body.textContent.includes('ONE COMPUTER. ONE NETWORK. ONE ORBIT.')`)) throw new Error("Hidden OrbitOS archive did not load by explicit address");
@@ -813,6 +830,20 @@ function createWindow() {
             if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.newcomer-page')) && Boolean(document.querySelector('.page-comments'))`)) {
               throw new Error(`Newcomer homepage was incomplete: ${newcomerUrl}`);
             }
+          }
+          await address("web://soundwave.zone/users/subbasssimon/home");
+          const phaseTwoCoverReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.byte-barn-cover-update [data-song-nav][data-song-file="byte-barn-breakbeat-deal.mp3"]')) && document.querySelector('.page-midi-player')?.classList.contains('has-playlist')`);
+          if (!phaseTwoCoverReady) throw new Error("Phase-two Byte Barn cover did not appear on Simon's personal page and playlist");
+          const phaseTwoCoverPlayed = await win.webContents.executeJavaScript(`(() => {
+            const button = document.querySelector('.byte-barn-cover-update [data-song-nav]');
+            if (!button) return false;
+            button.click();
+            return true;
+          })()`);
+          if (!phaseTwoCoverPlayed) throw new Error("Phase-two Byte Barn cover hyperlink was unavailable");
+          await wait();
+          if (!await win.webContents.executeJavaScript(`document.querySelector('.midi-track code')?.textContent.endsWith('byte-barn-breakbeat-deal.mp3')`)) {
+            throw new Error("Phase-two cover hyperlink did not tune OrbitAmp to the referenced track");
           }
           await address("web://gamegrid.zone/users/lagmaster99/home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-two-personal-update [data-nav*="comet-logo"]'))`)) throw new Error("Existing member homepage did not advertise its phase-two theory");
@@ -919,6 +950,30 @@ function createWindow() {
           }
           await wakeFromPhaseTransition(3);
 
+          await address("web://home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.directory-byte-barn-event [data-nav="web://soundwave.zone/features/byte-barn-forever"]'))`)) {
+            throw new Error("Phase-three OrbitNet homepage did not feature the Byte Barn compilation");
+          }
+          await address("web://orbitnet.local/zones/soundwave");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.soundwave-revival-card')) && document.querySelectorAll('.soundwave-member-card').length === 6`)) {
+            throw new Error("Phase-three SoundWave directory did not feature the compilation above its members");
+          }
+          await address("web://soundwave.zone/features/byte-barn-forever");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.tribute-track').length === 10 && document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'bytebarntribute' && document.querySelector('.midi-controls > span')?.textContent.includes('/10')`)) {
+            throw new Error("Byte Barn Forever did not expose its ten-track compilation playlist");
+          }
+          const selectedCompilationTrack = await win.webContents.executeJavaScript(`(() => {
+            const button = document.querySelector('.tribute-track [data-song-file="breaking-up-at-byte-barn.mp3"]');
+            if (!button) return false;
+            button.click();
+            return true;
+          })()`);
+          if (!selectedCompilationTrack) throw new Error("Compilation track hyperlink was unavailable");
+          await wait();
+          if (!await win.webContents.executeJavaScript(`document.querySelector('.midi-track code')?.textContent.endsWith('breaking-up-at-byte-barn.mp3')`)) {
+            throw new Error("Compilation track hyperlink did not tune OrbitAmp to the selected song");
+          }
+
           await address("web://bytebarn.com/home");
           const pageLessExplorerReady = await win.webContents.executeJavaScript(`(() => { const author = Array.from(document.querySelectorAll('.page-comment header b')).find((node) => node.textContent === 'GrayHatGary'); return Boolean(author) && !author.querySelector('.comment-author-link'); })()`);
           if (!pageLessExplorerReady) throw new Error("Phase-three explorer did not appear as a page-less commenter");
@@ -979,7 +1034,7 @@ function createWindow() {
           if (!continuityUnlocked) throw new Error("Continuity phrase form was unavailable");
           await wait(220);
           saved = await readSave();
-          if (saved.storyPhase !== 4 || !saved.directMessages.some((message) => message.id === "ending-system-confession") || !saved.pageComments.some((comment) => comment.id === "ending-comment-faxmoth")) {
+          if (saved.storyPhase !== 4 || !saved.directMessages.some((message) => message.id === "ending-system-confession" && message.text.includes("Byte Barn covers")) || !["ending-comment-faxmoth", "ending-comment-ben"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
             throw new Error("Free-play ending community responses were incomplete");
           }
           if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-4'))`)) {
@@ -999,7 +1054,7 @@ function createWindow() {
           await wait();
           await capture("story-continuity-ending.png");
 
-          console.log("STORY_OK: small phase-two oddities fed three headline cases; their route fragments opened the hidden government archive and phase three; eight page-less explorers joined the comment pool; dormant archives and stable free play still passed.");
+          console.log("STORY_OK: phase-two fan covers foreshadowed the ten-track phase-three Byte Barn compilation; the mystery route, page-less explorers, dormant archives, and music-led stable free-play ending all passed.");
         } catch (error) {
           console.error("STORY_FAILED:", error);
           process.exitCode = 1;

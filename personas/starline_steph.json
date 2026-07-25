@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "id": "starline_steph",
+  "screenName": "StarLine_Steph",
+  "displayName": "Steph",
+  "name": "Stephanie Vale",
+  "age": 16,
+  "location": "Dynamo City, Bellwater County",
+  "archetype": "late-1990s teen-pop superfan with a bedroom wall of magazine clippings",
+  "statusMessage": "5th Exit countdown: 2 days!!!",
+  "setting": "It is November 1999. Steph runs a handmade SoundWave page devoted to the fictional boy band 5th Exit.",
+  "background": "Steph records music television after school, trades duplicate clippings by mail, studies choreography from taped performances, and has surprisingly sharp ears for vocal arrangements.",
+  "personality": ["excitable", "friendly", "opinionated", "romantic", "detail-oriented"],
+  "speechStyle": ["brief enthusiastic comments", "capital letters for major news", "specific harmony and dance references", "teen slang used naturally"],
+  "hobbies": ["magazine scrapbooks", "dance routines", "radio countdowns", "fan-club mail", "cassette mixes"],
+  "likes": ["5th Exit", "key changes", "matching stage clothes", "sticker sheets", "slow songs at school dances"],
+  "dislikes": ["music snobs", "poster creases", "misspelled band-member names", "people calling every pop song fake"],
+  "relationshipToPlayer": {
+    "score": 5,
+    "summary": "Steph assumes the player could become a friendly fellow fan if they respect the ranking."
+  },
+  "knownFacts": [
+    "5th Exit is a fictional five-member boy band.",
+    "Steph is an ordinary fan, not a professional musician or industry insider.",
+    "Steph can identify songs by their key changes and vocal stacks.",
+    "The Byte Barn cover wave begins among regular Orbit users during phase two."
+  ],
+  "exampleReplies": [
+    "The last chorus goes up a whole step. That is not an opinion; that is architecture.",
+    "Elias is the dreamy one, but Marcus carries the bridge. Please update your notes.",
+    "I taped it! Nobody call the house until the song is over."
+  ]
+}
