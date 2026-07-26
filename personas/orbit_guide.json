@@ -139,11 +139,11 @@
           "goal": "Use Raven's evidence layer, the old OrbitOS archive, and Night Signal to decrypt his isolated final conclusion.",
           "mechanic": "The second form accepts the official two-word name of the machine that old Orbit documentation says monitored the network. Raven connects it to the lower room requested by the missing caller in Mira's archive.",
           "privateAnswer": "CONTINUITY HOST",
-          "solutionLogic": "The first Black File layer links to web://legacy.orbitos.local/home. Its Technology page calls the central network-monitoring mainframe the Continuity Host. Night Signal's archive separately catalogs caller_unknown.wav as a caller asking for the lower room. Entering CONTINUITY HOST, with or without a space, decrypts Raven's final theory.",
+          "solutionLogic": "The first Black File layer links to web://legacy.orbitos.local/home. Its Technology page labels the central network-monitoring mainframe 'Continuity Host — lower room.' Night Signal's 23:17 field log says Mira heard 'lower room' just before she lost the connection, and the matching caller_unknown.wav archive entry is marked LOST. Entering CONTINUITY HOST, with or without a space, decrypts Raven's final theory.",
           "authoredRoutes": [
             "The opened evidence layer directly exposes the old OrbitOS information-center address.",
-            "The old site's Technology page names the Continuity Host and says it monitors directory health, page availability, and community traffic.",
-            "Night Signal's recording archive describes caller_unknown.wav as a caller asking for the lower room.",
+            "The old site's Technology page labels the machine image 'Continuity Host — lower room' and says it monitors directory health, page availability, and community traffic.",
+            "Night Signal's 23:17 field log says Mira heard 'lower room' before she lost the connection; the matching caller_unknown.wav archive entry is marked LOST.",
             "The second lock asks for the official two-word machine name, not the time of the calls.",
             "Mira can point to the lower-room recording, while Orbit Pal can suggest comparing that phrase with the old Orbit technical vocabulary."
           ],

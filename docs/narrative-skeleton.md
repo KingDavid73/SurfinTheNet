@@ -123,8 +123,9 @@ current implementation groups its first half into three playable phases:
 1. **Ordinary exploration:** no investigation objective; DarkRaven's locked
    Black File is the first optional gate. Juniper's birthday opens an evidence
    index, not the conclusion. That index exposes an old OrbitOS address; the
-   old Technology page's `Continuity Host` label and Night Signal's
-   lower-room caller together open a separate final file. Its master theory is
+   old Technology page's `Continuity Host — lower room` label and Night
+   Signal's lost 23:17 lower-room connection together open a separate final
+   file. Its master theory is
    a deliberate near miss: Raven correctly connects address-like number
    groups, Glass Lake routing work, and machines exchanging traffic without
    their users, then leaps to an evil alien race using Orbit modems to invade

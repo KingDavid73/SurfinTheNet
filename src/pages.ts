@@ -573,7 +573,7 @@ export const pages: Record<string, PageDefinition> = {
           <div class="archive-meta"><span>Recovered directory listing</span><b>LAST SYNC 11/03/1999 22:48</b><span>4.6 MB FREE</span></div>
           <table><thead><tr><th>FILE</th><th>DESCRIPTION</th><th>STATUS</th></tr></thead><tbody>
             <tr><td>rain_004.wav</td><td>Seven minutes of rainfall; voice at 05:42?</td><td class="archive-bad">CORRUPT</td></tr>
-            <tr><td>caller_unknown.wav</td><td>Unidentified caller asking for "the lower room"</td><td class="archive-bad">MISSING</td></tr>
+            <tr><td>caller_unknown.wav</td><td>Unidentified caller asking for "the lower room"; connection lost at 23:17</td><td class="archive-bad">LOST</td></tr>
             <tr><td>bridge_hum.aif</td><td>Electrical hum beneath Mercer overpass</td><td>CATALOGED</td></tr>
             <tr><td>numbers_2.wav</td><td>Digits repeated backward; probably scanner bleed</td><td>REVIEW</td></tr>
             <tr class="featured-file"><td>SIGNAL_NOTE.TXT</td><td>Operator's desk note</td><td><button data-download="signal-note" ${downloaded ? "disabled" : ""}>${downloaded ? "DOWNLOADED" : "DOWNLOAD"}</button></td></tr>
@@ -594,7 +594,7 @@ export const pages: Record<string, PageDefinition> = {
         <header class="signal-subhead"><span>OPERATOR FIELD LOG</span><small>M. VALE / DESK 2</small></header>
         <section class="log-timeline">
           <article><time>11/01<br><b>23:17</b></time><div><small>ENTRY 041</small><h2>Carrier under normal programming.</h2><p>Three words. Too muddy to transcribe. Receiver B's signal meter moved although its antenna was disconnected.</p></div><em>UNCONFIRMED</em></article>
-          <article><time>11/02<br><b>23:17</b></time><div><small>ENTRY 042</small><h2>Same signal. Same time.</h2><p>Station clock lost four seconds immediately afterward. Tape counter advanced eleven seconds.</p></div><em>REPEATED</em></article>
+          <article><time>11/02<br><b>23:17</b></time><div><small>ENTRY 042</small><h2>Connection found, then lost.</h2><p>A voice came through clearly enough to say “lower room.” I had the connection for eleven seconds, then lost it. Station clock lost four seconds immediately afterward.</p></div><em>LOST</em></article>
           <article class="pending-log"><time>11/03<br><b>--:--</b></time><div><small>ENTRY 043</small><h2>If it returns tonight...</h2><p>I am recording the full band. Juniper says her phone rang at the same minute. That is not evidence yet.</p></div><em>OPEN</em></article>
         </section>
         <aside class="signal-method"><b>FIELD METHOD</b><span>two receivers / synchronized clocks / fresh tape / write it down before inventing a theory</span></aside>

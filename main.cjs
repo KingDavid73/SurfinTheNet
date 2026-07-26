@@ -880,9 +880,9 @@ function createWindow() {
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-orbit-page')) && document.body.textContent.includes('ONE COMPUTER. ONE NETWORK. ONE ORBIT.')`)) throw new Error("Evidence layer's hidden OrbitOS archive did not load");
           await capture("story-orbitos-archive.png");
           await address("web://legacy.orbitos.local/technology");
-          if (!await win.webContents.executeJavaScript(`document.body.textContent.includes('Continuity Host') && document.body.textContent.includes('central mainframe')`)) throw new Error("Old OrbitOS technology page did not preserve the second-lock machine name");
+          if (!await win.webContents.executeJavaScript(`document.body.textContent.includes('Continuity Host') && document.body.textContent.includes('lower room') && document.body.textContent.includes('central mainframe')`)) throw new Error("Old OrbitOS technology page did not connect the second-lock machine name to the lower room");
           await address("web://nightsignal.net/archive");
-          if (!await win.webContents.executeJavaScript(`document.body.textContent.includes('caller_unknown.wav') && document.body.textContent.includes('the lower room')`)) throw new Error("Night Signal archive did not preserve the lower-room clue");
+          if (!await win.webContents.executeJavaScript(`document.body.textContent.includes('caller_unknown.wav') && document.body.textContent.includes('the lower room') && document.body.textContent.includes('connection lost at 23:17')`)) throw new Error("Night Signal archive did not preserve the lost 23:17 lower-room clue");
 
           await address("web://raven.web/vault");
           const conclusionUnlocked = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('[data-darkraven-conclusion]'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'continuity host'; form.requestSubmit(); return true; })()`);

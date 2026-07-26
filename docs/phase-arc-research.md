@@ -64,10 +64,11 @@ explicit link to `web://legacy.orbitos.local/home`, and a second encrypted file.
 
 The second gate uses the phrase `CONTINUITY HOST`:
 
-1. Night Signal's missing `caller_unknown.wav` entry says the caller asked for
-   “the lower room.”
-2. The old OrbitOS Technology page calls its central network-monitoring
-   mainframe the **Continuity Host**.
+1. Night Signal's 23:17 field log says Mira briefly heard “lower room” before
+   she lost the connection. The matching `caller_unknown.wav` entry is marked
+   `LOST`.
+2. The old OrbitOS Technology page labels its central network-monitoring
+   mainframe **Continuity Host — lower room**.
 3. Raven's second lock asks for the official two-word name of the machine he
    believes occupied that lower room. Spaces do not matter.
 

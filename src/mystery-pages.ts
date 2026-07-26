@@ -52,7 +52,10 @@ const RAVEN_THEORY_IMAGES = {
 } as const;
 
 const archiveImages = (...items: Array<[string, string]>) =>
-  `<div class="generated-archive-strip">${items.map(([src, alt]) => `<figure><img src="${src}" alt="${alt}"><figcaption>${alt}</figcaption></figure>`).join("")}</div>`;
+  `<div class="generated-archive-strip">${items.map(([src, caption]) => {
+    const alt = caption.replace(/<[^>]*>/g, "");
+    return `<figure><img src="${src}" alt="${alt}"><figcaption>${caption}</figcaption></figure>`;
+  }).join("")}</div>`;
 
 export const MYSTERY_TERMINAL_URLS: Record<string, string> = {
   morrow_five: "web://morrow-five.net/decoded",
@@ -185,7 +188,7 @@ export const mysteryPages: Record<string, PageDefinition> = {
             <ul><li><b>OrbitPages:</b> compact pages cached close to the user.</li><li><b>OrbitTags:</b> friendly widgets for mail, comments, counters, and clubs.</li><li><b>Orbit Identity:</b> one member record shared by the OS and network.</li><li><b>Continuity Host:</b> a central mainframe monitors directory health, page availability, and community traffic.</li></ul>
           </td></tr>
         </tbody></table>
-        ${archiveImages([MYSTERY_IMAGES.orbitDiagram, "OrbitNet architecture diagram"], [MYSTERY_IMAGES.orbitModem, "OrbitLink dial-up modem"], [MYSTERY_IMAGES.orbitServers, "Continuity host equipment room"])}
+        ${archiveImages([MYSTERY_IMAGES.orbitDiagram, "OrbitNet architecture diagram"], [MYSTERY_IMAGES.orbitModem, "OrbitLink dial-up modem"], [MYSTERY_IMAGES.orbitServers, "<strong>Continuity Host</strong> — lower room"])}
         <p clear="all"><font size="1">Technical note 2.1b: gateway users may see flattened tables, missing OrbitTags, duplicate comments, incorrect fonts, and scripts that do not execute.</font></p>
         <p class="legacy-comment-leak">&lt;!-- continuity documentation moved to <strong class="carry-forward-clue">/admin/continuity</strong> --&gt;</p>
       </main>`
