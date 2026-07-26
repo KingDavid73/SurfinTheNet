@@ -34,7 +34,7 @@ const newcomerArt = {
   "cal-dub-tape": new URL("../assets/images/phase2-newcomers/cal-dub-tape.png", import.meta.url).href,
   "cal-soldout-cd": new URL("../assets/images/phase2-newcomers/cal-soldout-cd.png", import.meta.url).href,
   "cal-fan-badge": new URL("../assets/images/phase2-newcomers/cal-fan-badge.png", import.meta.url).href,
-  "cal-crt": new URL("../assets/images/phase2-newcomers/cal-crt.png", import.meta.url).href,
+  "cal-crt": new URL("../assets/images/dealer-web/cal-commercials/cal-commercial-1996.png", import.meta.url).href,
   "byte-barn-sticker": new URL("../assets/images/phase2-newcomers/byte-barn-sticker.png", import.meta.url).href,
   "byte-waveform": new URL("../assets/images/phase2-newcomers/byte-waveform.png", import.meta.url).href,
   "byte-barn-doodle": new URL("../assets/images/phase2-newcomers/byte-barn-doodle.png", import.meta.url).href,
@@ -202,7 +202,7 @@ export const newcomerPages: Record<string, PageDefinition> = {
           <h2>THE CROWN SHELF</h2>
           <figure>${image(newcomerArt["cal-dub-tape"], "A homemade King Cal commercial compilation cassette")}<figcaption>TAPE 1 — commercials recorded over a school concert</figcaption></figure>
           <figure>${image(newcomerArt["cal-soldout-cd"], "A homemade mock-up of the sold-out King Cal greatest hits disc")}<figcaption>THE CD — sold out before I even joined this place</figcaption></figure>
-          <figure>${image(newcomerArt["cal-crt"], "A CRT screen grab from an old King Cal commercial")}<figcaption>THE PLAID ERA — bold suit, questionable sedan</figcaption></figure>
+          <figure>${image(newcomerArt["cal-crt"], "A CRT screen grab from an old King Cal commercial")}<figcaption>THE VELVET ERA — bold suit, questionable sedan</figcaption></figure>
           <figure>${image(newcomerArt["keesha-commercial-tv"], "Keesha watching an old car commercial on television")}<figcaption>research position / do not block television</figcaption></figure>
         </section>
         <aside class="newcomer-rating"><b>KEESHA'S CURRENT TOP THREE</b><ol><li>“Everybody Rides” — impossible not to sing</li><li>“Royalty on Wheels” — strongest fake trumpet</li><li>the warning song — honestly kind of strange</li></ol></aside>
