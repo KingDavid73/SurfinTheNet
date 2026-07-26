@@ -121,14 +121,17 @@ The broader seven-stage skeleton below remains the long-term structure. The
 current implementation groups its first half into three playable phases:
 
 1. **Ordinary exploration:** no investigation objective; DarkRaven's locked
-   Black File is the first optional gate. Its master theory is a deliberate near
-   miss: Raven correctly connects address-like number groups, Glass Lake
-   routing work, and machines exchanging traffic without their users, then
-   leaps to an evil alien race using Orbit modems to invade dreams and prepare
-   robot replacement bodies. The answer is obviously teenage nonsense; the
-   unresolved evidence beneath it is convincing enough that people invite
-   friends to Orbit to find a better explanation.
-2. **Active investigation:** opening the Black File restores old Backchannel
+   Black File is the first optional gate. Juniper's birthday opens an evidence
+   index, not the conclusion. That index exposes an old OrbitOS address; the
+   old Technology page's `Continuity Host` label and Night Signal's
+   lower-room caller together open a separate final file. Its master theory is
+   a deliberate near miss: Raven correctly connects address-like number
+   groups, Glass Lake routing work, and machines exchanging traffic without
+   their users, then leaps to an evil alien race using Orbit modems to invade
+   dreams and prepare robot replacement bodies. The answer is obviously
+   teenage nonsense; the unresolved evidence beneath it is convincing enough
+   that people invite friends to Orbit to find a better explanation.
+2. **Active investigation:** reading and leaving Raven's final conclusion restores old Backchannel
    nodes and introduces `ghostline`. Six harmless member theories point toward
    three synthetic headline mysteries. They have a dual purpose: unresolved
    puzzles increase return visits, and dramatic external threats redirect
@@ -161,7 +164,8 @@ boundary are recorded in `phase-arc-research.md`.
 
 ### Phase 2: Small inconsistencies
 
-- The first phase break spans four days and returns at 7:00 AM. The player
+- The first phase break occurs only after the player reads and leaves Raven's
+  isolated final-theory page. It spans four days and returns at 7:00 AM. The player
   shares DarkRaven's ridiculous dream-alien conclusion because its underlying
   evidence remains unexplained, steps away, and returns after friends have told
   friends to come prove him wrong. Printed addresses reach schools, shops, and

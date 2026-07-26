@@ -4426,6 +4426,17 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .raven-vault-files article { padding: 11px; background: #13061a; border: 1px solid #762e89; }
 .raven-vault-files article > b, .raven-vault-files em { color: #7f687f; font: 8px "Courier New", monospace; }
 .raven-vault-files code { display: block; margin: 7px 0; color: #80ff97; }
+.raven-final-lock { margin: 18px 0; padding: 15px; color: #d6bfdc; background: #0c0710; border: 2px dashed #875795; box-shadow: inset 0 0 18px #000; }
+.raven-final-lock > small { color: #8cff9e; font: bold 9px "Courier New", monospace; letter-spacing: .08em; }
+.raven-final-lock h2 { margin: 6px 0; color: #fff; }
+.raven-final-lock .raven-lock-note { padding: 8px; color: #ffec7d; background: #1b0d20; border-left: 4px solid #bd46ce; font-family: "Courier New", monospace; }
+.raven-final-lock form { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end; margin-top: 12px; }
+.raven-final-lock label { display: grid; gap: 4px; color: #b885c5; font: bold 9px "Courier New", monospace; }
+.raven-final-lock input { min-width: 0; padding: 7px; color: #b6ffc3; background: #000; border: 2px inset #5f3370; font: bold 13px "Courier New", monospace; }
+.raven-final-lock button { padding: 7px 12px; color: #111; background: #d9c3df; border: 2px outset #fff; font-weight: bold; }
+.raven-conclusion-page > header { border-color: #ff4eeb; box-shadow: 0 0 16px #92128c; }
+.raven-conclusion-page > aside { margin-top: 14px; padding: 11px; color: #9a839f; background: #09040b; border: 1px dotted #72457d; }
+.raven-conclusion-denied > p { width: min(480px, 80%); margin: 48px auto 18px; }
 .raven-master-theory { margin: 16px 0; padding: 15px; color: #ecc8f5; background: repeating-linear-gradient(135deg, #210b2b 0 12px, #17051f 12px 24px); border: 3px double #d348ee; box-shadow: inset 0 0 18px #000; }
 .raven-master-theory small { color: #8cff9e; font: bold 9px "Courier New", monospace; letter-spacing: .08em; }
 .raven-master-theory h2 { margin: 6px 0; color: #fff; text-shadow: 2px 2px #8d169f; }
@@ -4914,6 +4925,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   .page { padding: 17px; }
   .homeplanet-columns, .raven-vault-files, .copier-comparison, .quietcounty-page > section, .letter-comparison > div, .algorithm-archive-page dl, .archive-method-notes, .archive-finding-grid { grid-template-columns: 1fr; }
   .raven-theory-scrapbook { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .raven-final-lock form { grid-template-columns: 1fr; }
   .legacy-fragment-page { padding-right: 18px; padding-left: 18px; }
   .legacy-fragment-page > header, .legacy-fragment-newsletter > header { grid-template-columns: 68px 1fr; }
   .legacy-fragment-logo, .legacy-fragment-page .legacy-fragment-logo { width: 64px; height: 64px; }

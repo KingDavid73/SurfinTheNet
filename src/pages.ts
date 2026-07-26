@@ -617,7 +617,7 @@ export const pages: Record<string, PageDefinition> = {
         <div class="raven-home-grid">
           <aside class="raven-sidebar">
             <div class="raven-sigil">${finalPageArt("darkraven-sigil", "DarkRaven's homemade black raven and purple crescent web sigil")}</div>
-            <nav class="raven-nav"><button data-nav="web://raven.web/orbit">THE ORBIT HOLE</button><button data-nav="web://raven.web/files">FORBIDDEN FILES</button><button data-nav="web://raven.web/links">SHADOW LINKS</button><button data-nav="web://raven.web/about">ABOUT THE FIGURE</button><button data-nav="web://raven.web/vault">BLACK FILE [LOCKED]</button><button data-nav="web://rainbow.gdn/guestbook">JUNIPER'S GUESTBOOK</button></nav>
+            <nav class="raven-nav"><button data-nav="web://raven.web/orbit">THE ORBIT HOLE</button><button data-nav="web://raven.web/files">FORBIDDEN FILES</button><button data-nav="web://raven.web/links">SHADOW LINKS</button><button data-nav="web://raven.web/about">ABOUT THE FIGURE</button><button data-nav="web://raven.web/vault">BLACK FILE [PRIVATE]</button><button data-nav="web://rainbow.gdn/guestbook">JUNIPER'S GUESTBOOK</button></nav>
             <small>VOID VISITORS<br><b>00000666</b></small>
           </aside>
           <section class="raven-center">

@@ -114,7 +114,7 @@
         {
           "id": "darkraven_black_file",
           "matchTerms": ["darkraven", "black file", "raven.web/vault", "four digits", "access code", "locked file"],
-          "goal": "Open the private Black File linked from DarkRaven's site.",
+          "goal": "Open the evidence layer of the private Black File linked from DarkRaven's site.",
           "mechanic": "Enter a four-digit numeric access code. The page itself says it is a date DarkRaven is not allowed to forget.",
           "privateAnswer": "0614",
           "solutionLogic": "The date belongs to Juniper, DarkRaven's girlfriend. Juniper's About page gives her birthday as June 14, while DarkRaven's pages establish that four-digit dates use month-day order. Joining the two-digit month and day produces the code.",
@@ -131,13 +131,35 @@
             "One page supplies the birthday; a different Raven page supplies the four-digit ordering convention.",
             "Write the birthday as a two-digit month followed by a two-digit day, with no punctuation."
           ],
-          "completionEffect": "Opening the Black File begins phase two after a four-day break. Raven's dream-alien conclusion is ridiculous but its underlying evidence is unresolved, so friends invite friends to come prove him wrong. Newbie Nebula appears, old Backchannel routes return, and the Byte Barn cover wave begins growing around people who arrive for the mystery and stay for the community."
+          "completionEffect": "The birthday opens only the Black File evidence index. It reveals Raven's observations, the unlisted old OrbitOS homepage, and a second lock protecting his conclusion. It does not begin phase two."
+        },
+        {
+          "id": "darkraven_final_theory",
+          "matchTerms": ["final theory", "second lock", "lower room", "continuity host", "final_theory.htm", "raven conclusion"],
+          "goal": "Use Raven's evidence layer, the old OrbitOS archive, and Night Signal to decrypt his isolated final conclusion.",
+          "mechanic": "The second form accepts the official two-word name of the machine that old Orbit documentation says monitored the network. Raven connects it to the lower room requested by the missing caller in Mira's archive.",
+          "privateAnswer": "CONTINUITY HOST",
+          "solutionLogic": "The first Black File layer links to web://legacy.orbitos.local/home. Its Technology page calls the central network-monitoring mainframe the Continuity Host. Night Signal's archive separately catalogs caller_unknown.wav as a caller asking for the lower room. Entering CONTINUITY HOST, with or without a space, decrypts Raven's final theory.",
+          "authoredRoutes": [
+            "The opened evidence layer directly exposes the old OrbitOS information-center address.",
+            "The old site's Technology page names the Continuity Host and says it monitors directory health, page availability, and community traffic.",
+            "Night Signal's recording archive describes caller_unknown.wav as a caller asking for the lower room.",
+            "The second lock asks for the official two-word machine name, not the time of the calls.",
+            "Mira can point to the lower-room recording, while Orbit Pal can suggest comparing that phrase with the old Orbit technical vocabulary."
+          ],
+          "hintTiers": [
+            "The repeated time is evidence about when events happen, but the second password is made of words.",
+            "Follow the recovered old OrbitOS address and inspect how its Technology page names the central machine.",
+            "Compare that machine name with the missing caller entry in Night Signal's recording archive.",
+            "Enter the two-word name printed before the description of a central mainframe that monitors network health."
+          ],
+          "completionEffect": "The password opens a separate, interaction-free conclusion page. Raven's evidence is perceptive but his Dream Eater answer is absurd. Leaving that conclusion prompts the player to share it, step away for four days, and begin phase two."
         }
       ],
       "optionalDiscoveries": [
-        "The old OrbitOS archive address can be learned inside the Black File after it opens.",
+        "The old OrbitOS archive address can be learned inside the Black File evidence layer after the birthday lock opens.",
         "DarkRaven is close about the mechanism but wildly wrong about the actor and purpose: number groups can represent network addresses, Glass Lake routing work did touch Orbit, and Orbit systems do exchange autonomous traffic, but no evil Somnari are invading dreams or building robot replacement bodies.",
-        "Night Signal, Juniper's phone-jack test, and Raven's links contain early anomalies, but none is required to solve the first lock.",
+        "Night Signal, Juniper's phone-jack test, and Raven's links contain early anomalies. They are not required for the birthday lock, but Night Signal becomes part of the second gate.",
         "LagMaster has a harmless social favor involving VelvetMage. Completing it teaches that asking one character about authored personal knowledge can unlock a useful hint from somebody else."
       ]
     },

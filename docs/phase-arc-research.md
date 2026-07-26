@@ -48,8 +48,9 @@ texture and evidentiary structure, not a claim that Orbit participated in them.
 The player has no investigation objective. Orbit is primarily a funny, quiet,
 character-driven network. Optional anomalies exist on ordinary pages.
 
-The first authored gate is DarkRaven's Black File. Its code is `0614`, a bad
-four-digit password derived from Juniper's June 14 birthday. Recovery paths:
+The first authored sequence has two gates. DarkRaven's Black File evidence
+index uses `0614`, a bad four-digit password derived from Juniper's June 14
+birthday. Recovery paths:
 
 1. Juniper's About page states the date and mentions Raven's “system.”
 2. Raven's homepage specifies month-day order.
@@ -58,8 +59,23 @@ four-digit password derived from Juniper's June 14 birthday. Recovery paths:
    persona knowledge.
 
 The model may hint at those authored facts but cannot invent or change the code.
+Opening it does not start phase two. It reveals Raven's observations, an
+explicit link to `web://legacy.orbitos.local/home`, and a second encrypted file.
 
-Inside the opened file, Raven combines several observations that are much
+The second gate uses the phrase `CONTINUITY HOST`:
+
+1. Night Signal's missing `caller_unknown.wav` entry says the caller asked for
+   “the lower room.”
+2. The old OrbitOS Technology page calls its central network-monitoring
+   mainframe the **Continuity Host**.
+3. Raven's second lock asks for the official two-word name of the machine he
+   believes occupied that lower room. Spaces do not matter.
+
+This makes `11:17` a meaningful repeated time and an intentional red herring,
+not a plausible numeric password for either gate.
+
+Inside the first layer, Raven separates observations from interpretation. The
+separate conclusion file combines several observations that are much
 closer to the truth than his reputation suggests: Morrow groups can function as
 network addresses, Glass Lake routing research did reach Orbit, and Orbit
 machines exchange traffic without a user initiating every session. He then
@@ -74,7 +90,7 @@ without making his underlying pattern recognition entirely wrong.
 
 ### Phase 2 — active exploration
 
-Opening the Black File:
+Reading and then leaving Raven's final conclusion:
 
 - records phase two in the save;
 - advances four days to 7:00 AM and returns the player to a clean desktop.

@@ -15,7 +15,7 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 8,
+  version: 9,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -861,10 +861,6 @@ function createWindow() {
           }
           await capture("story-soundwave-rico-deep-cuts.png");
 
-          await address("web://legacy.orbitos.local/home");
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-orbit-page')) && document.body.textContent.includes('ONE COMPUTER. ONE NETWORK. ONE ORBIT.')`)) throw new Error("Hidden OrbitOS archive did not load by explicit address");
-          await capture("story-orbitos-archive.png");
-
           await address("web://raven.web/vault");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-darkraven-vault]'))`)) throw new Error("DarkRaven Black File did not begin locked");
           const unlocked = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('[data-darkraven-vault]'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = '0614'; form.requestSubmit(); return true; })()`);
@@ -874,14 +870,37 @@ function createWindow() {
           if (
             saved.storyPhase !== 1 ||
             !saved.flags.darkraven_vault_unlocked ||
+            saved.flags.phase_two_transition_pending ||
+            saved.flags.darkraven_conclusion_unlocked ||
+            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-evidence')) && Boolean(document.querySelector('[data-nav="web://legacy.orbitos.local/home"]')) && Boolean(document.querySelector('[data-darkraven-conclusion]')) && document.body.textContent.includes('OBSERVATIONS FIRST. THEORY ENCRYPTED.') && !document.querySelector('.raven-master-theory') && !document.querySelector('.phase-transition-overlay')`)
+          ) throw new Error("Juniper's birthday did not unlock only the Black File evidence layer");
+          await capture("story-darkraven-evidence-layer.png");
+
+          await address("web://legacy.orbitos.local/home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-orbit-page')) && document.body.textContent.includes('ONE COMPUTER. ONE NETWORK. ONE ORBIT.')`)) throw new Error("Evidence layer's hidden OrbitOS archive did not load");
+          await capture("story-orbitos-archive.png");
+          await address("web://legacy.orbitos.local/technology");
+          if (!await win.webContents.executeJavaScript(`document.body.textContent.includes('Continuity Host') && document.body.textContent.includes('central mainframe')`)) throw new Error("Old OrbitOS technology page did not preserve the second-lock machine name");
+          await address("web://nightsignal.net/archive");
+          if (!await win.webContents.executeJavaScript(`document.body.textContent.includes('caller_unknown.wav') && document.body.textContent.includes('the lower room')`)) throw new Error("Night Signal archive did not preserve the lower-room clue");
+
+          await address("web://raven.web/vault");
+          const conclusionUnlocked = await win.webContents.executeJavaScript(`(() => { const form = document.querySelector('[data-darkraven-conclusion]'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'continuity host'; form.requestSubmit(); return true; })()`);
+          if (!conclusionUnlocked) throw new Error("Could not submit Raven's authored final-file password");
+          await wait(250);
+          saved = await readSave();
+          if (
+            saved.storyPhase !== 1 ||
+            !saved.flags.darkraven_conclusion_unlocked ||
+            !saved.flags.darkraven_conclusion_read ||
             !saved.flags.phase_two_transition_pending ||
-            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-open .raven-master-theory')) && document.body.textContent.includes('THE DREAM EATERS ARE INVADING THROUGH ORBIT') && document.body.textContent.includes('Unless the aliens made me think that') && document.querySelectorAll('.raven-theory-scrapbook img').length === 9 && Array.from(document.querySelectorAll('.raven-theory-scrapbook img')).every((image) => image.naturalWidth > 0) && !document.querySelector('.phase-transition-overlay')`)
-          ) throw new Error("Black File did not remain readable after being unlocked");
+            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-conclusion-page .raven-master-theory')) && document.body.textContent.includes('THE DREAM EATERS ARE INVADING THROUGH ORBIT') && document.body.textContent.includes('Unless the aliens made me think that') && document.querySelectorAll('.raven-theory-scrapbook img').length === 9 && Array.from(document.querySelectorAll('.raven-theory-scrapbook img')).every((image) => image.naturalWidth > 0) && !document.querySelector('.raven-conclusion-page [data-nav]') && !document.querySelector('.phase-transition-overlay')`)
+          ) throw new Error("Second clue chain did not open Raven's isolated final conclusion");
           await capture("story-darkraven-black-file.png");
           const phaseOneTransitionTime = new Date(saved.gameTime);
           await address("web://home");
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-prompt [data-phase-sleep]')) && Boolean(document.querySelector('.raven-vault-open'))`)) {
-            throw new Error("Leaving the Black File did not pause for the explicit overnight transition");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-prompt [data-phase-sleep]')) && Boolean(document.querySelector('.raven-conclusion-page'))`)) {
+            throw new Error("Leaving Raven's conclusion did not pause for the explicit four-day transition");
           }
           const sleptUntilTomorrow = await win.webContents.executeJavaScript(`(() => {
             const button = document.querySelector('[data-phase-sleep]');

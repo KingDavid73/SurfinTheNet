@@ -382,7 +382,7 @@ const MIRA_WELCOME_TEXT = [
 ].join("\n");
 
 const DEFAULT_STATE: GameState = {
-  version: 8,
+  version: 9,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -658,6 +658,7 @@ const MYSTERY_CASE_ANSWERS: Record<string, string> = {
 };
 const PHASE_TWO_MAIN_MYSTERIES = ["morrow_five", "glass_lake", "quiet_county"] as const;
 const REQUIRED_PHASE_THREE_MYSTERIES = Object.values(MYSTERY_TERMINALS);
+const RAVEN_CONCLUSION_URL = "web://raven.web/vault/conclusion";
 
 interface WindowModel {
   open: boolean;
@@ -786,6 +787,15 @@ function normalizeState(loaded: Partial<GameState>): GameState {
   const storyPhase = loaded.flags?.continuity_console_unlocked
     ? 4
     : loaded.storyPhase === 2 || loaded.storyPhase === 3 || loaded.storyPhase === 4 ? loaded.storyPhase : 1;
+  const normalizedFlags = { ...(loaded.flags ?? {}) };
+  if (
+    Number(loaded.version ?? 0) < 9 &&
+    storyPhase === 1 &&
+    normalizedFlags.darkraven_vault_unlocked &&
+    !normalizedFlags.darkraven_conclusion_unlocked
+  ) {
+    delete normalizedFlags.phase_two_transition_pending;
+  }
   const normalizedDirectMessages = Array.isArray(loaded.directMessages)
     ? loaded.directMessages.map((message) => message.id === "mira-welcome-1999" ? { ...message, text: MIRA_WELCOME_TEXT } : message)
     : [];
@@ -803,6 +813,7 @@ function normalizeState(loaded: Partial<GameState>): GameState {
     version: DEFAULT_STATE.version,
     playerName,
     storyPhase,
+    flags: normalizedFlags,
     discoveredMysteries: Array.isArray(loaded.discoveredMysteries) ? [...new Set(loaded.discoveredMysteries.map(String))] : [],
     downloads: Array.isArray(loaded.downloads)
       ? loaded.downloads.map((file) => file.id === "signal-note" ? { ...file, contents: SIGNAL_NOTE_CONTENTS } : file)
@@ -1710,6 +1721,14 @@ function activateStoryPhase(nextPhase: StoryPhase) {
 }
 
 function registerStoryVisit(url: string) {
+  if (
+    url === RAVEN_CONCLUSION_URL &&
+    state.storyPhase === 1 &&
+    state.flags.darkraven_conclusion_unlocked
+  ) {
+    state.flags.darkraven_conclusion_read = true;
+    state.flags.phase_two_transition_pending = true;
+  }
   const mysteryId = MYSTERY_TERMINALS[url];
   if (!mysteryId || state.discoveredMysteries.includes(mysteryId)) return;
   const unlockFlag = MYSTERY_UNLOCK_FLAGS[mysteryId];
@@ -1725,16 +1744,16 @@ function registerStoryVisit(url: string) {
 }
 
 function promptForPendingPhaseTransition() {
-  const leavingBlackFile =
-    state.currentUrl === "web://raven.web/vault" &&
+  const leavingRavenConclusion =
+    state.currentUrl === RAVEN_CONCLUSION_URL &&
     state.storyPhase === 1 &&
     Boolean(state.flags.phase_two_transition_pending);
   const leavingFindings =
     state.currentUrl === "web://archive.orbitnet.local/labs/findings" &&
     state.storyPhase === 2 &&
     Boolean(state.flags.phase_three_transition_pending);
-  if (!leavingBlackFile && !leavingFindings) return false;
-  phaseTransitionPrompt = leavingBlackFile ? 2 : 3;
+  if (!leavingRavenConclusion && !leavingFindings) return false;
+  phaseTransitionPrompt = leavingRavenConclusion ? 2 : 3;
   startOpen = false;
   sleepDialogOpen = false;
   render();
@@ -3534,10 +3553,24 @@ function bindEvents() {
     }
     storyFormErrors.delete("raven");
     state.flags.darkraven_vault_unlocked = true;
-    state.flags.phase_two_transition_pending = true;
     await saveState();
-    notification = "ACCESS GRANTED // Black File decrypted.";
+    notification = "ACCESS GRANTED // Evidence index decrypted.";
     render();
+  });
+  document.querySelector<HTMLFormElement>("[data-darkraven-conclusion]")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    const password = String(new FormData(form).get("password") ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (password !== "continuityhost") {
+      storyFormErrors.set("raven-conclusion", "FINAL FILE LOCKED // identify the two-word machine in the lower room");
+      render();
+      return;
+    }
+    storyFormErrors.delete("raven-conclusion");
+    state.flags.darkraven_conclusion_unlocked = true;
+    await saveState();
+    notification = "FINAL FILE DECRYPTED // Raven's complete theory loaded.";
+    navigate(RAVEN_CONCLUSION_URL);
   });
   document.querySelectorAll<HTMLFormElement>("[data-case-unlock]").forEach((form) => form.addEventListener("submit", async (event) => {
     event.preventDefault();

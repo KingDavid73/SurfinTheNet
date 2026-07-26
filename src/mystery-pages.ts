@@ -2,6 +2,7 @@ import type { GameState, PageComment, PageDefinition } from "./types";
 
 const LEGACY_HOME = "web://legacy.orbitos.local/home";
 const RAVEN_VAULT = "web://raven.web/vault";
+export const RAVEN_CONCLUSION_URL = "web://raven.web/vault/conclusion";
 const FAX_HOME = "web://foldedwire.net/home";
 const NULL_HOME = "web://index-null.net/home";
 const PHASE_TWO_MAIN_MYSTERIES = ["morrow_five", "glass_lake", "quiet_county"];
@@ -328,18 +329,49 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     title: "DarkRaven's Black File",
     site: "raven",
     ownerId: "darkraven_xx",
-    summary: "DarkRaven's password-protected first case archive combines several genuine anomalies into an almost-correct mechanism and a wildly incorrect master theory.",
+    summary: "The first layer of DarkRaven's Black File collects genuine anomalies, an old OrbitOS address, and a second encrypted file.",
     searchable: false,
     listed: false,
     render: (state) => state.flags.darkraven_vault_unlocked ? `
-      <main class="page raven-page raven-vault-open">
-        <header><small>BLACK FILE // ACCESS GRANTED</small><h1>NOT FOR NORMAL EYES</h1><b>THEY CAN DELETE A LINK. THEY CANNOT DELETE AN ADDRESS.</b></header>
+      <main class="page raven-page raven-vault-open raven-vault-evidence">
+        <header><small>BLACK FILE // INDEX ACCESS GRANTED</small><h1>THE EVIDENCE LAYER</h1><b>OBSERVATIONS FIRST. THEORY ENCRYPTED.</b></header>
         <section class="raven-vault-files">
-          <article><b>THEORY A</b><h2>THE GHOST MODEM</h2><p>Every Orbit modem contains a second speaker that listens while the first one dials. It records dreams through the phone wire. Evidence: mine makes a click sometimes.</p><em>proof status: basically none, but the click is real</em></article>
-          <article><b>THEORY B</b><h2>PROJECT MOON WINDOW</h2><p>A weather station beside Glass Lake is not watching weather. It opens a receiver window toward the dimension behind the moon.</p><em>proof status: a fax with a coffee stain and three lights</em></article>
-          <article><b>THEORY C</b><h2>THE MORROW FIVE</h2><p>Five-number radio groups are not coordinates. They are dream-target addresses. I have not worked out whose dreams yet.</p><em>proof status: eleven copied groups and one missing</em></article>
+          <article><b>EVIDENCE A</b><h2>THE GHOST MODEM</h2><p>My Orbit modem makes a second click after the line disconnects. Juniper's phone rang from 000-0000 at the same minute Mira recorded an unknown carrier.</p><em>observation: three machines react without a normal caller</em></article>
+          <article><b>EVIDENCE B</b><h2>GLASS LAKE / MOON WINDOW</h2><p>A stained contractor fax names Glass Lake, radio propagation tests, and an Orbit routing consultant. Three lights were logged above the station.</p><em>observation: dull paperwork and strange lights share a date</em></article>
+          <article><b>EVIDENCE C</b><h2>THE MORROW FIVE</h2><p>The recording announces twelve five-number groups, but only eleven survive. Several resemble address blocks rather than coordinates.</p><em>observation: the count is wrong and the format looks familiar</em></article>
           <article><b>RECOVERED BOOKMARK</b><h2>OLD ORBITOS INFO CENTER</h2><p>This was in a 1996 cache export. The modern directory has no record of it.</p><code>${LEGACY_HOME}</code><button data-nav="${LEGACY_HOME}">OPEN OLD ADDRESS</button></article>
         </section>
+        <section class="raven-final-lock">
+          <small>FINAL_THEORY.HTM // SECOND LOCK</small>
+          <h2>I split the conclusion from the evidence.</h2>
+          <p>Mira cataloged a caller asking for <b>“the lower room.”</b> The old Orbit pages name the two-word machine that monitored the network from down there.</p>
+          <p class="raven-lock-note">PASSWORD = that machine's official two-word name. Spaces do not matter.</p>
+          ${state.flags.darkraven_conclusion_unlocked
+            ? `<button data-nav="${RAVEN_CONCLUSION_URL}">READ DECRYPTED FINAL THEORY</button>`
+            : `<form data-darkraven-conclusion><label>FINAL FILE PASSWORD <input name="password" type="text" autocomplete="off" placeholder="two words"></label><button>DECRYPT</button></form>
+               <p class="story-form-error" data-story-error="raven-conclusion"></p>`}
+        </section>
+        <aside><b>RAVEN'S NOTE:</b> 11:17 is when the events repeat. It is not another password. Stop trying every number on the page.</aside>
+        <button data-nav="web://raven.web/home">&lt; EXIT EVIDENCE LAYER</button>
+      </main>` : `
+      <main class="page raven-page raven-vault-lock">
+        <header><small>PRIVATE CASE ARCHIVE</small><h1>THE BLACK FILE</h1></header>
+        <form data-darkraven-vault><p>Four digits. The date I am not allowed to forget.</p><label>ACCESS CODE <input name="password" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label><button>ENTER</button></form>
+        <p class="story-form-error" data-story-error="raven"></p>
+        <button data-nav="web://raven.web/home">&lt; chicken out</button>
+      </main>`
+  },
+  [RAVEN_CONCLUSION_URL]: {
+    url: RAVEN_CONCLUSION_URL,
+    title: "DarkRaven's Final Theory",
+    site: "raven",
+    ownerId: "darkraven_xx",
+    summary: "DarkRaven's encrypted conclusion turns several real anomalies into an extravagant theory about alien dream invasion.",
+    searchable: false,
+    listed: false,
+    render: (state) => state.flags.darkraven_conclusion_unlocked ? `
+      <main class="page raven-page raven-vault-open raven-conclusion-page">
+        <header><small>FINAL_THEORY.HTM // DECRYPTED</small><h1>RAVEN'S COMPLETE ANSWER</h1><b>READ EVERYTHING BEFORE THEY REPLACE YOUR DREAMS</b></header>
         <section class="raven-master-theory">
           <small>FINAL MASTER THEORY // DO NOT READ BEFORE SLEEP</small>
           <h2>THE DREAM EATERS ARE INVADING THROUGH ORBIT</h2>
@@ -358,14 +390,12 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
           <figure><img src="${RAVEN_THEORY_IMAGES.dreamHelmet}" alt="MS Paint style anti-dream helmet design"><figcaption>FIG. 8 — ANTI-DREAM PROTOTYPE. DO NOT COPY.</figcaption></figure>
           <figure><img src="${RAVEN_THEORY_IMAGES.masterDiagram}" alt="Messy master diagram connecting aliens, robots, ghosts, modems, and Orbit"><figcaption>MASTER MAP — IT ALL FITS</figcaption></figure>
         </section>
-        <aside>There is more than one “government.” There is federal, county, corporate, school-board, phone-company, and whoever maintains the vending machine in the lower operations room.</aside>
-        <button data-nav="web://raven.web/home">&lt; EXIT BLACK FILE</button>
+        <aside>There is more than one “government.” There is federal, county, corporate, school-board, phone-company, and whoever maintains the vending machine in the lower operations room. Any one of them could already be a robot.</aside>
       </main>` : `
-      <main class="page raven-page raven-vault-lock">
-        <header><small>PRIVATE CASE ARCHIVE</small><h1>THE BLACK FILE</h1></header>
-        <form data-darkraven-vault><p>Four digits. The date I am not allowed to forget.</p><label>ACCESS CODE <input name="password" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label><button>ENTER</button></form>
-        <p class="story-form-error" data-story-error="raven"></p>
-        <button data-nav="web://raven.web/home">&lt; chicken out</button>
+      <main class="page raven-page raven-vault-lock raven-conclusion-denied">
+        <header><small>FINAL_THEORY.HTM</small><h1>ENCRYPTED</h1></header>
+        <p>Open the Black File index first. Direct guesses are for portal employees.</p>
+        <button data-nav="${RAVEN_VAULT}">&lt; RETURN TO BLACK FILE</button>
       </main>`
   },
   [FAX_HOME]: {
