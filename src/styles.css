@@ -3409,10 +3409,13 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   text-align: left;
 }
 
-.comments-heading { display: flex; justify-content: space-between; align-items: end; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid #596a9c; }
+.comments-heading { display: flex; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid #596a9c; }
 .comments-heading small { color: #5e6780; font: bold 9px "Courier New", monospace; letter-spacing: .15em; }
 .comments-heading h2 { margin: 2px 0 0; color: #253a78; font: bold 18px Tahoma, sans-serif; text-shadow: none; letter-spacing: 0; }
-.comments-heading > span { color: #626779; font-size: 10px; }
+.comments-heading-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.comments-heading-actions > span { color: #626779; font-size: 10px; white-space: nowrap; }
+.comment-message-owner { max-width: 220px; padding: 4px 7px; overflow: hidden; color: #172b67; background: #d7dbe9; border: 2px outset white; font: bold 10px Tahoma, Arial, sans-serif; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+.comment-message-owner:active { border-style: inset; }
 .comment-list { display: grid; gap: 7px; }
 .page-comment { padding: 8px 10px; color: #24242d; background: white; border: 1px solid #b7bbca; border-left: 5px solid #777; }
 .page-comment.owner { background: #fffce5; border-left-color: #d28d23; }
@@ -3438,7 +3441,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .site-signal .page-comments { color: #b8f5bc; background: #0c130e; border-color: #4d9653; box-shadow: 0 0 14px rgb(115 255 145 / 12%); font-family: "Courier New", monospace; }
 .site-signal .comments-heading { border-color: #71cf78; }
 .site-signal .comments-heading h2, .site-signal .page-comment header, .site-signal .page-comment-form label { color: #9cf5a4; font-family: "Courier New", monospace; }
-.site-signal .comments-heading small, .site-signal .comments-heading > span, .site-signal .comment-note { color: #6cab71; }
+.site-signal .comments-heading small, .site-signal .comments-heading-actions > span, .site-signal .comment-note { color: #6cab71; }
 .site-signal .page-comment { color: #d7f4da; background: #111d13; border-color: #365f3a; border-left-color: #4b8f50; }
 .site-signal .page-comment.owner { background: #18231a; border-left-color: #ff6262; }
 .site-signal .page-comment-form textarea { color: #baffbf; background: #050906; border-color: #214425; }
@@ -3447,7 +3450,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .site-raven .page-comments { color: #e8c7f6; background: #120719; border-color: #82369d; box-shadow: 0 0 14px rgb(197 84 255 / 18%); font-family: "Courier New", monospace; }
 .site-raven .comments-heading { border-color: #9f47bf; }
 .site-raven .comments-heading h2, .site-raven .page-comment header, .site-raven .page-comment-form label { color: #dc78ff; font-family: "Courier New", monospace; }
-.site-raven .comments-heading small, .site-raven .comments-heading > span, .site-raven .comment-note { color: #9c68b1; }
+.site-raven .comments-heading small, .site-raven .comments-heading-actions > span, .site-raven .comment-note { color: #9c68b1; }
 .site-raven .page-comment { color: #ead8f1; background: #1d0b27; border-color: #4d265d; border-left-color: #793193; }
 .site-raven .page-comment.owner { background: #291032; border-left-color: #ff596d; }
 .site-raven .page-comment-form textarea { color: #f0cfff; background: #08040d; border-color: #5a286d; }

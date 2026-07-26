@@ -107,7 +107,7 @@ export function phaseTwoBackchannelDirectory(state: GameState) {
     <button class="backchannel-member-card member-null" data-nav="${NULL_HOME}">
       <i>NULL:</i><span><strong>INDEX NULL / DEAD LETTER OFFICE</strong><small>Unclaimed links, expired accounts, custom error pages, and routes the directory insists never existed.</small><b>NODE: LOST ADDRESSES</b></span><em>RESTORED 11/04/99</em>
     </button>
-    <aside class="backchannel-new-traffic"><b>TRAFFIC NOTICE</b><span>Two old nodes began answering after years offline. Several new handles are also appearing in public comments without homepages.</span></aside>`;
+    <aside class="backchannel-new-traffic"><b>TRAFFIC NOTICE</b><span>Two old nodes began answering after years offline. The directory catalog target also rebuilt at 00:06, so restored node titles may now resolve through Orbit Search. Several new handles are appearing in public comments without homepages.</span></aside>`;
 }
 
 const legacyHeader = (section: string) => `
@@ -425,7 +425,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
           <i>fold here &rarr;</i>
           <button data-nav="web://foldedwire.net/trace">TRACE 6<br><small>copier dust / typewriter faults</small></button>
           <i>&darr; margin note</i>
-          <span class="fax-map-label">UNFILED: M5<br><small>five-number groups / owner copy removed</small></span>
+          <span class="fax-map-label">UNFILED: <strong class="restored-mystery-name">MORROW FIVE</strong><br><small>five-number groups / owner copy removed</small></span>
         </div>
         <aside><b>METHOD:</b> Find the dull original underneath the exciting photocopy. Dates, staple holes, and fax headers lie less elegantly than people do. <button data-nav="web://foldedwire.net/provenance">OPEN METHOD DRAWER</button></aside>
       </main>`
@@ -441,8 +441,8 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     render: () => `
       <main class="page folded-wire-page fax-cabinet-page"><header><span>B-06</span><h1>CABINET B</h1></header>
         ${archiveImages([MYSTERY_IMAGES.fileCabinet, "Cabinet drawers 24-7 and 24-8"], [MYSTERY_IMAGES.markedMap, "A road map folded inside the weather contract"])}
-        <table><tbody><tr><th>B-06-14</th><td>Glass Lake atmospheric propagation contract</td><td>OWNER COPY OUT</td></tr>
-        <tr><th>B-11-02</th><td>Quiet County conflict-mediation correspondence</td><td>OWNER COPY OUT</td></tr>
+        <table><tbody><tr><th>B-06-14</th><td><strong class="restored-mystery-name">Glass Lake</strong> atmospheric propagation contract</td><td>OWNER COPY OUT</td></tr>
+        <tr><th>B-11-02</th><td><strong class="restored-mystery-name">Quiet County</strong> conflict-mediation correspondence</td><td>OWNER COPY OUT</td></tr>
         <tr><th>B-19-88</th><td>Orbit gateway session-ordering invoice</td><td>INDEX CARD WITHDRAWN</td></tr></tbody></table>
         <p class="fax-cabinet-note">Cabinet numbers identify the paper record. They are not page addresses. Record the reference before leaving.</p>
         <button data-nav="${FAX_HOME}">&larr; refold document</button>
@@ -458,7 +458,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     minimumPhase: 2,
     render: () => `
       <main class="page folded-wire-page fax-trace-page"><h1>TRACE 6: THREE LEAKS, ONE COPIER</h1>
-        <div class="copier-comparison"><article><b>MOON WINDOW</b><p>dust: 14 specks<br>redaction: 38 mm<br>footer: OWG-4.7</p></article><article><b>MORROW FIVE</b><p>dust: 14 specks<br>redaction: 38 mm<br>footer: OWG-4.7</p></article><article><b>COUNTY MIRROR</b><p>dust: 14 specks<br>redaction: 38 mm<br>footer: OWG-4.7</p></article></div>
+        <div class="copier-comparison"><article><b><strong class="restored-mystery-name">GLASS LAKE</strong> / MOON WINDOW</b><p>dust: 14 specks<br>redaction: 38 mm<br>footer: OWG-4.7</p></article><article><b><strong class="restored-mystery-name">MORROW FIVE</strong></b><p>dust: 14 specks<br>redaction: 38 mm<br>footer: OWG-4.7</p></article><article><b><strong class="restored-mystery-name">QUIET COUNTY</strong> / COUNTY MIRROR</b><p>dust: 14 specks<br>redaction: 38 mm<br>footer: OWG-4.7</p></article></div>
         <p>They were produced from one template after Orbit Bridge 4.7 existed. The underlying attachments can still be older and genuine.</p><button data-nav="${FAX_HOME}">BACK TO FOLD</button>
       </main>`
   },
@@ -482,9 +482,9 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
         <pre class="null-route-map">ROOT
  |-- /people/expired --- [143 RECORDS / NO INDEX]
  |-- /clubs/retired ---- [2 CARRIERS / ROUTE TABLE LOST]
- |-- /radio/m5 --------- [11 GROUPS / OWNER MIRROR]
- |-- /county/quiet ----- [3 LETTERS / SOURCE UNVERIFIED]
- |-- /weather/glass ---- [CONTRACT INDEX MISMATCH]
+ |-- /radio/m5 --------- [<strong class="restored-mystery-name">MORROW FIVE</strong> / 11 GROUPS / OWNER MIRROR]
+ |-- /county/quiet ----- [<strong class="restored-mystery-name">QUIET COUNTY</strong> / 3 LETTERS / SOURCE UNVERIFIED]
+ |-- /weather/glass ---- [<strong class="restored-mystery-name">GLASS LAKE</strong> / CONTRACT INDEX MISMATCH]
  |-- /orbit/private ---- [CHECKSUM INCOMPLETE]
  '-- /system/below ----- [AUTH REQUIRED]</pre>
         <nav><button data-nav="web://index-null.net/deadletters">OPEN DEAD LETTERS</button><button data-nav="web://index-null.net/nodes">PING NODE BOARD</button></nav>
@@ -517,8 +517,8 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     minimumPhase: 2,
     render: () => `
       <main class="page index-null-page null-nodes-page"><h1>NODE BOARD // 11.04.99</h1>
-        <table><tbody><tr><th>23:58</th><td>RAVEN/BLACK</td><td>ACCESS</td></tr><tr><th>00:01</th><td>FOLDEDWIRE</td><td>RESTORED</td></tr><tr><th>00:03</th><td>MORROW-FIVE</td><td>RESTORED</td></tr><tr><th>00:04</th><td>GLASSLAKE</td><td>RESTORED</td></tr><tr><th>00:04</th><td>QUIET-COUNTY</td><td>RESTORED</td></tr></tbody></table>
-        <p>Coincidence is not a packet protocol.</p><button data-nav="${NULL_HOME}">RETURN NULL</button>
+        <table><tbody><tr><th>23:58</th><td>RAVEN/BLACK</td><td>ACCESS</td></tr><tr><th>00:01</th><td>FOLDEDWIRE</td><td>RESTORED</td></tr><tr><th>00:03</th><td><strong class="restored-mystery-name">MORROW FIVE</strong></td><td>RESTORED</td></tr><tr><th>00:04</th><td><strong class="restored-mystery-name">GLASS LAKE</strong></td><td>RESTORED</td></tr><tr><th>00:04</th><td><strong class="restored-mystery-name">QUIET COUNTY</strong></td><td>RESTORED</td></tr></tbody></table>
+        <p>Coincidence is not a packet protocol. Catalog target rebuilt at 00:06; restored node titles are entering the public search listings.</p><button data-nav="${NULL_HOME}">RETURN NULL</button>
       </main>`
   },
   "web://morrow-five.net/home": {

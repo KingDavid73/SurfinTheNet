@@ -562,6 +562,20 @@ const CHARACTER_CONTACTS: Record<string, {
   halo_holly: { screenName: "HaloComb_Holly", displayName: "Holly", statusMessage: "Saturday is almost booked" }
 };
 
+function ensureCharacterContact(ownerId: string) {
+  const existing = CHARACTER_CONTACTS[ownerId];
+  if (existing) return existing;
+  const owner = PAGE_OWNERS[ownerId];
+  if (!owner || ownerId === "system_core") return null;
+  const contact = {
+    screenName: owner.screenName,
+    displayName: owner.displayName,
+    statusMessage: "Orbit page contact"
+  };
+  CHARACTER_CONTACTS[ownerId] = contact;
+  return contact;
+}
+
 const CHARACTER_HOME_URLS: Record<string, string> = {
   mira_917: "web://nightsignal.net/home",
   juniper_gdn: "web://rainbow.gdn/home",
@@ -2001,7 +2015,15 @@ function pageCommentSection(page: PageDefinition) {
     : `<p class="no-comments">Nobody has commented on this page yet.</p>`;
 
   return `<section class="page-comments">
-    <header class="comments-heading"><div><small>PUBLIC COMMENTS</small><h2>Talk to ${escapeHtml(owner.displayName)}</h2></div><span>${comments.length} message${comments.length === 1 ? "" : "s"}</span></header>
+    <header class="comments-heading">
+      <div><small>PUBLIC COMMENTS</small><h2>Talk to ${escapeHtml(owner.displayName)}</h2></div>
+      <div class="comments-heading-actions">
+        ${page.ownerId !== "orbit_guide" && page.ownerId !== "system_core"
+          ? `<button class="comment-message-owner" data-aim-owner="${escapeHtml(page.ownerId)}" title="Open a private OIM conversation with ${escapeHtml(owner.screenName)}">OIM ${escapeHtml(owner.screenName)}</button>`
+          : ""}
+        <span>${comments.length} message${comments.length === 1 ? "" : "s"}</span>
+      </div>
+    </header>
     <div class="comment-list">${commentHtml}</div>
     ${pageCommentErrors.has(page.url) ? `<p class="comment-error">${escapeHtml(pageCommentErrors.get(page.url)!)}</p>` : ""}
     <form class="page-comment-form" data-comment-page="${escapeHtml(page.url)}">
@@ -2360,6 +2382,9 @@ function diagnosticsWindow() {
 }
 
 function chatWindow() {
+  for (const message of state.directMessages) {
+    if (message.channel === "aim") ensureCharacterContact(message.ownerId);
+  }
   const persona = CHARACTER_CONTACTS[activeAimOwnerId] ?? CHARACTER_CONTACTS.mira_917;
   const conversation = state.directMessages.filter((message) =>
     message.channel === "aim" &&
@@ -2393,9 +2418,12 @@ function chatWindow() {
     ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is ${activeNow ? "online" : "away"}.</b><span>${activeNow ? "Messages should be answered quickly while they are online." : `Usually online ${escapeHtml(activeHours)}.`}</span><span>${modelStarting ? "Connecting to Orbit Messaging…" : "Type below to start chatting."}</span></div>`
     : "";
   const contactButtons = Object.entries(CHARACTER_CONTACTS)
-    .filter(([ownerId, contact]) => contact.aim && (
+    .filter(([ownerId, contact]) => (contact.aim || ownerId === activeAimOwnerId || state.directMessages.some((message) =>
+      message.ownerId === ownerId && message.channel === "aim"
+    )) && (
       ownerId === "mira_917" ||
       (ownerId === "ghostline" && state.storyPhase >= 2) ||
+      ownerId === activeAimOwnerId ||
       state.directMessages.some((message) => message.ownerId === ownerId && message.channel === "aim" && message.role === "owner") ||
       state.visited.includes(CHARACTER_HOME_URLS[ownerId])
     ))
@@ -3653,7 +3681,9 @@ function bindEvents() {
     render();
   }));
   document.querySelectorAll<HTMLElement>("[data-aim-owner]").forEach((button) => button.addEventListener("click", () => {
-    activeAimOwnerId = button.dataset.aimOwner ?? "mira_917";
+    const ownerId = button.dataset.aimOwner ?? "mira_917";
+    if (!ensureCharacterContact(ownerId)) return;
+    activeAimOwnerId = ownerId;
     openApp("chat");
   }));
   document.querySelectorAll<HTMLElement>("[data-email-owner]").forEach((button) => button.addEventListener("click", () => {
