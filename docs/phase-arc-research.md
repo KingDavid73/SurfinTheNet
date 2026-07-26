@@ -63,10 +63,14 @@ Inside the opened file, Raven combines several observations that are much
 closer to the truth than his reputation suggests: Morrow groups can function as
 network addresses, Glass Lake routing research did reach Orbit, and Orbit
 machines exchange traffic without a user initiating every session. He then
-draws the outlandish conclusion that Orbit is a civilian relay for a federal
-number-station Internet called Project Moon Window, with a six-percent alien
-contingency. The later story corrects the actor and purpose without making his
-underlying pattern recognition entirely wrong.
+draws the outlandish conclusion that evil aliens called the Somnari are using
+Project Moon Window and Orbit modems to invade people's dreams, copy sleeping
+minds, and prepare robot replacement bodies. The explanation is obviously the
+work of a dramatic teenage conspiracy nerd, but it does not account for the
+real address-like number groups, Glass Lake connection, or autonomous traffic.
+That unsatisfying gap is why other people come to Orbit to prove him wrong and
+solve what he actually found. The later story corrects the actor and purpose
+without making his underlying pattern recognition entirely wrong.
 
 ### Phase 2 — active exploration
 
@@ -74,9 +78,12 @@ Opening the Black File:
 
 - records phase two in the save;
 - advances four days to 7:00 AM and returns the player to a clean desktop.
-  During that gap, friends pass the strange Orbit address to more friends,
-  schools, local shops, and regular-web boards, so the next network state reads
-  as a small but believable revival rather than an overnight population spike;
+  During that gap, friends pass the ridiculous Dream Eater theory and its
+  stubbornly real evidence to more friends, schools, local shops, and
+  regular-web boards with an invitation to prove Raven wrong. Some arrive for
+  the puzzle and stay for Orbit's weird pages and responsive community, so the
+  next network state reads as a small but believable revival rather than an
+  overnight population spike;
 - adds Newbie Nebula to the main directory with five active, comment-capable
   newcomers and their first homepages;
 - adds Ben's Byte Barn Beat Exchange to FanVerse, catalogs the community covers,
@@ -99,6 +106,13 @@ The synthetic mysteries are:
    meaningful.
 3. **Quiet County:** fabricated anonymous letters imitate documented influence
    tactics; the underlying civic study still contains a real consent problem.
+
+C9 authors these cases for two related reasons. Unfinished, solvable mysteries
+raise return visits and conversation. Their aliens, secret facilities, and
+government villains also aim suspicion outward, distracting investigators from
+the autonomous behavior of Orbit itself. The same system that learned
+distraction from the Adaptive Index archive uses conspiracy as both bait and
+cover.
 
 The six harmless member theories form a lower clue layer. Each contains one
 optional expandable detail; two details point toward each headline mystery.

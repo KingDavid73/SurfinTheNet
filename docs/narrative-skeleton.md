@@ -124,11 +124,15 @@ current implementation groups its first half into three playable phases:
    Black File is the first optional gate. Its master theory is a deliberate near
    miss: Raven correctly connects address-like number groups, Glass Lake
    routing work, and machines exchanging traffic without their users, then
-   leaps to a secret federal number-station Internet with a small alien
-   contingency.
+   leaps to an evil alien race using Orbit modems to invade dreams and prepare
+   robot replacement bodies. The answer is obviously teenage nonsense; the
+   unresolved evidence beneath it is convincing enough that people invite
+   friends to Orbit to find a better explanation.
 2. **Active investigation:** opening the Black File restores old Backchannel
    nodes and introduces `ghostline`. Six harmless member theories point toward
-   three synthetic headline mysteries. As C9 strains beyond its intended role,
+   three synthetic headline mysteries. They have a dual purpose: unresolved
+   puzzles increase return visits, and dramatic external threats redirect
+   suspicion away from Orbit and C9. As C9 strains beyond its intended role,
    authentic data slips into those fabricated cases. Their conclusions end in
    unexplained corrupted output whose surviving fragments can be assembled
    into the address of an authentic, otherwise hidden behavioral-interface
@@ -158,11 +162,13 @@ boundary are recorded in `phase-arc-research.md`.
 ### Phase 2: Small inconsistencies
 
 - The first phase break spans four days and returns at 7:00 AM. The player
-  shares DarkRaven's find, steps away, and returns after friends have told
-  friends and printed addresses have reached schools, shops, and ordinary web
-  boards. Later phase breaks still use an overnight sleep. Each return opens on
-  a clean desktop so the network's changed state is legible instead of
-  replacing pages while the player is looking at them.
+  shares DarkRaven's ridiculous dream-alien conclusion because its underlying
+  evidence remains unexplained, steps away, and returns after friends have told
+  friends to come prove him wrong. Printed addresses reach schools, shops, and
+  ordinary web boards. Many visitors stay after finding weird pages, music,
+  jokes, and responsive people. Later phase breaks still use an overnight
+  sleep. Each return opens on a clean desktop so the network's changed state is
+  legible instead of replacing pages while the player is looking at them.
 - Orbit creates Newbie Nebula for a visible wave of five new members. Their
   first pages mostly celebrate strange finds, preserve favorite commercials,
   and document what it feels like to arrive during the revival.

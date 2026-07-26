@@ -868,7 +868,7 @@ function createWindow() {
             saved.storyPhase !== 1 ||
             !saved.flags.darkraven_vault_unlocked ||
             !saved.flags.phase_two_transition_pending ||
-            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-open .raven-master-theory')) && document.body.textContent.includes('ORBIT IS A CIVILIAN RELAY FOR PROJECT MOON WINDOW') && document.body.textContent.includes('Remaining 6% reserved for aliens') && !document.querySelector('.phase-transition-overlay')`)
+            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-open .raven-master-theory')) && document.body.textContent.includes('THE DREAM EATERS ARE INVADING THROUGH ORBIT') && document.body.textContent.includes('Unless the aliens made me think that') && document.querySelectorAll('.raven-theory-scrapbook img').length === 9 && Array.from(document.querySelectorAll('.raven-theory-scrapbook img')).every((image) => image.naturalWidth > 0) && !document.querySelector('.phase-transition-overlay')`)
           ) throw new Error("Black File did not remain readable after being unlocked");
           await capture("story-darkraven-black-file.png");
           const phaseOneTransitionTime = new Date(saved.gameTime);
@@ -890,7 +890,7 @@ function createWindow() {
           if (
             phaseTwoReturnTime.getHours() !== 7 ||
             phaseTwoReturnTime.getTime() - phaseOneTransitionTime.getTime() < 72 * 60 * 60 * 1000 ||
-            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-2')) && document.body.textContent.includes('FOUR DAYS LATER') && document.body.textContent.includes('Friends told friends')`)
+            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-2')) && document.body.textContent.includes('FOUR DAYS LATER') && document.body.textContent.includes('come prove this kid wrong') && document.body.textContent.includes('stayed for strange pages')`)
           ) {
             throw new Error(`Phase two did not force the four-day word-of-mouth break: ${saved.gameTime}`);
           }

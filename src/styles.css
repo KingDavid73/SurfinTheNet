@@ -4445,6 +4445,12 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .raven-master-theory h2 { margin: 6px 0; color: #fff; text-shadow: 2px 2px #8d169f; }
 .raven-master-theory > b { display: block; padding: 9px; color: #ffec7d; background: #09010c; border-left: 5px solid #c241dc; }
 .raven-master-theory em { display: block; margin-top: 9px; color: #9c7da5; text-align: right; }
+.raven-theory-scrapbook { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0; padding: 14px; background: #1b1410; border: 2px dashed #7e6550; box-shadow: inset 0 0 22px #000; }
+.raven-theory-scrapbook figure { margin: 0; padding: 7px 7px 10px; color: #241a15; background: #ddd0a8; border: 1px solid #9c875c; box-shadow: 3px 4px #0008; transform: rotate(-1.2deg); }
+.raven-theory-scrapbook figure:nth-child(2n) { background: #c8d7c1; transform: rotate(1deg); }
+.raven-theory-scrapbook figure:nth-child(3n) { background: #d8c4c0; transform: rotate(-.4deg); }
+.raven-theory-scrapbook img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: #eee6ce; border: 1px solid #5b4d3e; filter: contrast(.92) saturate(.82); }
+.raven-theory-scrapbook figcaption { min-height: 26px; padding-top: 6px; font: bold 8px/1.25 "Comic Sans MS", "Courier New", monospace; text-align: center; }
 
 .backchannel-dormant-node, .backchannel-new-traffic { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 12px; padding: 8px; color: #54745a; background: #050806; border: 1px dashed #34523a; font-size: 8px; }
 .backchannel-member-card.member-fax i { color: #111; background: #d7d0b7; border-color: #eee4c6; text-shadow: none; transform: rotate(-2deg); }
@@ -4921,6 +4927,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   .directory-logo { font-size: 40px; }
   .page { padding: 17px; }
   .homeplanet-columns, .raven-vault-files, .copier-comparison, .quietcounty-page > section, .letter-comparison > div, .algorithm-archive-page dl, .archive-method-notes, .archive-finding-grid { grid-template-columns: 1fr; }
+  .raven-theory-scrapbook { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .legacy-fragment-page { padding-right: 18px; padding-left: 18px; }
   .legacy-fragment-page > header, .legacy-fragment-newsletter > header { grid-template-columns: 68px 1fr; }
   .legacy-fragment-logo, .legacy-fragment-page .legacy-fragment-logo { width: 64px; height: 64px; }

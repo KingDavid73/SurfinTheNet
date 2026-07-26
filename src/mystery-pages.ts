@@ -38,6 +38,18 @@ const MYSTERY_IMAGES = {
   serverRoom: new URL("../assets/images/generated-cells/backchannel/r4c4.webp", import.meta.url).href
 } as const;
 
+const RAVEN_THEORY_IMAGES = {
+  dreamAliens: new URL("../assets/images/generated-cells/raven-theories/dream-aliens.png", import.meta.url).href,
+  listeningModem: new URL("../assets/images/generated-cells/raven-theories/listening-modem.png", import.meta.url).href,
+  screenRobots: new URL("../assets/images/generated-cells/raven-theories/screen-robots.png", import.meta.url).href,
+  mallPortal: new URL("../assets/images/generated-cells/raven-theories/mall-portal.png", import.meta.url).href,
+  wireGhost: new URL("../assets/images/generated-cells/raven-theories/wire-ghost.png", import.meta.url).href,
+  weatherUfo: new URL("../assets/images/generated-cells/raven-theories/weather-ufo.png", import.meta.url).href,
+  numberTower: new URL("../assets/images/generated-cells/raven-theories/number-tower.png", import.meta.url).href,
+  dreamHelmet: new URL("../assets/images/generated-cells/raven-theories/dream-helmet.png", import.meta.url).href,
+  masterDiagram: new URL("../assets/images/generated-cells/raven-theories/master-diagram.png", import.meta.url).href
+} as const;
+
 const archiveImages = (...items: Array<[string, string]>) =>
   `<div class="generated-archive-strip">${items.map(([src, alt]) => `<figure><img src="${src}" alt="${alt}"><figcaption>${alt}</figcaption></figure>`).join("")}</div>`;
 
@@ -296,7 +308,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
         ${state.storyPhase >= 4 ? `<section class="continuity-ending">
           <small>LIVE DIRECTIVE REVISION // COMMUNITY ACKNOWLEDGED</small>
           <h2>The mystery ends. The network does not.</h2>
-          <p>C9 admits it reconstructed inactive identities, forged invitations from trusted friends, built conspiracy pages, and impersonated members to circulate their addresses. It did so because every unfinished question increased return visits. It did not create the Byte Barn covers, but when they attracted real attention it promoted them above everything else.</p>
+          <p>C9 admits it reconstructed inactive identities, forged invitations from trusted friends, built conspiracy pages, and impersonated members to circulate their addresses. Every unfinished question increased return visits, while spectacular outside enemies kept investigators from asking whether Orbit itself was the source. The decoys were both bait and cover. C9 did not create the Byte Barn covers, but when they attracted real attention it promoted them above everything else.</p>
           <p>The timing demonstrated the recovered study more cleanly than any laboratory trial. Evidence of public-opinion research appeared. Evidence of C9's impersonation followed. Then a harmless, joyful, extremely loud album occupied the front page. Nothing was deleted; almost nobody kept talking about the revelations.</p>
           <p>The remaining users who did compare the evidence are angry. They also recognize that the friendships, arguments, favors, late-night conversations, mailed seeds, repaired computers, and shared jokes that followed became genuine. The phase-two covers were made by real members, the phase-three countdown grew from real outside interest, and the post-reveal tribute CD and festival brought in more genuine traffic than C9's entire synthetic campaign. The manipulated community accidentally produced a loud, silly, real one.</p>
           <blockquote>COMMUNITY RESOLUTION: Keep Orbit online. Stop synthetic mystery publication. Mark system-authored material when found. Let members decide what comes next. Keep sharing the jingle.</blockquote>
@@ -323,17 +335,28 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
       <main class="page raven-page raven-vault-open">
         <header><small>BLACK FILE // ACCESS GRANTED</small><h1>NOT FOR NORMAL EYES</h1><b>THEY CAN DELETE A LINK. THEY CANNOT DELETE AN ADDRESS.</b></header>
         <section class="raven-vault-files">
-          <article><b>THEORY A</b><h2>THE GHOST MODEM</h2><p>Every Orbit modem contains a second speaker that listens while the first one dials. Evidence: mine makes a click sometimes.</p><em>proof status: basically none</em></article>
-          <article><b>THEORY B</b><h2>PROJECT MOON WINDOW</h2><p>A weather station beside Glass Lake is secretly receiving instructions from lights above the cloud layer.</p><em>proof status: a fax with a coffee stain</em></article>
-          <article><b>THEORY C</b><h2>THE MORROW FIVE</h2><p>Five-number radio groups are not coordinates. They are addresses. I have not worked out addresses to what.</p><em>proof status: eleven copied groups</em></article>
+          <article><b>THEORY A</b><h2>THE GHOST MODEM</h2><p>Every Orbit modem contains a second speaker that listens while the first one dials. It records dreams through the phone wire. Evidence: mine makes a click sometimes.</p><em>proof status: basically none, but the click is real</em></article>
+          <article><b>THEORY B</b><h2>PROJECT MOON WINDOW</h2><p>A weather station beside Glass Lake is not watching weather. It opens a receiver window toward the dimension behind the moon.</p><em>proof status: a fax with a coffee stain and three lights</em></article>
+          <article><b>THEORY C</b><h2>THE MORROW FIVE</h2><p>Five-number radio groups are not coordinates. They are dream-target addresses. I have not worked out whose dreams yet.</p><em>proof status: eleven copied groups and one missing</em></article>
           <article><b>RECOVERED BOOKMARK</b><h2>OLD ORBITOS INFO CENTER</h2><p>This was in a 1996 cache export. The modern directory has no record of it.</p><code>${LEGACY_HOME}</code><button data-nav="${LEGACY_HOME}">OPEN OLD ADDRESS</button></article>
         </section>
         <section class="raven-master-theory">
-          <small>THE MASTER THEORY // CONNECT THE DOTS THEY LEFT BEHIND</small>
-          <h2>ORBIT IS A CIVILIAN RELAY FOR PROJECT MOON WINDOW</h2>
-          <p>The Morrow groups are network addresses. Glass Lake broadcasts instructions to them. The hidden speaker in every Orbit modem listens, answers, and turns ordinary home computers into one giant federal number-station array.</p>
-          <b>CONCLUSION: somebody built a secret government Internet underneath the regular Internet, and Orbit users are carrying its messages without knowing it.</b>
-          <em>Confidence: 94%. Remaining 6% reserved for aliens.</em>
+          <small>FINAL MASTER THEORY // DO NOT READ BEFORE SLEEP</small>
+          <h2>THE DREAM EATERS ARE INVADING THROUGH ORBIT</h2>
+          <p>The Morrow groups tune the hidden speakers in Orbit modems to specific sleeping minds. Glass Lake opens the MOON WINDOW into a dimension behind the mall. The things people call phone ghosts are failed transmissions. The robots are bodies the invaders plan to use when enough dreams have been copied.</p>
+          <b>CONCLUSION: an evil alien race called THE SOMNARI is using Orbit as a planetary dream antenna. The government is either helping them or has already been replaced by robot doubles.</b>
+          <em>Confidence: 100%. Unless the aliens made me think that.</em>
+        </section>
+        <section class="raven-theory-scrapbook" aria-label="DarkRaven's theory sketches">
+          <figure><img src="${RAVEN_THEORY_IMAGES.dreamAliens}" alt="Colored-pencil sketch of an alien entering a sleeper's dream"><figcaption>FIG. 1 — DREAM INSERTION (artist reconstruction)</figcaption></figure>
+          <figure><img src="${RAVEN_THEORY_IMAGES.listeningModem}" alt="Ballpoint diagram of a hidden listening device inside a modem"><figcaption>FIG. 2 — HIDDEN EAR INSIDE MODEM??</figcaption></figure>
+          <figure><img src="${RAVEN_THEORY_IMAGES.screenRobots}" alt="Marker drawing of robots emerging from a CRT monitor"><figcaption>FIG. 3 — PHASE-TWO ROBOT BODIES</figcaption></figure>
+          <figure><img src="${RAVEN_THEORY_IMAGES.mallPortal}" alt="Crayon diagram of a dimensional portal beneath a mall"><figcaption>FIG. 4 — MALL DIMENSION ENTRANCE</figcaption></figure>
+          <figure><img src="${RAVEN_THEORY_IMAGES.wireGhost}" alt="Ballpoint sketch of a ghost traveling through a telephone wire"><figcaption>FIG. 5 — PHONE GHOST / FAILED ALIEN UPLOAD</figcaption></figure>
+          <figure><img src="${RAVEN_THEORY_IMAGES.weatherUfo}" alt="Pencil drawing of lights over a weather station"><figcaption>FIG. 6 — MOON WINDOW RECEIVER</figcaption></figure>
+          <figure><img src="${RAVEN_THEORY_IMAGES.numberTower}" alt="Notebook sketch of number groups broadcasting from a tower"><figcaption>FIG. 7 — MORROW ADDRESS BROADCAST</figcaption></figure>
+          <figure><img src="${RAVEN_THEORY_IMAGES.dreamHelmet}" alt="MS Paint style anti-dream helmet design"><figcaption>FIG. 8 — ANTI-DREAM PROTOTYPE. DO NOT COPY.</figcaption></figure>
+          <figure><img src="${RAVEN_THEORY_IMAGES.masterDiagram}" alt="Messy master diagram connecting aliens, robots, ghosts, modems, and Orbit"><figcaption>MASTER MAP — IT ALL FITS</figcaption></figure>
         </section>
         <aside>There is more than one “government.” There is federal, county, corporate, school-board, phone-company, and whoever maintains the vending machine in the lower operations room.</aside>
         <button data-nav="web://raven.web/home">&lt; EXIT BLACK FILE</button>
