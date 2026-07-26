@@ -819,6 +819,8 @@ function createWindow() {
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-three dormant account page was available during phase one");
           await address("web://orbitnet.local/zones/newcomers");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two newcomer zone was available during phase one");
+          await address("web://fanverse.zone/clubs/byte-barn-beat-exchange");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.not-found'))`)) throw new Error("Phase-two Byte Barn fan hub was available during phase one");
           await address("web://orbitnet.local/zones/soundwave");
           if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.soundwave-member-card').length === 6 && document.querySelectorAll('.soundwave-member-card img').length === 6 && !document.querySelector('.soundwave-revival-card')`)) {
             throw new Error("Phase-one SoundWave directory did not contain six illustrated ordinary member pages");
@@ -869,6 +871,7 @@ function createWindow() {
             !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-open')) && !document.querySelector('.phase-transition-overlay')`)
           ) throw new Error("Black File did not remain readable after being unlocked");
           await capture("story-darkraven-black-file.png");
+          const phaseOneTransitionTime = new Date(saved.gameTime);
           await address("web://home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-prompt [data-phase-sleep]')) && Boolean(document.querySelector('.raven-vault-open'))`)) {
             throw new Error("Leaving the Black File did not pause for the explicit overnight transition");
@@ -883,8 +886,13 @@ function createWindow() {
           await wait(250);
           saved = await readSave();
           if (saved.storyPhase !== 2 || saved.flags.phase_two_transition_pending || !saved.directMessages.some((message) => message.id === "ghostline-phase2")) throw new Error("Overnight sleep did not activate phase two and ghostline");
-          if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-2'))`)) {
-            throw new Error(`Phase two did not force an overnight sleep: ${saved.gameTime}`);
+          const phaseTwoReturnTime = new Date(saved.gameTime);
+          if (
+            phaseTwoReturnTime.getHours() !== 7 ||
+            phaseTwoReturnTime.getTime() - phaseOneTransitionTime.getTime() < 72 * 60 * 60 * 1000 ||
+            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-2')) && document.body.textContent.includes('FOUR DAYS LATER') && document.body.textContent.includes('Friends told friends')`)
+          ) {
+            throw new Error(`Phase two did not force the four-day word-of-mouth break: ${saved.gameTime}`);
           }
           await capture("story-phase2-overnight.png");
           await wakeFromPhaseTransition(2);
@@ -910,8 +918,26 @@ function createWindow() {
             throw new Error("Phase-two home directory did not gain an illustrated Newbie Nebula card");
           }
           await address("web://orbitnet.local/zones/newcomers");
-          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.newcomer-member-card').length === 5`)) throw new Error("Newbie Nebula did not list five first pages");
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.newcomer-member-card').length === 5 && document.body.textContent.includes('One member told a friend')`)) throw new Error("Newbie Nebula did not list five first pages or explain the friend-to-friend arrival wave");
           await capture("story-newbie-nebula.png");
+          await address("web://orbitnet.local/zones/fanverse");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.fandom-member-card.member-bytebarn')) && document.querySelectorAll('.fandom-member-card').length === 7`)) {
+            throw new Error("Phase-two FanVerse directory did not add the Byte Barn Beat Exchange");
+          }
+          await address("web://fanverse.zone/clubs/byte-barn-beat-exchange");
+          if (!await win.webContents.executeJavaScript(`(() => {
+            const text = document.body.textContent;
+            return document.querySelectorAll('.barn-hub-track-list article').length === 10 &&
+              document.querySelectorAll('.barn-hub-track-list [data-song-file]').length === 10 &&
+              document.querySelector('.midi-loop-status')?.textContent.includes('/11') &&
+              text.includes('I never heard the commercial before Orbit') &&
+              text.includes('OH MAN, I remember this!') &&
+              text.includes('regular web') &&
+              text.includes('Repeats are the point');
+          })()`)) {
+            throw new Error("Byte Barn Beat Exchange did not catalog the full cover wave, mixed memories, and outside-Orbit spread");
+          }
+          await capture("story-byte-barn-beat-exchange.png");
           await address("web://freshorbit.zone/users/tapedeckkeesha/home");
           if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.newcomer-keesha img').length >= 6 && Boolean(document.querySelector('.page-comments'))`)) throw new Error("Keesha's King Cal fan archive was incomplete");
           await capture("story-newcomer-keesha.png");
@@ -927,7 +953,7 @@ function createWindow() {
             }
           }
           await address("web://soundwave.zone/users/subbasssimon/home");
-          const phaseTwoCoverReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.byte-barn-cover-update [data-song-nav][data-song-file="byte-barn-breakbeat-deal.mp3"]')) && document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && Array.from(document.querySelectorAll('.page-comment.owner p')).some((comment) => comment.textContent.includes('[[BARNFLIP]]') && comment.textContent.includes('Byte Barn breakbeat mix'))`);
+          const phaseTwoCoverReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.byte-barn-cover-update [data-song-nav][data-song-file="byte-barn-breakbeat-deal.mp3"]')) && Boolean(document.querySelector('.byte-barn-cover-update.favorite [data-song-file="byte-barn-deal-remix.mp3"]')) && document.querySelectorAll('.byte-barn-cover-update').length === 2 && document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && Array.from(document.querySelectorAll('.page-comment.owner p')).some((comment) => comment.textContent.includes('[[BARNFLIP]]') && comment.textContent.includes('Byte Barn breakbeat mix'))`);
           if (!phaseTwoCoverReady) throw new Error("Phase-two Byte Barn cover did not appear on Simon's personal page and playlist");
           const phaseTwoCoverPlayed = await win.webContents.executeJavaScript(`(() => {
             const button = document.querySelector('.byte-barn-cover-update [data-song-nav]');
@@ -1120,7 +1146,7 @@ function createWindow() {
             throw new Error("Phase-three SoundWave directory did not feature the unresolved signal above its members");
           }
           await address("web://soundwave.zone/features/incoming-signal");
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.incoming-signal-page:not(.signal-revealed)')) && document.querySelector('.incoming-countdown-core')?.textContent.includes('10') && document.body.textContent.includes('OUTSIDE ARTISTS:    [WITHHELD]') && document.body.textContent.includes('These playlist tracks came from the community') && document.body.textContent.includes('The ten signals in the countdown are something new answering them') && !document.body.textContent.includes('BYTE BARN FOREVER') && document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.midi-controls > span')?.textContent.includes('/8') && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3')`)) {
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.incoming-signal-page:not(.signal-revealed)')) && document.querySelector('.incoming-countdown-core')?.textContent.includes('10') && document.body.textContent.includes('OUTSIDE ARTISTS:    [WITHHELD]') && document.body.textContent.includes('These playlist tracks came from the community') && document.body.textContent.includes('The ten signals in the countdown are something new answering them') && !document.body.textContent.includes('BYTE BARN FOREVER') && document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && document.querySelector('.midi-controls > span')?.textContent.includes('/11') && document.querySelector('.midi-track code')?.textContent.endsWith('.mp3')`)) {
             throw new Error("Phase-three SoundWave countdown revealed too much before the system discovery");
           }
           await capture("story-soundwave-incoming-signal.png");

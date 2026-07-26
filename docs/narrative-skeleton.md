@@ -150,12 +150,21 @@ boundary are recorded in `phase-arc-research.md`.
 
 ### Phase 2: Small inconsistencies
 
-- Entering a major new phase forces an overnight sleep to 7:00 AM. Waking on
-  a clean desktop makes the network's changed state legible instead of
+- The first phase break spans four days and returns at 7:00 AM. The player
+  shares DarkRaven's find, steps away, and returns after friends have told
+  friends and printed addresses have reached schools, shops, and ordinary web
+  boards. Later phase breaks still use an overnight sleep. Each return opens on
+  a clean desktop so the network's changed state is legible instead of
   replacing pages while the player is looking at them.
 - Orbit creates Newbie Nebula for a visible wave of five new members. Their
   first pages mostly celebrate strange finds, preserve favorite commercials,
   and document what it feels like to arrive during the revival.
+- Rico's phase-one Byte Barn recommendation becomes a parallel human story:
+  nostalgic locals remember the retired advertisement, other arrivals have
+  never heard it, and musicians outside Orbit begin trading covers. Ben opens
+  the Byte Barn Beat Exchange in FanVerse, while unrelated member pages repost
+  favorite versions. Repeated tracks are intentional evidence of a fad
+  spreading through people, not isolated system-generated uploads.
 - Existing users catch the investigation mood and add harmless, low-evidence
   subpages about changed logos, local cryptids, odd noises, and minor fandom
   discrepancies. Each hides a small observational clue toward one of the three

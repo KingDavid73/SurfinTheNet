@@ -20,7 +20,7 @@ import {
   BYTE_BARN_COMPILATION_TRACKS,
   BYTE_BARN_FAN_TRACKS,
   PHASE_TWO_BYTE_BARN_COVERS,
-  byteBarnCoverForPage
+  byteBarnCoversForPage
 } from "./byte-barn-revival";
 import {
   PHASE_THREE_EXPLORER_IDS,
@@ -302,6 +302,7 @@ const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicT
   directory: ORBIT_HOME_TRACKS,
   gamegridzone: [SITE_MUSIC.gamegridzone, SITE_MUSIC.vanta, SITE_MUSIC.cubit],
   soundbreakbeat: [AMBIENT_FILL_TRACKS.simonNeonDreams, AMBIENT_FILL_TRACKS.simonNeonBreeze],
+  newbytefan: [BYTE_BARN_DEAL_TRACK, ...Object.values(BYTE_BARN_FAN_TRACKS)],
   cozyhike: [AMBIENT_FILL_TRACKS.trailnotes, AMBIENT_FILL_TRACKS.trailEchoes],
   euro: [AMBIENT_FILL_TRACKS.viktorParadise, AMBIENT_FILL_TRACKS.viktorFuture],
   petskunk: [AMBIENT_FILL_TRACKS.skunkMidnight],
@@ -1409,7 +1410,7 @@ function addPhaseInvestigationMessages(phase: 2 | 3) {
       "phase2-mira-investigation",
       "mira_917",
       "Mira_917",
-      "okay, people are actually comparing notes now. nobody has the whole answer, but page owners know their own evidence. ask one specific question, then sleep if they take a while to answer."
+      "okay, this got bigger while you were away. i told two people about Raven's file, they told friends, and somebody carried the address onto the regular web. now strangers are comparing notes. nobody has the whole answer, but page owners know their own evidence. ask one specific question, then sleep if they take a while to answer."
     );
     addAuthoredDirectMessage(
       "phase2-raven-investigation",
@@ -1676,7 +1677,7 @@ function addEndingCommunityResponses() {
 function forceOvernightPhaseTransition(phase: 2 | 3 | 4) {
   const before = new Date(state.gameTime);
   const after = new Date(before);
-  after.setDate(after.getDate() + 1);
+  after.setDate(after.getDate() + (phase === 2 ? 4 : 1));
   after.setHours(7, 0, 0, 0);
   state.gameTime = localGameTimeString(after);
   const hoursElapsed = crossedGameHourBoundaries(before, after);
@@ -1924,7 +1925,10 @@ function pageMusicPlaylist(page: PageDefinition): readonly PageMusicTrack[] {
   const revivalTracks = PHASE_TWO_BYTE_BARN_COVERS
     .filter((placement) => placement.site === page.site)
     .map((placement) => placement.track)
-    .filter((track) => !basePlaylist.some((baseTrack) => baseTrack.file === track.file));
+    .filter((track, index, tracks) =>
+      !basePlaylist.some((baseTrack) => baseTrack.file === track.file) &&
+      tracks.findIndex((candidate) => candidate.file === track.file) === index
+    );
   return revivalTracks.length ? [...basePlaylist, ...revivalTracks] : basePlaylist;
 }
 
@@ -2015,19 +2019,19 @@ function togglePageMusic() {
 
 function byteBarnCoverUpdate(page: PageDefinition) {
   if (state.storyPhase < 2) return "";
-  const cover = byteBarnCoverForPage(page.url);
-  if (!cover) return "";
-  return `<section class="byte-barn-cover-update">
-    <div class="cover-cassette"><i></i><b>BB</b></div>
-    <div><small>NEW AUDIO UPLOAD // BYTE BARN COVER WAVE</small><h2>${escapeHtml(cover.track.label)}</h2><p>${escapeHtml(cover.note)}</p><span>uploaded by ${escapeHtml(cover.uploader)}</span></div>
-    <button data-song-nav="${escapeHtml(cover.pageUrl)}" data-song-file="${escapeHtml(cover.track.file)}">PLAY THIS COVER &rsaquo;</button>
-  </section>`;
+  const covers = byteBarnCoversForPage(page.url);
+  if (!covers.length) return "";
+  return `<section class="byte-barn-cover-stack">${covers.map((cover) => `<article class="byte-barn-cover-update ${cover.kind === "favorite" ? "favorite" : "upload"}">
+      <div class="cover-cassette"><i></i><b>BB</b></div>
+      <div><small>${cover.kind === "favorite" ? "CURRENT FAVORITE // BYTE BARN COVER WAVE" : "NEW AUDIO UPLOAD // BYTE BARN COVER WAVE"}</small><h2>${escapeHtml(cover.track.label)}</h2><p>${escapeHtml(cover.note)}</p><span>${cover.kind === "favorite" ? "shared" : "uploaded"} by ${escapeHtml(cover.uploader)}</span></div>
+      <button data-song-nav="${escapeHtml(cover.pageUrl)}" data-song-file="${escapeHtml(cover.track.file)}">PLAY THIS COVER &rsaquo;</button>
+    </article>`).join("")}</section>`;
 }
 
 function authoredPageComments(page: PageDefinition): PageComment[] {
-  const cover = state.storyPhase >= 2 ? byteBarnCoverForPage(page.url) : undefined;
-  const coverAnnouncement: PageComment[] = cover ? [{
-    id: `byte-barn-cover-${cover.track.file}`,
+  const covers = state.storyPhase >= 2 ? byteBarnCoversForPage(page.url) : [];
+  const coverAnnouncements: PageComment[] = covers.map((cover, index) => ({
+    id: `byte-barn-cover-${page.ownerId}-${cover.track.file}-${index}`,
     pageUrl: page.url,
     ownerId: page.ownerId,
     role: "owner",
@@ -2035,8 +2039,8 @@ function authoredPageComments(page: PageDefinition): PageComment[] {
     text: cover.comment,
     createdAt: cover.commentTime,
     revealAfterVisit: 0
-  }] : [];
-  return [...(page.seedComments ?? []), ...coverAnnouncement];
+  }));
+  return [...(page.seedComments ?? []), ...coverAnnouncements];
 }
 
 function browserWindow() {
@@ -2747,14 +2751,14 @@ function phaseTransitionScreen() {
     <div class="phase-transition-card">
       <div class="phase-transition-moon">☾</div>
       <small>ORBITOS SESSION SUSPENDED</small>
-      <h1>${phaseTwo ? "THE NETWORK CHANGED OVERNIGHT" : phaseThree ? "TRAFFIC SURGED OVERNIGHT" : "EVERYBODY HEARD SOMETHING LOUDER"}</h1>
+      <h1>${phaseTwo ? "FOUR DAYS LATER, ORBIT FEELS DIFFERENT" : phaseThree ? "TRAFFIC SURGED OVERNIGHT" : "EVERYBODY HEARD SOMETHING LOUDER"}</h1>
       <p>${phaseTwo
-        ? "You found something worth sharing. While you slept, word traveled: fresh accounts appeared, old members posted new theories, and Orbit added a zone for the arrivals."
+        ? "You passed around DarkRaven's strange old address, then stepped away. Friends told friends. Printed URLs reached schools, record shops, and regular-web message boards. By the time you dial back in, fresh accounts are comparing theories, old members are posting again, and Orbit has added a zone for the arrivals. A second little crowd is forming around Byte Barn's forgotten television jingle: some remember it instantly, some have never heard it, and local musicians are already trading covers."
         : phaseThree
           ? "The recovered archive brought more explorers, more rumors, and more strain. Meanwhile, the community's Byte Barn covers spread beyond Orbit. Overnight, a paid countdown appeared above the directory: the member-made playlist is still playing, but ten unknown signals are answering it. Old identities are posting faster, and the system is beginning to lose track of who is speaking."
           : "You found the system behind the people and tried to put the evidence into circulation. Before the report could travel, Byte Barn Forever dropped with ten major artists and a one-night festival. The truth is online. Almost everybody is talking about the jingle."}</p>
       <div class="phase-transition-clock"><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(sleptFrom)}</span><b>→</b><span>${new Intl.DateTimeFormat([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }).format(wokeAt)}</span></div>
-      <button data-phase-wake>${phaseTwo ? "WAKE UP // CHECK THE DIRECTORY" : phaseThree ? "WAKE UP // FOLLOW THE SIGNAL" : "WAKE UP // SEE WHAT BURIED THE STORY"}</button>
+      <button data-phase-wake>${phaseTwo ? "DIAL BACK IN // SEE WHAT GREW" : phaseThree ? "WAKE UP // FOLLOW THE SIGNAL" : "WAKE UP // SEE WHAT BURIED THE STORY"}</button>
     </div>
   </section>`;
 }
@@ -2766,14 +2770,14 @@ function phaseTransitionPromptScreen() {
   return `<section class="phase-transition-overlay phase-transition-prompt">
     <div class="phase-transition-card">
       <div class="phase-transition-moon">☾</div>
-      <small>BEFORE YOU LOG OFF FOR THE NIGHT...</small>
+      <small>${phaseTwo ? "BEFORE YOU STEP AWAY FOR A FEW DAYS..." : "BEFORE YOU LOG OFF FOR THE NIGHT..."}</small>
       <h1>${phaseTwo ? "YOU TELL A FEW FRIENDS WHAT YOU FOUND" : phaseThree ? "YOU SEND THE FINDINGS TO THE OTHER INVESTIGATORS" : "THE DISCOVERY NEEDS TIME TO TRAVEL"}</h1>
       <p>${phaseTwo
-        ? "DarkRaven's Black File is mostly homemade hacker theater, but the recovered OrbitOS address is real. You pass the address to a few people who might appreciate it. It is late, and any replies can wait until morning."
+        ? "DarkRaven's Black File is mostly homemade hacker theater, but the recovered OrbitOS address is real. You pass it to a few people who might appreciate it, then leave the dusty network alone for a while. If the address is interesting, word will have time to travel beyond the same handful of regulars."
         : phaseThree
           ? "The Adaptive Index findings are real enough to matter and incomplete enough to be dangerous. You send copies and your notes to the people following the three cases, then leave OrbitNet to react overnight."
           : "You send the address and your notes to a few people, then leave the network to react while you sleep."}</p>
-      <button data-phase-sleep>SLEEP UNTIL TOMORROW</button>
+      <button data-phase-sleep>${phaseTwo ? "STEP AWAY // COME BACK IN FOUR DAYS" : "SLEEP UNTIL TOMORROW"}</button>
     </div>
   </section>`;
 }
@@ -3240,7 +3244,7 @@ function bindEvents() {
     phaseTransition = null;
     prepareFreshDesktopSession();
     notification = completedPhase === 2
-      ? "OrbitNet directory updated: Newbie Nebula is now online."
+      ? "Friends told friends: Newbie Nebula is online, FanVerse has a Byte Barn Beat Exchange, and fresh covers are appearing across Orbit."
       : completedPhase === 3
         ? "Orbit's Byte Barn covers are front-page news. A paid SoundWave countdown says outside attention is rising while old accounts appear in discussions."
         : "Byte Barn Forever is live. Your continuity report is online, but the album and festival own the front page.";

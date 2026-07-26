@@ -1,4 +1,8 @@
 import type { GameState, PageComment, PageDefinition } from "./types";
+import {
+  BYTE_BARN_FAN_HUB_URL,
+  PHASE_TWO_BYTE_BARN_COVERS
+} from "./byte-barn-revival";
 
 const newcomerArt = {
   "keesha-portrait": new URL("../assets/images/phase2-newcomers/keesha-portrait.png", import.meta.url).href,
@@ -92,6 +96,16 @@ const seed = (
 ): PageComment => ({ id, pageUrl, ownerId, role, author, text, createdAt, revealAfterVisit: 0 });
 
 export const NEWCOMER_ZONE_BUTTON = newcomerArt["newbie-zone"];
+export const BYTE_BARN_FAN_HUB_MEMBER = {
+  ownerId: "barnbeat_ben",
+  handle: "BarnBeat_Ben",
+  title: "The Byte Barn Beat Exchange",
+  description: "Every community cover of the retired computer-store jingle, plus arguments about the crooked clap and who remembers the original commercial.",
+  fandom: "BYTE BARN JINGLE",
+  className: "bytebarn",
+  url: BYTE_BARN_FAN_HUB_URL,
+  button: newcomerArt["ben-badge"]
+} as const;
 
 export const newcomerMembers = [
   {
@@ -228,6 +242,61 @@ export const newcomerPages: Record<string, PageDefinition> = {
         </section>
         <div class="ben-verdict">FINAL VERDICT: ALL THAT + 1 BAG OF CHIPS</div>
       </main>`
+  },
+  [BYTE_BARN_FAN_HUB_URL]: {
+    url: BYTE_BARN_FAN_HUB_URL,
+    title: "The Byte Barn Beat Exchange",
+    site: "newbytefan",
+    ownerId: "barnbeat_ben",
+    summary: "A phase-two FanVerse club catalogs every community-made Byte Barn jingle cover and remix while old viewers and first-time listeners compare memories.",
+    commentsEnabled: true,
+    listed: true,
+    minimumPhase: 2,
+    hubId: "zone-fanverse",
+    searchTerms: ["byte barn fan club", "byte barn remixes", "byte barn covers", "commercial jingle", "barnflip", "beat exchange"],
+    seedComments: [
+      seed("barn-hub-chip", BYTE_BARN_FAN_HUB_URL, "barnbeat_ben", "visitor", "Chip_At_ByteBarn", "For the record: Lou recorded the original in his garage for fifty dollars. I had not heard it in years until this page appeared.", "1999-11-05T12:18:00"),
+      seed("barn-hub-keesha", BYTE_BARN_FAN_HUB_URL, "barnbeat_ben", "visitor", "TapeDeck_Keesha", "OH MAN, I remember this! It ran after the Saturday movie almost every week. The crooked clap is exactly how I remember it.", "1999-11-05T12:44:00"),
+      seed("barn-hub-rayna", BYTE_BARN_FAN_HUB_URL, "barnbeat_ben", "visitor", "Rookie_Rayna", "I never heard the commercial before Orbit. Is everybody nostalgic for the store or just for the song? Either way the spooky one rules.", "1999-11-05T13:09:00"),
+      seed("barn-hub-rico", BYTE_BARN_FAN_HUB_URL, "barnbeat_ben", "visitor", "RhymeTape_Rico", "It started with one retired ad hiding on an old store mirror. Now kids outside Orbit are trading dubs at the rec center. That is a scene.", "1999-11-05T15:31:00"),
+      seed("barn-hub-simon", BYTE_BARN_FAN_HUB_URL, "barnbeat_ben", "visitor", "SubBass_Simon", "People from two local music boards asked for the clean clap. They cannot even open Orbit without the bridge emulator, so I mailed a tape.", "1999-11-06T00:02:00"),
+      seed("barn-hub-steph", BYTE_BARN_FAN_HUB_URL, "barnbeat_ben", "visitor", "StarLine_Steph", "my cousin heard it from a friend who heard it from somebody HERE. now her quartet has a version and three girls at school put it on their pages. this is officially a thing.", "1999-11-06T17:24:00"),
+      seed("barn-hub-cass", BYTE_BARN_FAN_HUB_URL, "barnbeat_ben", "visitor", "CountryCass_88", "Half the open-mic room remembered the ad and half swore it never aired here. Everybody sang the barn line by the second chorus.", "1999-11-07T11:14:00")
+    ],
+    render: () => {
+      const uploads = PHASE_TWO_BYTE_BARN_COVERS.filter((placement) => placement.kind !== "favorite");
+      return `
+        <main class="page byte-barn-fan-hub">
+          <header>
+            <img src="${newcomerArt["ben-badge"]}" alt="Ben's homemade Byte Barn badge">
+            <div><small>FANVERSE CLUB // STARTED BY BARNBEAT_BEN</small><h1>THE BYTE BARN<br><em>BEAT EXCHANGE</em></h1><p>one old commercial + too many blank tapes = a scene</p></div>
+          </header>
+          <marquee scrollamount="4">*** NEW COVERS ARRIVING FROM OUTSIDE ORBIT *** DUB YOUR FAVORITE *** TAG IT [[BARNFLIP]] *** KEEP THE CROOKED CLAP ***</marquee>
+          <section class="barn-hub-origin">
+            ${image(newcomerArt["byte-barn-sticker"], "A homemade Byte Barn computer-and-barn sticker")}
+            <div><small>HOW THIS GOT OUT</small><h2>Somebody told a friend. Their friend told a band.</h2>
+              <p>Rico found Byte Barn's retired television jingle still playing on the store's stale Orbit page. Ben built a shrine. Then the mystery crowd arrived, carried the address back to school, record shops, rec-center shows, and regular web boards, and people who could barely get the Orbit bridge working started mailing each other tape dubs.</p>
+              <p>Some locals remember the commercial instantly. Others swear it never aired where they lived. Everybody agrees the little keyboard stab is impossible to remove from your head.</p>
+              <button data-song-nav="${BYTE_BARN_FAN_HUB_URL}" data-song-file="byte-barn-deal.mp3">PLAY THE ORIGINAL JINGLE</button>
+              <button data-nav="web://bytebarn.com/home">VISIT THE OLD STORE PAGE</button>
+            </div>
+          </section>
+          <section class="barn-hub-rule"><b>THE EXCHANGE RULE</b><span>If you make a version, keep the slogan somewhere in it. If you only love somebody else's version, put that one on your page too. Repeats are the point.</span></section>
+          <section class="barn-hub-track-list">
+            <header><div><small>LOCAL + COMMUNITY AUDIO</small><h2>${uploads.length} COVERS / REMIXES SO FAR</h2></div><span>updated whenever somebody sends Ben a filename</span></header>
+            ${uploads.map((placement, index) => `<article>
+              <b>${String(index + 1).padStart(2, "0")}</b>
+              <div><h3>${placement.track.label}</h3><p>${placement.note}</p><span>posted by ${placement.uploader}</span></div>
+              <button data-song-nav="${BYTE_BARN_FAN_HUB_URL}" data-song-file="${placement.track.file}">TUNE ORBITAMP &rsaquo;</button>
+            </article>`).join("")}
+          </section>
+          <section class="barn-hub-share-board">
+            <div>${image(newcomerArt["ben-cassette-dub"], "A homemade cassette dub of Byte Barn covers")}<b>FAVORITE-COVER TAPE CHAIN</b></div>
+            <p>You do not have to make a remix to join in. Link your favorite from your homepage, trade a cassette, or tell somebody outside Orbit how to reach the exchange. Seeing the same version on three pages means it is winning.</p>
+            <button data-nav="${BEN_URL}">MEET BEN / SEE THE ORIGINAL SHRINE</button>
+          </section>
+        </main>`;
+    }
   },
   [LILY_URL]: {
     url: LILY_URL,

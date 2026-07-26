@@ -64,10 +64,15 @@ The model may hint at those authored facts but cannot invent or change the code.
 Opening the Black File:
 
 - records phase two in the save;
-- forces an overnight sleep to 7:00 AM and returns the player to a clean
-  desktop so the next network state reads as a new day;
+- advances four days to 7:00 AM and returns the player to a clean desktop.
+  During that gap, friends pass the strange Orbit address to more friends,
+  schools, local shops, and regular-web boards, so the next network state reads
+  as a small but believable revival rather than an overnight population spike;
 - adds Newbie Nebula to the main directory with five active, comment-capable
   newcomers and their first homepages;
+- adds Ben's Byte Barn Beat Exchange to FanVerse, catalogs the community covers,
+  and lets multiple unrelated homepages repost the same favorite versions as
+  the jingle starts moving through local music circles outside Orbit;
 - gives six established members one new comment-free subpage for a silly,
   weakly evidenced theory;
 - adds the authored `ghostline` message;

@@ -19,6 +19,7 @@ import {
 } from "./soundwave-pages";
 import { BYTE_BARN_COMPILATION_URL, BYTE_BARN_TEASER_URL } from "./byte-barn-revival";
 import {
+  BYTE_BARN_FAN_HUB_MEMBER,
   NEWCOMER_ZONE_BUTTON,
   newcomerMembers,
   newcomerPages,
@@ -270,8 +271,11 @@ function zoneDirectoryBody(zoneId: string, state: GameState) {
     </section>`;
   if (zoneId === "fanverse") return `
     <section class="fandom-member-directory member-page-directory">
-      <header><div><small>DEEP ARCHIVES // BIG FEELINGS</small><h2>FanVerse Member Archives</h2></div><span>${fandomMembers.length} shrines online</span></header>
-      <div>${fandomMembers.map((member) => `<button class="fandom-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>FANDOM: ${member.fandom}</b></span><em>ENTER ARCHIVE</em></button>`).join("")}</div>
+      <header><div><small>DEEP ARCHIVES // BIG FEELINGS</small><h2>FanVerse Member Archives</h2></div><span>${fandomMembers.length + (state.storyPhase >= 2 ? 1 : 0)} shrines online</span></header>
+      <div>
+        ${state.storyPhase >= 2 ? `<button class="fandom-member-card member-bytebarn" data-nav="${BYTE_BARN_FAN_HUB_MEMBER.url}"><img class="member-button-art" src="${BYTE_BARN_FAN_HUB_MEMBER.button}" alt="${BYTE_BARN_FAN_HUB_MEMBER.handle}'s homemade Byte Barn club button"><span><strong>${BYTE_BARN_FAN_HUB_MEMBER.title}</strong><small>${BYTE_BARN_FAN_HUB_MEMBER.description}</small><b>FANDOM: ${BYTE_BARN_FAN_HUB_MEMBER.fandom}</b></span><em>HEAR THE COVERS</em></button>` : ""}
+        ${fandomMembers.map((member) => `<button class="fandom-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>FANDOM: ${member.fandom}</b></span><em>ENTER ARCHIVE</em></button>`).join("")}
+      </div>
     </section>`;
   if (zoneId === "yesterday") return `
     <section class="yesterday-member-directory member-page-directory">
@@ -303,7 +307,7 @@ function zoneDirectoryBody(zoneId: string, state: GameState) {
       <header><div><small>FRESH ACCOUNTS // INDEXED THIS MORNING</small><h2>Meet the New Arrivals</h2></div><span>${newcomerMembers.length} first pages online</span></header>
       <div>
         ${newcomerMembers.map((member) => `<button class="newcomer-member-card" data-nav="${member.url}"><img src="${member.button}" alt="${member.handle}'s homemade page badge"><span><strong>${member.title}</strong><small>${member.description}</small><b>NEW USER: ${member.handle}</b></span><em>MEET THEM ›</em></button>`).join("")}
-        <aside class="newcomer-wave-note"><b>WHY A NEW ZONE?</b><p>Traffic climbed faster than the old categories could absorb it. New pages stay here until their owners choose a permanent neighborhood—or decide that collecting weird links is a neighborhood.</p></aside>
+        <aside class="newcomer-wave-note"><b>WHY A NEW ZONE?</b><p>Word escaped that something strange was happening inside this nearly forgotten network. One member told a friend, those friends passed addresses around at school and on regular-web boards, and the old categories suddenly had more first pages than they could absorb. New arrivals stay here until they choose a permanent neighborhood—or decide that collecting weird links is a neighborhood.</p></aside>
       </div>
     </section>`;
   return "";

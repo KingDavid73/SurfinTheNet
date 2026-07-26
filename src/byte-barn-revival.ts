@@ -2,6 +2,7 @@ import type { PageDefinition, PageMusicTrack } from "./types";
 
 export const BYTE_BARN_COMPILATION_URL = "web://soundwave.zone/features/byte-barn-forever";
 export const BYTE_BARN_TEASER_URL = "web://soundwave.zone/features/incoming-signal";
+export const BYTE_BARN_FAN_HUB_URL = "web://fanverse.zone/clubs/byte-barn-beat-exchange";
 
 export const BYTE_BARN_FAN_TRACKS = {
   halloween: {
@@ -38,6 +39,21 @@ export const BYTE_BARN_FAN_TRACKS = {
     label: "Byte Barn Deal (Glam Rock Remix)",
     file: "byte-barn-glam-rock.mp3",
     url: new URL("../assets/audio/pages/byte-barn-revival/fan/byte-barn-glam-rock.mp3", import.meta.url).href
+  },
+  barbershopAlt: {
+    label: "Byte Barn Barbershop Jingle",
+    file: "byte-barn-barbershop-jingle-alt.mp3",
+    url: new URL("../assets/audio/pages/byte-barn-revival/fan/byte-barn-barbershop-jingle-alt.mp3", import.meta.url).href
+  },
+  dealRemix: {
+    label: "Byte Barn Deal (Basement Remix)",
+    file: "byte-barn-deal-remix.mp3",
+    url: new URL("../assets/audio/pages/byte-barn-revival/fan/byte-barn-deal-remix.mp3", import.meta.url).href
+  },
+  vaporwave: {
+    label: "Byte Barn Deal (Vaporwave Edit)",
+    file: "byte-barn-vaporwave-edit.mp3",
+    url: new URL("../assets/audio/pages/byte-barn-revival/fan/byte-barn-vaporwave-edit.mp3", import.meta.url).href
   }
 } as const satisfies Record<string, PageMusicTrack>;
 
@@ -166,6 +182,7 @@ export interface ByteBarnCoverPlacement {
   pageUrl: string;
   site: PageDefinition["site"];
   uploader: string;
+  kind?: "upload" | "favorite";
   note: string;
   comment: string;
   commentTime: string;
@@ -235,9 +252,96 @@ export const PHASE_TWO_BYTE_BARN_COVERS: readonly ByteBarnCoverPlacement[] = [
     comment: "[[BARNFLIP]] THUNDER SCOOT GLAM BARN MIX IS LIVE. One guitar. Six guitars of attitude. Turn it up.",
     commentTime: "1999-11-04T10:46:00",
     track: BYTE_BARN_FAN_TRACKS.glam
+  },
+  {
+    pageUrl: "web://soundwave.zone/users/starlinesteph/home",
+    site: "soundboyband",
+    uploader: "StarLine_Steph",
+    note: "My cousin's quartet sent me this after I said the jingle needed real harmony. It now has four times the harmony and exactly the same amount of dignity.",
+    comment: "[[BARNFLIP]] My cousin's quartet did a Byte Barn version! The last chord is enormous. This is absolutely going on a tape.",
+    commentTime: "1999-11-06T16:12:00",
+    track: BYTE_BARN_FAN_TRACKS.barbershopAlt
+  },
+  {
+    pageUrl: "web://gamegrid.zone/users/lagmaster99/home",
+    site: "pulse",
+    uploader: "LagMaster_99",
+    note: "Recorded through the headset jack, two game-menu loops, and one microphone that should have been retired in 1996.",
+    comment: "[[BARNFLIP]] Uploaded my Byte Barn basement remix. It sounds better if your speakers are already blown.",
+    commentTime: "1999-11-06T18:03:00",
+    track: BYTE_BARN_FAN_TRACKS.dealRemix
+  },
+  {
+    pageUrl: "web://fanverse.zone/users/prismpilotaya/home",
+    site: "fanprism",
+    uploader: "PrismPilot_Aya",
+    note: "Slowed down, washed in mall-at-closing-time reverb, and paired with a color-cycle that takes one full chorus to repeat.",
+    comment: "[[BARNFLIP]] The Byte Barn vaporwave edit is in my player. Imagine the computer aisle after closing, but emotionally significant.",
+    commentTime: "1999-11-06T21:27:00",
+    track: BYTE_BARN_FAN_TRACKS.vaporwave
+  },
+  {
+    pageUrl: "web://fanverse.zone/users/tapeattictess/home",
+    site: "fanstar",
+    uploader: "TapeAttic_Tess",
+    kind: "favorite",
+    note: "Steph's cousin did not make this for Professor StarThimble, but the four-part ending sounds exactly like the Moon Choir episode.",
+    comment: "[[BARNFLIP]] Also linking Steph's barbershop version because the final chord is basically the Moon Choir. I did not make this one; I just keep replaying it.",
+    commentTime: "1999-11-06T22:04:00",
+    track: BYTE_BARN_FAN_TRACKS.barbershopAlt
+  },
+  {
+    pageUrl: "web://soundwave.zone/users/subbasssimon/home",
+    site: "soundbreakbeat",
+    uploader: "SubBass_Simon",
+    kind: "favorite",
+    note: "LagMaster's microphone is clipping in a way that should be wrong. It is not wrong. I sampled nothing without permission.",
+    comment: "[[BARNFLIP]] LagMaster's basement remix is rude through good speakers and dangerous through bad ones. Favorite version this morning.",
+    commentTime: "1999-11-07T00:18:00",
+    track: BYTE_BARN_FAN_TRACKS.dealRemix
+  },
+  {
+    pageUrl: "web://xtreme.zone/users/deckwreckerdee/home",
+    site: "skater",
+    uploader: "DeckWrecker_Dee",
+    kind: "favorite",
+    note: "Ollie's glam version is ridiculous. It also times perfectly with the long curb line behind Westgate, which is deeply annoying.",
+    comment: "[[BARNFLIP]] Ollie's glam Barn mix is dumb. It also fits my curb tape. Both statements are true, so I linked it.",
+    commentTime: "1999-11-07T08:12:00",
+    track: BYTE_BARN_FAN_TRACKS.glam
+  },
+  {
+    pageUrl: "web://petplanet.zone/users/catnapcarla/home",
+    site: "petcat",
+    uploader: "CatNap_Carla",
+    kind: "favorite",
+    note: "Tom's porch recording is the only version Mr. Boots has not tried to silence by sitting on the speaker.",
+    comment: "[[BARNFLIP]] Linking TrailNote Tom's porch cover. Mr. Boots stayed beside the speaker for the whole song, which is his highest rating.",
+    commentTime: "1999-11-07T09:34:00",
+    track: BYTE_BARN_FAN_TRACKS.acoustic
+  },
+  {
+    pageUrl: "web://fanverse.zone/users/mossmunchmel/home",
+    site: "fanmoss",
+    uploader: "MossMunch_Mel",
+    kind: "favorite",
+    note: "The thunder in Tess's spooky version sounds like the Bog Door opening. This is now unofficial MossMunch Halloween canon.",
+    comment: "[[BARNFLIP]] Tess's spooky Byte Barn tape is my favorite. Play it while reading the Bog Door chapter and tell me I am wrong.",
+    commentTime: "1999-11-07T10:11:00",
+    track: BYTE_BARN_FAN_TRACKS.halloween
+  },
+  {
+    pageUrl: "web://soundwave.zone/users/countrycass/home",
+    site: "soundcountry",
+    uploader: "CountryCass_88",
+    kind: "favorite",
+    note: "Tom left the birds in. Good choice. A porch recording ought to admit that it happened on a porch.",
+    comment: "[[BARNFLIP]] Tom's acoustic Byte Barn version is my current favorite. You can hear the birds come in like they rehearsed.",
+    commentTime: "1999-11-07T11:02:00",
+    track: BYTE_BARN_FAN_TRACKS.acoustic
   }
 ] as const;
 
-export function byteBarnCoverForPage(pageUrl: string) {
-  return PHASE_TWO_BYTE_BARN_COVERS.find((placement) => placement.pageUrl === pageUrl);
+export function byteBarnCoversForPage(pageUrl: string) {
+  return PHASE_TWO_BYTE_BARN_COVERS.filter((placement) => placement.pageUrl === pageUrl);
 }
