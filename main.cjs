@@ -679,10 +679,12 @@ function createWindow() {
           await click('[data-browser="home"]');
 
           await click('[data-nav="web://rainbow.gdn/home"]');
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rainbow-home-grid')) && Boolean(document.querySelector('.page-comments'))`)) throw new Error("Refined Rainbow Garden homepage was incomplete");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.rainbow-home-grid')) && Boolean(document.querySelector('.page-comments')) && Array.from(document.querySelectorAll('.page-comment.visitor')).some((comment) => comment.textContent.includes('xX_DarkRaven_Xx') && comment.textContent.includes('not visiting again on purpose') && comment.querySelector('[data-nav="web://raven.web/home"]')) && Boolean(document.querySelector('.browser-toolbar [data-download-page="web://rainbow.gdn/home"]')) && !document.querySelector('.evidence-download-bar')`)) throw new Error("Refined Rainbow Garden homepage was incomplete or did not establish the linked DarkRaven connection");
           await capture("refined-rainbow-garden.png");
           await click('[data-nav="web://rainbow.gdn/about"]');
-          if (await win.webContents.executeJavaScript(`!document.querySelector('.juniper-profile') || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Rainbow about page was incomplete or had its own comment thread");
+          if (await win.webContents.executeJavaScript(`!document.querySelector('.juniper-profile') || Boolean(document.querySelector('.page-comments')) || !document.querySelector('.browser-toolbar [data-download-page="web://rainbow.gdn/about"]')`)) throw new Error("Rainbow about page was incomplete, had its own comment thread, or could not be saved from the browser toolbar");
+          await click('[data-download-page="web://rainbow.gdn/about"]');
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.browser-toolbar .save-page.active'))`)) throw new Error("Browser toolbar save control did not mark an ordinary saved page");
           await capture("refined-rainbow-about.png");
           await click('[data-nav="web://rainbow.gdn/modem"]');
           if (await win.webContents.executeJavaScript(`!document.querySelector('.cat-corner-grid') || Boolean(document.querySelector('.page-comments'))`)) throw new Error("Modem's Cat Corner was incomplete or had its own comment thread");
@@ -741,7 +743,12 @@ function createWindow() {
             throw new Error("Downloaded clue contents were incorrect or still contained demo copy");
           }
           const saved = await readSave();
-          if (!saved.flags.signal_note_downloaded || !saved.flags.orbit_pal_installed || saved.downloads.length !== 2) throw new Error("Discovery and helper state were not persisted");
+          if (
+            !saved.flags.signal_note_downloaded ||
+            !saved.flags.orbit_pal_installed ||
+            !saved.downloads.some((file) => file.id === "evidence:web://rainbow.gdn/about") ||
+            !saved.downloads.some((file) => file.id === "signal-note")
+          ) throw new Error("Discovery, browser page copy, and helper state were not persisted");
           const image = await win.webContents.capturePage();
           const target = path.resolve(__dirname, "artifacts", "clue-flow.png");
           await fs.mkdir(path.dirname(target), { recursive: true });

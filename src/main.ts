@@ -862,26 +862,8 @@ function directMessageBadge(count: number, label = "unread replies") {
   return `<span class="app-unread-badge" aria-label="${count} ${label}">${shown}</span>`;
 }
 
-const DOWNLOADABLE_EVIDENCE_SITES = new Set<PageDefinition["site"]>([
-  "raven",
-  "backchannelalt",
-  "morrowfive",
-  "glasslake",
-  "quietcounty",
-  "algorithmarchive"
-]);
-
 function evidenceSnapshotId(url: string) {
   return `evidence:${url}`;
-}
-
-function evidenceDownloadToolbar(page: PageDefinition) {
-  if (!DOWNLOADABLE_EVIDENCE_SITES.has(page.site)) return "";
-  const downloaded = state.downloads.some((file) => file.id === evidenceSnapshotId(page.url));
-  return `<aside class="evidence-download-bar">
-    <span><b>ORBIT EXPLORER ARCHIVE TOOL</b> Save a readable copy in My Files.</span>
-    <button data-download-page="${escapeHtml(page.url)}">${downloaded ? "UPDATE SAVED COPY" : "SAVE PAGE COPY"}</button>
-  </aside>`;
 }
 
 function pageSnapshotText(page: PageDefinition) {
@@ -912,11 +894,11 @@ function pageSnapshotText(page: PageDefinition) {
 }
 
 function downloadCurrentPageCopy(url: string) {
-  const page = pages[url];
-  if (!page || !pageAvailable(page) || !DOWNLOADABLE_EVIDENCE_SITES.has(page.site)) return;
+  const page = url === state.currentUrl ? currentPage() : pages[url];
+  if (!page || !pageAvailable(page)) return;
   const id = evidenceSnapshotId(page.url);
   const existing = state.downloads.find((file) => file.id === id);
-  const name = `${page.title.toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 34) || "ORBIT-EVIDENCE"}.TXT`;
+  const name = `${page.title.toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 34) || "ORBIT-PAGE"}.TXT`;
   const snapshot = {
     id,
     name,
@@ -2046,6 +2028,7 @@ function authoredPageComments(page: PageDefinition): PageComment[] {
 function browserWindow() {
   const page = currentPage();
   const bookmarked = state.bookmarks.includes(state.currentUrl);
+  const pageCopySaved = state.downloads.some((file) => file.id === evidenceSnapshotId(page.url));
   return windowShell("browser", `${page.title} - Orbit Explorer`, "O", `
     <div class="browser-toolbar">
       <button data-browser="back" ${historyIndex === 0 ? "disabled" : ""} title="Back">◀</button>
@@ -2060,9 +2043,10 @@ function browserWindow() {
         <option value="extra-large" ${state.settings.browserTextSize === "extra-large" ? "selected" : ""}>Extra Large</option>
       </select></label>
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
+      <button data-download-page="${escapeHtml(page.url)}" class="save-page ${pageCopySaved ? "active" : ""}" title="${pageCopySaved ? "Update saved text copy" : "Save text copy to My Files"}" aria-label="${pageCopySaved ? "Update saved text copy" : "Save text copy to My Files"}"><i class="save-page-glyph" aria-hidden="true"><span></span></i></button>
     </div>
     <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
-    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${evidenceDownloadToolbar(page)}${page.render(state)}${phaseTwoPersonalUpdateLink(page.url, state)}${byteBarnCoverUpdate(page)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
+    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${page.render(state)}${phaseTwoPersonalUpdateLink(page.url, state)}${byteBarnCoverUpdate(page)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
     <footer class="browser-footer">${pageMusicPlayer(page)}<div class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></div></footer>`);
 }
 

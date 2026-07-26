@@ -401,6 +401,16 @@ export const pages: Record<string, PageDefinition> = {
     listed: true,
     hubId: "zone-cozycommons",
     searchTerms: ["juniper", "garden", "cat", "art", "modem"],
+    seedComments: [{
+      id: "rainbow-raven-awkward-flirt",
+      pageUrl: "web://rainbow.gdn/home",
+      ownerId: "juniper_gdn",
+      role: "visitor",
+      author: "xX_DarkRaven_Xx",
+      text: "the moonflower picture looks good. I was checking it for signal anomalies, not visiting again on purpose. message me if Modem watches the phone jack tonight.",
+      createdAt: "1999-11-02T22:41:00",
+      revealAfterVisit: 0
+    }],
     render: () => `
       <main class="page rainbow-page">
         <header class="rainbow-masthead">
