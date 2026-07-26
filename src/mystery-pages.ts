@@ -555,6 +555,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     ownerId: "static_abel",
     summary: "The transcript announces twelve groups but contains eleven; several groups resemble Orbit page IDs rather than radio coordinates.",
     listed: false,
+    searchable: false,
     minimumPhase: 2,
     render: () => `
       <main class="page morrow-page morrow-transcript"><h1>TAPE M5-1103-B</h1><pre>music box interval
@@ -575,6 +576,7 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     ownerId: "static_abel",
     summary: "The sensational station theory collapses when the number groups resolve to Orbit page IDs inserted after the supposedly old tape was uploaded.",
     listed: false,
+    searchable: false,
     minimumPhase: 2,
     render: (state) => state.flags.morrow_case_unlocked ? `
       <main class="page morrow-page mystery-terminal"><header><b>MYSTERY CHECK // MORROW FIVE</b><span>CONCLUSION: MANUFACTURED CONNECTION</span></header>
@@ -635,6 +637,7 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     ownerId: "skywatch_sam",
     summary: "Weather records show the famous three lights match calibration balloons and that the mysterious radio windows follow known atmospheric conditions.",
     listed: false,
+    searchable: false,
     minimumPhase: 2,
     render: () => `
       <main class="page glasslake-page glasslake-log"><h1>UPPER AIR LOG // SELECTED ENTRIES</h1>
@@ -650,6 +653,7 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     ownerId: "skywatch_sam",
     summary: "The alien-base theory is unsupported, but a real contractor quietly shared propagation data with Orbit's gateway engineering group.",
     listed: false,
+    searchable: false,
     minimumPhase: 2,
     render: (state) => state.flags.glass_lake_case_unlocked ? `
       <main class="page glasslake-page mystery-terminal"><header><b>MYSTERY CHECK // GLASS LAKE</b><span>CONCLUSION: WRONG SKY, RIGHT CONTRACTOR</span></header>
@@ -709,6 +713,7 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     ownerId: "cedar_wren",
     summary: "Three inflammatory letters attributed to different groups share the same typo, paper damage, and Orbit-era print driver footer.",
     listed: false,
+    searchable: false,
     minimumPhase: 2,
     render: () => `
       <main class="page quietcounty-page letter-comparison"><h1>THREE ENEMIES, ONE MISSPELLING</h1>
@@ -725,6 +730,7 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     ownerId: "cedar_wren",
     summary: "The supposed deep-state letter campaign was fabricated recently, while the underlying study only observed already-public meetings and later drew ethical criticism.",
     listed: false,
+    searchable: false,
     minimumPhase: 2,
     render: (state) => state.flags.quiet_county_case_unlocked ? `
       <main class="page quietcounty-page mystery-terminal"><header><b>MYSTERY CHECK // QUIET COUNTY</b><span>CONCLUSION: SYNTHETIC LEAK, REAL ETHICAL FAILURE</span></header>

@@ -964,6 +964,18 @@ function createWindow() {
           await address("web://orbitnet.local/zones/newcomers");
           if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.newcomer-member-card').length === 5 && document.body.textContent.includes('One member told a friend')`)) throw new Error("Newbie Nebula did not list five first pages or explain the friend-to-friend arrival wave");
           await capture("story-newbie-nebula.png");
+          await address("web://search?q=morrow%20five%20decoded");
+          if (!await win.webContents.executeJavaScript(`(() => {
+            const urls = Array.from(document.querySelectorAll('.search-results [data-nav]')).map((entry) => entry.getAttribute('data-nav'));
+            return urls.includes('web://morrow-five.net/home') &&
+              !urls.some((url) => url && url.startsWith('web://morrow-five.net/') && url !== 'web://morrow-five.net/home');
+          })()`)) {
+            throw new Error("Puzzle search exposed a Morrow Five subpage instead of only its homepage");
+          }
+          await address("web://search?q=archive.orbitnet.local");
+          if (!await win.webContents.executeJavaScript(`!Array.from(document.querySelectorAll('.search-results [data-nav]')).some((entry) => entry.getAttribute('data-nav')?.startsWith('web://archive.orbitnet.local/'))`)) {
+            throw new Error("The hidden government archive leaked into search results");
+          }
           await address("web://orbitnet.local/zones/fanverse");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.fandom-member-card.member-bytebarn')) && document.querySelectorAll('.fandom-member-card').length === 7`)) {
             throw new Error("Phase-two FanVerse directory did not add the Byte Barn Beat Exchange");

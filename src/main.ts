@@ -1496,6 +1496,21 @@ function pageAvailable(page: PageDefinition) {
   return (page.minimumPhase ?? 1) <= state.storyPhase;
 }
 
+const SEARCH_HOME_ONLY_PREFIXES = [
+  "web://morrow-five.net/",
+  "web://glasslake-field.gov/",
+  "web://quiet-county.org/"
+] as const;
+
+function pageSearchEligible(page: PageDefinition) {
+  if (page.searchable === false) return false;
+  if (page.url.startsWith("web://archive.orbitnet.local/")) return false;
+  if (SEARCH_HOME_ONLY_PREFIXES.some((prefix) => page.url.startsWith(prefix))) {
+    return page.url.endsWith("/home");
+  }
+  return true;
+}
+
 function currentPage() {
   if (state.currentUrl.startsWith("web://search?")) return orbitSearchPage(state.currentUrl);
   const page = pages[state.currentUrl];
@@ -1545,7 +1560,7 @@ function lexicalSearchResults(query: string) {
   const expandedWords = new Set(queryWords.flatMap((word) => [word, ...(SEARCH_CONCEPTS[word] ?? [])]));
   return Object.values(pages)
     .filter(pageAvailable)
-    .filter((page) => page.searchable !== false)
+    .filter(pageSearchEligible)
     .map((page) => {
       const haystack = [page.url, page.title, page.summary, ...(page.searchTerms ?? [])].join(" ").toLowerCase();
       const exactMatch = haystack.includes(query);
@@ -1565,7 +1580,12 @@ function orbitSearchPage(url: string): PageDefinition {
   const query = new URLSearchParams(url.split("?")[1] ?? "").get("q")?.trim().toLowerCase() ?? "";
   const lexicalResults = lexicalSearchResults(query);
   const semanticUrls = semanticSearchCache.get(query) ?? [];
-  const results = [...lexicalResults, ...semanticUrls.map((resultUrl) => pages[resultUrl]).filter(Boolean)]
+  const results = [
+    ...lexicalResults,
+    ...semanticUrls
+      .map((resultUrl) => pages[resultUrl])
+      .filter((page): page is PageDefinition => Boolean(page && pageSearchEligible(page)))
+  ]
     .filter((page, index, all) => all.findIndex((candidate) => candidate.url === page.url) === index);
   const smartSearching = pendingSearches.has(query);
   const smartMatched = semanticSearchCache.has(query);
@@ -1597,7 +1617,7 @@ async function requestSemanticSearch(query: string) {
       query,
       pages: Object.values(pages)
         .filter(pageAvailable)
-        .filter((page) => page.searchable !== false && page.listed !== false)
+        .filter((page) => pageSearchEligible(page) && page.listed !== false)
         .map((page) => ({ url: page.url, title: page.title, summary: page.summary }))
     });
     semanticSearchCache.set(query, result.urls.filter((resultUrl) => Boolean(pages[resultUrl])));
