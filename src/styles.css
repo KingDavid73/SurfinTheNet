@@ -5251,9 +5251,10 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .tribute-signal small { color: #5bf0ef; font-weight: bold; letter-spacing: .15em; }
 .tribute-signal h2 { margin: 3px 0; color: #ffe14e; font: 900 26px "Arial Black", Arial, sans-serif; }
 .tribute-signal p { margin: 5px 0; }
-.tribute-track-list { margin: 22px; overflow: hidden; border: 5px ridge #704467; box-shadow: 8px 8px #4d1b46; }
-.tribute-track-list > header { display: grid; grid-template-columns: 56px 1fr 180px; gap: 14px; padding: 8px 12px; color: #ffe15c; background: #1b0a22; font: bold 9px "Courier New", monospace; letter-spacing: .09em; }
-.tribute-track-list article { display: grid; grid-template-columns: 56px 1fr 180px; gap: 14px; align-items: start; min-height: 180px; padding: 12px; color: #311832; background: #fff8df; border-bottom: 2px solid #ba8c72; border-left: 7px solid #c52d68; }
+.tribute-track-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 22px; overflow: hidden; border: 5px ridge #704467; box-shadow: 8px 8px #4d1b46; }
+.tribute-track-list > header { grid-column: 1 / -1; display: grid; grid-template-columns: 56px 1fr 180px; gap: 14px; padding: 8px 12px; color: #ffe15c; background: #1b0a22; font: bold 9px "Courier New", monospace; letter-spacing: .09em; }
+.tribute-track-list article { display: grid; grid-template-columns: 44px minmax(0, 1fr) 140px; gap: 10px; align-items: start; min-height: 190px; padding: 12px; color: #311832; background: #fff8df; border-bottom: 2px solid #ba8c72; border-left: 7px solid #c52d68; }
+.tribute-track-list article:nth-of-type(odd) { border-right: 2px solid #ba8c72; }
 .tribute-track-list article:nth-child(odd) { background: #ecd7bc; border-left-color: #e1af2f; }
 .tribute-track-list article > b { align-self: start; color: #a32159; font: 900 31px "Arial Black", Arial, sans-serif; }
 .tribute-track-copy small { color: #8d3260; font-weight: bold; letter-spacing: .13em; text-transform: uppercase; }
@@ -5262,7 +5263,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .tribute-track-copy h3 { color: #b1245b; font-size: 14px; }
 .tribute-track-copy p { font-size: 11px; line-height: 1.4; }
 .tribute-track-copy button { margin-top: 7px; padding: 7px 10px; color: #fff; background: linear-gradient(#8e377c, #451444); border: 3px outset #ba8eb8; font-size: 9px; font-weight: bold; }
-.tribute-artist-photo { position: relative; width: min(160px, 100%); aspect-ratio: 4 / 5; justify-self: center; margin: 0; overflow: hidden; background: #130a17; border: 6px solid #fff; box-shadow: 3px 4px 7px #3c1739; transform: rotate(1deg); }
+.tribute-artist-photo { position: relative; width: min(130px, 100%); aspect-ratio: 4 / 5; justify-self: center; margin: 0; overflow: hidden; background: #130a17; border: 6px solid #fff; box-shadow: 3px 4px 7px #3c1739; transform: rotate(1deg); }
 .tribute-track:nth-child(even) .tribute-artist-photo { transform: rotate(-1deg); }
 .tribute-artist-photo img { width: 100%; height: calc(100% - 18px); display: block; object-fit: contain; object-position: center; background: #130a17; filter: saturate(.9) contrast(1.04); }
 .tribute-artist-photo figcaption { position: absolute; inset: auto 0 0; min-height: 18px; box-sizing: border-box; padding: 4px; color: #fff; background: #160916; font: bold 8px "Courier New", monospace; text-align: center; }
@@ -5294,7 +5295,9 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   .incoming-signal-page > section { align-items: stretch; flex-direction: column; }
   .incoming-signal-page > footer { align-items: stretch; flex-direction: column; }
   .tribute-track-list > header { display: none; }
+  .tribute-track-list { grid-template-columns: 1fr; }
   .tribute-track-list article { grid-template-columns: 38px 1fr; }
+  .tribute-track-list article:nth-of-type(odd) { border-right: 0; }
   .tribute-artist-photo { grid-column: 1 / -1; width: min(160px, 100%); }
   .tribute-extras { grid-template-columns: 1fr; }
   .tribute-label-line, .byte-barn-tribute-page > footer { align-items: stretch; flex-direction: column; text-align: center; }
