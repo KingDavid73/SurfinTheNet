@@ -382,7 +382,7 @@ const MIRA_WELCOME_TEXT = [
 ].join("\n");
 
 const DEFAULT_STATE: GameState = {
-  version: 10,
+  version: 11,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -652,9 +652,9 @@ const MYSTERY_UNLOCK_FLAGS: Record<string, string> = {
   quiet_county: "quiet_county_case_unlocked"
 };
 const MYSTERY_CASE_ANSWERS: Record<string, string> = {
-  morrow_five: "00417",
-  glass_lake: "b0614",
-  quiet_county: "definately"
+  morrow_five: "00417|10",
+  glass_lake: "091294|b0614",
+  quiet_county: "definately|trestle|b1102"
 };
 const PHASE_TWO_MAIN_MYSTERIES = ["morrow_five", "glass_lake", "quiet_county"] as const;
 const REQUIRED_PHASE_THREE_MYSTERIES = Object.values(MYSTERY_TERMINALS);
@@ -806,6 +806,30 @@ function normalizeState(loaded: Partial<GameState>): GameState {
   const normalizedDirectMessages = Array.isArray(loaded.directMessages)
     ? loaded.directMessages.map((message) => message.id === "mira-welcome-1999" ? { ...message, text: MIRA_WELCOME_TEXT } : message)
     : [];
+  const normalizedPageComments = Array.isArray(loaded.pageComments) ? [...loaded.pageComments] : [];
+  if (Number(loaded.version ?? 0) < 11 && storyPhase >= 3) {
+    const recoveryTrailTargets = [
+      ["orbit_mechanic", "web://bytebarn.com/home"],
+      ["nora_lamp", "web://cosmiccrust.biz/home"],
+      ["archive_watch", "web://foldedwire.net/home"]
+    ] as const;
+    for (const [accountId, pageUrl] of recoveryTrailTargets) {
+      if (normalizedPageComments.some((comment) => comment.ownerId === accountId)) continue;
+      const account = DORMANT_LEGACY_ACCOUNTS.find((candidate) => candidate.id === accountId);
+      if (!account) continue;
+      normalizedPageComments.push({
+        id: `migration-recovery-${accountId}`,
+        pageUrl,
+        ownerId: accountId,
+        role: "visitor",
+        author: account.screenName,
+        text: account.rumor,
+        createdAt: loaded.gameTime ?? DEFAULT_STATE.gameTime,
+        revealAfterVisit: Number(loaded.pageVisitCounts?.[pageUrl] ?? 0) + 1
+      });
+      normalizedFlags[`system_legacy_${accountId}`] = true;
+    }
+  }
   const readDirectMessageIds = Array.isArray(loaded.readDirectMessageIds)
     ? [...new Set(loaded.readDirectMessageIds.map(String))]
     : normalizedDirectMessages
@@ -826,7 +850,7 @@ function normalizeState(loaded: Partial<GameState>): GameState {
       ? loaded.downloads.map((file) => file.id === "signal-note" ? { ...file, contents: SIGNAL_NOTE_CONTENTS } : file)
       : [],
     settings: { ...DEFAULT_STATE.settings, ...(loaded.settings ?? {}) },
-    pageComments: Array.isArray(loaded.pageComments) ? loaded.pageComments : [],
+    pageComments: normalizedPageComments,
     ambientPostQueue: Array.isArray(loaded.ambientPostQueue) ? loaded.ambientPostQueue : [],
     pageVisitCounts: { ...DEFAULT_STATE.pageVisitCounts, ...(loaded.pageVisitCounts ?? {}) },
     guestbookEntries: { ...(loaded.guestbookEntries ?? {}) },
@@ -1806,8 +1830,18 @@ function activateStoryPhase(nextPhase: StoryPhase) {
     );
     addPhaseThreeLeakComments();
     addPhaseThreeExplorerComments();
-    addDormantLegacyTrailComment(state.gameTime, DORMANT_LEGACY_ACCOUNTS[0], "web://bytebarn.com/home");
-    addDormantLegacyTrailComment(state.gameTime, DORMANT_LEGACY_ACCOUNTS[8], "web://cosmiccrust.biz/home");
+    const recoveryTrailTargets = [
+      ["orbit_mechanic", "web://bytebarn.com/home"],
+      ["nora_lamp", "web://cosmiccrust.biz/home"],
+      ["archive_watch", "web://foldedwire.net/home"]
+    ] as const;
+    for (const [accountId, pageUrl] of recoveryTrailTargets) {
+      addDormantLegacyTrailComment(
+        state.gameTime,
+        DORMANT_LEGACY_ACCOUNTS.find((account) => account.id === accountId),
+        pageUrl
+      );
+    }
   }
   if (nextPhase === 4) {
     addEndingCommunityResponses();
@@ -3697,12 +3731,19 @@ function bindEvents() {
   document.querySelectorAll<HTMLFormElement>("[data-case-unlock]").forEach((form) => form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const caseId = form.dataset.caseUnlock ?? "";
-    const answer = String(new FormData(form).get("answer") ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const normalizeCaseAnswer = (value: FormDataEntryValue | null) =>
+      String(value ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const formData = new FormData(form);
+    const answer = [
+      normalizeCaseAnswer(formData.get("answer")),
+      normalizeCaseAnswer(formData.get("answer2")),
+      normalizeCaseAnswer(formData.get("answer3"))
+    ].filter(Boolean).join("|");
     if (!MYSTERY_CASE_ANSWERS[caseId] || answer !== MYSTERY_CASE_ANSWERS[caseId]) {
       const errorMessages: Record<string, string> = {
-        morrow_five: "GROUP REJECTED // enter the five-digit group repeated in the transcript",
-        glass_lake: "REFERENCE NOT FOUND // enter the full Cabinet B filing code",
-        quiet_county: "INDEX MISS // enter the shared misspelling exactly as printed"
+        morrow_five: "SEQUENCE REJECTED // both the repeated group and missing position must match",
+        glass_lake: "CROSS-CHECK FAILED // the witness-envelope date and paper reference must both match",
+        quiet_county: "INDEX MISS // the copied error, project name, and legitimate study reference must all match"
       };
       storyFormErrors.set(caseId, errorMessages[caseId] ?? "CASE CHECK FAILED");
       render();

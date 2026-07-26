@@ -168,7 +168,7 @@
       "playerSituation": "The Black File is open after a four-day break. Raven's dream-alien answer was clearly nonsense, but the real evidence beneath it was unresolved, so people invited friends to Orbit to help prove him wrong and find a better explanation. Newbie Nebula and restored Backchannel nodes have appeared and three headline mysteries can be investigated. Many visitors stay for the strange pages and responsive community. At the same time, newcomers are rediscovering Byte Barn's retired jingle: some remember the commercial, others have never heard it, and local covers are spreading beyond Orbit.",
       "recommendedGuidance": [
         "Direct a stuck player to Backchannel and the restored Folded Wire or Index Null pages.",
-        "Teach the player to follow the numbered objective on each case homepage, pass its sealed case check, and read the opened conclusion; merely reading the sensational homepage is not enough.",
+        "Teach the player that each case terminal needs two values drawn from separate evidence sources. The case's own clue page never links forward to its terminal, so the player should save notes, return to the case homepage, and consult member pages or paper archives.",
         "Suggest asking StaticAbel about Morrow Five, Skywatch Sam about Glass Lake, CedarWren about Quiet County, FaxMoth about document provenance, or NullIndex about lost routes.",
         "Mention that six silly personal oddities offer optional cross-links to the three main cases, while the ten rumor-bait pages are flavor and never required."
       ],
@@ -177,35 +177,35 @@
           "id": "morrow_five",
           "matchTerms": ["morrow", "five-number", "number station", "shortwave", "00417", "twelve groups", "radio transcript"],
           "goal": "Determine what is wrong with the Morrow Five recording and reach the decoded conclusion.",
-          "mechanic": "Read the transcript, identify the five-digit group repeated three times, and enter it into the sealed Group Test. The opened conclusion then compares the value, dates, and recording footer.",
-          "caseGateAnswer": "00417",
+          "mechanic": "Read the transcript, identify the five-digit group repeated three times, number the promised sequence positions to locate the gap, and enter both values into the sealed Group Test.",
+          "caseGateAnswer": "00417 and position 10",
           "privateAnswer": "The old shortwave base tape was edited later with modern Orbit directory object IDs through Orbit Bridge 4.7; the groups do not activate secret facilities.",
           "solutionLogic": "The speaker announces twelve groups but only eleven survive. Several numbers correspond to Orbit objects created after the alleged recording date, and the footer names later gateway software. The recording can be old while the conspiracy framing is new.",
           "authoredRoutes": [
-            "Morrow Five links directly from Backchannel and the restored Folded Wire.",
+            "Morrow Five is listed as its own restored Backchannel member page; Folded Wire mentions an unfiled M5 owner copy but does not link to it.",
             "LagMaster's comet-logo oddity repeats 00417 on modern product stickers.",
             "Juniper's moonseed-moth page notes the same twelve-versus-eleven counting problem.",
-            "StaticAbel can discuss the repeated group and the tape discrepancy."
+            "StaticAbel can discuss the repeated group, the tape discrepancy, and numbering all twelve promised positions."
           ],
           "hintTiers": [
             "Count what the voice promises, then count what the transcript actually contains.",
             "Treat the five-digit groups as Orbit identifiers rather than coordinates.",
             "Compare repeated values with modern pages and inspect the software footer for a date mismatch.",
-            "The Group Test wants the five-digit value printed three times in the transcript.",
-            "If the player requests the exact gate answer after stronger hints, it is 00417."
+            "The Group Test wants the five-digit value printed three times and the ordinal position occupied by [MISSING].",
+            "If the player requests the exact gate answer after stronger hints, it is 00417 and position 10."
           ],
-          "conclusionFragment": "The conclusion ends with two lines of unexplained corrupted output. The conspicuously legible bold fragments are web://archive and STAY."
+          "conclusionFragment": "The conclusion ends with unexplained corrupted output. Its only conspicuously legible bold fragment is web://archive."
         },
         {
           "id": "glass_lake",
           "matchTerms": ["glass lake", "moon window", "field annex", "three lights", "weather log", "calibration balloons"],
           "goal": "Separate the Moon Window alien story from the genuine Glass Lake contractor connection and reach the contract report.",
-          "mechanic": "Use the weather log to account for the lights, find the Glass Lake contract in Folded Wire's Cabinet B, and enter its full filing reference into the sealed report terminal.",
-          "caseGateAnswer": "B-06-14",
+          "mechanic": "Use the weather log to account for the lights, recover the date written on the stray witness-photo envelope from Carla's Porch Panther page, independently find the Glass Lake contract in Folded Wire's Cabinet B, and enter the envelope date plus filing reference into the sealed report terminal.",
+          "caseGateAnswer": "09/12/94 and B-06-14",
           "privateAnswer": "The lights were calibration balloons and Moon Window was a propagation test; a real regional contractor later advised Orbit on proxy routing and persistence.",
           "solutionLogic": "The lights and radio windows have mundane, time-matched explanations. The exciting alien notes were added later, but the underlying contractor paperwork still establishes a real link to Orbit.",
           "authoredRoutes": [
-            "Glass Lake is listed in Backchannel and cross-referenced in the Folded Wire cabinet.",
+            "Glass Lake is listed as its own Backchannel page; the Folded Wire cabinet separately preserves its paper reference without linking back to the site.",
             "Dee's humming-curb oddity contains a Glass Lake Atmospheric Group contractor plate.",
             "Carla's Porch Panther photograph records three lights on the same date as the balloon log.",
             "Skywatch Sam can distinguish the ordinary lights from the meaningful contractor trail."
@@ -214,21 +214,21 @@
             "Match the famous sighting time against the dull weather log before deciding what was in the sky.",
             "The phrase Moon Window may describe radio conditions rather than a literal object.",
             "Separate later handwriting from the older typed contract, then ask which part still connects to Orbit.",
-            "The sealed report asks for the full filing reference beside the Glass Lake contract in Folded Wire's Cabinet B.",
-            "If the player requests the exact gate answer after stronger hints, it is B-06-14."
+            "The sealed report asks for the envelope date on Carla's stray photograph and the full filing reference beside the Glass Lake contract in Folded Wire's Cabinet B.",
+            "If the player requests the exact gate answer after stronger hints, it is 09/12/94 and B-06-14."
           ],
-          "conclusionFragment": "The conclusion ends with two lines of unexplained corrupted output. The conspicuously legible bold fragments are orbitnet.local and ON."
+          "conclusionFragment": "The conclusion ends with unexplained corrupted output. Its only conspicuously legible bold fragment is orbitnet.local."
         },
         {
           "id": "quiet_county",
           "matchTerms": ["quiet county", "project trestle", "anonymous letters", "orbitprint", "definately", "county study"],
           "goal": "Determine whether Project Trestle created a local anonymous-letter campaign and reach the case conclusion.",
-          "mechanic": "Compare the supposedly independent letters, then enter their exact shared misspelling into the sealed records request. The opened conclusion compares the source batch with the real study.",
-          "caseGateAnswer": "definately",
+          "mechanic": "Compare the supposedly independent letters, recover the project name from Big Bass Bob's stray survey, then independently locate the legitimate Quiet County correspondence in Folded Wire's Cabinet B. Enter the shared misspelling, project name, and paper filing reference into the sealed records request.",
+          "caseGateAnswer": "definately, TRESTLE, and B-11-02",
           "privateAnswer": "The dramatic letters were recently produced from one Orbit-era source and falsely aged; the real study observed public meetings without meaningful notice but did not manufacture those disputes.",
           "solutionLogic": "Three claimed sources share the same misspelling, torn corner, and OrbitPrint footer, which means they are copies of one newer artifact. The authentic study still contains a genuine consent problem, just not the advertised covert campaign.",
           "authoredRoutes": [
-            "Quiet County is listed in Backchannel and cross-referenced in the Folded Wire cabinet.",
+            "Quiet County is listed as its own Backchannel page; the Folded Wire cabinet separately preserves the legitimate study's paper reference without linking back to the site.",
             "Big Bass Bob's Lake Knocker page finds Project Trestle on a county survey.",
             "Trent's Blipzo cap-stripe page highlights the same torn corner, misspelling, and OrbitPrint 3.2 footer.",
             "CedarWren and FaxMoth can discuss provenance and the actual study."
@@ -237,28 +237,28 @@
             "Compare the physical and typographic flaws in the three letters, not just what they claim.",
             "Independent enemies should not make the same spelling error on the same damaged paper.",
             "The print footer dates the dramatic copies; then compare them with the university archive's actual methods.",
-            "The records request wants the misspelled word exactly as it appears in all three letters.",
-            "If the player requests the exact gate answer after stronger hints, it is definately."
+            "The records request wants the misspelled word exactly as printed, the project name on Bob's stray survey, and the Cabinet B reference for the legitimate study.",
+            "If the player requests the exact gate answer after stronger hints, it is definately, TRESTLE, and B-11-02."
           ],
-          "conclusionFragment": "The conclusion ends with two lines of unexplained corrupted output. The conspicuously legible bold fragments are /labs/home and LINE."
+          "conclusionFragment": "The conclusion ends with unexplained corrupted output. Its only conspicuously legible bold fragment is /labs/home."
         },
         {
           "id": "adaptive_index_route",
           "matchTerms": ["hidden archive", "government archive", "adaptive index", "three fragments", "three cases", "assemble address", "archive route", "labs/home"],
           "goal": "Assemble and open the unlisted government-funded interface-research archive, then reach its findings.",
-          "mechanic": "Each completed headline conclusion leaks two bold fragments inside a damaged Unicode footer. Three of those fragments resemble successive pieces of an Orbit address. Join the address-shaped pieces in normal URL order and type the result into Orbit Explorer because search cannot find it.",
+          "mechanic": "Each completed headline conclusion leaks one bold fragment inside a damaged Unicode footer. Join the three address-shaped pieces in normal URL order and type the result into Orbit Explorer because search cannot find it.",
           "privateAnswer": "web://archive.orbitnet.local/labs/home",
           "solutionLogic": "The unexplained Morrow fragment begins with web://, the Glass Lake fragment resembles a network domain, and the Quiet County fragment begins with a path slash. Their formats imply the order web://archive + orbitnet.local + /labs/home without any page explicitly identifying their roles. The archive remains sealed until all three conclusions have been visited. Its Method page leads to Findings, which records the Adaptive Index discovery and starts phase three.",
           "authoredRoutes": [
-            "Every headline conclusion ends with the same style of corrupted footer and two strangely legible bold fragments.",
-            "The Folded Wire cabinet contains a trace toward the archive but cannot bypass the three-case gate.",
-            "Index Null says the Orbit labs checksum is split across three cases.",
+            "Every headline conclusion ends with the same style of corrupted footer and one strangely legible bold fragment.",
+            "The Folded Wire cabinet preserves case evidence but its Orbit invoice index card is withdrawn.",
+            "Index Null records that a private Orbit checksum is incomplete but does not enumerate or link the case solutions.",
             "The assembled route must be typed directly; it is excluded from directory and search results."
           ],
           "hintTiers": [
             "The three cases produce parts of one destination, not three unrelated trophies.",
             "Compare the damaged footer on each conclusion and write down the bold fragments that survived the corruption.",
-            "Of the six bold fragments, three look like pieces of a web address: one begins with web://, one resembles a domain, and one begins with a path slash. Arrange those by normal address syntax.",
+            "The three bold fragments look like successive pieces of a web address: one begins with web://, one resembles a domain, and one begins with a path slash. Arrange those by normal address syntax.",
             "Type the completed address into the browser bar, read Method, and continue to Findings."
           ],
           "completionEffect": "Visiting Findings after all three case conclusions triggers phase three after an overnight transition."
@@ -267,7 +267,7 @@
       "optionalDiscoveries": [
         "The rumor-bait pages reached through slightly altered usernames are synthetic engagement hooks and do not advance the main investigation.",
         "C9's three headline cases are both engagement bait and misdirection: unfinished puzzles keep people returning, while aliens, secret bases, and government villains keep attention pointed away from Orbit's own autonomous behavior.",
-        "The three recovery words in the case footers are not needed for the government archive address, but careful players should keep them for later.",
+        "The phase-two case footers contain only archive-address fragments. The later C9 recovery phrase does not appear until phase three.",
         "The Byte Barn Beat Exchange in FanVerse catalogs the phase-two cover wave. Repeated cover links on unrelated personal pages show genuine people sharing favorites rather than isolated uploads, but this is cultural foreshadowing rather than a required puzzle."
       ]
     },
@@ -278,47 +278,47 @@
         "Encourage the player to inspect who is posting, click unfamiliar or long-dormant comment names, compare timestamps, and notice language shared by supposedly unrelated accounts.",
         "Suggest asking people about invitations, offline memories, posting times, changed usernames, or facts they should not know.",
         "Clarify that the twenty-five broken legacy pages are lore trails rather than twenty-five mandatory puzzles.",
-        "Point the player back toward the old OrbitOS archive, Index Null's Dead Letters, and the secondary words preserved at the four audit terminals."
+        "Point the player toward the old OrbitOS host, the audit pointer on Adaptive Index Findings, and the three reactivated dormant-account pages carrying ordered recovery strips."
       ],
       "requiredPuzzles": [
         {
           "id": "continuity_console_address",
           "matchTerms": ["continuity console", "c9 console", "continuity address", "admin/continuity", "old orbitos", "dead letters", "system below"],
           "goal": "Find the unlisted C9 continuity console.",
-          "mechanic": "Combine an old OrbitOS host with an internal path leaked by technical documentation and dead-letter records, then type the full address directly.",
+          "mechanic": "Combine the old OrbitOS host learned earlier with the internal terminal path preserved by the genuine Adaptive Index findings, then type the full address directly.",
           "privateAnswer": "web://legacy.orbitos.local/admin/continuity",
-          "solutionLogic": "The Black File exposes the old OrbitOS information center at legacy.orbitos.local. Its Technology page contains a source-like comment saying continuity documentation moved to /admin/continuity. Index Null's Dead Letters independently preserves the same host and moved path. Joining them yields the console address.",
+          "solutionLogic": "The Black File exposes the old OrbitOS information center at legacy.orbitos.local. The verified Adaptive Index findings later preserve only the terminal path /admin/continuity. Joining evidence from those separate phases yields the console address.",
           "authoredRoutes": [
             "DarkRaven's opened Black File links to the old OrbitOS archive.",
-            "The OrbitOS Technology page leaks the continuity path in an HTML-comment-like line.",
-            "Index Null's Dead Letters lists legacy.orbitos.local and says continuity documentation moved to /admin/continuity.",
-            "The System Below entry on Index Null hints that authorization is required."
+            "The old OrbitOS archive establishes the retired host but says continuity documentation left the public index.",
+            "Index Null's Dead Letters confirms the retired host while leaving the moved route unreadable.",
+            "Adaptive Index Findings preserves the terminal path after the player completes all three headline cases."
           ],
           "hintTiers": [
             "The final destination belongs to Orbit itself, so inspect the network's oldest surviving technical pages.",
-            "A dead address can preserve both an old host and a moved internal path.",
-            "Compare the OrbitOS Technology page with Index Null's Dead Letters.",
-            "Join the old OrbitOS host to the moved continuity path and type it directly."
+            "The old archive preserves the host; the genuine government findings preserve a later audit path.",
+            "Compare the host in Raven's recovered OrbitOS bookmark with the audit pointer at the bottom of Adaptive Index Findings.",
+            "Join the old OrbitOS host to that terminal path and type it directly."
           ]
         },
         {
           "id": "continuity_recovery_phrase",
           "matchTerms": ["continuity lock", "recovery phrase", "retired phrase", "audit terminals", "three recovery words", "phrase rejected"],
           "goal": "Enter the retired phrase at the C9 archive lock.",
-          "mechanic": "Recover one secondary word from each of the three phase-two case conclusions, then use the Adaptive Index findings as the fourth terminal's joining instruction.",
+          "mechanic": "During phase three, follow the three deterministic dormant-account comments to their old pages. Each page carries one numbered C9 recovery strip; join the words in strip order without spaces.",
           "privateAnswer": "stayonline",
-          "solutionLogic": "Morrow Five preserves STAY, Glass Lake preserves ON, and Quiet County preserves LINE. The fourth audit terminal, Adaptive Index Findings, says to join the three recovery words without spaces.",
+          "solutionLogic": "OrbitalMechanic's reactivated 1993 page preserves strip 1 STAY, NoraSaysBye's farewell page preserves strip 2 ON, and ArchiveWatch95's final editorial preserves strip 3 LINE. Their labels provide both order and spacing.",
           "authoredRoutes": [
-            "The Morrow Five decoded footer carries the first recovery word.",
-            "The Glass Lake report footer carries the second recovery word.",
-            "The Quiet County conclusion footer carries the third recovery word.",
-            "Adaptive Index Findings says exactly how the words should be joined."
+            "Phase three seeds a fresh OrbitalMechanic comment whose username opens strip 1.",
+            "A fresh NoraSaysBye comment opens strip 2.",
+            "A fresh ArchiveWatch95 comment opens strip 3.",
+            "Each strip says to join them in numbered order without spaces."
           ],
           "hintTiers": [
-            "The lock says four audit terminals, but one terminal supplies an instruction rather than another word.",
-            "Revisit the footer of each phase-two case conclusion and the final government findings page.",
-            "Keep the three older recovery words in case order; the fourth page tells you about spacing.",
-            "Join the three words into one continuous phrase, preserving their original order."
+            "The lock points to three retired account pages, not the phase-two case conclusions.",
+            "Inspect unfamiliar old usernames that begin commenting after phase three and click through to their broken pages.",
+            "Look for numbered C9 audit strips on OrbitalMechanic, NoraSaysBye, and ArchiveWatch95.",
+            "Join the three strip words into one continuous phrase in numeric order."
           ],
           "completionEffect": "Unlocking the console reveals C9's activity, stops synthetic mystery generation, and begins the phase-four epilogue after an overnight transition."
         }

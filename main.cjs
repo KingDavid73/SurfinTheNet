@@ -15,7 +15,7 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 10,
+  version: 11,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -1067,6 +1067,45 @@ function createWindow() {
           if (!phaseTwoDirectoryReady) throw new Error("Phase-two Backchannel nodes were not restored");
           await capture("story-backchannel-phase2.png");
 
+          await address("web://index-null.net/home");
+          if (!await win.webContents.executeJavaScript(`!document.querySelector('[data-nav*="morrow-five"], [data-nav*="quiet-county"], [data-nav*="glasslake"], [data-nav*="archive.orbitnet"]') && !document.body.textContent.includes('/admin/continuity')`)) {
+            throw new Error("Index Null still acted as a clickable Phase-two solution hub");
+          }
+          await address("web://foldedwire.net/cabinet");
+          if (!await win.webContents.executeJavaScript(`document.body.textContent.includes('B-06-14') && document.body.textContent.includes('B-11-02') && !document.querySelector('[data-nav*="morrow-five"], [data-nav*="quiet-county"], [data-nav*="glasslake"], [data-nav*="archive.orbitnet"]')`)) {
+            throw new Error("Folded Wire cabinet did not preserve references without shortcut links");
+          }
+          for (const [clueUrl, terminalUrl] of [
+            ["web://morrow-five.net/transcript", "web://morrow-five.net/decoded"],
+            ["web://glasslake-field.gov/weather", "web://glasslake-field.gov/report"],
+            ["web://quiet-county.org/letters", "web://quiet-county.org/case"]
+          ]) {
+            await address(clueUrl);
+            if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-nav="${terminalUrl}"]'))`)) {
+              throw new Error(`Evidence page still linked directly to its answer terminal: ${clueUrl}`);
+            }
+          }
+          for (const [pageUrl, leakedValue] of [
+            ["web://morrow-five.net/transcript", "00417"],
+            ["web://glasslake-field.gov/weather", "09/12/94"],
+            ["web://quiet-county.org/home", "TRESTLE"]
+          ]) {
+            await address(pageUrl);
+            if (await win.webContents.executeJavaScript(`document.body.textContent.includes(${JSON.stringify(leakedValue)})`)) {
+              throw new Error(`Main case exposed a value that should require a member oddity: ${pageUrl}`);
+            }
+          }
+          for (const [caseUrl, memberHome] of [
+            ["web://morrow-five.net/home", "web://gamegrid.zone/users/lagmaster99/home"],
+            ["web://glasslake-field.gov/home", "web://petplanet.zone/users/catnapcarla/home"],
+            ["web://quiet-county.org/home", "web://yesterday.zone/users/bigbassbob/home"]
+          ]) {
+            await address(caseUrl);
+            if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments [data-nav="${memberHome}"]'))`)) {
+              throw new Error(`Main case did not lead back into a required member oddity: ${caseUrl}`);
+            }
+          }
+
           const archiveSearched = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-browser="home"]')?.click(); const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'adaptive index government research'; form.requestSubmit(); return true; })()`);
           if (!archiveSearched) throw new Error("Could not test hidden government archive search");
           await wait();
@@ -1079,11 +1118,11 @@ function createWindow() {
           }
 
           const mainMysteryTerminals = [
-            ["web://morrow-five.net/decoded", "morrow_five", "00417", "web://archive", "STAY"],
-            ["web://glasslake-field.gov/report", "glass_lake", "B-06-14", "orbitnet.local", "ON"],
-            ["web://quiet-county.org/case", "quiet_county", "definately", "/labs/home", "LINE"]
+            ["web://morrow-five.net/decoded", "morrow_five", "00417", "10", null, "web://archive"],
+            ["web://glasslake-field.gov/report", "glass_lake", "09/12/94", "B-06-14", null, "orbitnet.local"],
+            ["web://quiet-county.org/case", "quiet_county", "definately", "TRESTLE", "B-11-02", "/labs/home"]
           ];
-          for (const [terminal, caseId, answer, fragment, recoveryWord] of mainMysteryTerminals) {
+          for (const [terminal, caseId, answer, answer2, answer3, fragment] of mainMysteryTerminals) {
             await address(terminal);
             saved = await readSave();
             if (
@@ -1099,8 +1138,13 @@ function createWindow() {
             const caseSubmitted = await win.webContents.executeJavaScript(`(() => {
               const form = document.querySelector('[data-case-unlock="${caseId}"]');
               const input = form?.querySelector('input[name="answer"]');
-              if (!form || !input) return false;
+              const input2 = form?.querySelector('input[name="answer2"]');
+              if (!form || !input || !input2) return false;
               input.value = ${JSON.stringify(answer)};
+              input2.value = ${JSON.stringify(answer2)};
+              const input3 = form.querySelector('input[name="answer3"]');
+              if (${JSON.stringify(answer3)} && !input3) return false;
+              if (input3) input3.value = ${JSON.stringify(answer3 ?? "")};
               form.requestSubmit();
               return true;
             })()`);
@@ -1110,7 +1154,7 @@ function createWindow() {
               const footer = document.querySelector('.mystery-terminal footer.puzzle-notebook-footer');
               const clues = Array.from(footer?.querySelectorAll('.carry-forward-clue') || []).map((clue) => clue.textContent.trim());
               return clues.includes(${JSON.stringify(fragment)}) &&
-                clues.includes(${JSON.stringify(recoveryWord)}) &&
+                clues.length === 1 &&
                 footer?.classList.contains('corrupt-trailing-data') &&
                 footer?.querySelectorAll('code').length === 2 &&
                 footer?.textContent.includes('PARSE FAILURE') &&
@@ -1178,6 +1222,23 @@ function createWindow() {
           const initialLegacyTrail = saved.pageComments.find((comment) => String(comment.id).startsWith("system-legacy-orbit_mechanic-"));
           if (!initialLegacyTrail || initialLegacyTrail.author !== "OrbitalMechanic" || initialLegacyTrail.pageUrl !== "web://bytebarn.com/home") {
             throw new Error(`Phase-three dormant-account trail did not seed correctly: ${JSON.stringify(initialLegacyTrail)}`);
+          }
+          const recoveryTrailIds = ["orbit_mechanic", "nora_lamp", "archive_watch"];
+          if (!recoveryTrailIds.every((accountId) => saved.pageComments.some((comment) => String(comment.id).startsWith(`system-legacy-${accountId}-`)))) {
+            throw new Error("Phase-three recovery-strip account trails were not all seeded");
+          }
+          for (const [url, position, word] of [
+            ["web://oldnet.orbit/users/orbitalmechanic", "1/3", "STAY"],
+            ["web://goodnight.nora/home", "2/3", "ON"],
+            ["web://archivewatch.press/goodbye", "3/3", "LINE"]
+          ]) {
+            await address(url);
+            const stripReady = await win.webContents.executeJavaScript(`(() => {
+              const strip = document.querySelector('.legacy-recovery-strip');
+              return strip?.textContent.includes(${JSON.stringify(position)}) &&
+                strip?.querySelector('code')?.textContent === ${JSON.stringify(word)};
+            })()`);
+            if (!stripReady) throw new Error(`Phase-three recovery strip was missing from ${url}`);
           }
           await wakeFromPhaseTransition(3);
 

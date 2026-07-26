@@ -18,6 +18,7 @@ interface DormantLegacyAccount {
   heading: string;
   paragraphs: string[];
   missingMedia?: string;
+  recoveryStrip?: { position: number; word: string };
   footer: string;
   rumor: string;
 }
@@ -37,6 +38,7 @@ export const DORMANT_LEGACY_ACCOUNTS: readonly DormantLegacyAccount[] = [
       "The big guys sell a machine and leave you alone. Orbit feels like somebody left the clubhouse lights on. If they keep the network tied to the system, no newcomer will ever have to learn six different programs just to say hello."
     ],
     missingMedia: "GROUP_PHOTO.IMG — host not responding",
+    recoveryStrip: { position: 1, word: "STAY" },
     footer: "Last repaired 10/14/93 by Mack",
     rumor: "Old Orbit boxes have a maintenance map behind the wrench logo. Mine points to a room the building plans do not show."
   },
@@ -149,6 +151,7 @@ export const DORMANT_LEGACY_ACCOUNTS: readonly DormantLegacyAccount[] = [
       "My new page is somewhere on the regular web. The forwarding button broke, so if you know me, ask. I am leaving this lamp on until they switch the old pages off."
     ],
     missingMedia: "FRIENDS96.JPG is no longer stored on this node",
+    recoveryStrip: { position: 2, word: "ON" },
     footer: "Nora • 06/18/96 • no more updates",
     rumor: "Nora's goodbye sentence changes after midnight. She has not had an Orbit account since 1996."
   },
@@ -373,6 +376,7 @@ export const DORMANT_LEGACY_ACCOUNTS: readonly DormantLegacyAccount[] = [
       "The company says inactive pages remain archived while capacity permits. That is not preservation. An archive needs provenance, dates, and a promise that a machine will not quietly rewrite the empty spaces."
     ],
     missingMedia: "Sidebar: 41 recently vanished communities — index removed",
+    recoveryStrip: { position: 3, word: "LINE" },
     footer: "Archive Watch editorial • 12/20/96 • Final Orbit edition",
     rumor: "Archive Watch recorded deleted pages receiving fresh timestamps. The revisions appeared under accounts whose owners had left."
   }
@@ -395,6 +399,9 @@ function renderLegacyFragment(account: DormantLegacyAccount) {
   const missingMedia = account.missingMedia
     ? `<p class="legacy-fragment-missing">[ ${account.missingMedia} ]</p>`
     : "";
+  const recoveryStrip = account.recoveryStrip
+    ? `<aside class="legacy-recovery-strip"><small>C9 AUDIT RECOVERY STRIP ${account.recoveryStrip.position}/3</small><code>${account.recoveryStrip.word}</code><span>JOIN IN STRIP ORDER // NO SPACES</span></aside>`
+    : "";
   return `<main class="page legacy-fragment-page legacy-fragment-${account.layout}" style="--legacy-fragment-bg:${account.background};--legacy-fragment-ink:${account.ink};--legacy-fragment-accent:${account.accent}">
     <div class="legacy-fragment-gateway">ORBIT BRIDGE ARCHIVE // ${account.year} OBJECT CONVERSION INCOMPLETE</div>
     <header>
@@ -402,6 +409,7 @@ function renderLegacyFragment(account: DormantLegacyAccount) {
       <div><small>ARCHIVED ${account.year}</small><h1>${account.heading}</h1></div>
     </header>
     <article>${account.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("")}${missingMedia}</article>
+    ${recoveryStrip}
     <footer>${account.footer}<br><span>Forms, counters, mail objects, and outbound links are no longer available.</span></footer>
   </main>`;
 }

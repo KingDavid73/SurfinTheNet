@@ -106,10 +106,10 @@ const phaseThreeContext = {
 };
 const redactedPhrase = service.enforceHelperSpoilerBoundary("Just type STAY ONLINE.", persona, phaseThreeContext);
 assertExcludes(redactedPhrase.toLowerCase().replace(/[^a-z0-9]+/g, ""), "stayonline", "phrase leak safeguard");
-assertIncludes(redactedPhrase, "four audit terminals", "phrase leak fallback hint");
+assertIncludes(redactedPhrase, "three retired account pages", "phrase leak fallback hint");
 const redactedAddress = service.enforceHelperSpoilerBoundary("Open web://legacy.orbitos.local/admin/continuity.", persona, phaseThreeContext);
 assertExcludes(redactedAddress, "web://legacy.orbitos.local/admin/continuity", "address leak safeguard");
-const harmlessHint = "Check the footer of each case conclusion.";
+const harmlessHint = "Inspect unfamiliar old usernames that begin commenting after phase three.";
 if (service.enforceHelperSpoilerBoundary(harmlessHint, persona, phaseThreeContext) !== harmlessHint) {
   throw new Error("spoiler safeguard altered a harmless hint");
 }

@@ -144,11 +144,22 @@ The theories remain amusing dead ends on their own, but collectively teach the
 player to compare repeated number groups, physical labels, timestamps,
 photocopy defects, and print-driver footers.
 
+Each headline terminal crosses separate evidence sources. Morrow Five needs the
+complete repeated group from LagMaster's harmless logo mystery and the ordinal
+position of the gap in Abel's damaged transcript. Glass Lake needs the date
+written on Carla's stray witness-photo envelope and the contract reference from
+Folded Wire's Cabinet B; the weather log establishes what the lights actually
+were. Quiet County needs the shared misspelling from the copied letters, the
+Trestle project name from Big Bass Bob's stray survey, and the legitimate
+study's separate Cabinet B reference. Clue pages return to their case homepage
+rather than linking to the terminal, and Folded Wire/Index Null preserve
+context without acting as a clickable master directory.
+
 Each headline conclusion ends with a couple lines of malformed Unicode output.
 The page does not call this a reward, identify a destination, or label the
-fragments by role. Two values remain conspicuously bold and legible inside each
-corrupted block. Three of those values happen to have the shapes of successive
-URL components:
+fragment by role. Exactly one value remains conspicuously bold and legible
+inside each corrupted block. Those values have the shapes of successive URL
+components:
 
 - Morrow Five: `web://archive`
 - Glass Lake: `orbitnet.local`
@@ -280,10 +291,16 @@ Two retired communities preserve the early optimism: The Launch Ring and Home
 Planet. Both are text-heavy, malformed, and full of broken images.
 
 The unindexed continuity console is at
-`web://legacy.orbitos.local/admin/continuity`. Its recovery phrase is assembled
-from secondary words preserved on the three headline conclusions:
-`STAY` + `ON` + `LINE`. The government archive confirms that the words should
-be joined without spaces.
+`web://legacy.orbitos.local/admin/continuity`. The old OrbitOS material
+establishes the retired host but no longer exposes the internal path. The
+verified Adaptive Index findings preserve `/admin/continuity` as a separate
+audit pointer.
+
+The recovery phrase is withheld until phase three. Three deterministic
+dormant-account comments expose old pages containing numbered C9 recovery
+strips: OrbitalMechanic carries `STAY` (1/3), NoraSaysBye carries `ON` (2/3),
+and ArchiveWatch95 carries `LINE` (3/3). The strip labels say to join them in
+order without spaces.
 
 ## Canon exposed by the continuity console
 
