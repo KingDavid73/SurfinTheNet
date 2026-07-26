@@ -466,9 +466,9 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
       <main class="page folded-wire-page">
         <header><span>FAX 01/17</span><h1>THE FOLDED WIRE</h1><small>Paper remembers what servers misplace.</small></header>
         <section class="backchannel-case-intro">
-          <h2>ONE ENVELOPE, THREE STORIES</h2>
-          <p>FaxMoth received an envelope containing old county contracts, routing slips, and sensational “leaks” about three unrelated incidents. The stories sound impossible, but several boring attachments underneath them appear genuine.</p>
-          <p>This archive separates the original paper trail from whoever decorated it later. <b>Cabinet B</b> identifies the real subjects and source documents. <b>Trace 6</b> asks whether the dramatic leaks were produced together on the same newer machine.</p>
+          <h2>WHY I BUILT THIS CABINET</h2>
+          <p>Somebody mailed me an envelope of old county contracts, routing slips, and sensational “leaks” about three unrelated incidents. Every handwritten note insists on a different exciting explanation. I do not trust any of them.</p>
+          <p>I made this archive to keep the boring originals separate from the decorated copies. <b>Cabinet B</b> is where I identify the real subjects and source documents. <b>Trace 6</b> is my comparison of copier dust and typewriter faults. If I can find the first paper in the chain, maybe I can learn who built these stories before everybody started repeating them.</p>
         </section>
         ${archiveImages([MYSTERY_IMAGES.redactedMemo, "A repeatedly copied routing memo"], [MYSTERY_IMAGES.envelope, "An anonymous envelope filed without a return address"], [MYSTERY_IMAGES.fileCabinet, "Cabinet B before its contents were indexed"])}
         <div class="fax-cabinet-map">
@@ -530,17 +530,17 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
     render: (state) => `
       <main class="page index-null-page"><header>INDEX:NULL::<b>DEAD LETTER OFFICE</b><span>ROUTES RETURNED TO SENDER</span></header>
         <section class="backchannel-case-intro null-case-intro">
-          <h2>THE DIRECTORY SAYS THESE PLACES NEVER EXISTED</h2>
-          <p>Index Null logs addresses that Orbit Search stopped acknowledging even though their servers still answer. After Raven's private file circulated, several retired titles returned in a suspiciously tidy sequence.</p>
-          <p>The Dead Letter Office preserves what the network returned. The Node Board compares when each route vanished and reappeared. A broken link is not proof—but twenty broken links changing together is a pattern.</p>
+          <h2>WHY I KEEP DEAD ADDRESSES</h2>
+          <p>I started Index Null because Orbit Search treats a missing route as if it never existed. I keep returned slips, failed pings, and copied directory cards so a page cannot disappear without leaving at least one witness.</p>
+          <p><b>Quiet County</b> was the first restored title I saw vanish twice in one night. The Dead Letter Office is my box of returned routes; the Node Board is my timestamp log. I want to prove the addresses are being removed in a pattern, not merely breaking at random.</p>
         </section>
         ${archiveImages([MYSTERY_IMAGES.terminal, "A terminal returning an incomplete index"], [MYSTERY_IMAGES.punchCard, "Unclaimed directory card"], [MYSTERY_IMAGES.dotMatrix, "Dot-matrix route dump"])}
         <pre class="null-route-map">ROOT
  |-- /people/expired --- [143 RECORDS / NO INDEX]
  |-- /clubs/retired ---- [2 CARRIERS / ROUTE TABLE LOST]
- |-- /radio/m5 --------- [<strong class="restored-mystery-name">MORROW FIVE</strong> / 5 DEAD RELAYS / 11 OF 12 GROUPS]
+ |-- /radio/m5 --------- [TITLE FIELD DAMAGED / 5 DEAD RELAYS / 11 OF 12 GROUPS]
  |-- /county/quiet ----- [<strong class="restored-mystery-name">QUIET COUNTY</strong> / 3 ENEMIES / 1 TYPO / EMPTY MEETINGS]
- |-- /weather/glass ---- [<strong class="restored-mystery-name">GLASS LAKE</strong> / 3 LIGHTS / MOON WINDOW / CONTRACT MISMATCH]
+ |-- /weather/glass ---- [TITLE FIELD DAMAGED / 3 LIGHTS / MOON WINDOW / CONTRACT MISMATCH]
  |-- /orbit/private ---- [CHECKSUM INCOMPLETE]
  '-- /system/below ----- [AUTH REQUIRED]</pre>
         <nav><button data-nav="web://index-null.net/deadletters">OPEN DEAD LETTERS</button><button data-nav="web://index-null.net/nodes">PING NODE BOARD</button></nav>

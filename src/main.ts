@@ -673,6 +673,7 @@ const MYSTERY_CASE_ANSWERS: Record<string, string> = {
 const PHASE_TWO_MAIN_MYSTERIES = ["morrow_five", "glass_lake", "quiet_county"] as const;
 const REQUIRED_PHASE_THREE_MYSTERIES = Object.values(MYSTERY_TERMINALS);
 const RAVEN_VAULT_URL = "web://raven.web/vault";
+const LEGACY_ORBIT_HOME_URL = "web://legacy.orbitos.local/home";
 const RAVEN_CONCLUSION_URL = "web://raven.web/vault/conclusion";
 const ADAPTIVE_INDEX_FINDINGS_URL = "web://archive.orbitnet.local/labs/findings";
 
@@ -895,8 +896,10 @@ function normalizeState(loaded: Partial<GameState>): GameState {
   const bookmarks = Array.isArray(loaded.bookmarks)
     ? [...new Set(loaded.bookmarks.map(String))]
     : [...DEFAULT_STATE.bookmarks];
-  if (normalizedFlags.darkraven_vault_unlocked && !bookmarks.includes(RAVEN_VAULT_URL)) {
-    bookmarks.push(RAVEN_VAULT_URL);
+  if (normalizedFlags.darkraven_vault_unlocked && !bookmarks.includes(LEGACY_ORBIT_HOME_URL)) {
+    const oldAutomaticBookmark = bookmarks.indexOf(RAVEN_VAULT_URL);
+    if (oldAutomaticBookmark >= 0) bookmarks.splice(oldAutomaticBookmark, 1);
+    bookmarks.push(LEGACY_ORBIT_HOME_URL);
   }
   if (discoveredMysteries.includes("adaptive_index") && !bookmarks.includes(ADAPTIVE_INDEX_FINDINGS_URL)) {
     bookmarks.push(ADAPTIVE_INDEX_FINDINGS_URL);
@@ -2043,9 +2046,9 @@ function registerStoryVisit(url: string) {
   if (
     url === RAVEN_VAULT_URL &&
     state.flags.darkraven_vault_unlocked &&
-    !state.bookmarks.includes(RAVEN_VAULT_URL)
+    !state.bookmarks.includes(LEGACY_ORBIT_HOME_URL)
   ) {
-    state.bookmarks.push(RAVEN_VAULT_URL);
+    state.bookmarks.push(LEGACY_ORBIT_HOME_URL);
   }
   if (
     url === RAVEN_CONCLUSION_URL &&
@@ -2428,6 +2431,21 @@ function authoredPageComments(page: PageDefinition): PageComment[] {
   return [...(page.seedComments ?? []), ...coverAnnouncements];
 }
 
+function bookmarkLinksHtml() {
+  const visibleBookmarks = state.bookmarks.slice(0, 4);
+  const overflowBookmarks = state.bookmarks.slice(4);
+  const visibleLinks = visibleBookmarks
+    .map((url) => `<button data-nav="${escapeHtml(url)}">${escapeHtml(pages[url]?.title ?? url)}</button>`)
+    .join("");
+  const overflow = overflowBookmarks.length
+    ? `<label class="bookmark-overflow"><span>More</span><select data-bookmark-overflow aria-label="More favorite websites">
+        <option value="">${overflowBookmarks.length} more favorite${overflowBookmarks.length === 1 ? "" : "s"}…</option>
+        ${overflowBookmarks.map((url) => `<option value="${escapeHtml(url)}">${escapeHtml(pages[url]?.title ?? url)}</option>`).join("")}
+      </select></label>`
+    : "";
+  return `<div class="bookmark-row"><span>Links:</span><div class="bookmark-visible-links">${visibleLinks}</div>${overflow}</div>`;
+}
+
 function browserWindow() {
   const page = currentPage();
   const bookmarked = state.bookmarks.includes(state.currentUrl);
@@ -2448,7 +2466,7 @@ function browserWindow() {
       <button data-browser="bookmark" class="bookmark ${bookmarked ? "active" : ""}" title="Bookmark">★</button>
       <button data-download-page="${escapeHtml(page.url)}" class="save-page ${pageCopySaved ? "active" : ""}" title="${pageCopySaved ? "Update saved text copy" : "Save text copy to My Files"}" aria-label="${pageCopySaved ? "Update saved text copy" : "Save text copy to My Files"}"><i class="save-page-glyph" aria-hidden="true"><span></span></i></button>
     </div>
-    <div class="bookmark-row"><span>Links:</span>${state.bookmarks.map((url) => `<button data-nav="${url}">${pages[url]?.title ?? url}</button>`).join("")}</div>
+    ${bookmarkLinksHtml()}
     <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${page.render(state)}${phaseTwoPersonalUpdateLink(page.url, state)}${byteBarnCoverUpdate(page)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
     <footer class="browser-footer">${pageMusicPlayer(page)}<div class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></div></footer>`);
 }
@@ -2657,7 +2675,7 @@ function chatWindow() {
   const empty = !messageHtml && !pending
     ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is ${activeNow ? "online" : "away"}.</b><span>${activeNow ? "Messages should be answered quickly while they are online." : `Usually online ${escapeHtml(activeHours)}.`}</span><span>${modelStarting ? "Connecting to Orbit Messaging…" : "Type below to start chatting."}</span></div>`
     : "";
-  const contactButtons = Object.entries(CHARACTER_CONTACTS)
+  const availableContacts = Object.entries(CHARACTER_CONTACTS)
     .filter(([ownerId, contact]) => (contact.aim || ownerId === activeAimOwnerId || state.directMessages.some((message) =>
       message.ownerId === ownerId && message.channel === "aim"
     )) && (
@@ -2666,18 +2684,33 @@ function chatWindow() {
       ownerId === activeAimOwnerId ||
       state.directMessages.some((message) => message.ownerId === ownerId && message.channel === "aim" && message.role === "owner") ||
       state.visited.includes(CHARACTER_HOME_URLS[ownerId])
-    ))
-    .map(([ownerId, contact]) => {
-      const unread = unreadDirectMessages("aim", ownerId).length;
-      const contactActive = personaIsActiveAt(ownerId, state.gameTime);
-      const contactHours = personaActiveHoursLabel(ownerId);
-      return `<button data-aim-contact="${ownerId}" class="${ownerId === activeAimOwnerId ? "selected" : ""} ${contactActive ? "" : "away"}" title="${contactActive ? "Online now" : `Away — usually online ${escapeHtml(contactHours)}`}"><i></i>${escapeHtml(contact.screenName)}${directMessageBadge(unread, `unread messages from ${contact.screenName}`)}</button>`;
-    })
-    .join("");
+    ));
+  let visibleContacts = availableContacts.slice(0, 4);
+  const activeContact = availableContacts.find(([ownerId]) => ownerId === activeAimOwnerId);
+  if (activeContact && !visibleContacts.some(([ownerId]) => ownerId === activeAimOwnerId)) {
+    visibleContacts = [...visibleContacts.slice(0, 3), activeContact];
+  }
+  const visibleContactIds = new Set(visibleContacts.map(([ownerId]) => ownerId));
+  const overflowContacts = availableContacts.filter(([ownerId]) => !visibleContactIds.has(ownerId));
+  const contactButtons = visibleContacts.map(([ownerId, contact]) => {
+    const unread = unreadDirectMessages("aim", ownerId).length;
+    const contactActive = personaIsActiveAt(ownerId, state.gameTime);
+    const contactHours = personaActiveHoursLabel(ownerId);
+    return `<button data-aim-contact="${ownerId}" class="${ownerId === activeAimOwnerId ? "selected" : ""} ${contactActive ? "" : "away"}" title="${contactActive ? "Online now" : `Away — usually online ${escapeHtml(contactHours)}`}"><i></i>${escapeHtml(contact.screenName)}${directMessageBadge(unread, `unread messages from ${contact.screenName}`)}</button>`;
+  }).join("");
+  const contactOverflow = overflowContacts.length
+    ? `<label class="aim-contact-overflow"><span>More</span><select data-aim-contact-select aria-label="More Orbit Messenger contacts">
+        <option value="">${overflowContacts.length} more contact${overflowContacts.length === 1 ? "" : "s"}…</option>
+        ${overflowContacts.map(([ownerId, contact]) => {
+          const unread = unreadDirectMessages("aim", ownerId).length;
+          return `<option value="${ownerId}">${escapeHtml(contact.screenName)}${unread ? ` (${unread} new)` : ""}</option>`;
+        }).join("")}
+      </select></label>`
+    : "";
 
   return windowShell("chat", `${persona.screenName} - OIM`, "◎", `
     <div class="aim-menu"><button data-ai-reset>Clear Chat</button></div>
-    <nav class="aim-buddy-tabs">${contactButtons}</nav>
+    <nav class="aim-buddy-tabs">${contactButtons}${contactOverflow}</nav>
     <div class="aim-contact">
       <div class="aim-avatar">${escapeHtml(persona.displayName.slice(0, 1))}</div><div><b>${escapeHtml(persona.screenName)}</b><span class="${activeNow ? "" : "away"}"><i></i> ${activeNow ? "Online" : `Away — usually online ${escapeHtml(activeHours)}`}</span><small>“${escapeHtml(persona.statusMessage)}”</small></div>
       <aside><b>PRIVATE CHAT</b><span>ORBIT MESSAGING</span></aside>
@@ -3944,6 +3977,14 @@ function bindEvents() {
     markAimConversationRead(activeAimOwnerId);
     render();
   }));
+  document.querySelector<HTMLSelectElement>("[data-aim-contact-select]")?.addEventListener("change", (event) => {
+    const ownerId = (event.currentTarget as HTMLSelectElement).value;
+    if (!ownerId) return;
+    activeAimOwnerId = ownerId;
+    chatError = "";
+    markAimConversationRead(activeAimOwnerId);
+    render();
+  });
   document.querySelectorAll<HTMLElement>("[data-aim-owner]").forEach((button) => button.addEventListener("click", () => {
     const ownerId = button.dataset.aimOwner ?? "mira_917";
     if (!ensureCharacterContact(ownerId)) return;
@@ -3986,6 +4027,10 @@ function bindEvents() {
     const form = event.currentTarget as HTMLFormElement;
     navigate(new FormData(form).get("address")?.toString() ?? form.querySelector("input")!.value);
   });
+  document.querySelector<HTMLSelectElement>("[data-bookmark-overflow]")?.addEventListener("change", (event) => {
+    const url = (event.currentTarget as HTMLSelectElement).value;
+    if (url) navigate(url);
+  });
   document.querySelector<HTMLFormElement>(".orbit-search-form")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
@@ -4003,7 +4048,7 @@ function bindEvents() {
     }
     storyFormErrors.delete("raven");
     state.flags.darkraven_vault_unlocked = true;
-    if (!state.bookmarks.includes(RAVEN_VAULT_URL)) state.bookmarks.push(RAVEN_VAULT_URL);
+    if (!state.bookmarks.includes(LEGACY_ORBIT_HOME_URL)) state.bookmarks.push(LEGACY_ORBIT_HOME_URL);
     await saveState();
     notification = "ACCESS GRANTED // Evidence index decrypted.";
     render();

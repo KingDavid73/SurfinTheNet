@@ -2559,6 +2559,29 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   font-size: 11px;
 }
 .bookmark-row button { border: 0; background: none; color: #000080; text-decoration: underline; white-space: nowrap; padding: 2px; }
+.bookmark-visible-links {
+  display: flex;
+  min-width: 0;
+  gap: 7px;
+  overflow: hidden;
+}
+.bookmark-visible-links button {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bookmark-overflow {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.bookmark-overflow select {
+  max-width: 190px;
+  height: 21px;
+  font: 10px Tahoma, sans-serif;
+}
 .browser-viewport {
   flex: 1;
   overflow: auto;
@@ -3323,12 +3346,14 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .aim-menu { height: 27px; flex: 0 0 27px; padding: 2px 5px; display: flex; align-items: center; gap: 3px; border-bottom: 1px solid #777; }
 .aim-menu button { border: 0; background: transparent; padding: 3px 8px; font-size: 11px; }
 .aim-menu button:not(:disabled):hover { color: white; background: #000080; }
-.aim-buddy-tabs { display: flex; gap: 3px; padding: 4px 6px; background: #ececec; border-bottom: 1px solid #888; }
-.aim-buddy-tabs button { position: relative; display: inline-flex; align-items: center; gap: 2px; padding: 4px 8px; color: #233872; background: #d8deef; border: 1px solid #9aa4c1; font-size: 10px; }
+.aim-buddy-tabs { display: flex; align-items: center; gap: 3px; padding: 4px 6px; background: #ececec; border-bottom: 1px solid #888; }
+.aim-buddy-tabs button { position: relative; display: inline-flex; flex: 1 1 70px; min-width: 0; max-width: 112px; align-items: center; gap: 2px; overflow: hidden; padding: 4px 8px; color: #233872; background: #d8deef; border: 1px solid #9aa4c1; font-size: 10px; white-space: nowrap; text-overflow: ellipsis; }
 .aim-buddy-tabs button i { display: inline-block; width: 7px; height: 7px; margin-right: 4px; border-radius: 50%; background: #32b33e; }
 .aim-buddy-tabs button.away i { background: #e0a425; box-shadow: 0 0 0 1px #8d6617; }
 .aim-buddy-tabs .app-unread-badge { min-width: 14px; height: 14px; margin-left: 3px; padding: 0 3px; font-size: 8px; }
 .aim-buddy-tabs button.selected { color: white; background: #000080; border-color: #000052; }
+.aim-contact-overflow { display: flex; flex: 0 0 126px; align-items: center; gap: 3px; margin-left: auto; font-size: 9px; }
+.aim-contact-overflow select { width: 92px; min-width: 0; height: 22px; font: 9px Tahoma, sans-serif; }
 .aim-contact { min-height: 72px; flex: 0 0 72px; padding: 8px 10px; display: grid; grid-template-columns: 50px 1fr auto; align-items: center; gap: 10px; color: #13255c; background: linear-gradient(90deg, #f4f6ff, #dbe5ff); border-bottom: 2px groove white; }
 .aim-avatar { display: grid; place-items: center; width: 48px; height: 48px; color: white; background: linear-gradient(135deg, #5c67c5, #172878); border: 3px ridge #eee; font: bold 28px Georgia, serif; }
 .aim-contact > div:nth-child(2) { display: grid; gap: 2px; }
@@ -4387,6 +4412,13 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   background: rgba(255, 255, 255, 0.86);
 }
 .backchannel-case-intro h2 { margin: 0 0 8px; }
+.index-null-page .null-case-intro {
+  border-color: #31ff68;
+  background: #001708;
+  color: #caffd6;
+}
+.index-null-page .null-case-intro h2 { color: #fff36b; }
+.index-null-page .null-case-intro p { color: #caffd6; }
 .signal-phase-update {
   border: 1px solid #48ff8a;
   background: #061b13;
@@ -4987,6 +5019,22 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .legacy-recovery-strip small { align-self: center; letter-spacing: .08em; }
 .legacy-recovery-strip code { grid-row: 1 / 3; grid-column: 2; align-self: center; padding: 4px 8px; color: #ffff8b; background: #000; font-size: 20px; font-weight: bold; }
 .legacy-recovery-strip span { color: #78b875; }
+.legacy-method-route-fragment {
+  display: grid;
+  gap: 5px;
+  max-width: 600px;
+  margin: 20px auto 0;
+  padding: 9px 12px;
+  color: #2c321b;
+  background: #ddd7b8;
+  border: 1px dashed #6f724d;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, .18);
+  font: 10px/1.4 "Courier New", monospace;
+  text-align: left;
+}
+.legacy-method-route-fragment small { color: #55563d; letter-spacing: .05em; }
+.legacy-method-route-fragment strong { color: #101d4c; font-size: 15px; }
+.legacy-method-route-fragment span { color: #55563d; }
 .legacy-fragment-personal { font-family: "Comic Sans MS", "Times New Roman", serif; text-align: center; }
 .legacy-fragment-personal > header { justify-content: center; border-bottom-style: dotted; }
 .legacy-fragment-personal > article { max-width: 560px; }

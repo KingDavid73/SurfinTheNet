@@ -882,7 +882,8 @@ function createWindow() {
             !saved.flags.darkraven_vault_unlocked ||
             saved.flags.phase_two_transition_pending ||
             saved.flags.darkraven_conclusion_unlocked ||
-            !saved.bookmarks.includes("web://raven.web/vault") ||
+            saved.bookmarks.includes("web://raven.web/vault") ||
+            !saved.bookmarks.includes("web://legacy.orbitos.local/home") ||
             !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-evidence')) && Boolean(document.querySelector('[data-nav="web://legacy.orbitos.local/home"]')) && document.querySelector('.story-url-chunk')?.textContent.includes('web://legacy.orbitos.local/home') && Boolean(document.querySelector('[data-darkraven-conclusion]')) && document.body.textContent.includes('OBSERVATIONS FIRST. THEORY ENCRYPTED.') && !document.querySelector('.raven-final-lock')?.textContent.includes('lower room') && !document.querySelector('.raven-master-theory') && !document.querySelector('.phase-transition-overlay')`)
           ) throw new Error("Juniper's birthday did not unlock only the Black File evidence layer");
           await capture("story-darkraven-evidence-layer.png");
@@ -1350,6 +1351,9 @@ function createWindow() {
           if (!legacyWarningOpened) {
             throw new Error("First discovery of a phase-three legacy page did not open its contextual glitched OIM warning");
           }
+          if (!await win.webContents.executeJavaScript(`document.querySelectorAll('[data-aim-contact-select] option').length > 1`)) {
+            throw new Error("OIM did not collapse excess conversations into its contact selector");
+          }
           await capture("story-dormant-orbital-mechanic.png");
 
           const legacyFragmentUrls = [
@@ -1384,6 +1388,10 @@ function createWindow() {
             ["web://goodnight.nora/home", ["2/3", "ON"]],
             ["web://archivewatch.press/goodbye", ["3/3", "LINE"]]
           ]);
+          const expectedMethodRouteFragments = new Map([
+            ["web://bytestreet.press/94/orbit", ["1/2", "web://archive.orbitnet.local"]],
+            ["web://futura.library/kiosk", ["2/2", "/labs/method"]]
+          ]);
           let phaseThreeArchiveTrack = null;
           for (const legacyUrl of legacyFragmentUrls) {
             await address(legacyUrl);
@@ -1397,6 +1405,15 @@ function createWindow() {
                   strip?.querySelector('code')?.textContent === ${JSON.stringify(expectedStrip[1])};
               })()`);
               if (!stripReady) throw new Error(`Phase-three recovery strip was missing from ${legacyUrl}`);
+            }
+            const expectedMethodFragment = expectedMethodRouteFragments.get(legacyUrl);
+            if (expectedMethodFragment) {
+              const methodFragmentReady = await win.webContents.executeJavaScript(`(() => {
+                const fragment = document.querySelector('.legacy-method-route-fragment');
+                return fragment?.textContent.includes(${JSON.stringify(expectedMethodFragment[0])}) &&
+                  fragment?.querySelector('strong')?.textContent === ${JSON.stringify(expectedMethodFragment[1])};
+              })()`);
+              if (!methodFragmentReady) throw new Error(`Archive lab method route fragment was missing from ${legacyUrl}`);
             }
             const archiveMusic = await win.webContents.executeJavaScript(`({ scope: document.querySelector('.page-midi-player')?.getAttribute('data-music-scope'), count: document.querySelector('.midi-controls > span')?.textContent, file: document.querySelector('.midi-track code')?.textContent })`);
             if (archiveMusic.scope !== "orbitlegacy" || !archiveMusic.count.includes("/4") || !archiveMusic.file.endsWith(".mp3")) throw new Error(`Dormant archive music was incomplete: ${JSON.stringify(archiveMusic)}`);

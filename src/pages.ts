@@ -564,8 +564,8 @@ export const pages: Record<string, PageDefinition> = {
           </section>` : state.storyPhase >= 2 ? `
           <section class="phase-site-update signal-phase-update">
             <b>11/07 // TOO MANY NEW CALLERS</b>
-            <p>Raven's file escaped Orbit and people arrived carrying three new names: Morrow Five, Glass Lake, and Quiet County. Each story has a dramatic version and a dull paper trail. Start with the recording or document you can verify, not the ending somebody wrote for it.</p>
-            <p>The station is logging calls, search changes, and repeated times. If one of those names keeps appearing, search the exact title and compare notes with the page owner.</p>
+            <p>Raven's file escaped Orbit and people arrived carrying stories about three newly restored investigations. Their names are turning up piecemeal in member-page updates, as if everybody found a different corner of the same new catalog.</p>
+            <p>One keeps arriving with reports of radio voices over a flooded valley: <b>Glass Lake</b>. The station is logging calls and search changes. Repeated titles may be worth trying in Orbit Search before somebody edits them again.</p>
           </section>` : ""}
         <p class="signal-warning"><b>NOTICE:</b> The station is currently unattended. Do not adjust your receiver.</p>
       </main>`
@@ -643,7 +643,7 @@ export const pages: Record<string, PageDefinition> = {
             ${state.storyPhase >= 4 ? `
               <article class="phase-site-update raven-phase-update"><b>VOID UPDATE // AFTER THE NOISE</b><p>The sheep lost interest the instant the music got loud. Everybody says the community is real now, as if that erases who moved the pieces. I am still searching. A crowd forgetting the evidence does not make it false.</p></article>` : state.storyPhase >= 3 ? `
               <article class="phase-site-update raven-phase-update"><b>VOID UPDATE // THE DEAD HAVE SCREEN NAMES</b><p>Retired users are posting again with letters swapped in their names. Old pages appear after those comments, then something tells people to stop looking. The Adaptive Index proves attention can be steered. I am mapping every resurrected account before the routes change again.</p></article>` : state.storyPhase >= 2 ? `
-              <article class="phase-site-update raven-phase-update"><b>VOID UPDATE // THEY ALL CAME TO PROVE ME WRONG</b><p>Fine. The dream-invasion conclusion may need “minor revision.” But my evidence brought half the regular web here, and now Morrow Five, Glass Lake, and Quiet County appeared almost simultaneously. Three perfect mysteries do not crawl out of one restored catalog by accident.</p></article>` : ""}
+              <article class="phase-site-update raven-phase-update"><b>VOID UPDATE // THEY ALL CAME TO PROVE ME WRONG</b><p>Fine. The dream-invasion conclusion may need “minor revision.” But my evidence brought half the regular web here, and now people are whispering about three suspiciously complete investigations scattered across member pages. I am starting with <b>Morrow Five</b>: five missing carriers, one official story, and too many copied documents. The other two titles can wait until somebody shows me where they actually found them.</p></article>` : ""}
             <div class="contact-strip raven-contact"><span>OIM STATUS: ONLINE</span><button data-aim-owner="darkraven_xx">MESSAGE xX_DarkRaven_Xx</button></div>
           </section>
           <aside class="raven-bulletins">

@@ -19,6 +19,7 @@ interface DormantLegacyAccount {
   paragraphs: string[];
   missingMedia?: string;
   recoveryStrip?: { position: number; word: string };
+  methodRouteFragment?: { position: number; text: string };
   footer: string;
   rumor: string;
 }
@@ -67,6 +68,7 @@ export const DORMANT_LEGACY_ACCOUNTS: readonly DormantLegacyAccount[] = [
       "The approach is wonderfully coherent and dangerously isolated. Regular web users can enter through Orbit Bridge, but installation is awkward and translated pages frequently lose tables, forms, and media. Orbit says integration is the advantage; the market may decide it is a wall."
     ],
     missingMedia: "Figure 2: Orbit Bridge setup screen unavailable",
+    methodRouteFragment: { position: 1, text: "web://archive.orbitnet.local" },
     footer: "Vol. 3 No. 18 • Reprinted by permission • May 1994",
     rumor: "Byte Street received Orbit traffic totals a week before each report period ended. Ed thought it was a clerical mistake."
   },
@@ -194,6 +196,7 @@ export const DORMANT_LEGACY_ACCOUNTS: readonly DormantLegacyAccount[] = [
       "Sessions are limited to twenty minutes. The system does not save personal documents. Please do not unplug the trackball because you dislike the cursor."
     ],
     missingMedia: "KIOSK_FLOORPLAN.BMP could not be decoded",
+    methodRouteFragment: { position: 2, text: "/labs/method" },
     footer: "Pilot funded through 12/1995 • Ask Lou for a demonstration",
     rumor: "The kiosk recommended books that had not been purchased yet. One recommendation described tomorrow's front page."
   },
@@ -402,6 +405,9 @@ function renderLegacyFragment(account: DormantLegacyAccount) {
   const recoveryStrip = account.recoveryStrip
     ? `<aside class="legacy-recovery-strip"><small>C9 AUDIT RECOVERY STRIP ${account.recoveryStrip.position}/3</small><code>${account.recoveryStrip.word}</code><span>JOIN IN STRIP ORDER // NO SPACES</span></aside>`
     : "";
+  const methodRouteFragment = account.methodRouteFragment
+    ? `<aside class="legacy-method-route-fragment"><small>ORBIT BRIDGE CACHE // ADDRESS PIECE ${account.methodRouteFragment.position}/2</small><strong>${account.methodRouteFragment.text}</strong><span>Recovered from an obsolete gateway note.</span></aside>`
+    : "";
   return `<main class="page legacy-fragment-page legacy-fragment-${account.layout}" style="--legacy-fragment-bg:${account.background};--legacy-fragment-ink:${account.ink};--legacy-fragment-accent:${account.accent}">
     <div class="legacy-fragment-gateway">ORBIT BRIDGE ARCHIVE // ${account.year} OBJECT CONVERSION INCOMPLETE</div>
     <header>
@@ -410,6 +416,7 @@ function renderLegacyFragment(account: DormantLegacyAccount) {
     </header>
     <article>${account.paragraphs.map((paragraph) => `<p>${paragraph}</p>`).join("")}${missingMedia}</article>
     ${recoveryStrip}
+    ${methodRouteFragment}
     <footer>${account.footer}<br><span>Forms, counters, mail objects, and outbound links are no longer available.</span></footer>
   </main>`;
 }

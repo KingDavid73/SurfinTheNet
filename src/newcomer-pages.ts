@@ -234,13 +234,14 @@ export const newcomerPages: Record<string, PageDefinition> = {
         </section>
         <section class="ben-gear-grid ben-weird-links">
           <figure><button data-nav="web://bytebarn.com/home">${image(newcomerArt["byte-barn-sticker"], "A homemade computer and barn sticker")}</button><figcaption><b>BYTE BARN</b><br>retired computer store / unexpectedly phat jingle</figcaption></figure>
+          <figure><button data-nav="web://cosmiccrust.biz/home">${image(newcomerArt["ben-store-flyer"], "A clipped Cosmic Crust pizza-store advertisement")}</button><figcaption><b>COSMIC CRUST</b><br>pizza, arcade scores, alien club, extremely committed theme</figcaption></figure>
           <figure><button data-nav="web://bubbleborough.com/home">${image(newcomerArt["weird-deep-pit"], "A strange-looking laundromat dryer tunnel")}</button><figcaption><b>BUBBLE BOROUGH</b><br>a completely ordinary laundromat that looks like a spaceship inside</figcaption></figure>
           <figure><button data-nav="web://moonmunch.com/home">${image(newcomerArt["weird-purple-mascot"], "A peculiar colorful breakfast mascot")}</button><figcaption><b>MOON MUNCH</b><br>cereal, decoder rings, and suspiciously serious prize lore</figcaption></figure>
           <figure><button data-nav="web://prizefrequency.net/crystal">${image(newcomerArt["weird-radio-tower"], "A homemade radio interference test")}</button><figcaption><b>BREAKFAST CRYSTAL RECEIVER?</b><br>somebody thinks a cereal toy is listening to children</figcaption></figure>
           <figure><button data-nav="web://toonburst.tv/home">${image(newcomerArt["weird-gem-cavern"], "A colorful old television-program graphic")}</button><figcaption><b>TOONBURST</b><br>an old Saturday cartoon grid that still thinks next Saturday is coming</figcaption></figure>
           <figure><button data-nav="web://molarmeadow.dent/home">${image(newcomerArt["weird-pet-page"], "A charmingly awkward pet-themed webpage graphic")}</button><figcaption><b>MOLAR MEADOW</b><br>dentist page / visit Kevin the fish without getting a cleaning</figcaption></figure>
         </section>
-        <div class="ben-verdict">CURRENT SCORE: 6 GOOD LINKS / 1 POSSIBLY EVIL CEREAL PRIZE</div>
+        <div class="ben-verdict">CURRENT SCORE: 7 SAVED LINKS / 1 POSSIBLY EVIL CEREAL PRIZE</div>
       </main>`
   },
   [BYTE_BARN_FAN_HUB_URL]: {
