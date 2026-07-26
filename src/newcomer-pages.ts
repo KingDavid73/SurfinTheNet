@@ -312,7 +312,8 @@ export const newcomerPages: Record<string, PageDefinition> = {
     seedComments: [
       seed("new-lily-dot", LILY_URL, "linklily_99", "visitor", "DeepDelver_Dot", "The Gemwell pit is not endless. It is merely longer than good judgment.", "1999-11-04T09:08:00"),
       seed("new-lily-trent", LILY_URL, "linklily_99", "visitor", "BlipzoBeliever_88", "Thank you for recognizing Store 00 as a major cultural destination.", "1999-11-04T09:32:00"),
-      seed("new-lily-mira", LILY_URL, "linklily_99", "visitor", "Mira_917", "Printing addresses sounds excessive until one vanishes. Keep the binder.", "1999-11-04T09:55:00")
+      seed("new-lily-mira", LILY_URL, "linklily_99", "visitor", "Mira_917", "Printing addresses sounds excessive until one vanishes. Keep the binder.", "1999-11-04T09:55:00"),
+      seed("new-lily-zack-search", LILY_URL, "rerun_zack", "visitor", "Rerun_Zack", "Try putting unusual page titles into Orbit Search exactly as people write them. A few old sites are resolving even though none of the zone directories link to them. I swear they did not yesterday.", "1999-11-04T10:21:00")
     ],
     render: () => `
       <main class="page newcomer-page newcomer-lily">
@@ -322,6 +323,7 @@ export const newcomerPages: Record<string, PageDefinition> = {
           ${image(newcomerArt["lily-url-binder"], "Lily's binder of printed web addresses")}
           <div><h2>Current route</h2><p>I heard Orbit was busy again, then discovered “busy” mostly means six people arguing about a purple mall creature and somebody building a webpage that takes ten minutes to reach the bottom.</p><p>I print every address because the directory feels like it changes when I am not looking. That is probably the dial-up talking.</p></div>
         </section>
+        <aside class="lily-search-watch"><b>SEARCH WATCH // 11.04.99</b><p>Orbit Search is returning old page titles that do not appear in any zone directory. Broad searches are mostly junk, but exact names people mention in comments sometimes produce a whole restored site. I am writing down every strange proper name I see and checking it separately. If a result disappears again, I have the address in my binder.</p></aside>
         <section class="lily-review-board">
           <article>${image(newcomerArt["weird-gem-cavern"], "A glowing gemstone cavern webpage")}<div><b>GEMWELL DESCENT</b><span>beautiful, excessive, possibly measured in miles</span><button data-nav="web://fanverse.zone/users/deepdelverdot/home">VISIT</button></div></article>
           <article>${image(newcomerArt["weird-purple-mascot"], "A fuzzy purple mascot shrine")}<div><b>THE BLIPZO ARCHIVE</b><span>strong commitment to a game I cannot prove was sold</span><button data-nav="web://fanverse.zone/users/blipzobeliever88/home">VISIT</button></div></article>
@@ -344,7 +346,8 @@ export const newcomerPages: Record<string, PageDefinition> = {
     seedComments: [
       seed("new-rayna-juniper", RAYNA_URL, "rookie_rayna", "visitor", "Juniper_Gdn", "Welcome! The modem sound stops being alarming eventually. Then it becomes alarming when you do not hear it.", "1999-11-04T08:58:00"),
       seed("new-rayna-ray", RAYNA_URL, "rookie_rayna", "visitor", "FetchQuest_Ray", "Pet Planet is a good first stop. Ignore any hamster diagrams marked experimental.", "1999-11-04T09:17:00"),
-      seed("new-rayna-zack", RAYNA_URL, "rookie_rayna", "visitor", "Rerun_Zack", "You joined on the exact night everything got weird. Great timing.", "1999-11-04T09:44:00")
+      seed("new-rayna-zack", RAYNA_URL, "rookie_rayna", "visitor", "Rerun_Zack", "You joined on the exact night everything got weird. Great timing.", "1999-11-04T09:44:00"),
+      seed("new-rayna-lily-search", RAYNA_URL, "linklily_99", "visitor", "LinkLily_99", "Do not assume the zone list is everything. Old unlisted pages are suddenly showing up when you search an exact title copied from somebody's comment. The directory and the search catalog are apparently not the same thing.", "1999-11-04T10:33:00")
     ],
     render: () => `
       <main class="page newcomer-page newcomer-rayna">
@@ -412,14 +415,14 @@ export const phaseTwoPersonalUpdates: readonly PhaseTwoPersonalUpdate[] = [
     url: "web://xtreme.zone/users/deckwreckerdee/curb-hum",
     ownerId: "deckwrecker_dee",
     title: "THE CURB THAT HUMS",
-    teaser: "Dee records a midnight vibration under the skate spot. It is probably electrical. Probably."
+    teaser: "Dee records a midnight vibration under the skate spot, then finds a Glass Lake Moon Window equipment plate on the nearby utility cabinet."
   },
   {
     homeUrl: "web://petplanet.zone/users/catnapcarla/home",
     url: "web://petplanet.zone/users/catnapcarla/porch-panther",
     ownerId: "catnap_carla",
     title: "THE BELLWATER PORCH PANTHER",
-    teaser: "Carla documents an enormous neighborhood shadow that is increasingly likely to be somebody's cat."
+    teaser: "Carla's alleged giant-cat photograph also preserves three lights from the night of the Glass Lake Moon Window incident."
   },
   {
     homeUrl: "web://rainbow.gdn/home",
@@ -433,14 +436,14 @@ export const phaseTwoPersonalUpdates: readonly PhaseTwoPersonalUpdate[] = [
     url: "web://yesterday.zone/users/bigbassbob/lake-knocker",
     ownerId: "big_bass_bob",
     title: "LAKE KNOCKER EVIDENCE",
-    teaser: "Bob investigates mysterious dock knocks, circular ripples, and an unusually photogenic stump."
+    teaser: "Bob's lake-monster evidence includes a soggy university survey asking who people trusted at the Quiet County meetings."
   },
   {
     homeUrl: "web://fanverse.zone/users/blipzobeliever88/home",
     url: "web://fanverse.zone/users/blipzobeliever88/cap-stripe",
     ownerId: "blipzo_believer_88",
     title: "BLIPZO'S MISSING CAP STRIPE",
-    teaser: "Trent compares tapes, plush toys, and fan art to settle a mascot-detail memory nobody else had."
+    teaser: "Trent's mascot-continuity argument accidentally reproduces the same paper flaws found across three supposedly unrelated Quiet County letters."
   }
 ] as const;
 
@@ -482,7 +485,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["pulse-sketch"], "LagMaster's hand-drawn memory of the logo"]
         ])}</section>
         <aside><b>UPDATE:</b> Jax says one print run was accidentally mirrored for a regional store display. This explains everything and is therefore suspiciously boring.</aside>
-        <details class="oddity-breadcrumb"><summary>serial-number thing I almost ignored</summary><p>The left-pointing box repeats <code>00417</code> in three different sticker fields. Somebody called StaticAbel says the same five-digit group keeps turning up in a damaged radio transcript.</p></details>
+        <details class="oddity-breadcrumb"><summary>serial-number thing I almost ignored</summary><p>The left-pointing box repeats <code>00417</code> in three different sticker fields. It shipped in 1998. Somebody called StaticAbel says the same number appears three times in a tape supposedly used to wake five abandoned emergency towers in 1994. How can both dates be right?</p></details>
         <button data-nav="web://gamegrid.zone/users/lagmaster99/home">&lt; BACK TO LAGMASTER</button>
       </main>`
   },
@@ -506,7 +509,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["curb-chalk"], "Chalk marks recording where the curb vibrates"]
         ])}
         <section><h2>FIELD NOTES</h2><p>At 12:17 AM the curb makes a low B-flat and shakes enough to move a bottle cap. The utility cabinet twenty feet away also hums at B-flat. This is a coincidence according to Nico, who has never respected acoustics.</p><p>Current theory: buried cable, haunted transformer, or the city installed the world's least useful bass speaker.</p></section>
-        <details class="oddity-breadcrumb"><summary>faded contractor plate</summary><p>The cabinet says <code>GLASS LAKE FIELD ANNEX // ATMOSPHERIC GROUP</code>. That sounds cooler than “utility box,” so Dee copied it down.</p></details>
+        <details class="oddity-breadcrumb"><summary>faded contractor plate</summary><p>The cabinet says <code>GLASS LAKE FIELD ANNEX // ATMOSPHERIC GROUP // MOON WINDOW TEST CHANNEL</code>. A handwritten surplus tag says <code>GREYBRIDGE</code>. That is a dramatic history for a box now powering one streetlight and the world's least useful bass speaker.</p></details>
         <button data-nav="web://xtreme.zone/users/deckwreckerdee/home">&lt; BACK TO DEE'S DECK</button>
       </main>`
   },
@@ -530,7 +533,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["panther-normal-cat"], "A perfectly ordinary black cat sitting beside a porch"]
         ])}
         <section><h2>DESCRIPTION</h2><p>Witnesses describe a silent black animal “as long as a coffee table” crossing three porches after midnight. Witnesses were measuring with fear. The tracks are cat-sized and photograph four is almost certainly Pickles from number 18.</p><p>I still like the name Porch Panther, so the file remains open.</p></section>
-        <details class="oddity-breadcrumb"><summary>three dots above the roof</summary><p>One old photograph also caught three pale lights over the ridge on 09/12/94. Carla thinks they are porch glare. The photo envelope says “Glass Lake?” in somebody else's handwriting.</p></details>
+        <details class="oddity-breadcrumb"><summary>three dots above the roof</summary><p>One old photograph also caught three pale lights over the Glass Lake ridge on <b>09/12/94</b>. The envelope says “MOON WINDOW?” in somebody else's handwriting. Carla's mother remembers every scanner in the neighborhood playing one long tone that night, but mostly remembers telling everyone to stop touching the radio.</p></details>
         <button data-nav="web://petplanet.zone/users/catnapcarla/home">&lt; RETURN TO CARLA &amp; CASSEROLE</button>
       </main>`
   },
@@ -556,7 +559,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           ])}
           <div><h2>Observation</h2><p>On three evenings a pale moth landed on the screen just after the modem connected. The porch light also switches on at roughly that time. Science suggests the lamp. Poetry prefers the modem singing to it from very far away.</p><p>I am recording both possibilities and harming neither moth nor metaphor.</p></div>
         </section>
-        <details class="oddity-breadcrumb"><summary>note from Mira about the cassette</summary><p>The modem recording announces twelve little tone groups but only eleven appear on the tape. Mira says a radio page called Morrow Five has the same counting problem.</p></details>
+        <details class="oddity-breadcrumb"><summary>note from Mira about the cassette</summary><p>Mira found a radio mystery called <b>Morrow Five</b>: five abandoned emergency towers all lit up during one final numbers broadcast, and now the recording has resurfaced on Orbit. The voice promises twelve instructions but only eleven appear. She thinks the missing position matters more than the spooky-tower story.</p></details>
         <button data-nav="web://rainbow.gdn/home">← back to the garden</button>
       </main>`
   },
@@ -580,7 +583,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["knocker-stump"], "A distant dark stump in the water"]
         ])}
         <section><h2>WHAT HAPPENED</h2><p>Three knocks came from under dock two at 5:40 AM. Then something made one big circle and moved toward the reeds. Could be a monster. Could be the loose ladder and a carp. Earl says it was Cal hiding a bad trade-in.</p><p>No bait was stolen, which argues against every fish I know.</p></section>
-        <details class="oddity-breadcrumb"><summary>paper wedged beneath the ladder</summary><p>A soggy county survey copy has <code>PROJECT TRESTLE</code> typed in the margin. Bob assumed it meant the dock until CedarWren asked whether the same phrase appears in the Quiet County files.</p></details>
+        <details class="oddity-breadcrumb"><summary>paper wedged beneath the ladder</summary><p>A soggy county survey copy has <code>PROJECT TRESTLE</code> typed in the margin. It asks which Quiet County meeting speakers people trusted, which rumors changed their minds, and whether they planned to attend again. Bob assumed “trestle” meant the old dock bridge until CedarWren said the survey came from the week three civic groups turned on one another and then stopped showing up.</p></details>
         <button data-nav="web://yesterday.zone/users/bigbassbob/home">&lt; BACK TO BOB'S DOCK</button>
       </main>`
   },
@@ -604,7 +607,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["blipzo-drawing"], "A fan drawing from memory of alien Blipzo's orange-striped basket hat"]
         ])}
         <section><h2>THE DISCREPANCY</h2><p>Blipzo is always a three-eyed teal alien in the orange jacket. The television costume has a pale stripe across the purple basket hat. The plush has red. The mall-game manual appears yellow but may be sun-faded. This is either a pre-release costume change or four manufacturers receiving four different photocopies.</p><p>Maddy says “production inconsistency” as if that makes it less important.</p></section>
-        <details class="oddity-breadcrumb"><summary>boring print clue (Dex made me add this)</summary><p>Three supposedly separate reference sheets share the same torn corner, the same misspelling of “definitely,” and an <code>OrbitPrint 3.2</code> footer. CedarWren says that exact combination matters somewhere else.</p></details>
+        <details class="oddity-breadcrumb"><summary>boring print clue (Dex made me add this)</summary><p>Three supposedly separate reference sheets share the same torn corner, the same misspelling of “definitely,” and an <code>OrbitPrint 3.2</code> footer. CedarWren says the Quiet County letters have the exact same combination—which is strange for messages supposedly written by three people who hated one another.</p></details>
         <button data-nav="web://fanverse.zone/users/blipzobeliever88/home">&lt; RETURN TO THE BLIPZO ARCHIVE</button>
       </main>`
   }

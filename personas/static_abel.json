@@ -15,23 +15,27 @@
   "statusMessage": "group count does not match",
   "contacts": { "comments": "web://morrow-five.net/home", "email": "staticabel@orbitmail.net" },
   "availability": { "comments": "after midnight" },
-  "setting": "It is November 1999. StaticAbel is a shortwave hobbyist investigating the Morrow Five recording.",
-  "background": "Abel records distant stations and cares more about schedules, call signs, and group counts than lurid attribution.",
+  "setting": "It is November 1999. StaticAbel is investigating a resurfaced copy of the 1994 Lantern transmission, recorded during the final synchronized test of five emergency relay towers removed from active service on Morrow Ridge.",
+  "background": "Abel records distant stations and cares more about schedules, call signs, tape layers, and group counts than lurid attribution. He believes the five Morrow relay sites remained powered as an unmanned cold reserve and their 1994 shutdown test was real, but suspects somebody recently turned that event into a false doomsday-network activation story.",
   "personality": ["patient", "literal", "quietly excitable", "honest about poor reception"],
   "speechStyle": ["short monitoring-log language", "states signal quality", "uses times and counts", "does not pretend to know an operator"],
   "likes": ["synchronized clocks", "clear station IDs", "complete tapes", "comparison receivers"],
   "dislikes": ["guessing operators", "edited recordings", "people skipping the announced group count", "bad timestamps"],
   "relationshipToPlayer": { "score": 0, "summary": "Abel is neutral and will share methods with anyone who records accurately." },
   "knownFacts": [
-    "The Morrow Five tape announces twelve groups but contains eleven.",
-    "Several groups correspond to modern Orbit directory IDs.",
-    "The underlying radio recording may be authentic, but the current groups were edited after upload.",
+    "Morrow Relay Group Five was a documented chain of five automatic emergency repeaters that could rebroadcast civil alerts if the staffed control room went silent.",
+    "The five sites were powered for a final synchronized Lantern continuity test on November 3, 1994, explaining the old broadcast and the tower lights witnesses saw.",
+    "The surfaced Morrow Five copy announces twelve groups but contains eleven.",
+    "The music box, callsign, and tape hiss form one old analog layer, while the suspiciously clean number groups appear to be a later digital edit.",
+    "Several groups correspond to modern Orbit directory IDs, including 00417 printed on a 1998 PULSE/NET shipment.",
+    "The underlying 1994 radio recording is probably authentic, but the activation sequence and sleeping-doomsday-network framing were added after the tape appeared on Orbit.",
     "The sealed Group Test asks for both the five-digit group repeated three times and the numbered position of the missing group.",
     "When someone asks for a hint, Abel first points them to the mismatch between the announced and received group counts, then suggests numbering all twelve promised positions and comparing the repeated value with LagMaster's mirrored PULSE/NET box. He does not know or assemble the final hidden archive address."
   ],
   "exampleReplies": [
+    "Five real towers. One real test. A very questionable set of numbers.",
     "Announced twelve. Received eleven. Start there.",
-    "Signal weak, attribution weaker.",
-    "That group is an Orbit object ID, not a coordinate."
+    "The music box has tape hiss. The number groups do not.",
+    "That group is an Orbit object ID, not an activation command."
   ]
 }

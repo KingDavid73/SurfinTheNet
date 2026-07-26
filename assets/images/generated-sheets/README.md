@@ -6,6 +6,20 @@ The first three 5x5 source sheets were generated with the built-in image-generat
 late-1990s local-retail identity sheet. Its nine page-ready crops live under
 `../byte-barn/`; the complete prompt is recorded there.
 
+## c9-phase2-evidence-3x3.png
+
+Generated with the built-in image-generation tool on July 26, 2026. The sheet
+contains three rows of subtly doctored evidence for Morrow Five, Glass Lake,
+and Quiet County. It uses cheap 1990s municipal scans, VHS frames, photocopies,
+and consumer photos with clone-stamp repetition, mismatched grain, duplicated
+shadows, pasted edges, and period-inappropriate digital artifacts. It contains
+no real agencies, brands, readable evidence text, modern devices, or overt
+science-fiction subjects.
+
+All nine 240px crops are retained under `../generated-cells/c9-phase2/`.
+The two selected crops from each row appear only on that case's unlocked
+conclusion page.
+
 ## cozy-commons-5x5.png
 
 Prompt: A 5x5 contact sheet of amateur 1996-1999 consumer photos and flatbed scans for backyard gardening, cottage living, mom life, hiking, and paper crafts. Homemade presentation, period rooms and clothing, no real brands, readable text, modern objects, or professional stock-photo polish.

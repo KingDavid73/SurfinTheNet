@@ -176,15 +176,15 @@
         {
           "id": "morrow_five",
           "matchTerms": ["morrow", "five-number", "number station", "shortwave", "00417", "twelve groups", "radio transcript"],
-          "goal": "Determine what is wrong with the Morrow Five recording and reach the decoded conclusion.",
+          "goal": "Determine whether the resurfaced sequence really activated the five cold-reserve Morrow emergency relays in 1994 and reach the decoded conclusion.",
           "mechanic": "Read the transcript, identify the five-digit group repeated three times, number the promised sequence positions to locate the gap, and enter both values into the sealed Group Test.",
           "caseGateAnswer": "00417 and position 10",
-          "privateAnswer": "The old shortwave base tape was edited later with modern Orbit directory object IDs through Orbit Bridge 4.7; the groups do not activate secret facilities.",
-          "solutionLogic": "The speaker announces twelve groups but only eleven survive. Several numbers correspond to Orbit objects created after the alleged recording date, and the footer names later gateway software. The recording can be old while the conspiracy framing is new.",
+          "privateAnswer": "The five emergency relay sites were removed from active service in 1991 but retained power as a cold reserve; their final 1994 Lantern shutdown test was real. The sleeping-doomsday-network story was not: somebody later inserted modern Orbit directory object IDs through Orbit Bridge 4.7 and removed the tenth group to turn genuine old audio into a solvable activation mystery.",
+          "solutionLogic": "The speaker announces twelve groups but only eleven survive. The old music box, callsign, and tape hiss are continuous, while the cleaner number layer contains values tied to Orbit objects created years later. The 00417 match on a 1998 product proves that the recording can be old while its activation sequence and conspiracy framing are new.",
           "authoredRoutes": [
-            "Morrow Five is listed as its own restored Backchannel member page; Folded Wire mentions an unfiled M5 owner copy but does not link to it.",
-            "LagMaster's comet-logo oddity repeats 00417 on modern product stickers.",
-            "Juniper's moonseed-moth page notes the same twelve-versus-eleven counting problem.",
+            "Morrow Five is listed as its own restored Backchannel member page; Folded Wire describes an unfiled owner copy concerning five decommissioned relays and a final Lantern tape but does not link to it.",
+            "LagMaster's comet-logo oddity repeats 00417 on modern 1998 product stickers, making it impossible for that value to be an untouched 1994 activation command.",
+            "Juniper's moonseed-moth page retells the hook about five abandoned towers lighting together and notes the same twelve-versus-eleven counting problem.",
             "StaticAbel can discuss the repeated group, the tape discrepancy, and numbering all twelve promised positions."
           ],
           "hintTiers": [
@@ -199,15 +199,15 @@
         {
           "id": "glass_lake",
           "matchTerms": ["glass lake", "moon window", "field annex", "three lights", "weather log", "calibration balloons"],
-          "goal": "Separate the Moon Window alien story from the genuine Glass Lake contractor connection and reach the contract report.",
+          "goal": "Determine what answered Glass Lake during the Moon Window incident, explain the three lights and Hangar B story, and recover the genuine contractor report.",
           "mechanic": "Use the weather log to account for the lights, recover the date written on the stray witness-photo envelope from Carla's Porch Panther page, independently find the Glass Lake contract in Folded Wire's Cabinet B, and enter the envelope date plus filing reference into the sealed report terminal.",
           "caseGateAnswer": "09/12/94 and B-06-14",
-          "privateAnswer": "The lights were calibration balloons and Moon Window was a propagation test; a real regional contractor later advised Orbit on proxy routing and persistence.",
-          "solutionLogic": "The lights and radio windows have mundane, time-matched explanations. The exciting alien notes were added later, but the underlying contractor paperwork still establishes a real link to Orbit.",
+          "privateAnswer": "The three lights were illuminated calibration balloons, the powerful answer was Glass Lake's own carrier returned by a distant test van and echoed through a diagnostic repeater, and Hangar B stored balloon equipment. Moon Window was an atmospheric propagation test, not a corridor for nonhuman visitors. Greybridge Signal Systems later adapted the project's route-switching and session-persistence method for Orbit.",
+          "solutionLogic": "The photograph date aligns with a minute-by-minute field log that accounts for the balloons, returned carrier, echo, and Hangar B inventory. The alien annotations were added later, but the independently filed Greybridge contract proves that the mundane propagation research still connects directly to Orbit's gateway behavior.",
           "authoredRoutes": [
-            "Glass Lake is listed as its own Backchannel page; the Folded Wire cabinet separately preserves its paper reference without linking back to the site.",
-            "Dee's humming-curb oddity contains a Glass Lake Atmospheric Group contractor plate.",
-            "Carla's Porch Panther photograph records three lights on the same date as the balloon log.",
+            "Glass Lake's mystery-specific breadcrumbs describe three lights, a scanner tone that seemed to answer itself, the Moon Window name, and a buried Hangar B contract. General search-restoration notices separately teach that an exact title may now resolve.",
+            "Dee's humming-curb oddity contains a Glass Lake Atmospheric Group Moon Window plate and a Greybridge surplus tag.",
+            "Carla's Porch Panther photograph records three lights, an envelope marked Moon Window, and the date needed to align it with the balloon log.",
             "Skywatch Sam can distinguish the ordinary lights from the meaningful contractor trail."
           ],
           "hintTiers": [
@@ -222,15 +222,16 @@
         {
           "id": "quiet_county",
           "matchTerms": ["quiet county", "project trestle", "anonymous letters", "orbitprint", "definately", "county study"],
-          "goal": "Determine whether Project Trestle created a local anonymous-letter campaign and reach the case conclusion.",
+          "goal": "Determine whether Project Trestle manufactured a feud among three Quiet County civic groups, explain why public participation collapsed, and reach the authentic study record.",
           "mechanic": "Compare the supposedly independent letters, recover the project name from Big Bass Bob's stray survey, then independently locate the legitimate Quiet County correspondence in Folded Wire's Cabinet B. Enter the shared misspelling, project name, and paper filing reference into the sealed records request.",
           "caseGateAnswer": "definately, TRESTLE, and B-11-02",
-          "privateAnswer": "The dramatic letters were recently produced from one Orbit-era source and falsely aged; the real study observed public meetings without meaningful notice but did not manufacture those disputes.",
-          "solutionLogic": "Three claimed sources share the same misspelling, torn corner, and OrbitPrint footer, which means they are copies of one newer artifact. The authentic study still contains a genuine consent problem, just not the advertised covert campaign.",
+          "privateAnswer": "The three dramatic letters were produced from one Orbit-era sheet in 1999 and falsely presented as separate 1992 originals. Project Trestle did not manufacture the East Trestle dispute, but its researchers covertly mapped rumors, alliances, and trusted speakers, cancelled the promised debrief, and forwarded stability maps to an unnamed public-communications research sponsor.",
+          "solutionLogic": "The three groups genuinely disagreed but jointly opposed the truck bypass before the letters arrived. Three claimed enemies then share the same misspelling, torn corner, toner pattern, and impossible OrbitPrint footer, proving the clean letter-operation story was assembled later. The authentic study still contains a serious consent and data-sharing failure that points toward a larger attention-management program.",
           "authoredRoutes": [
-            "Quiet County is listed as its own Backchannel page; the Folded Wire cabinet separately preserves the legitimate study's paper reference without linking back to the site.",
-            "Big Bass Bob's Lake Knocker page finds Project Trestle on a county survey.",
-            "Trent's Blipzo cap-stripe page highlights the same torn corner, misspelling, and OrbitPrint 3.2 footer.",
+            "Quiet County is repeatedly described as the place where three allied civic groups received betrayal letters, turned on one another, and then abandoned public meetings; this mystery-specific breadcrumb is separate from general notices about restored search listings.",
+            "The Folded Wire cabinet independently preserves the legitimate study's paper reference without linking back to the site.",
+            "Big Bass Bob's Lake Knocker page finds Project Trestle on a survey asking which Quiet County speakers people trusted and whether rumors would keep them from returning.",
+            "Trent's Blipzo cap-stripe page highlights the same torn corner, misspelling, and OrbitPrint 3.2 footer found on the three supposedly independent Quiet County letters.",
             "CedarWren and FaxMoth can discuss provenance and the actual study."
           ],
           "hintTiers": [

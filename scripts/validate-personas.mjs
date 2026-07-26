@@ -39,9 +39,9 @@ for (const file of (await readdir(personaDirectory)).filter((name) => name.endsW
     const expectedHelperPuzzles = new Map([
       ["1", new Map([["darkraven_black_file", "0614"]])],
       ["2", new Map([
-        ["morrow_five", "The old shortwave base tape was edited later with modern Orbit directory object IDs through Orbit Bridge 4.7; the groups do not activate secret facilities."],
-        ["glass_lake", "The lights were calibration balloons and Moon Window was a propagation test; a real regional contractor later advised Orbit on proxy routing and persistence."],
-        ["quiet_county", "The dramatic letters were recently produced from one Orbit-era source and falsely aged; the real study observed public meetings without meaningful notice but did not manufacture those disputes."],
+        ["morrow_five", "The five emergency relay sites were removed from active service in 1991 but retained power as a cold reserve; their final 1994 Lantern shutdown test was real. The sleeping-doomsday-network story was not: somebody later inserted modern Orbit directory object IDs through Orbit Bridge 4.7 and removed the tenth group to turn genuine old audio into a solvable activation mystery."],
+        ["glass_lake", "The three lights were illuminated calibration balloons, the powerful answer was Glass Lake's own carrier returned by a distant test van and echoed through a diagnostic repeater, and Hangar B stored balloon equipment. Moon Window was an atmospheric propagation test, not a corridor for nonhuman visitors. Greybridge Signal Systems later adapted the project's route-switching and session-persistence method for Orbit."],
+        ["quiet_county", "The three dramatic letters were produced from one Orbit-era sheet in 1999 and falsely presented as separate 1992 originals. Project Trestle did not manufacture the East Trestle dispute, but its researchers covertly mapped rumors, alliances, and trusted speakers, cancelled the promised debrief, and forwarded stability maps to an unnamed public-communications research sponsor."],
         ["adaptive_index_route", "web://archive.orbitnet.local/labs/home"]
       ])],
       ["3", new Map([

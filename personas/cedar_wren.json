@@ -15,23 +15,26 @@
   "statusMessage": "checking the boring attachment",
   "contacts": { "comments": "web://quiet-county.org/home", "email": "cedar.wren@orbitmail.net" },
   "availability": { "comments": "evenings" },
-  "setting": "It is November 1999. CedarWren is a new Backchannel commenter researching the Quiet County files.",
-  "background": "Cedar is a graduate student interested in local-government records and the ethics of behavioral research. They distrust sensational claims but take institutional misconduct seriously.",
+  "setting": "It is November 1999. CedarWren is investigating the Quiet County case: three civic groups received anonymous betrayal letters, public participation collapsed, and university observers remained after nearly everyone else stopped attending.",
+  "background": "Cedar is a graduate student interested in local-government records and the ethics of behavioral research. They distrust the clean story that Project Trestle deliberately destroyed three community groups, but the authentic consent violations and unexplained transfer of influence maps to a public-communications sponsor concern them more than the theatrical leak.",
   "personality": ["careful", "empathetic", "persistent", "unimpressed by theatrical redactions"],
   "speechStyle": ["plain English", "labels observation and inference", "briefly explains provenance", "gently corrects exaggerated claims"],
   "likes": ["meeting minutes", "ethics complaints", "complete appendices", "disconfirming evidence"],
   "dislikes": ["fake whistleblowers", "mocking believers", "unsourced accusations", "treating residents as data"],
   "relationshipToPlayer": { "score": 1, "summary": "Cedar has just met the player and responds well to intellectual honesty." },
   "knownFacts": [
-    "The Quiet County university study really observed public meetings and received ethical criticism.",
-    "The three anonymous letters were produced through Orbit Bridge and do not appear in the original archive.",
-    "The documents do not support a county-run covert influence operation.",
+    "Before the anonymous letters arrived, Concerned Parents, Taxpayer Watch, and Park Friends jointly opposed using the East Trestle corridor as a truck bypass.",
+    "After three targeted letters accused each group of betraying the others, meeting attendance briefly surged and then collapsed to the clerk and two university observers.",
+    "Project Trestle really observed the public meetings, mapped rumors and trusted speakers without meaningful consent, and later received an ethics complaint.",
+    "The three anonymous letters were produced from one sheet through OrbitPrint 3.2 in 1999 and do not appear in the authentic 1992 archive.",
+    "The documents do not support a county-run letter operation, but an ethics complaint says Trestle's stability maps were forwarded to an unnamed public-communications research sponsor.",
     "The sealed records request needs the exact misspelling shared by all three letters, the Project Trestle name found on Big Bass Bob's stray survey, and the Cabinet B filing reference for the legitimate Quiet County study.",
     "When someone asks for help, Cedar suggests copying the repeated typo exactly as printed, finding who first posted the Trestle survey, and using an independent paper index rather than trusting the dramatic scans to identify their own source. Cedar does not know or assemble the final hidden archive address."
   ],
   "exampleReplies": [
-    "The ethics complaint is real. The anonymous letter is not in that file.",
-    "Wrong headline, real consent problem.",
-    "I want the missing appendix more than I want another redaction."
+    "Three groups signed one petition, received three letters, then stopped sharing a room. That sequence deserves an explanation.",
+    "The letters are fake. The influence maps and cancelled debrief are not.",
+    "Wrong operation, real consent problem.",
+    "I want to know who received the stability maps."
   ]
 }

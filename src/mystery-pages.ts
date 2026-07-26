@@ -51,11 +51,26 @@ const RAVEN_THEORY_IMAGES = {
   masterDiagram: new URL("../assets/images/generated-cells/raven-theories/master-diagram.png", import.meta.url).href
 } as const;
 
+const C9_EVIDENCE_IMAGES = {
+  morrowRidge: new URL("../assets/images/generated-cells/c9-phase2/morrow-ridge.png", import.meta.url).href,
+  morrowTransfer: new URL("../assets/images/generated-cells/c9-phase2/morrow-transfer.png", import.meta.url).href,
+  glassField: new URL("../assets/images/generated-cells/c9-phase2/glass-field.png", import.meta.url).href,
+  glassHangar: new URL("../assets/images/generated-cells/c9-phase2/glass-hangar.png", import.meta.url).href,
+  quietLetters: new URL("../assets/images/generated-cells/c9-phase2/quiet-letters.png", import.meta.url).href,
+  quietMeeting: new URL("../assets/images/generated-cells/c9-phase2/quiet-meeting.png", import.meta.url).href
+} as const;
+
 const archiveImages = (...items: Array<[string, string]>) =>
   `<div class="generated-archive-strip">${items.map(([src, caption]) => {
     const alt = caption.replace(/<[^>]*>/g, "");
     return `<figure><img src="${src}" alt="${alt}"><figcaption>${caption}</figcaption></figure>`;
   }).join("")}</div>`;
+
+const c9EvidenceStrip = (...items: Array<[string, string]>) =>
+  `<section class="c9-doctored-evidence"><header><b>RECOVERED IMAGE BATCH</b><span>VISUAL INTEGRITY: INCONSISTENT</span></header><div>${items.map(([src, caption]) => {
+    const alt = caption.replace(/<[^>]*>/g, "");
+    return `<figure><img src="${src}" alt="${alt}"><figcaption>${caption}</figcaption></figure>`;
+  }).join("")}</div></section>`;
 
 export const MYSTERY_TERMINAL_URLS: Record<string, string> = {
   morrow_five: "web://morrow-five.net/decoded",
@@ -442,8 +457,10 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
     hubId: "zone-backchannel",
     searchTerms: ["faxmoth", "folded wire", "fax", "documents", "paper trail", "archives"],
     seedComments: [
-      seed("fax-wren-1", FAX_HOME, "faxmoth_13", "visitor", "CedarWren", "The 1994 weather contract has a real county seal. The moon annotations were added in different ink.", "1999-11-04T00:18:00"),
-      seed("fax-owner-1", FAX_HOME, "faxmoth_13", "owner", "FaxMoth_13", "Exactly. Separate the document from the story somebody wrote around it.", "1999-11-04T00:26:00")
+      seed("fax-wren-1", FAX_HOME, "cedar_wren", "visitor", "CedarWren", "The 1994 weather contract has a real county seal. The moon annotations were added in different ink.", "1999-11-04T00:18:00"),
+      seed("fax-owner-1", FAX_HOME, "faxmoth_13", "owner", "FaxMoth_13", "Exactly. Separate the document from the story somebody wrote around it.", "1999-11-04T00:26:00"),
+      seed("fax-wren-quiet", FAX_HOME, "cedar_wren", "visitor", "CedarWren", "Quiet County's three civic groups jointly signed one petition. Ten days later each group was accusing the other two of secret deals, and then public attendance collapsed. I want to know what happened between those dates.", "1999-11-04T00:34:00"),
+      seed("fax-owner-search-1", FAX_HOME, "faxmoth_13", "owner", "FaxMoth_13", "Index note: several titles stamped UNFILED now resolve in Orbit Search if entered exactly. The paper did not move. The catalog did.", "1999-11-04T00:42:00")
     ],
     render: () => `
       <main class="page folded-wire-page">
@@ -454,7 +471,7 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
           <i>fold here &rarr;</i>
           <button data-nav="web://foldedwire.net/trace">TRACE 6<br><small>copier dust / typewriter faults</small></button>
           <i>&darr; margin note</i>
-          <span class="fax-map-label">UNFILED: <strong class="restored-mystery-name">MORROW FIVE</strong><br><small>five-number groups / owner copy removed</small></span>
+          <span class="fax-map-label">UNFILED: <strong class="restored-mystery-name">MORROW FIVE</strong><br><small>five cold-reserve relays / final Lantern tape / owner copy removed</small></span>
         </div>
         <aside><b>METHOD:</b> Find the dull original underneath the exciting photocopy. Dates, staple holes, and fax headers lie less elegantly than people do. <button data-nav="web://foldedwire.net/provenance">OPEN METHOD DRAWER</button></aside>
       </main>`
@@ -470,7 +487,7 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
     render: () => `
       <main class="page folded-wire-page fax-cabinet-page"><header><span>B-06</span><h1>CABINET B</h1></header>
         ${archiveImages([MYSTERY_IMAGES.fileCabinet, "Cabinet drawers 24-7 and 24-8"], [MYSTERY_IMAGES.markedMap, "A road map folded inside the weather contract"])}
-        <table><tbody><tr><th>B-06-14</th><td><strong class="restored-mystery-name">Glass Lake</strong> atmospheric propagation contract</td><td>OWNER COPY OUT</td></tr>
+        <table><tbody><tr><th>B-06-14</th><td><strong class="restored-mystery-name">Glass Lake</strong> / Project Moon Window propagation and persistent-carrier contract</td><td>OWNER COPY OUT</td></tr>
         <tr><th>B-11-02</th><td><strong class="restored-mystery-name">Quiet County</strong> conflict-mediation correspondence</td><td>OWNER COPY OUT</td></tr>
         <tr><th>B-19-88</th><td>Orbit gateway session-ordering invoice</td><td>INDEX CARD WITHDRAWN</td></tr></tbody></table>
         <p class="fax-cabinet-note">Cabinet numbers identify the paper record. They are not page addresses. Record the reference before leaving.</p>
@@ -487,7 +504,7 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
     minimumPhase: 2,
     render: () => `
       <main class="page folded-wire-page fax-trace-page"><h1>TRACE 6: THREE LEAKS, ONE COPIER</h1>
-        <div class="copier-comparison"><article><b><strong class="restored-mystery-name">GLASS LAKE</strong> / MOON WINDOW</b><p>dust: 14 specks<br>redaction: 38 mm<br>footer: OWG-4.7</p></article><article><b><strong class="restored-mystery-name">MORROW FIVE</strong></b><p>dust: 14 specks<br>redaction: 38 mm<br>footer: OWG-4.7</p></article><article><b><strong class="restored-mystery-name">QUIET COUNTY</strong> / COUNTY MIRROR</b><p>dust: 14 specks<br>redaction: 38 mm<br>footer: OWG-4.7</p></article></div>
+        <div class="copier-comparison"><article><b><strong class="restored-mystery-name">GLASS LAKE</strong> / MOON WINDOW</b><p>three lights<br>“visitor” ink added later<br>footer: OWG-4.7</p></article><article><b><strong class="restored-mystery-name">MORROW FIVE</strong> / SLEEPING RELAYS</b><p>five old towers<br>tape date: 1994<br>footer: OWG-4.7</p></article><article><b><strong class="restored-mystery-name">QUIET COUNTY</strong> / COUNTY MIRROR</b><p>three hostile letters<br>one torn corner<br>attendance fell to zero<br>footer: OWG-4.7</p></article></div>
         <p>They were produced from one template after Orbit Bridge 4.7 existed. The underlying attachments can still be older and genuine.</p><button data-nav="${FAX_HOME}">BACK TO FOLD</button>
       </main>`
   },
@@ -511,9 +528,9 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
         <pre class="null-route-map">ROOT
  |-- /people/expired --- [143 RECORDS / NO INDEX]
  |-- /clubs/retired ---- [2 CARRIERS / ROUTE TABLE LOST]
- |-- /radio/m5 --------- [<strong class="restored-mystery-name">MORROW FIVE</strong> / 11 GROUPS / OWNER MIRROR]
- |-- /county/quiet ----- [<strong class="restored-mystery-name">QUIET COUNTY</strong> / 3 LETTERS / SOURCE UNVERIFIED]
- |-- /weather/glass ---- [<strong class="restored-mystery-name">GLASS LAKE</strong> / CONTRACT INDEX MISMATCH]
+ |-- /radio/m5 --------- [<strong class="restored-mystery-name">MORROW FIVE</strong> / 5 DEAD RELAYS / 11 OF 12 GROUPS]
+ |-- /county/quiet ----- [<strong class="restored-mystery-name">QUIET COUNTY</strong> / 3 ENEMIES / 1 TYPO / EMPTY MEETINGS]
+ |-- /weather/glass ---- [<strong class="restored-mystery-name">GLASS LAKE</strong> / 3 LIGHTS / MOON WINDOW / CONTRACT MISMATCH]
  |-- /orbit/private ---- [CHECKSUM INCOMPLETE]
  '-- /system/below ----- [AUTH REQUIRED]</pre>
         <nav><button data-nav="web://index-null.net/deadletters">OPEN DEAD LETTERS</button><button data-nav="web://index-null.net/nodes">PING NODE BOARD</button></nav>
@@ -555,26 +572,41 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
     title: "MORROW FIVE MONITOR",
     site: "morrowfive",
     ownerId: "static_abel",
-    summary: "A phase-two numbers-station mystery claims repeated five-number groups point to a buried government communications network.",
+    summary: "Five emergency relay towers removed from active service reportedly woke during a 1994 numbers broadcast; a damaged copy of that tape has just resurfaced through Orbit.",
     listed: true,
     minimumPhase: 2,
     hubId: "zone-backchannel",
     commentsEnabled: true,
-    searchTerms: ["morrow five", "numbers station", "radio", "five number groups", "secret broadcast"],
+    searchTerms: ["morrow five", "numbers station", "radio", "five number groups", "secret broadcast", "sleeping towers", "lantern", "continuity relays"],
     seedComments: [
-      seed("morrow-lagmaster-lead", "web://morrow-five.net/home", "static_abel", "visitor", "LagMaster_99", "That smeared repeated group looks like the serial mess on my mirrored PULSE/NET box. I put the clearest stickers on my new comet-logo page.", "1999-11-04T10:12:00")
+      seed("morrow-ghostline-hook", "web://morrow-five.net/home", "ghostline", "visitor", "ghostline", "Five government relay towers were officially dead, then every obstruction light came on during one numbers broadcast. That is a much better mystery than another blurry saucer.", "1999-11-04T09:48:00"),
+      seed("morrow-lagmaster-lead", "web://morrow-five.net/home", "lagmaster_99", "visitor", "LagMaster_99", "This box shipped in 1998. How is the same number on a tape from 1994? I put the clearest stickers on my comet-logo page.", "1999-11-04T10:12:00"),
+      seed("morrow-owner-line", "web://morrow-five.net/home", "static_abel", "owner", "StaticAbel", "The towers are documented. The old tape may be genuine. The group count is where the story stops behaving.", "1999-11-04T10:19:00")
     ],
     render: (state) => `
       <main class="page morrow-page"><header><span>M5</span><h1>MORROW FIVE MONITOR</h1><small>CALLSIGN: LANTERN / 6842 kHz / uncertain origin</small></header>
-        ${archiveImages([MYSTERY_IMAGES.numberTape, "Cassette marked with the disputed Morrow frequency"], [MYSTERY_IMAGES.radioTowers, "Tower lights photographed during the broadcast"], [MYSTERY_IMAGES.fencedTower, "The alleged transmitter beyond a locked fence"])}
-        <p class="morrow-theory">THEORY: the five-number groups identify sealed facilities activated by an unseen federal continuity network.</p>
+        ${archiveImages([MYSTERY_IMAGES.numberTape, "The 1994 Morrow Five cassette beside Abel's new digital transfer"], [MYSTERY_IMAGES.radioTowers, "Five relay-tower warning lights reportedly glowing during the final Lantern transmission"], [MYSTERY_IMAGES.fencedTower, "One of the decommissioned Morrow relay compounds still receiving electrical service"])}
+        <section class="morrow-case-story">
+          <small>THE STORY THAT BROUGHT EVERYONE HERE</small>
+          <h2>Five dead towers answered one last broadcast.</h2>
+          <p>Bellwater County once maintained five isolated emergency relay sites along Morrow Ridge. They were meant to keep civil-defense messages moving if storms, sabotage, or a vanished control room took the ordinary telephone network down. Budget records removed all five from active service in 1991, but left them powered as an unmanned cold reserve until their equipment could be dismantled.</p>
+          <p>On November 3, 1994, a shortwave listener recorded a music-box interval, the callsign <b>LANTERN</b>, and twelve five-number instructions. Before the tape ended, witnesses along the ridge reported that the warning lights on all five abandoned towers had switched on together. By morning they were dark again. The county called it a final maintenance test and refused to release the sequence.</p>
+          <p>The cassette disappeared into a private collection. This week, on the fifth anniversary of the broadcast, an Orbit mirror began serving a damaged digital copy. It promises twelve groups but contains only eleven. One repeated command is partially smeared, and the fresh copy includes markings that did not exist in 1994.</p>
+        </section>
+        <p class="morrow-theory"><b>THE MORROW FIVE THEORY:</b> LANTERN was not testing old towers. It was waking a sealed federal continuity network designed to keep issuing orders after the people in charge were gone. The five sites are still waiting for the missing instruction.</p>
+        <section class="morrow-evidence-status">
+          <h2>What can actually be established</h2>
+          <div><b>DOCUMENTED</b><p>Five emergency relay compounds existed, retained electrical service, and participated in a final 1994 test.</p></div>
+          <div><b>DISPUTED</b><p>The newly surfaced recording contains the original LANTERN broadcast rather than a later edit.</p></div>
+          <div><b>UNEXPLAINED</b><p>Why modern five-digit identifiers appear inside an allegedly untouched 1994 tape.</p></div>
+        </section>
         <section class="case-objective ${state.flags.morrow_case_unlocked ? "case-complete" : ""}">
           <small>CASE OBJECTIVE // ${state.flags.morrow_case_unlocked ? "RESOLVED" : "OPEN"}</small>
-          <h2>Reconstruct the damaged sequence.</h2>
-          <p>The voice promises twelve groups, but the surviving transcript has a gap and one repeated value whose last digits are smeared. Recover the complete group from another member's evidence, then identify the numbered position of the missing group.</p>
+          <h2>Was the Morrow Five activation sequence really recorded in 1994?</h2>
+          <p>Reconstruct the damaged sequence so Abel can compare its repeated command against records created after the original broadcast. Recover the complete repeated group from another member's evidence, then identify the numbered position occupied by the missing instruction.</p>
         </section>
         <nav><button data-nav="web://morrow-five.net/transcript">READ 11/03 TRANSCRIPT</button><button data-nav="web://morrow-five.net/decoded">${state.flags.morrow_case_unlocked ? "REOPEN CONCLUSION" : "OPEN GROUP TEST TERMINAL"}</button></nav>
-        <aside><b>OBSERVED:</b> an old recording exists and its group count is wrong.<br><b>INFERRED:</b> practically everything else.</aside>
+        <aside><b>ABEL'S RULE:</b> The five towers are not evidence that every claim about them is true. Preserve the old event, isolate the new edit, and do not let a good story erase the dates.</aside>
       </main>`
   },
   "web://morrow-five.net/transcript": {
@@ -582,19 +614,28 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
     title: "Morrow Five Transcript",
     site: "morrowfive",
     ownerId: "static_abel",
-    summary: "The transcript announces twelve groups but contains eleven; several groups resemble Orbit page IDs rather than radio coordinates.",
+    summary: "Abel's annotated transfer separates the continuous 1994 radio audio from suspiciously clean five-number groups in the copy that resurfaced through Orbit.",
     listed: false,
     searchable: false,
     minimumPhase: 2,
     render: () => `
-      <main class="page morrow-page morrow-transcript"><h1>TAPE M5-1103-B</h1><pre>music box interval
+      <main class="page morrow-page morrow-transcript"><header><b>OWNER CASSETTE: M5-1103-B</b><span>LABEL DATE: 11/03/94 // ORBIT TRANSFER: 11/03/99</span></header>
+        <h1>THE DAMAGED LANTERN SEQUENCE</h1>
+        <p>Abel's cassette came from the estate of regional shortwave listener Ruth Vale. Her handwritten log describes the music box, LANTERN callsign, and tower lights, but does not preserve the numbers. The groups below exist only in the digital copy that appeared on Orbit five years later.</p>
+        <pre>music box interval
 LANTERN. LANTERN.
 TWELVE GROUPS.
 004??  11209  03174  00666
 09170  24008  004??  23117
 01995  [MISSING]  08820  004??
-END. END.</pre><p>The speaker announces twelve. Eleven values survive around one marked gap. Abel's handwritten copy does not identify which repeated value was inserted or number the missing position.</p>
-        <section class="case-clue"><b>WORKING NOTE:</b> Number every promised position from left to right. Compare any suspicious repeat with numbers that surfaced on unrelated member pages.</section>
+END. END.</pre>
+        <section class="morrow-transfer-notes">
+          <h2>TRANSFER NOTES</h2>
+          <p><b>ANALOG LAYER:</b> music box, callsign, room hiss, and END markers share the same tape noise and dropouts.</p>
+          <p><b>NUMBER LAYER:</b> the five-digit groups are cleaner than the voice around them. Three copies of the repeated group have identical clipping, as if the same sample were pasted more than once.</p>
+          <p><b>COUNT:</b> the speaker announces twelve positions. Eleven values survive around one deliberate gap. Ruth Vale's paper log never recorded the numbers, so the Orbit copy is the only source for them.</p>
+        </section>
+        <section class="case-clue"><b>ABEL'S WORKING NOTE:</b> Number all twelve promised positions from left to right, including the gap. Then compare the repeated group with a clearly printed number from something that could not have existed in 1994.</section>
         <button data-nav="web://morrow-five.net/home">&larr; RETURN TO MORROW FIVE</button>
       </main>`
   },
@@ -603,16 +644,28 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     title: "Morrow Five Decoded",
     site: "morrowfive",
     ownerId: "static_abel",
-    summary: "The sensational station theory collapses when the number groups resolve to Orbit page IDs inserted after the supposedly old tape was uploaded.",
+    summary: "The Morrow relays and 1994 Lantern test were real, but the supposed activation sequence was assembled in 1999 from modern Orbit identifiers.",
     listed: false,
     searchable: false,
     minimumPhase: 2,
     render: (state) => state.flags.morrow_case_unlocked ? `
-      <main class="page morrow-page mystery-terminal"><header><b>MYSTERY CHECK // MORROW FIVE</b><span>CONCLUSION: MANUFACTURED CONNECTION</span></header>
-        <h1>The broadcast is old. These groups are not.</h1>
-        <p><code>00417</code>, <code>09170</code>, and <code>23117</code> correspond to modern Orbit directory object IDs created after the cassette's stated recording date. The audio footer identifies Orbit Bridge 4.7.</p>
-        <p>The base recording may be a genuine shortwave intercept. Somebody inserted current page IDs, removed one announced group, and framed it as a federal activation code.</p>
-        <aside><b>TRUE FRAGMENT:</b> OrbitNet can generate or edit a stream in response to its own directory.<br><b>FALSE HEADLINE:</b> the groups activate secret facilities.</aside>
+      <main class="page morrow-page mystery-terminal"><header><b>MYSTERY CHECK // MORROW FIVE</b><span>CASE CLOSED: REAL TOWERS / FALSE ACTIVATION</span></header>
+        <h1>The Morrow Five existed. The sequence did not.</h1>
+        <section class="morrow-resolution">
+          <h2>What happened in 1994</h2>
+          <p>The county's dull explanation was substantially true. Morrow Relay Group Five was a chain of five automatic emergency repeaters. If the staffed control room went silent, each site could receive, store, and rebroadcast civil alerts without a live operator. LANTERN was the callsign for their annual continuity test.</p>
+          <p>On November 3, 1994, technicians powered all five compounds for a final synchronized test before removing their radio equipment. That accounts for the broadcast, the music-box interval, and five sets of tower lights coming alive after years of darkness. The sites were unusual, neglected, and real. They were not waiting to govern the country after doomsday.</p>
+        </section>
+        <section class="morrow-resolution morrow-resolution-forgery">
+          <h2>What happened in 1999</h2>
+          <p>The reconstructed command <code>00417</code> is printed on a 1998 PULSE/NET shipment and belongs to an Orbit directory object. So do <code>09170</code> and <code>23117</code>. None can be part of a 1994 recording. All three repeated 00417 samples are digitally identical, down to the clipped final breath.</p>
+          <p>The transfer footer identifies <b>Orbit Bridge 4.7</b>. Its edit log shows the number layer being assembled when the Morrow page returned to the directory, then one value being removed from position <b>10</b>. Someone wrapped a genuine old continuity test in a new activation puzzle and let investigators supply the missing pieces.</p>
+        </section>
+        ${c9EvidenceStrip(
+          [C9_EVIDENCE_IMAGES.morrowRidge, "RIDGE COPY // two cloud clusters and several light halos repeat exactly despite different positions"],
+          [C9_EVIDENCE_IMAGES.morrowTransfer, "TRANSFER STILL // analog grain breaks around a tiny four-color pixel block beside the deck"]
+        )}
+        <aside><b>PAYOFF:</b> The exciting claim was backwards. No forgotten government network woke itself. Something inside Orbit woke a forgotten story, edited it with its own current directory IDs, and made the forgery solvable enough to keep people investigating.<br><br><b>OPEN QUESTION:</b> What can watch the directory, alter a media stream when a page returns, and benefit from everyone chasing the result?</aside>
         <footer class="puzzle-notebook-footer corrupt-trailing-data">
           <small>TRAILING DATA // PARSE FAILURE</small>
           <code>⍉▒ 7f:19 :: ΞΞ⟦<strong class="carry-forward-clue">web://archive</strong>⟧ :: 0x?? ╫ æ9</code>
@@ -621,8 +674,8 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
       </main>` : `
       <main class="page morrow-page case-lock-page">
         <header><b>MORROW FIVE // GROUP TEST</b><span>CASE CONCLUSION SEALED</span></header>
-        <h1>Reconstruct the damaged sequence.</h1>
-        <p>The test needs both the suspicious repeated group and the ordinal position occupied by the missing group. This terminal does not link back to the evidence.</p>
+        <h1>Test the alleged activation sequence.</h1>
+        <p>If the same command appears in the recording and on an object manufactured years later, the 1994 activation story cannot be intact. Enter the suspicious repeated group and the ordinal position occupied by the missing instruction. This terminal does not link back to the evidence.</p>
         <form data-case-unlock="morrow_five">
           <label>REPEATED GROUP <input name="answer" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="00000"></label>
           <label>MISSING POSITION <input name="answer2" inputmode="numeric" maxlength="2" autocomplete="off" placeholder="00"></label>
@@ -637,26 +690,42 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     title: "Glass Lake Field Annex",
     site: "glasslake",
     ownerId: "skywatch_sam",
-    summary: "An archived field-station site is presented as evidence that a secret base exchanges signals with objects above the clouds.",
+    summary: "During Glass Lake's final Project Moon Window test, three lights appeared over the ridge and a distant signal seemed to answer the station; later notes claim something followed the radio path down.",
     listed: true,
     minimumPhase: 2,
     hubId: "zone-backchannel",
     commentsEnabled: true,
-    searchTerms: ["glass lake", "secret base", "aliens", "weather station", "moon window", "field annex"],
+    searchTerms: ["glass lake", "secret base", "aliens", "weather station", "moon window", "field annex", "three lights", "sky answered", "hangar b", "radio corridor"],
     seedComments: [
-      seed("glass-carla-lead", "web://glasslake-field.gov/home", "skywatch_sam", "visitor", "CatNap_Carla", "One Porch Panther photo caught the same three lights. The old envelope has a date and Glass Lake written on it, so I added it to my new neighborhood mystery page.", "1999-11-04T10:27:00")
+      seed("glass-rerun-hook", "web://glasslake-field.gov/home", "rerun_zack", "visitor", "Rerun_Zack", "My uncle remembers the Glass Lake night. Three lights sat over the ridge while every scanner on his block played the same tone. He says the weird part is that the signal seemed to answer itself.", "1999-11-04T10:08:00"),
+      seed("glass-carla-lead", "web://glasslake-field.gov/home", "catnap_carla", "visitor", "CatNap_Carla", "One Porch Panther photo caught the same three lights over the ridge. The old envelope has a date and Glass Lake written on it, so I added it to my neighborhood mystery page.", "1999-11-04T10:27:00"),
+      seed("glass-dee-lead", "web://glasslake-field.gov/home", "deckwrecker_dee", "visitor", "DeckWrecker_Dee", "Why does the humming utility cabinet beside our skate curb have a GLASS LAKE ATMOSPHERIC GROUP plate? Did the secret sky base sell its old gear to Public Works?", "1999-11-04T10:36:00"),
+      seed("glass-owner-line", "web://glasslake-field.gov/home", "skywatch_sam", "owner", "Skywatch_Sam", "The three lights are the exciting part. The contract trail is the part somebody took trouble to bury.", "1999-11-04T10:43:00")
     ],
     render: (state) => `
       <main class="page glasslake-page"><header><small>ARCHIVED PUBLIC INFORMATION PAGE</small><h1>GLASS LAKE FIELD ANNEX</h1><span>Atmospheric Propagation Group</span></header>
-        ${archiveImages([MYSTERY_IMAGES.weatherStation, "Glass Lake upper-air weather instruments"], [MYSTERY_IMAGES.markedMap, "Field route map with later annotations"])}
+        ${archiveImages([MYSTERY_IMAGES.weatherStation, "Glass Lake weather mast and illuminated upper-air calibration balloons"], [MYSTERY_IMAGES.markedMap, "Project Moon Window field map with a radio path drawn beyond the horizon"])}
+        <section class="glasslake-case-story">
+          <small>THE MOON WINDOW INCIDENT</small>
+          <h2>For eleven minutes, Glass Lake could talk beyond the horizon.</h2>
+          <p>The Field Annex was built to study a practical problem: emergency radio signals usually travel in straight lines, but unusual layers of warm and cold air can bend them far beyond their expected range. Glass Lake called the brief, predictable condition a <b>Moon Window</b> because its strongest test period arrived after sunset and closed before the moon cleared the ridge.</p>
+          <p>During a September 1994 test, the station launched three illuminated calibration packages, aimed a carrier into the forming window, and waited for a remote test team to return it. Residents saw three fixed lights over the ridge. At nearly the same moment, household scanners received the Glass Lake tone from farther away—and much louder—than the project map said was possible.</p>
+          <p>A leaked fax turned the unexplained part of that field test into something much larger. Handwritten notes claim the carrier was answered by an unknown object above the atmosphere, the three lights descended in formation, and <b>Hangar B received a visitor that followed the signal down.</b> The station closed the following year. Its original contract appendix disappeared.</p>
+        </section>
         <div class="glasslake-redactions"><p>Facility purpose: upper-air radio propagation and weather telemetry.</p><p>Public tours: suspended during antenna calibration.</p><p>Hangar B: <b>██████████████</b></p></div>
+        <p class="glasslake-theory"><b>THE GLASS LAKE THEORY:</b> Moon Window was a controlled corridor through the atmosphere. The station transmitted a path into the upper dark, something answered, and the three lights were landing markers for whatever came back.</p>
+        <section class="glasslake-evidence-status">
+          <div><b>DOCUMENTED</b><p>A propagation test, three airborne calibration targets, a powerful returned carrier, and a real government contract.</p></div>
+          <div><b>ADDED LATER</b><p>Spacecraft labels, arrows descending toward Hangar B, and the phrase NONHUMAN RESPONSE.</p></div>
+          <div><b>STILL MISSING</b><p>The witness photograph's date and the independently filed copy of the original contract.</p></div>
+        </section>
         <section class="case-objective ${state.flags.glass_lake_case_unlocked ? "case-complete" : ""}">
           <small>CASE OBJECTIVE // ${state.flags.glass_lake_case_unlocked ? "RESOLVED" : "OPEN"}</small>
-          <h2>Match the sighting and identify its paper record.</h2>
-          <p>The sealed report requires the date written on the stray witness-photo envelope and a filing reference from an independently preserved paper index. The station log can verify what happened, but it does not preserve the witness label.</p>
+          <h2>What actually answered Glass Lake?</h2>
+          <p>Match the famous three-light sighting to the station's field log, then recover the original Moon Window report. The sealed terminal requires the date written on the stray witness-photo envelope and the filing reference from an independently preserved paper index.</p>
         </section>
         <nav><button data-nav="web://glasslake-field.gov/weather">CHECK WEATHER LOG</button><button data-nav="web://glasslake-field.gov/report">${state.flags.glass_lake_case_unlocked ? "REOPEN REPORT" : "OPEN RECORDS TERMINAL"}</button></nav>
-        <marquee>SKYWATCH ALERT: three lights photographed above the ridge // official explanation pending</marquee>
+        <marquee>SKYWATCH CASE: THREE LIGHTS // ONE RETURNED SIGNAL // WHAT WENT INTO HANGAR B?</marquee>
       </main>`
   },
   "web://glasslake-field.gov/weather": {
@@ -664,14 +733,23 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     title: "Glass Lake Weather Log",
     site: "glasslake",
     ownerId: "skywatch_sam",
-    summary: "Weather records show the famous three lights match calibration balloons and that the mysterious radio windows follow known atmospheric conditions.",
+    summary: "The surviving field log reconstructs the Moon Window incident minute by minute and compares its three famous lights and returned signal with the station's actual equipment.",
     listed: false,
     searchable: false,
     minimumPhase: 2,
     render: () => `
-      <main class="page glasslake-page glasslake-log"><h1>UPPER AIR LOG // SELECTED ENTRIES</h1>
-        <table><tbody><tr><th>[DATE SMEARED]</th><td>Three illuminated calibration balloons released 20:14.</td><td>wind NE</td></tr><tr><th>SAME NIGHT</th><td>Civilian “three lights” report received 20:31.</td><td>matched</td></tr><tr><th>10/03/94</th><td>Unusual long-distance carrier reception during inversion.</td><td>expected</td></tr><tr><th>10/04/94</th><td>Hangar B roof leak repaired.</td><td>mundane</td></tr></tbody></table>
-        <section class="case-clue"><b>WORKING NOTE:</b> The sighting is accounted for, but no usable date survives on this mirror. The witness-photo envelope and contract appendix are both absent.</section>
+      <main class="page glasslake-page glasslake-log"><header><small>PROJECT MOON WINDOW // FIELD COPY</small><h1>UPPER AIR LOG</h1><span>DATE COLUMN DAMAGED IN MIRROR</span></header>
+        <table><tbody>
+          <tr><th>[DATE SMEARED] 19:48</th><td>Temperature inversion forming over western ridge. Moon Window test authorized.</td><td>expected</td></tr>
+          <tr><th>20:14</th><td>Three illuminated calibration balloons released at low, middle, and upper sampling heights.</td><td>wind NE</td></tr>
+          <tr><th>20:31</th><td>Civilian report: three stationary lights above ridge in triangular arrangement.</td><td>balloon geometry matched</td></tr>
+          <tr><th>20:36</th><td>Test carrier returned by Greybridge mobile receiver beyond normal line of sight.</td><td>signal +18 dB over forecast</td></tr>
+          <tr><th>20:41</th><td>Secondary echo traced to unattended county repeater left in diagnostic mode.</td><td>loop identified</td></tr>
+          <tr><th>20:47</th><td>Inversion weakening. Moon Window closed. Balloons recovered east of service road.</td><td>3 of 3</td></tr>
+          <tr><th>NEXT MORNING</th><td>Hangar B inventory: balloon lamps, helium cylinders, telemetry racks, one leaking roof panel.</td><td>no unlisted cargo</td></tr>
+        </tbody></table>
+        <section class="glasslake-log-reading"><h2>What the timeline says</h2><p>The lights appeared exactly where the balloon geometry placed them. The powerful “answer” was the station's own carrier returning through a mobile receiver and then echoing once through a forgotten diagnostic repeater. Moon Window described the atmospheric path, not a door in the sky.</p><p>That resolves the incident, but not the document history. The usable date was destroyed on this web mirror, and neither the witness envelope nor the original contract appendix is attached.</p></section>
+        <section class="case-clue"><b>SAM'S WORKING NOTE:</b> Find the original date on somebody's physical photograph, not another copy of this damaged log. Then find the contract in a paper index that existed before the alien annotations appeared.</section>
         <button data-nav="web://glasslake-field.gov/home">&larr; RETURN TO GLASS LAKE</button>
       </main>`
   },
@@ -680,16 +758,28 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     title: "Glass Lake / Contract Report",
     site: "glasslake",
     ownerId: "skywatch_sam",
-    summary: "The alien-base theory is unsupported, but a real contractor quietly shared propagation data with Orbit's gateway engineering group.",
+    summary: "The lights, signal, and Hangar B all have concrete explanations, but the recovered Moon Window contract reveals that its route-persistence research later became part of Orbit.",
     listed: false,
     searchable: false,
     minimumPhase: 2,
     render: (state) => state.flags.glass_lake_case_unlocked ? `
-      <main class="page glasslake-page mystery-terminal"><header><b>MYSTERY CHECK // GLASS LAKE</b><span>CONCLUSION: WRONG SKY, RIGHT CONTRACTOR</span></header>
-        <h1>No visitors from above. One visitor from Orbit.</h1>
-        <p>The lights were logged calibration balloons. “Moon Window” was a radio-propagation test window, not a contact event. The sensational fax added handwritten spacecraft notes years later.</p>
-        <p>The genuine contract appendix does show that the same regional contractor later advised Orbit's public-web gateway on proxy routing and connection persistence.</p>
-        <aside><b>TRUE FRAGMENT:</b> an Orbit contractor reused atmospheric routing research.<br><b>FALSE HEADLINE:</b> Glass Lake communicates with nonhuman craft.</aside>
+      <main class="page glasslake-page mystery-terminal"><header><b>MYSTERY CHECK // GLASS LAKE</b><span>CASE CLOSED: NO VISITOR / REAL CONNECTION</span></header>
+        <h1>The sky did not answer. The network learned how to.</h1>
+        <section class="glasslake-resolution">
+          <h2>The Moon Window incident</h2>
+          <p>The envelope date <b>09/12/94</b> aligns every independent record. Glass Lake released three illuminated balloons at 20:14; Carla's recovered photograph captured those same three lights downwind at 20:31. The station received its carrier through Greybridge's distant mobile van, then heard a second copy from a county repeater accidentally left in diagnostic mode.</p>
+          <p>Hangar B stored balloon lamps, helium cylinders, telemetry racks, and a roof leak. Nobody landed there. The spacecraft arrows and “NONHUMAN RESPONSE” labels were handwritten onto later copies. Moon Window was the project's nickname for eleven minutes of useful atmospheric refraction—not a literal opening.</p>
+        </section>
+        <section class="glasslake-resolution glasslake-resolution-contract">
+          <h2>The connection somebody buried</h2>
+          <p>Paper file <b>B-06-14</b> identifies <b>Greybridge Signal Systems</b> as the Moon Window contractor. Its job was to measure several possible radio paths, detect a weakening route, move the carrier to a stronger one, and preserve the session through brief signal loss.</p>
+          <p>Three years later, Greybridge billed Orbit Community Services for adapting that exact method to its public-web gateway: rotate through proxy routes, retain a visitor's session when one carrier disappears, and reconnect without making the user begin again. The spectacular fax points toward visitors from space. Its crop dimensions and OWG-4.7 export footer match the other newly restored case files, while the older appendix does not. The boring original shows how Orbit learned to keep talking through silence.</p>
+        </section>
+        ${c9EvidenceStrip(
+          [C9_EVIDENCE_IMAGES.glassField, "FIELD COPY // the cloud texture beneath all three lights repeats in a pattern the sky did not"],
+          [C9_EVIDENCE_IMAGES.glassHangar, "HANGAR B COPY // the descending arrow, balloon edge, and equipment rack carry different scan generations"]
+        )}
+        <aside><b>PAYOFF:</b> Glass Lake did not communicate with a nonhuman craft. It taught a contractor how to keep a connection alive when the direct path failed—and that contractor later installed the same persistence logic inside Orbit.<br><br><b>OPEN QUESTION:</b> Why did an old government weather page, its altered alien story, and its missing contract all return to Orbit at the same time?</aside>
         <footer class="puzzle-notebook-footer corrupt-trailing-data">
           <small>TRAILING DATA // PARSE FAILURE</small>
           <code>⌁ GL-14 :: øø⟦<strong class="carry-forward-clue">orbitnet.local</strong>⟧ :: ψ/rte ╫ 9?</code>
@@ -698,8 +788,8 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
       </main>` : `
       <main class="page glasslake-page case-lock-page">
         <header><b>GLASS LAKE // RECORDS TERMINAL</b><span>CONTRACT REPORT SEALED</span></header>
-        <h1>Cross-check the witness photograph against the paper archive.</h1>
-        <p>Enter the date written on the stray witness-photo envelope and the full filing reference for the Glass Lake atmospheric contract.</p>
+        <h1>Recover the unaltered Moon Window report.</h1>
+        <p>Match the three-light photograph to the field log, then identify the independently filed contract that predates the spacecraft annotations. Enter the date written on the witness envelope and the full Glass Lake filing reference.</p>
         <form data-case-unlock="glass_lake">
           <label>ENVELOPE DATE <input name="answer" maxlength="10" autocomplete="off" placeholder="MM/DD/YY"></label>
           <label>FILE REFERENCE <input name="answer2" maxlength="8" autocomplete="off" placeholder="B-00-00"></label>
@@ -714,23 +804,37 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     title: "THE QUIET COUNTY FILES",
     site: "quietcounty",
     ownerId: "cedar_wren",
-    summary: "A phase-two archive claims a secret county program used anonymous letters and rumor campaigns to steer neighborhood groups.",
+    summary: "Three Quiet County civic groups turned on one another after receiving anonymous letters, then public participation abruptly collapsed while a university behavior study watched.",
     listed: true,
     minimumPhase: 2,
     hubId: "zone-backchannel",
     commentsEnabled: true,
-    searchTerms: ["quiet county", "deep state", "anonymous letters", "civic groups", "project trestle", "rumor"],
+    searchTerms: ["quiet county", "deep state", "anonymous letters", "civic groups", "project trestle", "rumor", "empty meetings", "three enemies", "east corridor", "social silencing"],
     seedComments: [
-      seed("quiet-bob-lead", "web://quiet-county.org/home", "cedar_wren", "visitor", "BigBass_Bob", "Found a soggy county survey under my dock ladder with a project name typed in the margin. Scanned it on the Lake Knocker page before it turned back into soup.", "1999-11-04T10:44:00")
+      seed("quiet-family-memory", "web://quiet-county.org/home", "linklily_99", "visitor", "LinkLily_99", "My aunt remembers the east-corridor meetings. She says the three groups were annoying but still sharing coffee—then the letters arrived, everybody accused everybody, and within two weeks nobody came anymore.", "1999-11-04T10:31:00"),
+      seed("quiet-bob-lead", "web://quiet-county.org/home", "big_bass_bob", "visitor", "BigBass_Bob", "Found a soggy county survey under my dock ladder with a project name typed in the margin. Same survey asks who people trusted at public meetings. Scanned it on the Lake Knocker page before it turned back into soup.", "1999-11-04T10:44:00"),
+      seed("quiet-owner-line", "web://quiet-county.org/home", "cedar_wren", "owner", "CedarWren", "The frightening claim is that somebody learned how to silence a town without banning a meeting: make every neighbor look like an enemy until staying home feels safer.", "1999-11-04T10:51:00")
     ],
     render: (state) => `
-      <main class="page quietcounty-page"><header><h1>THE QUIET COUNTY FILES</h1><p>Who kept mailing the neighborhood associations?</p></header>
+      <main class="page quietcounty-page"><header><small>CASE 11-B // EAST RAIL CORRIDOR</small><h1>THE QUIET COUNTY FILES</h1><p>Nobody cancelled the meetings. Everybody simply stopped coming.</p></header>
         ${archiveImages([MYSTERY_IMAGES.envelope, "One of the anonymous neighborhood letters"], [MYSTERY_IMAGES.corridor, "County records corridor after public hours"], [MYSTERY_IMAGES.diagram, "A copied mediation-study diagram"])}
-        <section><article><b>CLAIM</b><p>An alleged code-named project fabricated disputes, divided local groups, and tested population control. The surviving scans omit the project name.</p></article><article><b>RECORD</b><p>A real university conflict-mediation study tracked how rumor and message framing affected public meetings.</p></article></section>
+        <section class="quiet-case-story">
+          <small>THE WEEK QUIET COUNTY WENT QUIET</small>
+          <h2>Three groups entered one meeting together. Ten days later, each believed the other two had betrayed them.</h2>
+          <p>In 1992, Quiet County considered what to do with an abandoned rail corridor east of town. <b>Concerned Parents</b> wanted a safe footpath near the school. <b>Taxpayer Watch</b> opposed an expensive county bridge. <b>Park Friends</b> wanted the creek bank protected. They argued loudly, but all three signed a joint request to keep the land from becoming a truck bypass.</p>
+          <p>Then the mail arrived. Parents received a warning that Park Friends planned to close the playground. Taxpayer Watch was told the parents had negotiated a secret bridge contract. Park Friends received a letter claiming the other groups had already promised the corridor to freight developers. Each message quoted private meeting language. None had a return address.</p>
+          <p>The next meeting overflowed with accusations. At the following one, volunteers resigned. Ten days after the first letter, only the clerk and two university observers remained. The corridor decision was postponed, the groups dissolved, and the county stopped holding public sessions about the site. Nobody prohibited participation. The town had been made too suspicious to participate.</p>
+        </section>
+        <p class="quiet-theory"><b>THE QUIET COUNTY THEORY:</b> A covert behavior program used the corridor dispute to test “social silencing”—destroy trust between ordinary groups until public opposition disappears by itself. The university observers were not studying the collapse. They were operating it.</p>
+        <section class="quiet-evidence-status">
+          <div><b>DOCUMENTED</b><p>Three civic groups, a real corridor dispute, a university meeting study, a sharp attendance collapse, and a later ethics complaint.</p></div>
+          <div><b>ALLEGED</b><p>Researchers wrote targeted letters, quoted private conversations, and deliberately turned each group against the others.</p></div>
+          <div><b>UNRESOLVED</b><p>No original letter survives in the county files. Every dramatic scan appeared through Orbit years later.</p></div>
+        </section>
         <section class="case-objective ${state.flags.quiet_county_case_unlocked ? "case-complete" : ""}">
           <small>CASE OBJECTIVE // ${state.flags.quiet_county_case_unlocked ? "RESOLVED" : "OPEN"}</small>
-          <h2>Test whether three enemies are really three sources.</h2>
-          <p>Compare the letters for one exact shared error, recover the project name from the unrelated survey copy that started the rumor, then identify the paper-archive reference for the legitimate study.</p>
+          <h2>Did one operation manufacture all three enemies?</h2>
+          <p>Compare the letters as physical evidence, recover the project name from the stray survey that links the story to university observers, then identify the independent paper reference for the legitimate study.</p>
         </section>
         <nav><button data-nav="web://quiet-county.org/letters">COMPARE THREE LETTERS</button><button data-nav="web://quiet-county.org/case">${state.flags.quiet_county_case_unlocked ? "REOPEN CONCLUSION" : "OPEN RECORDS TERMINAL"}</button></nav>
       </main>`
@@ -740,15 +844,23 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     title: "Quiet County Letter Comparison",
     site: "quietcounty",
     ownerId: "cedar_wren",
-    summary: "Three inflammatory letters attributed to different groups share the same typo, paper damage, and Orbit-era print driver footer.",
+    summary: "The three letters tell a complete story of mutual betrayal, but their supposedly independent authors share the same typo, torn paper, and Orbit-era print footer.",
     listed: false,
     searchable: false,
     minimumPhase: 2,
     render: () => `
-      <main class="page quietcounty-page letter-comparison"><h1>THREE ENEMIES, ONE MISSPELLING</h1>
-        <div><article><b>“Concerned Parents”</b><p>...the council has <u>definately</u> decided...</p></article><article><b>“Taxpayer Watch”</b><p>...we have <u>definately</u> learned...</p></article><article><b>“Park Friends”</b><p>...developers <u>definately</u> intend...</p></article></div>
-        <p>All three scans have the same torn corner and <code>OrbitPrint 3.2</code> footer. The originals are not in the county archive.</p>
-        <section class="case-clue"><b>WORKING NOTE:</b> Copy the shared misspelling exactly as printed. This scan identifies the source batch, but it does not contain the legitimate study's paper filing reference.</section>
+      <main class="page quietcounty-page letter-comparison"><header><small>SOURCE COMPARISON // CLAIMED MAILINGS, 1992</small><h1>THREE ENEMIES, ONE MISSPELLING</h1><p>Read the accusations first. Then look at the paper.</p></header>
+        <div class="quiet-letter-grid">
+          <article><b>LETTER A // sent to Concerned Parents</b><h2>“Park Friends”</h2><p>They already promised the creek path to outsiders. The council has <u>definately</u> decided your playground lights are “visual pollution.” Ask why their chair met the survey crew alone Tuesday.</p><small>claimed source: angry parks volunteer</small></article>
+          <article><b>LETTER B // sent to Taxpayer Watch</b><h2>“Concerned Parents”</h2><p>We have <u>definately</u> learned your committee will support the school bridge once the private contractor pays for your signs. Parents deserve to know who profits from pretending this is about safety.</p><small>claimed source: parents-group treasurer</small></article>
+          <article><b>LETTER C // sent to Park Friends</b><h2>“Taxpayer Watch”</h2><p>The developers <u>definately</u> intend to open a freight road after your trees are cleared. The other two groups accepted this Tuesday. If you attend their meeting, demand to see the agreement they are hiding.</p><small>claimed source: taxpayer whistleblower</small></article>
+        </div>
+        <section class="quiet-letter-timeline">
+          <h2>What followed</h2>
+          <ol><li><b>Day 0:</b> all three groups sign the same anti-bypass request.</li><li><b>Day 3:</b> letters arrive; private Tuesday conversations are quoted.</li><li><b>Day 5:</b> meeting attendance doubles, almost entirely for accusations.</li><li><b>Day 10:</b> all three groups suspend participation; attendance falls to two observers and the clerk.</li></ol>
+        </section>
+        <p class="quiet-forensic-note"><b>PHYSICAL COMPARISON:</b> All three scans have the same torn lower-right corner, fourteen matching toner specks, and an <code>OrbitPrint 3.2</code> footer. That driver did not exist in 1992. The county archive contains no originals.</p>
+        <section class="case-clue"><b>CEDAR'S WORKING NOTE:</b> Three enemies may tell one coherent story because one later author wrote all three sides. Copy the shared misspelling exactly as printed. This batch still does not identify the authentic study or its filing reference.</section>
         <button data-nav="web://quiet-county.org/home">&larr; RETURN TO QUIET COUNTY</button>
       </main>`
   },
@@ -757,16 +869,28 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
     title: "Quiet County Case Conclusion",
     site: "quietcounty",
     ownerId: "cedar_wren",
-    summary: "The supposed deep-state letter campaign was fabricated recently, while the underlying study only observed already-public meetings and later drew ethical criticism.",
+    summary: "The anonymous-letter operation was fabricated in 1999, but the authentic Trestle study covertly mapped local influence and sent its behavioral data to an unnamed public-communications program.",
     listed: false,
     searchable: false,
     minimumPhase: 2,
     render: (state) => state.flags.quiet_county_case_unlocked ? `
-      <main class="page quietcounty-page mystery-terminal"><header><b>MYSTERY CHECK // QUIET COUNTY</b><span>CONCLUSION: SYNTHETIC LEAK, REAL ETHICAL FAILURE</span></header>
-        <h1>PROJECT TRESTLE observed conflict. It did not create these letters.</h1>
-        <p>The university archive contains meeting transcripts, survey cards, and an ethics complaint about observing residents without meaningful notice. It contains no anonymous-letter operation.</p>
-        <p>The dramatic letters were printed recently through Orbit Bridge, then aged and scanned from one physical sheet. They imitate documented influence tactics without proving this county used them.</p>
-        <aside><b>TRUE FRAGMENT:</b> residents were treated as behavioral data without adequate consent.<br><b>FALSE HEADLINE:</b> a county “deep state” manufactured the disputes.</aside>
+      <main class="page quietcounty-page mystery-terminal"><header><b>MYSTERY CHECK // QUIET COUNTY</b><span>CASE CLOSED: FALSE OPERATION / REAL EXPERIMENT</span></header>
+        <h1>The letters are fake. The experiment downstream was real.</h1>
+        <section class="quiet-resolution">
+          <h2>What happened in Quiet County</h2>
+          <p><b>Project Trestle</b> was a Bellwater State conflict-mediation study. Its researchers attended already-contentious East Trestle meetings, coded rumors and alliances, distributed voluntary-looking survey cards, and measured which speakers could calm a room or redirect its attention. The corridor dispute and the collapse in attendance were real.</p>
+          <p>The project archive contains no instruction to manufacture disputes and no copies of the three anonymous letters. Those scans came from one sheet printed through OrbitPrint 3.2 in 1999, then torn, dirtied, and presented as three separate 1992 originals. Whoever built the leak used real names, meeting dates, and phrases from Trestle records to give a fabricated operation a convincing history.</p>
+        </section>
+        <section class="quiet-resolution quiet-resolution-ethics">
+          <h2>What the false story was hiding beside</h2>
+          <p>Trestle was not innocent. Residents were never meaningfully told that researchers were mapping personal influence, recording private hallway conversations, and rating which community members could move an entire meeting. The promised debrief was cancelled after the groups dissolved.</p>
+          <p>An ethics complaint says the resulting “stability maps” and anonymized meeting records were forwarded to an unnamed <b>public-communications research sponsor</b>. The sponsor was interested less in resolving a dispute than in learning how repetition, apparent consensus, trusted messengers, and unrelated distractions determine what a community keeps discussing.</p>
+        </section>
+        ${c9EvidenceStrip(
+          [C9_EVIDENCE_IMAGES.quietLetters, "LETTER BATCH // tears, stains, and toner specks recur in identical positions across three alleged originals"],
+          [C9_EVIDENCE_IMAGES.quietMeeting, "MEETING STILL // the two standing observers share one pose, one edge halo, and sharper grain than the room"]
+        )}
+        <aside><b>PAYOFF:</b> No secret county unit mailed the letters. A later Orbit source fabricated that clean villain from a messy, genuine ethics failure. But the authentic research still traveled into a larger program concerned with steering public attention.<br><br><b>OPEN QUESTION:</b> Who assembled the fake letters in 1999, and why did they attach them to the exact old study that points toward something real?</aside>
         <footer class="puzzle-notebook-footer corrupt-trailing-data">
           <small>TRAILING DATA // PARSE FAILURE</small>
           <code>▓ qp/3.2 :: λλ⟦<strong class="carry-forward-clue">/labs/home</strong>⟧ :: null?? ╫ 00</code>
@@ -775,8 +899,8 @@ END. END.</pre><p>The speaker announces twelve. Eleven values survive around one
       </main>` : `
       <main class="page quietcounty-page case-lock-page">
         <header><b>QUIET COUNTY // RECORDS REQUEST</b><span>CASE FILE SEALED</span></header>
-        <h1>Match the copied letters to the legitimate study.</h1>
-        <p>Enter the shared misspelling, the project name typed on the stray survey, and the Cabinet B reference for the Quiet County conflict-mediation correspondence.</p>
+        <h1>Separate the manufactured operation from the real experiment.</h1>
+        <p>Enter the shared misspelling that ties the three letters to one source, the project name typed on the stray survey, and the Cabinet B reference for the authentic Quiet County correspondence.</p>
         <form data-case-unlock="quiet_county">
           <label>WORD AS PRINTED <input name="answer" maxlength="16" autocomplete="off"></label>
           <label>PROJECT NAME <input name="answer2" maxlength="16" autocomplete="off"></label>

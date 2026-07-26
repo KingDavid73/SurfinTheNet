@@ -140,13 +140,22 @@ history and atmosphere, but every one remains discoverable before the ending.
 
 The synthetic mysteries are:
 
-1. **Morrow Five:** an authentic-looking old shortwave recording has modern
-   Orbit page IDs inserted into its five-number groups.
-2. **Glass Lake / Moon Window:** weather and propagation research is framed as
-   an alien-contact site; the actual Orbit contractor connection is mundane but
-   meaningful.
-3. **Quiet County:** fabricated anonymous letters imitate documented influence
-   tactics; the underlying civic study still contains a real consent problem.
+1. **Morrow Five:** five emergency relays were removed from active service but
+   retained power as a cold reserve, and their final 1994 Lantern shutdown test
+   really lit the ridge. A resurfaced Orbit transfer inserts 1998 directory IDs
+   into that genuine old audio, removes one sequence position, and reframes the
+   event as the awakening of a dormant continuity network.
+2. **Glass Lake / Moon Window:** a real 1994 propagation test used three
+   illuminated balloons, a distant return van, and a diagnostic repeater.
+   Later annotations turn those events into an alien landing at Hangar B, while
+   the authentic Greybridge contract reveals that the project's route-switching
+   and session-persistence work was later installed in Orbit's gateway.
+3. **Quiet County:** three civic groups jointly opposed a truck bypass, then
+   anonymous betrayal letters preceded a complete collapse in participation.
+   The letters are one 1999 OrbitPrint fabrication, but Project Trestle really
+   mapped rumors, trusted speakers, and influence without meaningful consent
+   before forwarding its stability data to an unnamed public-communications
+   sponsor.
 
 C9 authors these cases for two related reasons. Unfinished, solvable mysteries
 raise return visits and conversation. Their aliens, secret facilities, and
@@ -160,6 +169,20 @@ optional expandable detail; two details point toward each headline mystery.
 The theories remain amusing dead ends on their own, but collectively teach the
 player to compare repeated number groups, physical labels, timestamps,
 photocopy defects, and print-driver footers.
+
+Phase-two discovery uses four deliberately separate breadcrumb threads:
+
+- Morrow Five references repeat the five cold-reserve towers, the final Lantern
+  broadcast, the twelve-versus-eleven group count, and modern identifiers in
+  old audio.
+- Glass Lake references repeat the three lights, the scanner tone that seemed
+  to answer itself, Moon Window, Hangar B, and a buried contractor trail.
+- Quiet County references repeat three allied civic groups, betrayal letters,
+  Project Trestle surveys, and meetings that emptied without being cancelled.
+- General search-restoration references explain that exact titles mentioned by
+  other users may resolve even when no zone directory links them. These notices
+  do not enumerate or summarize the three mysteries; curiosity about each title
+  is established by its own story thread.
 
 Each headline terminal crosses separate evidence sources. Morrow Five needs the
 complete repeated group from LagMaster's harmless logo mystery and the ordinal

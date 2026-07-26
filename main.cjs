@@ -799,6 +799,14 @@ function createWindow() {
             await fs.mkdir(path.dirname(target), { recursive: true });
             await fs.writeFile(target, image.toPNG());
           };
+          const capturePhaseTwoPage = async (name) => {
+            await wait(1250);
+            await win.webContents.executeJavaScript(`document.querySelectorAll('[data-dismiss-notification]').forEach((button) => button.click())`);
+            const image = await win.webContents.capturePage();
+            const target = path.resolve(__dirname, "artifacts", name);
+            await fs.mkdir(path.dirname(target), { recursive: true });
+            await fs.writeFile(target, image.toPNG());
+          };
           const sleep = async (option) => {
             const advanced = await win.webContents.executeJavaScript(`(() => {
               document.querySelector('[data-start]')?.click();
@@ -1101,6 +1109,12 @@ function createWindow() {
             if (await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-nav="${terminalUrl}"]'))`)) {
               throw new Error(`Evidence page still linked directly to its answer terminal: ${clueUrl}`);
             }
+            const clueCaptureName = {
+              "web://morrow-five.net/transcript": "phase2-morrow-five-transcript.png",
+              "web://glasslake-field.gov/weather": "phase2-glass-lake-weather.png",
+              "web://quiet-county.org/letters": "phase2-quiet-county-letters.png"
+            }[clueUrl];
+            await capturePhaseTwoPage(clueCaptureName);
           }
           for (const [pageUrl, leakedValue] of [
             ["web://morrow-five.net/transcript", "00417"],
@@ -1121,6 +1135,12 @@ function createWindow() {
             if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.page-comments [data-nav="${memberHome}"]'))`)) {
               throw new Error(`Main case did not lead back into a required member oddity: ${caseUrl}`);
             }
+            const homeCaptureName = {
+              "web://morrow-five.net/home": "phase2-morrow-five-home.png",
+              "web://glasslake-field.gov/home": "phase2-glass-lake-home.png",
+              "web://quiet-county.org/home": "phase2-quiet-county-home.png"
+            }[caseUrl];
+            await capturePhaseTwoPage(homeCaptureName);
           }
 
           const archiveSearched = await win.webContents.executeJavaScript(`(() => { document.querySelector('[data-browser="home"]')?.click(); const form = document.querySelector('.orbit-search-form'); const input = form?.querySelector('input'); if (!form || !input) return false; input.value = 'adaptive index government research'; form.requestSubmit(); return true; })()`);
@@ -1181,6 +1201,24 @@ function createWindow() {
             })()`)) {
               throw new Error(`Main mystery did not hide its surviving fragments inside unexplained corrupted output: ${terminal}`);
             }
+            if (!await win.webContents.executeJavaScript(`(() => {
+              const strip = document.querySelector('.c9-doctored-evidence');
+              const images = Array.from(strip?.querySelectorAll('img') || []);
+              return Boolean(strip) &&
+                images.length === 2 &&
+                images.every((image) => image.complete && image.naturalWidth > 0) &&
+                strip.querySelectorAll('figcaption').length === 2;
+            })()`)) {
+              throw new Error(`Main mystery conclusion did not render its two C9 evidence images: ${terminal}`);
+            }
+            await win.webContents.executeJavaScript(`document.querySelector('.c9-doctored-evidence')?.scrollIntoView({ block: 'start' })`);
+            await wait(180);
+            const conclusionCaptureName = {
+              "morrow_five": "phase2-morrow-five-conclusion.png",
+              "glass_lake": "phase2-glass-lake-conclusion.png",
+              "quiet_county": "phase2-quiet-county-conclusion.png"
+            }[caseId];
+            await capturePhaseTwoPage(conclusionCaptureName);
           }
           saved = await readSave();
           if (saved.storyPhase !== 2 || saved.discoveredMysteries.length !== 3) {

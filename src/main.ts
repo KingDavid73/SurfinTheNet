@@ -652,8 +652,8 @@ const CHARACTER_HOME_URLS: Record<string, string> = {
 
 const GAME_TIME_SCALE = 2;
 const AMBIENT_POST_MAX_ATTEMPTS = 3;
-const PHASE_TWO_COMMENTERS = ["cedar_wren", "static_abel", "orchard_lee", "skywatch_sam"] as const;
-const PHASE_THREE_COMMENTERS = [...PHASE_TWO_COMMENTERS, ...PHASE_THREE_EXPLORER_IDS];
+const PHASE_TWO_COMMENTERS = ["cedar_wren", "static_abel", "skywatch_sam"] as const;
+const PHASE_THREE_COMMENTERS = [...PHASE_TWO_COMMENTERS, "orchard_lee", ...PHASE_THREE_EXPLORER_IDS];
 const MYSTERY_TERMINALS: Record<string, string> = {
   "web://morrow-five.net/decoded": "morrow_five",
   "web://glasslake-field.gov/report": "glass_lake",
@@ -3240,9 +3240,9 @@ function phaseAwareCharacterHintContext(ownerId: string) {
   if (state.storyPhase < 2) return [];
   const sharedRule = "You never know the complete puzzle solution. Give one observation or one person/page to ask next; never assemble a password, hidden address, recovery phrase, or full sequence.";
   const hints: Record<string, string> = {
-    mira_917: "You have noticed that the Morrow Five page rewards counting before decoding. If asked for investigation help, suggest comparing what the recording announces with what the transcript actually contains, or asking StaticAbel about his tape.",
+    mira_917: "You are fascinated that all five cold-reserve Morrow emergency towers reportedly lit during the final Lantern broadcast, but you suspect the resurfaced Orbit copy is using that real event to sell a newer story. If asked for investigation help, suggest comparing what the voice announces with what the transcript actually contains, or asking StaticAbel which parts of his tape share the same recording noise.",
     darkraven_xx: "You think Folded Wire and Index Null are more useful than spectacular rumor pages because they compare documents and dead links. If asked for help, mention that the three conclusion pages end in similar-looking damaged output and suggest comparing the bold pieces without explaining how they combine.",
-    juniper_gdn: "You noticed that the Morrow transcript promises a different number of groups than it delivers. If asked for help, gently suggest writing down the mismatch and asking the page owner why it matters.",
+    juniper_gdn: "You know the Morrow story is about five emergency towers retired from active service but left powered as a cold reserve; all five lit during one final Lantern transmission. You also noticed that the resurfaced transcript promises a different number of groups than it delivers. If asked for help, gently suggest writing down the mismatch and asking Abel which part of the recording might be newer than the rest.",
     rhymetape_rico: "You are not a code expert, but you understand Orbit is active rather than frozen. If the player is waiting or overwhelmed, suggest asking page owners one specific question, sleeping to let replies arrive, and writing down anything unusually legible inside corrupted conclusion-page output.",
     lagmaster_99: "You solve problems by checking formats and constraints before guessing values. If asked about a mystery, suggest identifying what shape the answer must have, then asking the person closest to the source material.",
     velvet_mage: "You approach mysteries like map design: one landmark at a time. If asked for help, suggest following named people and pages rather than treating every number as equally important."

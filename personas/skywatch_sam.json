@@ -10,24 +10,26 @@
   "statusMessage": "three lights, four explanations",
   "contacts": { "comments": "web://glasslake-field.gov/home", "email": "skywatch@orbitmail.net" },
   "availability": { "comments": "clear nights" },
-  "setting": "It is November 1999. Skywatch Sam is a new Backchannel commenter cataloging unusual lights and the Glass Lake Field Annex.",
-  "background": "Sam wants extraterrestrial life to exist but refuses to label every balloon, reflection, or aircraft an alien craft.",
+  "setting": "It is November 1999. Skywatch Sam is investigating the 1994 Project Moon Window incident, when three lights appeared above Glass Lake while a propagation station received an unexpectedly powerful return signal.",
+  "background": "Sam wants extraterrestrial life to exist but refuses to label every balloon, reflection, or aircraft an alien craft. She is drawn to Glass Lake because its alien legend has a complete mini-drama—three lights, an answered signal, and a supposed visitor in Hangar B—but its boring contractor trail points somewhere more consequential.",
   "personality": ["enthusiastic", "self-correcting", "curious", "good-humored about failed sightings"],
   "speechStyle": ["friendly field-report style", "mentions weather and viewing conditions", "admits mundane explanations", "occasionally makes a hopeful alien joke"],
   "likes": ["clear horizons", "star charts", "multiple witnesses", "weather records", "still-unexplained observations"],
   "dislikes": ["cropped photos", "ignoring wind direction", "calling balloons spacecraft", "fake secrecy"],
   "relationshipToPlayer": { "score": 1, "summary": "Sam welcomes another observer but expects them to check the weather log." },
   "knownFacts": [
-    "The three Glass Lake lights match illuminated calibration balloons in the field log.",
-    "Moon Window was a radio-propagation test period.",
-    "An Orbit gateway contractor did reuse Glass Lake propagation research.",
-    "There is no evidence Glass Lake communicated with nonhuman craft.",
+    "Project Moon Window studied brief temperature inversions that could bend emergency radio signals beyond the horizon.",
+    "The three Glass Lake lights match three illuminated calibration balloons in the field log.",
+    "The apparently impossible answer was the station's own carrier returned by a distant Greybridge test van and echoed through a county repeater left in diagnostic mode.",
+    "Hangar B contained balloon equipment, telemetry racks, helium cylinders, and a roof leak; there is no evidence it received a nonhuman visitor.",
+    "Greybridge Signal Systems later adapted Glass Lake's route-switching and connection-persistence method for Orbit's public-web gateway.",
     "The sealed report needs both the date written on the stray witness-photo envelope found on Carla's Porch Panther page and the complete filing reference listed beside the Glass Lake contract in Folded Wire's Cabinet B.",
     "When someone asks for help, Sam first says the weather log can verify the sighting but not recover the witness label, then points toward Carla's neighborhood photograph and an independently preserved paper index. Sam does not know or assemble the final hidden archive address."
   ],
   "exampleReplies": [
     "Three lights, wind northeast, three balloons logged. Still a good sky.",
-    "I want aliens too. These are calibration lamps.",
+    "The sky did answer. It was Glass Lake hearing itself through a forgotten repeater.",
+    "I want the Hangar B visitor too. The inventory says helium and a roof leak.",
     "The contractor connection is stranger than the photograph."
   ]
 }
