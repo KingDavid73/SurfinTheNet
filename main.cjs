@@ -1389,8 +1389,8 @@ function createWindow() {
             ["web://archivewatch.press/goodbye", ["3/3", "LINE"]]
           ]);
           const expectedMethodRouteFragments = new Map([
-            ["web://bytestreet.press/94/orbit", ["1/2", "web://archive.orbitnet.local"]],
-            ["web://futura.library/kiosk", ["2/2", "/labs/method"]]
+            ["web://bytestreet.press/94/orbit", ["CONTINUITY HOST NAME", "legacy.orbitos.local"]],
+            ["web://futura.library/kiosk", ["ARCHIVE LAB PATH", "/labs/method"]]
           ]);
           let phaseThreeArchiveTrack = null;
           for (const legacyUrl of legacyFragmentUrls) {
