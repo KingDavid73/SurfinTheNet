@@ -343,12 +343,12 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
         </section>
         <section class="raven-final-lock">
           <small>FINAL_THEORY.HTM // SECOND LOCK</small>
-          <h2>I split the conclusion from the evidence.</h2>
-          <p>Mira cataloged a caller asking for <b>“the lower room.”</b> The old Orbit pages name the two-word machine that monitored the network from down there.</p>
-          <p class="raven-lock-note">PASSWORD = that machine's official two-word name. Spaces do not matter.</p>
+          <h2>I need to know you understand all of this before I show you the REAL truth!</h2>
+          <p>Do not just skim my evidence and guess. Follow the recovered bookmark. Check what Night Signal lost. Figure out what was waiting in <b>“the lower room.”</b></p>
+          <p class="raven-lock-note">If you really followed the trail, you already know what belongs here.</p>
           ${state.flags.darkraven_conclusion_unlocked
             ? `<button data-nav="${RAVEN_CONCLUSION_URL}">READ DECRYPTED FINAL THEORY</button>`
-            : `<form data-darkraven-conclusion><label>FINAL FILE PASSWORD <input name="password" type="text" autocomplete="off" placeholder="two words"></label><button>DECRYPT</button></form>
+            : `<form data-darkraven-conclusion><label>PROVE YOU UNDERSTAND <input name="password" type="text" autocomplete="off"></label><button>DECRYPT</button></form>
                <p class="story-form-error" data-story-error="raven-conclusion"></p>`}
         </section>
         <aside><b>RAVEN'S NOTE:</b> 11:17 is when the events repeat. It is not another password. Stop trying every number on the page.</aside>

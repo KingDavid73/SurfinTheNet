@@ -3562,7 +3562,7 @@ function bindEvents() {
     const form = event.currentTarget as HTMLFormElement;
     const password = String(new FormData(form).get("password") ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
     if (password !== "continuityhost") {
-      storyFormErrors.set("raven-conclusion", "FINAL FILE LOCKED // identify the two-word machine in the lower room");
+      storyFormErrors.set("raven-conclusion", "FINAL FILE LOCKED // You skimmed. Read the evidence and follow the trail.");
       render();
       return;
     }
