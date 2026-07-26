@@ -110,16 +110,26 @@ Reading and then leaving Raven's final conclusion:
   weakly evidenced theory;
 - adds the authored `ghostline` message, Mira's orientation message, and
   DarkRaven's annoyed complaint that the player shared his private file;
+- delivers a cheerful OrbitNet Services email celebrating the traffic increase;
 - permits ambient page comments during the four-day gap but does not queue
   random private messages while the player is absent;
 - makes one or two other main characters reach out after the first post-return
-  hour. A character the player has not contacted introduces themselves without
-  naming or solving a mystery. A prior contact instead continues the
-  conversation by asking what the player has found or where they are stuck;
+  hour through OIM. These unsolicited messages are restricted to genuine main
+  characters and use authored first-contact introductions or neutral check-ins,
+  so persona trivia cannot accidentally become a premature puzzle hint;
+- keeps synthetic rumor distribution public. In phase two, `ghostline` posts
+  those leads under its own name rather than impersonating established users;
 - restores The Folded Wire and Index Null to the Backchannel directory;
 - activates additional ambient commenters;
 - makes the three synthetic headline mysteries available while keeping the
   genuine government archive out of search and the directory.
+
+In phase three, identity impersonation begins in public comments only. Slightly
+corrupted versions of familiar screen names increasingly urge the player to
+leave unstable archives alone or visit harmless music, games, pets, and cozy
+pages instead. OrbitNet Services also sends a more anxious maintenance email
+signed by Continuity Services / Node C9. Character email is otherwise reserved
+for player-initiated correspondence and future authored rewards or Easter eggs.
 
 The synthetic mysteries are:
 

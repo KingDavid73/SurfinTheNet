@@ -15,7 +15,7 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 11,
+  version: 12,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -915,6 +915,11 @@ function createWindow() {
           if (
             !saved.directMessages.some((message) => message.id === "phase2-mira-investigation") ||
             !saved.directMessages.some((message) => message.id === "phase2-raven-private-file") ||
+            !saved.directMessages.some((message) =>
+              message.id === "phase2-orbit-traffic-email" &&
+              message.channel === "email" &&
+              message.ownerId === "orbit_guide"
+            ) ||
             saved.directMessages.some((message) => message.id === "phase2-raven-investigation" || message.id === "phase2-juniper-notes") ||
             saved.ambientPostQueue.some((job) => job.surface === "aim" || job.surface === "email")
           ) {
@@ -1211,7 +1216,17 @@ function createWindow() {
           if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-3'))`)) {
             throw new Error(`Phase three did not force an overnight sleep: ${saved.gameTime}`);
           }
-          if (!saved.directMessages.some((message) => message.id === "ghostline-phase3") || !["phase3-leak-toni", "phase3-leak-raven", "phase3-leak-null"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
+          if (
+            !saved.directMessages.some((message) => message.id === "ghostline-phase3") ||
+            !saved.directMessages.some((message) =>
+              message.id === "phase3-orbit-continuity-email" &&
+              message.channel === "email" &&
+              message.ownerId === "orbit_guide" &&
+              message.text.includes("Node C9")
+            ) ||
+            saved.directMessages.some((message) => ["phase3-faxmoth-archive", "phase3-cedar-context", "phase3-static-correction"].includes(message.id)) ||
+            !["phase3-leak-toni", "phase3-leak-raven", "phase3-leak-null"].every((id) => saved.pageComments.some((comment) => comment.id === id))
+          ) {
             throw new Error("Phase-three authored pressure messages were incomplete");
           }
           await capture("story-phase3-overnight.png");
@@ -1315,10 +1330,14 @@ function createWindow() {
           saved = await readSave();
           const legacyTrailCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_legacy_") && saved.flags[key]).length;
           const rumorFlagCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_rumor_") && saved.flags[key]).length;
-          const phaseThreeAim = saved.directMessages.find((message) => String(message.id).startsWith("system-hint-orphan_") && message.channel === "aim");
-          const orphanHint = [...saved.directMessages, ...saved.pageComments].find((message) => String(message.text).includes("planetarium"));
-          if (legacyTrailCount < 4 || rumorFlagCount < 4 || !phaseThreeAim || phaseThreeAim.author === "Mira_917" || !orphanHint) {
-            throw new Error(`Phase-three dormant/desperate/orphan hints were incomplete: ${JSON.stringify({ legacyTrailCount, rumorFlagCount, phaseThreeAim, orphanHint })}`);
+          const distractionFlagCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_distraction_") && saved.flags[key]).length;
+          const privateSystemHint = saved.directMessages.find((message) => String(message.id).startsWith("system-hint-"));
+          const distractionComment = saved.pageComments.find((message) =>
+            String(message.id).startsWith("system-distraction-") &&
+            /back off|leave it alone|stop feeding|less likely|more fun/i.test(String(message.text))
+          );
+          if (legacyTrailCount < 4 || distractionFlagCount < 3 || privateSystemHint || !distractionComment) {
+            throw new Error(`Phase-three dormant/distraction behavior was incomplete: ${JSON.stringify({ legacyTrailCount, rumorFlagCount, distractionFlagCount, privateSystemHint, distractionComment })}`);
           }
 
           await address("web://legacy.orbitos.local/admin/continuity");

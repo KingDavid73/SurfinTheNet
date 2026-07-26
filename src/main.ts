@@ -27,7 +27,7 @@ import {
   PHASE_THREE_EXPLORER_OWNERS
 } from "./phase-three-personas";
 import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack, StoryPhase } from "./types";
-import { ambientActivityFor } from "./character-tiers";
+import { ambientActivityFor, MAIN_CHARACTER_IDS } from "./character-tiers";
 import { finalizeConversationQuestReply, phaseOneConversationQuest } from "./conversation-quests";
 import { deliveryIsAvailable, personaActiveHoursLabel, personaIsActiveAt, scheduleReplyAt } from "./reply-scheduling";
 
@@ -382,7 +382,7 @@ const MIRA_WELCOME_TEXT = [
 ].join("\n");
 
 const DEFAULT_STATE: GameState = {
-  version: 11,
+  version: 12,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -817,9 +817,42 @@ function normalizeState(loaded: Partial<GameState>): GameState {
   ) {
     normalizedFlags.phase_two_intro_outreach_pending = true;
   }
-  const normalizedDirectMessages = Array.isArray(loaded.directMessages)
+  let normalizedDirectMessages = Array.isArray(loaded.directMessages)
     ? loaded.directMessages.map((message) => message.id === "mira-welcome-1999" ? { ...message, text: MIRA_WELCOME_TEXT } : message)
     : [];
+  let normalizedAmbientPostQueue = Array.isArray(loaded.ambientPostQueue) ? [...loaded.ambientPostQueue] : [];
+  if (Number(loaded.version ?? 0) < 12) {
+    const obsoletePhaseMailIds = new Set([
+      "phase3-faxmoth-archive",
+      "phase3-cedar-context",
+      "phase3-static-correction"
+    ]);
+    const playerPrivateContacts = new Set(normalizedDirectMessages
+      .filter((message) => message.role === "player" && (message.channel === "aim" || message.channel === "email"))
+      .map((message) => `${message.channel}:${message.ownerId}`));
+    normalizedDirectMessages = normalizedDirectMessages.filter((message) => {
+      if (obsoletePhaseMailIds.has(message.id)) return false;
+      if (message.id.startsWith("system-hint-") && (message.channel === "aim" || message.channel === "email")) {
+        const rumorId = [
+          ...SYSTEM_RUMORS.map((rumor) => rumor.id),
+          ...ORPHAN_RUMORS.map((_, index) => `orphan_${index + 1}`)
+        ].find((candidate) => message.id.startsWith(`system-hint-${candidate}-`));
+        if (rumorId) delete normalizedFlags[`system_rumor_${rumorId}`];
+        return false;
+      }
+      const looksAmbientGenerated = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(message.id);
+      const isUnansweredUnsolicitedPrivateMessage =
+        message.role === "owner" &&
+        (message.channel === "aim" || message.channel === "email") &&
+        looksAmbientGenerated &&
+        !playerPrivateContacts.has(`${message.channel}:${message.ownerId}`);
+      return !isUnansweredUnsolicitedPrivateMessage;
+    });
+    normalizedAmbientPostQueue = normalizedAmbientPostQueue.filter((job) =>
+      job.surface !== "email" &&
+      (job.surface !== "aim" || MAIN_AMBIENT_OIM_IDS.has(job.personaId))
+    );
+  }
   const normalizedPageComments = Array.isArray(loaded.pageComments) ? [...loaded.pageComments] : [];
   if (Number(loaded.version ?? 0) < 11 && storyPhase >= 3) {
     const recoveryTrailTargets = [
@@ -865,7 +898,7 @@ function normalizeState(loaded: Partial<GameState>): GameState {
       : [],
     settings: { ...DEFAULT_STATE.settings, ...(loaded.settings ?? {}) },
     pageComments: normalizedPageComments,
-    ambientPostQueue: Array.isArray(loaded.ambientPostQueue) ? loaded.ambientPostQueue : [],
+    ambientPostQueue: normalizedAmbientPostQueue,
     pageVisitCounts: { ...DEFAULT_STATE.pageVisitCounts, ...(loaded.pageVisitCounts ?? {}) },
     guestbookEntries: { ...(loaded.guestbookEntries ?? {}) },
     directMessages: normalizedDirectMessages,
@@ -991,15 +1024,36 @@ function ambientPostingPersonaIds() {
     );
 }
 
-const MAIN_PRIVATE_ACTIVITY: Record<string, "aim" | "email"> = {
-  mira_917: "aim",
-  darkraven_xx: "aim",
-  juniper_gdn: "email",
-  lagmaster_99: "aim",
-  velvet_mage: "aim",
-  rhymetape_rico: "aim",
-  faxmoth_13: "email"
+const MAIN_AMBIENT_OIM_IDS = new Set<string>(
+  MAIN_CHARACTER_IDS.filter((personaId) => personaId !== "system_core")
+);
+
+const AMBIENT_PRIVATE_INTRODUCTIONS: Record<string, string> = {
+  mira_917: "hey, Mira here. I heard your name was attached to the Raven mess, so I figured I should say hi properly. write back if you want another set of eyes on anything weird.",
+  darkraven_xx: "xX_DarkRaven_Xx here. apparently you are one of the people actually looking instead of laughing and leaving. message me if you find something that does not fit.",
+  juniper_gdn: "Hi! I'm Juniper from Rainbow Garden. Your name keeps turning up around the newly busy parts of Orbit, so I wanted to introduce myself. Feel free to say hello—or ask if you need help finding your way around.",
+  lagmaster_99: "hey, LagMaster_99 here. people said you were the one who kicked off this whole return-to-Orbit thing. figured I'd introduce myself before everybody starts acting like we already know each other.",
+  faxmoth_13: "FaxMoth_13 here. I keep the paper archive in Backchannel. Since your discovery brought people through the door, I thought I should introduce myself; send a specific question if you want help separating a document from the story around it.",
+  rhymetape_rico: "yo, RhymeTape_Rico here. I mostly chase strange music and stranger little pages, but your name is all over this new wave of traffic. thought I'd say hello before the whole place gets even louder."
 };
+
+const AMBIENT_PRIVATE_CHECK_INS: Record<string, readonly string[]> = {
+  mira_917: ["find anything interesting yet, or just ten new ways to get lost?", "how's the search going? anything you want another set of eyes on?"],
+  darkraven_xx: ["so. find anything that actually proves me wrong yet?", "checking in. did you find something useful, or just more people making fun of the dream aliens?"],
+  juniper_gdn: ["How is everything going? Find anything interesting—or somewhere peaceful, at least?", "Just checking in. Are you making progress, or would another person help?"],
+  lagmaster_99: ["how's the hunt going? find anything good or are you as stuck as everybody else?", "checking in. you make progress, or just collect more suspicious numbers?"],
+  faxmoth_13: ["Checking in: did you find a document worth comparing, or only another exciting headline?", "Any progress? Send one specific source if you want a second opinion."],
+  rhymetape_rico: ["you find anything worth hearing—or solving—since we last talked?", "checking in. any progress, or did the page music send you down another side road?"]
+};
+
+function ambientPrivateOutreachText(personaId: string, mode: "introduction" | "follow-up") {
+  if (mode === "introduction") {
+    return AMBIENT_PRIVATE_INTRODUCTIONS[personaId] ??
+      `Hi, ${PAGE_OWNERS[personaId]?.screenName ?? personaId} here. I saw your name around Orbit and wanted to introduce myself. Write back if you feel like comparing notes.`;
+  }
+  const options = AMBIENT_PRIVATE_CHECK_INS[personaId] ?? ["How is the search going? Find anything interesting, or are you as stuck as everybody else?"];
+  return options[Math.floor(Math.random() * options.length)] ?? options[0];
+}
 
 const AMBIENT_INVESTIGATION_URLS = [
   "web://foldedwire.net/home",
@@ -1048,7 +1102,7 @@ function queuePhaseTwoReturnOutreach(createdAt: string) {
   state.flags.phase_two_intro_outreach_pending = false;
   state.flags.phase_two_intro_outreach_queued = true;
 
-  const candidates = Object.keys(MAIN_PRIVATE_ACTIVITY)
+  const candidates = [...MAIN_AMBIENT_OIM_IDS]
     .filter((personaId) =>
       personaId !== "mira_917" &&
       (playerHasTalkedTo(personaId) || !characterHasPrivateHistory(personaId))
@@ -1068,7 +1122,7 @@ function queuePhaseTwoReturnOutreach(createdAt: string) {
       pageUrl: page.url,
       createdAt,
       attempts: 0,
-      surface: MAIN_PRIVATE_ACTIVITY[personaId],
+      surface: "aim",
       privateOutreachMode: playerHasTalkedTo(personaId) ? "follow-up" : "introduction"
     });
   }
@@ -1093,8 +1147,11 @@ function queueAmbientPostRolls(hoursElapsed: number, createdAt: string, allowPri
       Math.min(0.85, maximumChance * activity.capMultiplier)
     );
     if (Math.random() >= chance) continue;
-    const privateSurface = state.storyPhase >= 2 && allowPrivateOutreach && !phaseTwoReturnContacts.has(personaId)
-      ? MAIN_PRIVATE_ACTIVITY[personaId]
+    const privateSurface = state.storyPhase >= 2 &&
+      allowPrivateOutreach &&
+      !phaseTwoReturnContacts.has(personaId) &&
+      MAIN_AMBIENT_OIM_IDS.has(personaId)
+      ? "aim"
       : undefined;
     const privateChance = state.storyPhase === 3 ? 0.58 : 0.42;
     let surface: AmbientPostJob["surface"] = privateSurface && Math.random() < privateChance ? privateSurface : "comment";
@@ -1137,8 +1194,15 @@ const RUMOR_PUBLIC_IMPERSONATORS = [
   "darkraven_xx",
   "mira_917"
 ] as const;
-const RUMOR_AIM_IMPERSONATORS = ["mira_917", "darkraven_xx", "ghostline"] as const;
-const RUMOR_EMAIL_IMPERSONATORS = ["juniper_gdn"] as const;
+
+const PHASE_THREE_DISTRACTION_COMMENTS = [
+  "Everybody is staring at broken archive routes while the SoundWave pages are exploding. Maybe back off the dead-server stuff and listen to something made by an actual person.",
+  "Those retired system pages are unstable and probably meaningless. The Byte Barn cover exchange is a lot more fun than digging through old maintenance records.",
+  "Friendly advice: stop feeding the conspiracy boards for a while. GameGrid has new rankings and nobody there asks you to decode a fax header.",
+  "Backchannel is turning every typo into evidence. Pet Planet has cats, dogs, and zero continuity-node passwords. Strong recommendation.",
+  "The deep archive keeps corrupting names and timestamps. Maybe leave it alone until maintenance is finished and check out the new music pages instead.",
+  "Not every missing page is a secret. Some are just missing. Cozy Commons is still online and considerably less likely to ruin your evening."
+] as const;
 
 function systemHintFlags(prefix: string) {
   return Object.keys(state.flags).filter((key) => key.startsWith(prefix) && state.flags[key]);
@@ -1167,7 +1231,13 @@ function borrowedScreenName(ownerId: string, phase: StoryPhase) {
   return changed.join("");
 }
 
-function addSystemHintComment(text: string, authorOwnerId: string, createdAt: string, hintId: string) {
+function addSystemHintComment(
+  text: string,
+  authorOwnerId: string,
+  createdAt: string,
+  hintId: string,
+  impersonating = state.storyPhase >= 3
+) {
   const targets = ambientCommentHomepages().filter((page) => page.ownerId !== authorOwnerId);
   const page = targets[Math.floor(Math.random() * targets.length)] ?? targets[0];
   if (!page) return false;
@@ -1176,7 +1246,9 @@ function addSystemHintComment(text: string, authorOwnerId: string, createdAt: st
     pageUrl: page.url,
     ownerId: authorOwnerId,
     role: "visitor",
-    author: borrowedScreenName(authorOwnerId, state.storyPhase),
+    author: impersonating
+      ? borrowedScreenName(authorOwnerId, state.storyPhase)
+      : PAGE_OWNERS[authorOwnerId]?.screenName ?? authorOwnerId,
     text,
     createdAt,
     revealAfterVisit: (state.pageVisitCounts[page.url] ?? 0) + 1
@@ -1184,18 +1256,19 @@ function addSystemHintComment(text: string, authorOwnerId: string, createdAt: st
   return true;
 }
 
-function addSystemHintDirectMessage(text: string, channel: "aim" | "email", createdAt: string, hintId: string) {
-  const candidates = channel === "aim" ? RUMOR_AIM_IMPERSONATORS : RUMOR_EMAIL_IMPERSONATORS;
-  const ownerId = candidates[Math.floor(Math.random() * candidates.length)] ?? candidates[0];
-  state.directMessages.push({
-    id: `system-hint-${hintId}-${crypto.randomUUID()}`,
-    ownerId,
-    channel,
-    role: "owner",
-    author: borrowedScreenName(ownerId, state.storyPhase),
+function addPhaseThreeDistractionComment(text: string, createdAt: string, hintId: string, authorOwnerId: string) {
+  const investigationTargets = ambientInvestigationPages().filter((page) => page.commentsEnabled);
+  const page = investigationTargets[Math.floor(Math.random() * investigationTargets.length)] ?? investigationTargets[0];
+  if (!page) return addSystemHintComment(text, authorOwnerId, createdAt, hintId, true);
+  state.pageComments.push({
+    id: `system-distraction-${hintId}-${crypto.randomUUID()}`,
+    pageUrl: page.url,
+    ownerId: authorOwnerId,
+    role: "visitor",
+    author: borrowedScreenName(authorOwnerId, 3),
     text,
-    subject: channel === "email" ? "you should look at this before it moves" : undefined,
-    createdAt
+    createdAt,
+    revealAfterVisit: (state.pageVisitCounts[page.url] ?? 0) + 1
   });
   return true;
 }
@@ -1249,6 +1322,24 @@ function seedDormantLegacyTrailComments(hoursElapsed: number, createdAt: string)
 }
 
 function seedOneSystemRumorHint(createdAt: string) {
+  if (state.storyPhase === 3) {
+    const unusedDistractions = PHASE_THREE_DISTRACTION_COMMENTS
+      .map((text, index) => ({ id: `backoff_${index + 1}`, text }))
+      .filter((entry) => !state.flags[`system_distraction_${entry.id}`]);
+    if (unusedDistractions.length && Math.random() < 0.72) {
+      const selectedDistraction = unusedDistractions[Math.floor(Math.random() * unusedDistractions.length)];
+      const publishedCount = systemHintFlags("system_distraction_").length;
+      const added = addPhaseThreeDistractionComment(
+        selectedDistraction.text,
+        createdAt,
+        selectedDistraction.id,
+        RUMOR_PUBLIC_IMPERSONATORS[publishedCount % RUMOR_PUBLIC_IMPERSONATORS.length]
+      );
+      if (added) state.flags[`system_distraction_${selectedDistraction.id}`] = true;
+      return added;
+    }
+  }
+
   const unusedRumors = SYSTEM_RUMORS.filter((rumor) => !state.flags[`system_rumor_${rumor.id}`]);
   const unusedOrphans = ORPHAN_RUMORS
     .map((text, index) => ({ id: `orphan_${index + 1}`, text }))
@@ -1263,10 +1354,16 @@ function seedOneSystemRumorHint(createdAt: string) {
     ? state.storyPhase === 3 ? selected.desperateHint : selected.hint
     : selected.text;
   const publishedCount = systemHintFlags("system_rumor_").length;
-  const surface = publishedCount % 3;
-  const added = surface === 0
-    ? addSystemHintComment(text, RUMOR_PUBLIC_IMPERSONATORS[publishedCount % RUMOR_PUBLIC_IMPERSONATORS.length], createdAt, selected.id)
-    : addSystemHintDirectMessage(text, surface === 1 ? "aim" : "email", createdAt, selected.id);
+  const authorOwnerId = state.storyPhase === 2
+    ? "ghostline"
+    : RUMOR_PUBLIC_IMPERSONATORS[publishedCount % RUMOR_PUBLIC_IMPERSONATORS.length];
+  const added = addSystemHintComment(
+    text,
+    authorOwnerId,
+    createdAt,
+    selected.id,
+    state.storyPhase >= 3
+  );
   if (added) state.flags[`system_rumor_${selected.id}`] = true;
   return added;
 }
@@ -1317,27 +1414,22 @@ async function processAmbientPostQueue() {
         const existingComments = [...authoredPageComments(page), ...state.pageComments]
           .filter((comment) => comment.pageUrl === page.url)
           .map((comment) => ({ role: comment.role, author: comment.author, text: comment.text }));
-        const result = await window.aiAPI.ambientComment({
-          personaId: job.personaId,
-          pageOwnerId: page.ownerId,
-          pageUrl: page.url,
-          pageTitle: page.title,
-          pageSummary: page.summary,
-          pageContext: extractAmbientPageContext(page),
-          existingComments,
-          storyPhase: state.storyPhase,
-          deliverySurface: surface,
-          privateOutreachMode: outreachMode,
-          recentDirectMessages: surface === "comment"
-            ? undefined
-            : state.directMessages
-                .filter((message) =>
-                  message.ownerId === job.personaId &&
-                  (message.channel === "aim" || message.channel === "email")
-                )
-                .slice(-8)
-                .map((message) => ({ role: message.role, author: message.author, text: message.text }))
-        });
+        const result = surface === "comment"
+          ? await window.aiAPI.ambientComment({
+              personaId: job.personaId,
+              pageOwnerId: page.ownerId,
+              pageUrl: page.url,
+              pageTitle: page.title,
+              pageSummary: page.summary,
+              pageContext: extractAmbientPageContext(page),
+              existingComments,
+              storyPhase: state.storyPhase,
+              deliverySurface: surface
+            })
+          : {
+              author: PAGE_OWNERS[job.personaId] ?? { screenName: job.personaId, displayName: job.personaId },
+              text: ambientPrivateOutreachText(job.personaId, outreachMode ?? "introduction")
+            };
         if (surface === "comment") {
           state.pageComments.push({
             id: crypto.randomUUID(),
@@ -1544,6 +1636,14 @@ function addAuthoredDirectMessage(id: string, ownerId: string, author: string, t
 function addPhaseInvestigationMessages(phase: 2 | 3) {
   if (phase === 2) {
     addAuthoredDirectMessage(
+      "phase2-orbit-traffic-email",
+      "orbit_guide",
+      "OrbitNet Services",
+      "Good news! Orbit has recorded its largest traffic increase in years. Restored pages are returning to the public catalog, new members are arriving, and community activity is climbing. Thank you for helping make this little neighborhood feel lively again.",
+      "email",
+      "Orbit activity is growing!"
+    );
+    addAuthoredDirectMessage(
       "phase2-mira-investigation",
       "mira_917",
       "Mira_917",
@@ -1558,28 +1658,12 @@ function addPhaseInvestigationMessages(phase: 2 | 3) {
     return;
   }
   addAuthoredDirectMessage(
-    "phase3-faxmoth-archive",
-    "faxmoth_13",
-    "FaxMoth_13",
-    "Traffic is rearranging the directory faster than people can cite it. Save local copies of the recovered pages and keep the source address in each file. A surviving document is more useful than a dramatic memory of one.",
+    "phase3-orbit-continuity-email",
+    "orbit_guide",
+    "OrbitNet Services",
+    "Orbit is experiencing unprecedented traffic and intermittent archive errors. We appreciate every new face, but please enjoy the public community areas and avoid probing retired service routes while maintenance is underway. Digging through unstable system records may cause pages—or accounts—to display incorrectly.\n\nThank you for keeping Orbit friendly and online.\nContinuity Services // Node C9",
     "email",
-    "Keep local copies"
-  );
-  addAuthoredDirectMessage(
-    "phase3-cedar-context",
-    "cedar_wren",
-    "CedarWren",
-    "Some of the new rumors are fabricated, but that does not make every attached record false. If you send me a specific claim, I can help separate what the document shows from what the headline says.",
-    "email",
-    "Evidence versus the story around it"
-  );
-  addAuthoredDirectMessage(
-    "phase3-static-correction",
-    "static_abel",
-    "StaticAbel",
-    "I am keeping a correction log as copies move around. Counts, timestamps, and file footers first; attribution last. Forward a specific discrepancy if you want a second receiver on it.",
-    "email",
-    "Correction log open"
+    "A note about archive stability"
   );
 }
 
