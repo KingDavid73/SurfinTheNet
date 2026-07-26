@@ -59,6 +59,15 @@ four-digit password derived from Juniper's June 14 birthday. Recovery paths:
 
 The model may hint at those authored facts but cannot invent or change the code.
 
+Inside the opened file, Raven combines several observations that are much
+closer to the truth than his reputation suggests: Morrow groups can function as
+network addresses, Glass Lake routing research did reach Orbit, and Orbit
+machines exchange traffic without a user initiating every session. He then
+draws the outlandish conclusion that Orbit is a civilian relay for a federal
+number-station Internet called Project Moon Window, with a six-percent alien
+contingency. The later story corrects the actor and purpose without making his
+underlying pattern recognition entirely wrong.
+
 ### Phase 2 — active exploration
 
 Opening the Black File:
@@ -97,13 +106,19 @@ The theories remain amusing dead ends on their own, but collectively teach the
 player to compare repeated number groups, physical labels, timestamps,
 photocopy defects, and print-driver footers.
 
-Each headline conclusion contributes one part of an explicit address:
+Each headline conclusion ends with a couple lines of malformed Unicode output.
+The page does not call this a reward, identify a destination, or label the
+fragments by role. Two values remain conspicuously bold and legible inside each
+corrupted block. Three of those values happen to have the shapes of successive
+URL components:
 
 - Morrow Five: `web://archive`
 - Glass Lake: `orbitnet.local`
 - Quiet County: `/labs/home`
 
-Together they form `web://archive.orbitnet.local/labs/home`. The route is
+Together they form `web://archive.orbitnet.local/labs/home`. The player must
+recognize the protocol/host, domain, and path formats rather than being told
+what to do with them. The route is
 unlisted and excluded from lexical and semantic search. Guessing it early
 produces an incomplete-route gate; the archive content and its phase trigger do
 not become available until all three headline cases have been visited.

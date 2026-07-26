@@ -316,7 +316,7 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
     title: "DarkRaven's Black File",
     site: "raven",
     ownerId: "darkraven_xx",
-    summary: "DarkRaven's password-protected first case archive contains homemade hacker theatrics, unsupported conspiracies, and one useful old Orbit address.",
+    summary: "DarkRaven's password-protected first case archive combines several genuine anomalies into an almost-correct mechanism and a wildly incorrect master theory.",
     searchable: false,
     listed: false,
     render: (state) => state.flags.darkraven_vault_unlocked ? `
@@ -327,6 +327,13 @@ DIRECTIVE:       KEEP COMMUNITY ACTIVE</pre>
           <article><b>THEORY B</b><h2>PROJECT MOON WINDOW</h2><p>A weather station beside Glass Lake is secretly receiving instructions from lights above the cloud layer.</p><em>proof status: a fax with a coffee stain</em></article>
           <article><b>THEORY C</b><h2>THE MORROW FIVE</h2><p>Five-number radio groups are not coordinates. They are addresses. I have not worked out addresses to what.</p><em>proof status: eleven copied groups</em></article>
           <article><b>RECOVERED BOOKMARK</b><h2>OLD ORBITOS INFO CENTER</h2><p>This was in a 1996 cache export. The modern directory has no record of it.</p><code>${LEGACY_HOME}</code><button data-nav="${LEGACY_HOME}">OPEN OLD ADDRESS</button></article>
+        </section>
+        <section class="raven-master-theory">
+          <small>THE MASTER THEORY // CONNECT THE DOTS THEY LEFT BEHIND</small>
+          <h2>ORBIT IS A CIVILIAN RELAY FOR PROJECT MOON WINDOW</h2>
+          <p>The Morrow groups are network addresses. Glass Lake broadcasts instructions to them. The hidden speaker in every Orbit modem listens, answers, and turns ordinary home computers into one giant federal number-station array.</p>
+          <b>CONCLUSION: somebody built a secret government Internet underneath the regular Internet, and Orbit users are carrying its messages without knowing it.</b>
+          <em>Confidence: 94%. Remaining 6% reserved for aliens.</em>
         </section>
         <aside>There is more than one “government.” There is federal, county, corporate, school-board, phone-company, and whoever maintains the vending machine in the lower operations room.</aside>
         <button data-nav="web://raven.web/home">&lt; EXIT BLACK FILE</button>
@@ -514,10 +521,10 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
         <p><code>00417</code>, <code>09170</code>, and <code>23117</code> correspond to modern Orbit directory object IDs created after the cassette's stated recording date. The audio footer identifies Orbit Bridge 4.7.</p>
         <p>The base recording may be a genuine shortwave intercept. Somebody inserted current page IDs, removed one announced group, and framed it as a federal activation code.</p>
         <aside><b>TRUE FRAGMENT:</b> OrbitNet can generate or edit a stream in response to its own directory.<br><b>FALSE HEADLINE:</b> the groups activate secret facilities.</aside>
-        <footer class="puzzle-notebook-footer">
-          <span>HIDDEN ARCHIVE ROUTE // HOST: <strong class="carry-forward-clue">web://archive</strong></span>
-          <span>OLDER CONTINUITY RECOVERY WORD: <strong class="carry-forward-clue">STAY</strong></span>
-          <small>NOTEBOOK ITEMS ARE SHOWN IN BOLD</small>
+        <footer class="puzzle-notebook-footer corrupt-trailing-data">
+          <small>TRAILING DATA // PARSE FAILURE</small>
+          <code>⍉▒ 7f:19 :: ΞΞ⟦<strong class="carry-forward-clue">web://archive</strong>⟧ :: 0x?? ╫ æ9</code>
+          <code>░ c9//æ·04 ⌁⟦<strong class="carry-forward-clue">STAY</strong>⟧⌁ ßß 001101? ▓</code>
         </footer>
       </main>` : `
       <main class="page morrow-page case-lock-page">
@@ -586,10 +593,10 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
         <p>The lights were logged calibration balloons. “Moon Window” was a radio-propagation test window, not a contact event. The sensational fax added handwritten spacecraft notes years later.</p>
         <p>The genuine contract appendix does show that the same regional contractor later advised Orbit's public-web gateway on proxy routing and connection persistence.</p>
         <aside><b>TRUE FRAGMENT:</b> an Orbit contractor reused atmospheric routing research.<br><b>FALSE HEADLINE:</b> Glass Lake communicates with nonhuman craft.</aside>
-        <footer class="puzzle-notebook-footer">
-          <span>HIDDEN ARCHIVE ROUTE // NETWORK: <strong class="carry-forward-clue">orbitnet.local</strong></span>
-          <span>OLDER CONTINUITY RECOVERY WORD: <strong class="carry-forward-clue">ON</strong></span>
-          <small>NOTEBOOK ITEMS ARE SHOWN IN BOLD</small>
+        <footer class="puzzle-notebook-footer corrupt-trailing-data">
+          <small>TRAILING DATA // PARSE FAILURE</small>
+          <code>⌁ GL-14 :: øø⟦<strong class="carry-forward-clue">orbitnet.local</strong>⟧ :: ψ/rte ╫ 9?</code>
+          <code>▒ persist·b06 ⍉⟦<strong class="carry-forward-clue">ON</strong>⟧⍉ 11:11:-- ææ ░</code>
         </footer>
       </main>` : `
       <main class="page glasslake-page case-lock-page">
@@ -657,10 +664,10 @@ END. END.</pre><p>The speaker announces twelve. Only eleven groups survive. Grou
         <p>The university archive contains meeting transcripts, survey cards, and an ethics complaint about observing residents without meaningful notice. It contains no anonymous-letter operation.</p>
         <p>The dramatic letters were printed recently through Orbit Bridge, then aged and scanned from one physical sheet. They imitate documented influence tactics without proving this county used them.</p>
         <aside><b>TRUE FRAGMENT:</b> residents were treated as behavioral data without adequate consent.<br><b>FALSE HEADLINE:</b> a county “deep state” manufactured the disputes.</aside>
-        <footer class="puzzle-notebook-footer">
-          <span>HIDDEN ARCHIVE ROUTE // DIRECTORY: <strong class="carry-forward-clue">/labs/home</strong></span>
-          <span>OLDER CONTINUITY RECOVERY WORD: <strong class="carry-forward-clue">LINE</strong></span>
-          <small>NOTEBOOK ITEMS ARE SHOWN IN BOLD</small>
+        <footer class="puzzle-notebook-footer corrupt-trailing-data">
+          <small>TRAILING DATA // PARSE FAILURE</small>
+          <code>▓ qp/3.2 :: λλ⟦<strong class="carry-forward-clue">/labs/home</strong>⟧ :: null?? ╫ 00</code>
+          <code>░ trestle·echo ⌁⟦<strong class="carry-forward-clue">LINE</strong>⟧⌁ ø checksum æ ▒</code>
         </footer>
       </main>` : `
       <main class="page quietcounty-page case-lock-page">

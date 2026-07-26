@@ -136,6 +136,7 @@
       ],
       "optionalDiscoveries": [
         "The old OrbitOS archive address can be learned inside the Black File after it opens.",
+        "DarkRaven is close about the mechanism but wrong about the actor and purpose: number groups can represent network addresses, Glass Lake routing work did touch Orbit, and Orbit systems do exchange autonomous traffic, but there is no federal number-station array or alien Moon Window command network.",
         "Night Signal, Juniper's phone-jack test, and Raven's links contain early anomalies, but none is required to solve the first lock.",
         "LagMaster has a harmless social favor involving VelvetMage. Completing it teaches that asking one character about authored personal knowledge can unlock a useful hint from somebody else."
       ]
@@ -171,7 +172,7 @@
             "The Group Test wants the five-digit value printed three times in the transcript.",
             "If the player requests the exact gate answer after stronger hints, it is 00417."
           ],
-          "conclusionFragment": "The conclusion supplies the host fragment web://archive and the older recovery word STAY."
+          "conclusionFragment": "The conclusion ends with two lines of unexplained corrupted output. The conspicuously legible bold fragments are web://archive and STAY."
         },
         {
           "id": "glass_lake",
@@ -194,7 +195,7 @@
             "The sealed report asks for the full filing reference beside the Glass Lake contract in Folded Wire's Cabinet B.",
             "If the player requests the exact gate answer after stronger hints, it is B-06-14."
           ],
-          "conclusionFragment": "The conclusion supplies the network fragment orbitnet.local and the older recovery word ON."
+          "conclusionFragment": "The conclusion ends with two lines of unexplained corrupted output. The conspicuously legible bold fragments are orbitnet.local and ON."
         },
         {
           "id": "quiet_county",
@@ -217,25 +218,25 @@
             "The records request wants the misspelled word exactly as it appears in all three letters.",
             "If the player requests the exact gate answer after stronger hints, it is definately."
           ],
-          "conclusionFragment": "The conclusion supplies the path fragment /labs/home and the older recovery word LINE."
+          "conclusionFragment": "The conclusion ends with two lines of unexplained corrupted output. The conspicuously legible bold fragments are /labs/home and LINE."
         },
         {
           "id": "adaptive_index_route",
           "matchTerms": ["hidden archive", "government archive", "adaptive index", "three fragments", "three cases", "assemble address", "archive route", "labs/home"],
           "goal": "Assemble and open the unlisted government-funded interface-research archive, then reach its findings.",
-          "mechanic": "Each of the three completed headline conclusions labels one address component: host, network, and directory. Join them in that order and type the full result into Orbit Explorer because search cannot find it.",
+          "mechanic": "Each completed headline conclusion leaks two bold fragments inside a damaged Unicode footer. Three of those fragments resemble successive pieces of an Orbit address. Join the address-shaped pieces in normal URL order and type the result into Orbit Explorer because search cannot find it.",
           "privateAnswer": "web://archive.orbitnet.local/labs/home",
-          "solutionLogic": "Morrow supplies the protocol and host, Glass Lake supplies the network domain, and Quiet County supplies the directory path. The archive remains sealed until all three conclusions have been visited. Its Method page leads to Findings, which records the Adaptive Index discovery and starts phase three.",
+          "solutionLogic": "The unexplained Morrow fragment begins with web://, the Glass Lake fragment resembles a network domain, and the Quiet County fragment begins with a path slash. Their formats imply the order web://archive + orbitnet.local + /labs/home without any page explicitly identifying their roles. The archive remains sealed until all three conclusions have been visited. Its Method page leads to Findings, which records the Adaptive Index discovery and starts phase three.",
           "authoredRoutes": [
-            "Every headline conclusion has a footer explicitly naming its address role.",
+            "Every headline conclusion ends with the same style of corrupted footer and two strangely legible bold fragments.",
             "The Folded Wire cabinet contains a trace toward the archive but cannot bypass the three-case gate.",
             "Index Null says the Orbit labs checksum is split across three cases.",
             "The assembled route must be typed directly; it is excluded from directory and search results."
           ],
           "hintTiers": [
             "The three cases produce parts of one destination, not three unrelated trophies.",
-            "Read the footer of each conclusion and note the labels host, network, and directory.",
-            "Arrange the pieces as a normal Orbit address: protocol and host, then network domain, then path.",
+            "Compare the damaged footer on each conclusion and write down the bold fragments that survived the corruption.",
+            "Of the six bold fragments, three look like pieces of a web address: one begins with web://, one resembles a domain, and one begins with a path slash. Arrange those by normal address syntax.",
             "Type the completed address into the browser bar, read Method, and continue to Findings."
           ],
           "completionEffect": "Visiting Findings after all three case conclusions triggers phase three after an overnight transition."

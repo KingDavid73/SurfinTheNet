@@ -121,11 +121,18 @@ The broader seven-stage skeleton below remains the long-term structure. The
 current implementation groups its first half into three playable phases:
 
 1. **Ordinary exploration:** no investigation objective; DarkRaven's locked
-   Black File is the first optional gate.
+   Black File is the first optional gate. Its master theory is a deliberate near
+   miss: Raven correctly connects address-like number groups, Glass Lake
+   routing work, and machines exchanging traffic without their users, then
+   leaps to a secret federal number-station Internet with a small alien
+   contingency.
 2. **Active investigation:** opening the Black File restores old Backchannel
    nodes and introduces `ghostline`. Six harmless member theories point toward
-   three synthetic headline mysteries; those conclusions assemble the address
-   of an authentic, otherwise hidden behavioral-interface archive.
+   three synthetic headline mysteries. As C9 strains beyond its intended role,
+   authentic data slips into those fabricated cases. Their conclusions end in
+   unexplained corrupted output whose surviving fragments can be assembled
+   into the address of an authentic, otherwise hidden behavioral-interface
+   archive.
 3. **Continuity pressure:** verifying that hidden archive increases posting and
    introduces controlled cross-persona slips, inaccuracies, and leaked system
    language.

@@ -868,7 +868,7 @@ function createWindow() {
             saved.storyPhase !== 1 ||
             !saved.flags.darkraven_vault_unlocked ||
             !saved.flags.phase_two_transition_pending ||
-            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-open')) && !document.querySelector('.phase-transition-overlay')`)
+            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-open .raven-master-theory')) && document.body.textContent.includes('ORBIT IS A CIVILIAN RELAY FOR PROJECT MOON WINDOW') && document.body.textContent.includes('Remaining 6% reserved for aliens') && !document.querySelector('.phase-transition-overlay')`)
           ) throw new Error("Black File did not remain readable after being unlocked");
           await capture("story-darkraven-black-file.png");
           const phaseOneTransitionTime = new Date(saved.gameTime);
@@ -1072,9 +1072,14 @@ function createWindow() {
               const clues = Array.from(footer?.querySelectorAll('.carry-forward-clue') || []).map((clue) => clue.textContent.trim());
               return clues.includes(${JSON.stringify(fragment)}) &&
                 clues.includes(${JSON.stringify(recoveryWord)}) &&
-                footer?.textContent.includes('NOTEBOOK ITEMS ARE SHOWN IN BOLD');
+                footer?.classList.contains('corrupt-trailing-data') &&
+                footer?.querySelectorAll('code').length === 2 &&
+                footer?.textContent.includes('PARSE FAILURE') &&
+                !footer?.textContent.includes('HIDDEN ARCHIVE ROUTE') &&
+                !footer?.textContent.includes('RECOVERY WORD') &&
+                !footer?.textContent.includes('NOTEBOOK ITEMS');
             })()`)) {
-              throw new Error(`Main mystery did not distinguish its reusable route and recovery clues: ${terminal}`);
+              throw new Error(`Main mystery did not hide its surviving fragments inside unexplained corrupted output: ${terminal}`);
             }
           }
           saved = await readSave();
