@@ -15,7 +15,7 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 12,
+  version: 13,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -1254,18 +1254,13 @@ function createWindow() {
           if (!recoveryTrailIds.every((accountId) => saved.pageComments.some((comment) => String(comment.id).startsWith(`system-legacy-${accountId}-`)))) {
             throw new Error("Phase-three recovery-strip account trails were not all seeded");
           }
-          for (const [url, position, word] of [
-            ["web://oldnet.orbit/users/orbitalmechanic", "1/3", "STAY"],
-            ["web://goodnight.nora/home", "2/3", "ON"],
-            ["web://archivewatch.press/goodbye", "3/3", "LINE"]
-          ]) {
-            await address(url);
-            const stripReady = await win.webContents.executeJavaScript(`(() => {
-              const strip = document.querySelector('.legacy-recovery-strip');
-              return strip?.textContent.includes(${JSON.stringify(position)}) &&
-                strip?.querySelector('code')?.textContent === ${JSON.stringify(word)};
-            })()`);
-            if (!stripReady) throw new Error(`Phase-three recovery strip was missing from ${url}`);
+          const legacyAccountTrailIds = new Set(
+            saved.pageComments
+              .filter((comment) => String(comment.id).startsWith("system-legacy-"))
+              .map((comment) => comment.ownerId)
+          );
+          if (legacyAccountTrailIds.size !== 25) {
+            throw new Error(`Not every dormant legacy account received a Phase-three discovery comment: ${legacyAccountTrailIds.size}/25`);
           }
           await wakeFromPhaseTransition(3);
 
@@ -1287,10 +1282,14 @@ function createWindow() {
             throw new Error("Byte Barn Forever launched before the continuity-system reveal");
           }
 
+          await address("web://search?q=byte%20barn");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('[data-nav="web://bytebarn.com/home"].has-phase-three-discovery .unread-comment-marker.legacy-discovery'))`)) {
+            throw new Error("A page containing a newly restored account did not receive the yellow discovery marker");
+          }
           await address("web://bytebarn.com/home");
           const pageLessExplorerReady = await win.webContents.executeJavaScript(`(() => { const author = Array.from(document.querySelectorAll('.page-comment header b')).find((node) => node.textContent === 'GrayHatGary'); return Boolean(author) && !author.querySelector('.comment-author-link'); })()`);
           if (!pageLessExplorerReady) throw new Error("Phase-three explorer did not appear as a page-less commenter");
-          const legacyAuthorLinkReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.comment-author-link[data-nav="web://oldnet.orbit/users/orbitalmechanic"]'))`);
+          const legacyAuthorLinkReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.comment-author-link.phase-three-account-link[data-nav="web://oldnet.orbit/users/orbitalmechanic"] .legacy-discovery-marker'))`);
           if (!legacyAuthorLinkReady) throw new Error("Dormant account comment did not expose its hidden homepage link");
           await win.webContents.executeJavaScript(`document.querySelector('.comment-author-link[data-nav="web://oldnet.orbit/users/orbitalmechanic"]')?.click()`);
           await wait();
@@ -1326,11 +1325,25 @@ function createWindow() {
             "web://commonground.civic/board",
             "web://archivewatch.press/goodbye"
           ];
+          const expectedRecoveryStrips = new Map([
+            ["web://oldnet.orbit/users/orbitalmechanic", ["1/3", "STAY"]],
+            ["web://goodnight.nora/home", ["2/3", "ON"]],
+            ["web://archivewatch.press/goodbye", ["3/3", "LINE"]]
+          ]);
           let phaseThreeArchiveTrack = null;
           for (const legacyUrl of legacyFragmentUrls) {
             await address(legacyUrl);
             const legacyPageReady = await win.webContents.executeJavaScript(`document.querySelectorAll('.legacy-fragment-page').length === 1 && document.querySelectorAll('.legacy-fragment-logo').length === 1 && !document.querySelector('.page-comments') && !document.querySelector('.legacy-fragment-page [data-nav]')`);
             if (!legacyPageReady) throw new Error(`Dormant legacy fragment was incomplete or interactive: ${legacyUrl}`);
+            const expectedStrip = expectedRecoveryStrips.get(legacyUrl);
+            if (expectedStrip) {
+              const stripReady = await win.webContents.executeJavaScript(`(() => {
+                const strip = document.querySelector('.legacy-recovery-strip');
+                return strip?.textContent.includes(${JSON.stringify(expectedStrip[0])}) &&
+                  strip?.querySelector('code')?.textContent === ${JSON.stringify(expectedStrip[1])};
+              })()`);
+              if (!stripReady) throw new Error(`Phase-three recovery strip was missing from ${legacyUrl}`);
+            }
             const archiveMusic = await win.webContents.executeJavaScript(`({ scope: document.querySelector('.page-midi-player')?.getAttribute('data-music-scope'), count: document.querySelector('.midi-controls > span')?.textContent, file: document.querySelector('.midi-track code')?.textContent })`);
             if (archiveMusic.scope !== "orbitlegacy" || !archiveMusic.count.includes("/4") || !archiveMusic.file.endsWith(".mp3")) throw new Error(`Dormant archive music was incomplete: ${JSON.stringify(archiveMusic)}`);
             if (phaseThreeArchiveTrack === null) phaseThreeArchiveTrack = archiveMusic.file;

@@ -131,6 +131,13 @@ pages instead. OrbitNet Services also sends a more anxious maintenance email
 signed by Continuity Services / Node C9. Character email is otherwise reserved
 for player-initiated correspondence and future authored rewards or Easter eggs.
 
+All 25 dormant pre-Bridge accounts also reappear once during phase three,
+distributed across ordinary indexed homepages. Their usernames link to their
+otherwise-unlisted legacy pages. Yellow discovery markers distinguish these
+comments and the parent-page entry points from ordinary red unread-comment
+markers. Three pages contain the C9 recovery strips; the other 22 are optional
+history and atmosphere, but every one remains discoverable before the ending.
+
 The synthetic mysteries are:
 
 1. **Morrow Five:** an authentic-looking old shortwave recording has modern

@@ -3154,6 +3154,18 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   pointer-events: none;
   animation: unread-comment-pop .28s ease-out;
 }
+.has-phase-three-discovery {
+  outline: 2px solid #e6bd21 !important;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 1px #6c5300, 0 0 7px rgb(255 214 55 / 55%) !important;
+}
+.unread-comment-marker.legacy-discovery,
+.legacy-discovery-marker {
+  color: #241b00 !important;
+  background: #ffd83d !important;
+  border-color: #fff7b0;
+  box-shadow: 0 0 0 1px #7b5b00, 1px 1px 2px #0008;
+}
 @keyframes unread-comment-pop {
   from { transform: scale(.25); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
@@ -3421,9 +3433,27 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .page-comment.owner { background: #fffce5; border-left-color: #d28d23; }
 .page-comment header { display: flex; justify-content: space-between; gap: 10px; color: #243879; font-size: 11px; }
 .page-comment header time { color: #777; font-size: 9px; }
-.comment-author-link { padding: 0; color: inherit; background: transparent; border: 0; font: inherit; font-weight: bold; text-decoration: underline; cursor: pointer; }
+.comment-author-link { position: relative; padding: 0; color: inherit; background: transparent; border: 0; font: inherit; font-weight: bold; text-decoration: underline; cursor: pointer; }
 .comment-author-link:hover { text-decoration-style: double; }
 .comment-author-link:focus-visible { outline: 1px dotted currentColor; outline-offset: 2px; }
+.comment-author-link.phase-three-account-link { padding-left: 14px; color: #9b7100; text-shadow: 0 1px #fff7bd; }
+.legacy-discovery-marker {
+  position: absolute;
+  left: -2px;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 11px;
+  height: 11px;
+  box-sizing: border-box;
+  border: 1px solid #fff7b0;
+  border-radius: 50%;
+  font: 900 8px/1 Tahoma, Arial, sans-serif;
+  text-decoration: none;
+  transform: translateY(-50%);
+  pointer-events: none;
+  animation: unread-comment-pop .28s ease-out;
+}
 .page-comment p { margin: 5px 0 0; white-space: pre-wrap; font: 12px/1.4 Arial, sans-serif; }
 .no-comments { padding: 14px; color: #6d7180; background: rgb(255 255 255 / 55%); border: 1px dashed #9b9fac; text-align: center; font-size: 11px; }
 .page-comment-form { display: grid; grid-template-columns: 1fr 105px; gap: 8px; margin-top: 11px; }

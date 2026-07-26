@@ -382,7 +382,7 @@ const MIRA_WELCOME_TEXT = [
 ].join("\n");
 
 const DEFAULT_STATE: GameState = {
-  version: 12,
+  version: 13,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -854,27 +854,24 @@ function normalizeState(loaded: Partial<GameState>): GameState {
     );
   }
   const normalizedPageComments = Array.isArray(loaded.pageComments) ? [...loaded.pageComments] : [];
-  if (Number(loaded.version ?? 0) < 11 && storyPhase >= 3) {
-    const recoveryTrailTargets = [
-      ["orbit_mechanic", "web://bytebarn.com/home"],
-      ["nora_lamp", "web://cosmiccrust.biz/home"],
-      ["archive_watch", "web://foldedwire.net/home"]
-    ] as const;
-    for (const [accountId, pageUrl] of recoveryTrailTargets) {
-      if (normalizedPageComments.some((comment) => comment.ownerId === accountId)) continue;
-      const account = DORMANT_LEGACY_ACCOUNTS.find((candidate) => candidate.id === accountId);
-      if (!account) continue;
+  if (Number(loaded.version ?? 0) < 13 && storyPhase >= 3) {
+    for (const [index, account] of DORMANT_LEGACY_ACCOUNTS.entries()) {
+      if (normalizedPageComments.some((comment) => comment.ownerId === account.id)) {
+        normalizedFlags[`system_legacy_${account.id}`] = true;
+        continue;
+      }
+      const pageUrl = phaseThreeLegacyTrailTargetUrl(account.id, index);
       normalizedPageComments.push({
-        id: `migration-recovery-${accountId}`,
+        id: `migration-legacy-${account.id}`,
         pageUrl,
-        ownerId: accountId,
+        ownerId: account.id,
         role: "visitor",
         author: account.screenName,
         text: account.rumor,
         createdAt: loaded.gameTime ?? DEFAULT_STATE.gameTime,
         revealAfterVisit: Number(loaded.pageVisitCounts?.[pageUrl] ?? 0) + 1
       });
-      normalizedFlags[`system_legacy_${accountId}`] = true;
+      normalizedFlags[`system_legacy_${account.id}`] = true;
     }
   }
   const readDirectMessageIds = Array.isArray(loaded.readDirectMessageIds)
@@ -1307,6 +1304,39 @@ function addDormantLegacyTrailComment(
   });
   state.flags[`system_legacy_${account.id}`] = true;
   return true;
+}
+
+const PHASE_THREE_RECOVERY_TRAIL_TARGETS: Record<string, string> = {
+  orbit_mechanic: "web://bytebarn.com/home",
+  nora_lamp: "web://cosmiccrust.biz/home",
+  archive_watch: "web://foldedwire.net/home"
+};
+
+function phaseThreeLegacyTrailTargetUrl(accountId: string, index: number) {
+  const recoveryTarget = PHASE_THREE_RECOVERY_TRAIL_TARGETS[accountId];
+  if (recoveryTarget) return recoveryTarget;
+  const reservedTargets = new Set(Object.values(PHASE_THREE_RECOVERY_TRAIL_TARGETS));
+  const ordinaryHomepages = Object.values(pages)
+    .filter((page) =>
+      page.commentsEnabled &&
+      page.url.endsWith("/home") &&
+      (page.minimumPhase ?? 1) <= 3 &&
+      page.listed !== false &&
+      page.ownerId !== "system_core" &&
+      !reservedTargets.has(page.url)
+    )
+    .sort((left, right) => left.url.localeCompare(right.url));
+  return ordinaryHomepages[index % ordinaryHomepages.length]?.url ?? "web://home";
+}
+
+function seedAllPhaseThreeLegacyTrails(createdAt: string) {
+  for (const [index, account] of DORMANT_LEGACY_ACCOUNTS.entries()) {
+    addDormantLegacyTrailComment(
+      createdAt,
+      account,
+      phaseThreeLegacyTrailTargetUrl(account.id, index)
+    );
+  }
 }
 
 function seedDormantLegacyTrailComments(hoursElapsed: number, createdAt: string) {
@@ -1948,18 +1978,7 @@ function activateStoryPhase(nextPhase: StoryPhase) {
     );
     addPhaseThreeLeakComments();
     addPhaseThreeExplorerComments();
-    const recoveryTrailTargets = [
-      ["orbit_mechanic", "web://bytebarn.com/home"],
-      ["nora_lamp", "web://cosmiccrust.biz/home"],
-      ["archive_watch", "web://foldedwire.net/home"]
-    ] as const;
-    for (const [accountId, pageUrl] of recoveryTrailTargets) {
-      addDormantLegacyTrailComment(
-        state.gameTime,
-        DORMANT_LEGACY_ACCOUNTS.find((account) => account.id === accountId),
-        pageUrl
-      );
-    }
+    seedAllPhaseThreeLegacyTrails(state.gameTime);
   }
   if (nextPhase === 4) {
     addEndingCommunityResponses();
@@ -2017,6 +2036,15 @@ function navigate(url: string, push = true) {
   if (push && nextUrl !== state.currentUrl) browserScrollPositions.set(nextUrl, 0);
   state.currentUrl = nextUrl;
   pageMusicPlaying = true;
+  const openedPage = pages[state.currentUrl];
+  if (
+    openedPage &&
+    pageAvailable(openedPage) &&
+    state.storyPhase >= 3 &&
+    DORMANT_LEGACY_PERSONA_IDS.has(openedPage.ownerId)
+  ) {
+    state.flags[legacyPageSeenFlag(openedPage.ownerId)] = true;
+  }
   if (!state.visited.includes(state.currentUrl)) state.visited.push(state.currentUrl);
   state.pageVisitCounts[state.currentUrl] = (state.pageVisitCounts[state.currentUrl] ?? 0) + 1;
   registerStoryVisit(state.currentUrl);
@@ -2093,11 +2121,21 @@ function commentAuthorHomeUrl(comment: PageComment, page: PageDefinition) {
   return CHARACTER_HOME_URLS[personaId] ?? null;
 }
 
+function legacyPageSeenFlag(personaId: string) {
+  return `legacy_page_seen_${personaId}`;
+}
+
 function commentAuthorHtml(comment: PageComment, page: PageDefinition) {
   const author = escapeHtml(comment.author);
   const homeUrl = commentAuthorHomeUrl(comment, page);
+  const newlyRestoredLegacyAccount = Boolean(
+    homeUrl &&
+    state.storyPhase >= 3 &&
+    DORMANT_LEGACY_PERSONA_IDS.has(comment.ownerId) &&
+    !state.flags[legacyPageSeenFlag(comment.ownerId)]
+  );
   return homeUrl
-    ? `<button class="comment-author-link" data-nav="${escapeHtml(homeUrl)}" title="Visit ${author}'s homepage">${author}</button>`
+    ? `<button class="comment-author-link ${newlyRestoredLegacyAccount ? "phase-three-account-link" : ""}" data-nav="${escapeHtml(homeUrl)}" title="${newlyRestoredLegacyAccount ? "Newly restored account page" : `Visit ${author}'s homepage`}">${author}${newlyRestoredLegacyAccount ? `<span class="legacy-discovery-marker" aria-label="Newly restored account page">!</span>` : ""}</button>`
     : author;
 }
 
@@ -2341,21 +2379,29 @@ function syncBrowserViewportBackground() {
 }
 
 function decorateUnreadCommentEntrypoints() {
-  const unreadUrls = new Set(
-    state.pageComments
-      .filter((comment) =>
-        comment.role !== "player" &&
-        deliveryIsAvailable(comment.availableAt, state.gameTime) &&
-        comment.revealAfterVisit > (state.pageVisitCounts[comment.pageUrl] ?? 0)
-      )
-      .map((comment) => comment.pageUrl)
-  );
-  if (!unreadUrls.size) return;
+  const unreadKinds = new Map<string, "comment" | "legacy-discovery">();
+  for (const comment of state.pageComments) {
+    if (
+      comment.role === "player" ||
+      !deliveryIsAvailable(comment.availableAt, state.gameTime) ||
+      comment.revealAfterVisit <= (state.pageVisitCounts[comment.pageUrl] ?? 0)
+    ) continue;
+    const kind = state.storyPhase >= 3 && DORMANT_LEGACY_PERSONA_IDS.has(comment.ownerId)
+      ? "legacy-discovery"
+      : "comment";
+    if (kind === "legacy-discovery" || !unreadKinds.has(comment.pageUrl)) {
+      unreadKinds.set(comment.pageUrl, kind);
+    }
+  }
+  if (!unreadKinds.size) return;
   document.querySelectorAll<HTMLElement>("[data-nav]").forEach((entrypoint) => {
     const targetUrl = entrypoint.dataset.nav?.trim().toLowerCase();
-    if (!targetUrl || !unreadUrls.has(targetUrl) || entrypoint.querySelector(".unread-comment-marker")) return;
+    const kind = targetUrl ? unreadKinds.get(targetUrl) : null;
+    if (!targetUrl || !kind || entrypoint.querySelector(".unread-comment-marker")) return;
     entrypoint.classList.add("has-unread-comments");
-    entrypoint.insertAdjacentHTML("beforeend", `<span class="unread-comment-marker" title="Unread new comment" aria-label="Unread new comment">!</span>`);
+    if (kind === "legacy-discovery") entrypoint.classList.add("has-phase-three-discovery");
+    const label = kind === "legacy-discovery" ? "Newly restored account appeared here" : "Unread new comment";
+    entrypoint.insertAdjacentHTML("beforeend", `<span class="unread-comment-marker ${kind === "legacy-discovery" ? "legacy-discovery" : ""}" title="${label}" aria-label="${label}">!</span>`);
   });
 }
 
