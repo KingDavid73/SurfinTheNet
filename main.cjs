@@ -1406,6 +1406,20 @@ function createWindow() {
           if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.tribute-track').length === 10 && document.querySelectorAll('.tribute-artist-photo img').length === 10 && document.querySelectorAll('[data-tribute-art]').length === 4 && document.querySelectorAll('.tribute-extras img').length === 3 && Boolean(document.querySelector('.tribute-festival-callout')) && document.querySelector('.tribute-impact')?.textContent.includes('Continuity audit and identity-reconstruction report') && document.querySelector('.page-midi-player')?.getAttribute('data-music-scope') === 'bytebarntribute' && document.querySelector('.midi-controls > span')?.textContent.includes('/10')`)) {
             throw new Error("Byte Barn Forever did not launch after the reveal with its complete album, festival, packaging, and playlist");
           }
+          const artistLightboxOpened = await win.webContents.executeJavaScript(`(() => {
+            const thumbnail = document.querySelector('[data-tribute-photo]');
+            const dialog = document.querySelector('[data-tribute-photo-lightbox]');
+            thumbnail?.click();
+            return Boolean(dialog?.open && dialog.querySelector('[data-tribute-photo-full]')?.src === thumbnail?.dataset.tributePhoto);
+          })()`);
+          if (!artistLightboxOpened) throw new Error("Compilation artist photo did not open in the full-size lightbox");
+          const artistLightboxClosed = await win.webContents.executeJavaScript(`(() => {
+            const close = document.querySelector('[data-tribute-photo-close]');
+            const dialog = document.querySelector('[data-tribute-photo-lightbox]');
+            close?.click();
+            return Boolean(dialog && !dialog.open);
+          })()`);
+          if (!artistLightboxClosed) throw new Error("Compilation artist photo lightbox could not be closed");
           const packageBackSelected = await win.webContents.executeJavaScript(`(() => {
             const button = Array.from(document.querySelectorAll('[data-tribute-art]')).find((entry) => entry.textContent.includes('BACK'));
             const image = document.querySelector('[data-tribute-main]');

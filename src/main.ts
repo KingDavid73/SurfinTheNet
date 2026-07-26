@@ -3614,6 +3614,30 @@ function bindEvents() {
     image.alt = button.dataset.tributeAlt ?? "Byte Barn Forever album packaging";
     document.querySelectorAll("[data-tribute-art]").forEach((entry) => entry.classList.toggle("active", entry === button));
   }));
+  const tributePhotoLightbox = document.querySelector<HTMLDialogElement>("[data-tribute-photo-lightbox]");
+  const openTributePhoto = (thumbnail: HTMLElement) => {
+    if (!tributePhotoLightbox || !thumbnail.dataset.tributePhoto) return;
+    const artist = thumbnail.dataset.tributeArtist ?? "Byte Barn Forever artist";
+    const image = tributePhotoLightbox.querySelector<HTMLImageElement>("[data-tribute-photo-full]");
+    const title = tributePhotoLightbox.querySelector<HTMLElement>("[data-tribute-photo-title]");
+    if (!image || !title) return;
+    image.src = thumbnail.dataset.tributePhoto;
+    image.alt = `${artist} full-size official publicity photograph`;
+    title.textContent = artist;
+    tributePhotoLightbox.showModal();
+  };
+  document.querySelectorAll<HTMLElement>("[data-tribute-photo]").forEach((thumbnail) => {
+    thumbnail.addEventListener("click", () => openTributePhoto(thumbnail));
+    thumbnail.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      openTributePhoto(thumbnail);
+    });
+  });
+  document.querySelector<HTMLElement>("[data-tribute-photo-close]")?.addEventListener("click", () => tributePhotoLightbox?.close());
+  tributePhotoLightbox?.addEventListener("click", (event) => {
+    if (event.target === tributePhotoLightbox) tributePhotoLightbox.close();
+  });
   document.querySelectorAll<HTMLElement>("[data-download]").forEach((el) => el.addEventListener("click", downloadSignalNote));
   document.querySelectorAll<HTMLElement>("[data-download-page]").forEach((el) => el.addEventListener("click", () => {
     downloadCurrentPageCopy(el.dataset.downloadPage ?? state.currentUrl);

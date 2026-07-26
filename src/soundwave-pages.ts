@@ -487,9 +487,15 @@ STATUS:       FINAL CLEARANCE</pre>
         ${BYTE_BARN_COMPILATION_TRACKS.map((entry, index) => `<article class="tribute-track genre-${entry.genre.replace(/\s+/g, "-")}">
           <b>${String(index + 1).padStart(2, "0")}</b>
           <div class="tribute-track-copy"><small>${entry.genre}</small><h2>${entry.artist}</h2><h3>${entry.title}</h3><p>${entry.blurb}</p><button data-song-nav="${BYTE_BARN_COMPILATION_URL}" data-song-file="${entry.track.file}">▶ PLAY THIS TRACK</button></div>
-          <figure class="tribute-artist-photo" data-tribute-artist="${entry.artist}"><img src="${tributeArtistPhotos[entry.artist]}" alt="${entry.artist} official publicity photograph"><figcaption>${entry.artist}</figcaption></figure>
+          <figure class="tribute-artist-photo" data-tribute-artist="${entry.artist}" data-tribute-photo="${tributeArtistPhotos[entry.artist]}" tabindex="0" role="button" aria-label="View full publicity photograph of ${entry.artist}"><img src="${tributeArtistPhotos[entry.artist]}" alt="${entry.artist} official publicity photograph"><figcaption>${entry.artist} // CLICK TO ENLARGE</figcaption></figure>
         </article>`).join("")}
       </section>
+      <dialog class="tribute-photo-lightbox" data-tribute-photo-lightbox aria-label="Full-size artist publicity photograph">
+        <button type="button" data-tribute-photo-close aria-label="Close full-size photograph">&times;</button>
+        <img data-tribute-photo-full src="${tributeArtistPhotos[BYTE_BARN_COMPILATION_TRACKS[0].artist]}" alt="">
+        <strong data-tribute-photo-title></strong>
+        <small>CLICK OUTSIDE THE PHOTO OR PRESS ESC TO CLOSE</small>
+      </dialog>
       <section class="tribute-extras">
         <figure><img src="${tributeAssets.albumInsert}" alt="Open Byte Barn Forever booklet insert"><figcaption>THE 12-PAGE BOOKLET // FAN-REMIX FAMILY TREE + ARTIST NOTES</figcaption></figure>
         <figure><img src="${tributeAssets.stickerSheet}" alt="Byte Barn Forever promotional sticker designs"><figcaption>FIRST-PRESSING PROMOTIONAL STICKER SHEET</figcaption></figure>
