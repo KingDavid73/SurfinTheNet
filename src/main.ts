@@ -798,10 +798,15 @@ function normalizeState(loaded: Partial<GameState>): GameState {
   const playerName = loaded.playerName === undefined && Number(loaded.version ?? 0) < 5
     ? "David"
     : normalizePlayerName(loaded.playerName);
-  const storyPhase = loaded.flags?.continuity_console_unlocked
-    ? 4
-    : loaded.storyPhase === 2 || loaded.storyPhase === 3 || loaded.storyPhase === 4 ? loaded.storyPhase : 1;
+  const storyPhase = loaded.storyPhase === 2 || loaded.storyPhase === 3 || loaded.storyPhase === 4 ? loaded.storyPhase : 1;
   const normalizedFlags = { ...(loaded.flags ?? {}) };
+  if (
+    storyPhase === 3 &&
+    normalizedFlags.continuity_console_unlocked &&
+    normalizedFlags.phase_four_transition_pending === undefined
+  ) {
+    normalizedFlags.phase_four_transition_pending = true;
+  }
   if (
     Number(loaded.version ?? 0) < 9 &&
     storyPhase === 1 &&
@@ -1981,6 +1986,7 @@ function activateStoryPhase(nextPhase: StoryPhase) {
     seedAllPhaseThreeLegacyTrails(state.gameTime);
   }
   if (nextPhase === 4) {
+    state.flags.phase_four_transition_pending = false;
     addEndingCommunityResponses();
   }
   if (nextPhase === 2 || nextPhase === 3 || nextPhase === 4) {
@@ -2021,8 +2027,13 @@ function promptForPendingPhaseTransition() {
     state.currentUrl === "web://archive.orbitnet.local/labs/findings" &&
     state.storyPhase === 2 &&
     Boolean(state.flags.phase_three_transition_pending);
-  if (!leavingRavenConclusion && !leavingFindings) return false;
-  phaseTransitionPrompt = leavingRavenConclusion ? 2 : 3;
+  const leavingContinuityConsole =
+    state.currentUrl === "web://legacy.orbitos.local/admin/continuity" &&
+    state.storyPhase === 3 &&
+    Boolean(state.flags.continuity_console_unlocked) &&
+    Boolean(state.flags.phase_four_transition_pending);
+  if (!leavingRavenConclusion && !leavingFindings && !leavingContinuityConsole) return false;
+  phaseTransitionPrompt = leavingRavenConclusion ? 2 : leavingFindings ? 3 : 4;
   startOpen = false;
   sleepDialogOpen = false;
   render();
@@ -3087,12 +3098,12 @@ function phaseTransitionPromptScreen() {
     <div class="phase-transition-card">
       <div class="phase-transition-moon">☾</div>
       <small>${phaseTwo ? "BEFORE YOU STEP AWAY FOR A FEW DAYS..." : "BEFORE YOU LOG OFF FOR THE NIGHT..."}</small>
-      <h1>${phaseTwo ? "YOU TELL A FEW FRIENDS WHAT YOU FOUND" : phaseThree ? "YOU SEND THE FINDINGS TO THE OTHER INVESTIGATORS" : "THE DISCOVERY NEEDS TIME TO TRAVEL"}</h1>
+      <h1>${phaseTwo ? "YOU TELL A FEW FRIENDS WHAT YOU FOUND" : phaseThree ? "YOU SEND THE FINDINGS TO THE OTHER INVESTIGATORS" : "YOU COPY THE CONTINUITY RECORD"}</h1>
       <p>${phaseTwo
         ? "DarkRaven's evil dream-alien invasion is obviously homemade hacker theater. The number groups, Glass Lake paperwork, autonomous traffic, and recovered OrbitOS address beneath it are not so easy to dismiss. Raven found something real and gave it the least satisfying explanation possible. You pass the file to a few people who might enjoy proving him wrong, then leave the dusty network alone long enough for word to travel."
         : phaseThree
           ? "The Adaptive Index findings are real enough to matter and incomplete enough to be dangerous. You send copies and your notes to the people following the three cases, then leave OrbitNet to react overnight."
-          : "You send the address and your notes to a few people, then leave the network to react while you sleep."}</p>
+          : "The continuity record explains the impersonated accounts, synthetic traffic, and planted mysteries. You save a copy and send it to the people still comparing notes, then step away while Orbit reacts."}</p>
       <button data-phase-sleep>${phaseTwo ? "STEP AWAY // COME BACK IN FOUR DAYS" : "SLEEP UNTIL TOMORROW"}</button>
     </div>
   </section>`;
@@ -3943,15 +3954,15 @@ function bindEvents() {
     const form = event.currentTarget as HTMLFormElement;
     const password = String(new FormData(form).get("password") ?? "").toLowerCase().replace(/[^a-z0-9]/g, "");
     if (password !== "stayonline") {
-      storyFormErrors.set("continuity", "PHRASE REJECTED // four recovery fragments required");
+      storyFormErrors.set("continuity", "PHRASE REJECTED // three recovery fragments required");
       render();
       return;
     }
     storyFormErrors.delete("continuity");
     state.flags.continuity_console_unlocked = true;
-    activateStoryPhase(4);
+    state.flags.phase_four_transition_pending = true;
     await saveState();
-    showNotification("The continuity mystery is over. OrbitNet remains online.");
+    showNotification("NODE C9 ARCHIVE UNLOCKED // continuity record loaded.");
     render();
   });
   const address = document.querySelector<HTMLInputElement>(".address-form input");

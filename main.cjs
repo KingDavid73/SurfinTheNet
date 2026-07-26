@@ -1370,11 +1370,26 @@ function createWindow() {
           if (!continuityUnlocked) throw new Error("Continuity phrase form was unavailable");
           await wait(220);
           saved = await readSave();
-          if (saved.storyPhase !== 4 || !saved.directMessages.some((message) => message.id === "ending-system-confession" && message.text.includes("Byte Barn covers")) || !["ending-comment-faxmoth", "ending-comment-ben", "ending-bytebarn-steph", "ending-bytebarn-chip"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
+          if (saved.storyPhase !== 3 || !saved.flags.continuity_console_unlocked || !saved.flags.phase_four_transition_pending) {
+            throw new Error("Unlocking the continuity record advanced phase four before the page could be read");
+          }
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && !document.querySelector('.phase-transition-overlay')`)) {
+            throw new Error("The unlocked continuity record was obscured by a transition overlay");
+          }
+
+          await address("web://home");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && Boolean(document.querySelector('.phase-transition-prompt [data-phase-sleep]'))`)) {
+            throw new Error("Leaving the continuity record did not defer phase four behind the overnight prompt");
+          }
+          const sleptAfterContinuity = await win.webContents.executeJavaScript(`(() => { const button = document.querySelector('[data-phase-sleep]'); if (!button) return false; button.click(); return true; })()`);
+          if (!sleptAfterContinuity) throw new Error("Phase-four sleep action was unavailable");
+          await wait(250);
+          saved = await readSave();
+          if (saved.storyPhase !== 4 || saved.flags.phase_four_transition_pending || !saved.directMessages.some((message) => message.id === "ending-system-confession" && message.text.includes("Byte Barn covers")) || !["ending-comment-faxmoth", "ending-comment-ben", "ending-bytebarn-steph", "ending-bytebarn-chip"].every((id) => saved.pageComments.some((comment) => comment.id === id))) {
             throw new Error("Free-play ending community responses were incomplete");
           }
           if (new Date(saved.gameTime).getHours() !== 7 || !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-4'))`)) {
-            throw new Error(`Phase four did not force an overnight epilogue: ${saved.gameTime}`);
+            throw new Error(`Phase four did not force an overnight epilogue after leaving the continuity record: ${saved.gameTime}`);
           }
           await capture("story-phase4-overnight.png");
           await wakeFromPhaseTransition(4);
