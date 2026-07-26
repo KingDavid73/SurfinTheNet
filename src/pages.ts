@@ -533,7 +533,7 @@ export const pages: Record<string, PageDefinition> = {
     listed: true,
     hubId: "zone-backchannel",
     searchTerms: ["mira", "radio", "91.7", "night signal", "broadcast"],
-    render: () => `
+    render: (state) => `
       <main class="page signal-page">
         <header class="signal-masthead"><div><span>NIGHT</span> SIGNAL</div><small>91.7 FM // MERCER COUNTY // AFTER HOURS</small></header>
         <div class="frequency-scale"><span>88</span><i></i><span>90</span><i></i><b>91.7</b><i></i><span>94</span><i></i><span>98</span><i></i><span>104</span></div>
@@ -556,6 +556,17 @@ export const pages: Record<string, PageDefinition> = {
             <p><b>RECEIVER A:</b> 91.7<br><b>RECEIVER B:</b> scanning<br><b>TAPE 3:</b> armed</p>
           </aside>
         </div>
+        ${state.storyPhase >= 3 ? `
+          <section class="phase-site-update signal-phase-update">
+            <b>11/11 // ARCHIVE INTERFERENCE</b>
+            <p>Retired accounts are transmitting again, but several callers use screen names that are one or two characters wrong. Their timestamps line up with archive requests, not with the people they claim to be. I am saving exact copies before comparing theories.</p>
+            <p>There is also Byte Barn music bleeding into frequencies that never carried the commercial. That part may just be everybody recording everything onto everything.</p>
+          </section>` : state.storyPhase >= 2 ? `
+          <section class="phase-site-update signal-phase-update">
+            <b>11/07 // TOO MANY NEW CALLERS</b>
+            <p>Raven's file escaped Orbit and people arrived carrying three new names: Morrow Five, Glass Lake, and Quiet County. Each story has a dramatic version and a dull paper trail. Start with the recording or document you can verify, not the ending somebody wrote for it.</p>
+            <p>The station is logging calls, search changes, and repeated times. If one of those names keeps appearing, search the exact title and compare notes with the page owner.</p>
+          </section>` : ""}
         <p class="signal-warning"><b>NOTICE:</b> The station is currently unattended. Do not adjust your receiver.</p>
       </main>`
   },
@@ -611,7 +622,7 @@ export const pages: Record<string, PageDefinition> = {
     listed: true,
     hubId: "zone-backchannel",
     searchTerms: ["darkraven", "games", "rumors", "hidden pages", "void"],
-    render: () => `
+    render: (state) => `
       <main class="page raven-page">
         <header class="raven-masthead"><div class="raven-stars">+ . * . + . * . +</div><h1>xX_DarkRaven_Xx's VOID</h1><p class="raven-warning">YOU HAVE ENTERED A DOMAIN OF SECRETS</p></header>
         <div class="raven-home-grid">
@@ -629,6 +640,10 @@ export const pages: Record<string, PageDefinition> = {
               <i></i>
               <article><b>CASE 03</b><span>PHONE JACK</span><small>status: cat involved</small></article>
             </div>
+            ${state.storyPhase >= 4 ? `
+              <article class="phase-site-update raven-phase-update"><b>VOID UPDATE // AFTER THE NOISE</b><p>The sheep lost interest the instant the music got loud. Everybody says the community is real now, as if that erases who moved the pieces. I am still searching. A crowd forgetting the evidence does not make it false.</p></article>` : state.storyPhase >= 3 ? `
+              <article class="phase-site-update raven-phase-update"><b>VOID UPDATE // THE DEAD HAVE SCREEN NAMES</b><p>Retired users are posting again with letters swapped in their names. Old pages appear after those comments, then something tells people to stop looking. The Adaptive Index proves attention can be steered. I am mapping every resurrected account before the routes change again.</p></article>` : state.storyPhase >= 2 ? `
+              <article class="phase-site-update raven-phase-update"><b>VOID UPDATE // THEY ALL CAME TO PROVE ME WRONG</b><p>Fine. The dream-invasion conclusion may need “minor revision.” But my evidence brought half the regular web here, and now Morrow Five, Glass Lake, and Quiet County appeared almost simultaneously. Three perfect mysteries do not crawl out of one restored catalog by accident.</p></article>` : ""}
             <div class="contact-strip raven-contact"><span>OIM STATUS: ONLINE</span><button data-aim-owner="darkraven_xx">MESSAGE xX_DarkRaven_Xx</button></div>
           </section>
           <aside class="raven-bulletins">

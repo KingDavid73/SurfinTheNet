@@ -217,7 +217,7 @@ const PRODUCTION_TRACKS = {
 const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
   orbithome: ORBIT_HOME_TRACKS[0],
   directory: ORBIT_HOME_TRACKS[0],
-  gamegridzone: { label: "Everybody's In", file: "everybodys-in.mid", midiUrl: new URL("../assets/audio/pages/everybodys-in.mid", import.meta.url).href, url: new URL("../assets/audio/pages/everybodys-in.wav", import.meta.url).href },
+  gamegridzone: { label: "Leave Reality Running", file: "leave-reality-running.mp3", url: new URL("../assets/audio/pages/vanta/leave-reality-running.mp3", import.meta.url).href },
   xtremezone: { label: "Extreme Sports Web Loop 1999", file: "extreme-sports-web-loop-1999.mp3", url: new URL("../assets/audio/pages/xtreme-zone/extreme-sports-web-loop-1999.mp3", import.meta.url).href },
   yesterdayzone: { label: "Good Old Days", file: "good-old-days.mp3", url: new URL("../assets/audio/pages/yesterday-zone/good-old-days.mp3", import.meta.url).href },
   newcomerzone: PRODUCTION_TRACKS.newcomers,
@@ -300,7 +300,7 @@ const SITE_MUSIC: Record<PageDefinition["site"], PageMusicTrack> = {
 const SITE_PLAYLISTS: Partial<Record<PageDefinition["site"], readonly PageMusicTrack[]>> = {
   orbithome: ORBIT_HOME_TRACKS,
   directory: ORBIT_HOME_TRACKS,
-  gamegridzone: [SITE_MUSIC.gamegridzone, SITE_MUSIC.vanta, SITE_MUSIC.cubit],
+  gamegridzone: [SITE_MUSIC.gamegridzone, SITE_MUSIC.cubit],
   soundbreakbeat: [AMBIENT_FILL_TRACKS.simonNeonDreams, AMBIENT_FILL_TRACKS.simonNeonBreeze],
   newbytefan: [BYTE_BARN_DEAL_TRACK, ...Object.values(BYTE_BARN_FAN_TRACKS)],
   cozyhike: [AMBIENT_FILL_TRACKS.trailnotes, AMBIENT_FILL_TRACKS.trailEchoes],
@@ -672,7 +672,9 @@ const MYSTERY_CASE_ANSWERS: Record<string, string> = {
 };
 const PHASE_TWO_MAIN_MYSTERIES = ["morrow_five", "glass_lake", "quiet_county"] as const;
 const REQUIRED_PHASE_THREE_MYSTERIES = Object.values(MYSTERY_TERMINALS);
+const RAVEN_VAULT_URL = "web://raven.web/vault";
 const RAVEN_CONCLUSION_URL = "web://raven.web/vault/conclusion";
+const ADAPTIVE_INDEX_FINDINGS_URL = "web://archive.orbitnet.local/labs/findings";
 
 interface WindowModel {
   open: boolean;
@@ -887,6 +889,18 @@ function normalizeState(loaded: Partial<GameState>): GameState {
           deliveryIsAvailable(message.availableAt, loaded.gameTime ?? DEFAULT_STATE.gameTime)
         )
         .map((message) => message.id);
+  const discoveredMysteries = Array.isArray(loaded.discoveredMysteries)
+    ? [...new Set(loaded.discoveredMysteries.map(String))]
+    : [];
+  const bookmarks = Array.isArray(loaded.bookmarks)
+    ? [...new Set(loaded.bookmarks.map(String))]
+    : [...DEFAULT_STATE.bookmarks];
+  if (normalizedFlags.darkraven_vault_unlocked && !bookmarks.includes(RAVEN_VAULT_URL)) {
+    bookmarks.push(RAVEN_VAULT_URL);
+  }
+  if (discoveredMysteries.includes("adaptive_index") && !bookmarks.includes(ADAPTIVE_INDEX_FINDINGS_URL)) {
+    bookmarks.push(ADAPTIVE_INDEX_FINDINGS_URL);
+  }
   return {
     ...structuredClone(DEFAULT_STATE),
     ...loaded,
@@ -894,7 +908,8 @@ function normalizeState(loaded: Partial<GameState>): GameState {
     playerName,
     storyPhase,
     flags: normalizedFlags,
-    discoveredMysteries: Array.isArray(loaded.discoveredMysteries) ? [...new Set(loaded.discoveredMysteries.map(String))] : [],
+    discoveredMysteries,
+    bookmarks,
     downloads: Array.isArray(loaded.downloads)
       ? loaded.downloads.map((file) => file.id === "signal-note" ? { ...file, contents: SIGNAL_NOTE_CONTENTS } : file)
       : [],
@@ -1688,6 +1703,35 @@ function addAuthoredDirectMessage(id: string, ownerId: string, author: string, t
   });
 }
 
+const LEGACY_DISCOVERY_OIM_WARNINGS = [
+  "you should not be in that old page. the records are incomplete and people keep inventing stories around them. back out and check the Byte Barn covers instead.",
+  "that address was retired for a reason. stop comparing the dates. there are newer pages with games and music that actually work.",
+  "old pages can display the wrong account names when the archive is busy. leave it alone and browse somewhere fun before you break something.",
+  "friendly warning: digging through dead accounts is not helping anybody. Pet Planet is open. Cozy Commons is quiet. pick literally anything else.",
+  "the archive is unstable. close that page, forget what it said, and go listen to the new SoundWave uploads.",
+  "you found a page that was supposed to stay forgotten. do not keep following the old links. the live community has better things to see."
+] as const;
+
+function openLegacyDiscoveryWarning(account: (typeof DORMANT_LEGACY_ACCOUNTS)[number]) {
+  const messageId = `legacy-discovery-oim-${account.id}`;
+  if (state.directMessages.some((message) => message.id === messageId)) return;
+  const accountIndex = DORMANT_LEGACY_ACCOUNTS.findIndex((candidate) => candidate.id === account.id);
+  const warning = LEGACY_DISCOVERY_OIM_WARNINGS[
+    Math.max(0, accountIndex) % LEGACY_DISCOVERY_OIM_WARNINGS.length
+  ];
+  ensureCharacterContact(account.id);
+  addAuthoredDirectMessage(
+    messageId,
+    account.id,
+    borrowedScreenName(account.id, 3),
+    warning
+  );
+  activeAimOwnerId = account.id;
+  windows.chat.open = true;
+  windows.chat.minimized = false;
+  focusApp("chat");
+}
+
 function addPhaseInvestigationMessages(phase: 2 | 3) {
   if (phase === 2) {
     addAuthoredDirectMessage(
@@ -1997,6 +2041,13 @@ function activateStoryPhase(nextPhase: StoryPhase) {
 
 function registerStoryVisit(url: string) {
   if (
+    url === RAVEN_VAULT_URL &&
+    state.flags.darkraven_vault_unlocked &&
+    !state.bookmarks.includes(RAVEN_VAULT_URL)
+  ) {
+    state.bookmarks.push(RAVEN_VAULT_URL);
+  }
+  if (
     url === RAVEN_CONCLUSION_URL &&
     state.storyPhase === 1 &&
     state.flags.darkraven_conclusion_unlocked
@@ -2013,6 +2064,12 @@ function registerStoryVisit(url: string) {
     !PHASE_TWO_MAIN_MYSTERIES.every((id) => state.discoveredMysteries.includes(id))
   ) return;
   state.discoveredMysteries.push(mysteryId);
+  if (
+    mysteryId === "adaptive_index" &&
+    !state.bookmarks.includes(ADAPTIVE_INDEX_FINDINGS_URL)
+  ) {
+    state.bookmarks.push(ADAPTIVE_INDEX_FINDINGS_URL);
+  }
   if (REQUIRED_PHASE_THREE_MYSTERIES.every((id) => state.discoveredMysteries.includes(id))) {
     state.flags.phase_three_transition_pending = true;
   }
@@ -2048,13 +2105,21 @@ function navigate(url: string, push = true) {
   state.currentUrl = nextUrl;
   pageMusicPlaying = true;
   const openedPage = pages[state.currentUrl];
-  if (
+  const openedLegacyAccount = openedPage && DORMANT_LEGACY_PERSONA_IDS.has(openedPage.ownerId)
+    ? DORMANT_LEGACY_ACCOUNTS.find((account) => account.id === openedPage.ownerId)
+    : undefined;
+  const firstPhaseThreeLegacyVisit = Boolean(
     openedPage &&
     pageAvailable(openedPage) &&
-    state.storyPhase >= 3 &&
-    DORMANT_LEGACY_PERSONA_IDS.has(openedPage.ownerId)
-  ) {
+    state.storyPhase === 3 &&
+    openedLegacyAccount &&
+    !state.flags[legacyPageSeenFlag(openedPage.ownerId)]
+  );
+  if (openedPage && openedLegacyAccount && state.storyPhase >= 3 && pageAvailable(openedPage)) {
     state.flags[legacyPageSeenFlag(openedPage.ownerId)] = true;
+  }
+  if (firstPhaseThreeLegacyVisit && openedLegacyAccount) {
+    openLegacyDiscoveryWarning(openedLegacyAccount);
   }
   if (!state.visited.includes(state.currentUrl)) state.visited.push(state.currentUrl);
   state.pageVisitCounts[state.currentUrl] = (state.pageVisitCounts[state.currentUrl] ?? 0) + 1;
@@ -2163,7 +2228,7 @@ function pageCommentSection(page: PageDefinition) {
   const commentHtml = comments.length
     ? comments.map((comment) => `<article class="page-comment ${comment.role}">
         <header><b>${commentAuthorHtml(comment, page)}</b><time>${escapeHtml(formatGameTimestamp(comment.createdAt))}</time></header>
-        <p>${escapeHtml(comment.text)}</p>
+        <p>${formatCommentText(comment.text)}</p>
       </article>`).join("")
     : `<p class="no-comments">Nobody has commented on this page yet.</p>`;
 
@@ -2185,6 +2250,18 @@ function pageCommentSection(page: PageDefinition) {
     </form>
     <p class="comment-note">${pending ? "Sending your comment in the background. You can browse away." : "Replies may take a few minutes or several hours and appear on a later page load."}</p>
   </section>`;
+}
+
+function formatCommentText(text: string) {
+  return escapeHtml(text)
+    .replace(
+      /\b(web:\/\/[a-z0-9](?:[a-z0-9._/-]*[a-z0-9/_-])?)/gi,
+      `<button class="inline-comment-url" data-nav="$1">$1</button>`
+    )
+    .replace(
+      /\[\[BARNFLIP\]\]/gi,
+      `<blink class="barnflip-tag">BARNFLIP!</blink>`
+    );
 }
 
 function pageMusicPlayer(page: PageDefinition) {
@@ -2460,9 +2537,11 @@ function mailWindow() {
     <div class="mail-toolbar">${state.visited.includes(CHARACTER_HOME_URLS.juniper_gdn) ? `<button data-email-owner="juniper_gdn">New Message to Juniper</button>` : ""}</div>
     <div class="mail-layout"><aside><b>Folders</b><span class="selected">📥 Inbox (${1 + receivedEmails.length}${state.flags.signal_note_downloaded ? "+1" : ""})</span></aside>
     <main class="inbox"><div class="mail-columns"><b>From</b><b>Subject</b><b>Received</b></div>
+      <div class="mail-message-list">
       ${receipt}
       ${dynamicRows}
       <button class="mail-row unread" data-mail="welcome"><b>● OrbitNet Team</b><span>Welcome to Orbit!</span><time>11/03</time></button>
+      </div>
       <article class="mail-preview" id="mail-preview">${preview}</article>
     </main></div>`);
 }
@@ -3924,6 +4003,7 @@ function bindEvents() {
     }
     storyFormErrors.delete("raven");
     state.flags.darkraven_vault_unlocked = true;
+    if (!state.bookmarks.includes(RAVEN_VAULT_URL)) state.bookmarks.push(RAVEN_VAULT_URL);
     await saveState();
     notification = "ACCESS GRANTED // Evidence index decrypted.";
     render();

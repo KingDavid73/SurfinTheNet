@@ -386,12 +386,12 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
           <article><b>EVIDENCE A</b><h2>THE GHOST MODEM</h2><p>My Orbit modem makes a second click after the line disconnects. Juniper's phone rang from 000-0000 at the same minute Mira recorded an unknown carrier.</p><em>observation: three machines react without a normal caller</em></article>
           <article><b>EVIDENCE B</b><h2>GLASS LAKE / MOON WINDOW</h2><p>A stained contractor fax names Glass Lake, radio propagation tests, and an Orbit routing consultant. Three lights were logged above the station.</p><em>observation: dull paperwork and strange lights share a date</em></article>
           <article><b>EVIDENCE C</b><h2>THE MORROW FIVE</h2><p>The recording announces twelve five-number groups, but only eleven survive. Several resemble address blocks rather than coordinates.</p><em>observation: the count is wrong and the format looks familiar</em></article>
-          <article><b>RECOVERED BOOKMARK</b><h2>OLD ORBITOS INFO CENTER</h2><p>This was in a 1996 cache export. The modern directory has no record of it.</p><code>${LEGACY_HOME}</code><button data-nav="${LEGACY_HOME}">OPEN OLD ADDRESS</button></article>
+          <article><b>RECOVERED BOOKMARK</b><h2>OLD ORBITOS INFO CENTER</h2><p>This was in a 1996 cache export. The modern directory has no record of it.</p><strong class="story-url-chunk"><code>${LEGACY_HOME}</code></strong><button data-nav="${LEGACY_HOME}">OPEN OLD ADDRESS</button></article>
         </section>
         <section class="raven-final-lock">
           <small>FINAL_THEORY.HTM // SECOND LOCK</small>
           <h2>I need to know you understand all of this before I show you the REAL truth!</h2>
-          <p>Do not just skim my evidence and guess. Follow the recovered bookmark. Check what Night Signal lost. Figure out what was waiting in <b>“the lower room.”</b></p>
+          <p>Do not just skim my evidence and guess. Follow the recovered bookmark. Read its technical pages carefully, then compare what they call the network-monitoring machine with what Night Signal lost.</p>
           <p class="raven-lock-note">If you really followed the trail, you already know what belongs here.</p>
           ${state.flags.darkraven_conclusion_unlocked
             ? `<button data-nav="${RAVEN_CONCLUSION_URL}">READ DECRYPTED FINAL THEORY</button>`
@@ -465,6 +465,11 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
     render: () => `
       <main class="page folded-wire-page">
         <header><span>FAX 01/17</span><h1>THE FOLDED WIRE</h1><small>Paper remembers what servers misplace.</small></header>
+        <section class="backchannel-case-intro">
+          <h2>ONE ENVELOPE, THREE STORIES</h2>
+          <p>FaxMoth received an envelope containing old county contracts, routing slips, and sensational “leaks” about three unrelated incidents. The stories sound impossible, but several boring attachments underneath them appear genuine.</p>
+          <p>This archive separates the original paper trail from whoever decorated it later. <b>Cabinet B</b> identifies the real subjects and source documents. <b>Trace 6</b> asks whether the dramatic leaks were produced together on the same newer machine.</p>
+        </section>
         ${archiveImages([MYSTERY_IMAGES.redactedMemo, "A repeatedly copied routing memo"], [MYSTERY_IMAGES.envelope, "An anonymous envelope filed without a return address"], [MYSTERY_IMAGES.fileCabinet, "Cabinet B before its contents were indexed"])}
         <div class="fax-cabinet-map">
           <button data-nav="web://foldedwire.net/cabinet">CABINET B<br><small>contracts / maps / routing slips</small></button>
@@ -522,8 +527,13 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
     seedComments: [
       seed("null-rerun-1", NULL_HOME, "nullindex", "visitor", "Rerun_Zack", "The old Orbit addresses are answering again in the same order people mention them. That is either caching or theater. I started saving screenshots before they change again.", "1999-11-04T00:31:00")
     ],
-    render: () => `
+    render: (state) => `
       <main class="page index-null-page"><header>INDEX:NULL::<b>DEAD LETTER OFFICE</b><span>ROUTES RETURNED TO SENDER</span></header>
+        <section class="backchannel-case-intro null-case-intro">
+          <h2>THE DIRECTORY SAYS THESE PLACES NEVER EXISTED</h2>
+          <p>Index Null logs addresses that Orbit Search stopped acknowledging even though their servers still answer. After Raven's private file circulated, several retired titles returned in a suspiciously tidy sequence.</p>
+          <p>The Dead Letter Office preserves what the network returned. The Node Board compares when each route vanished and reappeared. A broken link is not proof—but twenty broken links changing together is a pattern.</p>
+        </section>
         ${archiveImages([MYSTERY_IMAGES.terminal, "A terminal returning an incomplete index"], [MYSTERY_IMAGES.punchCard, "Unclaimed directory card"], [MYSTERY_IMAGES.dotMatrix, "Dot-matrix route dump"])}
         <pre class="null-route-map">ROOT
  |-- /people/expired --- [143 RECORDS / NO INDEX]
@@ -535,6 +545,7 @@ DIRECTIVE:          KEEP COMMUNITY ACTIVE</pre>
  '-- /system/below ----- [AUTH REQUIRED]</pre>
         <nav><button data-nav="web://index-null.net/deadletters">OPEN DEAD LETTERS</button><button data-nav="web://index-null.net/nodes">PING NODE BOARD</button></nav>
         <p>Rule: a 404 can be content. A timeout can be timing. Neither is proof until it repeats.</p>
+        ${state.storyPhase >= 3 ? `<aside class="null-recovered-route"><b>ROUTE PAIR RECOVERED FROM TWO RETURNED ENVELOPES</b><p>Host: <strong>legacy.orbitos.local</strong><br>Restricted path: <strong>/admin/continuity</strong></p><small>Index Null records destinations. It does not provide authorization.</small></aside>` : ""}
       </main>`
   },
   "web://index-null.net/deadletters": {
@@ -851,15 +862,15 @@ END. END.</pre>
     render: () => `
       <main class="page quietcounty-page letter-comparison"><header><small>SOURCE COMPARISON // CLAIMED MAILINGS, 1992</small><h1>THREE ENEMIES, ONE MISSPELLING</h1><p>Read the accusations first. Then look at the paper.</p></header>
         <div class="quiet-letter-grid">
-          <article><b>LETTER A // sent to Concerned Parents</b><h2>“Park Friends”</h2><p>They already promised the creek path to outsiders. The council has <u>definately</u> decided your playground lights are “visual pollution.” Ask why their chair met the survey crew alone Tuesday.</p><small>claimed source: angry parks volunteer</small></article>
-          <article><b>LETTER B // sent to Taxpayer Watch</b><h2>“Concerned Parents”</h2><p>We have <u>definately</u> learned your committee will support the school bridge once the private contractor pays for your signs. Parents deserve to know who profits from pretending this is about safety.</p><small>claimed source: parents-group treasurer</small></article>
-          <article><b>LETTER C // sent to Park Friends</b><h2>“Taxpayer Watch”</h2><p>The developers <u>definately</u> intend to open a freight road after your trees are cleared. The other two groups accepted this Tuesday. If you attend their meeting, demand to see the agreement they are hiding.</p><small>claimed source: taxpayer whistleblower</small></article>
+          <article><b>LETTER A // sent to Concerned Parents</b><h2>“Park Friends”</h2><p>They already promised the creek path to outsiders. The council has <strong>definately</strong> decided your playground lights are “visual pollution.” Ask why their chair met the survey crew alone Tuesday.</p><small>claimed source: angry parks volunteer</small></article>
+          <article><b>LETTER B // sent to Taxpayer Watch</b><h2>“Concerned Parents”</h2><p>We have <strong>definately</strong> learned your committee will support the school bridge once the private contractor pays for your signs. Parents deserve to know who profits from pretending this is about safety.</p><small>claimed source: parents-group treasurer</small></article>
+          <article><b>LETTER C // sent to Park Friends</b><h2>“Taxpayer Watch”</h2><p>The developers <strong>definately</strong> intend to open a freight road after your trees are cleared. The other two groups accepted this Tuesday. If you attend their meeting, demand to see the agreement they are hiding.</p><small>claimed source: taxpayer whistleblower</small></article>
         </div>
         <section class="quiet-letter-timeline">
           <h2>What followed</h2>
           <ol><li><b>Day 0:</b> all three groups sign the same anti-bypass request.</li><li><b>Day 3:</b> letters arrive; private Tuesday conversations are quoted.</li><li><b>Day 5:</b> meeting attendance doubles, almost entirely for accusations.</li><li><b>Day 10:</b> all three groups suspend participation; attendance falls to two observers and the clerk.</li></ol>
         </section>
-        <p class="quiet-forensic-note"><b>PHYSICAL COMPARISON:</b> All three scans have the same torn lower-right corner, fourteen matching toner specks, and an <code>OrbitPrint 3.2</code> footer. That driver did not exist in 1992. The county archive contains no originals.</p>
+        <p class="quiet-forensic-note"><b>PHYSICAL COMPARISON:</b> All three scans have the same torn lower-right corner, fourteen matching toner specks, the same misspelling—<strong>definately</strong>—and an OrbitPrint 3.2 footer. That driver did not exist in 1992. The county archive contains no originals.</p>
         <section class="case-clue"><b>CEDAR'S WORKING NOTE:</b> Three enemies may tell one coherent story because one later author wrote all three sides. Copy the shared misspelling exactly as printed. This batch still does not identify the authentic study or its filing reference.</section>
         <button data-nav="web://quiet-county.org/home">&larr; RETURN TO QUIET COUNTY</button>
       </main>`
@@ -979,7 +990,7 @@ END. END.</pre>
         <p>The documents prove influence-oriented public-interface testing and undisclosed behavioral measurement. They suggest that a government sponsor wanted practical ways to steer salience and perceived consensus. They do <b>not</b> prove a single agency deployed the method nationally, directed Orbit's later actions, or authored any specific distraction. The sponsor appendix and final implementation report are missing.</p>
         <aside><b>REAL DISCOVERY:</b> Orbit licensed research showing how an index could bury a true record beneath a more attractive subject, then expanded it to sustain attention and participation.<br><b>UNRESOLVED:</b> who expanded the system from ordering information to operating people?</aside>
         <p class="archive-ethics-note"><b>ETHICS MARGIN NOTE:</b> “If the participant can still find the record, the sponsor calls this choice. If the system chose what surrounded the record, whose choice was it?”</p>
-        <footer>VERIFIED ARCHIVE // NETWORK STATE CHANGED<br><small>LEGACY AUDIT POINTER: PUBLIC HOST RETAINED // TERMINAL PATH /admin/continuity<br>RECOVERY STRIPS: THREE REACTIVATED PRE-BRIDGE ACCOUNTS</small></footer>
+        <footer>VERIFIED ARCHIVE // NETWORK STATE CHANGED<br><small>LEGACY AUDIT POINTER: PUBLIC HOST RETAINED // TERMINAL PATH <strong class="story-url-chunk">/admin/continuity</strong><br>RECOVERY STRIPS: THREE REACTIVATED PRE-BRIDGE ACCOUNTS</small></footer>
       </main>`)
   }
 };

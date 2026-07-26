@@ -179,6 +179,8 @@ function createWindow() {
           await click('[data-open="mail"]');
           const welcomeMailReady = await win.webContents.executeJavaScript(`(() => { const fixedRows = document.querySelectorAll('[data-mail]'); const welcome = document.querySelector('[data-mail="welcome"]'); if (fixedRows.length !== 1 || !welcome) return false; welcome.click(); return document.querySelector('#mail-preview')?.textContent.includes('member-made pages arranged into community zones'); })()`);
           if (!welcomeMailReady) throw new Error("New game did not begin with one descriptive Orbit welcome email");
+          const longMailScrollReady = await win.webContents.executeJavaScript(`(() => { const preview = document.querySelector('#mail-preview'); const inbox = document.querySelector('.inbox'); if (!preview || !inbox) return false; preview.insertAdjacentHTML('beforeend', '<p>' + 'Long archived message line. '.repeat(500) + '</p>'); const previewRect = preview.getBoundingClientRect(); const inboxRect = inbox.getBoundingClientRect(); return getComputedStyle(preview).overflowY === 'auto' && preview.scrollHeight > preview.clientHeight && previewRect.bottom <= inboxRect.bottom + 1 && inboxRect.bottom <= innerHeight + 1; })()`);
+          if (!longMailScrollReady) throw new Error("Long email content did not remain scrollable inside the Orbit Mail window");
           await click('[data-close="mail"]');
           await click('[data-open="chat"]');
           const friendWelcomeReady = await win.webContents.executeJavaScript(`document.querySelectorAll('.chat-message.character').length === 1 && document.querySelector('.chat-message.character p')?.textContent.includes('welcome to OrbitNet')`);
@@ -250,8 +252,8 @@ function createWindow() {
             }
             if (zoneUrl.endsWith("/gamegrid")) {
               const gameGridInitialTrack = await win.webContents.executeJavaScript(`(() => { const player = document.querySelector('.page-midi-player'); return { playlist: player?.classList.contains('has-playlist'), scope: player?.getAttribute('data-music-scope'), index: Number(player?.getAttribute('data-track-index')), label: document.querySelector('.midi-track b')?.textContent, counter: document.querySelector('.midi-controls > span')?.textContent }; })()`);
-              const gameGridTrackLabels = ["Everybody's In", "Leave Reality Running", "CUBIT Pure Play"];
-              if (!gameGridInitialTrack.playlist || gameGridInitialTrack.scope !== "gamegridzone" || gameGridInitialTrack.index < 0 || gameGridInitialTrack.index > 2 || gameGridInitialTrack.label !== gameGridTrackLabels[gameGridInitialTrack.index] || !gameGridInitialTrack.counter.includes(`${gameGridInitialTrack.index + 1}/3`)) {
+              const gameGridTrackLabels = ["Leave Reality Running", "CUBIT Pure Play"];
+              if (!gameGridInitialTrack.playlist || gameGridInitialTrack.scope !== "gamegridzone" || gameGridInitialTrack.index < 0 || gameGridInitialTrack.index > 1 || gameGridInitialTrack.label !== gameGridTrackLabels[gameGridInitialTrack.index] || !gameGridInitialTrack.counter.includes(`${gameGridInitialTrack.index + 1}/2`)) {
                 throw new Error(`GameGrid randomized multi-track player was unavailable: ${JSON.stringify(gameGridInitialTrack)}`);
               }
               await click("[data-page-music-next]");
@@ -880,7 +882,8 @@ function createWindow() {
             !saved.flags.darkraven_vault_unlocked ||
             saved.flags.phase_two_transition_pending ||
             saved.flags.darkraven_conclusion_unlocked ||
-            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-evidence')) && Boolean(document.querySelector('[data-nav="web://legacy.orbitos.local/home"]')) && Boolean(document.querySelector('[data-darkraven-conclusion]')) && document.body.textContent.includes('OBSERVATIONS FIRST. THEORY ENCRYPTED.') && !document.querySelector('.raven-master-theory') && !document.querySelector('.phase-transition-overlay')`)
+            !saved.bookmarks.includes("web://raven.web/vault") ||
+            !await win.webContents.executeJavaScript(`Boolean(document.querySelector('.raven-vault-evidence')) && Boolean(document.querySelector('[data-nav="web://legacy.orbitos.local/home"]')) && document.querySelector('.story-url-chunk')?.textContent.includes('web://legacy.orbitos.local/home') && Boolean(document.querySelector('[data-darkraven-conclusion]')) && document.body.textContent.includes('OBSERVATIONS FIRST. THEORY ENCRYPTED.') && !document.querySelector('.raven-final-lock')?.textContent.includes('lower room') && !document.querySelector('.raven-master-theory') && !document.querySelector('.phase-transition-overlay')`)
           ) throw new Error("Juniper's birthday did not unlock only the Black File evidence layer");
           await capture("story-darkraven-evidence-layer.png");
 
@@ -941,6 +944,8 @@ function createWindow() {
           ) {
             throw new Error(`Phase two did not force the four-day word-of-mouth break: ${saved.gameTime}`);
           }
+          const phaseTransitionScrollReady = await win.webContents.executeJavaScript(`(() => { const overlay = document.querySelector('.phase-transition-2'); const card = overlay?.querySelector('.phase-transition-card'); const button = card?.querySelector('[data-phase-wake]'); if (!overlay || !card || !button) return false; const cardStyle = getComputedStyle(card); return getComputedStyle(overlay).overflowY === 'auto' && cardStyle.overflowY === 'auto' && card.getBoundingClientRect().height <= innerHeight - 20; })()`);
+          if (!phaseTransitionScrollReady) throw new Error("Phase-transition content was not constrained to a scrollable on-screen card");
           await capture("story-phase2-overnight.png");
           await wakeFromPhaseTransition(2);
           await wait(250);
@@ -1017,7 +1022,7 @@ function createWindow() {
             }
           }
           await address("web://soundwave.zone/users/subbasssimon/home");
-          const phaseTwoCoverReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.byte-barn-cover-update [data-song-nav][data-song-file="byte-barn-breakbeat-deal.mp3"]')) && Boolean(document.querySelector('.byte-barn-cover-update.favorite [data-song-file="byte-barn-deal-remix.mp3"]')) && document.querySelectorAll('.byte-barn-cover-update').length === 2 && document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && Array.from(document.querySelectorAll('.page-comment.owner p')).some((comment) => comment.textContent.includes('[[BARNFLIP]]') && comment.textContent.includes('Byte Barn breakbeat mix'))`);
+          const phaseTwoCoverReady = await win.webContents.executeJavaScript(`Boolean(document.querySelector('.byte-barn-cover-update [data-song-nav][data-song-file="byte-barn-breakbeat-deal.mp3"]')) && Boolean(document.querySelector('.byte-barn-cover-update.favorite [data-song-file="byte-barn-deal-remix.mp3"]')) && document.querySelectorAll('.byte-barn-cover-update').length === 2 && document.querySelector('.page-midi-player')?.classList.contains('has-playlist') && Array.from(document.querySelectorAll('.page-comment.owner p')).some((comment) => comment.textContent.includes('BARNFLIP!') && comment.querySelector('.barnflip-tag') && comment.textContent.includes('Byte Barn breakbeat mix'))`);
           if (!phaseTwoCoverReady) throw new Error("Phase-two Byte Barn cover did not appear on Simon's personal page and playlist");
           const phaseTwoCoverPlayed = await win.webContents.executeJavaScript(`(() => {
             const button = document.querySelector('.byte-barn-cover-update [data-song-nav]');
@@ -1246,6 +1251,9 @@ function createWindow() {
           if (!await win.webContents.executeJavaScript(`document.querySelectorAll('.archive-finding-grid article').length === 3 && document.body.textContent.includes('suppression trial deleted nothing') && document.body.textContent.includes('positive mass-attention events')`)) {
             throw new Error("Adaptive Index findings did not establish attention displacement without censorship");
           }
+          if (!saved.bookmarks.includes("web://archive.orbitnet.local/labs/findings") || !await win.webContents.executeJavaScript(`document.querySelector('.story-url-chunk')?.textContent.includes('/admin/continuity')`)) {
+            throw new Error("Adaptive Index findings were not automatically bookmarked with a bold continuity URL chunk");
+          }
           await capture("story-adaptive-index-findings.png");
           await address("web://home");
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.phase-transition-prompt [data-phase-sleep]')) && document.body.textContent.includes('YOU SEND THE FINDINGS TO THE OTHER INVESTIGATORS') && Boolean(document.querySelector('.archive-finding-grid'))`)) {
@@ -1333,6 +1341,14 @@ function createWindow() {
           await wait();
           if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.legacy-fragment-page .legacy-fragment-logo')) && !document.querySelector('.page-comments')`)) {
             throw new Error("Clicking the dormant username did not open its comment-free legacy page");
+          }
+          const legacyWarningOpened = await win.webContents.executeJavaScript(`(() => {
+            const chat = document.querySelector('.chat-window');
+            const warning = chat?.querySelector('.chat-message.character p')?.textContent?.toLowerCase() ?? '';
+            return Boolean(chat) && (warning.includes('back out') || warning.includes('leave it alone') || warning.includes('stop'));
+          })()`);
+          if (!legacyWarningOpened) {
+            throw new Error("First discovery of a phase-three legacy page did not open its contextual glitched OIM warning");
           }
           await capture("story-dormant-orbital-mechanic.png");
 

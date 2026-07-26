@@ -121,8 +121,8 @@ export const newcomerMembers = [
     ownerId: "barnbeat_ben",
     handle: "BarnBeat_Ben",
     displayName: "Ben",
-    title: "BYTE BARN BEAT BARN",
-    description: "A fan page for the computer-store jingle Ben taped off television because the hook is completely phat.",
+    title: "Ben's Weird Orbit Finds",
+    description: "A newcomer link board for strange shops, cereal rumors, cartoons, local services, and the Byte Barn song that started his whole trip.",
     url: "web://freshorbit.zone/users/barnbeatben/home",
     button: newcomerArt["ben-badge"]
   },
@@ -210,37 +210,37 @@ export const newcomerPages: Record<string, PageDefinition> = {
   },
   [BEN_URL]: {
     url: BEN_URL,
-    title: "Byte Barn Beat Barn",
-    site: "newbytefan",
+    title: "Ben's Weird Orbit Finds",
+    site: "newlinklily",
     ownerId: "barnbeat_ben",
-    summary: "Ben's exuberant newcomer page celebrates Byte Barn's television jingle, cheap speakers, and the computer store that accidentally made his favorite song.",
+    summary: "Ben's newcomer link board collects peculiar Orbit businesses, forgotten cartoons, suspicious cereal prizes, and the Byte Barn jingle that led him here.",
     commentsEnabled: true,
     listed: true,
     minimumPhase: 2,
     hubId: "zone-newcomers",
-    searchTerms: ["newcomer", "byte barn fan", "computer store jingle", "phat song", "commercial music", "speakers"],
+    searchTerms: ["newcomer", "weird pages", "strange businesses", "cereal prize", "laundromat", "dentist", "cartoons", "byte barn"],
     seedComments: [
-      seed("new-ben-chip", BEN_URL, "barnbeat_ben", "visitor", "Chip_At_ByteBarn", "The jingle was recorded in Lou's garage for fifty dollars and a refurbished sound card. I will tell him it has a fan page.", "1999-11-04T08:25:00"),
-      seed("new-ben-keesha", BEN_URL, "barnbeat_ben", "visitor", "TapeDeck_Keesha", "The hook is phat. The store clap at the end is off beat. Both facts make it better.", "1999-11-04T08:47:00"),
-      seed("new-ben-maddy", BEN_URL, "barnbeat_ben", "visitor", "ModKit_Maddy", "The kick drum is clipping through a consumer limiter. Compliment.", "1999-11-04T09:11:00"),
-      seed("new-ben-simon", BEN_URL, "barnbeat_ben", "visitor", "SubBass_Simon", "Does anybody have a clean copy of the store clap? I have an idea and very little sampler memory.", "1999-11-04T10:06:00"),
-      seed("new-ben-rico", BEN_URL, "barnbeat_ben", "visitor", "RhymeTape_Rico", "Byte it, boot it, bring it to the barn already has a meter. Somebody was going to flip this sooner or later.", "1999-11-04T10:19:00")
+      seed("new-ben-chip", BEN_URL, "barnbeat_ben", "visitor", "Chip_At_ByteBarn", "The old jingle page is real. The cereal spying page is not an official Byte Barn technical opinion.", "1999-11-04T08:25:00"),
+      seed("new-ben-keesha", BEN_URL, "barnbeat_ben", "visitor", "TapeDeck_Keesha", "Excellent list. The laundromat dryers and that cartoon schedule both look like things somebody accidentally preserved forever.", "1999-11-04T08:47:00"),
+      seed("new-ben-maddy", BEN_URL, "barnbeat_ben", "visitor", "ModKit_Maddy", "I opened the crystal page. The test procedure is nonsense, but the radio interference graph is weirdly specific.", "1999-11-04T09:11:00"),
+      seed("new-ben-rico", BEN_URL, "barnbeat_ben", "visitor", "RhymeTape_Rico", "This is what Orbit does best: one great jingle, one dentist fish, and one breakfast conspiracy in the same afternoon.", "1999-11-04T10:19:00")
     ],
     render: () => `
       <main class="page newcomer-page newcomer-ben">
-        <header><img src="${newcomerArt["ben-badge"]}" alt=""><div><h1>BYTE BARN<br><em>BEAT BARN</em></h1><p>THE JINGLE IS PHAT. THERE, I SAID IT.</p></div></header>
-        <section class="ben-equalizer">${image(newcomerArt["byte-waveform"], "A colorful homemade waveform graphic")}<div><b>♫ BYTE IT / BOOT IT / BRING IT TO THE BARN ♫</b><span>unofficial transcription from television — probably wrong</span></div></section>
+        <header><img src="${newcomerArt["ben-badge"]}" alt=""><div><h1>BEN'S WEIRD<br><em>ORBIT FINDS</em></h1><p>GOOD, BAD, BROKEN, OR TOO STRANGE TO CLOSE</p></div></header>
         <section class="newcomer-intro">
           ${image(newcomerArt["ben-portrait"], "A scanned flash portrait of Ben")}
-          <div><h2>How I got here</h2><p>Somebody at school printed RhymeTape_Rico's weird-page listening guide, so naturally I used my entire evening finding the Byte Barn ad. It has not been on television in years, but the old store page still serves the full song. That beat is da bomb. The little keyboard stab after “bring it to the barn” could move units by itself.</p><p>I do not work there. My family computer came from a grocery-store raffle and sounds like a vacuum cleaner. If you make a cover, leave the Byte Barn slogan intact so everybody knows where this started.</p><button data-nav="web://bytebarn.com/home">GO TO BYTE BARN</button></div>
+          <div><h2>How I got here</h2><p>Somebody at school printed a weird-page listening guide, so naturally I spent the evening looking for one retired computer-store song. Then I found a laundromat, an abandoned cartoon schedule, a dentist with a famous fish, and a person testing cereal toys with a radio.</p><p>The dedicated Byte Barn club has the remixes. This page is for everything else I would have forgotten to bookmark.</p><button data-nav="${BYTE_BARN_FAN_HUB_URL}">VISIT THE BYTE BARN BEAT EXCHANGE</button></div>
         </section>
-        <section class="ben-gear-grid">
-          <figure>${image(newcomerArt["byte-barn-sticker"], "A homemade computer and barn sticker")}<figcaption>my first web sticker</figcaption></figure>
-          <figure>${image(newcomerArt["ben-speaker-pc"], "Ben's beige computer and speakers")}<figcaption>listening station / speakers at maximum fuzz</figcaption></figure>
-          <figure>${image(newcomerArt["ben-cassette-dub"], "Ben dubbing the computer-store jingle onto cassette")}<figcaption>mix tape position 03</figcaption></figure>
-          <figure>${image(newcomerArt["byte-flyer"], "A crooked scan of a computer-store flyer")}<figcaption>the ad where I found the phone number</figcaption></figure>
+        <section class="ben-gear-grid ben-weird-links">
+          <figure><button data-nav="web://bytebarn.com/home">${image(newcomerArt["byte-barn-sticker"], "A homemade computer and barn sticker")}</button><figcaption><b>BYTE BARN</b><br>retired computer store / unexpectedly phat jingle</figcaption></figure>
+          <figure><button data-nav="web://bubbleborough.com/home">${image(newcomerArt["weird-deep-pit"], "A strange-looking laundromat dryer tunnel")}</button><figcaption><b>BUBBLE BOROUGH</b><br>a completely ordinary laundromat that looks like a spaceship inside</figcaption></figure>
+          <figure><button data-nav="web://moonmunch.com/home">${image(newcomerArt["weird-purple-mascot"], "A peculiar colorful breakfast mascot")}</button><figcaption><b>MOON MUNCH</b><br>cereal, decoder rings, and suspiciously serious prize lore</figcaption></figure>
+          <figure><button data-nav="web://prizefrequency.net/crystal">${image(newcomerArt["weird-radio-tower"], "A homemade radio interference test")}</button><figcaption><b>BREAKFAST CRYSTAL RECEIVER?</b><br>somebody thinks a cereal toy is listening to children</figcaption></figure>
+          <figure><button data-nav="web://toonburst.tv/home">${image(newcomerArt["weird-gem-cavern"], "A colorful old television-program graphic")}</button><figcaption><b>TOONBURST</b><br>an old Saturday cartoon grid that still thinks next Saturday is coming</figcaption></figure>
+          <figure><button data-nav="web://molarmeadow.dent/home">${image(newcomerArt["weird-pet-page"], "A charmingly awkward pet-themed webpage graphic")}</button><figcaption><b>MOLAR MEADOW</b><br>dentist page / visit Kevin the fish without getting a cleaning</figcaption></figure>
         </section>
-        <div class="ben-verdict">FINAL VERDICT: ALL THAT + 1 BAG OF CHIPS</div>
+        <div class="ben-verdict">CURRENT SCORE: 6 GOOD LINKS / 1 POSSIBLY EVIL CEREAL PRIZE</div>
       </main>`
   },
   [BYTE_BARN_FAN_HUB_URL]: {
@@ -271,7 +271,7 @@ export const newcomerPages: Record<string, PageDefinition> = {
             <img src="${newcomerArt["ben-badge"]}" alt="Ben's homemade Byte Barn badge">
             <div><small>FANVERSE CLUB // STARTED BY BARNBEAT_BEN</small><h1>THE BYTE BARN<br><em>BEAT EXCHANGE</em></h1><p>one old commercial + too many blank tapes = a scene</p></div>
           </header>
-          <marquee scrollamount="4">*** NEW COVERS ARRIVING FROM OUTSIDE ORBIT *** DUB YOUR FAVORITE *** TAG IT [[BARNFLIP]] *** KEEP THE CROOKED CLAP ***</marquee>
+          <marquee scrollamount="4">*** NEW COVERS ARRIVING FROM OUTSIDE ORBIT *** DUB YOUR FAVORITE *** TAG IT <blink class="barnflip-tag">BARNFLIP!</blink> *** KEEP THE CROOKED CLAP ***</marquee>
           <section class="barn-hub-origin">
             ${image(newcomerArt["byte-barn-sticker"], "A homemade Byte Barn computer-and-barn sticker")}
             <div><small>HOW THIS GOT OUT</small><h2>Somebody told a friend. Their friend told a band.</h2>
@@ -583,7 +583,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["knocker-stump"], "A distant dark stump in the water"]
         ])}
         <section><h2>WHAT HAPPENED</h2><p>Three knocks came from under dock two at 5:40 AM. Then something made one big circle and moved toward the reeds. Could be a monster. Could be the loose ladder and a carp. Earl says it was Cal hiding a bad trade-in.</p><p>No bait was stolen, which argues against every fish I know.</p></section>
-        <details class="oddity-breadcrumb"><summary>paper wedged beneath the ladder</summary><p>A soggy county survey copy has <code>PROJECT TRESTLE</code> typed in the margin. It asks which Quiet County meeting speakers people trusted, which rumors changed their minds, and whether they planned to attend again. Bob assumed “trestle” meant the old dock bridge until CedarWren said the survey came from the week three civic groups turned on one another and then stopped showing up.</p></details>
+        <details class="oddity-breadcrumb"><summary>paper wedged beneath the ladder</summary><p>A soggy county survey copy has <code>PROJECT TRESTLE</code> typed in the margin. It asks which <strong>Quiet County</strong> meeting speakers people trusted, which rumors changed their minds, and whether they planned to attend again. Bob assumed “trestle” meant the old dock bridge until CedarWren said the survey came from the week three civic groups turned on one another and then stopped showing up.</p></details>
         <button data-nav="web://yesterday.zone/users/bigbassbob/home">&lt; BACK TO BOB'S DOCK</button>
       </main>`
   },
@@ -607,7 +607,7 @@ export const phaseTwoOddityPages: Record<string, PageDefinition> = {
           [oddityArt["blipzo-drawing"], "A fan drawing from memory of alien Blipzo's orange-striped basket hat"]
         ])}
         <section><h2>THE DISCREPANCY</h2><p>Blipzo is always a three-eyed teal alien in the orange jacket. The television costume has a pale stripe across the purple basket hat. The plush has red. The mall-game manual appears yellow but may be sun-faded. This is either a pre-release costume change or four manufacturers receiving four different photocopies.</p><p>Maddy says “production inconsistency” as if that makes it less important.</p></section>
-        <details class="oddity-breadcrumb"><summary>boring print clue (Dex made me add this)</summary><p>Three supposedly separate reference sheets share the same torn corner, the same misspelling of “definitely,” and an <code>OrbitPrint 3.2</code> footer. CedarWren says the Quiet County letters have the exact same combination—which is strange for messages supposedly written by three people who hated one another.</p></details>
+        <details class="oddity-breadcrumb"><summary>boring print clue (Dex made me add this)</summary><p>Three supposedly separate reference sheets share the same torn corner, the same misspelling—<strong>definately</strong>—and an OrbitPrint 3.2 footer. CedarWren says the Quiet County letters have the exact same combination—which is strange for messages supposedly written by three people who hated one another.</p></details>
         <button data-nav="web://fanverse.zone/users/blipzobeliever88/home">&lt; RETURN TO THE BLIPZO ARCHIVE</button>
       </main>`
   }

@@ -1,6 +1,39 @@
+param(
+  [string]$InstallDirectory
+)
+
 $ErrorActionPreference = "Stop"
 
-$installDirectory = Join-Path $env:LOCALAPPDATA "Programs\SurfinTheNet"
+function Select-InstallDirectory {
+  $standardCandidates = @(
+    (Join-Path $env:ProgramFiles "SurfinTheNet"),
+    (Join-Path $env:LOCALAPPDATA "Programs\SurfinTheNet")
+  )
+  if (${env:ProgramFiles(x86)}) {
+    $standardCandidates += Join-Path ${env:ProgramFiles(x86)} "SurfinTheNet"
+  }
+  $initialDirectory = $standardCandidates |
+    Where-Object { Test-Path -LiteralPath (Join-Path $_ "Surfin' the Net.exe") -PathType Leaf } |
+    Select-Object -First 1
+
+  Add-Type -AssemblyName System.Windows.Forms
+  $dialog = New-Object System.Windows.Forms.FolderBrowserDialog
+  $dialog.Description = "Select the folder containing Surfin' the Net.exe."
+  $dialog.ShowNewFolderButton = $false
+  if ($initialDirectory) {
+    $dialog.SelectedPath = $initialDirectory
+  }
+  $result = $dialog.ShowDialog()
+  if ($result -ne [System.Windows.Forms.DialogResult]::OK -or -not $dialog.SelectedPath) {
+    throw "No installation folder was selected. The update was cancelled."
+  }
+  return $dialog.SelectedPath
+}
+
+if (-not $InstallDirectory) {
+  $InstallDirectory = Select-InstallDirectory
+}
+$installDirectory = [System.IO.Path]::GetFullPath($InstallDirectory)
 $resourcesDirectory = Join-Path $installDirectory "resources"
 $gameExecutable = Join-Path $installDirectory "Surfin' the Net.exe"
 $payloadDirectory = Join-Path $PSScriptRoot "payload"
@@ -9,13 +42,31 @@ $payloadPersonas = Join-Path $payloadDirectory "personas"
 $hashFile = Join-Path $PSScriptRoot "APP_ASAR_SHA256.txt"
 
 if (-not (Test-Path -LiteralPath $gameExecutable -PathType Leaf)) {
-  throw "The existing game was not found at: $installDirectory"
+  throw "Surfin' the Net.exe was not found in the selected folder: $installDirectory"
 }
 if (-not (Test-Path -LiteralPath $payloadAsar -PathType Leaf)) {
   throw "The patch payload is incomplete: app.asar is missing."
 }
 if (-not (Test-Path -LiteralPath $payloadPersonas -PathType Container)) {
   throw "The patch payload is incomplete: the personas folder is missing."
+}
+
+$currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent()
+$currentPrincipal = New-Object Security.Principal.WindowsPrincipal($currentIdentity)
+$isAdministrator = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdministrator) {
+  $arguments = @(
+    "-NoProfile",
+    "-ExecutionPolicy", "Bypass",
+    "-File", "`"$PSCommandPath`"",
+    "-InstallDirectory", "`"$installDirectory`""
+  )
+  try {
+    $elevated = Start-Process powershell.exe -Verb RunAs -ArgumentList $arguments -Wait -PassThru
+  } catch {
+    throw "Administrator permission was not granted. The update was cancelled."
+  }
+  exit $elevated.ExitCode
 }
 
 $runningGame = Get-Process -ErrorAction SilentlyContinue | Where-Object {
