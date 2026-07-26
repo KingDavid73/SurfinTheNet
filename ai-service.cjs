@@ -718,6 +718,7 @@ class AiService {
       ? "email"
       : request.deliverySurface === "aim" ? "aim" : "comment";
     const isPrivate = deliverySurface !== "comment";
+    const privateOutreachMode = request.privateOutreachMode === "follow-up" ? "follow-up" : "introduction";
     return [
       `You are ${persona.displayName}, screen name ${persona.screenName}.`,
       ...personaProfileLines(persona),
@@ -730,13 +731,17 @@ class AiService {
       `Facts you currently know: ${persona.knownFacts.join(" ")}`,
       `Examples of your voice and judgment: ${persona.exampleReplies.map((reply) => `“${reply}”`).join(" ")}`,
       isPrivate
-        ? `You are privately contacting the player through ${deliverySurface === "email" ? "email" : "instant message"} because you noticed something on the web page "${request.pageTitle}" at ${request.pageUrl}.`
+        ? privateOutreachMode === "introduction"
+          ? `You are privately contacting the player through ${deliverySurface === "email" ? "email" : "instant message"} for the first time because they recently returned to Orbit and helped draw attention to the community.`
+          : `You are privately checking back in with the player through ${deliverySurface === "email" ? "email" : "instant message"} after previously talking with them.`
         : `You are ${postingOnOwnPage ? "posting on your own web page" : "visiting another person's web page"} titled "${request.pageTitle}" at ${request.pageUrl}.`,
       `Page summary: ${request.pageSummary}`,
       `Page content: ${request.pageContext}`,
       "Hard rules:",
       isPrivate
-        ? "- Write one natural unsolicited private note to the player about something specific on this page. It may suggest a useful observation or question, but must not solve an entire puzzle."
+        ? privateOutreachMode === "introduction"
+          ? `- This is your first unsolicited private message to the player. Briefly introduce yourself in character, explain naturally why you wanted to say hello, and invite them to write back. Do not mention a named mystery, hidden page, solution, password, or clue.`
+          : "- Continue the existing relationship without reintroducing yourself. Ask one natural, probing question such as whether the player found anything interesting, made progress, or is as stuck as you are. Do not volunteer a new solution or unexplained mystery hint."
         : "- Write one natural unsolicited public comment about something specific on this page.",
       "- You may react to an existing comment when it gives you something specific to say, but do not pretend anyone directly asked you a question unless they did.",
       "- Stay in character. Let your tastes, grudges, knowledge, and relationships shape what you notice.",
@@ -776,16 +781,35 @@ class AiService {
         })
       });
       const comments = Array.isArray(request.existingComments) ? request.existingComments.slice(-24) : [];
+      const recentDirectMessages = Array.isArray(request.recentDirectMessages)
+        ? request.recentDirectMessages.slice(-8)
+        : [];
       const thread = comments
         .map((comment) => `[${comment.role === "owner" ? "SITE OWNER" : comment.role === "visitor" ? "VISITOR" : "PLAYER"}] ${String(comment.author).slice(0, 40)}: ${String(comment.text).slice(0, 500)}`)
         .join("\n");
       const earlierPersonaComments = comments
         .filter((comment) => String(comment.author).toLowerCase() === persona.screenName.toLowerCase())
         .map((comment) => String(comment.text).slice(0, 500));
+      const privateThread = recentDirectMessages
+        .map((message) => `[${message.role === "owner" ? persona.screenName : "PLAYER"}] ${String(message.text).slice(0, 500)}`)
+        .join("\n");
+      const isPrivate = request.deliverySurface === "aim" || request.deliverySurface === "email";
+      const privateOutreachMode = request.privateOutreachMode === "follow-up" ? "follow-up" : "introduction";
+      const earlierPersonaMessages = isPrivate
+        ? recentDirectMessages
+            .filter((message) => message.role === "owner")
+            .map((message) => String(message.text).slice(0, 500))
+        : earlierPersonaComments;
       const prompt = [
-        thread ? `Existing public discussion, oldest to newest:\n${thread}` : "This page does not have an existing public discussion.",
-        `Post a fresh, specific comment as ${persona.screenName}.`,
-        "Comment on the page itself or respond naturally to one relevant discussion point.",
+        isPrivate
+          ? privateThread ? `Recent private conversation, oldest to newest:\n${privateThread}` : "You and the player have no private conversation history."
+          : thread ? `Existing public discussion, oldest to newest:\n${thread}` : "This page does not have an existing public discussion.",
+        isPrivate
+          ? privateOutreachMode === "introduction"
+            ? `Send a brief first introduction as ${persona.screenName}. Make it social, not a mystery briefing.`
+            : `Send a brief follow-up as ${persona.screenName} that asks how the player's exploration is going.`
+          : `Post a fresh, specific comment as ${persona.screenName}.`,
+        isPrivate ? "Do not format this like a public page comment." : "Comment on the page itself or respond naturally to one relevant discussion point.",
         "/no_think"
       ].join("\n");
 
@@ -805,10 +829,12 @@ class AiService {
         }
       });
       let text = cleanModelReply(result.responseText);
-      if (earlierPersonaComments.length && repeatsEarlierReply(text, earlierPersonaComments)) {
+      if (earlierPersonaMessages.length && repeatsEarlierReply(text, earlierPersonaMessages)) {
         result = await ambientSession.promptWithMeta([
           "That draft was rejected because this persona has already posted something too similar.",
-          `Write a genuinely different brief observation about "${request.pageTitle}".`,
+          isPrivate
+            ? "Write a genuinely different brief private check-in that asks how the player's exploration is going."
+            : `Write a genuinely different brief observation about "${request.pageTitle}".`,
           "Do not mention the rejected draft or these instructions.",
           "/no_think"
         ].join("\n"), {

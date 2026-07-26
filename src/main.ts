@@ -382,7 +382,7 @@ const MIRA_WELCOME_TEXT = [
 ].join("\n");
 
 const DEFAULT_STATE: GameState = {
-  version: 9,
+  version: 10,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -796,6 +796,13 @@ function normalizeState(loaded: Partial<GameState>): GameState {
   ) {
     delete normalizedFlags.phase_two_transition_pending;
   }
+  if (
+    Number(loaded.version ?? 0) < 10 &&
+    storyPhase === 2 &&
+    !normalizedFlags.phase_two_intro_outreach_queued
+  ) {
+    normalizedFlags.phase_two_intro_outreach_pending = true;
+  }
   const normalizedDirectMessages = Array.isArray(loaded.directMessages)
     ? loaded.directMessages.map((message) => message.id === "mira-welcome-1999" ? { ...message, text: MIRA_WELCOME_TEXT } : message)
     : [];
@@ -979,10 +986,65 @@ function extractAmbientPageContext(page: PageDefinition) {
   return (container.textContent ?? "").replace(/\s+/g, " ").trim().slice(0, 3000);
 }
 
-function queueAmbientPostRolls(hoursElapsed: number, createdAt: string) {
+function playerHasTalkedTo(personaId: string) {
+  return state.directMessages.some((message) =>
+    message.ownerId === personaId &&
+    message.role === "player" &&
+    (message.channel === "aim" || message.channel === "email")
+  );
+}
+
+function characterHasPrivateHistory(personaId: string) {
+  return state.directMessages.some((message) =>
+    message.ownerId === personaId &&
+    (message.channel === "aim" || message.channel === "email")
+  );
+}
+
+function ambientPrivateIntroFlag(personaId: string) {
+  return `ambient_private_intro_${personaId}`;
+}
+
+function queuePhaseTwoReturnOutreach(createdAt: string) {
+  if (state.storyPhase !== 2 || !state.flags.phase_two_intro_outreach_pending) return new Set<string>();
+  state.flags.phase_two_intro_outreach_pending = false;
+  state.flags.phase_two_intro_outreach_queued = true;
+
+  const candidates = Object.keys(MAIN_PRIVATE_ACTIVITY)
+    .filter((personaId) =>
+      personaId !== "mira_917" &&
+      (playerHasTalkedTo(personaId) || !characterHasPrivateHistory(personaId))
+    )
+    .sort(() => Math.random() - 0.5);
+  const outreachCount = Math.random() < 0.55 ? 2 : 1;
+  const selected = candidates.slice(0, outreachCount);
+  for (const personaId of selected) {
+    const pageUrl = CHARACTER_HOME_URLS[personaId];
+    const page = pages[pageUrl] && pageAvailable(pages[pageUrl])
+      ? pages[pageUrl]
+      : ambientInvestigationPages()[0];
+    if (!page) continue;
+    state.ambientPostQueue.push({
+      id: crypto.randomUUID(),
+      personaId,
+      pageUrl: page.url,
+      createdAt,
+      attempts: 0,
+      surface: MAIN_PRIVATE_ACTIVITY[personaId],
+      privateOutreachMode: playerHasTalkedTo(personaId) ? "follow-up" : "introduction"
+    });
+  }
+  return new Set(selected);
+}
+
+function queueAmbientPostRolls(hoursElapsed: number, createdAt: string, allowPrivateOutreach = true) {
   if (hoursElapsed < 1) return;
   const homepages = ambientCommentHomepages();
   if (!homepages.length) return;
+  const queuedBeforeReturnOutreach = state.ambientPostQueue.length;
+  const phaseTwoReturnContacts = allowPrivateOutreach
+    ? queuePhaseTwoReturnOutreach(createdAt)
+    : new Set<string>();
   const chancePerHour = state.storyPhase === 3 ? 0.07 : state.storyPhase === 2 ? 0.035 : 0.02;
   const maximumChance = state.storyPhase === 3 ? 0.50 : state.storyPhase === 2 ? 0.30 : 0.20;
   const jobs: AmbientPostJob[] = [];
@@ -993,9 +1055,23 @@ function queueAmbientPostRolls(hoursElapsed: number, createdAt: string) {
       Math.min(0.85, maximumChance * activity.capMultiplier)
     );
     if (Math.random() >= chance) continue;
-    const privateSurface = state.storyPhase >= 2 ? MAIN_PRIVATE_ACTIVITY[personaId] : undefined;
+    const privateSurface = state.storyPhase >= 2 && allowPrivateOutreach && !phaseTwoReturnContacts.has(personaId)
+      ? MAIN_PRIVATE_ACTIVITY[personaId]
+      : undefined;
     const privateChance = state.storyPhase === 3 ? 0.58 : 0.42;
-    const surface = privateSurface && Math.random() < privateChance ? privateSurface : "comment";
+    let surface: AmbientPostJob["surface"] = privateSurface && Math.random() < privateChance ? privateSurface : "comment";
+    let privateOutreachMode: AmbientPostJob["privateOutreachMode"];
+    if (surface !== "comment") {
+      const hasConversation = playerHasTalkedTo(personaId);
+      if (
+        !hasConversation &&
+        (characterHasPrivateHistory(personaId) || state.flags[ambientPrivateIntroFlag(personaId)])
+      ) {
+        surface = "comment";
+      } else {
+        privateOutreachMode = hasConversation ? "follow-up" : "introduction";
+      }
+    }
     const targets = surface === "comment" ? homepages : ambientInvestigationPages();
     const page = targets[Math.floor(Math.random() * targets.length)] ?? targets[0] ?? homepages[0];
     jobs.push({
@@ -1004,10 +1080,11 @@ function queueAmbientPostRolls(hoursElapsed: number, createdAt: string) {
       pageUrl: page.url,
       createdAt,
       attempts: 0,
-      surface
+      surface,
+      privateOutreachMode
     });
   }
-  if (!jobs.length) return;
+  if (!jobs.length && state.ambientPostQueue.length === queuedBeforeReturnOutreach) return;
   state.ambientPostQueue.push(...jobs);
   void saveState().then(() => processAmbientPostQueue()).catch(() => {
     // Keep the queued jobs in memory; a later clock save or model status poll can retry them.
@@ -1185,6 +1262,20 @@ async function processAmbientPostQueue() {
         continue;
       }
       try {
+        const outreachMode = surface === "comment"
+          ? undefined
+          : playerHasTalkedTo(job.personaId) ? "follow-up" : job.privateOutreachMode ?? "introduction";
+        if (
+          outreachMode === "introduction" &&
+          (
+            characterHasPrivateHistory(job.personaId) ||
+            state.flags[ambientPrivateIntroFlag(job.personaId)]
+          )
+        ) {
+          state.ambientPostQueue.shift();
+          await saveState();
+          continue;
+        }
         const existingComments = [...authoredPageComments(page), ...state.pageComments]
           .filter((comment) => comment.pageUrl === page.url)
           .map((comment) => ({ role: comment.role, author: comment.author, text: comment.text }));
@@ -1197,7 +1288,17 @@ async function processAmbientPostQueue() {
           pageContext: extractAmbientPageContext(page),
           existingComments,
           storyPhase: state.storyPhase,
-          deliverySurface: surface
+          deliverySurface: surface,
+          privateOutreachMode: outreachMode,
+          recentDirectMessages: surface === "comment"
+            ? undefined
+            : state.directMessages
+                .filter((message) =>
+                  message.ownerId === job.personaId &&
+                  (message.channel === "aim" || message.channel === "email")
+                )
+                .slice(-8)
+                .map((message) => ({ role: message.role, author: message.author, text: message.text }))
         });
         if (surface === "comment") {
           state.pageComments.push({
@@ -1218,10 +1319,15 @@ async function processAmbientPostQueue() {
             role: "owner",
             author: result.author.screenName,
             text: result.text,
-            subject: surface === "email" ? `Something on ${page.title}` : undefined,
+            subject: surface === "email"
+              ? outreachMode === "introduction" ? `Hello from ${result.author.screenName}` : "How is the search going?"
+              : undefined,
             createdAt: job.createdAt
           };
           state.directMessages.push(directMessage);
+          if (outreachMode === "introduction") {
+            state.flags[ambientPrivateIntroFlag(job.personaId)] = true;
+          }
           if (
             surface === "aim" &&
             job.personaId === activeAimOwnerId &&
@@ -1406,18 +1512,10 @@ function addPhaseInvestigationMessages(phase: 2 | 3) {
       "okay, this got bigger while you were away. i told two people about Raven's file, they told friends, and somebody carried the address onto the regular web. now strangers are comparing notes. nobody has the whole answer, but page owners know their own evidence. ask one specific question, then sleep if they take a while to answer."
     );
     addAuthoredDirectMessage(
-      "phase2-raven-investigation",
+      "phase2-raven-private-file",
       "darkraven_xx",
       "xX_DarkRaven_Xx",
-      "the new mystery pages are bait, but bait can still have a real hook. save copies of anything useful. especially boring records with dates, counts, or print marks."
-    );
-    addAuthoredDirectMessage(
-      "phase2-juniper-notes",
-      "juniper_gdn",
-      "Juniper_Gdn",
-      "Everyone is chasing different pieces, so I started keeping copies instead of trying to remember every hidden address. Orbit Explorer can save mystery pages into My Files now. Also, asking the person who posted a record is usually nicer than guessing what they meant :)",
-      "email",
-      "A less chaotic way to compare notes"
+      "hey. why did you share my PRIVATE file with everybody?? half of Orbit is calling me the dream-alien guy now. if all these people are going to prove me wrong, at least tell me when you find something interesting."
     );
     return;
   }
@@ -1674,7 +1772,7 @@ function forceOvernightPhaseTransition(phase: 2 | 3 | 4) {
   after.setHours(7, 0, 0, 0);
   state.gameTime = localGameTimeString(after);
   const hoursElapsed = crossedGameHourBoundaries(before, after);
-  queueAmbientPostRolls(hoursElapsed, state.gameTime);
+  queueAmbientPostRolls(hoursElapsed, state.gameTime, false);
   if (phase === 3) seedSystemRumorHints(hoursElapsed, state.gameTime);
   lastGameClockTick = performance.now();
   startOpen = false;
@@ -3265,6 +3363,10 @@ function bindEvents() {
   document.querySelector<HTMLElement>("[data-phase-wake]")?.addEventListener("click", () => {
     const completedPhase = phaseTransition?.phase;
     phaseTransition = null;
+    if (completedPhase === 2 && !state.flags.phase_two_intro_outreach_queued) {
+      state.flags.phase_two_intro_outreach_pending = true;
+      void saveState();
+    }
     prepareFreshDesktopSession();
     notification = completedPhase === 2
       ? "Friends told friends: Newbie Nebula is online, FanVerse has a Byte Barn Beat Exchange, and fresh covers are appearing across Orbit."

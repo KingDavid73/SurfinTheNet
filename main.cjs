@@ -15,7 +15,7 @@ const aiService = new AiService({
 });
 
 const DEFAULT_SAVE = {
-  version: 9,
+  version: 10,
   playerName: "",
   storyPhase: 1,
   discoveredMysteries: [],
@@ -912,6 +912,14 @@ function createWindow() {
           await wait(250);
           saved = await readSave();
           if (saved.storyPhase !== 2 || saved.flags.phase_two_transition_pending || !saved.directMessages.some((message) => message.id === "ghostline-phase2")) throw new Error("Overnight sleep did not activate phase two and ghostline");
+          if (
+            !saved.directMessages.some((message) => message.id === "phase2-mira-investigation") ||
+            !saved.directMessages.some((message) => message.id === "phase2-raven-private-file") ||
+            saved.directMessages.some((message) => message.id === "phase2-raven-investigation" || message.id === "phase2-juniper-notes") ||
+            saved.ambientPostQueue.some((job) => job.surface === "aim" || job.surface === "email")
+          ) {
+            throw new Error("The phase-two absence did not stay limited to Mira, Raven's personal complaint, and background page comments");
+          }
           const phaseTwoReturnTime = new Date(saved.gameTime);
           if (
             phaseTwoReturnTime.getHours() !== 7 ||
@@ -922,6 +930,11 @@ function createWindow() {
           }
           await capture("story-phase2-overnight.png");
           await wakeFromPhaseTransition(2);
+          await wait(250);
+          saved = await readSave();
+          if (!saved.flags.phase_two_intro_outreach_pending || saved.flags.phase_two_intro_outreach_queued) {
+            throw new Error("Phase-two return did not arm the first-hour social introduction beat");
+          }
           const dismissedNewbieNotice = await win.webContents.executeJavaScript(`(() => {
             const toast = document.querySelector('.toast');
             const dismiss = toast?.querySelector('[data-dismiss-notification]');

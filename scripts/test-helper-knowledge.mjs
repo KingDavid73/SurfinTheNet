@@ -68,6 +68,34 @@ assertExcludes(ordinaryAim, "PRIVATE DESIGN DATA", "non-helper direct reply");
 assertIncludes(ordinaryAim, "Authored conversation state (canonical and mandatory)", "authored social state");
 assertIncludes(ordinaryAim, "Give the player the authored MMDD format clue now.", "authored social instruction");
 
+const ambientIntroduction = service.buildAmbientCommentSystemPrompt(persona, {
+  personaId: "orbit_guide",
+  pageOwnerId: "darkraven_xx",
+  pageUrl: "web://morrow-five.net/home",
+  pageTitle: "Morrow Five",
+  pageSummary: "A mystery page.",
+  pageContext: "Numbers and clues.",
+  storyPhase: 2,
+  deliverySurface: "aim",
+  privateOutreachMode: "introduction"
+});
+assertIncludes(ambientIntroduction, "first unsolicited private message", "ambient private introduction");
+assertIncludes(ambientIntroduction, "Do not mention a named mystery", "ambient introduction spoiler boundary");
+
+const ambientFollowUp = service.buildAmbientCommentSystemPrompt(persona, {
+  personaId: "orbit_guide",
+  pageOwnerId: "darkraven_xx",
+  pageUrl: "web://morrow-five.net/home",
+  pageTitle: "Morrow Five",
+  pageSummary: "A mystery page.",
+  pageContext: "Numbers and clues.",
+  storyPhase: 2,
+  deliverySurface: "aim",
+  privateOutreachMode: "follow-up"
+});
+assertIncludes(ambientFollowUp, "previously talking with them", "ambient private follow-up");
+assertIncludes(ambientFollowUp, "Ask one natural, probing question", "ambient follow-up behavior");
+
 const phaseThreeContext = {
   storyPhase: 3,
   currentPage: { url: "web://legacy.orbitos.local/admin/continuity", title: "Continuity Lock", summary: "A locked archive." },

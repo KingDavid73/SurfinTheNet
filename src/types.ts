@@ -92,6 +92,7 @@ export interface AmbientPostJob {
   createdAt: string;
   attempts: number;
   surface?: "comment" | "aim" | "email";
+  privateOutreachMode?: "introduction" | "follow-up";
 }
 
 export interface AmbientCommentRequest {
@@ -102,8 +103,10 @@ export interface AmbientCommentRequest {
   pageSummary: string;
   pageContext: string;
   existingComments: Array<{ role: "player" | "owner" | "visitor"; author: string; text: string }>;
+  recentDirectMessages?: Array<{ role: "player" | "owner"; author: string; text: string }>;
   storyPhase: StoryPhase;
   deliverySurface?: "comment" | "aim" | "email";
+  privateOutreachMode?: "introduction" | "follow-up";
 }
 
 export interface AmbientCommentResult {

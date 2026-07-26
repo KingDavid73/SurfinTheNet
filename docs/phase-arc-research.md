@@ -108,7 +108,14 @@ Reading and then leaving Raven's final conclusion:
   the jingle starts moving through local music circles outside Orbit;
 - gives six established members one new comment-free subpage for a silly,
   weakly evidenced theory;
-- adds the authored `ghostline` message;
+- adds the authored `ghostline` message, Mira's orientation message, and
+  DarkRaven's annoyed complaint that the player shared his private file;
+- permits ambient page comments during the four-day gap but does not queue
+  random private messages while the player is absent;
+- makes one or two other main characters reach out after the first post-return
+  hour. A character the player has not contacted introduces themselves without
+  naming or solving a mystery. A prior contact instead continues the
+  conversation by asking what the player has found or where they are stuck;
 - restores The Folded Wire and Index Null to the Backchannel directory;
 - activates additional ambient commenters;
 - makes the three synthetic headline mysteries available while keeping the
