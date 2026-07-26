@@ -1437,7 +1437,7 @@ function createWindow() {
           await capture("story-byte-barn-forever-artists.png");
 
           await address("web://legacy.orbitos.local/admin/continuity");
-          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && Boolean(document.querySelector('.continuity-ending')) && document.body.textContent.includes('KEEP COMMUNITY ACTIVE') && document.body.textContent.includes('Nothing was deleted; almost nobody kept talking')`)) throw new Error("Continuity ending did not remain unlocked or connect the distraction to the recovered research");
+          if (!await win.webContents.executeJavaScript(`Boolean(document.querySelector('.continuity-console')) && Boolean(document.querySelector('.continuity-ending')) && document.body.textContent.includes('KEEP COMMUNITY ACTIVE') && document.body.textContent.includes('INVESTIGATION APPROACHING CONTINUITY HOST') && document.body.textContent.includes('continue promoting music as investigation diversion')`)) throw new Error("Continuity journal did not remain unlocked or record the deliberate Byte Barn distraction");
           const endingRumorCount = Object.keys(saved.flags).filter((key) => key.startsWith("system_rumor_") && saved.flags[key]).length;
           await sleep("1");
           saved = await readSave();

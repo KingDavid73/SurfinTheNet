@@ -4449,6 +4449,17 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .continuity-console .continuity-alarm { color: #ffd387; border-color: #d0702c; }
 .continuity-console pre { padding: 12px; background: #000; border: 1px dashed #6caf5c; }
 .continuity-missing { color: #78a979; }
+.continuity-console .continuity-log { padding-right: 0; }
+.continuity-log article { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 12px; padding: 9px 10px; border-top: 1px solid #28582c; background: #020b03; }
+.continuity-log article:nth-of-type(even) { background: #071508; }
+.continuity-log time { color: #82d86c; font-weight: bold; white-space: nowrap; }
+.continuity-log article b { color: #e7ff9c; }
+.continuity-log article p { margin: 4px 0; }
+.continuity-log article code { display: block; color: #ffd387; white-space: normal; }
+.continuity-log .continuity-status { margin-top: 12px; padding: 12px; border-left: 4px solid #e7ff9c; background: #001904; }
+@media (max-width: 900px) {
+  .continuity-log article { grid-template-columns: 1fr; gap: 3px; }
+}
 
 .raven-vault-lock { min-height: 100%; color: #e370ff; background: #020003; text-align: center; }
 .raven-vault-lock > header { padding: 32px 10px; border: 5px double #8f21ad; }
