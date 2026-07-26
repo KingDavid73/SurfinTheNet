@@ -3276,6 +3276,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .aim-buddy-tabs { display: flex; gap: 3px; padding: 4px 6px; background: #ececec; border-bottom: 1px solid #888; }
 .aim-buddy-tabs button { position: relative; display: inline-flex; align-items: center; gap: 2px; padding: 4px 8px; color: #233872; background: #d8deef; border: 1px solid #9aa4c1; font-size: 10px; }
 .aim-buddy-tabs button i { display: inline-block; width: 7px; height: 7px; margin-right: 4px; border-radius: 50%; background: #32b33e; }
+.aim-buddy-tabs button.away i { background: #e0a425; box-shadow: 0 0 0 1px #8d6617; }
 .aim-buddy-tabs .app-unread-badge { min-width: 14px; height: 14px; margin-left: 3px; padding: 0 3px; font-size: 8px; }
 .aim-buddy-tabs button.selected { color: white; background: #000080; border-color: #000052; }
 .aim-contact { min-height: 72px; flex: 0 0 72px; padding: 8px 10px; display: grid; grid-template-columns: 50px 1fr auto; align-items: center; gap: 10px; color: #13255c; background: linear-gradient(90deg, #f4f6ff, #dbe5ff); border-bottom: 2px groove white; }

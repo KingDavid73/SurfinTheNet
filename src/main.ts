@@ -29,7 +29,7 @@ import {
 import type { AiConversation, AiStatus, AmbientPostJob, AppId, DirectChannel, DirectMessage, GameState, PageComment, PageDefinition, PageMusicTrack, StoryPhase } from "./types";
 import { ambientActivityFor } from "./character-tiers";
 import { finalizeConversationQuestReply, phaseOneConversationQuest } from "./conversation-quests";
-import { deliveryIsAvailable, personaIsActiveAt, scheduleReplyAt } from "./reply-scheduling";
+import { deliveryIsAvailable, personaActiveHoursLabel, personaIsActiveAt, scheduleReplyAt } from "./reply-scheduling";
 
 const titleArtworkUrl = new URL("../assets/images/power-off-desk.png", import.meta.url).href;
 const startupJingleUrl = new URL("../assets/audio/orbitos-startup.wav", import.meta.url).href;
@@ -2235,6 +2235,7 @@ function chatWindow() {
     (message.role === "player" || deliveryIsAvailable(message.availableAt, state.gameTime))
   );
   const activeNow = personaIsActiveAt(activeAimOwnerId, state.gameTime);
+  const activeHours = personaActiveHoursLabel(activeAimOwnerId);
   const pendingKey = `aim:${activeAimOwnerId}`;
   const pending = pendingDirectReplies.has(pendingKey);
   const modelStarting = aiStatus.phase === "loading" || aiStatus.phase === "warming";
@@ -2257,7 +2258,7 @@ function chatWindow() {
     ? `<div class="typing-indicator"><i></i><i></i><i></i><span>${modelStarting ? "Connecting…" : "Sending…"}</span></div>`
     : "";
   const empty = !messageHtml && !pending
-    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is online.</b><span>This character chose to share an OIM screen name.</span><span>${modelStarting ? "Connecting to Orbit Messaging…" : "Type below to start chatting."}</span></div>`
+    ? `<div class="chat-empty"><b>${escapeHtml(persona.screenName)} is ${activeNow ? "online" : "away"}.</b><span>${activeNow ? "Messages should be answered quickly while they are online." : `Usually online ${escapeHtml(activeHours)}.`}</span><span>${modelStarting ? "Connecting to Orbit Messaging…" : "Type below to start chatting."}</span></div>`
     : "";
   const contactButtons = Object.entries(CHARACTER_CONTACTS)
     .filter(([ownerId, contact]) => contact.aim && (
@@ -2268,7 +2269,9 @@ function chatWindow() {
     ))
     .map(([ownerId, contact]) => {
       const unread = unreadDirectMessages("aim", ownerId).length;
-      return `<button data-aim-contact="${ownerId}" class="${ownerId === activeAimOwnerId ? "selected" : ""}"><i></i>${escapeHtml(contact.screenName)}${directMessageBadge(unread, `unread messages from ${contact.screenName}`)}</button>`;
+      const contactActive = personaIsActiveAt(ownerId, state.gameTime);
+      const contactHours = personaActiveHoursLabel(ownerId);
+      return `<button data-aim-contact="${ownerId}" class="${ownerId === activeAimOwnerId ? "selected" : ""} ${contactActive ? "" : "away"}" title="${contactActive ? "Online now" : `Away — usually online ${escapeHtml(contactHours)}`}"><i></i>${escapeHtml(contact.screenName)}${directMessageBadge(unread, `unread messages from ${contact.screenName}`)}</button>`;
     })
     .join("");
 
@@ -2276,7 +2279,7 @@ function chatWindow() {
     <div class="aim-menu"><button data-ai-reset>Clear Chat</button></div>
     <nav class="aim-buddy-tabs">${contactButtons}</nav>
     <div class="aim-contact">
-      <div class="aim-avatar">${escapeHtml(persona.displayName.slice(0, 1))}</div><div><b>${escapeHtml(persona.screenName)}</b><span class="${activeNow ? "" : "away"}"><i></i> ${activeNow ? "Online" : "Away"}</span><small>“${escapeHtml(persona.statusMessage)}”</small></div>
+      <div class="aim-avatar">${escapeHtml(persona.displayName.slice(0, 1))}</div><div><b>${escapeHtml(persona.screenName)}</b><span class="${activeNow ? "" : "away"}"><i></i> ${activeNow ? "Online" : `Away — usually online ${escapeHtml(activeHours)}`}</span><small>“${escapeHtml(persona.statusMessage)}”</small></div>
       <aside><b>PRIVATE CHAT</b><span>ORBIT MESSAGING</span></aside>
     </div>
     <div class="chat-transcript" id="chat-transcript">${empty}${messageHtml}${pendingHtml}</div>
@@ -2926,6 +2929,22 @@ function phaseAwareCharacterHintContext(ownerId: string) {
   return hints[ownerId] ? [sharedRule, hints[ownerId]] : [];
 }
 
+function directMessageTopicContext(ownerId: string, playerMessage: string) {
+  const normalized = playerMessage.toLowerCase();
+  if (ownerId !== "darkraven_xx") return [];
+  if (/\blower rooms?\b/.test(normalized)) {
+    return [
+      "The player asked specifically about the lower room. Point them toward the recovered old OrbitOS archive linked from your Black File evidence layer, because its Technology page preserves the old room labels. Do not answer only with 11:17 and do not state the password."
+    ];
+  }
+  if (/\b(?:what|which).{0,24}\bnight signal\b.{0,24}\blost\b|\bwhat (?:did|does) (?:mira|night signal) lose\b/.test(normalized)) {
+    return [
+      "The player asked what Night Signal lost. Point them toward Mira's 23:17 Operator Field Log and the LOST caller_unknown.wav entry. You may mention that the connection carried the words 'lower room,' but do not state the final password."
+    ];
+  }
+  return [];
+}
+
 async function sendDirectMessage(ownerId: string, channel: DirectChannel, message: string, subject?: string) {
   if (!window.aiAPI) return;
   const key = `${channel}:${ownerId}`;
@@ -3007,6 +3026,7 @@ async function sendDirectMessage(ownerId: string, channel: DirectChannel, messag
         continuityConsoleUnlocked: Boolean(state.flags.continuity_console_unlocked)
       } : undefined,
       authoredConversationContext: [
+        ...directMessageTopicContext(ownerId, safeMessage),
         ...phaseAwareCharacterHintContext(ownerId),
         ...conversationQuest.authoredContext
       ]

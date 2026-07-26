@@ -1,5 +1,6 @@
 export type ReplyTimingChannel = "comment" | "email" | "aim" | "helper";
 export type ActivityProfile = "day" | "business" | "evening" | "night" | "flexible";
+type ActivityWindow = { startMinute: number; endMinute: number };
 
 const DAY_PERSONAS = new Set([
   "juniper_gdn", "grandma_dot", "rosepatch_ruth", "hearthside_ellen", "snacktime_sue",
@@ -25,12 +26,18 @@ const NIGHT_PERSONAS = new Set([
   "ghostline", "big_bass_bob", "cedar_wren", "orchard_lee"
 ]);
 
-const ACTIVE_WINDOWS: Record<ActivityProfile, { startHour: number; endHour: number }> = {
-  day: { startHour: 7, endHour: 19 },
-  business: { startHour: 9, endHour: 18 },
-  evening: { startHour: 15, endHour: 24 },
-  night: { startHour: 20, endHour: 4 },
-  flexible: { startHour: 8, endHour: 24 }
+const ACTIVE_WINDOWS: Record<ActivityProfile, ActivityWindow> = {
+  day: { startMinute: 7 * 60, endMinute: 19 * 60 },
+  business: { startMinute: 9 * 60, endMinute: 18 * 60 },
+  evening: { startMinute: 15 * 60, endMinute: 24 * 60 },
+  night: { startMinute: 20 * 60, endMinute: 4 * 60 },
+  flexible: { startMinute: 8 * 60, endMinute: 24 * 60 }
+};
+
+const PERSONA_ACTIVE_WINDOWS: Record<string, ActivityWindow> = {
+  mira_917: { startMinute: 18 * 60, endMinute: 2 * 60 },
+  darkraven_xx: { startMinute: 20 * 60, endMinute: 3 * 60 },
+  rhymetape_rico: { startMinute: 16 * 60, endMinute: 1 * 60 + 30 }
 };
 
 export function activityProfileFor(personaId: string): ActivityProfile {
@@ -41,20 +48,37 @@ export function activityProfileFor(personaId: string): ActivityProfile {
   return "flexible";
 }
 
+function activityWindowFor(personaId: string) {
+  return PERSONA_ACTIVE_WINDOWS[personaId] ?? ACTIVE_WINDOWS[activityProfileFor(personaId)];
+}
+
 export function personaIsActiveAt(personaId: string, gameTime: string | Date) {
   const date = gameTime instanceof Date ? gameTime : new Date(gameTime);
-  const { startHour, endHour } = ACTIVE_WINDOWS[activityProfileFor(personaId)];
-  const hour = date.getHours() + date.getMinutes() / 60;
-  return startHour < endHour
-    ? hour >= startHour && hour < endHour
-    : hour >= startHour || hour < endHour;
+  const { startMinute, endMinute } = activityWindowFor(personaId);
+  const minute = date.getHours() * 60 + date.getMinutes();
+  return startMinute < endMinute
+    ? minute >= startMinute && minute < endMinute
+    : minute >= startMinute || minute < endMinute;
+}
+
+function formatClockMinute(minuteOfDay: number) {
+  const normalized = minuteOfDay % (24 * 60);
+  const hour24 = Math.floor(normalized / 60);
+  const minute = normalized % 60;
+  const hour12 = hour24 % 12 || 12;
+  return `${hour12}:${String(minute).padStart(2, "0")} ${hour24 < 12 ? "AM" : "PM"}`;
+}
+
+export function personaActiveHoursLabel(personaId: string) {
+  const { startMinute, endMinute } = activityWindowFor(personaId);
+  return `${formatClockMinute(startMinute)}–${formatClockMinute(endMinute)}`;
 }
 
 function minutesUntilActive(personaId: string, candidate: Date) {
   if (personaIsActiveAt(personaId, candidate)) return 0;
-  const { startHour } = ACTIVE_WINDOWS[activityProfileFor(personaId)];
+  const { startMinute } = activityWindowFor(personaId);
   const nextStart = new Date(candidate);
-  nextStart.setHours(startHour, 0, 0, 0);
+  nextStart.setHours(Math.floor(startMinute / 60), startMinute % 60, 0, 0);
   if (nextStart <= candidate) nextStart.setDate(nextStart.getDate() + 1);
   return Math.ceil((nextStart.getTime() - candidate.getTime()) / 60_000);
 }
@@ -84,7 +108,7 @@ function baseDelayMinutes(channel: ReplyTimingChannel, random: () => number) {
 export function replyTimingBounds(channel: ReplyTimingChannel) {
   if (channel === "comment") return { minimumMinutes: 5, maximumMinutes: 1440 };
   if (channel === "email") return { minimumMinutes: 60, maximumMinutes: 2880 };
-  if (channel === "aim") return { minimumMinutes: 0, maximumMinutes: 60 };
+  if (channel === "aim") return { minimumMinutes: 0, maximumMinutes: 1440 };
   return { minimumMinutes: 0, maximumMinutes: 0 };
 }
 
@@ -95,6 +119,9 @@ export function scheduleReplyAt(
   random: () => number = Math.random
 ) {
   const sent = new Date(sentAt);
+  if (channel === "aim" && personaIsActiveAt(personaId, sent)) {
+    return sent.toISOString();
+  }
   const bounds = replyTimingBounds(channel);
   let delayMinutes = baseDelayMinutes(channel, random);
   if (channel !== "helper") {

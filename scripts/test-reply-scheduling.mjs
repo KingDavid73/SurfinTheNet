@@ -15,6 +15,7 @@ const output = ts.transpileModule(source, {
 const moduleUrl = `data:text/javascript;base64,${Buffer.from(output).toString("base64")}`;
 const {
   deliveryIsAvailable,
+  personaActiveHoursLabel,
   personaIsActiveAt,
   replyTimingBounds,
   scheduleReplyAt
@@ -27,7 +28,7 @@ const delayMinutes = (value) => (new Date(value).getTime() - sentMs) / 60_000;
 for (const [channel, expected] of [
   ["comment", [5, 1440]],
   ["email", [60, 2880]],
-  ["aim", [0, 60]],
+  ["aim", [0, 1440]],
   ["helper", [0, 0]]
 ]) {
   const bounds = replyTimingBounds(channel);
@@ -47,6 +48,8 @@ assert.equal(personaIsActiveAt("juniper_gdn", "1999-11-03T10:00:00"), true);
 assert.equal(personaIsActiveAt("juniper_gdn", "1999-11-03T23:00:00"), false);
 assert.equal(personaIsActiveAt("mira_917", "1999-11-03T22:00:00"), true);
 assert.equal(personaIsActiveAt("mira_917", "1999-11-03T12:00:00"), false);
+assert.equal(personaActiveHoursLabel("mira_917"), "6:00 PM–2:00 AM");
+assert.equal(personaActiveHoursLabel("darkraven_xx"), "8:00 PM–3:00 AM");
 
 const lateJuniperReply = new Date(scheduleReplyAt(
   "juniper_gdn",
@@ -62,7 +65,19 @@ const noonMiraReply = new Date(scheduleReplyAt(
   "1999-11-03T12:00:00",
   () => 0
 ));
-assert.equal(delayMinutes(noonMiraReply.toISOString()), 60, "AIM delay must remain capped at one hour");
+assert.equal(noonMiraReply.getHours(), 18, "An away OIM contact should reply when their online window begins");
+
+const onlineRavenReply = scheduleReplyAt(
+  "darkraven_xx",
+  "aim",
+  "1999-11-03T22:15:00",
+  () => 1
+);
+assert.equal(
+  new Date(onlineRavenReply).getTime(),
+  new Date("1999-11-03T22:15:00").getTime(),
+  "An online OIM contact should reply immediately"
+);
 
 assert.equal(deliveryIsAvailable("1999-11-03T12:05:00", "1999-11-03T12:04:59"), false);
 assert.equal(deliveryIsAvailable("1999-11-03T12:05:00", "1999-11-03T12:05:00"), true);
