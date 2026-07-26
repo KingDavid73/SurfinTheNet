@@ -3137,20 +3137,21 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 .unread-comment-marker {
   position: absolute !important;
   z-index: 8;
-  top: 4px;
-  right: 4px;
+  top: -5px;
+  left: -6px;
   display: grid !important;
   place-items: center;
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   box-sizing: border-box;
   border: 1px solid #fff;
   border-radius: 50%;
   color: #fff !important;
   background: #d3182f !important;
-  box-shadow: 0 0 0 1px #7d0714, 1px 2px 2px #0008;
-  font: 900 10px/1 Tahoma, Arial, sans-serif !important;
+  box-shadow: 0 0 0 1px #7d0714, 1px 1px 2px #0008;
+  font: 900 8px/1 Tahoma, Arial, sans-serif !important;
   text-decoration: none !important;
+  pointer-events: none;
   animation: unread-comment-pop .28s ease-out;
 }
 @keyframes unread-comment-pop {
