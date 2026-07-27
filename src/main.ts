@@ -769,6 +769,10 @@ const pageMusicTrackIndexes = new Map<string, number>();
 const semanticSearchCache = new Map<string, string[]>();
 const pendingSearches = new Set<string>();
 const browserScrollPositions = new Map<string, number>();
+let chatTranscriptScrollTop = 0;
+let chatTranscriptPinnedToBottom = true;
+let helperTranscriptScrollTop = 0;
+let helperTranscriptPinnedToBottom = true;
 let renderedBrowserUrl = state.currentUrl;
 let saveStateQueue: Promise<unknown> = Promise.resolve();
 
@@ -3224,6 +3228,16 @@ function phaseTransitionPromptScreen() {
 function render() {
   const existingViewport = document.querySelector<HTMLElement>(".browser-viewport");
   if (existingViewport) browserScrollPositions.set(renderedBrowserUrl, existingViewport.scrollTop);
+  const existingChatTranscript = document.querySelector<HTMLElement>("#chat-transcript");
+  if (existingChatTranscript) {
+    chatTranscriptScrollTop = existingChatTranscript.scrollTop;
+    chatTranscriptPinnedToBottom = existingChatTranscript.scrollHeight - existingChatTranscript.scrollTop - existingChatTranscript.clientHeight < 24;
+  }
+  const existingHelperTranscript = document.querySelector<HTMLElement>("#helper-transcript");
+  if (existingHelperTranscript) {
+    helperTranscriptScrollTop = existingHelperTranscript.scrollTop;
+    helperTranscriptPinnedToBottom = existingHelperTranscript.scrollHeight - existingHelperTranscript.scrollTop - existingHelperTranscript.clientHeight < 24;
+  }
   if (startupStage !== "desktop") {
     pageMusic.pause();
     root.innerHTML = startupScreen();
@@ -3270,6 +3284,18 @@ function render() {
   const savedScrollTop = browserScrollPositions.get(state.currentUrl) ?? 0;
   const restoredViewport = document.querySelector<HTMLElement>(".browser-viewport");
   if (restoredViewport) restoredViewport.scrollTop = savedScrollTop;
+  const restoredChatTranscript = document.querySelector<HTMLElement>("#chat-transcript");
+  if (restoredChatTranscript) {
+    restoredChatTranscript.scrollTop = chatTranscriptPinnedToBottom
+      ? restoredChatTranscript.scrollHeight
+      : chatTranscriptScrollTop;
+  }
+  const restoredHelperTranscript = document.querySelector<HTMLElement>("#helper-transcript");
+  if (restoredHelperTranscript) {
+    restoredHelperTranscript.scrollTop = helperTranscriptPinnedToBottom
+      ? restoredHelperTranscript.scrollHeight
+      : helperTranscriptScrollTop;
+  }
   requestAnimationFrame(() => {
     const viewport = document.querySelector<HTMLElement>(".browser-viewport");
     if (viewport) viewport.scrollTop = savedScrollTop;
@@ -3317,12 +3343,18 @@ function downloadOrbitPal() {
 }
 
 function scrollChatToBottom() {
-  requestAnimationFrame(() => {
-    const transcript = document.querySelector<HTMLElement>("#chat-transcript");
-    if (transcript) transcript.scrollTop = transcript.scrollHeight;
-    const helperTranscript = document.querySelector<HTMLElement>("#helper-transcript");
-    if (helperTranscript) helperTranscript.scrollTop = helperTranscript.scrollHeight;
-  });
+  const transcript = document.querySelector<HTMLElement>("#chat-transcript");
+  if (transcript) {
+    transcript.scrollTop = transcript.scrollHeight;
+    chatTranscriptScrollTop = transcript.scrollTop;
+    chatTranscriptPinnedToBottom = true;
+  }
+  const helperTranscript = document.querySelector<HTMLElement>("#helper-transcript");
+  if (helperTranscript) {
+    helperTranscript.scrollTop = helperTranscript.scrollHeight;
+    helperTranscriptScrollTop = helperTranscript.scrollTop;
+    helperTranscriptPinnedToBottom = true;
+  }
 }
 
 async function refreshAiProgress() {
@@ -4160,7 +4192,6 @@ function bindEvents() {
   }));
 
   bindDragging();
-  scrollChatToBottom();
 }
 
 function bindDragging() {
