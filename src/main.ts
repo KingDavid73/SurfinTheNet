@@ -2472,6 +2472,72 @@ const AUTHORED_PAGE_UPDATES: readonly AuthoredPageUpdate[] = [
     minimumPhase: 3
   },
   {
+    id: "raven-file-wont-stay-buried",
+    pageUrl: "web://raven.web/home",
+    ownerId: "darkraven_xx",
+    publishedAt: "1999-10-26T23:17:00",
+    title: "SOME FILES DO NOT STAY DELETED",
+    paragraphs: [
+      "I found another copy of something that Orbit says was removed. It still remembers where it came from. That does not happen by accident."
+    ],
+    minimumPhase: 1
+  },
+  {
+    id: "raven-black-file-not-story",
+    pageUrl: "web://raven.web/home",
+    ownerId: "darkraven_xx",
+    publishedAt: "1999-10-28T01:17:00",
+    title: "THE BLACK FILE IS NOT A STORY",
+    paragraphs: [
+      "I am done arguing with people who want every strange thing to be a game rumor. Some of the screenshots are bad. Some of the sources are worse. The pattern is still there."
+    ],
+    minimumPhase: 1
+  },
+  {
+    id: "raven-banner-warning",
+    pageUrl: "web://raven.web/home",
+    ownerId: "darkraven_xx",
+    publishedAt: "1999-10-30T22:41:00",
+    title: "IF YOU SAW THE NEW BANNER",
+    paragraphs: [
+      "No, I am not posting the whole file yet. If you came here because the banner changed, congratulations: you can read a warning graphic. That is not clearance."
+    ],
+    minimumPhase: 1
+  },
+  {
+    id: "raven-missing-minute",
+    pageUrl: "web://raven.web/home",
+    ownerId: "darkraven_xx",
+    publishedAt: "1999-10-31T23:17:00",
+    title: "THE MISSING MINUTE HAPPENED AGAIN",
+    paragraphs: [
+      "Two unrelated records skipped the same minute. Before anyone says bad clocks: the clocks were in different places. Write down what you see before somebody writes a normal explanation over it."
+    ],
+    minimumPhase: 1
+  },
+  {
+    id: "raven-after-midnight",
+    pageUrl: "web://raven.web/home",
+    ownerId: "darkraven_xx",
+    publishedAt: "1999-11-01T00:22:00",
+    title: "DO NOT TRUST THE DAYTIME VERSION",
+    paragraphs: [
+      "Some pages only admit what they are after midnight. I saved copies. If the regular version looks harmless tomorrow, that is part of the point."
+    ],
+    minimumPhase: 1
+  },
+  {
+    id: "raven-evidence-not-belief",
+    pageUrl: "web://raven.web/home",
+    ownerId: "darkraven_xx",
+    publishedAt: "1999-11-02T21:14:00",
+    title: "BELIEF IS NOT EVIDENCE",
+    paragraphs: [
+      "I know what that sounds like coming from me. I am collecting the boring parts first this time: dates, copies, names, and what changed between one version and the next. Then I will explain the part nobody wants to hear."
+    ],
+    minimumPhase: 1
+  },
+  {
     id: "raven-everyone-came",
     pageUrl: "web://raven.web/home",
     ownerId: "darkraven_xx",
