@@ -556,17 +556,6 @@ export const pages: Record<string, PageDefinition> = {
             <p><b>RECEIVER A:</b> 91.7<br><b>RECEIVER B:</b> scanning<br><b>TAPE 3:</b> armed</p>
           </aside>
         </div>
-        ${state.storyPhase >= 3 ? `
-          <section class="phase-site-update signal-phase-update">
-            <b>11/11 // ARCHIVE INTERFERENCE</b>
-            <p>Retired accounts are transmitting again, but several callers use screen names that are one or two characters wrong. Their timestamps line up with archive requests, not with the people they claim to be. I am saving exact copies before comparing theories.</p>
-            <p>There is also Byte Barn music bleeding into frequencies that never carried the commercial. That part may just be everybody recording everything onto everything.</p>
-          </section>` : state.storyPhase >= 2 ? `
-          <section class="phase-site-update signal-phase-update">
-            <b>11/07 // TOO MANY NEW CALLERS</b>
-            <p>Raven's file escaped Orbit and people arrived carrying stories about three newly restored investigations. Their names are turning up piecemeal in member-page updates, as if everybody found a different corner of the same new catalog.</p>
-            <p>One keeps arriving with reports of radio voices over a flooded valley: <b>Glass Lake</b>. The station is logging calls and search changes. Repeated titles may be worth trying in Orbit Search before somebody edits them again.</p>
-          </section>` : ""}
         <p class="signal-warning"><b>NOTICE:</b> The station is currently unattended. Do not adjust your receiver.</p>
       </main>`
   },
@@ -640,10 +629,6 @@ export const pages: Record<string, PageDefinition> = {
               <i></i>
               <article><b>CASE 03</b><span>PHONE JACK</span><small>status: cat involved</small></article>
             </div>
-            ${state.storyPhase >= 4 ? `
-              <article class="phase-site-update raven-phase-update"><b>VOID UPDATE // AFTER THE NOISE</b><p>The sheep lost interest the instant the music got loud. Everybody says the community is real now, as if that erases who moved the pieces. I am still searching. A crowd forgetting the evidence does not make it false.</p></article>` : state.storyPhase >= 3 ? `
-              <article class="phase-site-update raven-phase-update"><b>VOID UPDATE // THE DEAD HAVE SCREEN NAMES</b><p>Retired users are posting again with letters swapped in their names. Old pages appear after those comments, then something tells people to stop looking. The Adaptive Index proves attention can be steered. I am mapping every resurrected account before the routes change again.</p></article>` : state.storyPhase >= 2 ? `
-              <article class="phase-site-update raven-phase-update"><b>VOID UPDATE // THEY ALL CAME TO PROVE ME WRONG</b><p>Fine. The dream-invasion conclusion may need “minor revision.” But my evidence brought half the regular web here, and now people are whispering about three suspiciously complete investigations scattered across member pages. I am starting with <b>Morrow Five</b>: five missing carriers, one official story, and too many copied documents. The other two titles can wait until somebody shows me where they actually found them.</p></article>` : ""}
             <div class="contact-strip raven-contact"><span>OIM STATUS: ONLINE</span><button data-aim-owner="darkraven_xx">MESSAGE xX_DarkRaven_Xx</button></div>
           </section>
           <aside class="raven-bulletins">

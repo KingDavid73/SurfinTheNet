@@ -448,19 +448,6 @@ export const phaseTwoPersonalUpdates: readonly PhaseTwoPersonalUpdate[] = [
   }
 ] as const;
 
-const personalUpdateByHomeUrl = new Map(phaseTwoPersonalUpdates.map((update) => [update.homeUrl, update]));
-
-export function phaseTwoPersonalUpdateLink(pageUrl: string, state: GameState) {
-  if (state.storyPhase < 2) return "";
-  const update = personalUpdateByHomeUrl.get(pageUrl);
-  if (!update) return "";
-  return `<aside class="phase-two-personal-update">
-    <span>NEW PAGE // NOVEMBER 4</span>
-    <div><b>${update.title}</b><p>${update.teaser}</p></div>
-    <button data-nav="${update.url}">READ THE THEORY &gt;</button>
-  </aside>`;
-}
-
 function oddityGallery(items: Array<[string, string]>) {
   return `<div class="oddity-gallery">${items.map(([source, alt]) => image(source, alt)).join("")}</div>`;
 }

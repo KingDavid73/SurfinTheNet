@@ -10,7 +10,7 @@ import {
 import {
   NEWCOMER_HOME_URLS,
   NEWCOMER_OWNERS,
-  phaseTwoPersonalUpdateLink
+  phaseTwoPersonalUpdates
 } from "./newcomer-pages";
 import {
   SOUNDWAVE_HOME_URLS,
@@ -2435,6 +2435,117 @@ function authoredPageComments(page: PageDefinition): PageComment[] {
   return [...(page.seedComments ?? []), ...coverAnnouncements];
 }
 
+interface AuthoredPageUpdate {
+  id: string;
+  pageUrl: string;
+  ownerId: string;
+  publishedAt: string;
+  title: string;
+  paragraphs: string[];
+  minimumPhase: StoryPhase;
+  action?: { label: string; url: string };
+}
+
+const AUTHORED_PAGE_UPDATES: readonly AuthoredPageUpdate[] = [
+  {
+    id: "night-signal-new-callers",
+    pageUrl: "web://nightsignal.net/home",
+    ownerId: "mira_917",
+    publishedAt: "1999-11-07T00:05:00",
+    title: "TOO MANY NEW CALLERS",
+    paragraphs: [
+      "Raven's file escaped Orbit and people arrived carrying stories about three newly restored investigations. Their names are turning up piecemeal in member-page updates, as if everybody found a different corner of the same new catalog.",
+      "One keeps arriving with reports of radio voices over a flooded valley: Glass Lake. The station is logging calls and search changes. Repeated titles may be worth trying in Orbit Search before somebody edits them again."
+    ],
+    minimumPhase: 2
+  },
+  {
+    id: "night-signal-archive-interference",
+    pageUrl: "web://nightsignal.net/home",
+    ownerId: "mira_917",
+    publishedAt: "1999-11-11T00:17:00",
+    title: "ARCHIVE INTERFERENCE",
+    paragraphs: [
+      "Retired accounts are transmitting again, but several callers use screen names that are one or two characters wrong. Their timestamps line up with archive requests, not with the people they claim to be. I am saving exact copies before comparing theories.",
+      "There is also Byte Barn music bleeding into frequencies that never carried the commercial. That part may just be everybody recording everything onto everything."
+    ],
+    minimumPhase: 3
+  },
+  {
+    id: "raven-everyone-came",
+    pageUrl: "web://raven.web/home",
+    ownerId: "darkraven_xx",
+    publishedAt: "1999-11-07T00:14:00",
+    title: "THEY ALL CAME TO PROVE ME WRONG",
+    paragraphs: [
+      "Fine. The dream-invasion conclusion may need “minor revision.” But my evidence brought half the regular web here, and now people are whispering about three suspiciously complete investigations scattered across member pages.",
+      "I am starting with Morrow Five: five missing carriers, one official story, and too many copied documents. The other two titles can wait until somebody shows me where they actually found them."
+    ],
+    minimumPhase: 2
+  },
+  {
+    id: "raven-dead-screen-names",
+    pageUrl: "web://raven.web/home",
+    ownerId: "darkraven_xx",
+    publishedAt: "1999-11-11T01:17:00",
+    title: "THE DEAD HAVE SCREEN NAMES",
+    paragraphs: [
+      "Retired users are posting again with letters swapped in their names. Old pages appear after those comments, then something tells people to stop looking.",
+      "The Adaptive Index proves attention can be steered. I am mapping every resurrected account before the routes change again."
+    ],
+    minimumPhase: 3
+  },
+  {
+    id: "raven-after-the-noise",
+    pageUrl: "web://raven.web/home",
+    ownerId: "darkraven_xx",
+    publishedAt: "1999-11-13T01:17:00",
+    title: "AFTER THE NOISE",
+    paragraphs: [
+      "The sheep lost interest the instant the music got loud. Everybody says the community is real now, as if that erases who moved the pieces.",
+      "I am still searching. A crowd forgetting the evidence does not make it false."
+    ],
+    minimumPhase: 4
+  }
+];
+
+function authoredPageUpdateFeed(page: PageDefinition) {
+  const personalUpdate = state.storyPhase >= 2
+    ? phaseTwoPersonalUpdates.find((update) => update.homeUrl === page.url)
+    : undefined;
+  const posts: AuthoredPageUpdate[] = [
+    ...AUTHORED_PAGE_UPDATES.filter((update) => update.pageUrl === page.url && state.storyPhase >= update.minimumPhase),
+    ...(personalUpdate ? [{
+      id: `personal-${personalUpdate.ownerId}`,
+      pageUrl: personalUpdate.homeUrl,
+      ownerId: personalUpdate.ownerId,
+      publishedAt: "1999-11-04T19:12:00",
+      title: personalUpdate.title,
+      paragraphs: [personalUpdate.teaser],
+      minimumPhase: 2 as StoryPhase,
+      action: { label: "READ THE THEORY ›", url: personalUpdate.url }
+    }] : [])
+  ].sort((left, right) => Date.parse(right.publishedAt) - Date.parse(left.publishedAt));
+  if (!posts.length) return "";
+  return `<section class="page-update-feed" aria-label="Recent page updates">
+    <header><b>RECENT POSTS</b><span>newest first</span></header>
+    <div class="page-update-thread">${posts.map((post) => {
+      const owner = PAGE_OWNERS[post.ownerId];
+      const author = owner?.screenName ?? post.ownerId;
+      const displayName = owner?.displayName ?? author;
+      return `<article class="page-update-post site-${page.site}">
+        <div class="page-update-avatar" aria-hidden="true">${escapeHtml(displayName.slice(0, 1).toUpperCase())}</div>
+        <div class="page-update-body">
+          <header><b>${escapeHtml(author)}</b><span>${escapeHtml(displayName)}</span><time datetime="${post.publishedAt}">${formatGameTimestamp(post.publishedAt)}</time></header>
+          <h2>${escapeHtml(post.title)}</h2>
+          ${post.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+          ${post.action ? `<button data-nav="${escapeHtml(post.action.url)}">${escapeHtml(post.action.label)}</button>` : ""}
+        </div>
+      </article>`;
+    }).join("")}</div>
+  </section>`;
+}
+
 function bookmarkLinksHtml() {
   const visibleBookmarks = state.bookmarks.slice(0, 4);
   const overflowBookmarks = state.bookmarks.slice(4);
@@ -2471,7 +2582,7 @@ function browserWindow() {
       <button data-download-page="${escapeHtml(page.url)}" class="save-page ${pageCopySaved ? "active" : ""}" title="${pageCopySaved ? "Update saved text copy" : "Save text copy to My Files"}" aria-label="${pageCopySaved ? "Update saved text copy" : "Save text copy to My Files"}"><i class="save-page-glyph" aria-hidden="true"><span></span></i></button>
     </div>
     ${bookmarkLinksHtml()}
-    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${page.render(state)}${phaseTwoPersonalUpdateLink(page.url, state)}${byteBarnCoverUpdate(page)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
+    <div class="browser-viewport site-${page.site}"><div class="browser-page-scale text-${state.settings.browserTextSize}">${page.render(state)}${authoredPageUpdateFeed(page)}${byteBarnCoverUpdate(page)}${page.commentsEnabled ? pageCommentSection(page) : ""}</div></div>
     <footer class="browser-footer">${pageMusicPlayer(page)}<div class="browser-status"><span>Internet zone</span><span>${state.visited.length} pages visited</span></div></footer>`);
 }
 

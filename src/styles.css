@@ -1315,38 +1315,6 @@
   border: 2px solid #84ff78;
 }
 
-.phase-two-personal-update {
-  display: grid;
-  grid-template-columns: 105px 1fr auto;
-  gap: 12px;
-  align-items: center;
-  margin: 16px auto;
-  width: min(760px, calc(100% - 30px));
-  box-sizing: border-box;
-  padding: 10px;
-  background: #fff4a8;
-  color: #281b30;
-  border: 3px dashed #702b72;
-  box-shadow: 3px 3px 0 rgba(0,0,0,.25);
-  font-family: Verdana, sans-serif;
-}
-
-.phase-two-personal-update > span {
-  font-size: .68rem;
-  font-weight: bold;
-  color: #9b174f;
-}
-
-.phase-two-personal-update p {
-  margin: 3px 0 0;
-  font-size: .82rem;
-}
-
-.phase-two-personal-update button {
-  padding: 7px 10px;
-  font-weight: bold;
-}
-
 .oddity-page {
   box-sizing: border-box;
   min-height: 100%;
@@ -1623,9 +1591,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .phase-two-personal-update {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* Yesterday Online member directory: intentionally handmade and inconsistent. */
@@ -4400,8 +4365,7 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
   cursor: pointer;
 }
 
-.backchannel-case-intro,
-.phase-site-update {
+.backchannel-case-intro {
   box-sizing: border-box;
   margin: 16px auto;
   padding: 14px 18px;
@@ -4419,16 +4383,64 @@ button:disabled { color: #777; text-shadow: 1px 1px white; }
 }
 .index-null-page .null-case-intro h2 { color: #fff36b; }
 .index-null-page .null-case-intro p { color: #caffd6; }
-.signal-phase-update {
-  border: 1px solid #48ff8a;
-  background: #061b13;
-  color: #b8ffd0;
-  font-family: "Courier New", monospace;
+.page-update-feed {
+  box-sizing: border-box;
+  width: min(820px, calc(100% - 30px));
+  margin: 22px auto 16px;
+  color: #202031;
+  background: #dfe3ec;
+  border: 3px ridge #fff;
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, .24);
+  font-family: Verdana, Arial, sans-serif;
+  text-align: left;
 }
-.raven-phase-update {
-  border: 2px dashed #a36cff;
-  background: #170023;
-  color: #efe2ff;
+.page-update-feed > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 10px;
+  color: #fff;
+  background: linear-gradient(90deg, #244d9a, #5276b5);
+  font-size: 11px;
+  letter-spacing: .06em;
+}
+.page-update-feed > header span { color: #dbeaff; font-size: 9px; font-weight: bold; text-transform: uppercase; }
+.page-update-thread { display: grid; }
+.page-update-post {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 9px;
+  padding: 10px;
+  background: #f7f7f5;
+  border-top: 1px solid #b8bdc9;
+}
+.page-update-post:first-child { border-top: 0; }
+.page-update-avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: #fff;
+  background: linear-gradient(135deg, #6d78a4, #2d3968);
+  border: 2px outset #d4d8e6;
+  border-radius: 3px;
+  font: bold 19px Georgia, serif;
+}
+.page-update-body { min-width: 0; }
+.page-update-body > header { display: flex; align-items: baseline; flex-wrap: wrap; gap: 5px; color: #253f86; font-size: 11px; }
+.page-update-body > header span { color: #6a6d76; font-size: 9px; }
+.page-update-body > header time { margin-left: auto; color: #777b87; font-size: 9px; white-space: nowrap; }
+.page-update-body h2 { margin: 5px 0 4px; color: #202756; font: bold 14px Arial, sans-serif; }
+.page-update-body p { margin: 4px 0; color: #24242a; font: 11px/1.45 Arial, sans-serif; }
+.page-update-body button { margin-top: 7px; padding: 6px 9px; color: #fff; background: #384f96; border: 2px outset #aebae8; font-weight: bold; font-size: 10px; }
+.page-update-post.site-signal .page-update-avatar { color: #c9ffd8; background: #075027; border-color: #53d580; }
+.page-update-post.site-signal .page-update-body > header, .page-update-post.site-signal .page-update-body h2 { color: #0b5c31; }
+.page-update-post.site-raven .page-update-avatar { color: #f1d7ff; background: #3d145a; border-color: #b17ee2; }
+.page-update-post.site-raven .page-update-body > header, .page-update-post.site-raven .page-update-body h2 { color: #4c176a; }
+@media (max-width: 620px) {
+  .page-update-feed { width: calc(100% - 14px); }
+  .page-update-body > header time { width: 100%; margin-left: 0; }
 }
 .null-recovered-route {
   margin: 24px auto 10px;
