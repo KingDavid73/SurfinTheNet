@@ -12,7 +12,10 @@ const BUSINESS_PERSONAS = new Set([
   "chip_bytebarn", "toni_pizza", "bev_paws", "pulsenet_jax", "axiom_liaison_02",
   "cubby_clover", "rocketbox_rick", "major_munch", "kip_toonburst", "king_cal",
   "honest_earl", "rewind_riley", "bubble_babs", "faraway_frankie", "inkmoth_ian",
-  "sofa_sylvia", "dr_marlow", "gurgle_gus", "halo_holly"
+  "sofa_sylvia", "dr_marlow", "gurgle_gus", "halo_holly",
+  "veluna_kaye", "aureline_julian", "kestrel_vera", "westbell_dale", "bigbang_meg",
+  "nullstate_curator", "dogeared_ruth", "secondsunrise_mavis", "criticalhit_gabe", "marcy_flash",
+  "wondervale_guest", "greenstripe_ron", "hank_tank", "pixelpetal_dana", "maximart_1844"
 ]);
 
 const EVENING_PERSONAS = new Set([

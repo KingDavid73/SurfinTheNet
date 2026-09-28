@@ -21,6 +21,27 @@ export const FEATURED_CHARACTER_IDS = [
   "orchard_lee"
 ] as const;
 
+/* Explicit supporting-tier pool for the owners of the phase-four company
+   pages. They can author ambient public comments, but retain the normal low
+   activity multiplier used by background Orbit citizens. */
+export const SUPPORTING_BUSINESS_PERSONA_IDS = [
+  "veluna_kaye",
+  "aureline_julian",
+  "kestrel_vera",
+  "westbell_dale",
+  "bigbang_meg",
+  "nullstate_curator",
+  "dogeared_ruth",
+  "secondsunrise_mavis",
+  "criticalhit_gabe",
+  "marcy_flash",
+  "wondervale_guest",
+  "greenstripe_ron",
+  "hank_tank",
+  "pixelpetal_dana",
+  "maximart_1844"
+] as const;
+
 const MAIN_CHARACTERS = new Set<string>(MAIN_CHARACTER_IDS);
 const FEATURED_CHARACTERS = new Set<string>(FEATURED_CHARACTER_IDS);
 

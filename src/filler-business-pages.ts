@@ -53,6 +53,23 @@ const ASSETS = {
   haloInterior: new URL("../assets/images/filler-business/halo-interior.png", import.meta.url).href
 } as const;
 
+const LOCAL_WEB_GIFS = {
+  rewind: [new URL("../gifs/vcr01.gif", import.meta.url).href, new URL("../gifs/videocassette01.gif", import.meta.url).href],
+  snapdragon: [new URL("../gifs/flowers02.gif", import.meta.url).href, new URL("../gifs/flowers03.gif", import.meta.url).href],
+  faraway: [new URL("../gifs/airplane01.gif", import.meta.url).href, new URL("../gifs/boat01.gif", import.meta.url).href],
+  inkmoth: [new URL("../gifs/printer01.gif", import.meta.url).href, new URL("../gifs/fax01.gif", import.meta.url).href],
+  sofa: [new URL("../gifs/couch02.gif", import.meta.url).href],
+  molar: [new URL("../gifs/toothbrush01.gif", import.meta.url).href, new URL("../gifs/fish01.gif", import.meta.url).href],
+  gurgle: [new URL("../gifs/plubmer01.gif", import.meta.url).href, new URL("../gifs/leakingfaucet01.gif", import.meta.url).href],
+  halo: [new URL("../gifs/scissors01.gif", import.meta.url).href, new URL("../gifs/scissors02.gif", import.meta.url).href]
+} as const;
+
+function localWebGif(id: string, index: number, placement: "header" | "hero") {
+  const gifs = LOCAL_WEB_GIFS[id as keyof typeof LOCAL_WEB_GIFS];
+  const src = gifs?.[index];
+  return src ? `<img class="filler-page-gif filler-page-gif-${placement}" src="${src}" alt="" aria-hidden="true">` : "";
+}
+
 type BusinessSite =
   | "rewindbusiness" | "laundrybusiness" | "floristbusiness" | "travelbusiness" | "copybusiness"
   | "furniturebusiness" | "dentalbusiness" | "plumbingbusiness" | "creditbusiness" | "salonbusiness";
@@ -276,17 +293,22 @@ function businessArt(src: string, alt: string, className = "") {
 }
 
 function renderBusiness(spec: BusinessSpec) {
+  const passiveArchive = spec.id === "bubble"
+    ? `<aside class="filler-business-download"><b>TOKEN &amp; DRYER GUIDE</b><span>Save a printable counter card with token facts, lint-screen reminders, and Babs's pocket-check list.</span><button type="button" data-business-download="bubbleborough">DOWNLOAD PRINTABLE GUIDE</button></aside>`
+    : "";
   return `<main class="page filler-business-page filler-${spec.id}">
     <header>
       ${businessArt(spec.logo, `${spec.name} logo`, "business-logo")}
       <div><small>${spec.eyebrow}</small><h1>${spec.name}</h1><p>${spec.tagline}</p></div>
       ${businessArt(spec.accent, `${spec.name} company artwork`, "business-accent")}
+      ${localWebGif(spec.id, 0, "header")}
     </header>
     <section class="filler-business-hero">
       <div><h2>Welcome to our homepage!</h2><p>${spec.description}</p>
         <ul>${spec.offerings.map((offering) => `<li>${offering}</li>`).join("")}</ul>
       </div>
       <figure>${businessArt(spec.hero.src, spec.hero.alt)}<figcaption>${spec.hero.alt}</figcaption></figure>
+      ${localWebGif(spec.id, 1, "hero")}
     </section>
     <section class="filler-business-gallery">
       ${spec.gallery.map((image) => `<figure>${businessArt(image.src, image.alt)}<figcaption>${image.alt}</figcaption></figure>`).join("")}
@@ -296,6 +318,7 @@ function renderBusiness(spec: BusinessSpec) {
       <div><b>FIND US</b><span>${spec.address}</span></div>
       <div><b>CALL</b><span>${spec.phone}</span></div>
     </aside>
+    ${passiveArchive}
     <p class="business-owner">Questions posted below are answered by ${spec.ownerName} when somebody remembers to check the website.</p>
     <footer>Locally owned · Serving the Orbit area · This page last checked November 1999</footer>
   </main>`;

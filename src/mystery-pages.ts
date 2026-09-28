@@ -1,4 +1,5 @@
 import type { GameState, PageComment, PageDefinition } from "./types";
+import { BACKCHANNEL_ART } from "./backchannel-art";
 
 const LEGACY_HOME = "web://legacy.orbitos.local/home";
 const RAVEN_VAULT = "web://raven.web/vault";
@@ -93,8 +94,10 @@ function governmentArchivePage(state: GameState, content: string) {
   </main>`;
 }
 
-const workingGif = (name: "under-construction" | "welcome-banner" | "email-mailbox", alt: string) => {
-  const url = new URL(`../assets/images/yesterday/gifs/${name}.gif`, import.meta.url).href;
+const workingGif = (name: "under-construction" | "welcome-banner" | "email-mailbox" | "american-flag" | "angel-cloud" | "drop-a-line" | "flaming-skull" | "motorcycle" | "steam-train" | "rose-bloom" | "cartoon-dog" | "sewing-machine", alt: string) => {
+  const archiveRootGifs = new Set(["rose-bloom", "cartoon-dog", "sewing-machine"]);
+  const folder = archiveRootGifs.has(name) ? "archive-gifs" : "yesterday/gifs";
+  const url = new URL(`../assets/images/${folder}/${name}.gif`, import.meta.url).href;
   return `<img class="legacy-working-gif" src="${url}" alt="${alt}">`;
 };
 
@@ -117,10 +120,10 @@ export function phaseTwoBackchannelDirectory(state: GameState) {
   }
   return `
     <button class="backchannel-member-card member-fax" data-nav="${FAX_HOME}">
-      <i>FAX<br>MOTH</i><span><strong>THE FOLDED WIRE</strong><small>A fax-and-photocopy archive navigated by cabinet numbers, margin notes, and badly aligned arrows.</small><b>NODE: PAPER TRAILS</b></span><em>NEW CARRIER DETECTED</em>
+      <img class="backchannel-card-frame" src="${BACKCHANNEL_ART.terminal}" alt=""><img class="backchannel-member-badge" src="${BACKCHANNEL_ART.fax}" alt="Folded Wire handmade fax badge"><span><strong>THE FOLDED WIRE</strong><small>A fax-and-photocopy archive navigated by cabinet numbers, margin notes, and badly aligned arrows.</small><b>NODE: PAPER TRAILS</b></span><em class="backchannel-enter"><img src="${BACKCHANNEL_ART.enter}" alt="">OPEN NODE</em>
     </button>
     <button class="backchannel-member-card member-null" data-nav="${NULL_HOME}">
-      <i>NULL:</i><span><strong>INDEX NULL / DEAD LETTER OFFICE</strong><small>Unclaimed links, expired accounts, custom error pages, and routes the directory insists never existed.</small><b>NODE: LOST ADDRESSES</b></span><em>RESTORED 11/04/99</em>
+      <img class="backchannel-card-frame" src="${BACKCHANNEL_ART["eye-frame"]}" alt=""><img class="backchannel-member-badge" src="${BACKCHANNEL_ART.null}" alt="Index Null handmade terminal badge"><span><strong>INDEX NULL / DEAD LETTER OFFICE</strong><small>Unclaimed links, expired accounts, custom error pages, and routes the directory insists never existed.</small><b>NODE: LOST ADDRESSES</b></span><em class="backchannel-enter"><img src="${BACKCHANNEL_ART.enter}" alt="">OPEN NODE</em>
     </button>
     <aside class="backchannel-new-traffic"><b>TRAFFIC NOTICE</b><span>Two old nodes began answering after years offline. The directory catalog target also rebuilt at 00:06, so restored node titles may now resolve through Orbit Search. Several new handles are appearing in public comments without homepages.</span></aside>`;
 }
@@ -258,9 +261,9 @@ export const mysteryPages: Record<string, PageDefinition> = {
         ${legacyHeader("ORIGINAL COMMUNITY DIRECTORY")}${legacyNav}
         <h1>Find your people in Orbit!</h1>
         <p>These rings were retired before the modern Zone Directory was introduced. Member pages remain available when their old addresses are entered directly.</p>
-        <table border="6" cellpadding="12"><tbody>
-          <tr><td>${brokenImage("LAUNCHRING_BUTTON.GIF", "Launch Ring button")}</td><td><button data-nav="web://legacy.orbitos.local/community/launchring"><b>THE LAUNCH RING</b></button><br>Owners, builders, modem experimenters, shareware authors, and people certain they are living five years in the future.</td></tr>
-          <tr><td>${brokenImage("HOMEPLANET_BUTTON.GIF", "Home Planet button")}</td><td><button data-nav="web://legacy.orbitos.local/community/homeplanet"><b>HOME PLANET</b></button><br>Families, classrooms, neighborhood groups, recipe exchanges, local clubs, and first-time computer owners.</td></tr>
+        <table class="legacy-community-list" border="4" cellpadding="8"><tbody>
+          <tr><td class="legacy-community-badge">${brokenImage("LAUNCHRING_BUTTON.GIF", "Launch Ring button")}</td><td class="legacy-community-copy"><button data-nav="web://legacy.orbitos.local/community/launchring"><b>THE LAUNCH RING</b></button><br>Owners, builders, modem experimenters, shareware authors, and people certain they are living five years in the future.</td></tr>
+          <tr><td class="legacy-community-badge">${brokenImage("HOMEPLANET_BUTTON.GIF", "Home Planet button")}</td><td class="legacy-community-copy"><button data-nav="web://legacy.orbitos.local/community/homeplanet"><b>HOME PLANET</b></button><br>Families, classrooms, neighborhood groups, recipe exchanges, local clubs, and first-time computer owners.</td></tr>
         </tbody></table>
       </main>`
   },
@@ -274,9 +277,9 @@ export const mysteryPages: Record<string, PageDefinition> = {
     listed: false,
     render: () => `
       <main class="page legacy-community-page launchring-page">
-        <body bgcolor="#000033"><center><font color="#00ffff" size="7"><b>*** THE LAUNCH RING ***</b></font><br><font color="#ffff00">WE ARE BUILDING TOMORROW FROM OUR BEDROOMS</font></center>
+        <body bgcolor="#000033"><center>${workingGif("flaming-skull", "Flaming skull")}<font color="#00ffff" size="7"><b>*** THE LAUNCH RING ***</b></font>${workingGif("american-flag", "Animated flag")}<br><font color="#ffff00">WE ARE BUILDING TOMORROW FROM OUR BEDROOMS</font></center>
         <marquee direction="right">NEW: 14.4 USERS CLUB &bull; ORBITSCRIPT BETA &bull; MODEM NIGHT FRIDAY</marquee>
-        <table><tbody><tr><td valign="top"><font color="#00ff00"><b>RING MAP</b></font><ul><li>Hardware Hackers</li><li>Shareware Launchpad</li><li>OrbitPage Tricks</li><li>Future Office</li><li>Modem Weather Watch</li></ul></td>
+        <table><tbody><tr><td valign="top"><font color="#00ff00"><b>RING MAP</b></font><ul><li><button data-nav="web://legacy.orbitos.local/community/launchring/byteforge">ByteForge BBS</button></li><li><button data-nav="web://legacy.orbitos.local/community/launchring/modem-mania">Modem Mania 95</button></li><li><button data-nav="web://legacy.orbitos.local/community/launchring/videolab">VHS + Arcade Video Lab</button></li><li>OrbitPage Tricks</li><li>Future Office</li></ul></td>
         <td>${brokenImage("RINGMAP95.GIF", "A spinning space-station ring map")}<p><font color="white">“The big systems will copy this in two years. Remember who did it first.” — NodeRunner</font></p>
         <p><font color="#ff66ff">Last ringmaster login: 02/11/1996</font></p></td></tr></tbody></table>
         ${workingGif("under-construction", "Under construction")}<button data-nav="web://legacy.orbitos.local/communities">RETURN TO 1995 DIRECTORY</button></body>
@@ -293,14 +296,44 @@ export const mysteryPages: Record<string, PageDefinition> = {
     render: () => `
       <main class="page legacy-community-page homeplanet-page">
         <font face="Comic Sans MS"><h1>Welcome To HOME PLANET!!!</h1></font>
-        ${workingGif("email-mailbox", "Email mailbox")}
+        ${workingGif("email-mailbox", "Email mailbox")} ${workingGif("rose-bloom", "Blooming rose")} ${workingGif("cartoon-dog", "Cartoon dog")}
         <p><font size="5">Soon every family will have a page on the information highway. Home Planet is our friendly first stop!</font></p>
-        <div class="homeplanet-columns"><section><h2>Neighborhood Board</h2><p>Lost bicycles, block parties, school closings, lawn advice, and recipes from around the county.</p>${brokenImage("BLOCK_MAP.BMP", "Neighborhood map")}</section>
-        <section><h2>Family Page Workshop</h2><p>Bring two photographs and one blank disk. We will scan them and help you make your first OrbitPage.</p>${brokenImage("WORKSHOP_FAMILY.JPG", "Family page workshop")}</section>
-        <section><h2>Classroom Exchange</h2><p>Three classrooms online! Send weather observations and questions about other towns.</p>${brokenImage("CLASSROOM.GIF", "Classroom globe animation")}</section></div>
+        <div class="homeplanet-columns"><section><h2>Neighborhood Board</h2><p>Lost bicycles, block parties, school closings, lawn advice, and recipes from around the county.</p><button data-nav="web://legacy.orbitos.local/community/homeplanet/maple-street">MAPLE STREET CLUB</button></section>
+        <section><h2>Kitchen Swap File</h2><p>Bring two photographs and one blank disk. We will scan them and help you make your first OrbitPage.</p><button data-nav="web://legacy.orbitos.local/community/homeplanet/kitchen-swap">OPEN RECIPE FILE</button></section>
+        <section><h2>Family Terminal</h2><p>Three classrooms online! Send weather observations and questions about other towns.</p><button data-nav="web://legacy.orbitos.local/community/homeplanet/family-terminal">VISIT THE TERMINAL</button></section></div>
         <p><b>LAST NEWS 07/02/1995:</b> We reached 100 households. Next goal: 1,000!</p>
         <button data-nav="web://legacy.orbitos.local/communities">Back To Communities</button>
       </main>`
+  },
+  "web://legacy.orbitos.local/community/launchring/byteforge": {
+    url: "web://legacy.orbitos.local/community/launchring/byteforge", title: "ByteForge BBS", site: "orbitlegacy", ownerId: "orbit_guide", searchable: false, listed: false,
+    summary: "A tiny 1995 page for a home-built bulletin board, shareware disks, and the joy of a working modem.",
+    render: () => `<main class="page legacy-community-page legacy-member-page launchring-member"><center>${workingGif("steam-train", "Steam train")}<font size="6" color="#00ffff"><b>BYTEFORGE BBS!!!</b></font>${workingGif("flaming-skull", "Flaming skull")}<br><font color="#ffff00">SYSOP: J. KELLY // 14.4K OR BUST</font></center><hr><p>WELCOME net traveler!!! I built this BBS in my bedroom with a 386, a soldering iron, and a phone line my dad says I am “wearing out.” Orbit lets me put the FILE AREA on a REAL PAGE now.</p>${brokenImage("BYTEFORGE_SETUP.JPG", "ByteForge computer desk")}<h3>NEW FILES</h3><ul><li>RALLY-RAC.EXE (shareware / 1.4 meg)</li><li>ANSI DOOR PACK 3</li><li>HOW_TO_MAKE_A_MODEM_STOP_SCREAMING.TXT</li></ul><p>${workingGif("under-construction", "Under construction")} <b>POSTED 03/14/1995:</b> If you download Rally-Rac, sign my guestbook. The blue car is definitely faster.</p><fieldset><legend>GUESTBOOK / 3 SIGNATURES</legend><b>CHIP_64:</b> your board answered on the first ring!!! amazing.<br><b>Renee:</b> the game froze but i still got to see the title screen.<br><b>SYSOP_JK:</b> that means it works.</fieldset>${workingGif("drop-a-line", "Drop a line")}<button data-nav="web://legacy.orbitos.local/community/launchring">BACK TO THE LAUNCH RING</button></main>`
+  },
+  "web://legacy.orbitos.local/community/launchring/modem-mania": {
+    url: "web://legacy.orbitos.local/community/launchring/modem-mania", title: "Modem Mania 95", site: "orbitlegacy", ownerId: "orbit_guide", searchable: false, listed: false,
+    summary: "A 1995 dial-up club that treats every successful connection like a space launch.",
+    render: () => `<main class="page legacy-community-page legacy-member-page launchring-member"><center>${workingGif("american-flag", "American flag")}<font size="6" color="#ff66ff"><b>MODEM MANIA '95</b></font>${workingGif("angel-cloud", "Angel in clouds")}<br><blink>CONNECTING US ALL!!!</blink></center><p>Tonight I reached a page in another STATE before Mom picked up the kitchen phone. I could hear a person in Oregon had typed about a movie I saw last week. THIS IS THE FUTURE.</p><table border="2"><tbody><tr><td>${brokenImage("MODEM95.PIC", "Modem at night")}</td><td><b>CONNECTION LOG</b><br>03/02: 9600 baud - success<br>03/05: busy signal x 18<br>03/06: 14.4!!! then someone called<br>03/08: read a weather report from Maine</td></tr></tbody></table><p>${workingGif("welcome-banner", "Welcome banner")} <b>NEW POST:</b> Does anyone else turn the sound up when the modem handshakes? It sounds like it is talking to space.</p><fieldset><legend>MODEM WALL</legend><b>Melissa from Tulsa:</b> my dad says it is just a fancy telephone.<br><b>Mark:</b> WRONG. telephones cannot download a dragon picture.<br><b>Kim:</b> mine took six minutes and the dragon did not load.</fieldset><button data-nav="web://legacy.orbitos.local/community/launchring">RETURN TO RING</button></main>`
+  },
+  "web://legacy.orbitos.local/community/launchring/videolab": {
+    url: "web://legacy.orbitos.local/community/launchring/videolab", title: "VHS + Arcade Video Lab", site: "orbitlegacy", ownerId: "orbit_guide", searchable: false, listed: false,
+    summary: "A small mid-1990s page where arcade regulars trade VHS movie notes and debate the future of games.",
+    render: () => `<main class="page legacy-community-page legacy-member-page launchring-member"><center><font size="6" color="#ff9900"><b>VHS + ARCADE VIDEO LAB</b></font><br>${workingGif("motorcycle", "Motorcycle animation")}<br><font color="#00ff00">TAPES / TOKENS / TOMORROW</font></center><p>I rented <i>Laser Patrol IV</i> twice so I could pause the robot chase and draw the ships. Someday games will look that good at home, probably when computers have enough memory for a whole movie.</p>${brokenImage("LASER_PATROL_STILL.GIF", "Laser Patrol VHS still")}<h3>FRIDAY POST</h3><p>Our mall cabinet finally got <b>Turbo Knuckles</b>. Tyler says the purple bike is impossible. I got to stage three on one quarter, which is basically a national record.</p><fieldset><legend>VIDEO LAB COMMENTS</legend><b>Jax:</b> The robot chase is better on tape because you can rewind the explosion.<br><b>M. Harper:</b> Anyone have the last ten minutes? My tape has a weather report over it.<br><b>VideoLab:</b> THAT MAKES IT RARER.</fieldset>${workingGif("drop-a-line", "Drop a line")} <button data-nav="web://legacy.orbitos.local/community/launchring">BACK TO RING</button></main>`
+  },
+  "web://legacy.orbitos.local/community/homeplanet/kitchen-swap": {
+    url: "web://legacy.orbitos.local/community/homeplanet/kitchen-swap", title: "Kitchen Swap File", site: "orbitlegacy", ownerId: "orbit_guide", searchable: false, listed: false,
+    summary: "A 1995 recipe exchange run by someone delighted that a casserole can travel through a computer.",
+    render: () => `<main class="page legacy-community-page legacy-member-page homeplanet-member"><center><font size="6" color="#b40055"><b>THE KITCHEN SWAP FILE</b></font><br>${workingGif("email-mailbox", "Mailbox")}<br><font color="#228833">RECIPES FROM REAL PEOPLE ON THE COMPUTER!!!</font></center><p>My sister in Cedar Ridge sent her chili recipe through Orbit Mail and it printed out in our kitchen. No stamps. No copying machine. I showed everyone at church.</p>${brokenImage("CHILI_AT_POTLUCK.JPG", "Chili at a potluck")}<h3>NEW RECIPE CARD: TACO SALAD FOR A CROWD</h3><ol><li>Brown the meat.</li><li>Open the chips.</li><li>Ask your children not to eat all the cheese before supper.</li></ol><fieldset><legend>RECIPE NOTES</legend><b>Linda M.:</b> Printed this for the PTA!!! The margins came out funny but it was delicious.<br><b>Mrs. B:</b> Can I send a cookie recipe to Canada?<br><b>Kitchen Swap:</b> I BELIEVE YOU CAN SEND IT ANYWHERE.</fieldset>${workingGif("rose-bloom", "Blooming rose")} <button data-nav="web://legacy.orbitos.local/community/homeplanet">BACK TO HOME PLANET</button></main>`
+  },
+  "web://legacy.orbitos.local/community/homeplanet/maple-street": {
+    url: "web://legacy.orbitos.local/community/homeplanet/maple-street", title: "Maple Street Club", site: "orbitlegacy", ownerId: "orbit_guide", searchable: false, listed: false,
+    summary: "A neighbor-run early Orbit page for block parties, lost mittens, and stories about buying a first computer.",
+    render: () => `<main class="page legacy-community-page legacy-member-page homeplanet-member"><center><font size="6" color="#24734b"><b>MAPLE STREET CLUB</b></font><br>${workingGif("steam-train", "Steam train")}<br><font size="2">WHERE THE NEIGHBORHOOD MEETS THE MODEM</font></center><p><b>APRIL NEWS:</b> The Dawsons have a new computer and say it has a mouse. The mouse is not alive. Children may visit after school to see a drawing program.</p><table border="1"><tbody><tr><td>${brokenImage("MAPLE_STREET.JPG", "Maple Street photo")}</td><td><b>UPCOMING</b><br>Saturday: cleanup by the creek<br>Monday: school board meeting<br>Wednesday: Mrs. Ortiz teaches everyone email<br>Friday: movie night in the garage</td></tr></tbody></table><p>${workingGif("cartoon-dog", "Cartoon dog")} <b>POST 05/17/1995:</b> Somebody’s dog found a baseball glove by the mailbox. It may be the first lost-and-found item on the Information Superhighway.</p><fieldset><legend>NEIGHBOR NOTES</legend><b>Jamie:</b> I can see this page from my cousin’s house two towns over.<br><b>Mr. Dawson:</b> Please do not feed the computer mouse.<br><b>Carol:</b> I think this will catch on.</fieldset><button data-nav="web://legacy.orbitos.local/community/homeplanet">BACK TO HOME PLANET</button></main>`
+  },
+  "web://legacy.orbitos.local/community/homeplanet/family-terminal": {
+    url: "web://legacy.orbitos.local/community/homeplanet/family-terminal", title: "The Family Terminal", site: "orbitlegacy", ownerId: "orbit_guide", searchable: false, listed: false,
+    summary: "A humble 1994 family page with broken photos, children’s game scores, and enthusiastic notes to distant relatives.",
+    render: () => `<main class="page legacy-community-page legacy-member-page homeplanet-member"><center><font size="6" color="#333399"><b>THE HOLLIS FAMILY TERMINAL</b></font><br>${workingGif("welcome-banner", "Welcome banner")}<br><font color="#cc0066">HI GRANDMA! THIS IS OUR PAGE!</font></center><p>Dad brought home the modem from work. We made this page so Aunt Bea can see our family picture, except the picture did not upload yet. Please imagine everybody smiling.</p>${brokenImage("HOLLIS_FAMILY_94.JPG", "Hollis family photograph")}<h3>TERMINAL POSTS</h3><p><b>Sam:</b> I got 17,400 on <i>Space Lander</i> and Mom says that is enough computer for one night.</p><p><b>Mom:</b> Thank you to everyone who emailed about Grandpa’s birthday. I printed them all and put them in a binder.</p><fieldset><legend>OLD MESSAGES</legend><b>Aunt Bea:</b> I found the page! It took three tries but I am very proud.<br><b>Grandpa:</b> WHAT IS A PAGE?<br><b>Sam:</b> YOU ARE ON IT, GRANDPA.</fieldset>${workingGif("sewing-machine", "Sewing machine")} <button data-nav="web://legacy.orbitos.local/community/homeplanet">RETURN TO HOME PLANET</button></main>`
   },
   "web://legacy.orbitos.local/admin/continuity": {
     url: "web://legacy.orbitos.local/admin/continuity",

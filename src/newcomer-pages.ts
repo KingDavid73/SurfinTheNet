@@ -3,6 +3,7 @@ import {
   BYTE_BARN_FAN_HUB_URL,
   PHASE_TWO_BYTE_BARN_COVERS
 } from "./byte-barn-revival";
+import { ADDITIONAL_BUSINESS_ICONS, ADDITIONAL_BUSINESS_LINKS } from "./additional-business-pages";
 
 const newcomerArt = {
   "keesha-portrait": new URL("../assets/images/phase2-newcomers/keesha-portrait.png", import.meta.url).href,
@@ -50,11 +51,28 @@ const newcomerArt = {
   "new-mailbox": new URL("../assets/images/phase2-newcomers/new-mailbox.png", import.meta.url).href,
   "new-construction-modem": new URL("../assets/images/phase2-newcomers/new-construction-modem.png", import.meta.url).href,
   "new-monitor-ring": new URL("../assets/images/phase2-newcomers/new-monitor-ring.png", import.meta.url).href,
-  "newbie-zone": new URL("../assets/images/phase2-newcomers/newbie-zone.png", import.meta.url).href,
+  "newbie-zone": new URL("../assets/images/phase2-newcomers/newbie-zone-square.png", import.meta.url).href,
   "keesha-badge": new URL("../assets/images/phase2-newcomers/keesha-badge.png", import.meta.url).href,
   "ben-badge": new URL("../assets/images/phase2-newcomers/ben-badge.png", import.meta.url).href,
   "lily-badge": new URL("../assets/images/phase2-newcomers/lily-badge.png", import.meta.url).href,
   "zack-badge": new URL("../assets/images/phase2-newcomers/zack-badge.png", import.meta.url).href
+} as const;
+
+const benDirectoryArt = {
+  cosmic: new URL("../assets/images/business-web/cosmiccrust-pizza.png", import.meta.url).href,
+  bubble: new URL("../assets/images/filler-business/bubble-washers.png", import.meta.url).href,
+  moon: new URL("../assets/images/kids-business/moonmunch-bowl.png", import.meta.url).href,
+  crystal: new URL("../assets/images/mystery-rumors/crystal-radio.png", import.meta.url).href,
+  toonburst: new URL("../assets/images/kids-business/toonburst-hero-team.png", import.meta.url).href,
+  molar: new URL("../assets/images/filler-business/molar-waiting.png", import.meta.url).href,
+  snapdragon: new URL("../assets/images/filler-business/snapdragon-bouquet-photo.png", import.meta.url).href,
+  rewind: new URL("../assets/images/filler-business/rewind-store.png", import.meta.url).href,
+  faraway: new URL("../assets/images/filler-business/faraway-office.png", import.meta.url).href,
+  inkmoth: new URL("../assets/images/filler-business/inkmoth-machines.png", import.meta.url).href,
+  sofa: new URL("../assets/images/filler-business/sofa-showroom.png", import.meta.url).href,
+  gurgle: new URL("../assets/images/filler-business/gurgle-repair.png", import.meta.url).href,
+  neighbornest: new URL("../assets/images/filler-business/neighbornest-branch.png", import.meta.url).href,
+  halo: new URL("../assets/images/filler-business/halo-interior.png", import.meta.url).href
 } as const;
 
 const oddityArt = {
@@ -216,9 +234,9 @@ export const newcomerPages: Record<string, PageDefinition> = {
     summary: "Ben's newcomer link board collects peculiar Orbit businesses, forgotten cartoons, suspicious cereal prizes, and the Byte Barn jingle that led him here.",
     commentsEnabled: true,
     listed: true,
-    minimumPhase: 2,
+    minimumPhase: 3,
     hubId: "zone-newcomers",
-    searchTerms: ["newcomer", "weird pages", "strange businesses", "cereal prize", "laundromat", "dentist", "cartoons", "byte barn"],
+    searchTerms: ["newcomer", "weird pages", "strange businesses", "cereal prize", "laundromat", "dentist", "cartoons", "byte barn", "company pages", "local businesses", "weird orbit finds"],
     seedComments: [
       seed("new-ben-chip", BEN_URL, "barnbeat_ben", "visitor", "Chip_At_ByteBarn", "The old jingle page is real. The cereal spying page is not an official Byte Barn technical opinion.", "1999-11-04T08:25:00"),
       seed("new-ben-keesha", BEN_URL, "barnbeat_ben", "visitor", "TapeDeck_Keesha", "Excellent list. The laundromat dryers and that cartoon schedule both look like things somebody accidentally preserved forever.", "1999-11-04T08:47:00"),
@@ -233,15 +251,24 @@ export const newcomerPages: Record<string, PageDefinition> = {
           <div><h2>How I got here</h2><p>Somebody at school printed a weird-page listening guide, so naturally I spent the evening looking for one retired computer-store song. Then I found a laundromat, an abandoned cartoon schedule, a dentist with a famous fish, and a person testing cereal toys with a radio.</p><p>The dedicated Byte Barn club has the remixes. This page is for everything else I would have forgotten to bookmark.</p><button data-nav="${BYTE_BARN_FAN_HUB_URL}">VISIT THE BYTE BARN BEAT EXCHANGE</button></div>
         </section>
         <section class="ben-gear-grid ben-weird-links">
-          <figure><button data-nav="web://bytebarn.com/home">${image(newcomerArt["byte-barn-sticker"], "A homemade computer and barn sticker")}</button><figcaption><b>BYTE BARN</b><br>retired computer store / unexpectedly phat jingle</figcaption></figure>
-          <figure><button data-nav="web://cosmiccrust.biz/home">${image(newcomerArt["ben-store-flyer"], "A clipped Cosmic Crust pizza-store advertisement")}</button><figcaption><b>COSMIC CRUST</b><br>pizza, arcade scores, alien club, extremely committed theme</figcaption></figure>
-          <figure><button data-nav="web://bubbleborough.com/home">${image(newcomerArt["weird-deep-pit"], "A strange-looking laundromat dryer tunnel")}</button><figcaption><b>BUBBLE BOROUGH</b><br>a completely ordinary laundromat that looks like a spaceship inside</figcaption></figure>
-          <figure><button data-nav="web://moonmunch.com/home">${image(newcomerArt["weird-purple-mascot"], "A peculiar colorful breakfast mascot")}</button><figcaption><b>MOON MUNCH</b><br>cereal, decoder rings, and suspiciously serious prize lore</figcaption></figure>
-          <figure><button data-nav="web://prizefrequency.net/crystal">${image(newcomerArt["weird-radio-tower"], "A homemade radio interference test")}</button><figcaption><b>BREAKFAST CRYSTAL RECEIVER?</b><br>somebody thinks a cereal toy is listening to children</figcaption></figure>
-          <figure><button data-nav="web://toonburst.tv/home">${image(newcomerArt["weird-gem-cavern"], "A colorful old television-program graphic")}</button><figcaption><b>TOONBURST</b><br>an old Saturday cartoon grid that still thinks next Saturday is coming</figcaption></figure>
-          <figure><button data-nav="web://molarmeadow.dent/home">${image(newcomerArt["weird-pet-page"], "A charmingly awkward pet-themed webpage graphic")}</button><figcaption><b>MOLAR MEADOW</b><br>dentist page / visit Kevin the fish without getting a cleaning</figcaption></figure>
+          <figure><button data-nav="web://bytebarn.com/home">${image(newcomerArt["byte-barn-sticker"], "A homemade computer and barn sticker")}</button><figcaption><b>BYTE BARN</b><br>I was hunting one jingle and found a whole computer store archive. The clap is definitely crooked.</figcaption></figure>
+          <figure><button data-nav="web://cosmiccrust.biz/home">${image(benDirectoryArt.cosmic, "A Cosmic Crust pizza graphic")}</button><figcaption><b>COSMIC CRUST</b><br>Pizza, an arcade, and an alien club with high scores that feel way too serious.</figcaption></figure>
+          <figure><button data-nav="web://bubbleborough.com/home">${image(benDirectoryArt.bubble, "A Bubble Borough laundromat graphic")}</button><figcaption><b>BUBBLE BOROUGH</b><br>The dryers are normal, but the inside looks like a spaceship. That is not how laundromats usually work.</figcaption></figure>
+          <figure><button data-nav="web://moonmunch.com/home">${image(benDirectoryArt.moon, "A Moon Munch cereal graphic")}</button><figcaption><b>MOON MUNCH</b><br>Cereal with decoder rings and prize lore like this is a classified operation.</figcaption></figure>
+          <figure><button data-nav="web://prizefrequency.net/crystal">${image(benDirectoryArt.crystal, "A Prize Frequency crystal-radio graphic")}</button><figcaption><b>BREAKFAST CRYSTAL RECEIVER?</b><br>Somebody put a radio next to a cereal toy and decided it was listening. I respect the commitment.</figcaption></figure>
+          <figure><button data-nav="web://toonburst.tv/home">${image(benDirectoryArt.toonburst, "A ToonBurst cartoon graphic")}</button><figcaption><b>TOONBURST</b><br>Saturday cartoons scheduled like next Saturday is never going to end. The page is still waiting.</figcaption></figure>
+          <figure><button data-nav="web://molarmeadow.dent/home">${image(benDirectoryArt.molar, "A Molar Meadow dentistry graphic")}</button><figcaption><b>MOLAR MEADOW</b><br>Dentist homepage, except Kevin the fish has more personality than the staff photos.</figcaption></figure>
+          <figure><button data-nav="web://snapdragonstring.floral/home">${image(benDirectoryArt.snapdragon, "A Snapdragon & String floral graphic")}</button><figcaption><b>SNAPDRAGON &amp; STRING</b><br>Flower shop with delivery instructions so specific they sound like a side quest.</figcaption></figure>
+          <figure><button data-nav="web://rewindharbor.video/home">${image(benDirectoryArt.rewind, "A Rewind Harbor video-store graphic")}</button><figcaption><b>REWIND HARBOR VIDEO</b><br>Video store with staff picks and one missing tape everybody keeps pretending is coming back.</figcaption></figure>
+          <figure><button data-nav="web://farawaydesk.travel/home">${image(benDirectoryArt.faraway, "A Faraway Desk travel-office graphic")}</button><figcaption><b>FARAWAY DESK TRAVEL</b><br>Paper tickets, regional trips, and a desk lamp that appears to be permanently on.</figcaption></figure>
+          <figure><button data-nav="web://inkmoth.copy/home">${image(benDirectoryArt.inkmoth, "An InkMoth copy-and-fax graphic")}</button><figcaption><b>INKMOTH COPY &amp; FAX</b><br>Copy shop for flyers and offices that refuse to join the future.</figcaption></figure>
+          <figure><button data-nav="web://sofasafari.furn/home">${image(benDirectoryArt.sofa, "A Sofa Safari furniture graphic")}</button><figcaption><b>SOFA SAFARI</b><br>Furniture store where one leopard recliner is clearly the main character.</figcaption></figure>
+          <figure><button data-nav="web://gurglebros.plumb/home">${image(benDirectoryArt.gurgle, "A Gurgle Brothers plumbing graphic")}</button><figcaption><b>GURGLE BROTHERS PLUMBING</b><br>Drips, drains, and a noise chart that makes every noise feel expensive.</figcaption></figure>
+          <figure><button data-nav="web://neighbornest.cu/home">${image(benDirectoryArt.neighbornest, "A NeighborNest credit-union graphic")}</button><figcaption><b>NEIGHBORNEST CREDIT UNION</b><br>Savings, small loans, and the kind of coin counter I actually want to use.</figcaption></figure>
+          <figure><button data-nav="web://halocomb.salon/home">${image(benDirectoryArt.halo, "A Halo Comb hair-studio graphic")}</button><figcaption><b>HALO COMB HAIR STUDIO</b><br>A hair studio with flattering mirrors and enough curls to make the page look airbrushed.</figcaption></figure>
+          ${ADDITIONAL_BUSINESS_LINKS.map((entry) => `<figure class="ben-new-business ben-new-${entry.slug}"><button data-nav="${entry.url}" aria-label="Open ${entry.name}"><span class="ben-business-icon-frame"><img src="${ADDITIONAL_BUSINESS_ICONS[entry.slug]}" alt="${entry.name} page icon"></span></button><figcaption><b>${entry.name}</b><br>${entry.note}</figcaption></figure>`).join("")}
         </section>
-        <div class="ben-verdict">CURRENT SCORE: 7 SAVED LINKS / 1 POSSIBLY EVIL CEREAL PRIZE</div>
+        <div class="ben-verdict">ARCHIVE INDEX COMPLETE &middot; ${15 + ADDITIONAL_BUSINESS_LINKS.length} SAVED LINKS / 1 POSSIBLY EVIL CEREAL PRIZE</div>
       </main>`
   },
   [BYTE_BARN_FAN_HUB_URL]: {
@@ -409,42 +436,42 @@ export const phaseTwoPersonalUpdates: readonly PhaseTwoPersonalUpdate[] = [
     url: "web://gamegrid.zone/users/lagmaster99/comet-logo",
     ownerId: "lagmaster_99",
     title: "THE COMET POINTED LEFT",
-    teaser: "LagMaster compares PULSE/NET boxes and discovers that memory has terrible quality control."
+    teaser: "I have been comparing PULSE/NET boxes, and either the old comet logo pointed left or everybody's memory has terrible quality control."
   },
   {
     homeUrl: "web://xtreme.zone/users/deckwreckerdee/home",
     url: "web://xtreme.zone/users/deckwreckerdee/curb-hum",
     ownerId: "deckwrecker_dee",
     title: "THE CURB THAT HUMS",
-    teaser: "Dee records a midnight vibration under the skate spot, then finds a Glass Lake Moon Window equipment plate on the nearby utility cabinet."
+    teaser: "I recorded the curb humming after midnight, then found a Glass Lake Moon Window plate on the utility box beside it."
   },
   {
     homeUrl: "web://petplanet.zone/users/catnapcarla/home",
     url: "web://petplanet.zone/users/catnapcarla/porch-panther",
     ownerId: "catnap_carla",
     title: "THE BELLWATER PORCH PANTHER",
-    teaser: "Carla's alleged giant-cat photograph also preserves three lights from the night of the Glass Lake Moon Window incident."
+    teaser: "Mr. Boots and I caught three strange lights behind the Porch Panther in this photograph, and I think they were there the night something happened at Glass Lake."
   },
   {
     homeUrl: "web://rainbow.gdn/home",
     url: "web://rainbow.gdn/moonseed-moth",
     ownerId: "juniper_gdn",
     title: "The Moonseed Moth",
-    teaser: "Juniper wonders whether a pale garden moth appears when her dial-up modem connects."
+    teaser: "I keep seeing the same pale moth near my garden whenever the modem connects. It might be a coincidence, but it is a very patient one."
   },
   {
     homeUrl: "web://yesterday.zone/users/bigbassbob/home",
     url: "web://yesterday.zone/users/bigbassbob/lake-knocker",
     ownerId: "big_bass_bob",
     title: "LAKE KNOCKER EVIDENCE",
-    teaser: "Bob's lake-monster evidence includes a soggy university survey asking who people trusted at the Quiet County meetings."
+    teaser: "I was looking for the Lake Knocker under my dock and found a soggy university survey about who people trusted at the Quiet County meetings."
   },
   {
     homeUrl: "web://fanverse.zone/users/blipzobeliever88/home",
     url: "web://fanverse.zone/users/blipzobeliever88/cap-stripe",
     ownerId: "blipzo_believer_88",
     title: "BLIPZO'S MISSING CAP STRIPE",
-    teaser: "Trent's mascot-continuity argument accidentally reproduces the same paper flaws found across three supposedly unrelated Quiet County letters."
+    teaser: "I was proving Blipzo's cap stripe changed when I found the same torn-corner paper flaws on three supposedly unrelated Quiet County letters."
   }
 ] as const;
 

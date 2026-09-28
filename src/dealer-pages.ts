@@ -85,6 +85,7 @@ export const dealerPages: Record<string, PageDefinition> = {
           ${dealerAsset("cal-sedan", "King Cal's tired customized burgundy luxury sedan with whitewalls, landau roof, velour, and gold-look trim")}
           <div><span>CAL'S PERSONAL-STYLE ROYAL PICK</span><h2>1990 CROWN REGENT</h2><p>142,000 miles · whitewalls · pillow-top velour · gold-look grille · power-window sound package</p><strong>$89<small>/WEEK</small></strong><b>$1,999 DOWN · 156 WEEKS</b><mark>TOTAL: $15,883 BEFORE TAXES &amp; FEES</mark></div>
         </section>
+        <aside class="cal-web-junk"><b>ROYAL WEEKLY DEALS</b><span>Save the current three-chariot flyer to Orbit Mail. It is an informational archive copy; no credit application is started.</span><button type="button" data-business-mail="kingcal">EMAIL THIS WEEK'S DEAL SHEET</button></aside>
         <section class="cal-commercial-vault">
           <header><div><small>RECORDED OFF LOCAL TV · TRACKING MAY VARY</small><h2>THE ROYAL COMMERCIAL VAULT</h2></div><strong>17 YEARS<br>OF RHYMES<br>&amp; RIDES</strong></header>
           <div class="cal-vault-intro">

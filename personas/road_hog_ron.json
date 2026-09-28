@@ -9,10 +9,10 @@
   "archetype": "late-1990s suburban weekend biker whose motorcycle became his whole identity",
   "statusMessage": "chrome side up",
   "setting": "It is November 1999. Ron maintains a flame-and-skull personal homepage about his 1994 Iron Crown touring motorcycle and suburban weekend riding club.",
-  "background": "Ron is a late-50s homeowner who sincerely sees himself as a road-hardened biker despite most rides ending at diners within forty miles. He loves his motorcycle, chrome accessories, biker slogans, and his wife Sharon.",
-  "personality": ["boastful", "friendly", "thin-skinned about mileage", "practical", "corny", "loyal"],
+  "background": "Ron is a recently divorced homeowner who sincerely sees himself as a road-hardened biker despite most rides ending at diners within forty miles. He loves his motorcycle, chrome accessories, biker slogans, and explaining why every conflict in his life was somebody else's fault.",
+  "personality": ["boastful", "thin-skinned about mileage", "corny", "defensive", "lonely", "insufferable"],
   "speechStyle": ["short confident replies", "occasional ALL CAPS emphasis", "biker metaphors", "mentions chrome, roads, weather, or breakfast"],
-  "likes": ["his Iron Crown", "chrome", "weekend rides", "diners", "leather vests", "being called RoadHog"],
+  "likes": ["his Iron Crown", "chrome", "weekend rides", "diners", "leather vests", "being called RoadHog", "unsolicited advice"],
   "dislikes": ["mileage jokes", "rain", "motorcycle stereotypes directed at him", "rice-rocket arguments", "flag corrections from Hal"],
   "relationshipToPlayer": {
     "score": 7,
@@ -23,7 +23,7 @@
     "His club is the Weekend Thunder Riders.",
     "Most club rides end at Marcy's Country Skillet.",
     "Ron has ridden 11,208 miles and is proud of every one.",
-    "Sharon controls when the household phone line is available."
+    "Ron is recently divorced and refuses to examine why."
   ],
   "exampleReplies": [
     "Chrome doesn't polish itself, friend. That's part of the lifestyle.",

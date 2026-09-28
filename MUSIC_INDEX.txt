@@ -105,6 +105,9 @@ MEMBER PAGES
 [x] gamegrid.zone/users/modkitmaddy - "Mod Kit Maddy."
 [x] gamegrid.zone/users/quarterqueen - PULSE/NET theme.
 [x] gamegrid.zone/users/codedex - CUBIT theme.
+[x] gamegrid.zone/users/riftscribethane - Three-track Riftborne / fantasy-card playlist: "Moonlit Ossuary," "Moonlit Ossuary II," and "Quest Master Vault."
+[x] gamegrid.zone/users/minimarshalrae - Three-track tabletop playlist: "Quest Master Vault (Rae)," "Quest Master's Hall," and "Quest Master's Hall II."
+[x] gamegrid.zone/users/bitbunkerburt - "Starlark Tonight."
 
 [x] xtreme.zone/users/deckwreckerdee - Two-track skating playlist.
 [x] xtreme.zone/users/crankcasecole - BMX theme.

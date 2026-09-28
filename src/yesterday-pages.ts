@@ -26,6 +26,12 @@ const YESTERDAY_ASSETS = {
   welcome: new URL("../assets/images/yesterday/gifs/welcome-banner.gif", import.meta.url).href
 } as const;
 
+const YESTERDAY_WEB_GIFS = {
+  trainBanner: new URL("../gifs/banner_train.gif", import.meta.url).href,
+  fish: new URL("../gifs/fish02.gif", import.meta.url).href,
+  fishing: new URL("../gifs/fishing01.gif", import.meta.url).href
+} as const;
+
 const seed = (
   id: string,
   pageUrl: string,
@@ -146,7 +152,7 @@ export const yesterdayPages: Record<string, PageDefinition> = {
     searchTerms: ["RoadHog Ron", "motorcycle", "Iron Crown", "Road Sovereign", "biker", "flames", "skulls", "chrome", "Iron Horse"],
     render: () => `
       <main class="page yesterday-page roadhog-page">
-        <marquee scrollamount="7">🔥 WELCOME TO RON'S IRON HORSE HOMEPAGE 🔥 LOUD PIPES SAVE LIVES 🔥 UPDATED WHENEVER SHARON LETS ME USE THE PHONE LINE 🔥</marquee>
+        <marquee scrollamount="7">🔥 WELCOME TO RON'S IRON HORSE HOMEPAGE 🔥 LOUD PIPES SAVE LIVES 🔥 UPDATED WHENEVER THE PHONE LINE IS FREE 🔥</marquee>
         <nav><button data-nav="${YESTERDAY_URL}">[ Yesterday Online ]</button><a href="#hog">MY HOG</a><a href="#rides">RIDE LOG</a><a href="#wisdom">ROAD WISDOM</a></nav>
         <header><img src="${YESTERDAY_ASSETS.skull}" alt="Animated flaming skull"><div><h1>ROAD<em>HOG</em> RON</h1><p>WELCOME TO MY CYBER GARAGE</p></div><img src="${YESTERDAY_ASSETS.skull}" alt=""></header>
         <section class="roadhog-intro" id="hog">
@@ -265,6 +271,7 @@ export const yesterdayPages: Record<string, PageDefinition> = {
       <main class="page yesterday-page lenny-page">
         <table class="lenny-shell"><tbody><tr><td colspan="2" class="lenny-banner"><marquee direction="right" scrollamount="4"><img src="${YESTERDAY_ASSETS.train}" alt="Animated steam train"> NOW ARRIVING AT LENNY CENTRAL <img src="${YESTERDAY_ASSETS.train}" alt=""></marquee></td></tr><tr><td class="lenny-menu"><b>STATION MENU</b><a href="#layout">THE LAYOUT</a><a href="#schedule">TIMETABLE</a><a href="#sightings">SIGHTINGS</a><a href="#wiring">WIRING</a><button data-nav="${YESTERDAY_URL}">ZONE DEPOT</button><span class="old-blink">● SIGNAL CLEAR</span></td><td class="lenny-content">
           <h1>LENNY'S BASEMENT RAIL EMPIRE</h1><p class="lenny-subtitle">Serving the entire southwest corner of my basement since 1984</p>
+          <img class="personal-web-banner lenny-web-banner" src="${YESTERDAY_WEB_GIFS.trainBanner}" alt="Animated railroad banner">
           <section class="lenny-intro" id="layout"><img class="yesterday-photo" src="${YESTERDAY_ASSETS.railroadLenny}" alt="Lenny kneeling beside his elaborate basement model railroad"><div><h2>Welcome aboard</h2><p>Four scale miles of main line. Eleven powered switches. Two towns. One mountain made from approximately nine Sunday newspapers.</p><p>The C&NW freight has right-of-way. The passenger loop has right-of-way when grandchildren are present.</p></div></section>
           <table class="lenny-timetable" id="schedule"><caption>LENNY CENTRAL MASTER TIMETABLE</caption><tbody><tr><th>TRAIN</th><th>DEPARTS</th><th>STATUS</th></tr><tr><td>#7 Morning Limited</td><td>7:15 PM</td><td>ON TIME</td></tr><tr><td>#12 Pretzel Freight</td><td>NOT AUTHORIZED</td><td>BOB</td></tr><tr><td>#44 Coal Drag</td><td>8:05 PM</td><td>TRANSFORMER WARM</td></tr></tbody></table>
           <section class="lenny-sighting" id="sightings"><h2>REAL TRAIN SIGHTING LOG</h2><p>10/27 — Two orange diesels, westbound, 4:18 PM.<br>10/31 — Maintenance truck. Waved.<br>11/02 — Heard horn at 9:44 PM. Sharon says this does not count.</p></section>
@@ -288,10 +295,10 @@ export const yesterdayPages: Record<string, PageDefinition> = {
       <main class="page yesterday-page bob-page">
         <marquee bgcolor="#003399" direction="left">~~~~ WELCOME TO BOB'S FISHING HOLE ~~~~ THE FISH ARE ALWAYS BITING SOMEWHERE ~~~~</marquee>
         <header><h1><small>&gt;&lt;(((°&gt;</small> Big Bass Bob's <small>&lt;°)))&gt;&lt;</small></h1><h2>FISHING HOLE &amp; ELECTRONIC JOKE LIST</h2><button data-nav="${YESTERDAY_URL}">Paddle back to Yesterday Online</button></header>
-        <section class="bob-intro"><img class="yesterday-photo" src="${YESTERDAY_ASSETS.bassBob}" alt="Bob holding a largemouth bass beside his small fishing boat"><div><h2>THE ONE THAT DID NOT GET AWAY</h2><p>Lake Mercer, June 1998. Official length: respectable. Official weight: the scale was in the other tackle box.</p><p>I fish for bass, walleye, perch, and peace and quiet. I release most fish and all unsolicited computer advice.</p></div></section>
+        <section class="bob-intro"><img class="yesterday-photo" src="${YESTERDAY_ASSETS.bassBob}" alt="Bob holding a largemouth bass beside his small fishing boat"><div><img class="personal-web-gif bob-web-fish" src="${YESTERDAY_WEB_GIFS.fish}" alt="Animated fish"><h2>THE ONE THAT DID NOT GET AWAY</h2><p>Lake Mercer, June 1998. Official length: respectable. Official weight: the scale was in the other tackle box.</p><p>I fish for bass, walleye, perch, and peace and quiet. I release most fish and all unsolicited computer advice.</p></div></section>
         <div class="bob-columns"><section><h2>BOB'S LAKE REPORT</h2><table border="2"><tbody><tr><th>SPOT</th><th>BAIT</th><th>VERDICT</th></tr><tr><td>North reeds</td><td>green worm</td><td>promising</td></tr><tr><td>Rail bridge</td><td>spinner</td><td>snag city</td></tr><tr><td>Boat launch</td><td>coffee</td><td>good conversation</td></tr></tbody></table><h3>GRILL RULE</h3><p>Fish is done when it flakes. Burgers are done when Linda says they are.</p></section>
         <aside><h2 class="old-blink">JOKE OF THE WEEK</h2><p><b>Q:</b> Why did the computer go fishing?</p><p><b>A:</b> It wanted to improve its net working!</p><p><small>Forwarded by Gary at the plant. If this joke belongs to somebody else please tell Gary.</small></p><img src="${YESTERDAY_ASSETS.email}" alt="Animated email mailbox"></aside></div>
-        <section class="bob-email"><img src="${YESTERDAY_ASSETS.fishing}" alt="Animated fishing invitation"><div><h2>DROP ME A LINE</h2><p>Questions, clean jokes and verified lake temperatures welcome. Do not send attachments larger than one photograph.</p></div></section>
+        <section class="bob-email"><img src="${YESTERDAY_ASSETS.fishing}" alt="Animated fishing invitation"><img class="personal-web-gif bob-web-fishing" src="${YESTERDAY_WEB_GIFS.fishing}" alt="Animated angler"><div><h2>DROP ME A LINE</h2><p>Questions, clean jokes and verified lake temperatures welcome. Do not send attachments larger than one photograph.</p></div></section>
         <p class="old-counter">Anglers online now: 1 · Total bites: 000742</p>
         <p class="fandom-owner-note">Leave fishing reports and family-safe jokes below. Exaggeration within reason.</p>
       </main>`

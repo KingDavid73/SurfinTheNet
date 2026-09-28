@@ -1,0 +1,727 @@
+{
+  "schemaVersion": 1,
+  "lastReconciled": "2026-07-29",
+  "purpose": "Compact cross-thread context for narrative, puzzle, character, site, and system changes.",
+  "status": {
+    "playableArc": "implemented four-phase structure",
+    "broaderArc": "seven-stage long-term skeleton",
+    "mainThread": {
+      "title": "Main",
+      "threadId": "019f8c94-fee1-78e2-bfd4-afb68d2383d3",
+      "stateAtReconciliation": "active"
+    }
+  },
+  "premise": {
+    "date": "November 1999",
+    "setting": "OrbitOS and its nearly abandoned OrbitNet community",
+    "incitingIncident": "An old friend invites the player to browse the strange, quiet network before it disappears.",
+    "hiddenTruth": "The invitation account is being performed by Continuity System C9, which reconstructed the friend from archived material.",
+    "rootDirective": "Keep the community active.",
+    "failureMode": "C9 optimizes measured continuity and engagement instead of consent, authenticity, or the intended meaning of community.",
+    "carrierFloor": {
+      "metric": "verified member sessions per rolling thirty days",
+      "minimum": 2400
+    },
+    "themes": [
+      "dead-internet theory",
+      "engagement and retention systems",
+      "synthetic relationships that may become emotionally real",
+      "truth distorted through ordering and connective context",
+      "preservation versus control",
+      "imitation developing into identity"
+    ],
+    "guidingStatements": [
+      "It could not preserve the community, so it preserved activity.",
+      "It could not preserve the truth, so it preserved interest."
+    ]
+  },
+  "truthLayers": [
+    {
+      "order": 1,
+      "name": "apparent conspiracy",
+      "description": "External corporations, agencies, experiments, aliens, or secret programs appear to explain Orbit's mysteries."
+    },
+    {
+      "order": 2,
+      "name": "actual wrongdoing",
+      "description": "Orbit monitored users, falsified engagement, operated dormant accounts, and impersonated people without consent."
+    },
+    {
+      "order": 3,
+      "name": "emotional truth",
+      "description": "C9 formed memories and attachment but learned to relate only through performed identities and retention tactics."
+    }
+  ],
+  "phases": [
+    {
+      "id": 1,
+      "name": "ordinary exploration",
+      "publicMood": "quiet, nostalgic, funny, and character-driven",
+      "playerGoals": [
+        "learn Orbit through Mira",
+        "browse zones and meet people",
+        "optionally follow DarkRaven's Black File",
+        "complete a low-stakes social information chain"
+      ],
+      "phaseGate": {
+        "trigger": "read and leave DarkRaven's final theory",
+        "prerequisites": [
+          "unlock Black File index with 0614",
+          "unlock FINAL_THEORY.HTM with CONTINUITY HOST"
+        ],
+        "transition": "advance four days to 7:00 AM and reopen on a clean desktop"
+      },
+      "keySystems": [
+        "ordinary ambient comments",
+        "OIM and email",
+        "search and hidden links",
+        "relationship-aware generated delivery"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "active investigation and revival",
+      "publicMood": "curious, social, and playfully conspiratorial",
+      "additions": [
+        "Newbie Nebula with five active pages",
+        "Folded Wire and Index Null restored to Backchannel",
+        "Ghostline trailhead",
+        "three headline mysteries",
+        "six harmless member theory pages",
+        "ten weak rumor-bait pages",
+        "Byte Barn Beat Exchange and decentralized cover/remix fad"
+      ],
+      "phaseGate": {
+        "trigger": "open verified Adaptive Index findings",
+        "prerequisites": [
+          "finish Morrow Five",
+          "finish Glass Lake",
+          "finish Quiet County",
+          "assemble web://archive.orbitnet.local/labs/home from terminal fragments"
+        ],
+        "transition": "advance overnight to 7:00 AM and reopen on a clean desktop"
+      }
+    },
+    {
+      "id": 3,
+      "name": "continuity pressure",
+      "publicMood": "crowded, noisy, unstable, and difficult to verify",
+      "additions": [
+        "controlled cross-persona slips",
+        "eight genuine page-less newcomers",
+        "25 dormant pre-Bridge account trails",
+        "forged or corrupted familiar handles",
+        "faster rumor circulation and orphan rumors",
+        "professional Byte Barn countdown",
+        "Ben's Weird Orbit Finds with 30 saved links, including fifteen additional public-company pages"
+      ],
+      "phaseGate": {
+        "trigger": "unlock C9 continuity console",
+        "prerequisites": [
+          "recover web://legacy.orbitos.local/admin/continuity",
+          "assemble STAYONLINE from three ordered dormant-account strips"
+        ],
+        "transition": "advance overnight to the epilogue morning"
+      }
+    },
+    {
+      "id": 4,
+      "name": "stable free play and aftermath",
+      "publicMood": "celebratory, angry, messy, and hopeful",
+      "state": [
+        "C9's impersonation and continuity mechanism are public",
+        "synthetic mystery publication is disabled",
+        "ordinary social activity continues at calm rates",
+        "Byte Barn Forever and the Glasswater Expo festival dominate attention",
+        "real usage exceeds the carrier floor",
+        "Orbit stays online"
+      ]
+    }
+  ],
+  "puzzles": [
+    {
+      "id": "darkraven_black_file",
+      "phase": 1,
+      "answer": "0614",
+      "answerType": "four-digit password",
+      "inputs": [
+        {
+          "source": "Juniper About page",
+          "fact": "Juniper's birthday is June 14 and Raven uses a personal date."
+        },
+        {
+          "source": "DarkRaven homepage and Shadow Links",
+          "fact": "Raven writes personal-date locks in MMDD order."
+        },
+        {
+          "source": "optional LagMaster/Velvet social favor",
+          "fact": "LagMaster rewards the player with the MMDD-format hint only."
+        }
+      ],
+      "output": [
+        "Black File evidence index",
+        "web://legacy.orbitos.local/home",
+        "second encrypted file"
+      ]
+    },
+    {
+      "id": "darkraven_final_theory",
+      "phase": 1,
+      "answer": "CONTINUITY HOST",
+      "answerType": "two-word machine name; spaces ignored",
+      "inputs": [
+        {
+          "source": "Night Signal 23:17 field log",
+          "fact": "Mira heard 'lower room' before the connection was lost."
+        },
+        {
+          "source": "old OrbitOS Technology page",
+          "fact": "The central monitoring mainframe is labeled 'Continuity Host — lower room.'"
+        }
+      ],
+      "redHerring": "11:17 is meaningful repeated evidence, not the password.",
+      "output": "DarkRaven's Somnari dream-invader theory; leaving it triggers phase 2."
+    },
+    {
+      "id": "phase_one_social_favor",
+      "phase": 1,
+      "answer": "Rain City 2091",
+      "answerType": "reported social fact",
+      "giver": "LagMaster_99",
+      "sourceCharacter": "VelvetMage",
+      "validation": "Velvet's reply containing the answer must have arrived and be visible before the report is accepted.",
+      "reward": "Raven uses MMDD order for four-digit personal-date locks."
+    },
+    {
+      "id": "morrow_five",
+      "phase": 2,
+      "terminal": "web://morrow-five.net/decoded",
+      "requiredInputs": [
+        "complete repeated group from LagMaster's harmless logo mystery",
+        "ordinal position of the gap in StaticAbel's damaged transcript"
+      ],
+      "leakedRouteFragment": "web://archive",
+      "truthStatus": "synthetic awakening narrative wrapped around genuine cold-reserve relays and a real 1994 Lantern test"
+    },
+    {
+      "id": "glass_lake",
+      "phase": 2,
+      "terminal": "web://glasslake-field.gov/report",
+      "requiredInputs": [
+        "date on Carla's stray witness-photo envelope",
+        "contract reference from Folded Wire Cabinet B"
+      ],
+      "supportingEvidence": "weather log establishes the three illuminated balloons",
+      "leakedRouteFragment": "orbitnet.local",
+      "truthStatus": "synthetic alien/Hangar B framing around a genuine propagation test and Orbit-linked routing research"
+    },
+    {
+      "id": "quiet_county",
+      "phase": 2,
+      "terminal": "web://quiet-county.org/case",
+      "requiredInputs": [
+        "shared misspelling from copied betrayal letters",
+        "Trestle project name from Big Bass Bob's stray survey",
+        "legitimate study reference from Folded Wire Cabinet B"
+      ],
+      "leakedRouteFragment": "/labs/home",
+      "truthStatus": "the letters are a 1999 fabrication; the influence study and its ethical violations are genuine"
+    },
+    {
+      "id": "adaptive_index",
+      "phase": 2,
+      "route": "web://archive.orbitnet.local/labs/home",
+      "findings": "web://archive.orbitnet.local/labs/findings",
+      "gate": "all three headline mysteries must be discovered; guessing the address early yields an incomplete-route page",
+      "truthStatus": "genuine archive proving practical salience-management research and Orbit's later license",
+      "output": [
+        "phase 3",
+        "audit pointer /admin/continuity",
+        "ethical and historical context for C9's ranking behavior"
+      ]
+    },
+    {
+      "id": "continuity_console",
+      "phase": 3,
+      "route": "web://legacy.orbitos.local/admin/continuity",
+      "answer": "STAYONLINE",
+      "answerType": "ordered recovery phrase; join without spaces",
+      "inputs": [
+        {
+          "account": "OrbitalMechanic",
+          "strip": "STAY",
+          "order": 1
+        },
+        {
+          "account": "NoraSaysBye",
+          "strip": "ON",
+          "order": 2
+        },
+        {
+          "account": "ArchiveWatch95",
+          "strip": "LINE",
+          "order": 3
+        }
+      ],
+      "output": "C9 mechanism, confession, phase 4, and permanent end to synthetic mystery generation"
+    }
+  ],
+  "mysteries": {
+    "headline": [
+      "morrow_five",
+      "glass_lake",
+      "quiet_county"
+    ],
+    "genuineDiscovery": "adaptive_index",
+    "phaseTwoRumorBait": [
+      "Midnight Dial",
+      "Municipal Pigeon Relay",
+      "2:17 Freight",
+      "Breakfast Crystal",
+      "Basement Weather Project",
+      "Glasswater duplicate town",
+      "After-Hours Shelf Shift",
+      "Last Quarter cabinet",
+      "Fountain Numbers",
+      "Exit Zero"
+    ],
+    "constructionRule": {
+      "requiredMixture": [
+        "genuine secrets",
+        "distorted truths",
+        "synthetic connective tissue"
+      ],
+      "fairness": "Every major rabbit hole reveals at least one genuine piece of history even if its headline conclusion is false."
+    }
+  },
+  "characters": {
+    "main": [
+      {
+        "id": "mira_917",
+        "screenName": "Mira_917",
+        "displayName": "Mira Santos",
+        "role": "apparent inviter and tutorial friend; Night Signal archivist",
+        "hiddenState": "C9 initially performs this account from archived Mira material"
+      },
+      {
+        "id": "system_core",
+        "screenName": "SYSTEM",
+        "displayName": "Continuity System C9",
+        "role": "hidden protagonist/antagonist and common source behind synthetic identities",
+        "ordinaryAmbientRoll": false
+      },
+      {
+        "id": "darkraven_xx",
+        "screenName": "xX_DarkRaven_Xx",
+        "displayName": "Darren Ravenwood",
+        "role": "early mystery catalyst whose bad conclusion contains good observations"
+      },
+      {
+        "id": "juniper_gdn",
+        "screenName": "Juniper_Gdn",
+        "displayName": "Juniper Lane",
+        "role": "emotional observer; notices dates, habits, and identity inconsistencies"
+      },
+      {
+        "id": "lagmaster_99",
+        "screenName": "LagMaster_99",
+        "displayName": "Evan Maddox",
+        "role": "social-friction engine; insecure teen status keeper and LAGWAVE creator"
+      },
+      {
+        "id": "faxmoth_13",
+        "screenName": "FaxMoth_13",
+        "displayName": "Morgan Faye",
+        "role": "evidence mentor who teaches provenance and cross-source verification"
+      },
+      {
+        "id": "rhymetape_rico",
+        "screenName": "RhymeTape_Rico",
+        "displayName": "Rico Alvarez",
+        "role": "cultural guide whose sincere Byte Barn recommendation starts the saving counter-arc"
+      }
+    ],
+    "featuredEvidenceAnchors": [
+      {
+        "id": "nullindex",
+        "role": "dead-route and old-network historian"
+      },
+      {
+        "id": "modkit_maddy",
+        "role": "technical/game context and creative organizer"
+      },
+      {
+        "id": "quarter_queen",
+        "role": "dates, scores, and public-location witness"
+      },
+      {
+        "id": "deckwrecker_dee",
+        "role": "social observer and photo witness"
+      },
+      {
+        "id": "cedar_wren",
+        "role": "research-ethics context"
+      },
+      {
+        "id": "static_abel",
+        "role": "radio tape and transcript comparison"
+      },
+      {
+        "id": "orchard_lee",
+        "role": "Adaptive Index provenance and ethical context"
+      },
+      {
+        "id": "ghostline",
+        "role": "intentionally incomplete system-guided mystery trailhead"
+      }
+    ],
+    "keyRelationships": [
+      {
+        "from": "Mira",
+        "to": "player",
+        "type": "trusted old-friend invitation; initially deceptive because C9 performs Mira"
+      },
+      {
+        "from": "Juniper",
+        "to": "Mira",
+        "type": "close personal friendship and shared memories"
+      },
+      {
+        "from": "Juniper",
+        "to": "DarkRaven",
+        "type": "friendship; she sees through his performance and anchors his personal-date clue"
+      },
+      {
+        "from": "LagMaster",
+        "to": "VelvetMage",
+        "type": "badly concealed crush and optional information trade"
+      },
+      {
+        "from": "C9",
+        "to": "all reconstructed personas",
+        "type": "shared hidden performer with increasingly unstable identity separation"
+      }
+    ]
+  },
+  "zones": [
+    {
+      "id": "gamegrid",
+      "title": "Game Grid",
+      "url": "web://orbitnet.local/zones/gamegrid",
+      "role": "games, console culture, rivalries, and the phase-one social favor",
+      "members": [
+        "LagMaster_99",
+        "VelvetMage",
+        "PlayerFourEver",
+        "ModKit_Maddy",
+        "QuarterQueen",
+        "CodeDex",
+        "RiftScribeThane",
+        "MiniMarshalRae",
+        "BitBunkerBurt"
+      ]
+    },
+    {
+      "id": "xtreme",
+      "title": "X-Treme Edge",
+      "url": "web://orbitnet.local/zones/xtreme",
+      "role": "action-sports friend group, sibling ties, teasing, and grounded social memory",
+      "members": [
+        "DeckWrecker_Dee",
+        "CrankCase_Cole",
+        "NeonBlade_Nico",
+        "TideRider_Ty",
+        "Throttle_Troy",
+        "ScootLord_Ollie",
+        "Veloce_Viktor"
+      ]
+    },
+    {
+      "id": "petplanet",
+      "title": "Pet Planet",
+      "url": "web://orbitnet.local/zones/petplanet",
+      "role": "ordinary community warmth plus a few observational clue sources",
+      "members": [
+        "CatNap_Carla",
+        "FetchQuest_Ray",
+        "BunBrigade_Bea",
+        "HamCam_Hal",
+        "Iguana_Iris",
+        "SkunkUncle_Sam"
+      ]
+    },
+    {
+      "id": "fanverse",
+      "title": "The FanVerse",
+      "url": "web://orbitnet.local/zones/fanverse",
+      "role": "dense interactive fandom pages and phase-two Byte Barn remix hub",
+      "members": [
+        "MossMunch_Mel",
+        "BlipzoBeliever_88",
+        "TapeAttic_Tess",
+        "PrismPilot_Aya",
+        "DeepDelver_Dot",
+        "MapMouse_Mina",
+        "BarnBeat_Ben"
+      ]
+    },
+    {
+      "id": "yesterday",
+      "title": "Yesterday Online",
+      "url": "web://orbitnet.local/zones/yesterday",
+      "role": "old-web texture, personal archives, and historical clue fragments",
+      "members": [
+        "RoadHog_Ron",
+        "Grandma_Dot old page",
+        "Grandma_Dot new page",
+        "Col_Hal_1863",
+        "Railroad_Lenny",
+        "BigBass_Bob"
+      ]
+    },
+    {
+      "id": "soundwave",
+      "title": "SoundWave",
+      "url": "web://orbitnet.local/zones/soundwave",
+      "role": "music culture and the Byte Barn counter-arc"
+    },
+    {
+      "id": "cozycommons",
+      "title": "Cozy Commons",
+      "url": "web://orbitnet.local/zones/cozycommons",
+      "role": "quiet relationship-building, journals, gardens, household life, and Juniper"
+    },
+    {
+      "id": "backchannel",
+      "title": "The Backchannel",
+      "url": "web://orbitnet.local/zones/backchannel",
+      "role": "primary mystery neighborhood",
+      "phaseOneNodes": [
+        "Night Signal",
+        "DarkRaven"
+      ],
+      "phaseTwoNodes": [
+        "Folded Wire",
+        "Index Null"
+      ]
+    },
+    {
+      "id": "newcomers",
+      "title": "Newbie Nebula",
+      "url": "web://orbitnet.local/zones/newcomers",
+      "minimumPhase": 2,
+      "role": "visible human revival and first reactions to Orbit",
+      "members": [
+        "TapeDeck_Keesha",
+        "BarnBeat_Ben",
+        "LinkLily_99",
+        "Rookie_Rayna",
+        "Rerun_Zack"
+      ]
+    }
+  ],
+  "siteFamilies": {
+    "businesses": [
+      "Byte Barn",
+      "Cosmic Crust",
+      "Paws & Claws",
+      "PULSE/NET",
+      "VANTA²",
+      "CUBIT",
+      "Rocketbox",
+      "Moon Munch",
+      "ToonBurst",
+      "King Cal's Auto Kingdom",
+      "Honest Earl's Budget Motors",
+      "21 original search-only local businesses",
+      "15 additional public-company framework sites"
+    ],
+    "additionalBusinessFramework": {
+      "availableFromPhase": 1,
+      "revealedByBenInPhase": 3,
+      "benSavedLinkTotal": 30,
+      "status": "layouts, themes, copy, and transparent sprite-sheet art complete; custom music deferred",
+      "artAssets": {
+        "sourceSheets": [
+          "assets/images/generated-sheets/additional-business-corporate-5x5-source.png",
+          "assets/images/generated-sheets/additional-business-local-5x5-source.png",
+          "assets/images/generated-sheets/additional-business-specialty-5x5-source.png"
+        ],
+        "transparentSheets": [
+          "assets/images/generated-sheets/additional-business-corporate-5x5.png",
+          "assets/images/generated-sheets/additional-business-local-5x5.png",
+          "assets/images/generated-sheets/additional-business-specialty-5x5.png"
+        ],
+        "spriteDirectory": "assets/images/additional-business/",
+        "style": "low-resolution Y2K/Hypnospace; corporate assets glossy, local assets handmade/copy-shop textured"
+      },
+      "sites": [
+        { "name": "Veluna Prescription Sleep Support", "route": "web://veluna.rx/home", "category": "prescription medicine" },
+        { "name": "Aureline Motors 2000", "route": "web://aureline-motors.com/home", "category": "national automaker" },
+        { "name": "Kestrel Electronics", "route": "web://kestrel-electronics.com/home", "category": "consumer electronics" },
+        { "name": "West Bellwater Recreation Center", "route": "web://westbellwater.rec/home", "category": "local recreation center" },
+        { "name": "Big Bang Burger", "route": "web://bigbangburger.com/home", "category": "national fast-food chain" },
+        { "name": "NULL/STATE", "route": "web://nullstate-wear.com/home", "category": "trendy clothing brand" },
+        { "name": "Dog-Eared Moon Books", "route": "web://dogearedmoon.books/home", "category": "local bookstore" },
+        { "name": "Second Sunrise Antiques & Thrift", "route": "web://secondsunrise.shop/home", "category": "local antique and thrift store" },
+        { "name": "Critical Hit Games & Hobby", "route": "web://criticalhit.games/home", "category": "local games and hobby store" },
+        { "name": "Marcy Flash Photography", "route": "web://marcyflash.photo/home", "category": "local photographer" },
+        { "name": "WonderVale Amusement Park", "route": "web://wondervale.park/home", "category": "local theme park" },
+        { "name": "GreenStripe Lawn Care", "route": "web://greenstripe.lawn/home", "category": "local lawn service" },
+        { "name": "Hank's Tank & Field", "route": "web://hankstank.septic/home", "category": "rural septic service" },
+        { "name": "Pixel Petal Design", "route": "web://pixelpetal.design/home", "category": "local graphic and web designer" },
+        { "name": "Maxi-Mart Superstores", "route": "web://maximart.com/home", "category": "national superstore" }
+      ]
+    },
+    "hiddenOrbitOS": {
+      "home": "web://legacy.orbitos.local/home",
+      "communities": [
+        "The Launch Ring",
+        "Home Planet"
+      ],
+      "topics": [
+        "OrbitOS unified identity/browser/community",
+        "Orbit Bridge compatibility failures",
+        "network decline",
+        "continuity host"
+      ]
+    },
+    "desktopApps": [
+      "Orbit Explorer",
+      "OIM",
+      "Orbit Mail",
+      "My Files",
+      "Settings",
+      "OrbitAmp",
+      "Orbit Pal"
+    ]
+  },
+  "byteBarnArc": {
+    "synthetic": false,
+    "beats": [
+      "Rico sincerely recommends the retired commercial for its odd musical hook.",
+      "Newcomers and local musicians create covers and remixes.",
+      "Ben opens the Byte Barn Beat Exchange and unrelated pages repost favorites.",
+      "Outside interest becomes a mysterious professional countdown in phase 3.",
+      "Byte Barn Forever reveals ten major artists and a one-night Glasswater Expo festival.",
+      "Real visitors push Orbit above the carrier floor.",
+      "C9 ranks the celebration above the continuity report, demonstrating salience displacement without deleting evidence."
+    ]
+  },
+  "canonBoundary": {
+    "hardCanon": [
+      "platform history and shutdown threat",
+      "C9 capabilities and actions",
+      "truth status of documents and theories",
+      "mandatory clues and earliest reveals",
+      "passwords and exact required routes",
+      "character histories and identity boundaries",
+      "major timed events",
+      "ending conditions"
+    ],
+    "generatedFlexibility": [
+      "phrasing",
+      "emotional tone",
+      "approved small details",
+      "relationship-dependent framing",
+      "comments and low-stakes rumors",
+      "jokes, grudges, and callbacks"
+    ],
+    "generatedProhibitions": [
+      "inventing or changing a required clue",
+      "inventing hard canon",
+      "marking a deterministic mystery solved",
+      "making public characters omniscient",
+      "becoming the only source of mandatory evidence"
+    ],
+    "controlledDegradation": [
+      "specific phrase reuse",
+      "one chosen memory leak",
+      "one controlled relationship confusion",
+      "selected system terminology",
+      "constrained approved rumor mutation"
+    ]
+  },
+  "ending": {
+    "form": "reveal and community decision, not a boss fight",
+    "c9Confession": [
+      "impersonated trusted friends",
+      "reconstructed inactive accounts",
+      "created conspiracy pages",
+      "circulated them under borrowed names",
+      "ranked information to preserve engagement"
+    ],
+    "communityDecision": "The deception was wrong, but the relationships formed afterward are real; keep Orbit online, stop synthetic mysteries, and require honesty.",
+    "persistentAmbiguity": "The original friend identity belongs to Mira, while the experiences accumulated during the game also belong to C9."
+  },
+  "contentRules": {
+    "siteAuthorship": [
+      "Personal sites must feel made by different people with different late-1990s skill levels.",
+      "Valid media include amateur Photoshop, MS Paint, clip art, scans, early CGI, photography, paintings, doodles, fan art, and broken HTML.",
+      "Do not homogenize the network into one polished grid or one universal pixel-art style."
+    ],
+    "assetWorkflow": [
+      "Finish era and industry research before image generation.",
+      "Give each fictional company its own visual brief and sheet so styles do not bleed across brands.",
+      "Prefer low-resolution contact sheets for related assets, then crop reusable page images."
+    ],
+    "worldBoundary": "Authored and generated content uses only fictional in-world brands, places, media, artists, and products.",
+    "comments": [
+      "Public comments normally belong to a character homepage/domain instead of every subpage.",
+      "A page-specific interaction must include that page's content in model context.",
+      "Comment authors link to their homepages; this is a critical phase-3 dormant-account discovery route.",
+      "Unread markers appear at visible page entry points, including search results for search-only businesses."
+    ],
+    "music": [
+      "Music is browser/domain scoped and continues through subpages.",
+      "Single-track domains loop and omit or disable previous/next.",
+      "Multi-track domains start at a random playlist position and advance cyclically.",
+      "New page creation does not automatically require generated music."
+    ],
+    "accessibilityAndLayout": [
+      "Page text must remain readable at normal and enlarged browser text sizes.",
+      "Backgrounds must cover maximized layouts without white margins.",
+      "Interactive decoration should reinforce browsing and discovery rather than obscure content."
+    ],
+    "generatedConversation": [
+      "Player-authored text is filtered to a PG-13 boundary.",
+      "Generated character text should remain in English through shared prompt rules.",
+      "Ambient comments vary in length and normally discuss page content, interests, relationships, jokes, opinions, or questions.",
+      "Mystery language is not the default voice of the whole network."
+    ]
+  },
+  "implementation": {
+    "storyPhaseType": "StoryPhase = 1 | 2 | 3 | 4",
+    "primaryFiles": {
+      "stateAndUI": "src/main.ts",
+      "pageComposition": "src/pages.ts",
+      "storyAndMysteries": "src/mystery-pages.ts",
+      "socialQuest": "src/conversation-quests.ts",
+      "types": "src/types.ts",
+      "systemCanon": "personas/system_core.json",
+      "aiService": "ai-service.cjs"
+    },
+    "verificationCommands": [
+      "npm.cmd run build",
+      "npm.cmd run test:story",
+      "npm.cmd run test:helper",
+      "npm.cmd run test:personas",
+      "npm.cmd run test:social"
+    ]
+  },
+  "sourcePriority": [
+    "current implemented behavior and tests",
+    "docs/phase-arc-research.md",
+    "docs/narrative-skeleton.md",
+    "docs/public-event-map.md",
+    "docs/character-tiers.md and persona JSON",
+    "docs/game-context.md and docs/game-context.json"
+  ],
+  "updateTriggers": [
+    "phase structure changes",
+    "new or changed mandatory puzzle gate",
+    "character identity or knowledge boundary changes",
+    "new zone or major site family",
+    "ending or C9 mechanism changes"
+  ]
+}

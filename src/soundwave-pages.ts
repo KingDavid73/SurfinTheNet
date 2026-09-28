@@ -263,6 +263,8 @@ export const soundwavePages: Record<string, PageDefinition> = {
       </section>
       <section class="grunge-tape-log"><h2>TAPE BOX</h2><p><b>RESERVOIR SAINTS - 8/12/98</b><br>Third-generation dub. Crowd louder than guitar. Keep.</p><p><b>GARAGE PRACTICE #6</b><br>One complete song, five false starts, furnace at 60Hz.</p></section>
       <section class="grunge-settings"><h2>FUZZ SETTINGS</h2><dl><div><dt>GAIN</dt><dd>all the way, then apologize</dd></div><div><dt>TONE</dt><dd>about 2 o'clock</dd></div><div><dt>LEVEL</dt><dd>depends whether Dad is home</dd></div></dl></section>
+      <section class="mason-songbook"><header><small>NOTEBOOK PAGE // DO NOT READ OVER MY SHOULDER</small><h2>WORKING SONGS</h2></header><article><b>WINDOW WELL</b><p>Drop D. Starts quiet. The second verse still has no words, which is better than having bad words.</p><code>D5 — F5 — C5 — let the open string ring too long</code></article><article><b>THE ROOM ABOVE THE FURNACE</b><p>Probably not about anybody. It is about a room. And a furnace. The tape version has a good mistake after the bridge.</p><code>fuzz on // tone low // do not fix the mistake</code></article></section>
+      <section class="mason-listening-log"><h2>LATE-NIGHT LISTENING LOG</h2><p><b>1:12 AM:</b> Reservoir Saints bootleg. Crowd is louder than the solo. Still better than most clean recordings.</p><p><b>1:37 AM:</b> College radio played a song with no chorus. Wrote down the frequency, then lost the paper.</p><p><b>2:04 AM:</b> Furnace clicked on in B. It is in the song now.</p></section>
       <blockquote>"Perfectly clean audio is hiding something." - Mason, after losing the original tape</blockquote>
       ${returnToZone()}
     </main>`

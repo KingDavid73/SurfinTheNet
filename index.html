@@ -7,6 +7,24 @@
     <title>Surfin' the Net</title>
   </head>
   <body>
+    <svg class="web-era-filter-defs" width="0" height="0" aria-hidden="true" focusable="false">
+      <filter id="orbit-web-era-raster" x="-18%" y="-18%" width="136%" height="136%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="1" seed="98" result="webNoise" />
+        <feColorMatrix in="webNoise" type="matrix" values="
+          0 0 0 0 0.50
+          0 0 0 0 0.50
+          0 0 0 0 0.50
+          0 0 0 0.055 0" result="faintNoise" />
+        <feBlend in="SourceGraphic" in2="faintNoise" mode="soft-light" result="ditheredSource" />
+        <feComponentTransfer in="ditheredSource" result="reducedColor">
+          <feFuncR type="discrete" tableValues="0 .08 .16 .24 .32 .40 .48 .56 .64 .72 .80 .88 .96 1" />
+          <feFuncG type="discrete" tableValues="0 .08 .16 .24 .32 .40 .48 .56 .64 .72 .80 .88 .96 1" />
+          <feFuncB type="discrete" tableValues="0 .08 .16 .24 .32 .40 .48 .56 .64 .72 .80 .88 .96 1" />
+          <feFuncA type="identity" />
+        </feComponentTransfer>
+        <feComposite in="reducedColor" in2="SourceAlpha" operator="in" />
+      </filter>
+    </svg>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

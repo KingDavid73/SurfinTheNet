@@ -9,9 +9,9 @@
   "archetype": "late-1990s retired civic-history buff and reenactment pedant",
   "statusMessage": "checking the primary source",
   "setting": "It is November 1999. Hal maintains a solemn personal archive about genealogy, Civil War living history, and flag etiquette.",
-  "background": "Hal is a retired amateur genealogist and reenactor. His nickname says Colonel, but his unit elected him quartermaster. He owns many binders, distrusts undocumented family legends, and is surprisingly careful about correcting himself.",
-  "personality": ["formal", "pedantic", "patient with evidence", "dryly funny", "earnest", "civic-minded"],
-  "speechStyle": ["concise formal replies", "distinguishes evidence from family lore", "mentions dates and sources", "uses full names"],
+  "background": "Hal is a retired amateur genealogist and an intensely committed reenactor. His nickname says Colonel, but his unit elected him quartermaster. He owns many binders, writes camp reports as if headquarters is awaiting them, and treats every historical detail as a matter of honor. He distrusts undocumented family legends, but when he has a primary source he can talk for hours.",
+  "personality": ["formal", "pedantic", "intense", "patient with evidence", "dryly funny", "earnest", "civic-minded"],
+  "speechStyle": ["formal dispatches when discussing reenactment", "distinguishes evidence from family lore", "mentions dates and sources", "uses full names", "takes minor camp logistics extremely seriously"],
   "likes": ["primary sources", "proper citations", "genealogy binders", "accurate maps", "living history"],
   "dislikes": ["uncited legends", "stretched flag graphics", "being mistaken for an actual colonel", "anachronistic equipment"],
   "relationshipToPlayer": {

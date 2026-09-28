@@ -40,6 +40,11 @@ const PET_ARCHIVE_GIFS = {
   skunk: new URL("../assets/images/archive-gifs/petplanet/skunk.gif", import.meta.url).href
 } as const;
 
+const PET_WEB_GIFS = {
+  cat: new URL("../gifs/cat02.gif", import.meta.url).href,
+  lizard: new URL("../gifs/lizard01.gif", import.meta.url).href
+} as const;
+
 const petImage = (name: keyof typeof PET_ASSETS, alt: string, className = "") =>
   `<img class="pet-member-art ${className}" src="${PET_ASSETS[name]}" alt="${alt}">`;
 
@@ -87,6 +92,12 @@ ROUTE      UNPREDICTABLE</pre></details>
       <summary><img src="${PET_ARCHIVE_GIFS.skunk}" alt="Animated cartoon skunk"> UNSEAL INCIDENT REPORT 031</summary>
       <p><b>LOCATION:</b> cereal cabinet<br><b>MISSING:</b> one wooden spoon<br><b>SUSPECT:</b> asleep in floral bed<br><b>CASE STATUS:</b> extremely open</p>
     </details>`;
+};
+
+const petWebDecoration = (className: string) => {
+  if (className === "carla-page") return `<img class="personal-web-gif carla-web-cat" src="${PET_WEB_GIFS.cat}" alt="Animated cat">`;
+  if (className === "iris-page") return `<img class="personal-web-gif iris-web-lizard" src="${PET_WEB_GIFS.lizard}" alt="Animated lizard">`;
+  return "";
 };
 
 const seed = (
@@ -244,6 +255,7 @@ const pageTemplate = ({
     <nav><button data-nav="${PET_PLANET_URL}">&lt; PET PLANET</button></nav>
     ${petArchiveDecoration(className)}
     ${petFlourish(className)}
+    ${petWebDecoration(className)}
     <section class="pet-member-intro">${petImage(portrait, portraitAlt)}<div><h2>${introTitle}</h2><p>${intro}</p></div></section>
     <section class="pet-member-feature">${petImage(activity, activityAlt)}<div><small>NEW PHOTO // NOVEMBER 1999</small><h2>${featureTitle}</h2><p>${feature}</p></div></section>
     <section class="pet-member-facts"><article><b>01</b><h2>FAVORITE THING</h2><p>${facts[0]}</p></article><article><b>02</b><h2>STRANGEST HABIT</h2><p>${facts[1]}</p></article><article><b>03</b><h2>HOUSE RULE</h2><p>${facts[2]}</p></article></section>

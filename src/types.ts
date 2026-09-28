@@ -1,4 +1,4 @@
-export type AppId = "browser" | "mail" | "files" | "chat" | "settings" | "helper" | "diagnostics";
+export type AppId = "browser" | "mail" | "files" | "chat" | "music" | "settings" | "helper" | "diagnostics" | "bbs";
 
 export type AiPhase = "offline" | "ready" | "loading" | "warming" | "idle" | "generating" | "reviewing" | "error";
 
@@ -93,6 +93,8 @@ export interface AmbientPostJob {
   attempts: number;
   surface?: "comment" | "aim" | "email";
   privateOutreachMode?: "introduction" | "follow-up";
+  commentLength?: "short" | "medium" | "long";
+  randyReaction?: "zone-page" | "personal-page";
 }
 
 export interface AmbientCommentRequest {
@@ -107,6 +109,8 @@ export interface AmbientCommentRequest {
   storyPhase: StoryPhase;
   deliverySurface?: "comment" | "aim" | "email";
   privateOutreachMode?: "introduction" | "follow-up";
+  commentLength?: "short" | "medium" | "long";
+  randyReaction?: "zone-page" | "personal-page";
 }
 
 export interface AmbientCommentResult {
@@ -116,9 +120,9 @@ export interface AmbientCommentResult {
 }
 
 export interface DesktopSettings {
-  theme: "classic" | "plum";
-  wallpaper: "teal" | "clouds";
-  cursor: "arrow" | "star";
+  theme: "classic" | "plum" | `zone-${string}`;
+  wallpaper: "teal" | "clouds" | `zone-${string}`;
+  cursor: "arrow" | "star" | `cursor-${number}`;
   musicVolume: number;
   browserTextSize: "small" | "medium" | "large" | "extra-large";
 }
@@ -131,7 +135,36 @@ export interface GuestbookEntry {
 }
 
 export type DirectChannel = "aim" | "email" | "helper";
-export type StoryPhase = 1 | 2 | 3 | 4;
+export type StoryPhase = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+export interface BbsPlayerReply {
+  id: string;
+  threadId: string;
+  text: string;
+  createdAt: string;
+}
+
+export interface BbsState {
+  connected: boolean;
+  selectedBoardId: string;
+  selectedThreadId: string | null;
+  readThreadIds: string[];
+  replies: BbsPlayerReply[];
+  readMailIds: string[];
+  downloadedFileIds: string[];
+}
+
+export interface InfectionState {
+  level: number;
+  discoveredRandyPages: string[];
+  invadedPersonalPages: string[];
+  evidenceIds: string[];
+  patchComponents: string[];
+  exposureReportPublished: boolean;
+  patchBuilt: boolean;
+  patchDistributed: boolean;
+  cleanupComplete: boolean;
+}
 
 export interface DirectMessage {
   id: string;
@@ -145,6 +178,10 @@ export interface DirectMessage {
   availableAt?: string;
   linkUrl?: string;
   linkLabel?: string;
+  /** Stable registry key for optional illustrated mail artwork. */
+  artId?: string;
+  /** Stable collectible key for an attachment that can be saved to My Files. */
+  attachmentId?: string;
   metrics?: AiMetrics;
 }
 
@@ -195,6 +232,8 @@ export interface DownloadedFile {
   downloadedAt: string;
   sourceUrl?: string;
   sourceTitle?: string;
+  /** Stable registry key for optional illustrated file artwork. */
+  artId?: string;
 }
 
 export interface PageMusicTrack {
@@ -208,10 +247,13 @@ export interface GameState {
   version: number;
   playerName: string;
   storyPhase: StoryPhase;
+  phaseReachedAt: Partial<Record<"2" | "3" | "4" | "5" | "6" | "7", string>>;
   discoveredMysteries: string[];
   visited: string[];
   bookmarks: string[];
   downloads: DownloadedFile[];
+  musicLibrary: PageMusicTrack[];
+  musicSkin: string;
   flags: Record<string, boolean>;
   currentUrl: string;
   settings: DesktopSettings;
@@ -223,12 +265,14 @@ export interface GameState {
   directMessages: DirectMessage[];
   readDirectMessageIds: string[];
   relationships: Record<string, number>;
+  bbs: BbsState;
+  infection: InfectionState;
 }
 
 export interface PageDefinition {
   url: string;
   title: string;
-  site: "orbithome" | "directory" | "gamegridzone" | "xtremezone" | "yesterdayzone" | "newcomerzone" | "newcalfan" | "newbytefan" | "newlinklily" | "newrookierayna" | "newzackrerun" | "soundboyband" | "soundpunk" | "soundgrunge" | "soundbreakbeat" | "soundcountry" | "soundrap" | "bytebarnteaser" | "bytebarntribute" | "rainbow" | "cozygarden" | "cozycottage" | "cozymom" | "cozyhike" | "cozycraft" | "signal" | "raven" | "orbitlegacy" | "backchannelalt" | "morrowfive" | "glasslake" | "quietcounty" | "algorithmarchive" | "rumorarchive" | "computer" | "modkit" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl" | "skater" | "bmx" | "blader" | "surfer" | "motocross" | "scooter" | "euro" | "petcat" | "petdog" | "petrabbit" | "pethamster" | "petiguana" | "petskunk" | "fanmoss" | "fanblipzo" | "fanstar" | "fanprism" | "fangemwell" | "fanatlas" | "oldbiker" | "grandmaold" | "grandmanew" | "oldhistory" | "oldtrains" | "oldfishing" | "rewindbusiness" | "laundrybusiness" | "floristbusiness" | "travelbusiness" | "copybusiness" | "furniturebusiness" | "dentalbusiness" | "plumbingbusiness" | "creditbusiness" | "salonbusiness";
+  site: "orbithome" | "directory" | "gamegridzone" | "xtremezone" | "yesterdayzone" | "newcomerzone" | "revival" | "newcalfan" | "newbytefan" | "newlinklily" | "newrookierayna" | "newzackrerun" | "soundboyband" | "soundpunk" | "soundgrunge" | "soundbreakbeat" | "soundcountry" | "soundrap" | "bytebarnteaser" | "bytebarntribute" | "rainbow" | "cozygarden" | "cozycottage" | "cozymom" | "cozyhike" | "cozycraft" | "signal" | "raven" | "orbitlegacy" | "backchannelalt" | "morrowfive" | "glasslake" | "quietcounty" | "algorithmarchive" | "rumorarchive" | "computer" | "modkit" | "pizza" | "pets" | "pulse" | "vanta" | "cubit" | "rocketbox" | "moonmunch" | "toonburst" | "kingcal" | "earl" | "skater" | "bmx" | "blader" | "surfer" | "motocross" | "scooter" | "euro" | "petcat" | "petdog" | "petrabbit" | "pethamster" | "petiguana" | "petskunk" | "fanmoss" | "fanblipzo" | "fanstar" | "fanprism" | "fangemwell" | "fanatlas" | "oldbiker" | "grandmaold" | "grandmanew" | "oldhistory" | "oldtrains" | "oldfishing" | "rewindbusiness" | "laundrybusiness" | "floristbusiness" | "travelbusiness" | "copybusiness" | "furniturebusiness" | "dentalbusiness" | "plumbingbusiness" | "creditbusiness" | "salonbusiness" | "medbusiness" | "carmakerbusiness" | "electronicsbusiness" | "recreationbusiness" | "burgerbusiness" | "fashionbusiness" | "bookstorebusiness" | "thriftbusiness" | "hobbybusiness" | "photographerbusiness" | "themeparkbusiness" | "lawnbusiness" | "septicbusiness" | "webdesignbusiness" | "superstorebusiness";
   ownerId: string;
   summary: string;
   commentsEnabled?: boolean;

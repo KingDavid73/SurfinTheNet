@@ -2,6 +2,7 @@ import type { GameState, PageDefinition } from "./types";
 import { kidsBusinessPages } from "./kids-business-pages";
 import { dealerPages } from "./dealer-pages";
 import { fillerBusinessPages } from "./filler-business-pages";
+import { additionalBusinessPages } from "./additional-business-pages";
 import { gameGridMembers, gameGridPages } from "./gamegrid-pages";
 import { xtremeMembers, xtremePages } from "./xtreme-pages";
 import { petPlanetMembers, petPlanetPages } from "./petplanet-pages";
@@ -9,6 +10,8 @@ import { fandomMembers, fandomPages } from "./fandom-pages";
 import { yesterdayMembers, yesterdayPages } from "./yesterday-pages";
 import { cozyMembers, cozyPages } from "./cozy-pages";
 import { mysteryPages, phaseTwoBackchannelDirectory } from "./mystery-pages";
+import { BACKCHANNEL_ART, BACKCHANNEL_GIFS } from "./backchannel-art";
+import { NEWCOMER_ZONE_ART } from "./newcomer-zone-art";
 import { rumorPages } from "./rumor-pages";
 import { legacyFragmentPages } from "./legacy-fragment-pages";
 import { coreCharacterPages } from "./core-character-pages";
@@ -17,7 +20,7 @@ import {
   soundwaveDirectoryBody,
   soundwavePages
 } from "./soundwave-pages";
-import { BYTE_BARN_COMPILATION_URL, BYTE_BARN_TEASER_URL } from "./byte-barn-revival";
+import { BYTE_BARN_COMPILATION_URL, BYTE_BARN_FAN_HUB_URL, BYTE_BARN_TEASER_URL } from "./byte-barn-revival";
 import {
   BYTE_BARN_FAN_HUB_MEMBER,
   NEWCOMER_ZONE_BUTTON,
@@ -25,6 +28,7 @@ import {
   newcomerPages,
   phaseTwoOddityPages
 } from "./newcomer-pages";
+import { BARNRAISERS_ZONE_URL, BYTE_BARN_BITES_ZONE_URL, FEUD_MEMBERS, RANDY_FIRST_URL, RANDY_ZONE_PAGES, revivalPages } from "./orbit-revival";
 
 const escapeHtml = (value: string) =>
   value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
@@ -37,6 +41,134 @@ const FINAL_PAGE_ART = {
 } as const;
 const finalPageArt = (name: keyof typeof FINAL_PAGE_ART, alt: string) =>
   `<img class="final-page-art" src="${FINAL_PAGE_ART[name]}" alt="${alt}">`;
+const RAVEN_DESK_ART = {
+  evidenceSheet: new URL("../assets/images/generated-sheets/darkraven-evidence-desk-4x3.png", import.meta.url).href,
+  handmadeSheet: new URL("../assets/images/generated-sheets/darkraven-handmade-assets-5x3.png", import.meta.url).href,
+  archiveRaven: new URL("../assets/images/archive-gifs/darkraven/raven-orbit.gif", import.meta.url).href,
+  archiveEye: new URL("../assets/images/archive-gifs/darkraven/raven-eye.gif", import.meta.url).href,
+  archiveSkull: new URL("../assets/images/archive-gifs/darkraven/raven-skull.gif", import.meta.url).href
+} as const;
+const ravenHandmade = (name: string, alt: string) =>
+  `<span class="raven-handmade raven-handmade-${name}" role="img" aria-label="${alt}" style="--raven-handmade-sheet: url('${RAVEN_DESK_ART.handmadeSheet}')"></span>`;
+const NIGHT_SIGNAL_ART = {
+  handmadeSheet: new URL("../assets/images/generated-sheets/nightsignal-handmade-assets-5x3.png", import.meta.url).href,
+  radioDial: new URL("../assets/images/archive-gifs/nightsignal/radio-dial.gif", import.meta.url).href,
+  antenna: new URL("../assets/images/archive-gifs/nightsignal/antenna.gif", import.meta.url).href
+} as const;
+const signalHandmade = (name: string, alt: string) =>
+  `<span class="signal-handmade signal-handmade-${name}" role="img" aria-label="${alt}" style="--signal-handmade-sheet: url('${NIGHT_SIGNAL_ART.handmadeSheet}')"></span>`;
+const RAINBOW_GARDEN_ART = {
+  handmadeSheet: new URL("../assets/images/generated-sheets/rainbow-handmade-assets-5x3.png", import.meta.url).href,
+  butterfly: new URL("../assets/images/archive-gifs/pink-butterfly.gif", import.meta.url).href,
+  rose: new URL("../assets/images/archive-gifs/rose-bloom.gif", import.meta.url).href
+} as const;
+const rainbowHandmade = (name: string, alt: string) =>
+  `<span class="rainbow-handmade rainbow-handmade-${name}" role="img" aria-label="${alt}" style="--rainbow-handmade-sheet: url('${RAINBOW_GARDEN_ART.handmadeSheet}')"></span>`;
+const XTREME_ZONE_ART = {
+  handmadeSheet: new URL("../assets/images/generated-sheets/xtreme-zone-handmade-5x3.png", import.meta.url).href
+} as const;
+const xtremeZoneArt = (name: string, alt: string) =>
+  `<span class="xtreme-zone-art xtreme-zone-art-${name}" role="img" aria-label="${alt}" style="--xtreme-zone-sheet: url('${XTREME_ZONE_ART.handmadeSheet}')"></span>`;
+const GAMEGRID_ZONE_ART = {
+  handmadeSheet: new URL("../assets/images/generated-sheets/gamegrid-zone-handmade-5x3.png", import.meta.url).href
+} as const;
+const gameGridZoneArt = (name: string, alt: string) =>
+  `<span class="gamegrid-zone-art gamegrid-zone-art-${name}" role="img" aria-label="${alt}" style="--gamegrid-zone-sheet: url('${GAMEGRID_ZONE_ART.handmadeSheet}')"></span>`;
+const PETPLANET_ZONE_ART = {
+  handmadeSheet: new URL("../assets/images/generated-sheets/petplanet-zone-handmade-5x3.png", import.meta.url).href,
+  catGif: new URL("../assets/images/archive-gifs/petplanet/cat-sparkle.gif", import.meta.url).href,
+  rabbitGif: new URL("../assets/images/archive-gifs/petplanet/rabbit-hop.gif", import.meta.url).href
+} as const;
+const petPlanetZoneArt = (name: string, alt: string) =>
+  `<span class="petplanet-zone-art petplanet-zone-art-${name}" role="img" aria-label="${alt}" style="--petplanet-zone-sheet: url('${PETPLANET_ZONE_ART.handmadeSheet}')"></span>`;
+const FANVERSE_ZONE_ART = {
+  fanartSheet: new URL("../assets/images/generated-sheets/fanverse-handmade-fanart-5x3.png", import.meta.url).href,
+  mediaSheet: new URL("../assets/images/generated-sheets/fanverse-media-clippings-5x3.png", import.meta.url).href
+} as const;
+const fanverseArt = (sheet: "fanart" | "media", name: string, alt: string) =>
+  `<span class="fanverse-zone-art fanverse-${sheet}-art fanverse-${sheet}-art-${name}" role="img" aria-label="${alt}" style="--fanverse-zone-sheet: url('${FANVERSE_ZONE_ART[`${sheet}Sheet`]}')"></span>`;
+const ZONE_DIRECTORY_ART = {
+  badgeSheet: new URL("../assets/images/generated-sheets/zone-page-badges-5x5.png", import.meta.url).href,
+  actionSheet: new URL("../assets/images/generated-sheets/zone-action-buttons-4x1.png", import.meta.url).href
+} as const;
+const zonePageBadge = (zone: string, name: string, alt: string) =>
+  `<span class="zone-page-badge zone-page-badge-${zone}-${name}" role="img" aria-label="${alt}" style="--zone-page-badge-sheet: url('${ZONE_DIRECTORY_ART.badgeSheet}')"></span>`;
+const zoneAction = (zone: string, label: string) =>
+  `<em class="zone-action zone-action-${zone}" style="--zone-action-sheet: url('${ZONE_DIRECTORY_ART.actionSheet}')">${label}</em>`;
+const GAMEGRID_PAGE_BADGES = {
+  lagmaster: new URL("../assets/images/zone-buttons/gamegrid/lagmaster.png", import.meta.url).href,
+  velvetmage: new URL("../assets/images/zone-buttons/gamegrid/velvetmage.png", import.meta.url).href,
+  playerfour: new URL("../assets/images/zone-buttons/gamegrid/playerfour.png", import.meta.url).href,
+  maddy: new URL("../assets/images/zone-buttons/gamegrid/maddy.png", import.meta.url).href,
+  queenie: new URL("../assets/images/zone-buttons/gamegrid/queenie.png", import.meta.url).href,
+  dex: new URL("../assets/images/zone-buttons/gamegrid/dex.png", import.meta.url).href,
+  cardforge: new URL("../assets/images/gamegrid-members/cardforge/archive-sage.png", import.meta.url).href,
+  minimarshal: new URL("../assets/images/gamegrid-members/minimarshal/party-drawing.png", import.meta.url).href,
+  bitbunker: new URL("../assets/images/gamegrid-members/bitbunker/burt-setup.png", import.meta.url).href
+} as const;
+const gameGridPageBadge = (name: keyof typeof GAMEGRID_PAGE_BADGES, alt: string) =>
+  `<img class="zone-page-badge zone-page-badge-gamegrid" src="${GAMEGRID_PAGE_BADGES[name]}" alt="${alt}">`;
+const XTREME_PAGE_BADGES = {
+  dee: new URL("../assets/images/zone-buttons/xtreme/dee.png", import.meta.url).href,
+  cole: new URL("../assets/images/zone-buttons/xtreme/cole.png", import.meta.url).href,
+  nico: new URL("../assets/images/zone-buttons/xtreme/nico.png", import.meta.url).href,
+  ty: new URL("../assets/images/zone-buttons/xtreme/ty.png", import.meta.url).href,
+  troy: new URL("../assets/images/zone-buttons/xtreme/troy.png", import.meta.url).href,
+  ollie: new URL("../assets/images/zone-buttons/xtreme/ollie.png", import.meta.url).href,
+  viktor: new URL("../assets/images/zone-buttons/xtreme/viktor.png", import.meta.url).href
+} as const;
+const xtremePageBadge = (name: keyof typeof XTREME_PAGE_BADGES, alt: string) =>
+  `<img class="zone-page-badge zone-page-badge-xtreme" src="${XTREME_PAGE_BADGES[name]}" alt="${alt}">`;
+const PETPLANET_PAGE_BADGES = {
+  carla: new URL("../assets/images/zone-buttons/petplanet/carla.png", import.meta.url).href,
+  ray: new URL("../assets/images/zone-buttons/petplanet/ray.png", import.meta.url).href,
+  bea: new URL("../assets/images/zone-buttons/petplanet/bea.png", import.meta.url).href,
+  hal: new URL("../assets/images/zone-buttons/petplanet/hal.png", import.meta.url).href,
+  iris: new URL("../assets/images/zone-buttons/petplanet/iris.png", import.meta.url).href,
+  sam: new URL("../assets/images/zone-buttons/petplanet/sam.png", import.meta.url).href
+} as const;
+const petPlanetPageBadge = (name: keyof typeof PETPLANET_PAGE_BADGES, alt: string) =>
+  `<img class="zone-page-badge zone-page-badge-petplanet" src="${PETPLANET_PAGE_BADGES[name]}" alt="${alt}">`;
+const FANVERSE_PAGE_BADGES = {
+  moss: new URL("../assets/images/zone-buttons/fanverse/moss.png", import.meta.url).href,
+  blipzo: new URL("../assets/images/zone-buttons/fanverse/blipzo.png", import.meta.url).href,
+  starthimble: new URL("../assets/images/zone-buttons/fanverse/starthimble.png", import.meta.url).href,
+  prism5: new URL("../assets/images/zone-buttons/fanverse/prism5.png", import.meta.url).href,
+  gemwell: new URL("../assets/images/zone-buttons/fanverse/gemwell.png", import.meta.url).href,
+  atlas: new URL("../assets/images/zone-buttons/fanverse/atlas.png", import.meta.url).href,
+  bytebarn: new URL("../assets/images/zone-buttons/fanverse/bytebarn.png", import.meta.url).href
+} as const;
+const fanversePageBadge = (name: keyof typeof FANVERSE_PAGE_BADGES, alt: string) =>
+  `<img class="zone-page-badge zone-page-badge-fanverse" src="${FANVERSE_PAGE_BADGES[name]}" alt="${alt}">`;
+const YESTERDAY_ZONE_ART = {
+  roadhog: new URL("../assets/images/zone-buttons/yesterday/roadhog.png", import.meta.url).href,
+  dotOld: new URL("../assets/images/zone-buttons/yesterday/dot-old.png", import.meta.url).href,
+  dotNew: new URL("../assets/images/zone-buttons/yesterday/dot-new.png", import.meta.url).href,
+  hal: new URL("../assets/images/zone-buttons/yesterday/hal.png", import.meta.url).href,
+  lenny: new URL("../assets/images/zone-buttons/yesterday/lenny.png", import.meta.url).href,
+  bob: new URL("../assets/images/zone-buttons/yesterday/bob.png", import.meta.url).href,
+  arrow: new URL("../assets/images/zone-decor/yesterday/arrow.png", import.meta.url).href,
+  globe: new URL("../assets/images/zone-decor/yesterday/globe.png", import.meta.url).href,
+  construction: new URL("../assets/images/zone-decor/yesterday/construction.png", import.meta.url).href,
+  dancer: new URL("../assets/images/zone-decor/yesterday/dancer.png", import.meta.url).href,
+  mailbox: new URL("../assets/images/zone-decor/yesterday/mailbox.png", import.meta.url).href,
+  enter: new URL("../assets/images/zone-decor/yesterday/enter.png", import.meta.url).href,
+  computerGif: new URL("../assets/images/archive-gifs/beige-computer.gif", import.meta.url).href,
+  dogGif: new URL("../assets/images/archive-gifs/cartoon-dog.gif", import.meta.url).href,
+  catGif: new URL("../assets/images/archive-gifs/cat-face.gif", import.meta.url).href,
+  alienGif: new URL("../assets/images/archive-gifs/green-alien.gif", import.meta.url).href,
+  roseGif: new URL("../assets/images/archive-gifs/rose-bloom.gif", import.meta.url).href,
+  sewingGif: new URL("../assets/images/archive-gifs/sewing-machine.gif", import.meta.url).href,
+  hikerGif: new URL("../assets/images/archive-gifs/walking-hiker.gif", import.meta.url).href
+} as const;
+const yesterdayBadgeKey = (name: string) => ({ roadhog: "roadhog", "dot-old": "dotOld", "dot-new": "dotNew", hal: "hal", lenny: "lenny", bob: "bob" } as const)[name as "roadhog" | "dot-old" | "dot-new" | "hal" | "lenny" | "bob"];
+const yesterdayPageBadge = (name: string, alt: string) => `<img class="yesterday-page-badge" src="${YESTERDAY_ZONE_ART[yesterdayBadgeKey(name)]}" alt="${alt}">`;
+const yesterdayCardGif = (name: string) => ({ roadhog: YESTERDAY_ZONE_ART.dogGif, "dot-old": YESTERDAY_ZONE_ART.roseGif, "dot-new": YESTERDAY_ZONE_ART.sewingGif, hal: YESTERDAY_ZONE_ART.alienGif, lenny: YESTERDAY_ZONE_ART.computerGif, bob: YESTERDAY_ZONE_ART.hikerGif }[name] ?? YESTERDAY_ZONE_ART.catGif);
+const SOUNDWAVE_ZONE_ART = Object.fromEntries(["pop", "punk", "grunge", "breakbeat", "country", "rap", "disc", "headphones", "tapes", "player", "spotlight", "enter"].map((name) => [name, new URL(`../assets/images/zone-decor/soundwave/${name}.png`, import.meta.url).href])) as Record<string, string>;
+const COZY_ZONE_ART = Object.fromEntries(["flower", "tea", "hike", "garden", "crafts", "enter"].map((name) => [name, new URL(`../assets/images/zone-decor/cozycommons/${name}.png`, import.meta.url).href])) as Record<string, string>;
+const ORBIT_HOME_ART = Object.fromEntries(["computer", "guide", "globe", "downloads", "mail", "help"].map((name) => [name, new URL(`../assets/images/zone-decor/orbithome/${name}.png`, import.meta.url).href])) as Record<string, string>;
+const COZY_MEMBER_BADGES = Object.fromEntries(["juniper", "ruth", "ellen", "sue", "tom", "pam"].map((name) => [name, new URL(`../assets/images/zone-buttons/cozycommons/${name}.png`, import.meta.url).href])) as Record<string, string>;
+const cozyMemberBadge = (name: string, alt: string) => `<img class="cozy-member-badge" src="${COZY_MEMBER_BADGES[name]}" alt="${alt}">`;
 const CONSOLE_ASSETS = {
   "pulse-cgi-console": new URL("../assets/images/console-web/pulse-cgi-console.png", import.meta.url).href,
   "pulse-cgi-controller": new URL("../assets/images/console-web/pulse-cgi-controller.png", import.meta.url).href,
@@ -108,6 +240,9 @@ const NAV_BUTTON_ASSETS: Record<string, string> = {
   maddy: new URL("../assets/images/navigation-buttons/maddy.png", import.meta.url).href,
   queenie: new URL("../assets/images/navigation-buttons/queenie.png", import.meta.url).href,
   codedex: new URL("../assets/images/navigation-buttons/codedex.png", import.meta.url).href,
+  cardforge: new URL("../assets/images/gamegrid-members/cardforge/archive-sage.png", import.meta.url).href,
+  minimarshal: new URL("../assets/images/gamegrid-members/minimarshal/battleline.png", import.meta.url).href,
+  bitbunker: new URL("../assets/images/gamegrid-members/bitbunker/woodgrain-console.png", import.meta.url).href,
   dee: new URL("../assets/images/navigation-buttons/dee.png", import.meta.url).href,
   cole: new URL("../assets/images/navigation-buttons/cole.png", import.meta.url).href,
   nico: new URL("../assets/images/navigation-buttons/nico.png", import.meta.url).href,
@@ -240,6 +375,30 @@ const ORBIT_ZONES = [
     bulletin: "New member wave detected overnight. Be welcoming, label borrowed graphics, and tell somebody if their background makes the text disappear.",
     searchTerms: ["newcomers", "new users", "newbies", "first homepage", "fan page", "weird pages", "new members"],
     minimumPhase: 2
+  },
+  {
+    id: "barnraisers",
+    url: BARNRAISERS_ZONE_URL,
+    title: "BarnRaisers",
+    badge: "BR",
+    tagline: "Preserve it, flip it, pass the tape",
+    welcome: "A pro-Byte Barn cover index, tape tree, and remix workshop run by people who can identify the crooked clap by waveform alone.",
+    categories: ["Cover Index", "Tape Trades", "Sample Notes", "Remix Stems", "Badges", "Credits"],
+    bulletin: "Credit the dub source, label the tape generation, and never normalize Simon's master without asking.",
+    searchTerms: ["byte barn", "barnraisers", "covers", "remix", "tape trading"],
+    minimumPhase: 3
+  },
+  {
+    id: "bytebarnbites",
+    url: BYTE_BARN_BITES_ZONE_URL,
+    title: "Byte Barn Bites!",
+    badge: "BB!",
+    tagline: "Three chords against corporate nostalgia",
+    welcome: "A competing ring for critical reviews, better forgotten commercials, jingle rankings, and remixes made strictly for purposes of complaint.",
+    categories: ["Manifestos", "Commercial Archive", "Tier Lists", "Diss Remixes", "Selling Out", "Complaints"],
+    bulletin: "Affectionate disagreement is welcome. Unauthorized air horns are inevitable.",
+    searchTerms: ["byte barn", "criticism", "punk", "commercials", "tier list"],
+    minimumPhase: 3
   }
 ] as const;
 
@@ -253,63 +412,82 @@ function zoneNavigation(state: GameState, activeId?: string) {
     : `<button data-nav="${zone.url}">${zone.title}</button>`).join("");
 }
 
+function randyZoneDirectoryCard(zoneId: string, state: GameState) {
+  const entry = RANDY_ZONE_PAGES.find((page) => page.zoneId === zoneId);
+  if (!entry || !state.infection.discoveredRandyPages.includes(entry.url)) return "";
+  return `<button class="randy-zone-directory-card" data-nav="${entry.url}"><span>RB!</span><strong>BIG RANDY: ${entry.title.toUpperCase()}</strong><small>Another unsolicited Randy Bickford topic page has appeared in this zone.</small><em>OH, COME ON. OPEN PAGE &rsaquo;</em></button>`;
+}
+
 function zoneDirectoryBody(zoneId: string, state: GameState) {
   if (zoneId === "gamegrid") return `
     <section class="gamegrid-member-directory member-page-directory">
-      <header><div><small>NEW &amp; UPDATED</small><h2>Game Grid Member Pages</h2></div><span>${gameGridMembers.length} pages online</span></header>
-      <div>${gameGridMembers.map((member) => `<button class="gamegrid-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className === "dex" ? "codedex" : member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>PLAYS: ${member.console}</b></span><em>VISIT ›</em></button>`).join("")}</div>
+      <header><span>SELECT A PLAYER</span><b>${gameGridMembers.filter((member) => !("minimumPhase" in member) || member.minimumPhase <= state.storyPhase).length} PAGES LOADED</b><span>INSERT COIN / CLICK</span></header>
+      ${randyZoneDirectoryCard(zoneId, state)}
+      <div>${gameGridMembers.filter((member) => !("minimumPhase" in member) || member.minimumPhase <= state.storyPhase).map((member) => `<button class="gamegrid-member-card member-${member.className}" data-nav="${member.url}">${gameGridPageBadge(member.className, `${member.handle}'s custom page badge`)}${member.className === "cardforge" || member.className === "minimarshal" || member.className === "bitbunker" ? "" : gameGridZoneArt(member.className, `${member.handle}'s margin sticker`)}${navButtonArt(member.className === "dex" ? "codedex" : member.className, `${member.handle}'s original page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>PLAYS: ${member.console}</b></span>${zoneAction("gamegrid", "LOAD<br>PAGE")}</button>`).join("")}</div>
     </section>`;
   if (zoneId === "xtreme") return `
     <section class="xtreme-member-directory member-page-directory">
-      <header><div><small>CREW PAGES // FRESH UPLOADS</small><h2>X-Treme Edge Riders</h2></div><span>${xtremeMembers.length} pages online</span></header>
-      <div>${xtremeMembers.map((member) => `<button class="xtreme-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>RIDES: ${member.discipline}</b></span><em>DROP IN ›</em></button>`).join("")}</div>
+      <header><span>THE RIDE WALL</span><b>${xtremeMembers.length} RIDERS / 0 HELMETS MISSING</b><span>CLICK A CREW PAGE</span></header>
+      ${randyZoneDirectoryCard(zoneId, state)}
+      <div>${xtremeMembers.map((member) => `<button class="xtreme-member-card member-${member.className}" data-nav="${member.url}">${xtremePageBadge(member.className, `${member.handle}'s custom page badge`)}${xtremeZoneArt(member.className, `${member.discipline.toLowerCase()} margin sticker`)}${navButtonArt(member.className, `${member.handle}'s original page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>RIDES: ${member.discipline}</b></span>${zoneAction("xtreme", "DROP IN ›")}</button>`).join("")}</div>
     </section>`;
   if (zoneId === "petplanet") return `
     <section class="petplanet-member-directory member-page-directory">
-      <header><div><small>FRESH PHOTOS // GOOD ANIMALS</small><h2>Pet Planet Member Pages</h2></div><span>${petPlanetMembers.length} pages online</span></header>
-      <div>${petPlanetMembers.map((member) => `<button class="petplanet-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className === "hal" ? "pet-hal" : member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>PETS: ${member.pets}</b></span><em>VISIT</em></button>`).join("")}</div>
+      <header><span>NEIGHBOR PET PAGES</span><b>${petPlanetMembers.length} HAPPY HOMES</b><span>CLICK A PAWPRINT</span></header>
+      ${randyZoneDirectoryCard(zoneId, state)}
+      <div>${petPlanetMembers.map((member) => `<button class="petplanet-member-card member-${member.className}" data-nav="${member.url}">${petPlanetPageBadge(member.className, `${member.handle}'s custom page badge`)}${petPlanetZoneArt(member.className, `${member.handle}'s margin snapshot`)}${navButtonArt(member.className === "hal" ? "pet-hal" : member.className, `${member.handle}'s original page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>PETS: ${member.pets}</b></span>${zoneAction("petplanet", "VISIT<br>HOME")}</button>`).join("")}</div>
     </section>`;
   if (zoneId === "fanverse") return `
     <section class="fandom-member-directory member-page-directory">
-      <header><div><small>DEEP ARCHIVES // BIG FEELINGS</small><h2>FanVerse Member Archives</h2></div><span>${fandomMembers.length + (state.storyPhase >= 2 ? 1 : 0)} shrines online</span></header>
+      <header><span>FAN SHRINE DIRECTORY</span><b>${fandomMembers.length + (state.storyPhase >= 2 ? 1 : 0)} OBSESSIONS ONLINE</b><span>ENTER A SHRINE</span></header>
+      ${randyZoneDirectoryCard(zoneId, state)}
       <div>
-        ${state.storyPhase >= 2 ? `<button class="fandom-member-card member-bytebarn" data-nav="${BYTE_BARN_FAN_HUB_MEMBER.url}"><img class="member-button-art" src="${BYTE_BARN_FAN_HUB_MEMBER.button}" alt="${BYTE_BARN_FAN_HUB_MEMBER.handle}'s homemade Byte Barn club button"><span><strong>${BYTE_BARN_FAN_HUB_MEMBER.title}</strong><small>${BYTE_BARN_FAN_HUB_MEMBER.description}</small><b>FANDOM: ${BYTE_BARN_FAN_HUB_MEMBER.fandom}</b></span><em>HEAR THE COVERS</em></button>` : ""}
-        ${fandomMembers.map((member) => `<button class="fandom-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>FANDOM: ${member.fandom}</b></span><em>ENTER ARCHIVE</em></button>`).join("")}
+        ${state.storyPhase >= 2 ? `<button class="fandom-member-card member-bytebarn" data-nav="${BYTE_BARN_FAN_HUB_MEMBER.url}">${fanversePageBadge("bytebarn", "The Byte Barn Beat Exchange page badge")}${fanverseArt("media", "badges", "A circle of fan club badges")}<img class="member-button-art" src="${BYTE_BARN_FAN_HUB_MEMBER.button}" alt="${BYTE_BARN_FAN_HUB_MEMBER.handle}'s original Byte Barn club button"><span><strong>${BYTE_BARN_FAN_HUB_MEMBER.title}</strong><small>${BYTE_BARN_FAN_HUB_MEMBER.description}</small><b>FANDOM: ${BYTE_BARN_FAN_HUB_MEMBER.fandom}</b></span>${zoneAction("fanverse", "HEAR<br>COVERS")}</button>` : ""}
+        ${fandomMembers.map((member) => `<button class="fandom-member-card member-${member.className}" data-nav="${member.url}">${fanversePageBadge(member.className, `${member.handle}'s custom page badge`)}${fanverseArt("fanart", member.className, `${member.handle}'s fan art`)}${navButtonArt(member.className, `${member.handle}'s original page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>FANDOM: ${member.fandom}</b></span>${zoneAction("fanverse", "ENTER<br>SHRINE")}</button>`).join("")}
       </div>
     </section>`;
   if (zoneId === "yesterday") return `
     <section class="yesterday-member-directory member-page-directory">
+      ${randyZoneDirectoryCard(zoneId, state)}
       <header><div><small>PERSONAL HOME PAGES // BEST VIEWED AT 800×600</small><h2>Yesterday Online Neighbors</h2></div><span>${yesterdayMembers.length} pages indexed (probably)</span></header>
-      <div>${yesterdayMembers.map((member) => `<button class="yesterday-member-card member-${member.className}" data-nav="${member.url}">${navButtonArt(member.className === "hal" ? "old-hal" : member.className, `${member.handle}'s homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>TOPIC: ${member.interest}</b></span><em>CLICK HERE!!!</em></button>`).join("")}</div>
+      <div>${yesterdayMembers.map((member) => `<button class="yesterday-member-card member-${member.className}" data-nav="${member.url}">${yesterdayPageBadge(member.className, `${member.handle}'s personal homepage badge`)}<img class="yesterday-card-gif" src="${yesterdayCardGif(member.className)}" alt="Decorative animated GIF">${navButtonArt(member.className === "hal" ? "old-hal" : member.className, `${member.handle}'s original homemade page button`, "member-button-art")}<span><strong>${member.title}</strong><small>${member.description}</small><b>TOPIC: ${member.interest}</b></span><em><img src="${YESTERDAY_ZONE_ART.enter}" alt="">CLICK<br>HERE!!!</em></button>`).join("")}</div>
+      <footer><img src="${YESTERDAY_ZONE_ART.globe}" alt="Spinning globe"><img src="${YESTERDAY_ZONE_ART.arrow}" alt="Golden arrow"><img src="${YESTERDAY_ZONE_ART.construction}" alt="Under construction"><img src="${YESTERDAY_ZONE_ART.dancer}" alt="Dancing oddity"><img src="${YESTERDAY_ZONE_ART.mailbox}" alt="Mailbox"><b>THIS PAGE HAS BEEN VISITED ${yesterdayMembers.length * 86} TIMES</b></footer>
     </section>`;
   if (zoneId === "cozycommons") return `
     <section class="cozy-member-directory member-page-directory">
       <header><div><small>OLD TEA // SLOW PAGES</small><h2>Neighbors Around the Commons</h2></div><span>${cozyMembers.length + 1} garden gates listed</span></header>
+      ${randyZoneDirectoryCard(zoneId, state)}
       <div>
-        <button class="cozy-member-card member-juniper" data-nav="web://rainbow.gdn/home">${navButtonArt("juniper", "Juniper's homemade Rainbow Garden page button", "member-button-art")}<span><strong>~* Rainbow Garden *~</strong><small>Juniper's scrapbook of flowers, scanner art, tiny poems, rainy radio, and her orange cat Modem.</small><b>PATCH: GARDENS &amp; JOURNALS</b></span><em>FOLLOW THE PATH</em></button>
-        ${cozyMembers.map((member) => `<button class="cozy-member-card member-${member.className}" data-nav="${member.url}"><i class="cozy-handmade-button">${member.badge}</i><span><strong>${member.title}</strong><small>${member.description}</small><b>PATCH: ${member.patch}</b></span><em>${member.handle} &middot; VISIT</em></button>`).join("")}
+        <button class="cozy-member-card member-juniper" data-nav="web://rainbow.gdn/home">${cozyMemberBadge("juniper", "Juniper's handmade garden icon")}<span><strong>~* Rainbow Garden *~</strong><small>Juniper's scrapbook of flowers, scanner art, tiny poems, rainy radio, and her orange cat Modem.</small><b>PATCH: GARDENS &amp; JOURNALS</b></span><em class="cozy-visit-action">VISIT<br>GARDEN</em></button>
+        ${cozyMembers.map((member) => `<button class="cozy-member-card member-${member.className}" data-nav="${member.url}">${cozyMemberBadge(member.className, `${member.handle}'s handmade page icon`)}<span><strong>${member.title}</strong><small>${member.description}</small><b>PATCH: ${member.patch}</b></span><em class="cozy-visit-action">VISIT<br>HOME</em></button>`).join("")}
         <aside class="cozy-abandoned-note"><b>WEB RING NOTICE</b><p>Several neighbors have not updated in a while. Broken counters and quiet guestbooks are normal. Please leave the porch light on.</p></aside>
       </div>
     </section>`;
-  if (zoneId === "soundwave") return soundwaveDirectoryBody(state);
+  if (zoneId === "soundwave") return `${soundwaveDirectoryBody(state)}${randyZoneDirectoryCard(zoneId, state)}`;
   if (zoneId === "backchannel") return `
     <section class="backchannel-member-directory member-page-directory">
       <header><div><small>UNVERIFIED // RECORDED // STILL ONLINE</small><h2>Backchannel Nodes</h2></div><span>${state.storyPhase >= 2 ? "4 live connections" : "2 live connections"}</span></header>
+      ${randyZoneDirectoryCard(zoneId, state)}
       <div>
-        <button class="backchannel-member-card member-mira" data-nav="web://nightsignal.net/home">${navButtonArt("mira", "Mira's homemade Night Signal page button", "member-button-art")}<span><strong>NIGHT SIGNAL</strong><small>Mira's after-hours archive of strange broadcasts, clock drift, answering-machine fragments, and disciplined field notes.</small><b>NODE: SIGNAL WATCH</b></span><em>TUNE IN</em></button>
-        <button class="backchannel-member-card member-raven" data-nav="web://raven.web/home">${navButtonArt("raven", "DarkRaven's homemade hidden-web page button", "member-button-art")}<span><strong>xX_DarkRaven_Xx's VOID</strong><small>Deleted games, forbidden files, hidden pages, suspicious patterns, and approximately one useful fact per seven theories.</small><b>NODE: UNLISTED WEB</b></span><em>ENTER VOID</em></button>
+        <button class="backchannel-member-card member-mira" data-nav="web://nightsignal.net/home"><img class="backchannel-card-frame" src="${BACKCHANNEL_ART.cyber}" alt=""><img class="backchannel-member-badge" src="${BACKCHANNEL_ART.mira}" alt="Night Signal handmade antenna badge"><span><strong>NIGHT SIGNAL</strong><small>Mira's after-hours archive of strange broadcasts, clock drift, answering-machine fragments, and disciplined field notes.</small><b>NODE: SIGNAL WATCH</b></span><em class="backchannel-enter"><img src="${BACKCHANNEL_ART.enter}" alt="">TUNE IN</em></button>
+        <button class="backchannel-member-card member-raven" data-nav="web://raven.web/home"><img class="backchannel-card-frame" src="${BACKCHANNEL_ART.evidence}" alt=""><img class="backchannel-member-badge" src="${BACKCHANNEL_ART.raven}" alt="DarkRaven handmade raven badge"><span><strong>xX_DarkRaven_Xx's VOID</strong><small>Deleted games, forbidden files, hidden pages, suspicious patterns, and approximately one useful fact per seven theories.</small><b>NODE: UNLISTED WEB</b></span><em class="backchannel-enter"><img src="${BACKCHANNEL_ART.enter}" alt="">ENTER VOID</em></button>
         ${phaseTwoBackchannelDirectory(state)}
         <aside><b>BACKCHANNEL ETIQUETTE</b><p>Archive first. Compare clocks. Separate observation from theory. Do not run mystery executables just because the filename says FINAL_REAL_2.</p></aside>
       </div>
     </section>`;
   if (zoneId === "newcomers") return `
     <section class="newcomer-member-directory member-page-directory">
-      <header><div><small>FRESH ACCOUNTS // INDEXED THIS MORNING</small><h2>Meet the New Arrivals</h2></div><span>${newcomerMembers.length} first pages online</span></header>
+      <header><div><small>FRESH ACCOUNTS // INDEXED THIS MORNING</small><h2>Meet the New Arrivals</h2></div><span>${newcomerMembers.length + (state.storyPhase >= 4 && state.flags.randy_first_page_revealed ? 1 : 0)} first pages online</span></header>
+      ${state.storyPhase >= 4 && state.flags.randy_first_page_revealed ? `<button class="newcomer-member-card newcomer-randy-card" data-nav="${RANDY_FIRST_URL}"><span class="newcomer-randy-stamp">RB!</span><span><strong>BIG RANDY BICKFORD</strong><small>New guy with a minivan, a windbreaker, and a very large amount of enthusiasm.</small><b>NEW USER: Big_Randy_B</b></span><em>MEET RANDY ›</em></button>` : ""}
       <div>
         ${newcomerMembers.map((member) => `<button class="newcomer-member-card" data-nav="${member.url}"><img src="${member.button}" alt="${member.handle}'s homemade page badge"><span><strong>${member.title}</strong><small>${member.description}</small><b>NEW USER: ${member.handle}</b></span><em>MEET THEM ›</em></button>`).join("")}
         <aside class="newcomer-wave-note"><b>WHY A NEW ZONE?</b><p>Word escaped that something strange was happening inside this nearly forgotten network. One member told a friend, those friends passed addresses around at school and on regular-web boards, and the old categories suddenly had more first pages than they could absorb. New arrivals stay here until they choose a permanent neighborhood—or decide that collecting weird links is a neighborhood.</p></aside>
       </div>
     </section>`;
+  if (zoneId === "barnraisers" || zoneId === "bytebarnbites") {
+    const members = FEUD_MEMBERS[zoneId];
+    return `<section class="revival-zone-directory"><header><h2>${zoneId === "barnraisers" ? "RAISE THE BARN" : "BITE THE BARN"}</h2><span>${members.length} argument pages</span></header><div>${members.map((member) => `<button data-nav="${member.url}"><b>${member.title}</b><strong>${member.handle}</strong><small>${member.blurb}</small></button>`).join("")}</div></section>`;
+  }
   return "";
 }
 
@@ -323,8 +501,72 @@ const orbitZonePages = Object.fromEntries(ORBIT_ZONES.map((zone) => [zone.url, {
   ...("minimumPhase" in zone ? { minimumPhase: zone.minimumPhase } : {}),
   hubId: `zone-${zone.id}`,
   searchTerms: [...zone.searchTerms, "orbitnet zone", "community"],
-  render: (state) => `
-    <main class="page orbit-zone-page zone-${zone.id}">
+  render: (state) => zone.id === "fanverse" ? `
+    <main class="page orbit-zone-page zone-fanverse fanverse-zone-home">
+      <header class="fanverse-zone-hero">
+        ${fanverseArt("media", "moss", "A fuzzy fantasy show VHS still")}${fanverseArt("media", "blipzo", "A pixelated mall game still")}${fanverseArt("media", "prism", "A magical transformation VHS still")}${fanverseArt("fanart", "wand", "A giant fan-drawn star wand")}${fanverseArt("fanart", "chart", "A hand-drawn relationship chart")}${fanverseArt("media", "star", "A glittery fan star")}
+        <div><small>ORBITNET COMMUNITY ZONE // SPOILERS, SHRINES &amp; STRONG FEELINGS</small><h1>FAN<span>VERSE</span></h1><p>Fan art, tape trades, lore arguments, theories, bootlegs, and evidence that no fictional detail is ever too small to catalog.</p></div>
+      </header>
+      ${zoneDirectoryBody(zone.id, state)}
+      <footer>OrbitNet Community Services Â· Zone ID: FANVERSE Â· Last indexed 11/03/1999</footer>
+    </main>` : zone.id === "petplanet" ? `
+    <main class="page orbit-zone-page zone-petplanet petplanet-zone-home">
+      <header class="petplanet-zone-hero">
+        ${petPlanetZoneArt("cat", "A blurry orange cat snapshot")}${petPlanetZoneArt("rabbit", "A torn-edge rabbit snapshot")}${petPlanetZoneArt("dog", "A dog with a flying disc")}${petPlanetZoneArt("skunk", "A grainy skunk snapshot")}${petPlanetZoneArt("iguana", "A green iguana snapshot")}${petPlanetZoneArt("heart", "A crayon heart with pawprints")}
+        <img class="petplanet-zone-gif petplanet-cat-gif" src="${PETPLANET_ZONE_ART.catGif}" alt="Animated sparkling cat"><img class="petplanet-zone-gif petplanet-rabbit-gif" src="${PETPLANET_ZONE_ART.rabbitGif}" alt="Animated hopping rabbit">
+        <div><small>ORBITNET COMMUNITY ZONE // GOOD PETS WELCOME</small><h1>Pet <i>Planet</i></h1><p>Snapshots, stories, questionable pet advice, and an unreasonable amount of evidence that every animal is the best animal.</p></div>
+      </header>
+      ${zoneDirectoryBody(zone.id, state)}
+      <footer>OrbitNet Community Services Â· Zone ID: PETPLANET Â· Last indexed 11/03/1999</footer>
+    </main>` : zone.id === "gamegrid" ? `
+    <main class="page orbit-zone-page zone-gamegrid gamegrid-zone-home">
+      <header class="gamegrid-zone-hero">
+        ${gameGridZoneArt("arcade", "A hand-drawn arcade cabinet")}${gameGridZoneArt("controller", "A purple game controller")}${gameGridZoneArt("cable", "A hand-drawn LAN cable")}${gameGridZoneArt("crt", "A CRT game screen")}${gameGridZoneArt("burst", "A comic-book score burst")}
+        <div><small>ORBITNET COMMUNITY ZONE // NO STRATEGY GUIDES REQUIRED</small><h1>GAME <i>GRID</i></h1><p>Arcade regulars, couch co-op experts, modders, and people who definitely found that secret room first.</p></div>
+      </header>
+      ${zoneDirectoryBody(zone.id, state)}
+      <footer>OrbitNet Community Services Â· Zone ID: GAMEGRID Â· Last indexed 11/03/1999</footer>
+    </main>` : zone.id === "xtreme" ? `
+    <main class="page orbit-zone-page zone-xtreme xtreme-zone-home">
+      <header class="xtreme-zone-hero">
+        ${xtremeZoneArt("burst", "A hand-drawn X starburst")}${xtremeZoneArt("wheel", "A scratched wheel sticker")}${xtremeZoneArt("flame", "A scribbled flame sticker")}${xtremeZoneArt("helmet", "A rough helmet sticker")}
+        <div><small>ORBITNET COMMUNITY ZONE // BUILT BY THE CREW</small><h1>X-TREME <i>EDGE</i></h1><p>Local riders, scraped knees, bad ramps, and too much confidence. Pick a page and drop in.</p></div>
+      </header>
+      ${zoneDirectoryBody(zone.id, state)}
+      <footer>OrbitNet Community Services · Zone ID: XTREME · Last indexed 11/03/1999</footer>
+    </main>` : zone.id === "backchannel" ? `
+    <main class="page orbit-zone-page zone-backchannel backchannel-zone-home">
+      <header class="backchannel-zone-hero" style="--backchannel-backdrop:url('${BACKCHANNEL_ART.backdrop}')">
+        <img class="backchannel-hero-art backchannel-hero-board" src="${BACKCHANNEL_ART.board}" alt="A handmade red-string evidence board">
+        <img class="backchannel-hero-art backchannel-hero-dish" src="${BACKCHANNEL_ART.dish}" alt="A small satellite dish">
+        <img class="backchannel-hero-art backchannel-hero-floppy" src="${BACKCHANNEL_ART.floppy}" alt="A scratched floppy disk">
+        <img class="backchannel-hero-art backchannel-hero-eye" src="${BACKCHANNEL_ART.eye}" alt="A static-filled eye monitor">
+        <img class="backchannel-hero-gif backchannel-hero-scan" src="${BACKCHANNEL_GIFS.radioScan}" alt="A scanning radio dial">
+        <img class="backchannel-hero-gif backchannel-hero-raven" src="${BACKCHANNEL_GIFS.ravenEye}" alt="A blinking raven eye">
+        <img class="backchannel-mascot" src="${BACKCHANNEL_ART.mascot}" alt="A strange tin-foil-hat signal watcher">
+        <div><small>UNOFFICIAL ORBITNET RING // UNVERIFIED MATERIAL</small><img class="backchannel-wordmark" src="${BACKCHANNEL_ART.wordmark}" alt="Backchannel"><p>Signals, dead addresses, basement theories, archived errors, and people who absolutely should not have found the same three pages.</p></div>
+      </header>
+      <div class="backchannel-alert-strip"><img src="${BACKCHANNEL_GIFS.antenna}" alt="Animated antenna"><marquee scrollamount="5">WARNING: new nodes may be hiding in plain sight // compare clocks // archive first // do not trust an address just because it answers //</marquee><img src="${BACKCHANNEL_GIFS.ravenOrbit}" alt="Animated orbiting raven"></div>
+      ${zoneDirectoryBody(zone.id, state)}
+      <footer><img src="${BACKCHANNEL_ART.dish}" alt=""> ORBITNET COMMUNITY SERVICES // BACKCHANNEL RING // THIS PAGE IS PROBABLY WATCHED <img src="${BACKCHANNEL_ART.eye}" alt=""></footer>
+    </main>` : zone.id === "newcomers" ? `
+    <main class="page orbit-zone-page zone-newcomers newcomers-zone-home">
+      <header class="newcomers-zone-hero" style="--newcomer-backdrop:url('${NEWCOMER_ZONE_ART.backdrop}')">
+        <img class="newcomer-hero-art newcomer-art-keesha" src="${NEWCOMER_ZONE_ART.keesha}" alt="Tape and crown collage">
+        <img class="newcomer-hero-art newcomer-art-ben" src="${NEWCOMER_ZONE_ART.ben}" alt="Weird web finds collage">
+        <img class="newcomer-hero-art newcomer-art-lily" src="${NEWCOMER_ZONE_ART.lily}" alt="Web field-trip map collage">
+        <img class="newcomer-hero-art newcomer-art-rayna" src="${NEWCOMER_ZONE_ART.rayna}" alt="New computer user collage">
+        <img class="newcomer-hero-art newcomer-art-zack" src="${NEWCOMER_ZONE_ART.zack}" alt="Broken-web archive collage">
+        <img class="newcomer-hero-portal" src="${NEWCOMER_ZONE_ART.enter}" alt="Newbie Nebula portal">
+        <div><small>ORBITNET COMMUNITY ZONE // JUST ARRIVED? SO DID EVERYONE ELSE.</small><h1>NEWBIE <span>NEBULA</span></h1><p>Fresh pages, accidental fandoms, strange links from friends, and a whole new group of people asking why this forgotten old network suddenly feels alive.</p></div>
+      </header>
+      <div class="newcomers-alert-strip"><img src="${NEWCOMER_ZONE_ART.enter}" alt=""><marquee scrollamount="5">NEW ACCOUNTS DETECTED // WHO SENT YOU? // POST YOUR WEIRDEST FIND // REMEMBER TO SAVE THE GOOD LINKS //</marquee><img src="${NEWCOMER_ZONE_ART.lily}" alt=""></div>
+      ${zoneDirectoryBody(zone.id, state)}
+      <footer><img src="${NEWCOMER_ZONE_ART.rayna}" alt=""> NEWBIE NEBULA // 5 FIRST PAGES // WELCOME, PROBABLY <img src="${NEWCOMER_ZONE_ART.zack}" alt=""></footer>
+    </main>` : `
+    <main class="page orbit-zone-page zone-${zone.id} ${zone.id === "yesterday" ? "yesterday-zone-home" : ""}">
+      ${zone.id === "yesterday" ? `<header class="yesterday-zone-hero"><img class="yesterday-hero-gif yesterday-hero-computer" src="${YESTERDAY_ZONE_ART.computerGif}" alt="Animated beige computer"><img class="yesterday-hero-gif yesterday-hero-dog" src="${YESTERDAY_ZONE_ART.dogGif}" alt="Animated cartoon dog"><img class="yesterday-hero-gif yesterday-hero-alien" src="${YESTERDAY_ZONE_ART.alienGif}" alt="Animated green alien"><img class="yesterday-hero-decor yesterday-hero-globe" src="${YESTERDAY_ZONE_ART.globe}" alt=""><img class="yesterday-hero-decor yesterday-hero-mail" src="${YESTERDAY_ZONE_ART.mailbox}" alt=""><div><small>THE ORIGINAL ORBITNET NEIGHBORHOOD // EST. 1996</small><h1>Yesterday <i>Online</i></h1><p>Home cooking, hobby basements, family trees, flames, fish stories, and web pages nobody has successfully updated since 1997.</p></div></header><div class="yesterday-marquee-strip"><img src="${YESTERDAY_ZONE_ART.arrow}" alt=""><marquee scrollamount="4">WELCOME TO YESTERDAY ONLINE!!! &nbsp; BEST VIEWED WITH A 28.8 MODEM &nbsp; PLEASE SIGN OUR GUESTBOOKS &nbsp; NO SPAM!!!</marquee><img src="${YESTERDAY_ZONE_ART.construction}" alt=""></div>` : ""}
+      ${zone.id === "cozycommons" ? `<header class="cozy-zone-hero"><img src="${COZY_ZONE_ART.flower}" alt="Pressed flower and notebook"><img src="${COZY_ZONE_ART.tea}" alt="Tea cup and coaster"><img src="${COZY_ZONE_ART.hike}" alt="Hiking boot and trail map"><img class="cozy-hero-garden" src="${COZY_ZONE_ART.garden}" alt="Garden supplies"><img class="cozy-hero-crafts" src="${COZY_ZONE_ART.crafts}" alt="Craft supplies"><div><small>ORBITNET COMMUNITY ZONE // TAKE A BREATH</small><h1>Cozy <i>Commons</i></h1><p>Slow pages for gardens, recipes, hand-made things, weekend trails, and neighbors who still write updates in a notebook first.</p></div></header><div class="cozy-zone-strip"><img src="${COZY_ZONE_ART.enter}" alt="">~* tea is on / pull up a chair / pages may take a minute to load *~<img src="${COZY_ZONE_ART.crafts}" alt=""></div>` : ""}${zone.id === "soundwave" ? `<header class="soundwave-zone-hero"><img src="${SOUNDWAVE_ZONE_ART.disc}" alt=""><img src="${SOUNDWAVE_ZONE_ART.headphones}" alt=""><img src="${SOUNDWAVE_ZONE_ART.tapes}" alt=""><img src="${SOUNDWAVE_ZONE_ART.player}" alt=""><img src="${SOUNDWAVE_ZONE_ART.spotlight}" alt=""><div><small>ORBITNET COMMUNITY ZONE // TAPES, VOLUME &amp; OPINIONS</small><h1>SOUND<span>WAVE</span></h1><p>Home recordings, loud arguments, borrowed CDs, local shows, and one old store jingle that will not leave anyone's head.</p></div></header><div class="soundwave-zone-strip"><img src="${SOUNDWAVE_ZONE_ART.enter}" alt=""><b>NOW PLAYING: ORBITNET'S WEIRDEST HOME TAPES</b><img src="${SOUNDWAVE_ZONE_ART.disc}" alt=""></div>` : ""}${zone.id === "yesterday" ? `<div class="yesterday-page-chaos" aria-hidden="true"><img class="chaos-computer" src="${YESTERDAY_ZONE_ART.computerGif}" alt=""><img class="chaos-dog" src="${YESTERDAY_ZONE_ART.dogGif}" alt=""><img class="chaos-cat" src="${YESTERDAY_ZONE_ART.catGif}" alt=""><img class="chaos-alien" src="${YESTERDAY_ZONE_ART.alienGif}" alt=""><img class="chaos-rose" src="${YESTERDAY_ZONE_ART.roseGif}" alt=""><img class="chaos-sewing" src="${YESTERDAY_ZONE_ART.sewingGif}" alt=""><img class="chaos-hiker" src="${YESTERDAY_ZONE_ART.hikerGif}" alt=""><img class="chaos-arrow" src="${YESTERDAY_ZONE_ART.arrow}" alt=""><img class="chaos-globe" src="${YESTERDAY_ZONE_ART.globe}" alt=""><img class="chaos-construction" src="${YESTERDAY_ZONE_ART.construction}" alt=""><img class="chaos-dancer" src="${YESTERDAY_ZONE_ART.dancer}" alt=""><img class="chaos-mail" src="${YESTERDAY_ZONE_ART.mailbox}" alt=""><p class="chaos-counter">You are visitor #00014892</p><p class="chaos-award">★ COOL SITE AWARD ★</p><p class="chaos-note">EMAIL ME IF THIS LOOKS WEIRD ON YOUR COMPUTER</p></div>` : ""}
       <header class="zone-masthead">
         <div class="zone-badge" aria-hidden="true">${zone.badge}</div>
         <div><small>ORBITNET COMMUNITY ZONE</small><h1>${zone.title}</h1><p>${zone.tagline}</p></div>
@@ -341,6 +583,7 @@ export const pages: Record<string, PageDefinition> = {
   ...kidsBusinessPages,
   ...dealerPages,
   ...fillerBusinessPages,
+  ...additionalBusinessPages,
   ...orbitZonePages,
   ...gameGridPages,
   ...xtremePages,
@@ -355,6 +598,7 @@ export const pages: Record<string, PageDefinition> = {
   ...newcomerPages,
   ...phaseTwoOddityPages,
   ...soundwavePages,
+  ...revivalPages,
   "web://home": {
     url: "web://home",
     title: "OrbitNet Directory",
@@ -365,7 +609,13 @@ export const pages: Record<string, PageDefinition> = {
     hubId: "directory",
     searchTerms: ["directory", "community zones", "communities", "help", "orbitnet"],
     render: (state) => `
-      <main class="page directory-page">
+      <main class="page directory-page orbit-corporate-home">
+        <header class="orbit-corporate-masthead">
+          <img class="orbit-corp-computer" src="${ORBIT_HOME_ART.computer}" alt="Orbit-ready home computer">
+          <img class="orbit-corp-globe" src="${ORBIT_HOME_ART.globe}" alt="OrbitNet globe">
+          <div><small>ORBIT SYSTEMS NETWORK SERVICES // ONLINE SINCE 1995</small><h1><b>ORBIT</b><i>NET</i></h1><p>Your communities, your people, your corner of the Information Superhighway.</p></div>
+        </header>
+        <section class="orbit-corporate-tools" aria-label="OrbitNet services"><button type="button" data-open="mail"><img src="${ORBIT_HOME_ART.mail}" alt=""><b>ORBIT MAIL</b><small>Messages &amp; replies</small></button><button type="button" data-open="files"><img src="${ORBIT_HOME_ART.downloads}" alt=""><b>MY FILES</b><small>Downloads &amp; saved pages</small></button><button type="button" data-home-guide><img src="${ORBIT_HOME_ART.guide}" alt=""><b>NETWORK GUIDE</b><small>Browse communities &amp; helpful links</small></button><button type="button" ${state.flags.orbit_pal_installed ? "data-open=\"helper\"" : "data-download-helper"}><img src="${ORBIT_HOME_ART.help}" alt=""><b>NEED HELP?</b><small>${state.flags.orbit_pal_installed ? "Talk to Orbit Pal" : "Download Orbit Pal"}</small></button></section>
         <header class="directory-logo"><span>ORBIT</span><b>NET</b></header>
         <p class="directory-tagline">${availableZones(state).length} communities. Thousands of interests. One friendly corner of the Information Superhighway!</p>
         <form class="search-box orbit-search-form"><input name="query" placeholder="Search pages, people, and phrases..." aria-label="Search OrbitNet"><button>Search</button></form>
@@ -384,7 +634,7 @@ export const pages: Record<string, PageDefinition> = {
           ${availableZones(state).map((zone) => `<button class="zone-directory-card zone-${zone.id}" data-nav="${zone.url}">${navButtonArt(`${zone.id}-zone`, `${zone.title} community button`, "zone-card-art")}<span class="zone-card-copy"><strong>${zone.title}</strong><small>${zone.tagline}</small></span><b>ENTER ZONE ›</b></button>`).join("")}
         </section>
         <section class="orbit-pal-promo">
-          <div class="orbit-pal-mini"><i></i><b>?</b></div>
+          <div class="orbit-pal-mini" aria-hidden="true"></div>
           <div><h2>New to the Net?</h2><p>Download <b>Orbit Pal</b>, your friendly desktop guide! Ask how to browse, search, download files, send messages, and get unstuck.</p></div>
           <button data-download-helper ${state.flags.orbit_pal_installed ? "disabled" : ""}>${state.flags.orbit_pal_installed ? "Orbit Pal Installed!" : "Download Orbit Pal FREE"}</button>
         </section>
@@ -412,19 +662,20 @@ export const pages: Record<string, PageDefinition> = {
       revealAfterVisit: 0
     }],
     render: () => `
-      <main class="page rainbow-page">
+      <main class="page rainbow-page rainbow-garden-page">
         <header class="rainbow-masthead">
-          <div class="sparkles">* . o . * . o . *</div>
-          <h1>Rainbow Garden</h1>
+          ${rainbowHandmade("rainbow", "A crayon rainbow cutout")}${rainbowHandmade("sun", "A smiling hand-drawn sun")}${rainbowHandmade("sparkles", "Scanned pastel sparkles")}
+          <div class="sparkles">* . o . * . o . *</div><small>JUNIPER'S SCRAPBOOK / PLANTS / SMALL WEATHER</small>
+          <h1>Rainbow <i>Garden</i></h1>
           <marquee scrollamount="3">~ welcome, web traveler! mind the seedlings and please do not feed Modem after midnight ~</marquee>
         </header>
         <div class="rainbow-home-grid">
           <section class="garden-feature">
-            <div class="garden-photo">${finalPageArt("juniper-garden", "A slightly blurry snapshot of Juniper's last orange and yellow marigolds before frost")}<span>the last marigolds before frost</span></div>
-            <article class="garden-update"><small>GARDEN LOG // NOV. 3</small><h2>Hello from my little patch of the web!</h2><p>I made this place for drawings, tiny poems, plant notes, and an unreasonable number of pictures of my cat, <b>Modem</b>.</p><blockquote>the rain taps the glass<br>the modem answers softly<br>someone else is there</blockquote></article>
+            <div class="garden-photo">${rainbowHandmade("flower", "A crayon flower sticker")}${rainbowHandmade("butterfly", "A handmade butterfly sticker")}${finalPageArt("juniper-garden", "A slightly blurry snapshot of Juniper's last orange and yellow marigolds before frost")}<img class="garden-rose-gif" src="${RAINBOW_GARDEN_ART.rose}" alt="Tiny animated blooming rose GIF"><span>the last marigolds before frost</span></div>
+            <article class="garden-update">${rainbowHandmade("pressed", "A scanned pressed flower") }<small>GARDEN LOG // NOV. 3</small><h2>Hello from my little patch of the web!</h2><p>I made this place for drawings, tiny poems, plant notes, and an unreasonable number of pictures of my cat, <b>Modem</b>.</p><blockquote>the rain taps the glass<br>the modem answers softly<br>someone else is there</blockquote><details class="rainbow-seed-drawer"><summary>open the seed drawer</summary><p>Inside: a moonflower packet, a library receipt, and three perfect seeds that Juniper is saving until spring.</p></details></article>
           </section>
           <aside class="rainbow-sidebar">
-            <h2>Garden Paths</h2>
+            ${rainbowHandmade("watering", "A homemade watering can") }<h2>Garden Paths</h2>
             <nav class="page-links">
               <button data-nav="web://rainbow.gdn/about"><b>ME + MODEM</b><small>who maintains this mess?</small></button>
               <button data-nav="web://rainbow.gdn/modem"><b>CAT CORNER</b><small>daily schedule & evidence</small></button>
@@ -432,9 +683,10 @@ export const pages: Record<string, PageDefinition> = {
               <button data-nav="web://rainbow.gdn/guestbook"><b>GUESTBOOK</b><small>leave muddy footprints</small></button>
               <button data-nav="web://nightsignal.net/home"><b>NIGHT SIGNAL</b><small>Mira's very cool radio page</small></button>
             </nav>
-            <div class="seed-swap"><b>VIRTUAL SEED SWAP</b><p>Currently offering: moonflower, marigold, and one mystery envelope Dad says not to open indoors.</p></div>
+            <div class="seed-swap">${rainbowHandmade("seedpacket", "A hand-scanned seed packet") }<b>VIRTUAL SEED SWAP</b><p>Currently offering: moonflower, marigold, and one mystery envelope Dad says not to open indoors.</p></div>
           </aside>
         </div>
+        <section class="rainbow-windowsill"><div>${rainbowHandmade("seedling", "A potted seedling") }<p><b>WINDOWSILL STATUS</b><span>three sprouts / one mystery leaf</span></p></div><div>${rainbowHandmade("paw", "A cat paw print") }<p><b>MODEM'S REPORT</b><span>sat on the keyboard. no regrets.</span></p></div><div>${rainbowHandmade("map", "A doodled garden map") }<p><b>RAIN MAP</b><span>muddy path → radio window → tea</span></p></div><img src="${RAINBOW_GARDEN_ART.butterfly}" alt="Animated pink butterfly GIF"></section>
         <div class="contact-strip rainbow-contact"><span>Want to say something privately?</span><button data-email-owner="juniper_gdn">Email Juniper</button></div>
         <footer><span>Best viewed at 800x600</span><b>Member of the Cozy Corners Web Ring</b><span>Made with Notepad</span></footer>
       </main>`
@@ -534,28 +786,28 @@ export const pages: Record<string, PageDefinition> = {
     hubId: "zone-backchannel",
     searchTerms: ["mira", "radio", "91.7", "night signal", "broadcast"],
     render: (state) => `
-      <main class="page signal-page">
-        <header class="signal-masthead"><div><span>NIGHT</span> SIGNAL</div><small>91.7 FM // MERCER COUNTY // AFTER HOURS</small></header>
-        <div class="frequency-scale"><span>88</span><i></i><span>90</span><i></i><b>91.7</b><i></i><span>94</span><i></i><span>98</span><i></i><span>104</span></div>
+      <main class="page signal-page signal-station-page">
+        <header class="signal-masthead"><img class="signal-antenna-gif" src="${NIGHT_SIGNAL_ART.antenna}" alt="Animated pink antenna gif">${signalHandmade("night", "A dithered midnight sky") }<div><span>NIGHT</span> SIGNAL</div><small>91.7 FM // MERCER COUNTY // AFTER HOURS</small><em>FIELD RECEIVER / VOL. 03</em></header>
+        <div class="frequency-scale"><span>88</span><i></i><span>90</span><i></i><b>91.7</b><i></i><span>94</span><i></i><span>98</span><i></i><span>104</span>${signalHandmade("dot", "A red recording indicator")}</div>
         <div class="signal-console">
           <aside class="signal-rack">
-            <div class="rack-lights"><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="rack-lights"><i></i><i></i><i></i><i></i><i></i></div>${signalHandmade("receiver", "A handmade radio receiver") }
             <b>STATION INDEX</b>
             <nav class="signal-nav"><button data-nav="web://nightsignal.net/archive">01 / RECORDINGS</button><button data-nav="web://nightsignal.net/fieldlog">02 / FIELD LOG</button><button data-nav="web://nightsignal.net/desk">03 / MIRA'S DESK</button><button data-nav="web://rainbow.gdn/home">04 / RAINBOW GARDEN</button></nav>
-            <small>REMOTE LINK: 2400 BAUD<br>UPLINK: UNSTABLE</small>
+            <small>REMOTE LINK: 2400 BAUD<br>UPLINK: UNSTABLE</small>${signalHandmade("battery", "A hand-drawn battery")}
           </aside>
           <section class="signal-transmission">
-            <div class="signal-scope" role="img" aria-label="Green radio waveform display"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>LIVE INPUT / NO CARRIER</span></div>
-            <h1>For people who are still awake.</h1>
-            <p>Night Signal collects unusual broadcasts, answering-machine fragments, numbers read by strangers, and sounds without obvious owners.</p>
+            <div class="signal-scope" role="img" aria-label="Green radio waveform display"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span>LIVE INPUT / NO CARRIER</span>${signalHandmade("wave", "A chunky green waveform")}</div>
+            <div class="signal-transmission-note">${signalHandmade("notebook", "A small spiral notebook") }<div><h1>For people who are still awake.</h1><p>Night Signal collects unusual broadcasts, answering-machine fragments, numbers read by strangers, and sounds without obvious owners. Mira keeps the observations separate from the theories, even when everyone else is getting ahead of themselves.</p></div>${signalHandmade("microphone", "A hand-drawn microphone") }</div>
             <div class="contact-strip signal-contact"><span>Mira is currently online.</span><button data-aim-owner="mira_917">IM Mira_917</button></div>
           </section>
           <aside class="signal-status">
-            <b>TONIGHT'S BOARD</b>
+            <img class="signal-radio-gif" src="${NIGHT_SIGNAL_ART.radioDial}" alt="Animated vintage radio dial gif"><b>TONIGHT'S BOARD</b>
             <dl><div><dt>23:00</dt><dd>rain tape</dd></div><div><dt>23:17</dt><dd class="warning">open band</dd></div><div><dt>00:05</dt><dd>callers</dd></div><div><dt>01:00</dt><dd>sign-off?</dd></div></dl>
-            <p><b>RECEIVER A:</b> 91.7<br><b>RECEIVER B:</b> scanning<br><b>TAPE 3:</b> armed</p>
+            <p><b>RECEIVER A:</b> 91.7<br><b>RECEIVER B:</b> scanning<br><b>TAPE 3:</b> armed</p><div class="signal-status-cassette">${signalHandmade("cassette", "A handmade cassette tape") }${signalHandmade("spool", "A small tape spool") }</div>
           </aside>
         </div>
+        <section class="signal-field-strip">${signalHandmade("map", "A hand-drawn road map") }<p><b>TONIGHT'S FIELD NOTE:</b> Rain keeps the background noise honest. If a sound stays in the recording after the rain stops, Mira writes it down once, then checks it against the other receiver.</p>${signalHandmade("headphones", "Wired headphones") }${signalHandmade("weather", "A tiny weather sketch") }${signalHandmade("clock", "A hand-drawn clock") }</section>
         <p class="signal-warning"><b>NOTICE:</b> The station is currently unattended. Do not adjust your receiver.</p>
       </main>`
   },
@@ -612,33 +864,40 @@ export const pages: Record<string, PageDefinition> = {
     hubId: "zone-backchannel",
     searchTerms: ["darkraven", "games", "rumors", "hidden pages", "void"],
     render: (state) => `
-      <main class="page raven-page">
-        <header class="raven-masthead"><div class="raven-stars">+ . * . + . * . +</div><h1>xX_DarkRaven_Xx's VOID</h1><p class="raven-warning">YOU HAVE ENTERED A DOMAIN OF SECRETS</p></header>
-        <div class="raven-home-grid">
-          <aside class="raven-sidebar">
-            <div class="raven-sigil">${finalPageArt("darkraven-sigil", "DarkRaven's homemade black raven and purple crescent web sigil")}</div>
-            <nav class="raven-nav"><button data-nav="web://raven.web/orbit">THE ORBIT HOLE</button><button data-nav="web://raven.web/files">FORBIDDEN FILES</button><button data-nav="web://raven.web/links">SHADOW LINKS</button><button data-nav="web://raven.web/about">ABOUT THE FIGURE</button><button data-nav="web://raven.web/vault">BLACK FILE [PRIVATE]</button><button data-nav="web://rainbow.gdn/guestbook">JUNIPER'S GUESTBOOK</button></nav>
+      <main class="page raven-page raven-void-desk">
+        <header class="raven-masthead">
+          <div class="raven-masthead-rip"></div>
+          <img class="raven-masthead-gif" src="${RAVEN_DESK_ART.archiveRaven}" alt="Animated raven clip art Raven found online">
+          <div class="raven-stars">+ . * . + . * . +</div><h1>xX_DarkRaven_Xx's VOID</h1><p class="raven-warning">YOU HAVE ENTERED A DOMAIN OF SECRETS</p>
+          ${ravenHandmade("star", "A jagged purple sparkle")}
+        </header>
+        <div class="raven-desk-floor">
+          <aside class="raven-sidebar raven-case-index">
+            <div class="raven-sigil">${finalPageArt("darkraven-sigil", "DarkRaven's homemade black raven and purple crescent web sigil")}${ravenHandmade("moon", "A badly cropped crescent moon")}</div>
+            <b class="raven-index-label">CASE INDEX</b>
+            <nav class="raven-nav"><button data-nav="web://raven.web/orbit"><i>01</i> THE ORBIT HOLE</button><button data-nav="web://raven.web/files"><i>02</i> FORBIDDEN FILES</button><button data-nav="web://raven.web/links"><i>03</i> SHADOW LINKS</button><button data-nav="web://raven.web/about"><i>??</i> ABOUT THE FIGURE</button><button data-nav="web://raven.web/vault"><i>!</i> BLACK FILE [PRIVATE]</button><button data-nav="web://rainbow.gdn/guestbook"><i>J</i> JUNIPER'S GUESTBOOK</button></nav>
             <small>VOID VISITORS<br><b>00000666</b></small>
           </aside>
-          <section class="raven-center">
-            <article class="raven-manifesto"><small>LAST UPDATED 11.03.99</small><h2>THE TRUTH IS UNDER CONSTRUCTION</h2><p>I investigate deleted game levels, forbidden cheat codes, haunted shareware, and pages OrbitNet pretends do not exist.</p><p>Most rumors are fake. The interesting ones are only <em>mostly</em> fake.</p></article>
-            <div class="raven-caseboard">
-              <article><b>CASE 01</b><span>ORBIT HOLE</span><small>status: watching</small></article>
-              <i></i>
-              <article><b>CASE 02</b><span>91.7 SIGNAL</span><small>status: repeating</small></article>
-              <i></i>
-              <article><b>CASE 03</b><span>PHONE JACK</span><small>status: cat involved</small></article>
-            </div>
+          <section class="raven-center raven-evidence-desk">
+            <div class="raven-desk-pins" aria-hidden="true">${ravenHandmade("pin", "")}${ravenHandmade("arrow", "")}</div>
+            <article class="raven-manifesto"><small>LAST UPDATED 11.03.99 // DO NOT MIRROR</small><h2>THE TRUTH IS UNDER CONSTRUCTION</h2><p>I investigate deleted game levels, forbidden cheat codes, haunted shareware, and pages OrbitNet pretends do not exist.</p><p>Most rumors are fake. The interesting ones are only <em>mostly</em> fake.</p></article>
+            <section class="raven-caseboard" aria-label="DarkRaven's active investigation board">
+              <span class="raven-string string-a"></span><span class="raven-string string-b"></span><span class="raven-string string-c"></span>
+              <article class="raven-case-card orbit-card"><img src="${RAVEN_DESK_ART.archiveEye}" alt="Animated eye GIF"><b>CASE 01</b><span>ORBIT HOLE</span><small>status: watching</small></article>
+              <article class="raven-case-card signal-card">${ravenHandmade("portal", "A handmade purple portal") }<b>CASE 02</b><span>91.7 SIGNAL</span><small>status: repeating</small></article>
+              <article class="raven-case-card jack-card">${ravenHandmade("alien", "A crude purple alien doodle") }<b>CASE 03</b><span>PHONE JACK</span><small>status: cat involved</small></article>
+              <div class="raven-case-scrap"><img src="${RAVEN_DESK_ART.evidenceSheet}" alt="A scanned contact sheet of Raven's strange evidence"><span>NOT EVERYTHING FITS IN THE DIRECTORY.</span></div>
+            </section>
             <div class="contact-strip raven-contact"><span>OIM STATUS: ONLINE</span><button data-aim-owner="darkraven_xx">MESSAGE xX_DarkRaven_Xx</button></div>
           </section>
-          <aside class="raven-bulletins">
-            <h2>VOID BULLETINS</h2>
+          <aside class="raven-bulletins raven-tackboard">
+            <img class="raven-skull-gif" src="${RAVEN_DESK_ART.archiveSkull}" alt="Tiny animated skull GIF"><h2>VOID BULLETINS</h2>
             <p><b>11/03:</b> Added proof OrbitNet has pages outside the directory.</p>
             <p><b>11/02:</b> Mira says clock drift is "not ghosts." Coward.</p>
             <p><b>11/01:</b> Juniper says purple text is not a whole personality. She still signed my guestbook first.</p>
             <p><b>PERSONAL:</b> Find Juniper something better than grocery-store carnations before her birthday. Do not ask why.</p>
             <p><b>10/31:</b> Graveyard Shift 99 rumor still unverified.</p>
-            <p><b>REMINDER:</b> four-digit dates use <code>MMDD</code>. This is not a hint.</p>
+            <p class="raven-reminder"><b>REMINDER:</b> four-digit dates use <code>MMDD</code>. This is not a hint.</p>
             <div class="raven-award">THIS SITE<br><b>DOES NOT</b><br>USE FRAMES</div>
           </aside>
         </div>
@@ -657,7 +916,7 @@ export const pages: Record<string, PageDefinition> = {
         <div class="orbit-evidence-grid">
           <section><h2>What happened</h2><p>I saw an unlisted maintenance page flash behind the directory at exactly <b>11:17 PM</b>. The address ended in <code>/below</code>.</p><p>Everyone says it was a cache error. Cache errors do not know your screen name.</p><table><tbody><tr><th>TIME</th><td>23:17:04</td></tr><tr><th>WINDOW TITLE</th><td>ORBIT SERVICE BELOW</td></tr><tr><th>VISIBLE TEXT</th><td>WELCOME BACK, RAVEN</td></tr><tr><th>WITNESSES</th><td>1 (me, counts double)</td></tr></tbody></table></section>
           <div class="raven-evidence"><span>EVIDENCE_01.BMP</span><b>[ IMAGE REMOVED BY HOST ]</b><small>checksum changed after upload</small></div>
-          <aside><h2>Possible address</h2><code>web://orbitnet.local/???/below</code><p>The middle segment was hidden by the browser status bar. I am testing old staff terms and maintenance words.</p><button data-nav="web://nightsignal.net/fieldlog">COMPARE 11:17 LOG</button></aside>
+          <aside><h2>Recovered address</h2><code>web://orbitnet.local/below</code><p>The status bar swallowed most of it, but the host label and final route were clear enough to reconstruct. I wrote it down before the window vanished.</p><button data-nav="web://nightsignal.net/fieldlog">COMPARE 11:17 LOG</button></aside>
         </div>
         <nav class="raven-bottom-nav"><button data-nav="web://raven.web/home">&lt; VOID HOME</button><button data-nav="web://raven.web/links">SHADOW LINKS &gt;</button></nav>
       </main>`
@@ -695,8 +954,16 @@ export const pages: Record<string, PageDefinition> = {
     searchTerms: ["darkraven links", "shadow links", "mystery pages", "11:17", "phone jack", "night signal"],
     render: () => `
       <main class="page raven-page raven-links-page">
-        <header class="raven-case-header"><small>FOLLOW THE THREADS</small><h1>SHADOW LINKS</h1><b>LINKS DIE. SCREENSHOTS LIE.</b></header>
+        <header class="raven-case-header"><small>FOLLOW THE THREADS // VERSION 4</small><h1>SHADOW LINKS</h1><b>LINKS DIE. SCREENSHOTS LIE.</b></header>
+        <section class="shadow-intro">
+          ${ravenHandmade("tower", "A dithered homemade computer tower")}
+          <div><small>RAVEN'S EXPLANATION SO FAR</small><h2>THESE PAGES ARE NOT RANDOM.</h2><p>I started this because the Orbit Hole, Mira's recordings, and Juniper's phone test all had the same irritating habit: they looked normal until you paid attention to what <em>wasn't</em> being explained.</p><p>I am not saying the phone jack is haunted. I am saying it knows when people are looking at it, which is worse.</p></div>
+          ${ravenHandmade("camera", "A low-resolution security camera")}
+          <aside><b>METHOD:</b> save the address, compare the time, and follow the page that has the least reason to exist. If a site disappears, that is information. If it comes back different, that is <i>more</i> information.</aside>
+        </section>
         <section class="shadow-link-map">
+          <span class="shadow-map-label label-one">same number / different sites</span><span class="shadow-map-label label-two">host denies ALL of this</span><span class="shadow-map-label label-three">DO NOT "FIX" THE CAT VARIABLE</span>
+          ${ravenHandmade("eye", "A chunky purple eyeball graphic")}${ravenHandmade("floppy", "A badly scanned floppy disk")}${ravenHandmade("warning", "A homemade checkerboard warning sign")}${ravenHandmade("cursor", "A pixel cursor")}
           <button class="link-node node-signal" data-nav="web://nightsignal.net/fieldlog"><b>NIGHT SIGNAL</b><small>same time / clock drift</small></button>
           <button class="link-node node-juniper" data-nav="web://rainbow.gdn/old/phonejack.html"><b>PHONE JACK TEST</b><small>000-0000 / cat witness</small></button>
           <div class="link-node node-center"><b>11:17</b><small>every road points here</small></div>
@@ -704,6 +971,7 @@ export const pages: Record<string, PageDefinition> = {
           <button class="link-node node-hole" data-nav="web://raven.web/orbit"><b>ORBIT HOLE</b><small>/below / unknown segment</small></button>
           <i class="thread-one"></i><i class="thread-two"></i><i class="thread-three"></i><i class="thread-four"></i>
         </section>
+        <section class="shadow-findings"><article><b>WHY THE SIGNAL MATTERS</b><p>Mira is actually careful. She writes down what the receiver did before she decides what it means. Her log does not prove ghosts, aliens, or anything cool. It does prove the same minute keeps showing up where it should not.</p></article><article><b>WHY JUNIPER MATTERS</b><p>Juniper's page is the opposite of secret. That is why I trust it. She notices small physical things: a phone line, a cat, a number that keeps arriving in the wrong place. Sometimes the most obvious page is the one nobody bothers to hide.</p></article><article><b>WHY ORBIT MATTERS</b><p>The directory acts like it is the whole network. It is not. A page can be unlisted without being gone. A maintenance address can be real without being meant for us. That is the part I am trying to prove before someone calls me dramatic again.</p></article></section>
         <aside class="shadow-note"><b>RAVEN'S RULE:</b> A coincidence happens once. A pattern happens twice. A conspiracy happens when three people start selling T-shirts about it.<br><small>PERSONAL SECURITY RULE: a date is only a bad password if somebody knows whose date it is.</small></aside>
         <nav class="raven-bottom-nav"><button data-nav="web://raven.web/home">&lt; VOID HOME</button><button data-nav="web://raven.web/files">FORBIDDEN FILES &gt;</button></nav>
       </main>`
@@ -739,12 +1007,13 @@ export const pages: Record<string, PageDefinition> = {
             <aside><b>COMMERCIAL_ARCHIVE.MPG</b><span>Now available through the Information Superhighway!</span><small>Playing this clip stops OrbitAmp so you can hear Chip's pitch without two songs fighting each other.</small></aside>
           </div>
         </section>
-        ${state.storyPhase >= 2 ? `<aside class="bytebarn-jingle-traffic"><b>OLD JINGLE FILE NOTICE</b><span>Our retired TV commercial has somehow become the most requested file on this server. Chip says downloading it will not improve your computer.</span><button data-nav="web://freshorbit.zone/users/barnbeatben/home">VISIT BEN'S JINGLE FAN PAGE &rsaquo;</button></aside>` : ""}
+        ${state.storyPhase >= 2 ? `<aside class="bytebarn-jingle-traffic"><b>OLD JINGLE FILE NOTICE</b><span>Our retired TV commercial has somehow become the most requested file on this server. Chip says downloading it will not improve your computer.</span><button data-nav="${BYTE_BARN_FAN_HUB_URL}">VISIT THE BYTE BARN BEAT EXCHANGE &rsaquo;</button></aside>` : ""}
         <section class="computer-deals">
           <article>${businessAsset("bytebarn-modem", "An external 56K modem")}<div><b>56K MODEM KIT</b><span>External modem, cable &amp; patient setup guide.</span><strong>$79</strong></div></article>
           <article>${businessAsset("bytebarn-upgrades", "Computer upgrade cards, memory, and joystick")}<div><b>UPGRADE COUNTER</b><span>Memory, video, sound, joysticks and honest advice.</span><strong>FROM $29</strong></div></article>
           <article>${businessAsset("bytebarn-technician", "Chip repairing an open desktop computer")}<div><b>HOUSE CALL</b><span>Chip fixes what the manual cannot.</span><strong>$45/hr</strong></div></article>
         </section>
+        <aside class="bytebarn-manual-download"><b>OWNER'S MANUAL SAMPLER</b><span>Save a printable Orbit 350 quick-start sheet with modem notes, product specs, and Chip's cable warnings.</span><button type="button" data-business-download="bytebarn">DOWNLOAD MANUAL SAMPLER</button></aside>
         <section class="bytebarn-brand-promise">
           ${businessAsset("bytebarn-tested-badge", "Byte Barn Tested service seal")}
           <div><h2>Built here. Tested here. Explained here.</h2><p>Every Byte Barn system gets a full afternoon on the bench before it leaves Market Plaza. We list the real parts, include the driver disks, label the cables, and write your setup notes in complete sentences.</p></div>
@@ -862,6 +1131,7 @@ export const pages: Record<string, PageDefinition> = {
           <article>${businessAsset("cosmiccrust-arcade", "Two colorful arcade cabinets")}<div><span>FREE TOKENS TUESDAY</span><b>2 TOKENS WITH EVERY SLICE</b><strong>HIGH SCORE: TAZ 88420</strong></div></article>
         </section>
         <section class="coupon"><b>PRINT THIS PAGE!</b><strong>$3 OFF</strong><span>any large two-topping pizza &middot; coupon code MARS99 &middot; expires 12/31/99</span></section>
+        <aside class="cosmic-coupon-archive"><b>SPACE COUPON ARCHIVE</b><span>Email a printable counter-copy with pizza and arcade-token offers. No order is placed.</span><button type="button" data-business-mail="cosmiccrust">EMAIL COUPON SHEET</button></aside>
         <p class="business-owner">Tell Toni what topping deserves a permanent place on the menu.</p>
         <footer>Free delivery over $12 &middot; Please allow 30-45 Earth minutes &middot; 81 Comet Road &middot; Open until midnight Fri-Sat</footer>
       </main>`

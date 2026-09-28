@@ -8,6 +8,11 @@ to the page where it appeared.
 They are used sparingly as period web decoration. The surrounding page text,
 brands, and characters in Surfin' the Net remain fictional.
 
+As of August 4, 2026, these same locally archived assets also appear as small,
+decorative motion accents on the additional company pages. They are not buttons
+or gameplay controls. See the Internet Archive's [2025 GifCities update](https://blog.archive.org/2025/06/09/keep-on-gifin-a-new-version-of-gifcities-internet-archives-geocities-animated-gif-search-engine/)
+for the collection context.
+
 | Local file | GifCities asset | Archived source page |
 | --- | --- | --- |
 | `rose-bloom.gif` | [2NMGXXWUFPRKQM5Z6LMC6RNVUI4EPPG3](https://blob.gifcities.org/gifcities/2NMGXXWUFPRKQM5Z6LMC6RNVUI4EPPG3.gif) | [miserychick98/rose.gif](https://web.archive.org/web/20040306034555/http://www.geocities.com:80/miserychick98/rose.gif) |
